@@ -6,7 +6,7 @@
 // __missing until functions were values; the rule each one applies is now an__
 // __argument instead of a loop written out again by every caller.__
 
-// __உள்ளதா(அணி, மதிப்பு) — membership__
+// __உள்ளதா(அணி, மதிப்பு) — does the array contain this value?__
 செயல் உள்ளதா(பட்டியல், தேடல்) {
     ஒவ்வொரு உறுப்பு இல் பட்டியல் {
         (உறுப்பு == தேடல்) எனில் { திரும்பு மெய்; }
@@ -25,7 +25,7 @@
     திரும்பு 0 - 1;
 }
 
-// __தலைகீழ்(அணி) — reversed copy__
+// __தலைகீழ்(அணி) — reverse an array, returning a new one__
 செயல் தலைகீழ்(பட்டியல்) {
     விடை = [];
     எண்ணி = நீளம்(பட்டியல்);

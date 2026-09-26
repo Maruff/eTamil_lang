@@ -50,7 +50,7 @@
     திரும்பு விடை;
 }
 
-// __ரூபாய்(தொகை) — the same, with the rupee sign__
+// __ரூபாய்(தொகை) — format an amount as rupees, with the sign and Indian digit grouping__
 செயல் ரூபாய்(தொகை) {
     திரும்பு "₹" & காசு_வடிவம்(தொகை);
 }

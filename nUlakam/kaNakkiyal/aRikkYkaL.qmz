@@ -13,6 +13,8 @@
 
 // __--- இருப்பாய்வு (trial balance) ---__
 //
+// __இருப்பாய்வு(பேரேடு, கணக்குகள்) — the trial balance__
+//
 // __Totals every account's raw debits and credits. The two columns must__
 // __agree; if they do not, the ledger has been damaged, since posting refuses__
 // __anything unbalanced.__

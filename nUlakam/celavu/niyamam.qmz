@@ -88,7 +88,7 @@
 }
 
 // ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்)
-// __ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — paying more or less per hour__
+// __ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — the labour rate variance: paying more or less per hour__
 //
 // __Priced on the hours actually worked, not the standard hours. Using standard hours here would move part of the efficiency effect into the rate figure, and the two would stop reconciling to the total. Adverse usually means overtime, a grade mix, or a wage settlement, and none of those belong to the supervisor who controls the hours.__
 செயல் ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) {
