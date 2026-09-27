@@ -21,12 +21,12 @@ android {
         // every device in use.
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
+        versionCode = 3
         // Kept in step with the compiler's own version by hand. There is only
         // one place to look — etamil_compiler/Cargo.toml — and the app reports
         // the compiler's version from the library itself, so a drift here is
         // cosmetic rather than misleading.
-        versionName = "1.1.0"
+        versionName = "1.2.0"
     }
 
     // No `abiFilters`. Whatever cargo-ndk has put in src/main/jniLibs is what

@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.0
+
+The extension moves to 1.2.0 with the language. The language itself is
+unchanged, and so is what the extension highlights and completes. See the
+repository's CHANGELOG for the Raspberry Pi package and the rest of 1.2.0.
+
+### Changed
+
+- Hovers for standard-library functions show what each function is for, where
+  271 of them used to repeat the signature, and 153 functions that had no
+  English documentation have it now.
+- The carried compiler is 1.2.0.
+
 ## 1.1.0
 
 The language gains four things, and the extension knows all of them: `நிலை`
