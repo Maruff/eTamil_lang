@@ -1,0 +1,105 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/iNYppu.qmz — இணைப்பு, combining several rankings into one__
+//
+// __coRqEtal.qmz finds documents by word; oRRumY.qmz finds them by meaning.__
+// __Each fails where the other succeeds, so the useful system runs both and__
+// __has to merge two ranked lists into one.__
+//
+// __The obvious merge — add the scores — does not work. A BM25 score and a__
+// __cosine similarity are not on the same scale and there is no defensible__
+// __constant to put between them: whatever number is chosen, it was chosen to__
+// __make a particular set of examples come out right.__
+//
+// __Reciprocal rank fusion avoids the question entirely by throwing the scores__
+// __away and keeping only the position each retriever put a document in. A__
+// __document both retrievers rank highly rises above one that either ranks__
+// __first alone, which is exactly the desired behaviour: agreement between two__
+// __different kinds of evidence is stronger than confidence from one.__
+//
+// __This is also why adding a third retriever can make results worse rather__
+// __than better. Fusion rewards agreement, so a retriever that is merely noisy__
+// __dilutes the agreement of the two that work.__
+
+இறக்கு "qaravaricY.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../aNi.qmz";
+
+// __கே_மாறிலி — the rank damping constant__
+//
+// __60 is the value from the original description and is not tuned here. It__
+// __sets how much better rank 1 is than rank 2: with a small constant the top__
+// __of each list dominates and agreement further down cannot outweigh it, and__
+// __with a large one every position looks alike and the ranking flattens.__
+செயல் கே_மாறிலி() { திரும்பு 60; }
+
+// __பங்களிப்பு(இடநிலை, எடை) — what one retriever contributes at a given rank__
+//
+// __The position is இடநிலை and not the plainer இடம் because that word is the__
+// __SQL LEFT keyword and is hard reserved — it cannot be a name at all.__
+//
+// __1/(k + rank), scaled by how much this retriever is trusted. Falls away__
+// __smoothly with position, so a document at rank 3 in both lists beats one at__
+// __rank 1 in a single list once the constant is in place.__
+செயல் பங்களிப்பு(இடநிலை, எடை) {
+    திரும்பு எடை / (கே_மாறிலி() + இடநிலை);
+}
+
+// __இணை_தரவரிசைகள்(தரவரிசைகள், எடைகள்) — fuse ranked lists into one ranking__
+//
+// __Each entry of தரவரிசைகள் is a ranked array of items carrying a குறி; the__
+// __matching entry of எடைகள் is how far that retriever is trusted. A missing__
+// __weight is 1, so the common case needs no weights at all.__
+//
+// __Only positions are read. The incoming scores are deliberately ignored,__
+// __which is the whole point — see the note at the top of the file.__
+செயல் இணை_தரவரிசைகள்(தரவரிசைகள், எடைகள்) {
+    சேர்த்த_மதிப்பெண் = {};
+    பட்டியல்_எண் = 0;
+    மொத்தப்_பட்டியல்கள் = நீளம்(தரவரிசைகள்);
+    (பட்டியல்_எண் < மொத்தப்_பட்டியல்கள்) சுற்று {
+        ஒரு_தரவரிசை = தரவரிசைகள்[பட்டியல்_எண்];
+        எடை = 1;
+        (பட்டியல்_எண் < நீளம்(எடைகள்)) எனில் {
+            எடை = எடைகள்[பட்டியல்_எண்];
+        }
+        இடநிலை = 1;
+        ஒவ்வொரு உருப்படி இல் ஒரு_தரவரிசை {
+            குறி = உருப்படி.குறி;
+            ஏற்கனவே = புலம்_அல்லது(சேர்த்த_மதிப்பெண், குறி, 0);
+            சேர்த்த_மதிப்பெண்[குறி] = ஏற்கனவே + பங்களிப்பு(இடநிலை, எடை);
+            இடநிலை = இடநிலை + 1;
+        }
+        பட்டியல்_எண் = பட்டியல்_எண் + 1;
+    }
+
+    விடை = [];
+    ஒவ்வொரு குறி இல் சேர்த்த_மதிப்பெண் {
+        விடை = இணை(விடை, { குறி: குறி, மதிப்பெண்: சேர்த்த_மதிப்பெண்[குறி] });
+    }
+    திரும்பு வரிசைப்படுத்து(விடை);
+}
+
+// __இரண்டை_இணை(முதல், இரண்டாம்) — the common case, two lists trusted equally__
+செயல் இரண்டை_இணை(முதல், இரண்டாம்) {
+    திரும்பு இணை_தரவரிசைகள்([முதல், இரண்டாம்], [1, 1]);
+}
+
+// __வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — weight by kind of result__
+//
+// __Not every kind of match deserves equal standing even at the same rank. A__
+// __function's own entry answers "what reverses an array" directly; a prose__
+// __section that happens to mention it is weaker evidence at the same position.__
+//
+// __வகைகள் maps an identifier to its kind, and வகை_எடைகள் maps a kind to its__
+// __multiplier. An unlisted kind keeps its score unchanged rather than being__
+// __dropped, so adding a new kind of document degrades gracefully.__
+செயல் வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) {
+    விடை = [];
+    ஒவ்வொரு உருப்படி இல் தரவரிசை {
+        வகை_பெயர் = புலம்_அல்லது(வகைகள், உருப்படி.குறி, "");
+        மடங்கு = புலம்_அல்லது(வகை_எடைகள், வகை_பெயர், 1);
+        விடை = இணை(விடை, மதிப்பெண்_சேர்(உருப்படி, மதிப்பெண்_பெறு(உருப்படி) * மடங்கு));
+    }
+    திரும்பு வரிசைப்படுத்து(விடை);
+}

@@ -1,0 +1,146 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/urYyAkkam.qmz — உரையாக்கம், asking a model to phrase an answer__
+//
+// __Retrieval finds the right documentation; this turns it into a reply. The__
+// __step is optional by design, and everything built on this folder should__
+// __still work with it switched off — a retrieved doc-comment shown verbatim__
+// __is a worse answer than a well-phrased one but a better answer than none,__
+// __and on a small machine the generation is by far the slowest part.__
+//
+// __More than one provider is supported, and the default is a model running on__
+// __the machine itself. That order is the point. Nobody should need an account,__
+// __a key or a network connection to get help with this language, and the code__
+// __being asked about should not leave the machine unless its author decides__
+// __otherwise. A key, when there is one, is supplied by the person using it.__
+
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../col.qmz";
+
+// __உள்ளூர்_வழங்குநர்() — the default: Ollama on this machine__
+செயல் உள்ளூர்_வழங்குநர்() { திரும்பு "ollama"; }
+
+// __இயல்பு_இணையவழி() — where a local Ollama listens__
+செயல் இயல்பு_இணையவழி() { திரும்பு "http://127.0.0.1:11434"; }
+
+// __இயல்பு_மொழி_மாதிரி() — a generation model that fits in a small machine__
+செயல் இயல்பு_மொழி_மாதிரி() { திரும்பு "granite3.3:2b"; }
+
+// __அதிகபட்சச்_சொற்கள்() — how long a reply may be__
+//
+// __Kept short deliberately. On a machine without a GPU this is the single__
+// __largest cost in answering a question, and it is close to linear: the__
+// __difference between a hundred and a thousand is the difference between a__
+// __pause and giving up on the tool.__
+செயல் அதிகபட்சச்_சொற்கள்() { திரும்பு 160; }
+
+// __வழங்குநர்_ஆக்கு(பெயர், இணையவழி, மாதிரி, திறவுகோல்) — how to reach one model__
+//
+// __A record rather than four parameters threaded through every call. The key__
+// __is empty for a local model and is the caller's own for a hosted one; this__
+// __file never has a default key, and there is nowhere in it that one could be__
+// __compiled in.__
+செயல் வழங்குநர்_ஆக்கு(பெயர், இணையவழி, மாதிரி, திறவுகோல்) {
+    திரும்பு {
+        பெயர்: பெயர்,
+        இணையவழி: இணையவழி,
+        மாதிரி: மாதிரி,
+        திறவுகோல்: திறவுகோல்
+    };
+}
+
+// __உள்ளூர்_வழங்குநர்_ஆக்கு() — the no-configuration case__
+செயல் உள்ளூர்_வழங்குநர்_ஆக்கு() {
+    திரும்பு வழங்குநர்_ஆக்கு(உள்ளூர்_வழங்குநர்(), இயல்பு_இணையவழி(),
+                               இயல்பு_மொழி_மாதிரி(), "");
+}
+
+// __திறவுகோல்_தேவையா(வழங்குநர்) — does this provider need a key to work?__
+//
+// __Asked before the call so that a missing key is reported as a missing key,__
+// __rather than as whatever authentication error the service happens to return.__
+செயல் திறவுகோல்_தேவையா(வழங்குநர்) {
+    திரும்பு வழங்குநர்.பெயர் != உள்ளூர்_வழங்குநர்();
+}
+
+// __தலைப்புகளை_ஆக்கு(வழங்குநர்) — the HTTP headers for this provider__
+//
+// __Only a local provider is wired here. A hosted one differs in the header__
+// __that carries the key and in the shape of its request body, and adding one__
+// __means extending this function and கோரிக்கை_உடலை_ஆக்கு together — which is__
+// __why they are separate functions rather than inline in உருவாக்கு.__
+செயல் தலைப்புகளை_ஆக்கு(வழங்குநர்) {
+    (திறவுகோல்_தேவையா(வழங்குநர்)) எனில் {
+        திரும்பு {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " & வழங்குநர்.திறவுகோல்
+        };
+    }
+    திரும்பு { "Content-Type": "application/json" };
+}
+
+// __கோரிக்கை_உடலை_ஆக்கு(வழங்குநர், தூண்டுதல்) — the request body__
+//
+// __A low temperature, because the job is to phrase retrieved documentation__
+// __and not to invent. Anything it adds beyond what was retrieved is a__
+// __fabrication about an API, which is the one kind of wrong answer that costs__
+// __a reader more than no answer at all.__
+செயல் கோரிக்கை_உடலை_ஆக்கு(வழங்குநர், தூண்டுதல்) {
+    திரும்பு ஜேசான்_ஆக்கு({
+        model: வழங்குநர்.மாதிரி,
+        prompt: தூண்டுதல்,
+        stream: பொய்,
+        options: { temperature: 0.1, num_predict: அதிகபட்சச்_சொற்கள்() }
+    });
+}
+
+// __பதிலிறுப்பைப்_பிரி(பதில்_உரை) — pull the generated text out of the reply__
+செயல் பதிலிறுப்பைப்_பிரி(பதில்_உரை) {
+    பகுத்தது = ஜேசான்_படி(பதில்_உரை);
+    (தவறா(பகுத்தது)) எனில் { திரும்பு பகுத்தது; }
+    விடை_பொருள் = மதிப்பு(பகுத்தது);
+    (புலம்_உள்ளதா(விடை_பொருள், "response")) எனில் {
+        திரும்பு சரி(ஒழுங்கு(விடை_பொருள்["response"]));
+    }
+    திரும்பு தவறு("பதிலில் response இல்லை  (no response field in the reply)");
+}
+
+// __உருவாக்கு(வழங்குநர், தூண்டுதல்) — ask the model, and say plainly if it cannot__
+//
+// __Every failure is a தவறு carrying why. Callers are expected to fall back to__
+// __showing the retrieved documentation rather than to propagate the error: a__
+// __model being unavailable should cost the phrasing, not the answer.__
+செயல் உருவாக்கு(வழங்குநர், தூண்டுதல்) {
+    (திறவுகோல்_தேவையா(வழங்குநர்) மற்றும் நீளம்(வழங்குநர்.திறவுகோல்) == 0) எனில் {
+        திரும்பு தவறு(வழங்குநர்.பெயர் & " க்கு திறவுகோல் தேவை  "
+                       & "(this provider needs a key, which nobody has supplied)");
+    }
+    பதிலிறுப்பு = வலை_பதி(வழங்குநர்.இணையவழி & "/api/generate",
+                            கோரிக்கை_உடலை_ஆக்கு(வழங்குநர், தூண்டுதல்),
+                            தலைப்புகளை_ஆக்கு(வழங்குநர்));
+    (தவறா(பதிலிறுப்பு)) எனில் {
+        திரும்பு தவறு("மாதிரியை அணுக முடியவில்லை: " & சொல்லாக்கு(தவறு_மதிப்பு(பதிலிறுப்பு))
+                       & "  (could not reach the model)");
+    }
+    விடை = மதிப்பு(பதிலிறுப்பு);
+    (விடை.நிலைக்_குறி != 200) எனில் {
+        திரும்பு தவறு("மாதிரி " & சொல்லாக்கு(விடை.நிலைக்_குறி) & " திருப்பியது"
+                       & "  (the model refused the request)");
+    }
+    திரும்பு பதிலிறுப்பைப்_பிரி(விடை.உடலுரை);
+}
+
+// __கிடைக்கிறதா(வழங்குநர்) — can this provider answer right now?__
+//
+// __Only meaningful for a local provider, where the answer is whether the__
+// __service is running. For a hosted one it would cost a request to find out,__
+// __so the honest answer is that a key was configured.__
+செயல் கிடைக்கிறதா(வழங்குநர்) {
+    (திறவுகோல்_தேவையா(வழங்குநர்)) எனில் {
+        திரும்பு நீளம்(வழங்குநர்.திறவுகோல்) > 0;
+    }
+    பதிலிறுப்பு = வலை_பெறு(வழங்குநர்.இணையவழி & "/api/tags", {});
+    (தவறா(பதிலிறுப்பு)) எனில் { திரும்பு பொய்; }
+    திரும்பு மதிப்பு(பதிலிறுப்பு).நிலைக்_குறி == 200;
+}

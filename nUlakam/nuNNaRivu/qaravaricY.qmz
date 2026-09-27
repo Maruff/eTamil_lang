@@ -1,0 +1,114 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/qaravaricY.qmz — தரவரிசை (ranking) over scored results__
+//
+// __A retriever produces scored candidates; a ranking decides what a person__
+// __actually sees. The two are worth separating, because almost every way of__
+// __improving search turns out to be a change to the second one.__
+//
+// __A scored item is a record with a மதிப்பெண் field. Everything else in the__
+// __record is carried through untouched, so the same functions rank documents,__
+// __functions, chunks or anything else that has been given a number.__
+
+இறக்கு "../aNi.qmz";
+
+// __மதிப்பெண்_பெறு(உருப்படி) — the score, or zero if the item has none__
+//
+// __Anything without a score sorts to the bottom rather than crashing the__
+// __ranking. A retriever that returns one malformed row should cost that row,__
+// __not the whole answer.__
+செயல் மதிப்பெண்_பெறு(உருப்படி) {
+    ஒவ்வொரு புலப்_பெயர் இல் உருப்படி {
+        (புலப்_பெயர் == "மதிப்பெண்") எனில் {
+            திரும்பு உருப்படி["மதிப்பெண்"];
+        }
+    }
+    திரும்பு 0;
+}
+
+// __வரிசைப்படுத்து(பட்டியல்) — sort scored items, highest score first__
+//
+// __One call to the host now. This was an insertion sort written out here,__
+// __which was defensible for tens of results and wrong for anything larger,__
+// __and every library that needed ordering was writing its own.__
+//
+// __புலத்தால்_வரிசையாக்கு reads the score field directly and is stable, so two__
+// __chunks on an identical score still keep the order the retriever gave them__
+// __rather than swapping about between runs for no visible reason. An item__
+// __with no score sorts as zero there, which is what மதிப்பெண்_பெறு did here.__
+செயல் வரிசைப்படுத்து(பட்டியல்) {
+    திரும்பு புலத்தால்_வரிசையாக்கு(பட்டியல், "மதிப்பெண்", மெய்);
+}
+
+// __முதல்_சில(பட்டியல், எண்ணிக்கை) — the top n, already sorted__
+செயல் முதல்_சில(பட்டியல், எண்ணிக்கை) {
+    தரப்பட்டியல் = வரிசைப்படுத்து(பட்டியல்);
+    திரும்பு வெட்டு(தரப்பட்டியல், 0, எண்ணிக்கை);
+}
+
+// __வரம்புக்கு_மேல்(பட்டியல், குறைந்தபட்சம்) — keep only scores at or above a floor__
+//
+// __Useful where showing nothing is better than showing the least bad thing:__
+// __a completion suggestion nobody asked for costs more than an empty list.__
+செயல் வரம்புக்கு_மேல்(பட்டியல், குறைந்தபட்சம்) {
+    விடை = [];
+    ஒவ்வொரு உருப்படி இல் பட்டியல் {
+        (மதிப்பெண்_பெறு(உருப்படி) >= குறைந்தபட்சம்) எனில் {
+            விடை = இணை(விடை, உருப்படி);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __மேலோங்கியதா(பட்டியல், மடங்கு) — does the top result dominate the runner-up?__
+//
+// __Asks whether the best hit is ahead by at least the given multiple. This is__
+// __the question to ask before treating the top hit as *the* answer rather than__
+// __as the first of several: a narrow win means the retriever is guessing, and__
+// __a confident-sounding single answer built on a guess is worse than a list.__
+//
+// __A ratio and not an absolute floor. Scores from different retrievers live on__
+// __different scales, and a threshold calibrated against one of them silently__
+// __stops meaning anything when the scoring changes.__
+செயல் மேலோங்கியதா(பட்டியல், மடங்கு) {
+    (நீளம்(பட்டியல்) == 0) எனில் { திரும்பு பொய்; }
+    தரப்பட்டியல் = வரிசைப்படுத்து(பட்டியல்);
+    (நீளம்(தரப்பட்டியல்) == 1) எனில் { திரும்பு மெய்; }
+    முதல் = மதிப்பெண்_பெறு(தரப்பட்டியல்[0]);
+    இரண்டாம் = மதிப்பெண்_பெறு(தரப்பட்டியல்[1]);
+    (இரண்டாம் <= 0) எனில் { திரும்பு முதல் > 0; }
+    திரும்பு முதல் >= இரண்டாம் * மடங்கு;
+}
+
+// __இடம்_குறி(பட்டியல், அடையாளப்_புலம், தேடல்) — 1-based rank of an item, or -1__
+//
+// __Written for measurement rather than for serving: given the ranked list and__
+// __the answer that was wanted, where did it actually land. அளவீடு is built__
+// __entirely out of this.__
+செயல் இடம்_குறி(பட்டியல், அடையாளப்_புலம், தேடல்) {
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(பட்டியல்);
+    (எண்ணி < மொத்தம்) சுற்று {
+        உருப்படி = பட்டியல்[எண்ணி];
+        (உருப்படி[அடையாளப்_புலம்] == தேடல்) எனில் {
+            திரும்பு எண்ணி + 1;
+        }
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு 0 - 1;
+}
+
+// __மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) — the same item with a new score__
+//
+// __Copies rather than mutates, so a re-ranking never damages the list it was__
+// __derived from and the two can be compared afterwards.__
+செயல் மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) {
+    விடை = {};
+    ஒவ்வொரு புலப்_பெயர் இல் உருப்படி {
+        (புலப்_பெயர் != "மதிப்பெண்") எனில் {
+            விடை[புலப்_பெயர்] = உருப்படி[புலப்_பெயர்];
+        }
+    }
+    விடை["மதிப்பெண்"] = புதிய_மதிப்பெண்;
+    திரும்பு விடை;
+}

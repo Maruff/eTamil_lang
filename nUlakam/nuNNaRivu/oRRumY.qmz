@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/oRRumY.qmz — ஒற்றுமை, finding things by meaning__
+//
+// __The counterpart to coRqEtal.qmz. That file finds documents sharing words__
+// __with the question; this one finds documents whose *meaning* is close, even__
+// __when they share no word at all.__
+//
+// __It exists because of a specific failure. "How do I connect to postgres"__
+// __has no word in common with a function named qaLam_iNY, so word-based search__
+// __returned whatever prose used "how", "do" and "to" most densely, while the__
+// __function that answers the question was never considered. No tuning of BM25__
+// __can fix that, because the information simply is not in the words.__
+//
+// __What replaces the words is a வெக்டர் — a list of numbers produced by a model__
+// __that has been trained so that texts meaning similar things get similar__
+// __numbers. This file does not produce them; utpoqippu.qmz does. Here they are__
+// __just arrays, compared with qicYyaZ.qmz.__
+//
+// __One rule matters more than everything else here: the vectors being compared__
+// __must come from the same model. Two models' outputs are not slightly__
+// __different, they are unrelated coordinate systems, and a similarity computed__
+// __across them is a number with no meaning that still sorts perfectly happily.__
+
+இறக்கு "qicYyaZ.qmz";
+இறக்கு "qaravaricY.qmz";
+இறக்கு "../aNi.qmz";
+
+// __பொதிந்த_ஆவணம்(குறி, திசையன்) — a document represented by its vector__
+//
+// __Stored normalised. Between unit vectors the cosine is the plain dot__
+// __product, so normalising once when a document is indexed removes a square__
+// __root from every comparison it is ever part of.__
+செயல் பொதிந்த_ஆவணம்(குறி, திசையன்) {
+    திரும்பு { குறி: குறி, திசையன்: ஒருமைப்படுத்து(திசையன்) };
+}
+
+// __அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — nearest by meaning__
+//
+// __Compares against every document. That is honest about what it costs: there__
+// __is no index here, and on a large collection this is the slow part. It is__
+// __also exact, which an approximate index is not, and for a library of a few__
+// __thousand entries exact and simple is the better trade.__
+//
+// __Vectors of a different width are skipped rather than scored. They came from__
+// __a different model, and the alternative to skipping is a confident number__
+// __computed across two unrelated spaces.__
+செயல் அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) {
+    ஆய்வு = ஒருமைப்படுத்து(கேள்வித்_திசையன்);
+    அகலம் = நீளம்(ஆய்வு);
+    விடை = [];
+    ஒவ்வொரு ஆவணம் இல் பொதிந்த_ஆவணங்கள் {
+        (நீளம்(ஆவணம்.திசையன்) == அகலம்) எனில் {
+            ஒப்பீடு = புள்ளிப்_பெருக்கம்(ஆய்வு, ஆவணம்.திசையன்);
+            (சரியா(ஒப்பீடு)) எனில் {
+                விடை = இணை(விடை, { குறி: ஆவணம்.குறி, மதிப்பெண்: மதிப்பு(ஒப்பீடு) });
+            }
+        }
+    }
+    திரும்பு முதல்_சில(விடை, எண்ணிக்கை);
+}
+
+// __அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) — do the widths agree?__
+//
+// __Worth asking explicitly, because the failure is silent otherwise: every__
+// __document is skipped, the result is an empty list, and an empty list looks__
+// __exactly like "nothing was relevant". A caller that checks this can say__
+// __"the index was built with a different model" instead.__
+செயல் அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) {
+    (நீளம்(பொதிந்த_ஆவணங்கள்) == 0) எனில் { திரும்பு பொய்; }
+    திரும்பு நீளம்(பொதிந்த_ஆவணங்கள்[0].திசையன்) == நீளம்(கேள்வித்_திசையன்);
+}
+
+// __வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) —__
+// __everything above a similarity floor, however many that is__
+//
+// __The other way of asking. அண்மையவை always returns n results, including n__
+// __bad ones when nothing matches; this returns none when nothing is close__
+// __enough, which is what a completion suggestion wants.__
+செயல் வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) {
+    அனைத்தும் = அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், நீளம்(பொதிந்த_ஆவணங்கள்));
+    திரும்பு வரம்புக்கு_மேல்(அனைத்தும், குறைந்தபட்சம்);
+}

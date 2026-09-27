@@ -1,0 +1,102 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/coRqEtal.qmz — சொற்தேடல், relevance by shared words (BM25)__
+//
+// __Answers one question: which documents share the most telling words with__
+// __this query? Three ideas, each correcting a failure of the one before.__
+//
+// __A term occurring more often in a document means the document is more about__
+// __it — but not proportionally. The tenth occurrence adds far less than the__
+// __second, so the count is passed through a curve that saturates; கே1 sets how__
+// __quickly. Without it a page repeating one word wins every search.__
+//
+// __A term occurring in every document distinguishes nothing. Weighting by the__
+// __inverse of document frequency is what makes a rare word count for more than__
+// __a common one, and it is why "array" beats "the" without any stop list.__
+//
+// __A long document contains more of everything. Dividing by length relative to__
+// __the collection average removes that advantage; பி sets how completely.__
+//
+// __What it cannot do is match meaning. "How do I connect to postgres" shares__
+// __no word with a function named qaLam_iNY, and no amount of tuning here will__
+// __find it — that is what oRRumY.qmz is for, and why iNYppu.qmz exists to__
+// __combine the two rather than choosing between them.__
+
+இறக்கு "matakkY.qmz";
+இறக்கு "eNNikkY.qmz";
+இறக்கு "qaravaricY.qmz";
+இறக்கு "../poruL.qmz";
+
+// __கே1 — how fast repetition stops helping__
+//
+// __1.2 is the long-standing default and is not tuned here. Raising it makes__
+// __repeated terms count for more, lowering it flattens them towards presence__
+// __or absence. Worth changing only against a measured set of questions.__
+செயல் கே1() { திரும்பு 1.2; }
+
+// __பி — how strongly length is normalised, from 0 (not at all) to 1 (fully)__
+செயல் பி() { திரும்பு 0.75; }
+
+// __தலைகீழ்_அதிர்வெண்(மொத்த_ஆவணங்கள், ஆவண_எண்ணிக்கை) — the rarity weight (IDF)__
+//
+// __ln((N − n + 0.5) / (n + 0.5) + 1). The halves keep it defined when a term__
+// __is in every document or in none, and the +1 keeps it positive: without it a__
+// __term appearing in more than half the collection scores negatively, so a__
+// __document could be pushed *down* for containing a query word, which reads as__
+// __a bug however defensible the algebra.__
+செயல் தலைகீழ்_அதிர்வெண்(மொத்த_ஆவணங்கள், ஆவண_எண்ணிக்கை) {
+    மேற்பகுதி = மொத்த_ஆவணங்கள் - ஆவண_எண்ணிக்கை + 0.5;
+    கீழ்ப்பகுதி = ஆவண_எண்ணிக்கை + 0.5;
+    திரும்பு இயல்பு(இயற்கை_மடக்கை(மேற்பகுதி / கீழ்ப்பகுதி + 1), 0);
+}
+
+// __ஆவண_மதிப்பெண்(குறியீட்டு, ஆவணம், கேள்விப்_பதங்கள்) — one document's score__
+//
+// __The sum over query terms of rarity × saturated, length-normalised count.__
+// __A term the document does not contain contributes nothing rather than__
+// __penalising it, which is what makes partial matches rank sensibly.__
+செயல் ஆவண_மதிப்பெண்(குறியீட்டு, ஆவணம், கேள்விப்_பதங்கள்) {
+    அதிர்வெண் = பத_அதிர்வெண்(ஆவணம்.பதங்கள்);
+    ஆவண_நீளம் = நீளம்(ஆவணம்.பதங்கள்);
+    சராசரி = குறியீட்டு.சராசரி_நீளம்;
+    (சராசரி == 0) எனில் { திரும்பு 0; }
+
+    மொத்த_மதிப்பெண் = 0;
+    ஒவ்வொரு பதம் இல் கேள்விப்_பதங்கள் {
+        எத்தனை = எத்தனை_முறை(அதிர்வெண், பதம்);
+        (எத்தனை > 0) எனில் {
+            எங்கெங்கு = புலம்_அல்லது(குறியீட்டு.ஆவண_அதிர்வெண், பதம், 0);
+            அரிதாகுதல் = தலைகீழ்_அதிர்வெண்(குறியீட்டு.மொத்த_ஆவணங்கள், எங்கெங்கு);
+            நீளச்_சரிப்பு = 1 - பி() + பி() * ஆவண_நீளம் / சராசரி;
+            மேல் = எத்தனை * (கே1() + 1);
+            கீழ் = எத்தனை + கே1() * நீளச்_சரிப்பு;
+            மொத்த_மதிப்பெண் = மொத்த_மதிப்பெண் + அரிதாகுதல் * மேல் / கீழ்;
+        }
+    }
+    திரும்பு மொத்த_மதிப்பெண்;
+}
+
+// __பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — every document scored, best first__
+//
+// __Not named தேடு: col.qmz already exports a தேடு that finds a substring__
+// __and returns a position. A program importing both got whichever loaded__
+// __last, and the failure was a number where an array was expected, three__
+// __calls away from the name that caused it.__
+//
+// __Documents scoring zero are dropped. They share no query term at all, and__
+// __carrying them makes the caller filter a list that is mostly the collection.__
+செயல் பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) {
+    விடை = [];
+    ஒவ்வொரு ஆவணம் இல் குறியீட்டு.ஆவணங்கள் {
+        மதிப்பெண் = ஆவண_மதிப்பெண்(குறியீட்டு, ஆவணம், கேள்விப்_பதங்கள்);
+        (மதிப்பெண் > 0) எனில் {
+            விடை = இணை(விடை, { குறி: ஆவணம்.குறி, மதிப்பெண்: மதிப்பெண் });
+        }
+    }
+    திரும்பு வரிசைப்படுத்து(விடை);
+}
+
+// __சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) — the top n matches__
+செயல் சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) {
+    திரும்பு முதல்_சில(பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்), எண்ணிக்கை);
+}

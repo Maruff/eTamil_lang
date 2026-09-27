@@ -51,6 +51,12 @@ pub enum Instruction {
 
     // String operations
     Concat,
+    /// `x = x & expr` — append to the string already in x, in place.
+    ///
+    /// Concat builds a new string from both sides, so accumulating one in
+    /// a loop copies everything written so far on every pass. This appends
+    /// to the existing buffer, which grows geometrically.
+    ConcatVar(String),
 
     // Collections
     /// Pop n values into an array (அணி — a column).

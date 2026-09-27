@@ -187,6 +187,17 @@ impl BytecodeCompiler {
                     self.bytecode.push(Instruction::AppendVar(name));
                     return;
                 }
+                // `x = x & expr` appends to x's string in place, for the
+                // same reason and under the same conditions. Anything else —
+                // a different destination, or the variable on the right —
+                // takes the copying path.
+                if let Expr::Concat { left, right } = &value
+                    && matches!(&**left, Expr::Variable(source) if *source == name)
+                {
+                    self.compile_expr((**right).clone());
+                    self.bytecode.push(Instruction::ConcatVar(name));
+                    return;
+                }
                 self.compile_expr(value);
                 self.bytecode.push(Instruction::StoreVar(name));
             }

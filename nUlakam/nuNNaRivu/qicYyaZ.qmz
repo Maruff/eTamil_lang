@@ -1,0 +1,126 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/qicYyaZ.qmz — திசையன் (vector) arithmetic__
+//
+// __The floor everything else in nuNNaRivu stands on. A meaning-based search__
+// __reduces to one question asked many times: how close are these two lists of__
+// __numbers? Everything here answers some part of that.__
+//
+// __Vectors are plain arrays of numbers. There is no vector type, and none is__
+// __wanted: an array already has a length and an index, which is all a vector__
+// __is. Keeping them as arrays means ஒவ்வொரு, நீளம் and இணை work on them.__
+
+இறக்கு "../kaNiqam.qmz";
+
+// __புள்ளிப்_பெருக்கம்(அ, ஆ) — the dot product of two vectors__
+//
+// __தவறு when the lengths differ. Two vectors of different width come from two__
+// __different models, and a number computed across them would be meaningless__
+// __rather than merely wrong — better to refuse than to return a similarity__
+// __nobody can interpret.__
+செயல் புள்ளிப்_பெருக்கம்(அ, ஆ) {
+    (நீளம்(அ) != நீளம்(ஆ)) எனில் {
+        திரும்பு தவறு("திசையன் நீளங்கள் வேறுபடுகின்றன");
+    }
+    கூட்டல் = 0;
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(அ);
+    (எண்ணி < மொத்தம்) சுற்று {
+        கூட்டல் = கூட்டல் + அ[எண்ணி] * ஆ[எண்ணி];
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(கூட்டல்);
+}
+
+// __திசை_அளவு(திசையன்) — the magnitude, or Euclidean length__
+//
+// __A plain number, not a சரி. The sum of squares cannot be negative, so the__
+// __one failure வர்க்கமூலம் has is unreachable from here, and making every__
+// __caller unwrap a result that can never be தவறு would spread noise through__
+// __the whole file for nothing.__
+செயல் திசை_அளவு(திசையன்) {
+    கூட்டல் = 0;
+    ஒவ்வொரு உறுப்பு இல் திசையன் {
+        கூட்டல் = கூட்டல் + உறுப்பு * உறுப்பு;
+    }
+    திரும்பு இயல்பு(வர்க்கமூலம்(கூட்டல்), 0);
+}
+
+// __ஒருமைப்படுத்து(திசையன்) — scale to unit length__
+//
+// __Worth doing once when a vector is stored rather than every time it is__
+// __compared: between two unit vectors the cosine is just the dot product, so__
+// __normalising up front removes a square root from every single comparison.__
+// __A zero vector is returned unchanged, having no direction to preserve.__
+செயல் ஒருமைப்படுத்து(திசையன்) {
+    அளவு = திசை_அளவு(திசையன்);
+    (அளவு == 0) எனில் { திரும்பு திசையன்; }
+    விடை = [];
+    ஒவ்வொரு உறுப்பு இல் திசையன் {
+        விடை = இணை(விடை, உறுப்பு / அளவு);
+    }
+    திரும்பு விடை;
+}
+
+// __கோசைன்_ஒற்றுமை(அ, ஆ) — the cosine of the angle between two vectors__
+//
+// __1 means the same direction, 0 unrelated, -1 opposite. Length is divided__
+// __out, which is the property that matters here: a long document and a short__
+// __question can still be about the same thing.__
+//
+// __If both vectors are already unit length, புள்ளிப்_பெருக்கம் gives the same__
+// __answer for less work.__
+செயல் கோசைன்_ஒற்றுமை(அ, ஆ) {
+    பெருக்கம் = புள்ளிப்_பெருக்கம்(அ, ஆ);
+    (தவறா(பெருக்கம்)) எனில் { திரும்பு பெருக்கம்; }
+    அளவு_அ = திசை_அளவு(அ);
+    அளவு_ஆ = திசை_அளவு(ஆ);
+    (அளவு_அ == 0 அல்லது அளவு_ஆ == 0) எனில் { திரும்பு சரி(0); }
+    திரும்பு சரி(மதிப்பு(பெருக்கம்) / (அளவு_அ * அளவு_ஆ));
+}
+
+// __கூட்டுத்_திசையன்(அ, ஆ) — add two vectors element by element__
+செயல் கூட்டுத்_திசையன்(அ, ஆ) {
+    (நீளம்(அ) != நீளம்(ஆ)) எனில் {
+        திரும்பு தவறு("திசையன் நீளங்கள் வேறுபடுகின்றன");
+    }
+    விடை = [];
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(அ);
+    (எண்ணி < மொத்தம்) சுற்று {
+        விடை = இணை(விடை, அ[எண்ணி] + ஆ[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(விடை);
+}
+
+// __மடங்காக்கு(திசையன், மடங்கு) — multiply every element by a scalar__
+செயல் மடங்காக்கு(திசையன், மடங்கு) {
+    விடை = [];
+    ஒவ்வொரு உறுப்பு இல் திசையன் {
+        விடை = இணை(விடை, உறுப்பு * மடங்கு);
+    }
+    திரும்பு விடை;
+}
+
+// __சராசரித்_திசையன்(திசையன்_பட்டியல்) — the centroid of several vectors__
+//
+// __Used to represent a whole document by one vector when its parts were__
+// __embedded separately. தவறு on an empty list: the average of nothing is not__
+// __the zero vector, it is undefined, and returning zeros would place the__
+// __document at the origin where it would look equally unlike everything.__
+செயல் சராசரித்_திசையன்(திசையன்_பட்டியல்) {
+    மொத்தம் = நீளம்(திசையன்_பட்டியல்);
+    (மொத்தம் == 0) எனில் {
+        திரும்பு தவறு("காலியான பட்டியலுக்குச் சராசரி இல்லை");
+    }
+    கூட்டல் = திசையன்_பட்டியல்[0];
+    எண்ணி = 1;
+    (எண்ணி < மொத்தம்) சுற்று {
+        சேர்ப்பு = கூட்டுத்_திசையன்(கூட்டல், திசையன்_பட்டியல்[எண்ணி]);
+        (தவறா(சேர்ப்பு)) எனில் { திரும்பு சேர்ப்பு; }
+        கூட்டல் = மதிப்பு(சேர்ப்பு);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(மடங்காக்கு(கூட்டல், 1 / மொத்தம்));
+}
