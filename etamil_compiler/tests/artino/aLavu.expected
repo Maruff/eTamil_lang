@@ -1,0 +1,12 @@
+artino: தொடக்கம், வரி 9: "அஆஇஈஉஊஎஏஐஒஓஔகஙசஞடணதநபமயரலவழளறன" — text longer than 48 bytes; cut to fit (the VM keeps it all)
+அஆஇஈஉஊஎஏஐஒஓஔகஙசஞ
+artino: தொடக்கம், வரி 11: "x" & நீள்_உரை — text longer than 48 bytes; cut to fit (the VM keeps it all)
+xஅஆஇஈஉஊஎஏஐஒஓஔகஙச
+1
+2
+3
+artino: தொடக்கம்: அ[இ] — index outside the array; read as 0 or not written (the VM stops with an error)
+0
+0
+artino: தொடக்கம்: அ[7] — index outside the array; read as 0 or not written (the VM stops with an error)
+[1, 2, 3]

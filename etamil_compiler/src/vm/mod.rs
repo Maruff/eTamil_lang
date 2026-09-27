@@ -3,6 +3,7 @@
 
 // Where input and output go: std::fs and stdout natively, an in-memory
 // buffer and file map in the browser. See host.rs.
+pub mod board;
 pub mod bytecode;
 pub mod host;
 pub mod interpreter;

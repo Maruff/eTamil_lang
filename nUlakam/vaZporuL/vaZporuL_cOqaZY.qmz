@@ -1,0 +1,64 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வன்பொருள் சோதனை — pins, time and serial on the simulated board__
+//
+//   __ETAMIL_BOARD=sim etamil --vm nUlakam/vaZporuL/vaZporuL_cOqaZY.qmz__
+//
+// __Runs on any machine: nothing here touches real hardware. It needs the host__
+// __builtins that vaZporuL.qmz is written over; until they land it stops at the__
+// __first call.__
+
+இறக்கு "../cOqaZY.qmz";
+இறக்கு "vaZporuL.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("வன்பொருள் (pins, time, serial)");
+
+ஓட்டம் = சமம்(ஓட்டம், பலகை(), "sim", "ETAMIL_BOARD=sim selects the simulated board");
+
+// __--- pins -------------------------------------------------------------------__
+முனை_வெளியீடு(13);
+முனை_எழுது(13, மெய்);
+ஓட்டம் = சமம்(ஓட்டம், முனை_படி(13), மெய், "an output reads back what was written");
+முனை_மாற்று(13);
+ஓட்டம் = சமம்(ஓட்டம், முனை_படி(13), பொய், "toggling a high output makes it low");
+முனை_மாற்று(13);
+ஓட்டம் = சமம்(ஓட்டம், முனை_படி(13), மெய், "and toggling again makes it high");
+
+முனை_மேலிழு_உள்ளீடு(3);
+ஓட்டம் = சமம்(ஓட்டம், முனை_படி(3), மெய், "a pulled-up input with nothing pressed reads high");
+போலி_முனை(3, பொய்);
+ஓட்டம் = சமம்(ஓட்டம், முனை_படி(3), பொய், "a switch to ground pressed reads low");
+
+போலி_ஒப்புமை(14, 612);
+ஓட்டம் = சமம்(ஓட்டம், ஒப்புமை_படி(14), 612, "an analog pin reads the value the test set");
+
+// __--- time -------------------------------------------------------------------__
+தொடக்கம் = மில்லி_நொடி();
+போலி_நேரம்(250);
+ஓட்டம் = சமம்(ஓட்டம், மில்லி_நொடி() - தொடக்கம், 250, "simulated time moves only when told");
+காத்திரு(100);
+ஓட்டம் = சமம்(ஓட்டம், மில்லி_நொடி() - தொடக்கம், 350, "a pause advances simulated time instead of waiting");
+
+// __--- serial -----------------------------------------------------------------__
+திறப்பு = தொடர்_திற("sim:bus", 19200);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(திறப்பு), "a simulated port opens");
+துறை = மதிப்பு(திறப்பு);
+
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(தொடர்_வரி_படி(துறை, 0)), "",
+              "with nothing arrived, a zero-wait read gives empty text");
+போலி_தொடர்_ஊட்டு("sim:bus", ">01,P*2F");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(தொடர்_வரி_படி(துறை, 0)), ">01,P*2F",
+              "a line that arrived is read whole, without its newline");
+
+தொடர்_வரி_எழுது(துறை, "<01,1:N:182*3A");
+தொடர்_எழுது(துறை, "புகை ");
+தொடர்_வரி_எழுது(துறை, "இயல்பு");
+ஓட்டம் = சமம்(ஓட்டம், போலி_தொடர்_வெளியீடு("sim:bus"), ["<01,1:N:182*3A", "புகை இயல்பு"],
+              "written lines come out whole, and Tamil survives the port");
+ஓட்டம் = சமம்(ஓட்டம், போலி_தொடர்_வெளியீடு("sim:bus"), [], "and each line is handed over once");
+
+தொடர்_மூடு(துறை);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தொடர்_திற("/dev/இல்லாத_துறை", 9600)),
+                   "a port that does not exist is a தவறு, not a crash");
+
+சோதனை_முடிவு(ஓட்டம்);

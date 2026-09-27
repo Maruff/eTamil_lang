@@ -31,6 +31,7 @@
 //    VSIX and `src/fontinstall.ts` puts it where the operating system can see
 //    it, which VS Code has no API to do for us.
 
+import * as path from 'path';
 import * as vscode from 'vscode';
 
 import { check, toPosition } from './compiler';
@@ -298,6 +299,8 @@ function registerCommands(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand('etamil.run', () => runCurrentFile('--vm')),
     vscode.commands.registerCommand('etamil.serve', () => runCurrentFile('--async')),
+    vscode.commands.registerCommand('etamil.buildForBoard', () => buildForBoard(context, false)),
+    vscode.commands.registerCommand('etamil.uploadToBoard', () => buildForBoard(context, true)),
     vscode.commands.registerCommand('etamil.install', () => offerInstall(context)),
     vscode.commands.registerCommand('etamil.installFont', () =>
       installFont(output, context.extensionPath)
@@ -305,6 +308,18 @@ function registerCommands(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('etamil.documentation', () => showDocumentation()),
     vscode.commands.registerCommand('etamil.openExample', () => openExample()),
     vscode.commands.registerCommand('etamil.showOutput', () => output.show())
+  );
+}
+
+/** The terminal named eTamil: ours carries ETAMIL_PATH, so a standard library import resolves. */
+function etamilTerminal(): vscode.Terminal {
+  const library = bundledLibrary();
+  return (
+    vscode.window.terminals.find((candidate) => candidate.name === 'eTamil') ??
+    vscode.window.createTerminal({
+      name: 'eTamil',
+      env: library && !process.env.ETAMIL_PATH ? { ETAMIL_PATH: library } : undefined,
+    })
   );
 }
 
@@ -329,13 +344,7 @@ async function runCurrentFile(mode: '--vm' | '--async'): Promise<void> {
   // A terminal started by us carries ETAMIL_PATH, so an இறக்கு of a standard
   // library module resolves against the carried nUlakam. One the author opened
   // themselves does not, which is why this looks for ours by name.
-  const library = bundledLibrary();
-  const terminal =
-    vscode.window.terminals.find((candidate) => candidate.name === 'eTamil') ??
-    vscode.window.createTerminal({
-      name: 'eTamil',
-      env: library && !process.env.ETAMIL_PATH ? { ETAMIL_PATH: library } : undefined,
-    });
+  const terminal = etamilTerminal();
   terminal.show(true);
 
   // Every part is quoted, and quoted the way this shell wants — the carried
@@ -346,6 +355,67 @@ async function runCurrentFile(mode: '--vm' | '--async'): Promise<void> {
     terminalCommandLine(compilerPath(), [mode, editor.document.uri.fsPath]),
     true
   );
+}
+
+/** The boards `etamil --artino` builds for: the only values --board is given. */
+const BOARDS: vscode.QuickPickItem[] = [
+  { label: 'uno', description: 'Arduino Uno' },
+  { label: 'nano', description: 'Arduino Nano' },
+  { label: 'mega', description: 'Arduino Mega 2560' },
+  { label: 'pico', description: 'Raspberry Pi Pico' },
+  { label: 'pico2', description: 'Raspberry Pi Pico 2' },
+];
+
+/**
+ * Build the active file as firmware with artino, and upload it if asked.
+ *
+ * The board comes from the fixed list above and the port is typed here, both
+ * remembered in the workspace's state, never read from its settings: a cloned
+ * repository's settings are its author's, and this runs a command. The port
+ * must look like one, so nothing typed can end the quoting around it. The
+ * sketch goes to artino-build beside the file.
+ */
+async function buildForBoard(context: vscode.ExtensionContext, upload: boolean): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor || editor.document.languageId !== LANGUAGE) {
+    void vscode.window.showInformationMessage('eTamil: open an eTamil file first.');
+    return;
+  }
+  if (editor.document.isDirty) {
+    await editor.document.save();
+  }
+
+  const last = context.workspaceState.get<string>('etamil.board');
+  const items = BOARDS.map((board) => ({ ...board, picked: board.label === last }));
+  const board = await vscode.window.showQuickPick(items, {
+    placeHolder: last ? `Which board? Last time: ${last}` : 'Which board?',
+  });
+  if (!board) {
+    return;
+  }
+  await context.workspaceState.update('etamil.board', board.label);
+
+  const file = editor.document.uri.fsPath;
+  const args = ['--artino', '--board', board.label, '--out', path.join(path.dirname(file), 'artino-build')];
+  if (upload) {
+    const port = await vscode.window.showInputBox({
+      prompt: "The board's serial port",
+      placeHolder: process.platform === 'win32' ? 'COM5' : '/dev/ttyACM0',
+      value: context.workspaceState.get<string>('etamil.port'),
+      validateInput: (value) =>
+        /^[A-Za-z0-9_./\\:-]+$/.test(value) ? undefined : 'A port such as COM5 or /dev/ttyACM0',
+    });
+    if (!port) {
+      return;
+    }
+    await context.workspaceState.update('etamil.port', port);
+    args.push('--upload', port);
+  }
+  args.push(file);
+
+  const terminal = etamilTerminal();
+  terminal.show(true);
+  terminal.sendText(terminalCommandLine(compilerPath(), args), true);
 }
 
 /**

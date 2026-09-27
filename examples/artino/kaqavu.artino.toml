@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+# The C++ examples/artino/kaqavu.qmz calls (docs/artino.md, "Calling C++ libraries").
+
+# The Pico's core has its own Servo; the others need the library installed.
+[[library]]
+name = "Servo"
+boards = ["uno", "nano", "mega"]
+
+[[include]]
+header = "Servo.h"
+
+[[object]]
+cpp = "Servo kaqavu;"
+
+[[function]]
+etamil = "கதவு_இணை"          # the pin its signal wire is on
+cpp = "kaqavu.attach"
+args = ["int"]
+
+[[function]]
+etamil = "கதவு_திருப்பு"      # degrees, 0 to 180
+cpp = "kaqavu.write"
+args = ["int"]
+
+[[function]]
+etamil = "கதவு_கோணம்"        # where it was last sent
+cpp = "kaqavu.read"
+returns = "int"
