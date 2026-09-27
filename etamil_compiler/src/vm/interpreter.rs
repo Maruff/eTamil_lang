@@ -2189,14 +2189,21 @@ impl VM {
     /// Numbers go through their decimal text rather than through f64: every
     /// number in this language is a fixed-point Decimal, and routing an amount
     /// through a binary float is exactly the bargain the language exists to
-    /// refuse.
+    /// refuse. That text is the source's own only because serde_json is built
+    /// with `arbitrary_precision`; without it, `n.to_string()` is an f64 printed
+    /// back. The source may use an exponent, which `parse` does not read.
     fn json_to_value(parsed: &serde_json::Value) -> Result<Value, String> {
         Ok(match parsed {
             serde_json::Value::Null => Value::Null,
             serde_json::Value::Bool(b) => Value::Boolean(*b),
             serde_json::Value::Number(n) => {
                 let text = n.to_string();
-                match text.parse::<Decimal>() {
+                let parsed = if text.contains(['e', 'E']) {
+                    Decimal::from_scientific(&text)
+                } else {
+                    text.parse::<Decimal>()
+                };
+                match parsed {
                     Ok(number) => Value::Number(number),
                     Err(_) => {
                         return Err(format!(

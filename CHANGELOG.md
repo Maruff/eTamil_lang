@@ -8,6 +8,20 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **`ஜேசான்_படி` reads a number exactly.** 1.4.0 said a number keeps its
+  decimal text, but it went through f64 on the way in:
+  `12345678901234567.891` was read as `12345678901234568`, and
+  `1.0000000000000000001` as `1`. `serde_json` is now built with
+  `arbitrary_precision`, so the number is read from the source's own text.
+  An exponent, as in `1e3` or `-2.5E-2`, is still read. Writing JSON was
+  already exact.
+
+---
+
 ## 1.4.0 — 2026-09-27
 
 Two libraries written in eTamil, and the builtins they needed. nuNNaRivu finds
