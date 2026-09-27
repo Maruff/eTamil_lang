@@ -63,6 +63,9 @@ ALLOW = {
     "finance", "language", "io_samples",
     "data", "id", "numbers", "products", "students",
     "fileio_example", "simple_fileio", "loop_server", "student_management",
+    # Field names on somebody else's wire format, which cannot be renamed:
+    # "embeddings" is what Ollama calls the vectors it returns.
+    "embeddings",
 }
 
 # ISO 15919 spellings that survive the round trip because their letters are all

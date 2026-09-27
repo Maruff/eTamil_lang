@@ -16,6 +16,7 @@ use crate::vm::host;
 use crate::vm::value::FunctionValue;
 use crate::vm::{Bytecode, Instruction, Value};
 use rust_decimal::Decimal;
+use rust_decimal::MathematicalOps;
 #[cfg(not(target_family = "wasm"))]
 use std::io::Write as IoWrite;
 use std::str::FromStr;
@@ -701,6 +702,287 @@ impl VM {
             }
             // இணை — append to an array, returning the extended array.
             // (சேர் / cEr is already the SQL JOIN keyword.)
+            // புலம்_உள்ளதா — does this record carry this field?
+            //
+            // A primitive because the eTamil version could not be one. poruL.qmz
+            // implemented it by walking the field names, which is the only thing
+            // available from inside the language, and that made a record unusable
+            // as a map: building a term-frequency map over a corpus of 2383 chunks
+            // never finished. Measured on the eTamil version, n lookups over a
+            // record of n keys took 0.12s at n=100 and 61.6s at n=800.
+            //
+            // Here it is one hash lookup. The reason it has to exist at all is
+            // that reading an absent field is a hard error, so every read of a
+            // maybe-absent key must be guarded by this call.
+            "புலம்_உள்ளதா" | "pulam_uLLaqA" | "_hasField" => {
+                Self::expect_args(name, &args, 2)?;
+                let fields = match &args[0] {
+                    Value::Map(record) => &record.fields,
+                    other => {
+                        return Err(format!(
+                            "புலம்_உள்ளதா ஒரு பொருள் தேவை  (hasField needs a record, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                Ok(Value::Boolean(fields.contains_key(&args[1].to_string())))
+            }
+
+            // புலம்_அல்லது — the field, or a fallback when it is not there
+            //
+            // The pair to புலம்_உள்ளதா, and the reason that one is rarely needed
+            // directly: query parameters, headers and a decoded JSON body are all
+            // records whose contents depend on what someone sent, and the caller
+            // almost always has a sensible default rather than a use for a
+            // boolean.
+            //
+            // Written as one builtin rather than left to the caller so that the
+            // lookup happens once. In eTamil it was necessarily two walks of the
+            // record — one to ask, one to read.
+            "புலம்_அல்லது" | "pulam_allaqu" | "_fieldOr" => {
+                Self::expect_args(name, &args, 3)?;
+                let fields = match &args[0] {
+                    Value::Map(record) => &record.fields,
+                    other => {
+                        return Err(format!(
+                            "புலம்_அல்லது ஒரு பொருள் தேவை  (fieldOr needs a record, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                Ok(match fields.get(&args[1].to_string()) {
+                    Some(found) => found.clone(),
+                    None => args[2].clone(),
+                })
+            }
+
+            // ஜேசான்_படி — JSON text into eTamil values
+            //
+            // A host builtin because the eTamil version could not keep up. It
+            // is in nUlakam/jEcAZ.qmz, it is correct, and it is a recursive
+            // descent parser written in the language — which means it pays the
+            // language's string and record costs on every character. A 624 KB
+            // corpus did not finish parsing in ten minutes.
+            //
+            // Returns சரி or தவறு, the same shape the eTamil version returned,
+            // and refuses trailing text for the same reason it did: accepting
+            // it would quietly read half a request body as though it were the
+            // whole one.
+            "ஜேசான்_படி" | "jEcAZ_pati" | "_jsonParse" => {
+                Self::expect_args(name, &args, 1)?;
+                let source = args[0].to_string();
+                Ok(match serde_json::from_str::<serde_json::Value>(&source) {
+                    Ok(parsed) => match Self::json_to_value(&parsed) {
+                        Ok(value) => Value::Ok(Box::new(value)),
+                        Err(message) => Value::Err(Box::new(Value::String(message))),
+                    },
+                    Err(problem) => Value::Err(Box::new(Value::String(format!(
+                        "செல்லாத ஜேசான்: {}  (invalid JSON)",
+                        problem
+                    )))),
+                })
+            }
+
+            // ஜேசான்_ஆக்கு — an eTamil value as JSON text
+            //
+            // The pair to ஜேசான்_படி, and replacing an eTamil version for the
+            // same reason: it built its result with & one piece at a time,
+            // which copies the whole string on every append.
+            //
+            // Returns a plain string, not a சரி, because the eTamil version
+            // did and every caller in nUlakam expects that.
+            "ஜேசான்_ஆக்கு" | "jEcAZ_Akku" | "_jsonStringify" => {
+                Self::expect_args(name, &args, 1)?;
+                Ok(Value::String(Self::value_to_json(&args[0])))
+            }
+
+            // வர்க்கமூலம் — the square root
+            //
+            // Was Newton's method in kaNiqam.qmz, written there because the
+            // host had no square root and the arithmetic to build one was all
+            // the language offered. Forty iterations per call, and every
+            // vector magnitude in nuNNaRivu paid them.
+            //
+            // A negative input is a தவறு rather than nil or zero, exactly as
+            // the eTamil version had it: the root of a negative variance is a
+            // sign error upstream, and answering zero hides it inside a
+            // confidence figure that looks perfectly reasonable.
+            "வர்க்கமூலம்" | "varkkamUlam" | "_sqrt" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.sqrt() {
+                    Some(root) => Value::Ok(Box::new(Value::Number(root))),
+                    None => Value::Err(Box::new(Value::String(
+                        "எதிர்மறை எண்ணின் வர்க்கமூலம் இல்லை  \
+                         (no square root of a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // இயற்கை_மடக்கை — the natural logarithm, base e
+            //
+            // Was an artanh series in nUlakam/nuNNaRivu/matakkY.qmz, which
+            // existed only because relevance scoring needs a logarithm and the
+            // host had none. Computed on Decimal here, not f64: the series it
+            // replaces was accurate to about 28 digits, and routing it through
+            // a binary float would have been a regression dressed as a
+            // speed-up.
+            //
+            // Zero and below are a தவறு. The logarithm of zero is not a large
+            // negative number, it is undefined, and a scoring function that
+            // quietly accepted it produces a ranking nobody can account for.
+            "இயற்கை_மடக்கை" | "iyaRkY_matakkY" | "_ln" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_ln() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "பூஜ்ஜியம் அல்லது எதிர்மறை எண்ணின் மடக்கை இல்லை  \
+                         (no logarithm of zero or a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // இயற்கை_அடுக்கு — e raised to a power, the inverse of the above
+            "இயற்கை_அடுக்கு" | "iyaRkY_atukku" | "_exp" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_exp() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "அடுக்கு ஒரு தசமத்தில் அடங்கவில்லை  \
+                         (the result does not fit a decimal)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // அடுக்கேற்று(அடிப்படை, அடுக்கு) — one number raised to another
+            //
+            // Named அடுக்கேற்று because அடுக்கு alone is a reserved word (it is
+            // the stack keyword) and cannot be a function name.
+            "அடுக்கேற்று" | "atukkERRu" | "_pow" => {
+                Self::expect_args(name, &args, 2)?;
+                let base = args[0].to_number();
+                let exponent = args[1].to_number();
+                Ok(match base.checked_powd(exponent) {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "அடுக்கேற்றம் ஒரு தசமத்தில் அடங்கவில்லை  \
+                         (the result does not fit a decimal)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // பத்தின்_மடக்கை — base 10
+            //
+            // Its own builtin rather than ln(x)/ln(10), because that division
+            // is not exact: computed that way log10(1000) came back as
+            // 2.9999999999999999999999999998. A base-10 logarithm is mostly
+            // asked for by somebody reading the answer, and an order of
+            // magnitude that reads as 2.999… is a bug report.
+            "பத்தின்_மடக்கை" | "paqqiZ_matakkY" | "_log10" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_log10() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "பூஜ்ஜியம் அல்லது எதிர்மறை எண்ணின் மடக்கை இல்லை  \
+                         (no logarithm of zero or a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // வரிசையாக்கு(அணி) — an array in order, smallest first
+            //
+            // Here because every library that needed ordering wrote its own.
+            // qaravaricY.qmz used an insertion sort, which is the right shape
+            // for ranking tens of results and the wrong one for anything
+            // larger, and it is not the only place.
+            //
+            // Numbers sort numerically and everything else by its text, so a
+            // mixed array still has a defined order rather than an error: the
+            // caller asked for an ordering, and refusing one because a null
+            // crept into the data is rarely what is wanted. Sorting is stable,
+            // so equal elements keep the order they arrived in.
+            "வரிசையாக்கு" | "varicYyAkku" | "_sort" => {
+                Self::expect_args(name, &args, 1)?;
+                let items = match &args[0] {
+                    Value::Array(items) => items.clone(),
+                    other => {
+                        return Err(format!(
+                            "வரிசையாக்கு ஒரு அணி தேவை  (sort needs an array, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                let all_numbers = items.iter().all(|v| matches!(v, Value::Number(_)));
+                let mut sorted = items;
+                if all_numbers {
+                    sorted.sort_by(|a, b| {
+                        a.to_number()
+                            .partial_cmp(&b.to_number())
+                            .unwrap_or(std::cmp::Ordering::Equal)
+                    });
+                } else {
+                    sorted.sort_by_key(|value| value.to_string());
+                }
+                Ok(Value::Array(sorted))
+            }
+
+            // புலத்தால்_வரிசையாக்கு(அணி, புலம், இறங்குமா) — records by one field
+            //
+            // The form that ranking actually wants: a list of records ordered
+            // by a score they carry. Written as a builtin rather than left to
+            // a comparator because eTamil has no way to hand a function to the
+            // host, and because this is the case that appears every time.
+            //
+            // A record without the field sorts as zero rather than failing.
+            // One malformed row out of a retriever should cost that row its
+            // place, not cost the caller the whole ranking.
+            "புலத்தால்_வரிசையாக்கு" | "pulaqqAl_varicYyAkku" | "_sortByField" => {
+                Self::expect_args(name, &args, 3)?;
+                let items = match &args[0] {
+                    Value::Array(items) => items.clone(),
+                    other => {
+                        return Err(format!(
+                            "புலத்தால்_வரிசையாக்கு ஒரு அணி தேவை  \
+                             (sortByField needs an array, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                let field = args[1].to_string();
+                let descending = args[2].is_truthy();
+
+                let key_of = |value: &Value| -> Decimal {
+                    match value {
+                        Value::Map(record) => match record.fields.get(&field) {
+                            Some(found) => found.to_number(),
+                            None => Decimal::ZERO,
+                        },
+                        _ => Decimal::ZERO,
+                    }
+                };
+
+                let mut sorted = items;
+                sorted.sort_by(|a, b| {
+                    let order = key_of(a)
+                        .partial_cmp(&key_of(b))
+                        .unwrap_or(std::cmp::Ordering::Equal);
+                    if descending {
+                        order.reverse()
+                    } else {
+                        order
+                    }
+                });
+                Ok(Value::Array(sorted))
+            }
+
             "இணை" | "iNY" | "_append" => {
                 Self::expect_args(name, &args, 2)?;
                 match &args[0] {
@@ -1902,6 +2184,112 @@ impl VM {
         }
     }
 
+    /// JSON text -> an eTamil value.
+    ///
+    /// Numbers go through their decimal text rather than through f64: every
+    /// number in this language is a fixed-point Decimal, and routing an amount
+    /// through a binary float is exactly the bargain the language exists to
+    /// refuse.
+    fn json_to_value(parsed: &serde_json::Value) -> Result<Value, String> {
+        Ok(match parsed {
+            serde_json::Value::Null => Value::Null,
+            serde_json::Value::Bool(b) => Value::Boolean(*b),
+            serde_json::Value::Number(n) => {
+                let text = n.to_string();
+                match text.parse::<Decimal>() {
+                    Ok(number) => Value::Number(number),
+                    Err(_) => {
+                        return Err(format!(
+                            "ஒரு தசமமாக அடங்காத எண்: {}  (number does not fit a decimal)",
+                            text
+                        ));
+                    }
+                }
+            }
+            serde_json::Value::String(text) => Value::String(text.clone()),
+            serde_json::Value::Array(items) => {
+                let mut out = Vec::with_capacity(items.len());
+                for item in items {
+                    out.push(Self::json_to_value(item)?);
+                }
+                Value::Array(out)
+            }
+            serde_json::Value::Object(pairs) => {
+                let mut fields = HashMap::with_capacity(pairs.len());
+                for (key, item) in pairs {
+                    fields.insert(key.clone(), Self::json_to_value(item)?);
+                }
+                Value::Map(fields.into())
+            }
+        })
+    }
+
+    /// The JSON spelling of a string, quotes included.
+    fn json_string(text: &str) -> String {
+        let mut out = String::with_capacity(text.len() + 2);
+        out.push('"');
+        for c in text.chars() {
+            match c {
+                '"' => out.push_str("\\\""),
+                '\\' => out.push_str("\\\\"),
+                '\n' => out.push_str("\\n"),
+                '\r' => out.push_str("\\r"),
+                '\t' => out.push_str("\\t"),
+                '\u{8}' => out.push_str("\\b"),
+                '\u{c}' => out.push_str("\\f"),
+                c if (c as u32) < 0x20 => out.push_str(&format!("\\u{:04x}", c as u32)),
+                c => out.push(c),
+            }
+        }
+        out.push('"');
+        out
+    }
+
+    /// An eTamil value -> JSON text.
+    ///
+    /// Written out rather than handed to serde so that a Decimal prints its
+    /// own exact text. serde_json has no decimal number type, and going
+    /// through f64 would turn 0.1 into 0.1000000000000000055511151231257827 —
+    /// the bargain this language exists to refuse.
+    fn value_to_json(value: &Value) -> String {
+        match value {
+            Value::Null => "null".to_string(),
+            Value::Boolean(b) => b.to_string(),
+            Value::Number(n) => n.to_string(),
+            Value::String(text) => Self::json_string(text),
+            Value::Array(items) => {
+                let parts: Vec<String> = items.iter().map(Self::value_to_json).collect();
+                format!("[{}]", parts.join(","))
+            }
+            Value::Map(record) => {
+                // Sorted, so the same record always produces the same text. A
+                // HashMap iterates in an arbitrary order, and a request body
+                // that changes shape between two identical calls defeats any
+                // cache and makes a failure hard to reproduce.
+                let mut keys: Vec<&String> = record.fields.keys().collect();
+                keys.sort();
+                let parts: Vec<String> = keys
+                    .iter()
+                    .map(|key| {
+                        format!(
+                            "{}:{}",
+                            Self::json_string(key),
+                            Self::value_to_json(&record.fields[*key])
+                        )
+                    })
+                    .collect();
+                format!("{{{}}}", parts.join(","))
+            }
+            // சரி, தவறு and a செயல் have no JSON spelling. This writes null,
+            // which is what the eTamil version in jEcAZ.qmz did. Worth noting
+            // that its own comment argued for refusing instead and the code
+            // did not: that contradiction is preserved here rather than
+            // decided, because changing it is a decision about the library's
+            // contract and this change is about speed.
+            _ => "null".to_string(),
+        }
+    }
+
     /// A board call's outcome as a result value: சரி(v), or தவறு(why).
     fn board_result(outcome: Result<Value, String>) -> Value {
         match outcome {
@@ -2440,6 +2828,50 @@ impl VM {
                         .map(|ord| ord != std::cmp::Ordering::Less)
                         .unwrap_or(false);
                     self.stack.push(Value::Boolean(result));
+                }
+                Instruction::ConcatVar(name) => {
+                    let tail = self.pop()?;
+
+                    // Same scoping rule as AppendVar: inside a function,
+                    // assigning to a name that is not already local creates a
+                    // local rather than writing through to the global, so a
+                    // string reached from an outer scope is copied once here
+                    // and appended in place from then on.
+                    if let Some(frame) = self.frames.last()
+                        && !frame.locals.contains_key(name.as_str())
+                    {
+                        let outer = self.get_var(name).ok_or_else(|| {
+                            format!(
+                                "அறிவிக்கப்படாத மாறி '{}'  (undefined variable '{}')",
+                                name, name
+                            )
+                        })?;
+                        self.set_var(name, outer);
+                    }
+
+                    let scope = match self.frames.last_mut() {
+                        Some(frame) => &mut frame.locals,
+                        None => &mut self.variables,
+                    };
+                    match scope.get_mut(name.as_str()) {
+                        Some(Value::String(text)) => match &tail {
+                            Value::String(more) => text.push_str(more),
+                            other => text.push_str(&other.to_string()),
+                        },
+                        // & joins anything to anything, so a non-string left
+                        // side is not an error — it just cannot be appended to
+                        // in place. Fall back to building a new value.
+                        Some(other) => {
+                            let joined = format!("{}{}", other, tail);
+                            *other = Value::String(joined);
+                        }
+                        None => {
+                            return Err(format!(
+                                "அறிவிக்கப்படாத மாறி '{}'  (undefined variable '{}')",
+                                name, name
+                            ));
+                        }
+                    }
                 }
                 Instruction::Concat => {
                     let right = self.stack.pop().ok_or("Stack underflow")?;

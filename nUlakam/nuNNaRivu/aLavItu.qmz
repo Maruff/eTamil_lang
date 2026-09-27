@@ -1,0 +1,100 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/aLavItu.qmz — அளவீடு, measuring whether retrieval works__
+//
+// __Without this file the rest of nuNNaRivu is guesswork. Every knob in it —__
+// __கே1, பி, the fusion constant, the kind weights — can be moved in either__
+// __direction with a plausible argument, and the only way to know which way is__
+// __right is to ask a set of questions whose answers are known and count.__
+//
+// __Two measures, because they answer different questions. Recall asks whether__
+// __the answer was found at all within n results; MRR asks how near the top it__
+// __was. A change can improve one and worsen the other, and knowing which has__
+// __happened is usually what decides whether to keep it.__
+//
+// __One warning about the questions themselves. A set written while looking at__
+// __why retrieval failed, used to judge a fix made in response, measures mostly__
+// __whether the words were copied across. Keep a second set written__
+// __independently and phrased differently, and believe that one.__
+
+இறக்கு "qaravaricY.qmz";
+இறக்கு "../aNi.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+// __சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) — one question and its answer__
+செயல் சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) {
+    திரும்பு { கேள்வி: கேள்வி_உரை, எதிர்பார்ப்பு: எதிர்பார்த்த_குறி };
+}
+
+// __கண்டுபிடித்த_இடம்(தரவரிசை, எதிர்பார்த்த_குறி) — where the right answer landed__
+//
+// __1-based, or -1 when it is not in the list at all. The distinction matters:__
+// __an answer at rank 40 and an answer that was never retrieved need different__
+// __fixes, and averaging them together hides both.__
+செயல் கண்டுபிடித்த_இடம்(தரவரிசை, எதிர்பார்த்த_குறி) {
+    திரும்பு இடம்_குறி(தரவரிசை, "குறி", எதிர்பார்த்த_குறி);
+}
+
+// __தலைகீழ்_இடம்(இடநிலை) — 1/rank, or zero when the answer was not found__
+//
+// __The per-question score behind MRR. Rank 1 scores 1, rank 2 scores a half,__
+// __rank 10 a tenth — the fall is steep on purpose, because the difference__
+// __between first and second place is what a reader actually experiences and__
+// __the difference between ninth and tenth is not.__
+செயல் தலைகீழ்_இடம்(இடநிலை) {
+    (இடநிலை < 1) எனில் { திரும்பு 0; }
+    திரும்பு 1 / இடநிலை;
+}
+
+// __சராசரி_தலைகீழ்_இடம்(இடநிலைகள்) — MRR over a set of questions__
+//
+// __Divided by the number of questions asked, not the number answered. A system__
+// __that finds three answers brilliantly and misses seventeen must not score__
+// __the same as one that finds all twenty at rank 1.__
+செயல் சராசரி_தலைகீழ்_இடம்(இடநிலைகள்) {
+    மொத்தம் = நீளம்(இடநிலைகள்);
+    (மொத்தம் == 0) எனில் { திரும்பு 0; }
+    கூட்டல் = 0;
+    ஒவ்வொரு ஒரு_இடநிலை இல் இடநிலைகள் {
+        கூட்டல் = கூட்டல் + தலைகீழ்_இடம்(ஒரு_இடநிலை);
+    }
+    திரும்பு கூட்டல் / மொத்தம்;
+}
+
+// __எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) — how many answers fell within n__
+//
+// __recall@n as a count. Reported alongside MRR rather than instead of it: a__
+// __change that moves an answer from rank 11 to rank 9 leaves MRR almost__
+// __unmoved while changing entirely whether anybody sees it.__
+செயல் எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) {
+    எண்ணிக்கை = 0;
+    ஒவ்வொரு ஒரு_இடநிலை இல் இடநிலைகள் {
+        (ஒரு_இடநிலை >= 1 மற்றும் ஒரு_இடநிலை <= ஆழம்) எனில் {
+            எண்ணிக்கை = எண்ணிக்கை + 1;
+        }
+    }
+    திரும்பு எண்ணிக்கை;
+}
+
+// __கண்டுபிடிப்பு_விகிதம்(இடநிலைகள், ஆழம்) — recall@n as a fraction__
+செயல் கண்டுபிடிப்பு_விகிதம்(இடநிலைகள், ஆழம்) {
+    மொத்தம் = நீளம்(இடநிலைகள்);
+    (மொத்தம் == 0) எனில் { திரும்பு 0; }
+    திரும்பு எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) / மொத்தம்;
+}
+
+// __முடிவுகளைத்_தொகு(இடநிலைகள்) — the whole report for one configuration__
+//
+// __Everything at once, because these numbers are only meaningful beside each__
+// __other. A single figure quoted alone is how a change that helped one__
+// __question and hurt three gets described as an improvement.__
+செயல் முடிவுகளைத்_தொகு(இடநிலைகள்) {
+    திரும்பு {
+        கேள்விகள்: நீளம்(இடநிலைகள்),
+        முதலில்: எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 1),
+        மூன்றில்: எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 3),
+        பத்தில்: எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 10),
+        கிடைக்காதவை: நீளம்(இடநிலைகள்) - எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், நீளம்(இடநிலைகள்) + 1000000),
+        சராசரி_தலைகீழ்: சராசரி_தலைகீழ்_இடம்(இடநிலைகள்)
+    };
+}

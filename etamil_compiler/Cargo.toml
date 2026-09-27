@@ -79,7 +79,11 @@ unicode-segmentation = "1.11"
 # --- Numbers ---
 # Every value in the language is a fixed-point decimal, not f64: this is a
 # language for tax and accounting, where 0.1 + 0.2 must equal 0.3 exactly.
-rust_decimal = "1.37"
+# `maths` supplies ln, exp, powd and sqrt on Decimal itself. They were
+# hand-written series in nUlakam until the host had them, and the series
+# were accurate to about 28 digits — so this has to be the decimal
+# implementation and not f64, or the builtin would be a regression.
+rust_decimal = { version = "1.37", features = ["maths"] }
 # Direct LLVM FFI bindings, enabled with --features llvm (Linux/macOS only)
 llvm-sys = { version = "180", features = ["prefer-dynamic"], optional = true }
 
