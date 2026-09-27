@@ -8,7 +8,10 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
-## Unreleased
+## 1.4.1 — 2026-09-28
+
+A fix to 1.4.0: reading JSON rounded a number with more than about 17
+significant digits. Nothing else changes.
 
 ### Fixed
 
