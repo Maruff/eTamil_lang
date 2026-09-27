@@ -342,7 +342,11 @@ jobs:
 
   llvm-backend:
     name: LLVM backend builds
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest: Cargo.toml pins llvm-sys 180, so this job
+    # needs Ubuntu's llvm-18-dev, with its AVR and ARM targets for artino.
+    # ubuntu-latest moves to Ubuntu 26 from 19 October 2026, which may not carry
+    # LLVM 18. Move this when llvm-sys moves.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
