@@ -1,6 +1,34 @@
 # Installation
 
-There is no prebuilt binary yet, so installing means building from source. It takes one command once the prerequisites are in place.
+## Prebuilt packages
+
+Each release publishes a package that needs neither Rust nor a C toolchain:
+
+| Platform | Package |
+|---|---|
+| Windows x64 | `etamil-windows-x64.zip` |
+| Linux x64 | `etamil-linux-x64.tar.gz` |
+| Linux arm64 — Raspberry Pi 4/5 on 64-bit Raspberry Pi OS | `etamil-linux-arm64.tar.gz` |
+| macOS Apple Silicon | `etamil-macos-arm64.tar.gz` |
+| macOS Intel | `etamil-macos-x64.tar.gz` |
+
+Download from
+`https://github.com/Maruff/etamil_compiler/releases/latest/download/<package>`.
+On Linux, `uname -m` says which one you need: `aarch64` means arm64, `x86_64`
+means x64. A Raspberry Pi running the 32-bit OS reports `armv7l`; there is no
+package for that, so build from source or move to the 64-bit OS.
+
+```bash
+tar -xzf etamil-linux-arm64.tar.gz
+./etamil-linux-arm64/install.sh
+```
+
+Both Linux packages are static musl binaries with the PostgreSQL and MySQL
+drivers built in. The [README](../../README.md#installation) covers Windows and
+macOS, including the macOS quarantine step.
+
+The rest of this page is for building from source. It takes one command once
+the prerequisites are in place.
 
 ## Prerequisites
 

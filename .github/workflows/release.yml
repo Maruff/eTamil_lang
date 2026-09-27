@@ -3,8 +3,8 @@
 #   git tag v0.3.0 && git push origin v0.3.0
 #
 # Each platform builds on its own runner. Nothing is cross-compiled except the
-# musl target, which is what lets the Linux binary run on distributions older
-# than the one that built it.
+# musl targets, which are what let the Linux binaries run on distributions older
+# than the one that built them.
 name: Release packages
 
 on:
@@ -27,6 +27,15 @@ jobs:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-musl
             package: etamil-linux-x64.tar.gz
+            setup: musl
+          # Raspberry Pi 4 and 5 on 64-bit Raspberry Pi OS, and any other
+          # aarch64 Linux. Built on an ARM runner rather than through cross, so
+          # the smoke test below runs the binary natively instead of under
+          # emulation. Static musl, like the x64 package, so it does not care
+          # which Debian release the Pi is on.
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-musl
+            package: etamil-linux-arm64.tar.gz
             setup: musl
           # macOS is two genuinely different binaries. Shipping only the Intel
           # one would leave every Apple Silicon machine — which is every Mac
@@ -66,6 +75,11 @@ jobs:
         env:
           TARGET: ${{ matrix.target }}
           FEATURES: postgres,mysql
+          # The bundled SQLite, ring, zstd and zlib are C. cc picks musl-gcc for
+          # the x64 musl target by itself, but for aarch64 it looks for an
+          # aarch64-linux-musl-gcc cross compiler, which Ubuntu's musl-tools
+          # does not ship. On the ARM runner musl-gcc is already the right one.
+          CC_aarch64_unknown_linux_musl: musl-gcc
         run: bash packaging/build.sh
 
       - name: Verify archive exists
