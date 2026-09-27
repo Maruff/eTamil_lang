@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/iNYppu.qmz — இணைப்பு, combining several rankings into one__
+// இணைப்பு: பல தரவரிசைகளை ஒன்றாக்குதல்
 //
 // __coRqEtal.qmz finds documents by word; oRRumY.qmz finds them by meaning.__
 // __Each fails where the other succeeds, so the useful system runs both and__
@@ -31,9 +32,11 @@
 // __sets how much better rank 1 is than rank 2: with a small constant the top__
 // __of each list dominates and agreement further down cannot outweigh it, and__
 // __with a large one every position looks alike and the ranking flattens.__
+// கே_மாறிலி() — இடத்தின் தாக்கத்தைத் தணிக்கும் மாறிலி
 செயல் கே_மாறிலி() { திரும்பு 60; }
 
 // __பங்களிப்பு(இடநிலை, எடை) — what one retriever contributes at a given rank__
+// பங்களிப்பு(இடநிலை, எடை) — ஒரு தேடி ஒரு இடத்தில் தரும் பங்களிப்பு
 //
 // __The position is இடநிலை and not the plainer இடம் because that word is the__
 // __SQL LEFT keyword and is hard reserved — it cannot be a name at all.__
@@ -46,6 +49,7 @@
 }
 
 // __இணை_தரவரிசைகள்(தரவரிசைகள், எடைகள்) — fuse ranked lists into one ranking__
+// இணை_தரவரிசைகள்(தரவரிசைகள், எடைகள்) — பல தரவரிசைகளை ஒரே தரவரிசையாக இணைக்கும்
 //
 // __Each entry of தரவரிசைகள் is a ranked array of items carrying a குறி; the__
 // __matching entry of எடைகள் is how far that retriever is trusted. A missing__
@@ -81,11 +85,13 @@
 }
 
 // __இரண்டை_இணை(முதல், இரண்டாம்) — the common case, two lists trusted equally__
+// இரண்டை_இணை(முதல், இரண்டாம்) — இரு தரவரிசைகளைச் சம நம்பிக்கையுடன் இணைக்கும்
 செயல் இரண்டை_இணை(முதல், இரண்டாம்) {
     திரும்பு இணை_தரவரிசைகள்([முதல், இரண்டாம்], [1, 1]);
 }
 
 // __வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — weight by kind of result__
+// வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — முடிவின் வகைக்கு ஏற்ப எடை தரும்
 //
 // __Not every kind of match deserves equal standing even at the same rank. A__
 // __function's own entry answers "what reverses an array" directly; a prose__

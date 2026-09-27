@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/eNNikkY.qmz — எண்ணிக்கை, counting terms across documents__
+// எண்ணிக்கை: ஆவணங்களில் பதங்களை எண்ணுதல்
 //
 // __Word-based relevance rests on two counts and nothing else: how often a term__
 // __occurs in one document, and how many documents contain it at all. The first__
@@ -16,11 +17,13 @@
 இறக்கு "../atippatY/poruL.qmz";
 
 // __ஆவணம்_ஆக்கு(குறி, பதங்கள்_பட்டியல்) — an indexed document__
+// ஆவணம்_ஆக்கு(குறி, பதங்கள்_பட்டியல்) — குறியீட்டில் சேர்க்கும் ஓர் ஆவணம்
 செயல் ஆவணம்_ஆக்கு(குறி, பதங்கள்_பட்டியல்) {
     திரும்பு { குறி: குறி, பதங்கள்: பதங்கள்_பட்டியல் };
 }
 
 // __பத_அதிர்வெண்(பதங்கள்_பட்டியல்) — how many times each term occurs__
+// பத_அதிர்வெண்(பதங்கள்_பட்டியல்) — ஒவ்வொரு பதமும் எத்தனை முறை வருகிறது
 //
 // __A record from term to count. Repeated terms are what separates a document__
 // __about arrays from one that mentions an array once in passing, so this__
@@ -38,6 +41,7 @@
 }
 
 // __எத்தனை_முறை(அதிர்வெண், பதம்) — the count for one term, or zero__
+// எத்தனை_முறை(அதிர்வெண், பதம்) — ஒரு பதத்தின் எண்ணிக்கை; இல்லையெனில் பூஜ்ஜியம்
 //
 // __Zero rather than an error. A query term absent from a document is the__
 // __ordinary case, not a fault, and scoring has to keep going.__
@@ -46,6 +50,7 @@
 }
 
 // __ஆவண_அதிர்வெண்(ஆவணங்கள்) — how many documents contain each term__
+// ஆவண_அதிர்வெண்(ஆவணங்கள்) — ஒவ்வொரு பதமும் எத்தனை ஆவணங்களில் வருகிறது
 //
 // __Counts documents, not occurrences: a term repeated forty times in one__
 // __document still contributes one. That is the whole point of the measure —__
@@ -66,6 +71,7 @@
 }
 
 // __தனித்தவை_உள்ளூர்(பட்டியல்) — distinct values, kept local to this file__
+// தனித்தவை_உள்ளூர்(பட்டியல்) — வேறுபட்ட மதிப்புகள்; இக்கோப்புக்கே உரியது
 //
 // __coRpiri.qmz has தனிப்பதங்கள், but importing it here would tie counting to__
 // __a particular tokenizer. Counting should work on any array of terms,__
@@ -81,6 +87,7 @@
 }
 
 // __சராசரி_ஆவண_நீளம்(ஆவணங்கள்) — mean term count across the collection__
+// சராசரி_ஆவண_நீளம்(ஆவணங்கள்) — தொகுப்பின் சராசரிப் பத எண்ணிக்கை
 //
 // __Needed so that length can be normalised away. Without it, long documents__
 // __win every search simply by containing more words, and the longest file in__
@@ -96,6 +103,7 @@
 }
 
 // __குறியீட்டு_ஆக்கு(ஆவணங்கள்) — everything scoring needs, gathered once__
+// குறியீட்டு_ஆக்கு(ஆவணங்கள்) — மதிப்பெண் இடத் தேவையான அனைத்தையும் ஒரே முறை தொகுக்கும்
 //
 // __Built once and reused for every question. Recomputing document frequencies__
 // __per query is the difference between a search that answers while somebody__

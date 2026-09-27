@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/oRRumY.qmz — ஒற்றுமை, finding things by meaning__
+// ஒற்றுமை: பொருளால் தேடுதல்
 //
 // __The counterpart to coRqEtal.qmz. That file finds documents sharing words__
 // __with the question; this one finds documents whose *meaning* is close, even__
@@ -27,6 +28,7 @@
 இறக்கு "../atippatY/aNi.qmz";
 
 // __பொதிந்த_ஆவணம்(குறி, திசையன்) — a document represented by its vector__
+// பொதிந்த_ஆவணம்(குறி, திசையன்) — திசையனால் குறிக்கப்படும் ஓர் ஆவணம்
 //
 // __Stored normalised. Between unit vectors the cosine is the plain dot__
 // __product, so normalising once when a document is indexed removes a square__
@@ -36,6 +38,7 @@
 }
 
 // __அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — nearest by meaning__
+// அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — பொருளால் மிக அண்மையான ஆவணங்கள்
 //
 // __Compares against every document. That is honest about what it costs: there__
 // __is no index here, and on a large collection this is the slow part. It is__
@@ -61,6 +64,7 @@
 }
 
 // __அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) — do the widths agree?__
+// அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) — திசையன் அகலங்கள் ஒத்துப்போகின்றனவா
 //
 // __Worth asking explicitly, because the failure is silent otherwise: every__
 // __document is skipped, the result is an empty list, and an empty list looks__
@@ -77,6 +81,7 @@
 // __The other way of asking. அண்மையவை always returns n results, including n__
 // __bad ones when nothing matches; this returns none when nothing is close__
 // __enough, which is what a completion suggestion wants.__
+// வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) — சொன்ன ஒற்றுமைக்கு மேல் உள்ள அனைத்தும்
 செயல் வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) {
     அனைத்தும் = அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், நீளம்(பொதிந்த_ஆவணங்கள்));
     திரும்பு வரம்புக்கு_மேல்(அனைத்தும், குறைந்தபட்சம்);

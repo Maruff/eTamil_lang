@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/iruppukaL.qmz — இருப்புகள், what sits on the balance sheet__
+// இருப்புநிலைக் குறிப்பில் அமரும் இருப்புகள்
 //
 // __Revenue recognised and amounts invoiced are two different clocks, and they__
 // __are almost never in step. The difference is an asset or a liability:__
@@ -36,6 +37,7 @@
 // __Exactly one of the two balances is non-zero, and a contract exactly in step__
 // __has neither — which is worth being able to say, rather than reporting a zero__
 // __asset.__
+// ஒப்பந்த_நிலை(ஒப்பந்தக்_குறி, அங்கீகரித்த_வருவாய், விலைப்பட்டியலிட்டது) — ஒப்பந்தத்தின் இருப்பு நிலை
 செயல் ஒப்பந்த_நிலை(ஒப்பந்தக்_குறி, அங்கீகரித்த_வருவாய், விலைப்பட்டியலிட்டது) {
     வேறுபாடு = வட்டமிடு(அங்கீகரித்த_வருவாய் - விலைப்பட்டியலிட்டது, 2);
 
@@ -76,6 +78,7 @@
 // __The test is whether anything other than time remains. Not whether an invoice__
 // __has been raised — invoicing is an administrative act and the standard is__
 // __indifferent to it.__
+// உரிமை_வகை(அங்கீகரித்த_வருவாய், விலைப்பட்டியலிட்டது) — ஒப்பந்தச் சொத்தா, ஒப்பந்தப் பொறுப்பா
 செயல் உரிமை_வகை(காலம்_மட்டும்_நிபந்தனையா) {
     (காலம்_மட்டும்_நிபந்தனையா) எனில் { திரும்பு "பெறவேண்டியது"; }
     திரும்பு "ஒப்பந்தச்_சொத்து";
@@ -95,6 +98,7 @@
 // __Treating retention as revenue only on release is the common error, and it__
 // __understates revenue for the whole life of the contract and then overstates__
 // __it in the final year.__
+// தேக்கத்_தொகை(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) — விலைப்பட்டியலில் தேக்கி வைக்கப்படும் தொகை
 செயல் தேக்கத்_தொகை(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) {
     (தேக்க_விகிதம் <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டப்_பங்கு(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்);
@@ -109,6 +113,7 @@
 //
 // __Most retention is the second kind while the defects period runs, and becomes__
 // __the first when it expires.__
+// தேக்கத்தை_வகைப்படுத்து(தேக்கத்_தொகைமதிப்பு, குறை_நீக்கம்_மட்டுமா) — தேக்கத் தொகையை வகைப்படுத்தும்
 செயல் தேக்கத்தை_வகைப்படுத்து(தேக்கத்_தொகைமதிப்பு, குறை_நீக்கம்_மட்டுமா) {
     திரும்பு {"தொகை": வட்டமிடு(தேக்கத்_தொகைமதிப்பு, 2),
               "வகை": உரிமை_வகை(குறை_நீக்கம்_மட்டுமா)};
@@ -118,6 +123,7 @@
 //
 // __What is actually collectable now from a bill: the certified amount less the__
 // __retention withheld from it.__
+// விலைப்பட்டியல்_நிகரம்(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) — தேக்கம் போக விலைப்பட்டியலின் நிகரத் தொகை
 செயல் விலைப்பட்டியல்_நிகரம்(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) {
     திரும்பு வட்டமிடு(விலைப்பட்டியல்_தொகை
                        - தேக்கத்_தொகை(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்), 2);
@@ -136,6 +142,7 @@
 // __The record also carries the net, because somebody will want it and it is__
 // __better computed here beside the two gross figures than derived somewhere__
 // __else without them. It is not what goes on the balance sheet.__
+// ஒப்பந்தங்களைத்_தொகு(நிலைகள்) — எல்லா ஒப்பந்தங்களின் இருப்புகளையும் தொகுக்கும்
 செயல் ஒப்பந்தங்களைத்_தொகு(நிலைகள்) {
     சொத்துக்_கூட்டல் = 0;
     பொறுப்புக்_கூட்டல் = 0;
@@ -158,6 +165,7 @@
 // __here because the size of the understatement is the only thing that makes the__
 // __rule feel worth obeying, and in a contracting business it is usually very__
 // __large.__
+// தவறாக_நிகரமிட்டால்(நிலைகள்) — சொத்தையும் பொறுப்பையும் தவறாக நிகரமிட்டால் என்ன விளையும்
 செயல் தவறாக_நிகரமிட்டால்(நிலைகள்) {
     தொகுப்பு_விடை = ஒப்பந்தங்களைத்_தொகு(நிலைகள்);
     சிறியது_பக்கம் = சிறியது(தொகுப்பு_விடை["மொத்தச்_சொத்து"],

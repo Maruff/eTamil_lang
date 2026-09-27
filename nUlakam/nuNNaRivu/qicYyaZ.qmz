@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/qicYyaZ.qmz — திசையன் (vector) arithmetic__
+// திசையன் கணிதம்
 //
 // __The floor everything else in nuNNaRivu stands on. A meaning-based search__
 // __reduces to one question asked many times: how close are these two lists of__
@@ -13,6 +14,7 @@
 இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __புள்ளிப்_பெருக்கம்(அ, ஆ) — the dot product of two vectors__
+// புள்ளிப்_பெருக்கம்(அ, ஆ) — இரு திசையன்களின் புள்ளிப் பெருக்கம்
 //
 // __தவறு when the lengths differ. Two vectors of different width come from two__
 // __different models, and a number computed across them would be meaningless__
@@ -33,6 +35,7 @@
 }
 
 // __திசை_அளவு(திசையன்) — the magnitude, or Euclidean length__
+// திசை_அளவு(திசையன்) — திசையனின் நீளம்
 //
 // __A plain number, not a சரி. The sum of squares cannot be negative, so the__
 // __one failure வர்க்கமூலம் has is unreachable from here, and making every__
@@ -47,6 +50,7 @@
 }
 
 // __ஒருமைப்படுத்து(திசையன்) — scale to unit length__
+// ஒருமைப்படுத்து(திசையன்) — நீளம் ஒன்றாகும்படி அளவிடும்
 //
 // __Worth doing once when a vector is stored rather than every time it is__
 // __compared: between two unit vectors the cosine is just the dot product, so__
@@ -63,6 +67,7 @@
 }
 
 // __கோசைன்_ஒற்றுமை(அ, ஆ) — the cosine of the angle between two vectors__
+// கோசைன்_ஒற்றுமை(அ, ஆ) — இரு திசையன்களுக்கு இடையேயான கோணத்தின் கோசைன்
 //
 // __1 means the same direction, 0 unrelated, -1 opposite. Length is divided__
 // __out, which is the property that matters here: a long document and a short__
@@ -80,6 +85,7 @@
 }
 
 // __கூட்டுத்_திசையன்(அ, ஆ) — add two vectors element by element__
+// கூட்டுத்_திசையன்(அ, ஆ) — இரு திசையன்களை உறுப்புவாரியாகக் கூட்டும்
 செயல் கூட்டுத்_திசையன்(அ, ஆ) {
     (நீளம்(அ) != நீளம்(ஆ)) எனில் {
         திரும்பு தவறு("திசையன் நீளங்கள் வேறுபடுகின்றன");
@@ -95,6 +101,7 @@
 }
 
 // __மடங்காக்கு(திசையன், மடங்கு) — multiply every element by a scalar__
+// மடங்காக்கு(திசையன், மடங்கு) — ஒவ்வொரு உறுப்பையும் ஒரு எண்ணால் பெருக்கும்
 செயல் மடங்காக்கு(திசையன், மடங்கு) {
     விடை = [];
     ஒவ்வொரு உறுப்பு இல் திசையன் {
@@ -104,6 +111,7 @@
 }
 
 // __சராசரித்_திசையன்(திசையன்_பட்டியல்) — the centroid of several vectors__
+// சராசரித்_திசையன்(திசையன்_பட்டியல்) — பல திசையன்களின் நடுப்புள்ளி
 //
 // __Used to represent a whole document by one vector when its parts were__
 // __embedded separately. தவறு on an empty list: the average of nothing is not__

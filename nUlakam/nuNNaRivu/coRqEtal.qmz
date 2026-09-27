@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/coRqEtal.qmz — சொற்தேடல், relevance by shared words (BM25)__
+// சொற்தேடல்: பகிரப்பட்ட சொற்களால் பொருத்தம் காணல்
 //
 // __Answers one question: which documents share the most telling words with__
 // __this query? Three ideas, each correcting a failure of the one before.__
@@ -32,12 +33,15 @@
 // __1.2 is the long-standing default and is not tuned here. Raising it makes__
 // __repeated terms count for more, lowering it flattens them towards presence__
 // __or absence. Worth changing only against a measured set of questions.__
+// கே1() — ஒரே பதம் திரும்பத் திரும்ப வருவது எவ்வளவு விரைவில் உதவாமல் போகிறது
 செயல் கே1() { திரும்பு 1.2; }
 
 // __பி — how strongly length is normalised, from 0 (not at all) to 1 (fully)__
+// பி() — ஆவண நீளம் எவ்வளவு வலுவாகச் சமன்படுத்தப்படுகிறது
 செயல் பி() { திரும்பு 0.75; }
 
 // __தலைகீழ்_அதிர்வெண்(மொத்த_ஆவணங்கள், ஆவண_எண்ணிக்கை) — the rarity weight (IDF)__
+// தலைகீழ்_அதிர்வெண்(மொத்த_ஆவணங்கள், ஆவண_எண்ணிக்கை) — அரிதான பதத்துக்கு அதிக எடை தரும் அளவை
 //
 // __ln((N − n + 0.5) / (n + 0.5) + 1). The halves keep it defined when a term__
 // __is in every document or in none, and the +1 keeps it positive: without it a__
@@ -51,6 +55,7 @@
 }
 
 // __ஆவண_மதிப்பெண்(குறியீட்டு, ஆவணம், கேள்விப்_பதங்கள்) — one document's score__
+// ஆவண_மதிப்பெண்(குறியீட்டு, ஆவணம், கேள்விப்_பதங்கள்) — ஓர் ஆவணத்தின் பொருத்த மதிப்பெண்
 //
 // __The sum over query terms of rarity × saturated, length-normalised count.__
 // __A term the document does not contain contributes nothing rather than__
@@ -77,6 +82,7 @@
 }
 
 // __பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — every document scored, best first__
+// பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — மதிப்பெண் இட்ட ஆவணங்கள், சிறந்தது முதலில்
 //
 // __Not named தேடு: col.qmz already exports a தேடு that finds a substring__
 // __and returns a position. A program importing both got whichever loaded__
@@ -97,6 +103,7 @@
 }
 
 // __சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) — the top n matches__
+// சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) — சிறந்த சில பொருத்தங்கள்
 செயல் சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) {
     திரும்பு முதல்_சில(பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்), எண்ணிக்கை);
 }

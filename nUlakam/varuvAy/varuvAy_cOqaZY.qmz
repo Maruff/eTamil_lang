@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வருவாய்_சோதனை — tests for revenue recognition, written in eTamil__
+// வருவாய் அங்கீகாரத்துக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/varuvAy/varuvAy_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__

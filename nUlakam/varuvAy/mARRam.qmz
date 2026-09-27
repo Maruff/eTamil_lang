@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/mARRam.qmz — மாற்றம், contract modifications__
+// ஒப்பந்த மாற்றங்கள்
 //
 // __A variation order is the commonest event in a project and the least__
 // __consistently accounted for. Ind AS 115 gives it **three** treatments, they__
@@ -43,6 +44,7 @@
 // __their own. The two being equal is what makes a modification a separate__
 // __contract, and they are almost never equal — a variation is usually priced__
 // __off the original contract's rates rather than off today's.__
+// மாற்றம்_ஆக்கு(மாற்றக்_குறி, கூடுதல்_மதிப்பு, கூடுதல்_தனி_மதிப்பு, ஏற்கப்பட்டதா) — ஒப்பந்த மாற்றப் பதிவை உருவாக்கும்
 செயல் மாற்றம்_ஆக்கு(மாற்றக்_குறி, கூடுதல்_மதிப்பு, கூடுதல்_தனி_மதிப்பு,
                      தனிப்_பொருட்களா, ஒப்புதல்_உண்டா) {
     திரும்பு {"குறி": மாற்றக்_குறி,
@@ -65,6 +67,7 @@
 // __and treating an unapproved variation as an approved modification is the way__
 // __a contractor recognises revenue for work the customer has not agreed to pay__
 // __for.__
+// மாற்றம்_ஏற்கப்பட்டதா(ஒரு_மாற்றம்) — இம்மாற்றம் இரு தரப்பாலும் ஏற்கப்பட்டதா
 செயல் மாற்றம்_ஏற்கப்பட்டதா(ஒரு_மாற்றம்) {
     திரும்பு ஒரு_மாற்றம்["ஒப்புதல்_உண்டா"];
 }
@@ -82,6 +85,7 @@
 // __A variation priced at the original contract's rates when those rates are no__
 // __longer what the work would fetch is not at standalone selling price, and it__
 // __is not a separate contract however cleanly it could be invoiced separately.__
+// தனி_ஒப்பந்தமா(ஒரு_மாற்றம்) — இம்மாற்றத்தைத் தனி ஒப்பந்தமாகக் கொள்ள வேண்டுமா
 செயல் தனி_ஒப்பந்தமா(ஒரு_மாற்றம்) {
     (இல்லை ஒரு_மாற்றம்["தனிப்_பொருட்களா"]) எனில் { திரும்பு பொய்; }
     திரும்பு ஒரு_மாற்றம்["கூடுதல்_மதிப்பு"]
@@ -99,6 +103,7 @@
 //
 // __Answers a தவறு for an unapproved modification rather than a kind, because__
 // __there is nothing to account for yet.__
+// மாற்ற_வகை(ஒரு_மாற்றம், எஞ்சியவை_தனியா) — மாற்றத்தை எவ்வாறு கணக்கிட வேண்டும்
 செயல் மாற்ற_வகை(ஒரு_மாற்றம், எஞ்சியவை_தனியா) {
     (இல்லை மாற்றம்_ஏற்கப்பட்டதா(ஒரு_மாற்றம்)) எனில் {
         திரும்பு தவறு("மாற்றம் ஒப்புக்கொள்ளப்படவில்லை  "
@@ -124,6 +129,7 @@
 // __as ended, so everything about it up to that date stands — which is what__
 // __makes this treatment prospective, and what makes it so much less disruptive__
 // __than the third one.__
+// எஞ்சிய_மதிப்பு(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், கூடுதல்_மதிப்பு) — இன்னும் ஈட்டப்படாத மதிப்பு
 செயல் எஞ்சிய_மதிப்பு(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், கூடுதல்_மதிப்பு) {
     விடை = மூல_மதிப்பு - அங்கீகரித்த_வருவாய் + கூடுதல்_மதிப்பு;
     (விடை < 0) எனில் { திரும்பு 0; }
@@ -137,6 +143,7 @@
 // __the treatment and the thing project managers find hardest to accept: after a__
 // __discounted variation, every remaining unit earns less than the contract said__
 // __it would, including the units that were never part of the variation.__
+// எஞ்சிய_அலகு_மதிப்பு(எஞ்சிய_மொத்தம், எஞ்சிய_அலகுகள்) — எஞ்சிய ஒரு அலகுக்கான மதிப்பு
 செயல் எஞ்சிய_அலகு_மதிப்பு(எஞ்சிய_மொத்தம், எஞ்சிய_அலகுகள்) {
     (எஞ்சிய_அலகுகள் <= 0) எனில் {
         திரும்பு தவறு("எஞ்சிய அலகுகள் இல்லை  "
@@ -160,6 +167,7 @@
 // __revenue to date falls with it. A variation order can therefore *reduce* this__
 // __period's revenue while increasing the contract's value, and both facts are__
 // __true at once.__
+// பிடிப்புத்_தொகை(புதிய_மொத்த_மதிப்பு, புதிய_முன்னேற்றம், அங்கீகரித்த_வருவாய்) — மாற்றத்தால் உடனே சரிசெய்ய வேண்டிய தொகை
 செயல் பிடிப்புத்_தொகை(புதிய_மொத்த_மதிப்பு, புதிய_முன்னேற்றம்,
                        அங்கீகரித்த_வருவாய்) {
     பயன்படும்_முன்னேற்றம் = புதிய_முன்னேற்றம்;
@@ -192,6 +200,7 @@
 // __A separate contract and a prospective modification both recognise **nothing__
 // __extra in the period of the change** — they differ in what happens to every__
 // __period after it.__
+// மூன்று_வழியும்(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், ஒரு_மாற்றம்) — மூன்று கணக்கீட்டு வழிகளையும் ஒப்பிட்டுக் காட்டும்
 செயல் மூன்று_வழியும்(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், ஒரு_மாற்றம்,
                       புதிய_முன்னேற்றம்) {
     புதிய_மொத்தம் = வட்டமிடு(மூல_மதிப்பு + ஒரு_மாற்றம்["கூடுதல்_மதிப்பு"], 2);
@@ -219,6 +228,7 @@
 // __The decision and its consequence together: work out which treatment applies,__
 // __then report only that one. This is what a caller should use;__
 // __மூன்று_வழியும் is for understanding the choice, not for making it.__
+// மாற்றத்தைப்_பயன்படுத்து(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், ஒரு_மாற்றம், எஞ்சியவை_தனியா) — மாற்றத்தை ஒப்பந்தத்தில் பயன்படுத்தும்
 செயல் மாற்றத்தைப்_பயன்படுத்து(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், ஒரு_மாற்றம்,
                                 எஞ்சியவை_தனியா, புதிய_முன்னேற்றம்) {
     வகை_விடை = மாற்ற_வகை(ஒரு_மாற்றம், எஞ்சியவை_தனியா);

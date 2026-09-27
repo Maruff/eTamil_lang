@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/coRpiri.qmz — சொற்பிரி, turning text into terms__
+// சொற்பிரி: உரையைப் பதங்களாக்குதல்
 //
 // __Every word-based search begins here, and two texts only ever match if this__
 // __file turns them into the same terms. "Reverse an array", "REVERSE AN ARRAY"__
@@ -18,6 +19,7 @@
 இறக்கு "../atippatY/aNi.qmz";
 
 // __பிரிப்பான்கள்() — every character that ends a term__
+// பிரிப்பான்கள்() — ஒரு பதத்தை முடிக்கும் எழுத்துகள் அனைத்தும்
 //
 // __A function rather than a literal inside the loop, so that இயல்பாக்கு and__
 // __பிரிப்பானா cannot drift apart. Two tokenizers that disagree by one__
@@ -33,6 +35,7 @@
 }
 
 // __இயல்பாக்கு(சரம்) — lower case, with every separator turned into a space__
+// இயல்பாக்கு(சரம்) — சிறிய எழுத்தாக்கி, பிரிப்பான் ஒவ்வொன்றையும் இடைவெளியாக்கும்
 //
 // __Runs before splitting so that the split itself is a plain space split.__
 // __Case folding is applied to the Latin letters; Tamil has no letter case, so__
@@ -52,6 +55,7 @@
 }
 
 // __பதங்கள்(சரம்) — the terms of a text, in order, empties dropped__
+// பதங்கள்(சரம்) — உரையின் பதங்கள், வந்த வரிசையில்; வெற்றுப் பதங்கள் நீக்கப்படும்
 //
 // __Order is kept rather than sorted. Nothing here uses adjacency yet, but a__
 // __tokenizer that throws away order cannot be extended to phrases later, and__
@@ -69,6 +73,7 @@
 }
 
 // __நிறுத்துப்_பதமா(பதம்) — is this word too common to carry meaning?__
+// நிறுத்துப்_பதமா(பதம்) — இப்பதம் பொருள் தராத அளவுக்குப் பொதுவானதா
 //
 // __Deliberately short. A long stop list removes words that turn out to matter:__
 // __"how do I" is noise in a document but is most of what distinguishes one__
@@ -82,6 +87,7 @@
 }
 
 // __பொருளுள்ளவை(பதங்கள்_பட்டியல்) — drop the stop words__
+// பொருளுள்ளவை(பதங்கள்_பட்டியல்) — நிறுத்துப் பதங்களை நீக்கும்; எல்லாம் நீங்கினால் மூலத்தையே தரும்
 //
 // __Everything is dropped only if everything was a stop word, in which case__
 // __the original is returned: "how is it" filtered to nothing would match every__
@@ -98,6 +104,7 @@
 }
 
 // __பிரிப்பானா(எழுத்து_ஒன்று) — does this character end a term?__
+// பிரிப்பானா(எழுத்து_ஒன்று) — இந்த எழுத்து ஒரு பதத்தை முடிக்குமா
 //
 // __Not used by இயல்பாக்கு any more, which replaces separators wholesale.__
 // __Kept because a caller inspecting text one character at a time still__
@@ -107,6 +114,7 @@
 }
 
 // __தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — the distinct terms, first occurrence kept__
+// தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — வேறுபட்ட பதங்கள், முதல் முறை வந்த வரிசையில்
 செயல் தனிப்பதங்கள்(பதங்கள்_பட்டியல்) {
     விடை = [];
     ஒவ்வொரு பதம் இல் பதங்கள்_பட்டியல் {
@@ -118,6 +126,7 @@
 }
 
 // __தேடல்_பதங்கள்(சரம்) — the whole pipeline, which is what callers want__
+// தேடல்_பதங்கள்(சரம்) — பிரித்து, வடிகட்டி, தனித்தவையாக்கும் முழு வரிசை
 //
 // __Split, drop stop words, deduplicate. Named separately from its parts so__
 // __that a question and a document are demonstrably put through the same__

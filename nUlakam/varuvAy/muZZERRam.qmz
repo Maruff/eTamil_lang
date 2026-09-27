@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/muZZERRam.qmz — முன்னேற்றம், step 5__
+// முன்னேற்றம்: வருவாய் அங்கீகாரத்தின் ஐந்தாம் படி
 //
 // __oppanqam.qmz allocates a price to each performance obligation. This module__
 // __answers the remaining question: how much of it has been earned.__
@@ -50,6 +51,7 @@
 // __merely for costs, and enforceable, not customary — revenue waits until__
 // __delivery. A great many construction contracts turn on this single point, and__
 // __the answer is in the termination clause rather than in the specification.__
+// காலப்போக்கிலா(கட்டுப்பாட்டுக்_குறியீடுகள்) — வருவாய் காலப்போக்கில் அங்கீகரிக்கப்பட வேண்டுமா
 செயல் காலப்போக்கிலா(ஒரே_நேரத்தில்_நுகர்கிறாரா, வாடிக்கையாளர்_கட்டுப்பாட்டிலா,
                       மாற்று_பயன்_இல்லையா, செலுத்த_உரிமை_உண்டா) {
     (ஒரே_நேரத்தில்_நுகர்கிறாரா) எனில் { திரும்பு மெய்; }
@@ -67,6 +69,7 @@
 // __No threshold is imposed, because the standard imposes none: three of five is__
 // __not an answer. The count is a prompt to look at which three, and a decision__
 // __that rests on a majority of indicators is a decision that has not been made.__
+// கட்டுப்பாட்டு_குறியீடுகள்(செலுத்த_உரிமை_உண்டா, உரிமம்_மாறியதா, பயன்பாடு_தொடங்கியதா, வேறு_பயன்_இல்லையா) — கட்டுப்பாடு மாறியதைக் காட்டும் குறியீடுகள்
 செயல் கட்டுப்பாட்டு_குறியீடுகள்(செலுத்த_உரிமை_உண்டா, உரிமம்_மாறியதா,
                                  கைவசம்_உள்ளதா, இடர்_பலன்_மாறியதா,
                                  ஏற்றுக்கொண்டாரா) {
@@ -84,6 +87,7 @@
 // =========================================================================
 
 // __முன்னேற்றத்தை_வரம்பிடு(கச்சா_முன்னேற்றம்) — held to 0 and 1__
+// முன்னேற்றத்தை_வரம்பிடு(கச்சா_முன்னேற்றம்) — பூஜ்ஜியத்துக்கும் ஒன்றுக்கும் இடையே வைக்கும்
 //
 // __An obligation cannot be more than satisfied. Costs overrunning the estimate__
 // __push a cost-to-cost measure above 1, and a progress of 1.2 would recognise__
@@ -102,6 +106,7 @@
 //
 // __A total expected cost of nothing is a தவறு rather than complete progress: an__
 // __obligation with no estimate has not been estimated.__
+// செலவு_முன்னேற்றம்(ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு) — செலவை வைத்து அளக்கும் முன்னேற்றம்
 செயல் செலவு_முன்னேற்றம்(ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு) {
     (மொத்த_எதிர்பார்க்கும்_செலவு <= 0) எனில் {
         திரும்பு தவறு("மொத்தச் செலவு மதிப்பிடப்படவில்லை  "
@@ -120,6 +125,7 @@
 //
 // __It is used less because outputs are harder to observe than costs, and that__
 // __is a practical reason rather than a conceptual one.__
+// வெளியீட்டு_முன்னேற்றம்(முடித்த_அளவு, மொத்த_அளவு) — வெளியீட்டை வைத்து அளக்கும் முன்னேற்றம்
 செயல் வெளியீட்டு_முன்னேற்றம்(முடித்த_அளவு, மொத்த_அளவு) {
     (மொத்த_அளவு <= 0) எனில் {
         திரும்பு தவறு("மொத்த அளவு இல்லை  (no total output to measure against)");
@@ -150,6 +156,7 @@
 // __entity procures them without being meaningfully involved in designing or__
 // __manufacturing them, and control passes to the customer before installation.__
 // __Deciding that is the caller's; the caller passes the cost.__
+// நிறுவாத_பொருள்_முன்னேற்றம்(ஏற்பட்ட_செலவு, பொருள்_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு) — நிறுவப்படாத பொருளை விலக்கிய முன்னேற்றம்
 செயல் நிறுவாத_பொருள்_முன்னேற்றம்(ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு,
                                     நிறுவாத_பொருள்_செலவு) {
     சரிசெய்த_ஏற்பட்டது = ஏற்பட்ட_செலவு - நிறுவாத_பொருள்_செலவு;
@@ -175,6 +182,7 @@
 // __The materials come back in at cost, outside the percentage. The two halves__
 // __are returned separately as well as the total, because the zero-margin part__
 // __is exactly what an auditor asks to see.__
+// நிறுவாத_பொருளுடன்_வருவாய்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு, பொருள்_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு) — நிறுவப்படாத பொருளைச் சேர்த்த வருவாய்
 செயல் நிறுவாத_பொருளுடன்_வருவாய்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு,
                                    மொத்த_எதிர்பார்க்கும்_செலவு,
                                    நிறுவாத_பொருள்_செலவு) {
@@ -200,6 +208,7 @@
 
 // இதுவரை_வருவாய்(ஒதுக்கிய_மதிப்பு, முன்னேற்றம்)
 // __இதுவரை_வருவாய்(ஒதுக்கிய_மதிப்பு, முன்னேற்றம்) — revenue earned to date on a performance obligation__
+// இதுவரை_வருவாய்(ஒதுக்கிய_மதிப்பு, முன்னேற்றம்) — இக்கடமையில் இதுவரை ஈட்டிய வருவாய்
 //
 // __The transaction price at the measured progress, with progress clamped to the range first. Cumulative, not incremental: IFRS 15 measures the position and the period's revenue is the difference between two of these, which is what keeps a revised estimate from restating what was already reported.__
 செயல் இதுவரை_வருவாய்(ஒதுக்கிய_மதிப்பு, முன்னேற்றம்) {
@@ -218,6 +227,7 @@
 //
 // __Clamping this at zero would carry the overstatement forward silently, which__
 // __is the one thing the cumulative method exists to prevent.__
+// இந்தக்_காலத்து_வருவாய்(இதுவரை_தொகை, முன்பு_அங்கீகரித்தது) — இக்காலத்தில் மட்டும் அங்கீகரிக்க வேண்டியது
 செயல் இந்தக்_காலத்து_வருவாய்(இதுவரை_தொகை, முன்பு_அங்கீகரித்தது) {
     திரும்பு வட்டக்_கழி(இதுவரை_தொகை, முன்பு_அங்கீகரித்தது);
 }
@@ -231,6 +241,7 @@
 // __Where recovery is not expected, nothing is recognised and the costs are an__
 // __expense. There is no third answer: a contract whose costs may not be__
 // __recovered does not get a reduced margin, it gets none.__
+// மீட்பளவு_வருவாய்(ஏற்பட்ட_செலவு, மீட்கக்கூடியதா) — முன்னேற்றத்தை அளக்க முடியாதபோது செலவளவு வருவாய்
 செயல் மீட்பளவு_வருவாய்(ஏற்பட்ட_செலவு, மீட்கக்கூடியதா) {
     (இல்லை மீட்கக்கூடியதா) எனில் { திரும்பு 0; }
     (ஏற்பட்ட_செலவு <= 0) எனில் { திரும்பு 0; }
@@ -248,6 +259,7 @@
 // __when a contract goes wrong. Progress and revenue both keep moving up while__
 // __the margin falls, and a report that shows only the first two shows a project__
 // __going well right up to the point where it does not.__
+// வருவாய்_நிலவரம்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு, முன்பு_அங்கீகரித்தது) — வருவாயின் முழு நிலவரம்
 செயல் வருவாய்_நிலவரம்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு,
                முன்பு_அங்கீகரித்தது) {
     முன்னேற்ற_விடை = செலவு_முன்னேற்றம்(ஏற்பட்ட_செலவு,

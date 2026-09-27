@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/mukavar.qmz — முகவர், principal or agent__
+// முதன்மையா முகவரா
 //
 // __One question, and it changes reported revenue by the entire cost of what was__
 // __bought in — while changing profit by **nothing at all**.__
@@ -51,6 +52,7 @@
 // __The one that carries most weight in practice is the first. A customer who__
 // __complains to the contractor about a subcontractor's work has told you__
 // __something about who controls the service.__
+// குறியீட்டு_எண்ணிக்கை(குறியீடுகள்) — முதன்மையைக் காட்டும் குறியீடுகள் எத்தனை
 செயல் குறியீட்டு_எண்ணிக்கை(நிறைவேற்ற_பொறுப்பா, சரக்கு_இடர்_உண்டா,
                             விலை_விருப்பம்_உண்டா) {
     எண்ணிக்கை = 0;
@@ -66,6 +68,7 @@
 // __The three answers kept separate as well as counted, so a file note can say__
 // __which indicators were present rather than how many. "Two of three" is not a__
 // __reason and does not survive being asked about.__
+// குறியீட்டு_விவரம்(நிறைவேற்ற_பொறுப்பா, சரக்கு_இடர்_உண்டா, விலை_நிர்ணய_உரிமை_உண்டா) — முதன்மையா என்பதைத் தீர்மானிக்கும் குறியீடுகள்
 செயல் குறியீட்டு_விவரம்(நிறைவேற்ற_பொறுப்பா, சரக்கு_இடர்_உண்டா,
                          விலை_விருப்பம்_உண்டா) {
     திரும்பு {"நிறைவேற்ற_பொறுப்பு": நிறைவேற்ற_பொறுப்பா,
@@ -84,6 +87,7 @@
 //
 // __The principal's presentation: the whole amount the customer pays is revenue,__
 // __and what the third party charges is cost of sales.__
+// முதன்மை_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — முதன்மையாக இருந்தால் மொத்த மதிப்பே வருவாய்
 செயல் முதன்மை_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) {
     திரும்பு {"வகை": "முதன்மையாளர்",
               "வருவாய்": வட்டமிடு(வாடிக்கையாளர்_மதிப்பு, 2),
@@ -101,6 +105,7 @@
 // __Showing the gross amount as revenue *and* the third party's charge as cost__
 // __is the agent's presentation done as a principal's, and it is the specific__
 // __error this pair exists to make visible.__
+// முகவர்_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — முகவராக இருந்தால் கமிஷன் மட்டுமே வருவாய்
 செயல் முகவர்_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) {
     கட்டணத்_தொகை = வட்டமிடு(வாடிக்கையாளர்_மதிப்பு - மூன்றாம்_தரப்பு_செலவு, 2);
     திரும்பு {"வகை": "முகவர்",
@@ -115,6 +120,7 @@
 // __Whichever applies. முதன்மையாளரா is the caller's conclusion about control —__
 // __this function does not reach it, because the standard does not let a count__
 // __of indicators reach it either.__
+// வருவாயை_அளவிடு(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு, குறியீடுகள்) — முதன்மையா முகவரா என்பதைப் பொறுத்து வருவாயை அளக்கும்
 செயல் வருவாயை_அளவிடு(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு,
                        முதன்மையாளரா) {
     (மூன்றாம்_தரப்பு_செலவு > வாடிக்கையாளர்_மதிப்பு) எனில் {
@@ -149,6 +155,7 @@
 // __presentations are actually being compared on, and they differ enormously: a__
 // __principal on these figures reports a twenty per cent margin and an agent a__
 // __hundred per cent one, on identical cash.__
+// இரு_வழியும்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — இரு வழியிலும் கணக்கிட்டு வேறுபாட்டைக் காட்டும்
 செயல் இரு_வழியும்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) {
     முதன்மை = முதன்மை_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு);
     முகவர் = முகவர்_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு);
