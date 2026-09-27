@@ -8,6 +8,79 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## Unreleased
+
+eTamil on Arduino boards. `etamil --artino` compiles a program to firmware for an
+Uno, Nano, Mega, Pico or Pico 2, and the VM gets a board of its own: pins and
+serial ports on a Raspberry Pi, and a simulated board anywhere. For the VM and
+the desktop backend, every program means what it meant under 1.2.0.
+
+### artino: a program as firmware
+
+`etamil --artino --board uno prog.qmz` lowers the program through LLVM to an
+object for the board and packages it as a precompiled Arduino library, with a
+sketch around it. arduino-cli then builds it, or uploads it with `--upload COM5`.
+Top-level statements run once at power-on, `இடைவெளி N { }` runs every N seconds,
+and `சுழற்சி()` runs every time round the loop.
+
+A board number is the value × 1000 in 64 bits: three decimals, as
+`வட்டமிடு` would give them. Wherever that differs from the VM — a
+rounding, an overflow, a division by zero — the board says so once, over
+serial, and carries on. It never gives a different answer silently.
+
+Text and letters are counted as the VM counts them. So are arrays, results and
+`?`, `வடிவம்` records and serial ports. `nUlakam/col.qmz` and `aNi.qmz` compile
+for a board as written. `docs/artino.md` has what compiles, what is refused and
+why, and what each board takes.
+
+An Uno has 32 KB of flash and 2 KB of RAM. After every Uno, Nano or Mega build,
+`etamil` shows how much RAM the variables and the deepest stack can take,
+because arduino-cli counts only the first.
+
+### C++ libraries, through artino.toml
+
+A manifest beside the program names the C++ it may call: libraries, headers,
+objects, and an eTamil name for each call. Numbers, booleans and text cross the
+boundary. A `[[port]]` makes a Stream, such as SoftwareSerial, one of the
+program's serial ports. The examples drive a servo, a ring of NeoPixels and a
+DS18B20 thermometer.
+
+### The hardware library
+
+`nUlakam/vaZporuL/` holds the hardware API — pins, analog readings, time,
+serial ports, tone and the watchdog — and a file of pin names for each board:
+`yUnO`, `nAnO`, `mekA`, `pIkO` and `rAspY`. Importing a board's file names its
+pins, such as `விளக்கு_முனை` or `ஒப்புமை_0`, so moving a program to another board
+is changing one line. artino refuses a board file that does not match
+`--board`.
+
+On the VM the same functions work too. `ETAMIL_BOARD=sim` gives a simulated
+board on any machine, where a test sets the pins, feeds the serial ports and
+moves the clock. A Raspberry Pi's pins work through the Linux GPIO device, and
+serial ports by device path on Linux and macOS. Neither has run on real
+hardware yet. Windows has the simulated board only.
+
+### Editor support
+
+VS Code gains *Build for a board* and *Build and upload to a board*. They need
+an `etamil` built with `--features llvm`, and the compiler the extension
+carries has none. Completions and highlighting know the 20 new builtins and the
+board files: 82 builtins and 722 library functions.
+
+### For contributors
+
+- **artino's conformance suite runs in CI.** `scripts/artino_conformance.sh`
+  compiles every `tests/artino` program for the runner and compares it with
+  the VM. It runs again as `host-small`, which is how an Uno is compiled.
+  Every artino program is also compiled for Uno, Mega, Pico and Pico 2. That
+  is the only place the AVR and ARM code generation is exercised.
+- **Hardware can be tested off the board.** A `.world` file beside a test
+  scripts time, pins, analog readings and the lines arriving on each serial
+  port, including nodes that answer a program's polls.
+- **The LLVM build takes `libc` on Unix**, for termios and the GPIO ioctls.
+
+---
+
 ## 1.2.0 — 2026-09-27
 
 A package for the Raspberry Pi, one file extension instead of two, and a
