@@ -4302,12 +4302,10 @@ fn a_program_with_no_tamil_letter_in_it_runs() {
 
 #[test]
 fn has_field_answers_for_present_and_absent_keys() {
-    let vm = run(
-        r#"ப = { a: 1, b: "two" };
+    let vm = run(r#"ப = { a: 1, b: "two" };
            உண்டு = புலம்_உள்ளதா(ப, "a");
            இல்லை_ = புலம்_உள்ளதா(ப, "z");
-           காலி = புலம்_உள்ளதா({}, "a");"#,
-    )
+           காலி = புலம்_உள்ளதா({}, "a");"#)
     .unwrap();
 
     assert_eq!(text(&vm, "உண்டு"), "true");
@@ -4317,11 +4315,9 @@ fn has_field_answers_for_present_and_absent_keys() {
 
 #[test]
 fn field_or_returns_the_field_or_the_fallback() {
-    let vm = run(
-        r#"ப = { b: "two" };
+    let vm = run(r#"ப = { b: "two" };
            இருப்பது = புலம்_அல்லது(ப, "b", "மாற்று");
-           இல்லாதது = புலம்_அல்லது(ப, "z", "மாற்று");"#,
-    )
+           இல்லாதது = புலம்_அல்லது(ப, "z", "மாற்று");"#)
     .unwrap();
 
     assert_eq!(text(&vm, "இருப்பது"), "two");
@@ -4330,11 +4326,9 @@ fn field_or_returns_the_field_or_the_fallback() {
 
 #[test]
 fn field_builtins_answer_to_romanized_names_too() {
-    let vm = run(
-        r#"ப = { a: 1 };
+    let vm = run(r#"ப = { a: 1 };
            அ = pulam_uLLaqA(ப, "a");
-           ஆ = pulam_allaqu(ப, "z", 9);"#,
-    )
+           ஆ = pulam_allaqu(ப, "z", 9);"#)
     .unwrap();
 
     assert_eq!(text(&vm, "அ"), "true");
@@ -4346,11 +4340,9 @@ fn field_builtins_answer_to_romanized_names_too() {
 // stored பொய் or 0 would silently rewrite data that was explicitly set.
 #[test]
 fn field_or_returns_a_stored_falsy_value_rather_than_the_fallback() {
-    let vm = run(
-        r#"ப = { பூஜ்ஜியம்: 0, பொய்யானது: பொய் };
+    let vm = run(r#"ப = { பூஜ்ஜியம்: 0, பொய்யானது: பொய் };
            அ = புலம்_அல்லது(ப, "பூஜ்ஜியம்", 99);
-           ஆ = புலம்_அல்லது(ப, "பொய்யானது", மெய்);"#,
-    )
+           ஆ = புலம்_அல்லது(ப, "பொய்யானது", மெய்);"#)
     .unwrap();
 
     assert_eq!(num(&vm, "அ"), dec(0));
@@ -4427,11 +4419,9 @@ fn self_concatenation_still_joins_a_non_string_left_side() {
 // The global must be left alone.
 #[test]
 fn appending_to_an_outer_string_does_not_write_through() {
-    let vm = run(
-        r#"வெளியது = "g";
+    let vm = run(r#"வெளியது = "g";
            செயல் தொடு() { வெளியது = வெளியது & "h"; திரும்பு வெளியது; }
-           உள்ளே = தொடு();"#,
-    )
+           உள்ளே = தொடு();"#)
     .unwrap();
 
     assert_eq!(text(&vm, "உள்ளே"), "gh");
@@ -4449,13 +4439,11 @@ fn concatenation_to_a_different_name_leaves_the_source_alone() {
 
 #[test]
 fn sort_orders_numbers_numerically_and_strings_by_text() {
-    let vm = run(
-        r#"எண்கள் = வரிசையாக்கு([5, 1, 10, 2]);
+    let vm = run(r#"எண்கள் = வரிசையாக்கு([5, 1, 10, 2]);
            முதல் = எண்கள்[0];
            கடைசி = எண்கள்[3];
            சொற்கள் = வரிசையாக்கு(["pear", "apple", "fig"]);
-           முன் = சொற்கள்[0];"#,
-    )
+           முன் = சொற்கள்[0];"#)
     .unwrap();
 
     assert_eq!(num(&vm, "முதல்"), dec(1));
@@ -4484,11 +4472,9 @@ fn sort_by_field_orders_records_and_leaves_the_original_alone() {
 // row out of a retriever should cost that row its place, not the whole ranking.
 #[test]
 fn sort_by_field_tolerates_a_record_without_the_field() {
-    let vm = run(
-        r#"ம = [ { பெயர்: "x", மதிப்பெண்: 3 }, { பெயர்: "d" } ];
+    let vm = run(r#"ம = [ { பெயர்: "x", மதிப்பெண்: 3 }, { பெயர்: "d" } ];
            ஏறு = புலத்தால்_வரிசையாக்கு(ம, "மதிப்பெண்", பொய்);
-           முதல் = ஏறு[0].பெயர்;"#,
-    )
+           முதல் = ஏறு[0].பெயர்;"#)
     .unwrap();
 
     assert_eq!(text(&vm, "முதல்"), "d");
@@ -4508,15 +4494,21 @@ fn two_imported_modules_may_not_define_the_same_name() {
     std::fs::write(dir.join("alpha.qmz"), "செயல் மோதல்(அ) { திரும்பு அ; }\n").unwrap();
     std::fs::write(dir.join("beta.qmz"), "செயல் மோதல்(அ) { திரும்பு அ; }\n").unwrap();
 
-    let problem = etamil_compiler::module::load_source(
-        "இறக்கு \"alpha.qmz\";\nஇறக்கு \"beta.qmz\";\n",
-        &dir,
-    )
-    .unwrap_err();
+    let problem =
+        etamil_compiler::module::load_source("இறக்கு \"alpha.qmz\";\nஇறக்கு \"beta.qmz\";\n", &dir)
+            .unwrap_err();
 
     assert!(problem.contains("மோதல்"), "{}", problem);
-    assert!(problem.contains("alpha.qmz"), "both files should be named: {}", problem);
-    assert!(problem.contains("beta.qmz"), "both files should be named: {}", problem);
+    assert!(
+        problem.contains("alpha.qmz"),
+        "both files should be named: {}",
+        problem
+    );
+    assert!(
+        problem.contains("beta.qmz"),
+        "both files should be named: {}",
+        problem
+    );
     let _ = std::fs::remove_dir_all(&dir);
 }
 
@@ -4550,10 +4542,7 @@ fn importing_the_same_module_twice_is_not_a_collision() {
     let _ = std::fs::create_dir_all(&dir);
     std::fs::write(dir.join("alpha.qmz"), "செயல் ஒற்றை(அ) { திரும்பு அ; }\n").unwrap();
 
-    etamil_compiler::module::load_source(
-        "இறக்கு \"alpha.qmz\";\nஇறக்கு \"alpha.qmz\";\n",
-        &dir,
-    )
-    .expect("importing the same file twice is not a redefinition");
+    etamil_compiler::module::load_source("இறக்கு \"alpha.qmz\";\nஇறக்கு \"alpha.qmz\";\n", &dir)
+        .expect("importing the same file twice is not a redefinition");
     let _ = std::fs::remove_dir_all(&dir);
 }

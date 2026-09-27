@@ -929,7 +929,7 @@ impl VM {
                             .unwrap_or(std::cmp::Ordering::Equal)
                     });
                 } else {
-                    sorted.sort_by(|a, b| a.to_string().cmp(&b.to_string()));
+                    sorted.sort_by_key(|value| value.to_string());
                 }
                 Ok(Value::Array(sorted))
             }
