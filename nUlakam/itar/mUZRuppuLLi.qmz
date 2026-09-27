@@ -204,6 +204,7 @@
 // __answer is effectively certain, and saying 99.98 rather than 100 keeps a__
 // __caller from reading a confidence of exactly one hundred per cent off a__
 // __schedule, which no schedule has ever had.__
+// இயல்நிலை வளைவில் ஒரு புள்ளிக்கு உரிய நிகழ்தகவு
 செயல் _நிகழ்தகவு_Z(_z_மதிப்பு) {
     (_z_மதிப்பு < 0) எனில் {
         திரும்பு வட்டமிடு(100 - _நிகழ்தகவு_Z(0 - _z_மதிப்பு), 2);
@@ -233,6 +234,7 @@
 //
 // __The table read backwards, for the question a sponsor actually asks: not__
 // __"how likely is this date" but "what date can I commit to".__
+// சொன்ன நிகழ்தகவுக்கு உரிய இயல்நிலை வளைவுப் புள்ளி
 செயல் _நம்பிக்கைக்கான_Z(நிகழ்தகவு_சதவீதம்) {
     (நிகழ்தகவு_சதவீதம் <= 0 அல்லது நிகழ்தகவு_சதவீதம் >= 100) எனில் {
         திரும்பு தவறு("நம்பிக்கை 0 முதல் 100 வரை இருக்க வேண்டும்  "

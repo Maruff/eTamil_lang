@@ -93,6 +93,7 @@
 // __Sons" would otherwise end the parameter at the ampersand. Only what has to__
 // __be escaped is escaped: over-escaping produces a link that works and displays__
 // __wrongly in the payer's app.__
+// உரை_மறை(மூலப்_பாடம்) — இணைப்பில் பாதுகாப்பாக வைக்க உரையை விடுவிக்கும்
 செயல் உரை_மறை(மூலப்_பாடம்) {
     வெளியே = மாற்று(மூலப்_பாடம், "%", "%25");
     வெளியே = மாற்று(வெளியே, "&", "%26");

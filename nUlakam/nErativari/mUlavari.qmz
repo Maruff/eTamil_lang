@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/mUlavari.qmz — மூலவரி, tax deducted at source__
+// மூலவரி: மூலத்திலேயே பிடிக்கப்படும் வரி
 //
 // __Tax deducted at source is not a tax. It is a collection mechanism, and the__
 // __person it falls on is not the person who owes anything: the payer deducts,__
@@ -44,6 +45,7 @@
 // __Pass 0 for a threshold that does not exist. A section with neither — tax__
 // __deducted on the first rupee — is written with both as 0 and behaves__
 // __correctly: பிடிக்க_வேண்டுமா then says yes to any positive payment.__
+// பிரிவு_ஆக்கு(பிரிவுக்_குறி, விவரம், பிடித்த_வீதம், ஒரு_முறை_எல்லை, ஆண்டு_எல்லை) — ஒரு மூலவரிப் பிரிவை வரையறுக்கும்
 செயல் பிரிவு_ஆக்கு(பிரிவுக்_குறி, விவரம், பிடித்த_வீதம், ஒரு_முறை_எல்லை,
                      ஆண்டு_எல்லை) {
     திரும்பு {"பிரிவு": பிரிவுக்_குறி,
@@ -66,6 +68,7 @@
 // __current payment. A year of eight payments of twenty thousand under a section__
 // __with a single-payment limit of thirty thousand and an annual limit of a lakh__
 // __crosses on the sixth, not on any single one of them.__
+// பிடிக்க_வேண்டுமா(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது) — இச்செலுத்தலுக்கு மூலவரி பிடிக்க வேண்டுமா
 செயல் பிடிக்க_வேண்டுமா(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது) {
     (இந்தத்_தொகை <= 0) எனில் { திரும்பு பொய்; }
 
@@ -98,6 +101,7 @@
 // __முன்பு_பிடித்தது is what has already been deducted this year under this__
 // __section, so that a year which crossed the single-payment limit earlier does__
 // __not pay twice on the same money.__
+// பிடித்த_அடிப்படை(விலைப்பட்டியல்_மொத்தம், வணிகவரித்_தொகை, நீக்கவா) — மூலவரி கணக்கிடப்படும் அடிப்படைத் தொகை
 செயல் பிடித்த_அடிப்படை(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது,
                          முன்பு_பிடித்தது) {
     (இல்லை பிடிக்க_வேண்டுமா(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது)) எனில் {
@@ -145,6 +149,7 @@
 // __A certificate does not survive a missing PAN. The floor applies regardless,__
 // __which is the one interaction between the two, and the reason the order here__
 // __is certificate first and floor second rather than the other way round.__
+// பயன்படும்_வீதம்(ஒரு_பிரிவு, நிரந்தரக்_கணக்கெண்_உண்டா) — பொருந்தும் பிடித்த வீதம்
 செயல் பயன்படும்_வீதம்(பிரிவு_வீதம், பான்_உள்ளதா, பான்_இல்லா_தளம்,
                         சான்று_உள்ளதா, சான்று_வீதம்) {
     பயன்_வீதம் = பிரிவு_வீதம்;
@@ -165,6 +170,7 @@
 //
 // __A flag rather than an inference, because "shown separately" is a fact about__
 // __the document and not about the numbers.__
+// வரி_நீக்கிய_அடிப்படை(விலைப்பட்டியல்_மொத்தம், வணிகவரித்_தொகை, நீக்கவா) — வணிக வரியை நீக்கிய அடிப்படை
 செயல் வரி_நீக்கிய_அடிப்படை(விலைப்பட்டியல்_மொத்தம், வணிகவரித்_தொகை, நீக்கவா) {
     (இல்லை நீக்கவா) எனில் { திரும்பு வட்டமிடு(விலைப்பட்டியல்_மொத்தம், 2); }
     விடை = விலைப்பட்டியல்_மொத்தம் - வணிகவரித்_தொகை;
@@ -188,6 +194,7 @@
 // __fell mid-year can produce a computed liability lower than what has already__
 // __been deducted, and the answer to that is to deduct nothing further, not to__
 // __refund from the payer's own pocket.__
+// பிடித்தத்_தொகை(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது, நிரந்தரக்_கணக்கெண்_உண்டா) — பிடிக்க வேண்டிய தொகை
 செயல் பிடித்தத்_தொகை(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது,
                        முன்பு_பிடித்தது, பயன்_வீதம்) {
     விவரங்கள் = பிடித்த_அடிப்படை(ஒரு_பிரிவு, இந்தத்_தொகை,
@@ -220,6 +227,7 @@
 // __year's total at the end gives the same grand total and the wrong month for__
 // __every deduction, and the month is what the quarterly return and the interest__
 // __computation are about.__
+// ஆண்டுப்_பிடித்தம்(ஒரு_பிரிவு, செலுத்தல்கள், பயன்_வீதம்) — ஆண்டு முழுவதற்கும் பிடித்தம்
 செயல் ஆண்டுப்_பிடித்தம்(ஒரு_பிரிவு, செலுத்தல்கள், பயன்_வீதம்) {
     ஓடும்_செலுத்தல் = 0;
     ஓடும்_பிடித்தம் = 0;
@@ -256,6 +264,7 @@
 // __**calendar** months, and February will disagree with this by a day — so a__
 // __caller holding dates should count the calendar months itself and pass the__
 // __interest functions that number instead.__
+// முழு_மாதங்கள்(நாட்களின்_எண்ணிக்கை) — நாட்களை முழு மாதங்களாக; பகுதி மாதமும் ஒன்றாகக் கணக்கு
 செயல் முழு_மாதங்கள்(நாட்களின்_எண்ணிக்கை) {
     திரும்பு வட்ட_மாதங்கள்(நாட்களின்_எண்ணிக்கை);
 }
@@ -266,6 +275,7 @@
 // __date the tax was **deductible** — not from the date it would have been due__
 // __for deposit. The clock starts at the invoice, and a deductor who discovers__
 // __the default a year later owes twelve months.__
+// பிடிக்காத_வட்டி(பிடிக்க_வேண்டியது, மாத_வீதம், மாதங்கள்) — பிடிக்கத் தவறியதற்கான வட்டி
 செயல் பிடிக்காத_வட்டி(பிடிக்க_வேண்டியது, மாத_வீதம், மாதங்கள்) {
     திரும்பு வட்டித்_தொகை(பிடிக்க_வேண்டியது, மாத_வீதம், மாதங்கள்);
 }
@@ -276,6 +286,7 @@
 // __rate is higher because the money is the government's and is being held: this__
 // __is not a late payment of the deductor's own liability but a failure to hand__
 // __over somebody else's tax.__
+// செலுத்தாத_வட்டி(பிடித்த_தொகை, மாத_வீதம், மாதங்கள்) — பிடித்தும் செலுத்தாததற்கான வட்டி
 செயல் செலுத்தாத_வட்டி(பிடித்த_தொகை, மாத_வீதம், மாதங்கள்) {
     திரும்பு வட்டித்_தொகை(பிடித்த_தொகை, மாத_வீதம், மாதங்கள்);
 }
@@ -296,6 +307,7 @@
 // __The last month absorbs the rounding, the same way the last instalment of a__
 // __loan does; that is the caller's business, and re-running this each month__
 // __with the current estimate produces it naturally.__
+// சம்பள_பிடித்தம்(ஆண்டு_வரி, மீதி_மாதங்கள், ஏற்கனவே_பிடித்தது) — மீதி மாதங்களுக்குச் சம்பளத்தில் பிடிக்க வேண்டியது
 செயல் சம்பள_பிடித்தம்(ஆண்டு_வரி, மீதி_மாதங்கள், ஏற்கனவே_பிடித்தது) {
     (மீதி_மாதங்கள் <= 0) எனில் { திரும்பு 0; }
     மீதி_வரி = ஆண்டு_வரி - ஏற்கனவே_பிடித்தது;
@@ -304,6 +316,7 @@
 }
 
 // __வட்டித்_தொகை(அடிப்படை, மாத_வீதம், மாதங்கள்) — simple interest, by the month__
+// வட்டித்_தொகை(அடிப்படை, மாத_வீதம், மாதங்கள்) — மாதவாரியான எளிய வட்டி
 //
 // __Both s.201(1A) interests are this; what differs between them is the rate the__
 // __caller passes and the date the months are counted from, which is the__

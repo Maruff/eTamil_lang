@@ -75,6 +75,7 @@
 //
 // __Addition, subtraction and multiplication by a count: exact on any backend,__
 // __because whole numbers are exact in a double.__
+// காசு_கூட்டு(அ, ஆ) — இரு பணத் தொகைகளைக் கூட்டும்
 செயல் காசு_கூட்டு(அ, ஆ) { திரும்பு அ + ஆ; }
 // __காசு_கழி(அ, ஆ) — subtract one money amount from another__
 // காசு_கழி(அ, ஆ) — ஒரு தொகையிலிருந்து இன்னொன்றைக் கழிக்கும்

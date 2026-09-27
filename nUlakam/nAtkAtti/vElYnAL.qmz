@@ -28,6 +28,7 @@
 
 // __How far forward or back a search will go before giving up. A run of__
 // __holidays longer than this is not a calendar, it is a mistake in one.__
+// தேடல்_எல்லை() — வேலை நாள் தேடலில் எத்தனை நாட்கள் வரை தேடுவது
 செயல் தேடல்_எல்லை() { திரும்பு 400; }
 
 // =========================================================================

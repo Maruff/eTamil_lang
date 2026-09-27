@@ -17,7 +17,6 @@
 //     __ஓட்டம் = சமம்(ஓட்டம், வரி_தொகை(1000, 18%), 180, "18% of 1000");__
 //     __ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்(பட்டியல்) > 0, "the list is not empty");__
 //     சோதனை_முடிவு(ஓட்டம்);
-// சோதனை_முடிவு(ஓட்டம்) — சுருக்கமும், வெளியேறும் நிலைக்குறியும்
 //
 // __சோதனை_முடிவு exits non-zero when anything failed, so a suite that reports a__
 // __failure also fails the process running it.__
@@ -93,6 +92,7 @@
 //
 // __Reporting a failure and exiting 0 tells the truth to a reader and a lie to__
 // __everything else that runs this.__
+// சோதனை_முடிவு(ஓட்டம்) — சுருக்கமும், வெளியேறும் நிலைக்குறியும்
 செயல் சோதனை_முடிவு(ஓட்டம்) {
     மொத்தம் = ஓட்டம்["வெற்றி"] + ஓட்டம்["தோல்வி"];
     அச்சு "";

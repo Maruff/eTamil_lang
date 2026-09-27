@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/ceyalpAtu.qmz — செயல்பாடு, activity-based costing__
+// செயல்பாட்டு அடிப்படைச் செலவுக் கணக்கு
 //
 // __mElnilY.qmz absorbs overhead on a single rate over a single base — labour__
 // __hours, machine hours, units. That works when overhead is *caused* by volume,__
@@ -42,6 +43,7 @@
 //
 // __மொத்த_இயக்கி_அளவு is the total across all products, which is what makes the__
 // __rate. A driver volume that omits some products charges the rest too much.__
+// செயல்பாடு_ஆக்கு(செயல்பாட்டுக்_குறி, விவரம், தொகுப்புச்_செலவு, இயக்கிப்_பெயர், இயக்கி_அளவு) — ஒரு செயல்பாட்டை உருவாக்கும்
 செயல் செயல்பாடு_ஆக்கு(செயல்பாட்டுக்_குறி, விவரம், தொகுப்புச்_செலவு,
                         இயக்கிப்_பெயர், மொத்த_இயக்கி_அளவு) {
     திரும்பு {"குறி": செயல்பாட்டுக்_குறி,
@@ -52,6 +54,7 @@
 }
 
 // __இயக்கி_விகிதம்(ஒரு_செயல்பாடு) — cost per unit of driver__
+// இயக்கி_விகிதம்(ஒரு_செயல்பாடு) — இயக்கியின் ஓர் அலகுக்குச் செலவு
 //
 // __A driver volume of nothing is a தவறு rather than an infinite rate. An__
 // __activity that happened no times and cost money is a pool that belongs__
@@ -67,6 +70,7 @@
 }
 
 // __நுகர்வு_ஆக்கு(செயல்பாட்டுக்_குறி, நுகர்ந்த_அளவு) — one product's consumption of one activity__
+// நுகர்வு_ஆக்கு(செயல்பாட்டுக்_குறி, நுகர்ந்த_அளவு) — ஒரு தயாரிப்பு ஒரு செயல்பாட்டை எவ்வளவு நுகர்ந்தது
 //
 // __How many setups, inspections or orders this product actually caused. The whole of activity-based costing is that this number differs between products in a way machine hours do not capture.__
 செயல் நுகர்வு_ஆக்கு(செயல்பாட்டுக்_குறி, நுகர்ந்த_அளவு) {
@@ -84,6 +88,7 @@
 //
 // __An activity the product consumes nothing of charges it nothing, which is the__
 // __whole idea and the thing a blanket rate cannot do.__
+// தயாரிப்பின்_மேல்நிலை(செயல்பாடுகள், நுகர்வுகள்) — ஒரு தயாரிப்புக்கு ஏற்றப்படும் மேல்நிலை
 செயல் தயாரிப்பின்_மேல்நிலை(செயல்பாடுகள், நுகர்வுகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_நுகர்வு இல் நுகர்வுகள் {
@@ -102,6 +107,7 @@
 //
 // __The single blanket rate, for comparison: total overhead over total base,__
 // __applied to this product's share of the base.__
+// பாரம்பரிய_மேல்நிலை(மொத்த_மேல்நிலை, மொத்த_அடிப்படை, தயாரிப்பின்_அடிப்படை) — ஒற்றை அடிப்படையில் பழைய முறை
 செயல் பாரம்பரிய_மேல்நிலை(மொத்த_மேல்நிலை, மொத்த_அடிப்படை, தயாரிப்பின்_அடிப்படை) {
     (மொத்த_அடிப்படை <= 0) எனில் {
         திரும்பு தவறு("அடிப்படை அளவு இல்லை  (no absorption base)");
@@ -111,6 +117,7 @@
 }
 
 // __தொகுப்புகளின்_கூட்டல்(செயல்பாடுகள்) — every activity cost pool added up__
+// தொகுப்புகளின்_கூட்டல்(செயல்பாடுகள்) — எல்லாச் செயல்பாட்டுத் தொகுப்புகளும் கூட்டியது
 //
 // __Must equal the overhead being assigned. The audit that activity-based costing redistributes overhead rather than inventing it: a finer allocation should move cost between products, never change how much there is.__
 செயல் தொகுப்புகளின்_கூட்டல்(செயல்பாடுகள்) {
@@ -138,6 +145,7 @@
 //
 // __The sign convention: a positive shift means the traditional method charged__
 // __**more** than the activities justify — the product was subsidising others.__
+// குறுக்கு_மானியம்(செயல்பாடுகள், நுகர்வுகள், மொத்த_அடிப்படை, தயாரிப்பின்_அடிப்படை, மொத்த_மேல்நிலை) — பழைய முறை ஒரு தயாரிப்புக்கு மறைமுகமாகத் தந்த மானியம்
 செயல் குறுக்கு_மானியம்(செயல்பாடுகள், நுகர்வுகள், மொத்த_அடிப்படை,
                         தயாரிப்பின்_அடிப்படை, அலகுகள்) {
     செயல்பாட்டு_விடை = தயாரிப்பின்_மேல்நிலை(செயல்பாடுகள், நுகர்வுகள்);
@@ -181,6 +189,7 @@
 // __threshold, as a percentage of what the traditional method charged. The__
 // __threshold is a parameter because materiality is a judgement, and there is__
 // __no default.__
+// பயனளிக்குமா(செயல்பாடுகள், நுகர்வுகள், மொத்த_அடிப்படை, தயாரிப்பின்_அடிப்படை, மொத்த_மேல்நிலை, எல்லை) — செயல்பாட்டு முறைக்கு மாறுவது பயனளிக்குமா
 செயல் பயனளிக்குமா(செயல்பாடுகள், நுகர்வுகள், மொத்த_அடிப்படை,
                    தயாரிப்பின்_அடிப்படை, பொருட்படும்_விகிதம்) {
     ஒப்பீட்டு_விடை = குறுக்கு_மானியம்(செயல்பாடுகள், நுகர்வுகள், மொத்த_அடிப்படை,
@@ -204,6 +213,7 @@
 // __redistributes rather than reduces. A system that assigns less than the pools__
 // __hold has lost overhead into an activity nobody consumes, and the difference__
 // __will reappear as an under-absorption nobody can explain.__
+// மொத்தம்_மாறவில்லையா(செயல்பாட்டுத்_தொகைகள், மொத்த_மேல்நிலை) — பகிர்ந்த பிறகும் மொத்தம் அதேதானா
 செயல் மொத்தம்_மாறவில்லையா(செயல்பாட்டுத்_தொகைகள், மொத்த_மேல்நிலை) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_தொகை இல் செயல்பாட்டுத்_தொகைகள் {

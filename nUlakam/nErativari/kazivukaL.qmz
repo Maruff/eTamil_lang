@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/kazivukaL.qmz — கழிவுகள், Chapter VI-A__
+// கழிவுகள்
 //
 // __Gross total income comes out of varumAZam.qmz. Total income is what is left__
 // __after this, and the gap between them is where most of the arithmetic errors__
@@ -43,6 +44,7 @@
 // __indistinguishable from the outside: a contribution inside the aggregate and__
 // __an additional contribution outside it can be the same payment, to the same__
 // __fund, on the same day, claimed under two provisions.__
+// கழிவு_ஆக்கு(பிரிவுக்_குறி, கோரிய_தொகை, உச்ச_வரம்பு, கூட்டுக்குள்ளா) — ஒரு கழிவுக் கோரிக்கையை உருவாக்கும்
 செயல் கழிவு_ஆக்கு(பிரிவுக்_குறி, கோரிய_தொகை, உச்ச_வரம்பு, கூட்டுக்குள்ளா) {
     திரும்பு {"பிரிவு": பிரிவுக்_குறி,
               "கோரியது": வட்டமிடு(கோரிய_தொகை, 2),
@@ -51,6 +53,7 @@
 }
 
 // __தனி_வரம்பு(ஒரு_கழிவு) — the section's own ceiling, applied__
+// தனி_வரம்பு(ஒரு_கழிவு) — அப்பிரிவுக்கே உரிய உச்ச வரம்பைப் பயன்படுத்தும்
 //
 // __A deduction is never more than what was actually paid, which is why the__
 // __claim is the other half of the comparison. A ceiling used as the deduction —__
@@ -85,6 +88,7 @@
 // __"over and above" the aggregate is worth exactly as much as the aggregate__
 // __room it does not consume, and a library that pools everything silently__
 // __throws that away.__
+// கூட்டுக்_கழிவுகள்(கழிவுப்_பட்டியல்) — ஒரே கூட்டு வரம்புக்குள் வரும் கழிவுகள்
 செயல் கூட்டுக்_கழிவுகள்(கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு) {
     உள்ளே_கூட்டல் = 0;
     வெளியே_கூட்டல் = 0;
@@ -112,6 +116,7 @@
 // __How much of the aggregate ceiling is still unused. The one number a person__
 // __deciding what to do with a year-end bonus actually wants, and the one a__
 // __return never shows because by then the year is over.__
+// மீதமுள்ள_இடம்(கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு) — கூட்டு வரம்பில் இன்னும் மிச்சம் உள்ள இடம்
 செயல் மீதமுள்ள_இடம்(கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு) {
     (கூட்டு_உச்ச_வரம்பு <= 0) எனில் { திரும்பு 0; }
     பயன்பட்டது = கூட்டுக்_கழிவுகள்(கழிவுப்_பட்டியல்,
@@ -139,6 +144,7 @@
 // __answer whenever the income limit bites, which is precisely the case where__
 // __anyone bothers to check. Some funds have no income limit at all; pass 0 as__
 // __எல்லை_விகிதம் for those.__
+// நன்கொடைக்_கழிவு(நன்கொடைத்_தொகை, கழிவு_வீதம், தகுதி_எல்லை) — நன்கொடைக்கு அனுமதிக்கப்படும் கழிவு
 செயல் நன்கொடைக்_கழிவு(நன்கொடைத்_தொகை, தகுதி_விகிதம், சரிசெய்த_வருமானம்,
                         எல்லை_விகிதம்) {
     (நன்கொடைத்_தொகை <= 0) எனில் { திரும்பு 0; }
@@ -167,6 +173,7 @@
 // __completely in the ones where it matters: an assessee whose income is almost__
 // __entirely long-term capital gain has a large gross total income and almost no__
 // __room for Chapter VI-A at all.__
+// கழிவுக்குரிய_வருமானம்(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம்) — கழிவுகளைப் பயன்படுத்தக்கூடிய வருமானம்
 செயல் கழிவுக்குரிய_வருமானம்(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம்) {
     திரும்பு குறையாக்_கழி(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம்);
 }
@@ -180,6 +187,7 @@
 // __This is the rule that makes a deduction worthless in a bad year, and the__
 // __reason a contribution made to save tax on income that then did not arrive__
 // __saves nothing at all.__
+// அனுமதிக்கத்தக்க_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) — உண்மையில் அனுமதிக்கப்படும் கழிவு
 செயல் அனுமதிக்கத்தக்க_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) {
     (கோரிய_மொத்தம் <= 0) எனில் { திரும்பு 0; }
     (கோரிய_மொத்தம் > கழிவுக்குரியது) எனில் { திரும்பு வட்டமிடு(கழிவுக்குரியது, 2); }
@@ -191,6 +199,7 @@
 // __What 80A(2) took away. Nothing in the return shows it, and it is the number__
 // __that tells someone their contribution did no work this year and will do none__
 // __in any other.__
+// இழந்த_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) — வருமானம் போதாததால் இழந்த கழிவு
 செயல் இழந்த_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) {
     அனுமதித்தது = அனுமதிக்கத்தக்க_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது);
     (கோரிய_மொத்தம் <= அனுமதித்தது) எனில் { திரும்பு 0; }
@@ -206,6 +215,7 @@
 // __skips it disagrees with the department's by a few rupees on most returns,__
 // __and a few rupees of difference is enough to generate a demand notice, which__
 // __costs very much more than nine rupees to answer.__
+// வருமானத்தை_வட்டமிடு(வருமானத்_தொகை) — சட்டம் சொல்லும்படி வருமானத்தை வட்டமிடும்
 செயல் வருமானத்தை_வட்டமிடு(வருமானத்_தொகை) {
     (வருமானத்_தொகை <= 0) எனில் { திரும்பு 0; }
     திரும்பு தரை(வருமானத்_தொகை / 10) * 10;
@@ -221,6 +231,7 @@
 // __பிற_கழிவுகள் is the total of deductions computed elsewhere — donations, and__
 // __anything whose shape is not a simple ceiling. They are added to the capped__
 // __aggregate and the lot is then held to 80A(2).__
+// மொத்த_வரிக்குரிய_வருமானம்(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம், கழிவுகள்) — கழிவுகளுக்குப் பின் வரிக்குரிய வருமானம்
 செயல் மொத்த_வரிக்குரிய_வருமானம்(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம்,
                                    கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு,
                                    பிற_கழிவுகள்) {

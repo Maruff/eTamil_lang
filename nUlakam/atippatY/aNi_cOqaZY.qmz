@@ -32,6 +32,7 @@
               "a rule that accepts nothing leaves nothing");
 
 // __A rule that carries a value from where it was made__
+// மேல்_உள்ளவை(பட்டியல், எல்லை) — எல்லைக்கு மேல் உள்ள உறுப்புகள்
 செயல் மேல்_உள்ளவை(பட்டியல், எல்லை) {
     திரும்பு வடிகட்டு(பட்டியல், செயல்(எ) { திரும்பு எ > எல்லை; });
 }

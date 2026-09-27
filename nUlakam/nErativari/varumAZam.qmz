@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/varumAZam.qmz — வருமானம், head by head__
+// வருமானம், தலைப்பு வாரியாக
 //
 // __Income tax is not charged on income. It is charged on **total income**, and__
 // __the distance between the two is most of the Act. Money is first sorted into__
@@ -47,6 +48,7 @@
 // __worked one month does not get a negative salary income, and a library that__
 // __subtracts the full figure regardless manufactures a loss under a head that__
 // __cannot have one.__
+// சம்பள_வருமானம்(மொத்தச்_சம்பளத்_தொகை, விலக்குப்_பெற்றவை, நியமக்_கழிவு, தொழில்_வரி) — கழிவுகளுக்குப் பின் சம்பலத் தலைப்பு வருமானம்
 செயல் சம்பள_வருமானம்(மொத்தச்_சம்பளத்_தொகை, விலக்குப்_பெற்றவை,
                         நியமக்_கழிவு, தொழில்_வரித்_தொகை) {
     வரிக்குரியது = மொத்தச்_சம்பளத்_தொகை - விலக்குப்_பெற்றவை;
@@ -74,6 +76,7 @@
 // __Municipal, because the deduction is for the tax on the property and not for__
 // __anything else the owner spends on it. Repairs, insurance and collection__
 // __charges are not deductible here at all; they are inside the thirty per cent.__
+// நிகர_ஆண்டு_மதிப்பீடு(மொத்த_ஆண்டு_மதிப்பு, செலுத்திய_நகர்_வரி) — நகர வரி போக வீட்டின் நிகர ஆண்டு மதிப்பு
 செயல் நிகர_ஆண்டு_மதிப்பீடு(மொத்த_ஆண்டு_மதிப்பு, செலுத்திய_நகர்_வரி) {
     திரும்பு குறையாக்_கழி(மொத்த_ஆண்டு_மதிப்பு, செலுத்திய_நகர்_வரி);
 }
@@ -97,6 +100,7 @@
 // __The answer may be negative, and that is not an error. A let property whose__
 // __interest exceeds its rent produces a loss under this head, and that loss is__
 // __real; what happens to it is வீட்டு_இழப்பை_ஈடுசெய்'s business.__
+// வாடகைச்_சொத்து_வருமானம்(நிகர_மதிப்பு, நியமக்_கழிவு_வீதம், கடன்_வட்டி) — வாடகைக்கு விட்ட வீட்டின் வருமானம்
 செயல் வாடகைச்_சொத்து_வருமானம்(நிகர_ஆண்டு_மதிப்பு, நியம_விகிதம்,
                                  கடன்_வட்டித்_தொகை) {
     நியமக்_கழிவு = சதவீதம்(நிகர_ஆண்டு_மதிப்பு, நியம_விகிதம்);
@@ -113,6 +117,7 @@
 // __construction, and returning it signed rather than as a magnitude keeps the__
 // __arithmetic in மொத்த_வருமானம் honest: a loss that has to be remembered to be__
 // __subtracted is a loss that will be added.__
+// சொந்த_வீட்டு_வருமானம்(கடன்_வட்டித்_தொகை, வட்டி_உச்ச_வரம்பு) — சொந்தமாகக் குடியிருக்கும் வீட்டின் வருமானம், பெரும்பாலும் இழப்பே
 செயல் சொந்த_வீட்டு_வருமானம்(கடன்_வட்டித்_தொகை, வட்டி_உச்ச_வரம்பு) {
     அனுமதித்தது = கடன்_வட்டித்_தொகை;
     (வட்டி_உச்ச_வரம்பு > 0 மற்றும் கடன்_வட்டித்_தொகை > வட்டி_உச்ச_வரம்பு) எனில் {
@@ -133,6 +138,7 @@
 // __later year and will never claim.__
 //
 // __Pass the loss as a positive magnitude.__
+// வீட்டு_இழப்பை_ஈடுசெய்(வீட்டு_இழப்புத்_தொகை, ஈட்டு_உச்ச_வரம்பு) — வீட்டு இழப்பை வரம்புக்குள் ஈடுசெய்யும்
 செயல் வீட்டு_இழப்பை_ஈடுசெய்(வீட்டு_இழப்புத்_தொகை, ஈட்டு_உச்ச_வரம்பு) {
     (வீட்டு_இழப்புத்_தொகை <= 0) எனில் {
         திரும்பு {"ஈடுசெய்தது": 0, "முன்_கொண்டுசெல்வது": 0};
@@ -155,6 +161,7 @@
 // __threshold differs by asset — twelve months for listed equity, twenty-four__
 // __for immovable property, thirty-six for the rest at various times. Hence a__
 // __parameter rather than a constant.__
+// குறுகிய_காலமா(வைத்திருந்த_நாட்கள், எல்லை_நாட்கள்) — இது குறுகிய கால வைத்திருப்பா
 செயல் குறுகிய_காலமா(வைத்திருந்த_நாட்கள், எல்லை_நாட்கள்) {
     திரும்பு வைத்திருந்த_நாட்கள் <= எல்லை_நாட்கள்;
 }
@@ -173,6 +180,7 @@
 // __Indexation is not available for every long-term asset: the statute denies it__
 // __where a concessional rate applies instead. That is the caller's decision and__
 // __this function does not know about it.__
+// குறியீட்டுச்_செலவு(கொள்முதல்_மதிப்பு, கொள்முதல்_குறியீடு, விற்பனைக்_குறியீடு) — பணவீக்கக் குறியீட்டால் சரிசெய்த கொள்முதல் செலவு
 செயல் குறியீட்டுச்_செலவு(கொள்முதல்_மதிப்பு, கொள்முதல்_குறியீடு,
                             விற்ற_ஆண்டு_குறியீடு) {
     (கொள்முதல்_குறியீடு <= 0) எனில் {
@@ -193,6 +201,7 @@
 // __difference is invisible in the gain and decisive when the cost is indexed__
 // __and the transfer expense is not: brokerage on a sale is a cost of this__
 // __year's transaction and has no earlier year to be indexed from.__
+// மூலதன_ஆதாயம்(விற்ற_மதிப்பு, மாற்றல்_செலவுகள், கொள்முதல்_மதிப்பு, மேம்பாட்டுச்_செலவு) — மூலதன ஆதாயம் அல்லது இழப்பு
 செயல் மூலதன_ஆதாயம்(விற்ற_மதிப்பு, மாற்றல்_செலவுகள், கொள்முதல்_மதிப்பு,
                      மேம்பாட்டுச்_செலவு) {
     நிகர_ஈட்டம் = விற்ற_மதிப்பு - மாற்றல்_செலவுகள்;
@@ -209,6 +218,7 @@
 // __and nothing below it becomes taxable — the opposite of தகுதிக்குள்_பங்களிப்பு__
 // __in Uqiyam.qmz, where crossing the line removes the charge entirely. The two__
 // __shapes look alike in a rate table and behave in opposite directions.__
+// விலக்கிய_ஆதாயம்(ஆதாயத்_தொகை, விலக்கு_எல்லை) — விலக்குக்குப் பின் வரிக்குரிய ஆதாயம்
 செயல் விலக்கிய_ஆதாயம்(ஆதாயத்_தொகை, விலக்கு_எல்லை) {
     திரும்பு குறையாக்_கழி(ஆதாயத்_தொகை, விலக்கு_எல்லை);
 }
@@ -218,6 +228,7 @@
 // =========================================================================
 //
 // __ஈட்டு_விதிகள்() — the restriction table, as pairs of {loss kind, income kind}__
+// ஈட்டு_விதிகள்() — எந்த இழப்பை எந்த வருமானத்துக்கு எதிராக ஈடுசெய்யலாம் என்ற விதிகள்
 //
 // __These are the pairs the statute *permits*. Anything not listed is refused,__
 // __which is the right default: a set-off wrongly allowed reduces tax and will__
@@ -275,6 +286,7 @@
 
 // ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை)
 // __ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை) — may a loss of this head be set off against that head?__
+// ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை) — இவ்வகை இழப்பை அவ்வகை வருமானத்துக்கு எதிராக ஈடுசெய்யலாமா
 //
 // __Consults the rules table rather than encoding them here, because the Act permits some pairings and forbids others for reasons that are policy and not arithmetic — a speculation loss against business income is not allowed, and no principle predicts that.__
 செயல் ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை) {
@@ -288,6 +300,7 @@
 }
 
 // __தலைப்பு_ஆக்கு(வருமான_வகை, தொகை_மதிப்பு) — one head's figure__
+// தலைப்பு_ஆக்கு(வருமான_வகை, தொகை_மதிப்பு) — ஒரு தலைப்பின் தொகை
 //
 // __A negative amount is a loss under that head. Keeping both in one shape lets__
 // __a computation carry the signs through instead of maintaining a separate list__
@@ -309,6 +322,7 @@
 // __equals the loss you started with.__
 //
 // __Pass the loss as a positive magnitude.__
+// ஈட்டைச்_செய்(இழப்பு_வகை, இழப்புத்_தொகை, தலைப்புகள்) — விதிகளின்படி இழப்பை ஈடுசெய்யும்
 செயல் ஈட்டைச்_செய்(இழப்பு_வகை, இழப்புத்_தொகை, தலைப்புகள்) {
     மீதம் = இழப்புத்_தொகை;
     ஈடுசெய்தது = 0;
@@ -340,6 +354,7 @@
 // =========================================================================
 //
 // __மொத்த_வருமானம்(தலைப்புகள்) — the heads added up__
+// மொத்த_வருமானம்(தலைப்புகள்) — தலைப்புகள் அனைத்தும் கூட்டியது
 //
 // __Losses still sitting in the list are added as the negatives they are, so a__
 // __set-off that ஈட்டைச்_செய் refused cannot leak into the total by being__
@@ -360,6 +375,7 @@
 }
 
 // __தலைப்பைத்_தேடு(தலைப்புகள், வருமான_வகை) — one head's figure, or nil__
+// தலைப்பைத்_தேடு(தலைப்புகள், வருமான_வகை) — ஒரு தலைப்பின் தொகை; இல்லையெனில் இன்மை
 //
 // __Answers a தவறு when the head is absent rather than zero, because a head with__
 // __no income and a head that was never computed are different things and only__
@@ -375,6 +391,7 @@
 }
 
 // __இழப்புத்_தலைப்புகள்(தலைப்புகள்) — every head still showing a loss__
+// இழப்புத்_தலைப்புகள்(தலைப்புகள்) — இன்னும் இழப்பைக் காட்டும் தலைப்புகள்
 //
 // __What has to be carried forward, and the list a return cannot be filed__
 // __without looking at.__

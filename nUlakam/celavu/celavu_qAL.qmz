@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/celavu_qAL.qmz — செலவுத் தாள் (the cost sheet)__
+// செலவுத் தாள்
 //
 // __The cost sheet is a ladder, and its rungs are in a fixed order because each__
 // __is defined as the one below it plus a class of overhead:__
@@ -25,6 +26,7 @@
 
 // முதன்மைச்_செலவு(நேரடிப்_பொருட்கள், நேரடி_ஊதியம், நேரடிச்_செலவுகள்)
 // __முதன்மைச்_செலவு(நேரடிப்_பொருட்கள், நேரடி_ஊதியம், நேரடிச்_செலவுகள்) — prime cost__
+// முதன்மைச்_செலவு(நேரடிப்_பொருட்கள், நேரடி_ஊதியம், நேரடிச்_செலவுகள்) — முதன்மைச் செலவு
 //
 // __The bottom rung: everything traceable to the product and no overhead at all. Direct expenses are the forgotten third — a royalty per unit, a hired mould for one job — and leaving them out understates prime cost and overstates the overhead recovery rate built on it.__
 செயல் முதன்மைச்_செலவு(நேரடிப்_பொருட்கள், நேரடி_ஊதியம், நேரடிச்_செலவுகள்) {
@@ -35,6 +37,7 @@
 //
 // __Raw material consumed, which is what enters prime cost — not purchases.__
 // __Opening stock plus purchases less closing stock.__
+// நுகர்ந்த_பொருட்கள்(ஆரம்பப்_பொருட்கள், வாங்கியவை, இறுதிப்_பொருட்கள்) — காலத்தில் நுகரப்பட்ட பொருட்கள்
 செயல் நுகர்ந்த_பொருட்கள்(ஆரம்பப்_பொருட்கள், வாங்கியவை, இறுதிப்_பொருட்கள்) {
     திரும்பு இருப்பு_ஓட்டம்(வாங்கியவை, ஆரம்பப்_பொருட்கள், இறுதிப்_பொருட்கள்);
 }
@@ -46,6 +49,7 @@
 //
 // __Opening WIP is work already begun, so it is added; closing WIP is work not__
 // __finished, so it is taken out. Pass 0 for both when there is no WIP.__
+// தொழிற்சாலைச்_செலவு(முதன்மை, தொழிற்சாலை_மேல்நிலை, ஆரம்ப_நிறைவேறாதவை, இறுதி_நிறைவேறாதவை) — தொழிற்சாலைச் செலவு
 செயல் தொழிற்சாலைச்_செலவு(முதன்மை, தொழிற்சாலை_மேல்நிலை,
                           ஆரம்ப_நிறைவேறாதவை, இறுதி_நிறைவேறாதவை) {
     திரும்பு முதன்மை + தொழிற்சாலை_மேல்நிலை
@@ -55,6 +59,7 @@
 // __--- Rung 3: cost of production and cost of goods sold ------------------__
 
 // __உற்பத்திச்_செலவு(தொழிற்சாலை, நிர்வாக_மேல்நிலை) — cost of production__
+// உற்பத்திச்_செலவு(தொழிற்சாலை, நிர்வாக_மேல்நிலை) — உற்பத்திச் செலவு
 //
 // __Factory cost plus administrative overhead. The rung where policies differ: some carry administration to the period instead, and a cost sheet that changes convention between months is not comparable with itself.__
 செயல் உற்பத்திச்_செலவு(தொழிற்சாலை, நிர்வாக_மேல்நிலை) {
@@ -66,6 +71,7 @@
 // __Finished-goods stock adjusts here, after production is complete and before__
 // __selling overhead is added — selling cost attaches to what was sold, never to__
 // __what is still in the warehouse.__
+// விற்ற_பொருட்களின்_செலவு(உற்பத்தி, ஆரம்ப_முடிந்தவை, இறுதி_முடிந்தவை) — விற்ற பொருட்களின் செலவு
 செயல் விற்ற_பொருட்களின்_செலவு(உற்பத்தி, ஆரம்ப_முடிந்தவை, இறுதி_முடிந்தவை) {
     திரும்பு இருப்பு_ஓட்டம்(உற்பத்தி, ஆரம்ப_முடிந்தவை, இறுதி_முடிந்தவை);
 }
@@ -73,6 +79,7 @@
 // __--- Rung 4: cost of sales, and what is left ----------------------------__
 
 // __விற்பனைச்_செலவு(விற்றவை_செலவு, விற்பனை_மேல்நிலை) — cost of sales__
+// விற்பனைச்_செலவு(விற்றவை_செலவு, விற்பனை_மேல்நிலை) — விற்பனைச் செலவு
 //
 // __The top rung, and the only total that may be set against revenue. Selling overhead is added last because it attaches to units sold rather than units made, which is why the rung below adjusts for finished stock first.__
 செயல் விற்பனைச்_செலவு(விற்றவை_செலவு, விற்பனை_மேல்நிலை) {
@@ -81,6 +88,7 @@
 
 // லாபம்_ஈட்டியது(விற்பனை_வருவாய், விற்பனைச்_செலவு_மொத்தம்)
 // __லாபம்_ஈட்டியது(விற்பனை_வருவாய், விற்பனைச்_செலவு_மொத்தம்) — profit on the cost sheet__
+// லாபம்_ஈட்டியது(விற்பனை_வருவாய், விற்பனைச்_செலவு_மொத்தம்) — செலவுத் தாளில் காட்டும் லாபம்
 //
 // __Revenue less cost of sales. Agrees with the income statement only when every rung was built on the same units: cost priced on production against revenue earned on sales differs by the stock movement, which the ladder handles and a shortcut does not.__
 செயல் லாபம்_ஈட்டியது(விற்பனை_வருவாய், விற்பனைச்_செலவு_மொத்தம்) {
@@ -91,6 +99,7 @@
 
 // அலகுக்குச்_செலவு(மொத்தச்_செலவு, அலகுகள்)
 // __அலகுக்குச்_செலவு(மொத்தச்_செலவு, அலகுகள்) — cost per unit__
+// அலகுக்குச்_செலவு(மொத்தச்_செலவு, அலகுகள்) — ஓர் அலகுக்கான செலவு
 //
 // __தவறு when there are no units rather than zero: dividing a real cost by nothing has no answer, and a unit cost of zero reported against a month with no output is the kind of figure that gets quoted later.__
 செயல் அலகுக்குச்_செலவு(மொத்தச்_செலவு, அலகுகள்) {
@@ -115,6 +124,7 @@
 //   ஆரம்ப_நிறைவேறாதவை இறுதி_நிறைவேறாதவை
 //   ஆரம்ப_முடிந்தவை இறுதி_முடிந்தவை
 //   விற்பனை_வருவாய் அலகுகள்
+// செலவுத்_தாள்_ஆக்கு(தரவுத்_தொகுதி) — முழுச் செலவுத் தாளை உருவாக்கும்
 செயல் செலவுத்_தாள்_ஆக்கு(தரவுத்_தொகுதி) {
     முதன்மை = முதன்மைச்_செலவு(தரவுத்_தொகுதி.நேரடிப்_பொருட்கள்,
                                தரவுத்_தொகுதி.நேரடி_ஊதியம்,
@@ -148,6 +158,7 @@
 }
 
 // __தாளை_அச்சிடு(தாள்) — the sheet as a costing department would read it__
+// தாளை_அச்சிடு(தாள்) — செலவுத் துறை படிக்கும் வடிவில் தாளை அச்சிடும்
 செயல் தாளை_அச்சிடு(தாள்) {
     அச்சு "── செலவுத் தாள் (cost sheet) ──";
     அச்சு "  முதன்மைச் செலவு    (prime)      : " & தாள்.முதன்மைச்_செலவு;
@@ -164,6 +175,7 @@
 }
 
 // __இருப்பு_ஓட்டம்(உள்வரவு, தொடக்க_இருப்பு, இறுதி_இருப்பு) — what left the store__
+// இருப்பு_ஓட்டம்(உள்வரவு, தொடக்க_இருப்பு, இறுதி_இருப்பு) — கிடங்கிலிருந்து வெளியேறியது
 //
 // __The inventory identity, and it holds at every stage: materials consumed is__
 // __purchases plus opening less closing, and cost of goods sold is production__

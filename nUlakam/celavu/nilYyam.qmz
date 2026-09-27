@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/nilYyam.qmz — நிலையம் (cost centres, objects and elements)__
+// நிலையங்கள், செலவுப் பொருள்கள், கூறுகள்
 //
 // __Financial accounting asks what was spent. Cost accounting asks where it went__
 // __and what it attached to, and that needs two structures the ledger does not__
@@ -18,14 +19,17 @@
 // __The three-way split matters because only the first absorbs cost into__
 // __product: service and administrative centres have their cost re-apportioned__
 // __onto production centres before absorption, never onto units directly.__
+// வகை_உற்பத்தி() — உற்பத்தி நிலைய வகை: இங்கே செலவு அலகுகளில் உள்வாங்கப்படும்
 செயல் வகை_உற்பத்தி()  { திரும்பு "உற்பத்தி"; }
 // __வகை_சேவைத்துறை() — the service-centre kind: maintenance, stores, canteen__
+// வகை_சேவைத்துறை() — சேவை நிலைய வகை: பராமரிப்பு, கிடங்கு, உணவகம்
 //
 // __A service centre incurs real cost and absorbs none of it into product. Its__
 // __total is re-apportioned onto the production centres it serves, so it must__
 // __be emptied before absorption runs or the cost is simply lost.__
 செயல் வகை_சேவைத்துறை() { திரும்பு "சேவை"; }
 // __வகை_நிர்வாகம்() — the administrative kind, which serves the business__
+// வகை_நிர்வாகம்() — நிறுவனத்துக்கே சேவை செய்யும் நிர்வாக வகை
 //
 // __Kept separate from சேவை because administration is often not apportioned to__
 // __production at all: many costing policies write it off against the period__
@@ -33,6 +37,7 @@
 செயல் வகை_நிர்வாகம்()  { திரும்பு "நிர்வாகம்"; }
 
 // __நிலைய_வகை_செல்லுபடியா(நிலைய_வகை) — is this one of the three kinds?__
+// நிலைய_வகை_செல்லுபடியா(நிலைய_வகை) — இது மூன்று வகைகளில் ஒன்றா
 //
 // __Checked at construction rather than at absorption. A centre with a mistyped__
 // __kind would otherwise sit in the list looking correct and quietly absorb__
@@ -46,12 +51,14 @@
 }
 
 // __உற்பத்தி_நிலையமா(நிலையம்) — does cost absorb into units here?__
+// உற்பத்தி_நிலையமா(நிலையம்) — இங்கே செலவு அலகுகளில் உள்வாங்கப்படுமா
 செயல் உற்பத்தி_நிலையமா(நிலையம்) {
     திரும்பு நிலையம்.நிலைய_வகை == "உற்பத்தி";
 }
 
 // நிலையம்_ஆக்கு(நிலைய_குறி, நிலைய_பெயர், நிலைய_வகை)
 // __நிலையம்_ஆக்கு(நிலைய_குறி, நிலைய_பெயர், நிலைய_வகை) — build one cost centre__
+// நிலையம்_ஆக்கு(நிலைய_குறி, நிலைய_பெயர், நிலைய_வகை) — ஒரு செலவு நிலையத்தை உருவாக்கும்
 //
 // __Returns தவறு for an unknown kind rather than the record, so an invalid__
 // __centre cannot enter the list at all. The code is what everything else joins__
@@ -68,6 +75,7 @@
 }
 
 // __நிலையம்_தேடு(நிலையங்கள், நிலைய_குறி) — find one cost centre by its code__
+// நிலையம்_தேடு(நிலையங்கள், நிலைய_குறி) — குறியைக் கொண்டு ஒரு நிலையத்தைத் தேடும்
 //
 // __சரி with the centre, or தவறு naming the code that was not there. Absent is__
 // __an answer, not a failure: apportioning to a centre that does not exist is a__
@@ -82,6 +90,7 @@
 }
 
 // __வகையால்_நிலையங்கள்(நிலையங்கள், நிலைய_வகை) — every centre of one kind__
+// வகையால்_நிலையங்கள்(நிலையங்கள், நிலைய_வகை) — ஒரு வகையைச் சேர்ந்த நிலையங்கள்
 //
 // __How an apportionment run finds its targets: service cost goes onto the__
 // __production centres, so the list of those is what it asks for first.__
@@ -103,6 +112,7 @@
 // __unit count is held with it because per-unit cost is meaningless without it,__
 // __and a cost sheet that reports a unit cost against the wrong quantity is the__
 // __most common error in the whole discipline.__
+// செலவுப்_பொருள்_ஆக்கு(பொருள்_குறி, பொருள்_பெயர், அலகுகள்) — செலவு அளக்கப்படும் பொருளை உருவாக்கும்
 செயல் செலவுப்_பொருள்_ஆக்கு(பொருள்_குறி, பொருள்_பெயர், அலகுகள்) {
     (அலகுகள் < 0) எனில் {
         திரும்பு தவறு("அலகுகள் எதிர்மறையாக இருக்க முடியாது");
@@ -125,6 +135,7 @@
 // __Direct cost is usually variable and indirect usually fixed, but the pairs__
 // __are not the same question and a semi-variable element belongs to neither__
 // __cleanly — which is why மாறுபடுமா is a fraction, not a flag.__
+// கூறு_ஆக்கு(கூறு_பெயர், கூறு_தொகை, நேரடியா, மாறுபடுமா) — ஒரு செலவுக் கூறு
 செயல் கூறு_ஆக்கு(கூறு_பெயர், கூறு_தொகை, நேரடியா, மாறுபடுமா) {
     திரும்பு {
         கூறு_பெயர்: கூறு_பெயர்,
@@ -135,6 +146,7 @@
 }
 
 // __கூறுகளின்_கூட்டல்(கூறுகள்) — the total of an element list, in rupees__
+// கூறுகளின்_கூட்டல்(கூறுகள்) — கூறுப் பட்டியலின் மொத்தம்
 //
 // __Ignores both classifications deliberately. This is the cost sheet's total__
 // __line, and it has to equal direct plus indirect, and variable plus fixed,__
@@ -148,6 +160,7 @@
 }
 
 // __நேரடிக்_கூறுகள்(கூறுகள்) — only the elements traceable to the cost object__
+// நேரடிக்_கூறுகள்(கூறுகள்) — செலவுப் பொருளுக்கு நேரடியாகத் தொடர்புபடுத்தக்கூடியவை
 //
 // __These are absorbed into the object as they stand. What is left over is the__
 // __pool that has to be apportioned on some basis, which is where judgement__
@@ -161,6 +174,7 @@
 }
 
 // __மறைமுகக்_கூறுகள்(கூறுகள்) — the elements that cannot be traced, the overhead__
+// மறைமுகக்_கூறுகள்(கூறுகள்) — தொடர்புபடுத்த முடியாதவை, அதாவது மேல்நிலை
 //
 // __The complement of நேரடிக்_கூறுகள், and the two together are the whole list.__
 // __Overhead is not a lesser cost, it is a cost whose owner is a matter of__
@@ -174,6 +188,7 @@
 }
 
 // __மாறும்_பகுதி(கூறுகள்) — the volume-sensitive rupees inside a mixed list__
+// மாறும்_பகுதி(கூறுகள்) — அளவுக்கு ஏற்ப மாறும் பகுதி
 //
 // __A semi-variable element with மாறுபடுமா 0.6 contributes 60% of itself here__
 // __and 40% to நிலையான_பகுதி. Splitting a mixed list this way is what makes a__
@@ -187,6 +202,7 @@
 }
 
 // __நிலையான_பகுதி(கூறுகள்) — the rupees that do not move with volume__
+// நிலையான_பகுதி(கூறுகள்) — அளவுடன் மாறாத பகுதி
 //
 // __Computed as the total less மாறும்_பகுதி rather than summed on its own, so__
 // __the two halves always add back to the total exactly. Summing both__

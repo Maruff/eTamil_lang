@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/mutippu.qmz — ஆண்டு முடிப்பு (period close)__
+// ஆண்டு முடிப்பு
 //
 // __At the end of a year the revenue and expense accounts are emptied into__
 // __retained earnings. Without this, a second year's income statement would__
@@ -18,6 +19,7 @@
 இறக்கு "aRikkYkaL.qmz";
 
 // __முடிப்பு_பரிவர்த்தனை(...) — build the closing entry for a period__
+// முடிப்பு_பரிவர்த்தனை(பேரேடு, கணக்குகள், காலம், எண், நாள், தக்கவைப்புக்_கணக்கு) — காலத்தை முடிக்கும் பதிவை உருவாக்கும்
 //
 // __Every revenue account is debited by its balance and every expense account__
 // __credited by its, with the net going to retained earnings. The result is__
@@ -63,6 +65,7 @@
 }
 
 // __ஆண்டை_முடி(...) — build the entry and post it in one step__
+// ஆண்டை_முடி(பேரேடு, கணக்குகள், காலம், எண், நாள், தக்கவைப்புக்_கணக்கு) — பதிவை உருவாக்கிப் பதிவிடும்
 செயல் ஆண்டை_முடி(பேரேடு, கணக்குகள், காலம், தேக்கிய_கணக்கு, பரிவர்த்தனை_எண்) {
     முடிப்பு = முடிப்பு_பரிவர்த்தனை(பரிவர்த்தனை_எண், பேரேடு, கணக்குகள்,
                                       காலம், தேக்கிய_கணக்கு)?;
@@ -70,6 +73,7 @@
 }
 
 // __முடிக்கப்பட்டதா(பேரேடு, கணக்குகள், காலம்) — do the income accounts read__
+// முடிக்கப்பட்டதா(பேரேடு, கணக்குகள், காலம்) — வருவாய்ச் செலவுக் கணக்குகள் பூஜ்ஜியமாகிவிட்டனவா
 // __zero for this period? A safety check before opening the next year.__
 செயல் முடிக்கப்பட்டதா(பேரேடு, கணக்குகள், காலம்) {
     அறிக்கை = கால_வருமான_அறிக்கை(பேரேடு, கணக்குகள், காலம்);

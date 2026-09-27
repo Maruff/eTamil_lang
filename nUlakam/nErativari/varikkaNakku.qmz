@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/varikkaNakku.qmz — வரிக்கணக்கு, total income to tax payable__
+// வரிக்கணக்கு: மொத்த வருமானத்திலிருந்து செலுத்த வேண்டிய வரி வரை
 //
 // __Total income comes out of kazivukaL.qmz. This turns it into a liability, and__
 // __the only difficult thing about that is the **order**:__
@@ -45,6 +46,7 @@
 // __inside that band, never the top rate on the whole. Income tax and__
 // __professional tax are the same arithmetic on different tables, and there is__
 // __no reason for this directory to hold a second copy of it.__
+// அடிப்படை_வரி(வரிக்குரிய_வருமானம், படிகள்) — படிவரிசைப்படி அடிப்படை வரி
 செயல் அடிப்படை_வரி(வரிக்குரிய_வருமானம், படிகள்) {
     திரும்பு படிநிலை_வரி(வரிக்குரிய_வருமானம், படிகள்);
 }
@@ -68,6 +70,7 @@
 //
 // __The rebate cannot exceed the tax. It reduces a liability to nil and never__
 // __past it; there is no refund of a rebate.__
+// தள்ளுபடியைக்_கணக்கிடு(வரித்_தொகை, வருமானம், தள்ளுபடி_எல்லை, தள்ளுபடி_உச்சம்) — சிறு வருமானத்துக்கான வரித் தள்ளுபடி
 செயல் தள்ளுபடியைக்_கணக்கிடு(அடிப்படை_வரித்_தொகை, வரிக்குரிய_வருமானம், வருமான_எல்லை,
                  தள்ளுபடி_உச்சம்) {
     (வருமான_எல்லை > 0 மற்றும் வரிக்குரிய_வருமானம் > வருமான_எல்லை) எனில் {
@@ -95,6 +98,7 @@
 //
 // __மேல்வரிப்_படிகள் is ordered by threshold: [{"முதல்": 0, "விகிதம்": 0},__
 // {"முதல்": 5000000, "விகிதம்": 10}, ...]
+// மேல்வரி_படி(வருமான_எல்லை, மேல்வரி_வீதம்) — ஒரு மேல்வரிப் படி
 செயல் மேல்வரி_படி(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) {
     பொருந்தியது = {"முதல்": 0, "விகிதம்": 0};
     ஒவ்வொரு ஒரு_படி இல் மேல்வரிப்_படிகள் {
@@ -108,6 +112,7 @@
 
 // மேல்வரி_விகிதம்(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்)
 // __மேல்வரி_விகிதம்(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) — the surcharge rate that applies at this income__
+// மேல்வரி_விகிதம்(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) — இவ்வருமானத்துக்குப் பொருந்தும் மேல்வரி வீதம்
 //
 // __The rate alone, for a caller that only needs to show it. The slab itself comes from மேல்வரி_படி, and surcharge is a cliff rather than a ladder — crossing a threshold raises the rate on the whole income, which is why marginal relief exists.__
 செயல் மேல்வரி_விகிதம்(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) {
@@ -119,6 +124,7 @@
 // __Surcharge is a percentage **of the tax**, not of the income. It is the one__
 // __thing about surcharge that everybody knows and calculators still get wrong,__
 // __because a rate quoted against an income threshold reads as a rate on income.__
+// மேல்வரி_தொகை(வரிக்குரிய_வரி, மேல்வரி_வீதம்) — மேல்வரித் தொகை
 செயல் மேல்வரி_தொகை(வரிக்குரிய_வரி, மேல்வரி_வீதம்) {
     (மேல்வரி_வீதம் <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டப்_பங்கு(வரிக்குரிய_வரி, மேல்வரி_வீதம்);
@@ -152,6 +158,7 @@
 //
 // __It applies at **every** surcharge threshold, not just the first. Each band__
 // __gets its own relief computed against its own threshold.__
+// விளிம்பு_நிவாரணம்(வரியும்_மேல்வரியும், வருமானம், எல்லை, எல்லையின்_வரி) — எல்லையைத் தாண்டியவுடன் வரி மிகையாகாமல் தடுக்கும் நிவாரணம்
 செயல் விளிம்பு_நிவாரணம்(வரிக்குரிய_வருமானம், படிகள், மேல்வரிப்_படிகள்) {
     இந்தப்_படி = மேல்வரி_படி(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்);
     எல்லை = இந்தப்_படி["முதல்"];
@@ -183,6 +190,7 @@
 // __Health and education cess, charged on income-tax plus surcharge less rebate__
 // __— the whole of what is owed at that point, surcharge included. It is the__
 // __last step and it is on tax, never on income.__
+// கழிவு_வரி(வரி_மற்றும்_மேல்வரி, கழிவு_வீதம்) — கல்வி மற்றும் சுகாதாரக் கழிவு
 செயல் கழிவு_வரி(வரி_மற்றும்_மேல்வரி, கழிவு_வீதம்) {
     (வரி_மற்றும்_மேல்வரி <= 0 அல்லது கழிவு_வீதம் <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டமிடு(சதவீதம்(வரி_மற்றும்_மேல்வரி, கழிவு_வீதம்), 2);
@@ -194,6 +202,7 @@
 // __is rounded down under 288A; tax is rounded to the nearest, and the two rules__
 // __are genuinely different — which is why they are two functions and not one__
 // __with a flag.__
+// வரியை_வட்டமிடு(வரித்_தொகை) — சட்டம் சொல்லும்படி வரியை வட்டமிடும்
 செயல் வரியை_வட்டமிடு(வரித்_தொகை) {
     (வரித்_தொகை <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டமிடு(வரித்_தொகை / 10, 0) * 10;
@@ -211,6 +220,7 @@
 // __be reconciled to a notice, and reconciling to a notice is what the figure is__
 // __for. A single number that disagrees with the department by four hundred__
 // __rupees tells you nothing about which of six steps to look at.__
+// வரியைக்_கணக்கிடு(வரிக்குரிய_வருமானம், படிகள், மேல்வரிப்_படிகள், தள்ளுபடி_எல்லை, கழிவு_வீதம்) — அடிப்படை முதல் கழிவு வரை முழுக் கணக்கு
 செயல் வரியைக்_கணக்கிடு(வரிக்குரிய_வருமானம், படிகள், மேல்வரிப்_படிகள்,
                           தள்ளுபடி_எல்லை, தள்ளுபடி_உச்சம், கழிவு_வீதம்) {
     படி_வரி = அடிப்படை_வரி(வரிக்குரிய_வருமானம், படிகள்);
@@ -258,6 +268,7 @@
 // __tables against one income answers a question nobody asked; the income has to__
 // __be computed twice, under each regime's own rules, and that is why it is__
 // __carried inside the regime here rather than passed alongside.__
+// முறையை_ஆக்கு(முறைப்_பெயர், படிகள், மேல்வரிப்_படிகள், தள்ளுபடி_எல்லை, கழிவு_வீதம்) — ஒரு வரி முறையை வரையறுக்கும்
 செயல் முறையை_ஆக்கு(முறைப்_பெயர், படிகள், மேல்வரிப்_படிகள், தள்ளுபடி_எல்லை,
                       தள்ளுபடி_உச்சம், கழிவு_வீதம், வரிக்குரிய_வருமானம்) {
     திரும்பு {"பெயர்": முறைப்_பெயர்,
@@ -270,6 +281,7 @@
 }
 
 // __முறையின்_வரி(ஒரு_முறை) — the full computation for one regime__
+// முறையின்_வரி(ஒரு_முறை) — ஒரு முறைக்கான முழுக் கணக்கு
 செயல் முறையின்_வரி(ஒரு_முறை) {
     திரும்பு வரியைக்_கணக்கிடு(ஒரு_முறை["வரிக்குரிய_வருமானம்"],
                                 ஒரு_முறை["படிகள்"],
@@ -289,6 +301,7 @@
 // __either when the tax is identical, and the choice then belongs to whoever__
 // __ordered the list — a regime with fewer records to keep is worth something__
 // __that this function cannot measure.__
+// முறைகளை_ஒப்பிடு(முறைப்_பட்டியல்) — முறைகளை ஒப்பிட்டுக் குறைந்த வரியைக் காட்டும்
 செயல் முறைகளை_ஒப்பிடு(முறைப்_பட்டியல்) {
     (நீளம்(முறைப்_பட்டியல்) == 0) எனில் {
         திரும்பு தவறு("ஒப்பிட முறைகள் இல்லை  (no regimes to compare)");

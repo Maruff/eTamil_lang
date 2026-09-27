@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/qEymAZam.qmz — தேய்மானம் (depreciation)__
+// தேய்மானம்
 //
 // __Two methods, because Indian accounts need both and they disagree. Straight__
 // __line spreads the cost evenly and is what the Companies Act expects of the__
@@ -29,6 +30,7 @@
 // __The same amount every year, so what the asset cost is spread over what it is__
 // __used for. A residual value is what you expect to sell it for at the end; it__
 // __is not depreciated, because you expect to get it back.__
+// நேர்கோட்டு_ஆண்டு(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — நேர்கோட்டு முறையில் ஓராண்டுத் தேய்வு
 செயல் நேர்கோட்டு_ஆண்டு(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) {
     (பயன்_ஆண்டுகள் <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டமிடு((கொள்முதல்_மதிப்பு - எஞ்சிய_மதிப்பு) / பயன்_ஆண்டுகள், 2);
@@ -37,6 +39,7 @@
 // நேர்கோட்டு_விகிதம்(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்)
 //
 // __The same thing as a percentage of cost, which is how Schedule II states it.__
+// நேர்கோட்டு_விகிதம்(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — நேர்கோட்டுத் தேய்வு விகிதம்
 செயல் நேர்கோட்டு_விகிதம்(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) {
     (கொள்முதல்_மதிப்பு <= 0 அல்லது பயன்_ஆண்டுகள் <= 0) எனில் { திரும்பு 0; }
     ஆண்டுத்_தொகை = (கொள்முதல்_மதிப்பு - எஞ்சிய_மதிப்பு) / பயன்_ஆண்டுகள்;
@@ -50,6 +53,7 @@
 // __A percentage of what is left, so the charge falls every year and never quite__
 // __reaches nothing — which is why the residual has to stop it. Without that__
 // __floor an asset depreciates for ever in ever smaller amounts.__
+// குறையும்_ஆண்டு(திறப்பு_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு) — குறையும் இருப்பு முறையில் ஓராண்டுத் தேய்வு
 செயல் குறையும்_ஆண்டு(திறப்பு_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு) {
     கணக்கிட்டது = வட்டமிடு(சதவீதம்(திறப்பு_மதிப்பு, ஆண்டு_விகிதம்), 2);
     தாழ்வு = திறப்பு_மதிப்பு - எஞ்சிய_மதிப்பு;
@@ -66,6 +70,7 @@
 // __An asset bought in August is not depreciated for a full year. The Companies__
 // __Act wants this by days held, which is why the days are passed rather than a__
 // __number of months.__
+// பகுதி_ஆண்டு(ஆண்டுத்_தொகை, வைத்திருந்த_நாட்கள், ஆண்டு_நாட்கள்) — ஆண்டின் ஒரு பகுதிக்கு மட்டும் தேய்வு
 செயல் பகுதி_ஆண்டு(ஆண்டுத்_தொகை, வைத்திருந்த_நாட்கள், ஆண்டு_நாட்கள்) {
     (ஆண்டு_நாட்கள் <= 0) எனில் { திரும்பு 0; }
     (வைத்திருந்த_நாட்கள் >= ஆண்டு_நாட்கள்) எனில் { திரும்பு ஆண்டுத்_தொகை; }
@@ -82,6 +87,7 @@
 // __does: a charge rounded to the paisa and taken five times does not equal the__
 // __amount to be written off, and a schedule that leaves eight paise on the__
 // __books never closes the asset.__
+// நேர்கோட்டு_அட்டவணை(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — நேர்கோட்டுத் தேய்வு அட்டவணை
 செயல் நேர்கோட்டு_அட்டவணை(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) {
     ஆண்டுத்_தொகை = நேர்கோட்டு_ஆண்டு(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்);
     அட்டவணை = [];
@@ -109,6 +115,7 @@
 
 // குறையும்_அட்டவணை(கொள்முதல்_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு, எத்தனை_ஆண்டுகள்)
 // __குறையும்_அட்டவணை(கொள்முதல்_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு, எத்தனை_ஆண்டுகள்) — a reducing-balance depreciation schedule__
+// குறையும்_அட்டவணை(கொள்முதல்_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு, எத்தனை_ஆண்டுகள்) — குறையும் இருப்புத் தேய்வு அட்டவணை
 //
 // __One row per year, carrying opening value, charge and closing value, so the schedule can be read straight into a note to the accounts. Each year works from the previous closing balance rather than recomputing from cost, which is what makes the method reducing-balance and not straight-line with a rate.__
 செயல் குறையும்_அட்டவணை(கொள்முதல்_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு, எத்தனை_ஆண்டுகள்) {
@@ -130,6 +137,7 @@
 }
 
 // __மொத்தத்_தேய்வு(அட்டவணை) — everything written off across the schedule__
+// மொத்தத்_தேய்வு(அட்டவணை) — அட்டவணை முழுவதிலும் தேய்ந்தது
 செயல் மொத்தத்_தேய்வு(அட்டவணை) {
     கூட்டல் = 0;
     ஒவ்வொரு ஆண்டுப்_பதிவு இல் அட்டவணை {
@@ -154,6 +162,7 @@
 //
 // __குறைந்த_நாட்கள்_சேர்ப்பு is what was added while used for fewer days than__
 // __the threshold; சேர்த்தவை is everything else added.__
+// தொகுதி_தேய்வு(சொத்துகள்) — ஒரு தொகுதிச் சொத்துகளுக்கான தேய்வு
 செயல் தொகுதி_தேய்வு(திறப்பு_மதிப்பு, சேர்த்தவை, விற்றவை, ஆண்டு_விகிதம்,
                      குறைந்த_நாட்கள்_சேர்ப்பு) {
     முழு_விகிதப்_பகுதி = திறப்பு_மதிப்பு + சேர்த்தவை - விற்றவை;

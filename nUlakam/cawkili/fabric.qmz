@@ -78,6 +78,7 @@
 // __it. That is an answer, not a transport failure, so it is unwrapped here into__
 // __something a program can look at rather than reported as though the network__
 // __broke.__
+// விடையைப்_படி(வலைப்_பதில்) — நுழைவாயிலின் பதிலிலிருந்து விடையைப் படிக்கும்
 செயல் விடையைப்_படி(வலைப்_பதில்) {
     (தவறா(வலைப்_பதில்)) எனில் {
         திரும்பு தவறு({"வகைப்பாடு": "வலை", "விவரம்": மதிப்பு(வலைப்_பதில்)});

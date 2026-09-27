@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __திட்டம்_சோதனை — tests for the project costing modules, written in eTamil__
+// திட்டச் செலவுத் தொகுதிகளுக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/qittam/qittam_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__
@@ -503,6 +504,7 @@
 இரண்டு_குறுகல் = [முனை_ஆக்கு("P", "", 4), முனை_ஆக்கு("Q", "", 2)];
 
 // __காலத்தைப்_பெறு(முனைகள், தொடர்புகள்) — the project duration, for a test to assert on__
+// காலத்தைப்_பெறு(முனைகள், தொடர்புகள்) — திட்டத்தின் கால அளவு; சோதனை உறுதிசெய்ய
 //
 // __Solves the network and takes the one figure out of the result. A fixture: the tests care about how long the schedule comes to, and unwrapping the whole result in each of them would bury the assertion.__
 செயல் காலத்தைப்_பெறு(முனைகள், தொடர்புகள்) {

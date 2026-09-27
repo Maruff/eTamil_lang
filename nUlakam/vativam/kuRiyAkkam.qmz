@@ -46,6 +46,7 @@
 // __Three bytes carry 24 bits, which divide into four 6-bit groups. Without a__
 // __shift operator the groups come out by division and remainder, which is the__
 // __same arithmetic written differently.__
+// அறுபத்துநான்கு_ஆக்கு(மூலம்) — உரையை அறுபத்துநான்கு அடிப்படையில் குறியாக்கும்
 செயல் அறுபத்துநான்கு_ஆக்கு(மூலம்) {
     எழுத்துகள் = அறுபத்துநான்கு_எழுத்துகள்();
     பைட்டு_அணி = பைட்டுகள்(சொல்லாக்கு(மூலம்));
@@ -88,6 +89,7 @@
 }
 
 // __அறுபத்துநான்கு_படி(சரம்) — base64 back to text__
+// அறுபத்துநான்கு_படி(குறியிட்டது) — அறுபத்துநான்கு அடிப்படையிலிருந்து உரையாக மீட்கும்
 செயல் அறுபத்துநான்கு_படி(குறியிட்டது) {
     எழுத்துகள் = அறுபத்துநான்கு_எழுத்துகள்();
     உரைப்பு = சொல்லாக்கு(குறியிட்டது);
@@ -138,6 +140,7 @@
 // __பதினாறு_ஆக்கு(மூலம்) — a string as hexadecimal__
 //
 // __Two characters per byte, over the UTF-8 bytes rather than the characters — so a Tamil string encodes to more than two hex digits per letter, which is correct and occasionally surprising. The high nibble is a floor division, the low one a remainder.__
+// பதினாறு_ஆக்கு(மூலம்) — சரத்தைப் பதினாறு அடிப்படையில் குறியாக்கும்
 செயல் பதினாறு_ஆக்கு(மூலம்) {
     எழுத்துகள் = பதினாறு_எழுத்துகள்();
     விடை = "";
@@ -150,6 +153,7 @@
 // __பதினாறு_படி(குறியிட்டது) — hexadecimal back to a string__
 //
 // __தவறு for an odd number of characters, because a half byte cannot be decoded and truncating silently would hand back a shorter string that looks plausible. Input is lowercased first, so either case decodes.__
+// பதினாறு_படி(குறியிட்டது) — பதினாறு அடிப்படையிலிருந்து சரமாக மீட்கும்
 செயல் பதினாறு_படி(குறியிட்டது) {
     எழுத்துகள் = பதினாறு_எழுத்துகள்();
     உரைப்பு = கீழ்_எழுத்து(சொல்லாக்கு(குறியிட்டது));

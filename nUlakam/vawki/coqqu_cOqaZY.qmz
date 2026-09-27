@@ -62,6 +62,7 @@
 //
 // __The day a class starts and the day it ends are where a classification is__
 // __got wrong, so each is asserted on both sides.__
+// வகை_பெயர்(விதிகள், நாட்கள்) — தாமத நாட்களுக்கு உரிய வகையின் பெயர்
 செயல் வகை_பெயர்(விதிகள், நாட்கள்) {
     விடை = வகைப்படுத்து(விதிகள், நாட்கள்);
     (தவறா(விடை)) எனில் { திரும்பு "—"; }

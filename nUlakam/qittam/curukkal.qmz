@@ -3,6 +3,7 @@
 
 இறக்கு "../atippatY/aNi.qmz";
 // __nUlakam/qittam/curukkal.qmz — சுருக்கல் (crashing, the time-cost trade-off)__
+// சுருக்கல்: காலத்தைப் பணத்தால் குறைத்தல்
 //
 // __Shortening a project costs money, and the question is which activity to buy__
 // __time from. Two facts decide it.__
@@ -31,6 +32,7 @@
 //
 // __Normal time is the low-cost, efficient way of doing the work; crash time is__
 // __a **threshold**, the shortest the activity can go however much is spent.__
+// செயல்_நேர_செலவு(செயல்_குறி, இயல்பு_காலம், இயல்பு_செலவு, சுருக்க_காலம், சுருக்கச்_செலவு) — ஒரு செயலின் நேரமும் செலவும்
 செயல் செயல்_நேர_செலவு(செயல்_குறி, இயல்பு_காலம், இயல்பு_செலவு,
                         சுருக்க_காலம், சுருக்கச்_செலவு) {
     திரும்பு {
@@ -43,6 +45,7 @@
 }
 
 // __அதிகபட்ச_சுருக்கம்(நேரத்_தரவு) — how many units of time are for sale__
+// அதிகபட்ச_சுருக்கம்(நேரத்_தரவு) — விலைக்கு வாங்கக்கூடிய கால அலகுகள் எத்தனை
 //
 // __The parameter is compound because தரவு on its own is a keyword in this__
 // __language; see celavu/README.md.__
@@ -51,6 +54,7 @@
 }
 
 // __செலவுச்_சரிவு(தரவு) — the cost of buying one unit of time__
+// செலவுச்_சரிவு(தரவு) — ஒரு கால அலகை வாங்கும் செலவு
 //
 //     __(crash cost − normal cost) / (normal time − crash time)__
 //
@@ -70,6 +74,7 @@
 //
 // __The cheapest crashable activity that is also critical. Both conditions__
 // __matter and the second is the one that gets forgotten.__
+// மலிவான_வேட்பாளர்(தரவுகள், கடுமையான_குறிகள்) — சுருக்க மலிவான செயல்
 செயல் மலிவான_வேட்பாளர்(தரவுகள், கடுமையான_குறிகள்) {
     சிறந்த_குறி = "";
     சிறந்த_சரிவு = 0;
@@ -96,6 +101,7 @@
 }
 
 // __கடுமையானதா(கடுமையான_குறிகள், செயல்_குறி) — is this activity on the critical path?__
+// கடுமையானதா(கடுமையான_குறிகள், செயல்_குறி) — இச்செயல் கடுமையான பாதையில் உள்ளதா
 //
 // __Only critical activities are worth crashing: spending money to shorten an activity with float buys nothing, because the project still finishes when the critical path does. This is the test that stops that money being spent.__
 செயல் கடுமையானதா(கடுமையான_குறிகள், செயல்_குறி) {
@@ -103,6 +109,7 @@
 }
 
 // __கூட்டுச்_சரிவு(தரவுகள், குறிகள்) — the cost of crashing a whole set together__
+// கூட்டுச்_சரிவு(தரவுகள், குறிகள்) — பல செயல்களை ஒன்றாகச் சுருக்கும் செலவு
 //
 // __When several paths are critical, compare the sum of one activity per path__
 // __against a single shared activity that shortens all of them. The shared one__
@@ -124,6 +131,7 @@
 // __--- Totals --------------------------------------------------------------__
 
 // __இயல்பு_நேரடிச்_செலவு(தரவுகள்) — the project's direct cost with nothing crashed__
+// இயல்பு_நேரடிச்_செலவு(தரவுகள்) — ஒன்றும் சுருக்காத நிலையில் திட்டத்தின் நேரடிச் செலவு
 //
 // __The baseline every crashing decision is measured against. Crashing raises direct cost and lowers indirect cost, and the optimum is where the two curves cross — which cannot be found without knowing where they started.__
 செயல் இயல்பு_நேரடிச்_செலவு(தரவுகள்) {
@@ -139,6 +147,7 @@
 // __Direct plus indirect. Indirect runs with the calendar, so shortening the__
 // __project reduces it — which is why the optimum is not simply the cheapest__
 // __direct cost.__
+// மொத்தச்_செலவு(நேரடிச்_செலவு, நாள்_மறைமுகச்_செலவு, காலம்) — நேரடியும் மறைமுகமும் சேர்த்த செலவு
 செயல் மொத்தச்_செலவு(நேரடிச்_செலவு, நாள்_மறைமுகச்_செலவு, காலம்) {
     திரும்பு நேரடிச்_செலவு + நாள்_மறைமுகச்_செலவு * காலம்;
 }
@@ -149,6 +158,7 @@
 // __delayed benefit, a penalty clause or a lost season usually dwarfs it, and__
 // __including it moves the optimum substantially earlier. Whose money is being__
 // __optimised is a decision to take consciously rather than by omission.__
+// தாமதச்_செலவுடன்(நேரடிச்_செலவு, நாள்_மறைமுகச்_செலவு, நாள்_தாமதச்_செலவு, காலம்) — தாமத அபராதமும் சேர்த்த மொத்தச் செலவு
 செயல் தாமதச்_செலவுடன்(நேரடிச்_செலவு, நாள்_மறைமுகச்_செலவு,
                         நாள்_தாமதச்_செலவு, காலம்) {
     திரும்பு நேரடிச்_செலவு

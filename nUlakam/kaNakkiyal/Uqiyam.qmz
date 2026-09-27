@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/Uqiyam.qmz — ஊதியம் (payroll)__
+// ஊதியம்
 //
 // __Every rate, ceiling, threshold and slab in Indian payroll is statutory. The__
 // __provident fund contribution rate, the wage ceiling it applies to, the pay__
@@ -23,6 +24,7 @@
 // __--- what was earned ------------------------------------------------------__
 //
 // __மொத்தச்_சம்பளம்(கூறுகள்) — the components added up__
+// மொத்தச்_சம்பளம்(கூறுகள்) — கூறுகள் அனைத்தும் கூட்டியது
 //
 // __கூறுகள் is a record: {"அடிப்படை": 40000, "வீட்டுப்படி": 16000, ...}. Naming__
 // __them is the employer's business; adding them is not.__
@@ -39,6 +41,7 @@
 // __Loss of pay. A month is not thirty days for this: February is twenty-eight,__
 // __and paying a month's salary divided by thirty in February overpays every__
 // __year. The number of days in the month is passed in for that reason.__
+// நாட்களுக்கு_ஏற்ப(தொகை_மதிப்பு, ஊதிய_நாட்கள், மாத_நாட்கள்) — பணிபுரிந்த நாட்களுக்கு ஏற்பத் தொகை
 செயல் நாட்களுக்கு_ஏற்ப(தொகை_மதிப்பு, ஊதிய_நாட்கள், மாத_நாட்கள்) {
     திரும்பு நாள்_விகிதம்(தொகை_மதிப்பு, ஊதிய_நாட்கள், மாத_நாட்கள்);
 }
@@ -50,6 +53,7 @@
 // __The provident fund shape: a percentage of wages, but only of wages up to a__
 // __ceiling. Pass 0 as the ceiling for no ceiling — an employer may contribute__
 // __on full wages, and many do.__
+// வரம்புடன்_பங்களிப்பு(பங்களிப்பு_ஊதியம், விகிதம், உச்ச_வரம்பு) — உச்ச வரம்புக்குட்பட்ட பங்களிப்பு
 செயல் வரம்புடன்_பங்களிப்பு(பங்களிப்பு_ஊதியம், விகிதம், உச்ச_வரம்பு) {
     கணக்கிடத்தக்கது = பங்களிப்பு_ஊதியம்;
     (உச்ச_வரம்பு > 0 மற்றும் பங்களிப்பு_ஊதியம் > உச்ச_வரம்பு) எனில் {
@@ -64,6 +68,7 @@
 // __Above the eligibility limit nothing is contributed at all, rather than__
 // __something being contributed on the limit. Treating one like the other is a__
 // __deduction taken from someone who owes none.__
+// தகுதிக்குள்_பங்களிப்பு(மொத்தம், விகிதம், தகுதி_எல்லை) — தகுதி எல்லைக்குள் இருந்தால் மட்டும் பங்களிப்பு
 செயல் தகுதிக்குள்_பங்களிப்பு(மொத்தத்_தொகை, விகிதம், தகுதி_எல்லை) {
     (தகுதி_எல்லை > 0 மற்றும் மொத்தத்_தொகை > தகுதி_எல்லை) எனில் { திரும்பு 0; }
     திரும்பு வட்டமிடு(சதவீதம்(மொத்தத்_தொகை, விகிதம்), 2);
@@ -88,6 +93,7 @@
 //
 // __A band may instead carry a fixed amount, which is how professional tax is__
 // __usually stated: so many rupees a month for pay in this range.__
+// படிநிலை_வரி(வரிக்குரிய_ஊதியம், படிகள்) — படிவரிசைப்படி தொழில் வரி
 செயல் படிநிலை_வரி(வரிக்குரிய_தொகை, படிகள்) {
     (வரிக்குரிய_தொகை <= 0) எனில் { திரும்பு 0; }
 
@@ -137,6 +143,7 @@
 // __than written in, as is the statutory maximum: all three have been amended.__
 //
 // __Pass 0 as the maximum for none.__
+// பணிக்கொடை(கடைசிச்_சம்பளம், பணி_ஆண்டுகள், மேல்_எண், கீழ்_எண், உச்ச_வரம்பு) — பணிக்கொடைத் தொகை
 செயல் பணிக்கொடை(கடைசிச்_சம்பளம், பணி_ஆண்டுகள், மேல்_எண், கீழ்_எண், உச்ச_வரம்பு) {
     (கீழ்_எண் <= 0 அல்லது பணி_ஆண்டுகள் <= 0) எனில் { திரும்பு 0; }
     கணக்கு = கடைசிச்_சம்பளம் * மேல்_எண் / கீழ்_எண் * பணி_ஆண்டுகள்;
@@ -152,6 +159,7 @@
 // __Answers {மொத்தம், பிடித்தம், கையில்}. Deliberately dull: it adds up what it__
 // __is given and subtracts what it is given. Deciding which deductions apply is__
 // __the caller's, because that decision is where the statute lives.__
+// சம்பளச்_சீட்டு(கூறுகள், பிடித்தங்கள்) — மொத்தம், பிடித்தம், நிகரம் கொண்ட சம்பளச் சீட்டு
 செயல் சம்பளச்_சீட்டு(கூறுகள், பிடித்தங்கள்) {
     மொத்தம் = மொத்தச்_சம்பளம்(கூறுகள்);
     பிடித்தக்_கூட்டல் = மொத்தச்_சம்பளம்(பிடித்தங்கள்);

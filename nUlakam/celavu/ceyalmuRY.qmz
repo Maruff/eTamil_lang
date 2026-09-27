@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/ceyalmuRY.qmz — செயல்முறை, process costing and equivalent units__
+// செயல்முறைச் செலவும் சமமான அலகுகளும்
 //
 // __celavu_qAL.qmz costs a job: a batch you can point at, whose costs you can__
 // __collect against it. A process cannot be pointed at. Sugar, cement, paint and__
@@ -40,6 +41,7 @@
 //
 // __What the process is expected to destroy. A percentage of input, not of__
 // __output — the loss happens to what went in.__
+// இயல்பு_இழப்பு_அலகுகள்(உள்ளீட்டு_அலகுகள், இயல்பு_விகிதம்) — எதிர்பார்க்கப்படும் இயல்பான இழப்பு
 செயல் இயல்பு_இழப்பு_அலகுகள்(உள்ளீட்டு_அலகுகள், இயல்பு_விகிதம்) {
     திரும்பு வட்டமிடு(உள்ளீட்டு_அலகுகள் * இயல்பு_விகிதம் / 100, 4);
 }
@@ -55,11 +57,13 @@
 // __normal loss percentage is wrong, or was set loosely enough to flatter the__
 // __process, and a run of abnormal gains is evidence that the standard needs__
 // __revising rather than that the plant is excelling.__
+// அசாதாரண_வேறுபாடு(இயல்பு_இழப்பு, உண்மை_இழப்பு) — இயல்புக்கு மேல் இழப்பா, குறைவா
 செயல் அசாதாரண_வேறுபாடு(இயல்பு_இழப்பு, உண்மை_இழப்பு) {
     திரும்பு வட்டமிடு(உண்மை_இழப்பு - இயல்பு_இழப்பு, 4);
 }
 
 // __நல்ல_வெளியீடு(உள்ளீட்டு_அலகுகள், உண்மை_இழப்பு) — good output, input less actual loss__
+// நல்ல_வெளியீடு(உள்ளீட்டு_அலகுகள், உண்மை_இழப்பு) — உள்ளீட்டில் உண்மை இழப்பு போக மிஞ்சுவது
 //
 // __The denominator every per-unit figure in process costing needs. Uses actual loss, not normal loss: normal loss is absorbed by the good units and carries no cost of its own, which is what makes the surviving units cost more than the input did.__
 செயல் நல்ல_வெளியீடு(உள்ளீட்டு_அலகுகள், உண்மை_இழப்பு) {
@@ -75,6 +79,7 @@
 // __Scrap recovered from the normal loss reduces what has to be absorbed. It is__
 // __a credit to the process, not income: the material was paid for once and part__
 // __of it came back.__
+// உறிஞ்ச_வேண்டிய_செலவு(மொத்தச்_செலவு, இயல்பு_இழப்பின்_கழிவு_மதிப்பு) — நல்ல அலகுகள் உறிஞ்ச வேண்டிய செலவு
 செயல் உறிஞ்ச_வேண்டிய_செலவு(மொத்தச்_செலவு, இயல்பு_இழப்பின்_கழிவு_மதிப்பு) {
     திரும்பு வட்டக்_கழி(மொத்தச்_செலவு, இயல்பு_இழப்பின்_கழிவு_மதிப்பு);
 }
@@ -88,6 +93,7 @@
 // __Dividing by *good output* instead looks more natural and is wrong whenever__
 // __any abnormal loss occurred, because the abnormal loss then quietly inflates__
 // __every good unit. அலகுக்கான_செலவு_தவறாக exists to price that.__
+// அலகுக்கான_செலவு(உறிஞ்ச_வேண்டியது, உள்ளீட்டு_அலகுகள், இயல்பு_இழப்பு) — ஓர் அலகுக்கான சரியான செலவு
 செயல் அலகுக்கான_செலவு(உறிஞ்ச_வேண்டியது, உள்ளீட்டு_அலகுகள், இயல்பு_இழப்பு) {
     பயனுள்ள_அலகுகள் = உள்ளீட்டு_அலகுகள் - இயல்பு_இழப்பு;
     (பயனுள்ள_அலகுகள் <= 0) எனில் {
@@ -102,6 +108,7 @@
 //
 // __The natural-looking mistake: dividing by good output. Offered only so the__
 // __overstatement can be measured, and it is always an overstatement.__
+// அலகுக்கான_செலவு_தவறாக(உறிஞ்ச_வேண்டியது, நல்ல_வெளியீடு) — உண்மை வெளியீட்டால் வகுக்கும் தவறு என்ன விளைவைத் தரும்
 செயல் அலகுக்கான_செலவு_தவறாக(உறிஞ்ச_வேண்டியது, நல்ல_அலகுகள்) {
     (நல்ல_அலகுகள் <= 0) எனில் { திரும்பு 0; }
     திரும்பு வட்டமிடு(உறிஞ்ச_வேண்டியது / நல்ல_அலகுகள், 4);
@@ -120,6 +127,7 @@
 // __It never touches the product cost. That is the point: the cost of good units__
 // __is what the process costs when it behaves, and the cost of misbehaving is__
 // __reported separately where somebody has to answer for it.__
+// அசாதாரண_இழப்பின்_மதிப்பு(அசாதாரண_அலகுகள், அலகுச்_செலவு, அலகுக்_கழிவு_மதிப்பு) — அசாதாரண இழப்பின் மதிப்பு
 செயல் அசாதாரண_இழப்பின்_மதிப்பு(அசாதாரண_அலகுகள், அலகுச்_செலவு,
                                  அலகுக்_கழிவு_மதிப்பு) {
     மொத்த_மதிப்பு = வட்டமிடு(அசாதாரண_அலகுகள் * அலகுச்_செலவு, 2);
@@ -139,6 +147,7 @@
 // __rupees is not worth two hundred if the twenty units would have sold as scrap__
 // __for five rupees each; it is worth a hundred, because the process gave up a__
 // __hundred rupees of scrap revenue to produce them.__
+// அசாதாரண_ஆதாயத்தின்_மதிப்பு(ஆதாய_அலகுகள், அலகுச்_செலவு, அலகுக்_கழிவு_மதிப்பு) — அசாதாரண ஆதாயத்தின் மதிப்பு
 செயல் அசாதாரண_ஆதாயத்தின்_மதிப்பு(ஆதாய_அலகுகள், அலகுச்_செலவு,
                                     அலகுக்_கழிவு_மதிப்பு) {
     மொத்த_மதிப்பு = வட்டமிடு(ஆதாய_அலகுகள் * அலகுச்_செலவு, 2);
@@ -162,6 +171,7 @@
 // __plus abnormal loss, valued at the unit cost, equals the cost to be absorbed.__
 // __A process account that does not close is a process account that has lost__
 // __track of either units or money, and it is usually units.__
+// செயல்முறையைக்_கணக்கிடு(உள்ளீட்டு_அலகுகள், மொத்தச்_செலவு, இயல்பு_விகிதம், உண்மை_இழப்பு, அலகுக்_கழிவு_மதிப்பு) — செயல்முறைக் கணக்கு முழுவதும்
 செயல் செயல்முறையைக்_கணக்கிடு(உள்ளீட்டு_அலகுகள், மொத்தச்_செலவு, இயல்பு_விகிதம்,
                                உண்மை_வெளியீடு, அலகுக்_கழிவு_மதிப்பு) {
     இயல்பு = இயல்பு_இழப்பு_அலகுகள்(உள்ளீட்டு_அலகுகள், இயல்பு_விகிதம்);
@@ -206,6 +216,7 @@
 //
 // __It blends the opening stock's earlier cost into this period's average, which__
 // __makes the unit cost easier to compute and harder to hold anybody to.__
+// சராசரி_சமமான_அலகுகள்(முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) — எடையிட்ட சராசரி முறையில் சமமான அலகுகள்
 செயல் சராசரி_சமமான_அலகுகள்(முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) {
     திரும்பு வட்டமிடு(முடிந்த_அலகுகள்
                        + இறுதி_நிலை_அலகுகள் * இறுதி_நிறைவு / 100, 4);
@@ -222,6 +233,7 @@
 // __prior-period work, and that is the argument for it: FIFO's unit cost is this__
 // __period's performance and can be compared with last period's, while the__
 // __weighted average's cannot because it contains last period's.__
+// முதலில் வந்தது முதலில் போகும் முறையில் சமமான அலகுகள்
 செயல் fifo_சமமான_அலகுகள்(தொடக்க_நிலை_அலகுகள், தொடக்க_நிறைவு, முடிந்த_அலகுகள்,
                           இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) {
     தொடக்கத்தை_முடிக்க = தொடக்க_நிலை_அலகுகள் * (100 - தொடக்க_நிறைவு) / 100;
@@ -233,6 +245,7 @@
 
 // சமமான_அலகின்_செலவு(காலத்தின்_செலவு, சமமான_அலகுகள்)
 // __சமமான_அலகின்_செலவு(காலத்தின்_செலவு, சமமான_அலகுகள்) — cost per equivalent unit__
+// சமமான_அலகின்_செலவு(காலத்தின்_செலவு, சமமான_அலகுகள்) — ஒரு சமமான அலகுக்கான செலவு
 //
 // __தவறு when there are no equivalent units, since a period with no work done has no unit cost — zero would be a figure that reads as free production. Rounded to four places because this number is multiplied back out over thousands of units.__
 செயல் சமமான_அலகின்_செலவு(காலத்தின்_செலவு, சமமான_அலகுகள்) {
@@ -251,6 +264,7 @@
 // __showing it as such is more use than showing two unit costs and leaving the__
 // __reader to wonder which is right. Both are right; they answer different__
 // __questions.__
+// முறைகளின்_வேறுபாடு(தொடக்க_நிலை_அலகுகள், தொடக்க_நிறைவு, முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) — இரு முறைகளுக்கும் இடையிலான வேறுபாடு
 செயல் முறைகளின்_வேறுபாடு(தொடக்க_நிலை_அலகுகள், தொடக்க_நிறைவு, முடிந்த_அலகுகள்,
                           இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) {
     சராசரி_விடை = சராசரி_சமமான_அலகுகள்(முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள்,
