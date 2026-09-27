@@ -8,7 +8,14 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
-## Unreleased
+## 1.4.0 — 2026-09-27
+
+Two libraries written in eTamil, and the builtins they needed. nuNNaRivu finds
+the part of the documentation that answers a question, and can ask a model to
+phrase the answer. kOppumuRY lets a program find its files. Writing nuNNaRivu
+found seven gaps in the language, and they are fixed. One of them can refuse a
+program that ran under 1.3.0: two imported modules may no longer define the
+same name.
 
 ### nuNNaRivu: retrieval and language models, in eTamil
 
