@@ -13540,7 +13540,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பலகை() — which board this is running on: \"pi\", \"sim\", \"host\", or an Arduino board name under artino",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 37
+    "line": 38
   },
   {
     "name": "முனை_வெளியீடு",
@@ -13554,7 +13554,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_வெளியீடு(முனை) — make a pin an output",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 47
+    "line": 48
   },
   {
     "name": "முனை_உள்ளீடு",
@@ -13568,7 +13568,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_உள்ளீடு(முனை) — make a pin an input",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 52
+    "line": 53
   },
   {
     "name": "முனை_மேலிழு_உள்ளீடு",
@@ -13582,7 +13582,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_மேலிழு_உள்ளீடு(முனை) — an input held high by the board, for a switch to ground",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 57
+    "line": 58
   },
   {
     "name": "முனை_எழுது",
@@ -13597,7 +13597,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_எழுது(முனை, இயக்கம்) — drive an output high (மெய்) or low (பொய்)",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 62
+    "line": 63
   },
   {
     "name": "முனை_படி",
@@ -13611,7 +13611,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_படி(முனை) — மெய் when the pin is high",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 69
+    "line": 70
   },
   {
     "name": "முனை_மாற்று",
@@ -13625,7 +13625,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனை_மாற்று(முனை) — flip an output: high becomes low, low becomes high",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 74
+    "line": 75
   },
   {
     "name": "ஒப்புமை_படி",
@@ -13639,7 +13639,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒப்புமை_படி(முனை) — an analog reading, 0 to 1023",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 82
+    "line": 83
   },
   {
     "name": "மில்லி_நொடி",
@@ -13651,7 +13651,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மில்லி_நொடி() — milliseconds since the program started; never goes backwards",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 89
+    "line": 90
   },
   {
     "name": "காத்திரு",
@@ -13665,7 +13665,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "காத்திரு(மில்லி) — pause the program for this many milliseconds",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 98
+    "line": 99
   },
   {
     "name": "ஒலி_எழுப்பு",
@@ -13680,7 +13680,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒலி_எழுப்பு(முனை, அதிர்வெண்) — a square wave of this many Hz on a pin, for a",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 107
+    "line": 108
   },
   {
     "name": "ஒலி_நிறுத்து",
@@ -13694,7 +13694,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒலி_நிறுத்து(முனை) — silence it",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 112
+    "line": 113
   },
   {
     "name": "காவல்_தொடங்கு",
@@ -13708,7 +13708,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "காவல்_தொடங்கு(மில்லி) — restart the board unless காவல்_புதுப்பி comes within this",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 119
+    "line": 120
   },
   {
     "name": "காவல்_புதுப்பி",
@@ -13720,7 +13720,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "காவல்_புதுப்பி() — the program is still running: start the watchdog's count again",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 124
+    "line": 125
   },
   {
     "name": "தொடர்_திற",
@@ -13735,7 +13735,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்_திற(சாதனம், வேகம்) — open a serial port at a baud rate: சரி(port) or தவறு(why)",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 135
+    "line": 136
   },
   {
     "name": "தொடர்_வரி_படி",
@@ -13750,7 +13750,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்_வரி_படி(துறை, காலம்) — the next whole line, waiting up to காலம் ms: சரி(line), சரி(\"\") if none has arrived yet, or தவறு(why)",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 144
+    "line": 145
   },
   {
     "name": "தொடர்_எழுது",
@@ -13765,7 +13765,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்_எழுது(துறை, செய்தி) — send text as it is",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 151
+    "line": 152
   },
   {
     "name": "தொடர்_வரி_எழுது",
@@ -13780,7 +13780,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்_வரி_எழுது(துறை, செய்தி) — send text and end the line",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 156
+    "line": 157
   },
   {
     "name": "தொடர்_மூடு",
@@ -13794,7 +13794,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்_மூடு(துறை) — close a port",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 161
+    "line": 162
   },
   {
     "name": "போலி_முனை",
@@ -13809,7 +13809,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "போலி_முனை(முனை, இயக்கம்) — set what an input pin reads",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 172
+    "line": 173
   },
   {
     "name": "போலி_ஒப்புமை",
@@ -13824,7 +13824,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "போலி_ஒப்புமை(முனை, அளவீடு) — set what an analog pin reads, 0 to 1023",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 179
+    "line": 180
   },
   {
     "name": "போலி_நேரம்",
@@ -13838,7 +13838,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "போலி_நேரம்(மில்லி) — move simulated time forward",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 184
+    "line": 185
   },
   {
     "name": "போலி_தொடர்_ஊட்டு",
@@ -13853,7 +13853,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "போலி_தொடர்_ஊட்டு(சாதனம், வரி) — make a line arrive on a simulated port",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 189
+    "line": 190
   },
   {
     "name": "போலி_தொடர்_வெளியீடு",
@@ -13867,7 +13867,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "போலி_தொடர்_வெளியீடு(சாதனம்) — the lines the program wrote to a simulated port since the last call",
     "kind": "stdlib",
     "module": "nUlakam/vaZporuL/vaZporuL.qmz",
-    "line": 194
+    "line": 195
   },
   {
     "name": "ஒப்பந்த_நிலை",
