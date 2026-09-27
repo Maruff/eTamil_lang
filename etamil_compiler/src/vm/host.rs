@@ -360,10 +360,7 @@ mod imp {
             if files.keys().any(|key| key.starts_with(&prefix)) {
                 return Ok((true, 0, None));
             }
-            Err(format!(
-                "கோப்பு '{}' இல்லை  (no such file '{}')",
-                path, path
-            ))
+            Err(format!("கோப்பு '{}' இல்லை  (no such file '{}')", path, path))
         })
     }
 
