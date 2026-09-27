@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.1
+
+### Changed
+
+- The carried compiler is 1.4.1, whose `ஜேசான்_படி` reads a number exactly.
+  See the repository's CHANGELOG.
+
 ## 1.4.0
 
 The extension moves to 1.4.0 with the language. See the repository's CHANGELOG
