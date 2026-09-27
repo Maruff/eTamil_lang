@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/atippatY/eNkaL.qmz — எண்கள் (numbers): the operations on one or two of them__
+// எண்கள்: ஒன்று அல்லது இரண்டு எண்களின்மேல் செய்வன
+//
+// __Nothing here looks at a collection, and nothing here knows about money.__
+// __That is what makes them safe to import everywhere: சிறியது clamps a pin__
+// __number as readily as it clamps an allowance.__
+
+// __முழுமதிப்பு(எண்) — absolute value__
+// முழுமதிப்பு(எண்) — குறியின்றி எண்ணின் அளவு
+செயல் முழுமதிப்பு(மதிப்பு) {
+    (மதிப்பு < 0) எனில் { திரும்பு 0 - மதிப்பு; }
+    திரும்பு மதிப்பு;
+}
+
+// சிறியது(அ, ஆ) / பெரியது(அ, ஆ)
+// சிறியது(அ, ஆ) — இரண்டில் சிறிய எண்
+// __சிறியது(அ, ஆ) — the smaller of two numbers__
+//
+// __A tie returns ஆ, which matters only in that the values are equal. Present so callers do not write the comparison inline, where reversing it is easy and the mistake reads as correct.__
+செயல் சிறியது(அ, ஆ) {
+    (அ < ஆ) எனில் { திரும்பு அ; }
+    திரும்பு ஆ;
+}
+
+// __பெரியது(அ, ஆ) — the larger of two numbers__
+// பெரியது(அ, ஆ) — இரண்டில் பெரிய எண்
+//
+// __The pair to சிறியது. Between them they cover the clamping that shows up all over the accounting modules: an allowance that cannot go below zero, a claim capped at the sum insured.__
+செயல் பெரியது(அ, ஆ) {
+    (அ > ஆ) எனில் { திரும்பு அ; }
+    திரும்பு ஆ;
+}
+
+// __முழு_எண்ணா(மதிப்பு) — is this a whole number?__
+// முழு_எண்ணா(மதிப்பு) — இது முழு எண்ணா
+செயல் முழு_எண்ணா(மதிப்பு) {
+    திரும்பு தரை(மதிப்பு) == மதிப்பு;
+}
+
+// __மீதி(எண், வகுப்பான்) — the remainder, since there is no % operator__
+// மீதி(எண், வகுப்பான்) — வகுத்தபின் மிஞ்சுவது; மீதிக்கெனச் செயற்குறி இல்லை
+//
+// __Written here rather than added to the host: it follows from தரை and the__
+// __arithmetic the language already has, so Layer 0 gains nothing by owning it.__
+செயல் மீதி(எண்_மதிப்பு, வகுப்பான்) {
+    (வகுப்பான் == 0) எனில் { திரும்பு 0; }
+    திரும்பு எண்_மதிப்பு - தரை(எண்_மதிப்பு / வகுப்பான்) * வகுப்பான்;
+}

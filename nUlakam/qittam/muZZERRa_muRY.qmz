@@ -1,0 +1,61 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/muZZERRa_muRY.qmz — முன்னேற்ற முறை: how much of a package counts as done__
+// முன்னேற்ற முறை: ஒரு தொகுப்பில் எவ்வளவு முடிந்ததாகக் கணக்கு
+//
+// __The rule is chosen before the work starts, not after. 0/100 credits__
+// __nothing until a package is finished, which is the honest choice when__
+// __partial progress cannot be observed.__
+
+// __முறை_0_100(முடிந்ததா) — nothing until complete, then everything__
+// முறை_0_100(முடிந்ததா) — முடியும் வரை ஒன்றும் இல்லை, முடிந்ததும் முழுவதும்
+//
+// __Conservative, ungameable, and right for any package inside one or two__
+// __reporting periods.__
+செயல் முறை_0_100(முடிந்ததா) {
+    (முடிந்ததா) எனில் { திரும்பு 1; }
+    திரும்பு 0;
+}
+
+// __முறை_50_50(தொடங்கியதா, முடிந்ததா) — half on starting, half on finishing__
+// முறை_50_50(தொடங்கியதா, முடிந்ததா) — தொடங்கும்போது பாதி, முடியும்போது மீதி
+செயல் முறை_50_50(தொடங்கியதா, முடிந்ததா) {
+    (முடிந்ததா) எனில் { திரும்பு 1; }
+    (தொடங்கியதா) எனில் { திரும்பு 0.5; }
+    திரும்பு 0;
+}
+
+// __முறை_மைல்கற்கள்(அடைந்த_எடைகள்) — weighted milestones__
+// முறை_மைல்கற்கள்(அடைந்த_எடைகள்) — எடையிட்ட மைல்கற்களால் முன்னேற்றம்
+//
+// __For long packages. The weights are assigned *before* work starts and credit__
+// __is taken only when a milestone is objectively achieved. Pass the list of__
+// __weights actually reached.__
+செயல் முறை_மைல்கற்கள்(அடைந்த_எடைகள்) {
+    ஓடும்_கூட்டல் = 0;
+    ஒவ்வொரு ஒரு_எடை இல் அடைந்த_எடைகள் {
+        ஓடும்_கூட்டல் = ஓடும்_கூட்டல் + ஒரு_எடை;
+    }
+    திரும்பு ஓடும்_கூட்டல்;
+}
+
+// __ஈட்டிய_மதிப்பு(கணு_நிதி, நிறைவுப்_பங்கு) — EV for one package__
+// ஈட்டிய_மதிப்பு(கணு_நிதி, நிறைவுப்_பங்கு) — ஒரு தொகுப்புக்கான ஈட்டிய மதிப்பு
+//
+// __The *budget* of finished work, never its cost. That distinction is the__
+// __entire mechanism: valuing completed work at what it was supposed to cost is__
+// __what makes EV comparable with both PV and AC.__
+செயல் ஈட்டிய_மதிப்பு(கணு_நிதி, நிறைவுப்_பங்கு) {
+    திரும்பு கணு_நிதி * நிறைவுப்_பங்கு;
+}
+
+// __--- Variances -----------------------------------------------------------__
+
+// __நிறைவுப்_பங்கு_நிதியால்(ஈட்டியது, மொத்த_நிதி) — percent complete, by value__
+// நிறைவுப்_பங்கு_நிதியால்(ஈட்டியது, மொத்த_நிதி) — மதிப்பால் அளக்கும் நிறைவுப் பங்கு
+//
+// __Earned value over the whole budget. Measures work, not money spent and not time elapsed — the three differ, and reporting spend as progress is how a project is 90% complete for half its duration.__
+செயல் நிறைவுப்_பங்கு_நிதியால்(ஈட்டியது, மொத்த_நிதி) {
+    (மொத்த_நிதி == 0) எனில் { திரும்பு தவறு("மொத்த நிதி பூஜ்யம்"); }
+    திரும்பு சரி(ஈட்டியது / மொத்த_நிதி * 100);
+}

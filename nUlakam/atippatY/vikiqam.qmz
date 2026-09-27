@@ -1,0 +1,80 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/atippatY/vikiqam.qmz — விகிதம் (rates): percentages and arithmetic that lands on the paisa__
+// விகிதம்: சதவீதமும், பைசாவில் முடியும் கணக்கும்
+//
+// __These are the ones that know what a rupee is. Each rounds to the paisa,__
+// __because an amount that carries more precision than money has will not__
+// __agree with the ledger that stores it.__
+//
+// __Four operations that were written out in sixteen places across eleven__
+// __modules before they lived here: a difference, a difference that cannot go__
+// __negative, a share, and a product — each rounded to two places, because a__
+// __figure carried to twenty-eight and rounded at the end disagrees with a__
+// __ledger that rounded as it went.__
+//
+// __The domain names stay where they are. `தற்காலிக_வேறுபாடு` and__
+// __`இந்தக்_காலத்து_வருவாய்` are not the same idea and should not share a name;__
+// __what they share is arithmetic, and that is what lives here.__
+
+// __சதவீதம்(தொகை, விகிதம்) — விகிதம் percent of தொகை, rounded to paise__
+// சதவீதம்(தொகை, விகிதம்) — தொகையின் விகிதச் சதவீதம், பைசா வரை வட்டமிட்டு
+செயல் சதவீதம்(தொகை, விகிதம்) {
+    திரும்பு வட்டமிடு(தொகை * விகிதம் / 100, 2);
+}
+
+// __வட்டக்_கழி(அ, ஆ) — அ less ஆ, to the paisa__
+// வட்டக்_கழி(அ, ஆ) — அ இல் ஆ கழித்து, பைசா வரை வட்டமிட்டு
+செயல் வட்டக்_கழி(அ, ஆ) {
+    திரும்பு வட்டமிடு(அ - ஆ, 2);
+}
+
+// __குறையாக்_கழி(அ, ஆ) — அ less ஆ, floored at zero__
+// குறையாக்_கழி(அ, ஆ) — அ இல் ஆ கழித்து, பூஜ்ஜியத்திற்குக் கீழே இறங்காமல்
+//
+// __A deduction larger than the income it is set against does not make the__
+// __income negative; it exhausts it. Chapter VI-A says so, and so does every__
+// __other place this is used.__
+செயல் குறையாக்_கழி(அ, ஆ) {
+    விடை = அ - ஆ;
+    (விடை < 0) எனில் { திரும்பு 0; }
+    திரும்பு வட்டமிடு(விடை, 2);
+}
+
+// __வட்டப்_பங்கு(தொகை, வீதம்) — வீதம் per cent of தொகை, to the paisa__
+// வட்டப்_பங்கு(தொகை, வீதம்) — தொகையின் வீதச் சதவீதம், பைசா வரை
+செயல் வட்டப்_பங்கு(தொகை, வீதம்) {
+    திரும்பு வட்டமிடு(சதவீதம்(தொகை, வீதம்), 2);
+}
+
+// __வட்டப்_பெருக்கு(அ, ஆ) — a rate times a quantity, to the paisa__
+// வட்டப்_பெருக்கு(அ, ஆ) — வீதத்தை அளவால் பெருக்கி, பைசா வரை
+செயல் வட்டப்_பெருக்கு(அ, ஆ) {
+    திரும்பு வட்டமிடு(அ * ஆ, 2);
+}
+
+// __நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) — a period's share of an amount__
+// நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) — ஒரு காலத்திற்கு உரிய தொகையின் பங்கு
+//
+// __A premium for part of a year, a salary for part of a month, a rent for part__
+// __of a quarter. Three guards, and each of them is a real case: no period at__
+// __all is zero rather than a division by zero; a period at least as long as the__
+// __whole is the whole amount and not an amount scaled slightly past it; and a__
+// __negative number of days is nothing, not a refund.__
+செயல் நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) {
+    (மொத்த_நாட்கள் <= 0) எனில் { திரும்பு 0; }
+    (நாட்கள் >= மொத்த_நாட்கள்) எனில் { திரும்பு வட்டமிடு(தொகை, 2); }
+    (நாட்கள் <= 0) எனில் { திரும்பு 0; }
+    திரும்பு வட்டமிடு(தொகை * நாட்கள் / மொத்த_நாட்கள், 2);
+}
+
+// __வட்ட_மாதங்கள்(நாட்கள்) — days as whole months, any part month counting as one__
+// வட்ட_மாதங்கள்(நாட்கள்) — நாட்களை முழு மாதங்களாக; பகுதி மாதமும் ஒன்றாகக் கணக்கு
+//
+// __The convention the Income-tax Act uses for interest: a month begun is a__
+// __month owed. Thirty days to the month, so a caller holding real dates should__
+// __count calendar months itself — February will disagree with this by a day.__
+செயல் வட்ட_மாதங்கள்(நாட்கள்) {
+    (நாட்கள் <= 0) எனில் { திரும்பு 0; }
+    திரும்பு மேல்(நாட்கள் / 30);
+}

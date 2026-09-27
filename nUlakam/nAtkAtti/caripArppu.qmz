@@ -1,0 +1,157 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nAtkAtti/caripArppu.qmz — சரிபார்ப்பு: is this a date, and what is in it__
+// சரிபார்ப்பு: இது நாளா, அதனுள் என்ன
+//
+// __The shape is checked without asking the host, so the same code runs on a__
+// __board with no clock. Everything else in nAtkAtti is built on these.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/col.qmz";
+
+// __The epoch the host counts from, and the weekday it fell on. 1 January 1970__
+// __was a Thursday, which is day 4 when Sunday is 0.__
+// காலத்_தொடக்கம்() — நாள் கணக்கீடுகளுக்கான தொடக்கப் புள்ளி
+செயல் காலத்_தொடக்கம்() { திரும்பு "1970-01-01"; }
+
+// =========================================================================
+// __செல்லுபடி — is this a date at all__
+// =========================================================================
+//
+// __நாள்_வடிவமா(நாள்_உரை) — the shape, checked without touching the host__
+// நாள்_வடிவமா(நாள்_உரை) — வடிவம் சரியாக உள்ளதா; புரவலனைத் தொடாமல் பார்க்கும்
+//
+// __Ten characters, dashes in the fifth and eighth position, digits everywhere__
+// __else. This runs first and on its own, because the host's parser raises a__
+// __runtime error rather than a தவறு for anything it cannot read, and a library__
+// __that stops the program when handed a malformed string is not usable at the__
+// __edge of a system, which is the only place malformed strings arrive.__
+செயல் நாள்_வடிவமா(நாள்_உரை) {
+    // __வகை answers in English, so the name compared here is "a string"__
+    // __and not the Tamil word. Surprising, and checked by the tests.__
+    (வகை(நாள்_உரை) != "a string") எனில் { திரும்பு பொய்; }
+    (நீளம்(நாள்_உரை) != 10) எனில் { திரும்பு பொய்; }
+    (எழுத்து(நாள்_உரை, 4) != "-") எனில் { திரும்பு பொய்; }
+    (எழுத்து(நாள்_உரை, 7) != "-") எனில் { திரும்பு பொய்; }
+
+    எழுத்திடம் = 0;
+    (எழுத்திடம் < 10) சுற்று {
+        (எழுத்திடம் != 4 மற்றும் எழுத்திடம் != 7) எனில் {
+            (இல்லை கொண்டுள்ளதா("0123456789", எழுத்து(நாள்_உரை, எழுத்திடம்))) எனில் {
+                திரும்பு பொய்;
+            }
+        }
+        எழுத்திடம் = எழுத்திடம் + 1;
+    }
+    திரும்பு மெய்;
+}
+
+// __நாள்_செல்லுபடியா(நாள்_உரை) — and is it a day that exists__
+// நாள்_செல்லுபடியா(நாள்_உரை) — இது உண்மையில் இருக்கும் நாளா
+//
+// __Shape, then range, then the round trip. The round trip is the whole point:__
+// __the host accepts 2026-02-31 and answers 2026-03-03, so a date that comes__
+// __back different from the one that went in was never a real date. Thirty-first__
+// __of February, thirtieth of February in a leap year, twenty-ninth in a common__
+// __one — all caught by one comparison.__
+செயல் நாள்_செல்லுபடியா(நாள்_உரை) {
+    (இல்லை நாள்_வடிவமா(நாள்_உரை)) எனில் { திரும்பு பொய்; }
+
+    மாத_மதிப்பு = மதிப்பு(எண்ணாக்கு(துண்டு(நாள்_உரை, 5, 2)));
+    நாள்_மதிப்பு = மதிப்பு(எண்ணாக்கு(துண்டு(நாள்_உரை, 8, 2)));
+
+    // __The host errors rather than returning a தவறு outside these ranges, so__
+    // __they are checked here and not there.__
+    (மாத_மதிப்பு < 1 அல்லது மாத_மதிப்பு > 12) எனில் { திரும்பு பொய்; }
+    (நாள்_மதிப்பு < 1 அல்லது நாள்_மதிப்பு > 31) எனில் { திரும்பு பொய்; }
+
+    திரும்பு நாள்_கூட்டு(நாள்_உரை, 0) == நாள்_உரை;
+}
+
+// __நாள்_சரிபார்(நாள்_உரை) — the same question, answered as a Result__
+// நாள்_சரிபார்(நாள்_உரை) — அதே கேள்வி, விளைவாகப் பதிலளிக்கப்பட்டது
+//
+// __For the edge of a system, where the answer has to carry a reason.__
+செயல் நாள்_சரிபார்(நாள்_உரை) {
+    (நாள்_செல்லுபடியா(நாள்_உரை)) எனில் { திரும்பு சரி(நாள்_உரை); }
+    திரும்பு தவறு("செல்லாத நாள்  (not a valid date, expected YYYY-MM-DD): "
+                   & சொல்லாக்கு(நாள்_உரை));
+}
+
+// =========================================================================
+// __கூறுகள் — the parts of a date__
+// =========================================================================
+
+// நாளாக_வடிவமை(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு)
+//
+// __Assembles the text without checking it. Used internally where the parts were__
+// __computed rather than supplied, so they are known good; நாள்_ஆக்கு is the one__
+// __that validates.__
+// நாளாக_வடிவமை(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) — மூன்றையும் நாள் உரையாக வடிவமைக்கும்
+செயல் நாளாக_வடிவமை(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) {
+    திரும்பு இடமிருந்து_நிரப்பு(சொல்லாக்கு(ஆண்டு_மதிப்பு), 4, "0") & "-"
+             & இடமிருந்து_நிரப்பு(சொல்லாக்கு(மாத_மதிப்பு), 2, "0") & "-"
+             & இடமிருந்து_நிரப்பு(சொல்லாக்கு(நாள்_மதிப்பு), 2, "0");
+}
+
+// __நாள்_ஆக்கு(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) — the constructor__
+// நாள்_ஆக்கு(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) — சரிபார்த்து நாளை உருவாக்கும்
+செயல் நாள்_ஆக்கு(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) {
+    திரும்பு நாள்_சரிபார்(நாளாக_வடிவமை(ஆண்டு_மதிப்பு, மாத_மதிப்பு,
+                                          நாள்_மதிப்பு));
+}
+
+// __ஆண்டைப்_பெறு(ஒரு_நாள்) — the year, as a number__
+// ஆண்டைப்_பெறு(ஒரு_நாள்) — ஆண்டு, எண்ணாக
+//
+// __A slice of the ISO text, not arithmetic on a day count. The format was chosen so that reading a field costs nothing; going through நாள்_வேறுபாடு to recover a year would be slower and no more correct.__
+செயல் ஆண்டைப்_பெறு(ஒரு_நாள்) {
+    திரும்பு மதிப்பு(எண்ணாக்கு(துண்டு(ஒரு_நாள், 0, 4)));
+}
+
+// __மாதத்தைப்_பெறு(ஒரு_நாள்) — the month, 1 to 12__
+// மாதத்தைப்_பெறு(ஒரு_நாள்) — மாதம், ஒன்று முதல் பன்னிரண்டு வரை
+//
+// __Returns a number, so callers can compare and index with it. The two-digit text would sort correctly but 09 and 9 are not equal, and that inequality has ended up in a report more than once.__
+செயல் மாதத்தைப்_பெறு(ஒரு_நாள்) {
+    திரும்பு மதிப்பு(எண்ணாக்கு(துண்டு(ஒரு_நாள், 5, 2)));
+}
+
+// __நாளைப்_பெறு(ஒரு_நாள்) — the day of the month, 1 to 31__
+// நாளைப்_பெறு(ஒரு_நாள்) — மாதத்தின் நாள், ஒன்று முதல் முப்பத்தொன்று வரை
+//
+// __Says nothing about whether the date exists: the host accepts 2026-02-31 and rolls it forward. Put anything from outside the program through நாள்_செல்லுபடியா first.__
+செயல் நாளைப்_பெறு(ஒரு_நாள்) {
+    திரும்பு மதிப்பு(எண்ணாக்கு(துண்டு(ஒரு_நாள், 8, 2)));
+}
+
+// =========================================================================
+// __மாதங்களும் ஆண்டுகளும் — months and years__
+// =========================================================================
+//
+// __நெட்டாண்டா(ஆண்டு_மதிப்பு) — a leap year__
+// நெட்டாண்டா(ஆண்டு_மதிப்பு) — இது நெட்டாண்டா
+//
+// __Divisible by four, except centuries, except every fourth century. 1900 was__
+// __not a leap year and 2000 was, and any rule that stops at "divisible by four"__
+// __gets one of those two wrong.__
+செயல் நெட்டாண்டா(ஆண்டு_மதிப்பு) {
+    (மீதி(ஆண்டு_மதிப்பு, 400) == 0) எனில் { திரும்பு மெய்; }
+    (மீதி(ஆண்டு_மதிப்பு, 100) == 0) எனில் { திரும்பு பொய்; }
+    திரும்பு மீதி(ஆண்டு_மதிப்பு, 4) == 0;
+}
+
+// மாத_நாட்கள்(ஆண்டு_மதிப்பு, மாத_மதிப்பு)
+// __மாத_நாட்கள்(ஆண்டு_மதிப்பு, மாத_மதிப்பு) — how many days that month has__
+// மாத_நாட்கள்(ஆண்டு_மதிப்பு, மாத_மதிப்பு) — அம்மாதத்தில் எத்தனை நாட்கள்
+//
+// __The one place the 28/29/30/31 question is answered, so no caller has to carry the rhyme. February consults நெட்டாண்டா rather than assuming 28, which is why an instalment schedule built on this does not drift in a leap year.__
+செயல் மாத_நாட்கள்(ஆண்டு_மதிப்பு, மாத_மதிப்பு) {
+    (மாத_மதிப்பு == 2) எனில் {
+        (நெட்டாண்டா(ஆண்டு_மதிப்பு)) எனில் { திரும்பு 29; }
+        திரும்பு 28;
+    }
+    (மாத_மதிப்பு == 4 அல்லது மாத_மதிப்பு == 6 அல்லது மாத_மதிப்பு == 9
+     அல்லது மாத_மதிப்பு == 11) எனில் { திரும்பு 30; }
+    திரும்பு 31;
+}

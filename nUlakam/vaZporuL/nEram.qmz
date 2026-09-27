@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/nEram.qmz — நேரம்: time, sound and the watchdog__
+// நேரம்: நேரம், ஒலி, காவல்
+//
+// __மில்லி_நொடி never goes backwards, which is what makes it safe to compare__
+// __two readings. A clock that can step back turns a timeout into a hang.__
+
+// __மில்லி_நொடி() — milliseconds since the program started; never goes backwards__
+// மில்லி_நொடி() — நிரல் தொடங்கியதிலிருந்து கடந்த மில்லி நொடிகள்; பின்னோக்கிச் செல்லாது
+செயல் மில்லி_நொடி() {
+    திரும்பு _millis();
+}
+
+// __காத்திரு(மில்லி) — pause the program for this many milliseconds__
+// காத்திரு(மில்லி) — சொன்ன மில்லி நொடிகள் நிரலை நிறுத்தி வைக்கும்
+//
+// __For programs on a Raspberry Pi that loop, such as a serial bridge. Firmware__
+// __under artino has no blocking wait — a paused board misses button presses —__
+// __so there it is refused in favour of இடைவெளி N { … }.__
+செயல் காத்திரு(மில்லி) {
+    மதிப்பு(_sleepMs(மில்லி));
+}
+
+// __--- sound and the watchdog ----------------------------------------------------__
+
+// __ஒலி_எழுப்பு(முனை, அதிர்வெண்) — a square wave of this many Hz on a pin, for a__
+// ஒலி_எழுப்பு(முனை, அதிர்வெண்) — முனையில் சொன்ன அதிர்வெண்ணில் ஒலி எழுப்பும்
+// __plain speaker, until ஒலி_நிறுத்து. Arduino boards and the simulated board; a Pi__
+// __drives an active buzzer with முனை_எழுது instead.__
+செயல் ஒலி_எழுப்பு(முனை, அதிர்வெண்) {
+    மதிப்பு(_tone(முனை, அதிர்வெண்));
+}
+
+// __ஒலி_நிறுத்து(முனை) — silence it__
+// ஒலி_நிறுத்து(முனை) — ஒலியை நிறுத்தும்
+செயல் ஒலி_நிறுத்து(முனை) {
+    மதிப்பு(_noTone(முனை));
+}
+
+// __காவல்_தொடங்கு(மில்லி) — restart the board unless காவல்_புதுப்பி comes within this__
+// காவல்_தொடங்கு(மில்லி) — இதற்குள் புதுப்பிக்கவில்லையெனில் பலகையை மீண்டும் தொடங்கும்
+// __long: what gets a hung panel back without anyone there. On the VM it does__
+// __nothing; a Pi's service manager restarts a program that stops.__
+செயல் காவல்_தொடங்கு(மில்லி) {
+    மதிப்பு(_watchdogBegin(மில்லி));
+}
+
+// __காவல்_புதுப்பி() — the program is still running: start the watchdog's count again__
+// காவல்_புதுப்பி() — நிரல் இன்னும் ஓடுகிறது; காவலின் எண்ணிக்கையை மீண்டும் தொடங்கும்
+செயல் காவல்_புதுப்பி() {
+    மதிப்பு(_watchdogFeed());
+}
