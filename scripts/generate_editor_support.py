@@ -396,6 +396,30 @@ def unmark(text: str) -> str:
     return text
 
 
+def full_doc(doc_lines: list[str], name: str) -> str:
+    """The whole comment block, for a consumer that wants more than a summary.
+
+    `pick_doc` returns one line because that is what a hover shows: an editor
+    popup repeating four paragraphs is worse than one that says the thing.
+    A search index wants the opposite. The rationale under a summary — why
+    மாத_இறுதி asks மாத_நாட்கள் instead of adding a month and stepping back — is
+    what distinguishes one function from its neighbours, and returning a single
+    line meant an index saw none of it.
+
+    Dividers and the bare signature line are dropped, for the same reasons
+    pick_doc skips them: neither says anything about what the function does.
+    """
+    kept = []
+    for line in doc_lines:
+        if not line or line.startswith("---") or line.startswith("==="):
+            continue
+        close = line.find(")")
+        if line.startswith(name) and close != -1 and line[close + 1 :].strip(" .:—-") == "":
+            continue
+        kept.append(line)
+    return chr(10).join(kept)
+
+
 def pick_doc(doc_lines: list[str], name: str) -> str:
     """The line of a comment block that describes `name`, else the first.
 
@@ -486,6 +510,10 @@ def read_stdlib() -> list[dict]:
                     "forms": [name],
                     "params": params,
                     "doc": pick_doc(doc, name),
+                    # The whole block as well as the summary. Nothing written
+                    # into eTamil_Code reads this; it is for an index, which
+                    # wants every word there is about a function.
+                    "detail": full_doc(doc, name),
                     "module": module,
                     # 1-based, so Go to Definition can open the library at the
                     # செயல் line rather than at the top of the file.
