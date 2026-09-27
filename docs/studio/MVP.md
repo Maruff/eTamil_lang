@@ -70,7 +70,7 @@ DigitalOcean droplet: 4 GB RAM, 2 vCPU, 80 GB SSD, Ubuntu 24.04.
 | Linux | On the droplet — compiler, package, releases |
 | Windows | Locally, in a Windows VM |
 | Android | GitHub Actions |
-| Raspberry Pi | GitHub Actions |
+| Raspberry Pi | GitHub Actions — `release.yml`, static aarch64 musl on the `ubuntu-24.04-arm` runner |
 | macOS | Future phase — GitHub macOS runner, or a Mac Mini |
 
 ## System architecture

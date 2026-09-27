@@ -10,7 +10,7 @@
 
 [package]
 name = "etamil_compiler"
-version = "1.1.0"
+version = "1.2.0"
 edition = "2024"          # edition 2024 itself needs 1.85; the floor below is higher
 # 1.88 is what the current `time` and `zip` releases require. Held at 1.85 until
 # RUSTSEC-2026-0009 (a stack-exhaustion DoS in time, reached through jsonwebtoken)

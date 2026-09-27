@@ -154,6 +154,7 @@ Equality is exact too. Division keeps full precision rather than rounding at eac
 |---|---|
 | **Windows** x64 | [etamil-windows-x64.zip](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-windows-x64.zip) |
 | **Linux** x64 | [etamil-linux-x64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-linux-x64.tar.gz) |
+| **Linux** arm64 (Raspberry Pi 4/5) | [etamil-linux-arm64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-linux-arm64.tar.gz) |
 | **macOS** Apple Silicon | [etamil-macos-arm64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-macos-arm64.tar.gz) |
 | **macOS** Intel | [etamil-macos-x64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-macos-x64.tar.gz) |
 
@@ -172,7 +173,11 @@ Expand-Archive etamil-windows-x64.zip -DestinationPath .
 .\etamil-windows-x64\install.ps1
 ```
 
-**Linux**
+**Linux** — use `arm64` for a Raspberry Pi 4 or 5 running 64-bit Raspberry Pi
+OS (or any other aarch64 machine), `x64` otherwise. `uname -m` tells you which:
+`aarch64` or `x86_64`. A 32-bit Raspberry Pi OS reports `armv7l`, and there is
+no package for it.
+
 ```bash
 tar -xzf etamil-linux-x64.tar.gz
 ./etamil-linux-x64/install.sh
@@ -198,8 +203,8 @@ Open a new terminal afterwards — a shell that is already running does not see 
 `PATH` change — then `etamil --version`.
 
 There is nothing else to install. The Windows binary links the C runtime
-statically, so it does not need the Visual C++ Redistributable; the Linux binary
-is built against musl, so it is one static ELF that does not depend on the build
+statically, so it does not need the Visual C++ Redistributable; the Linux binaries
+are built against musl, so each is one static ELF that does not depend on the build
 machine's glibc. The packaged builds include the PostgreSQL and MySQL drivers,
 which a downloaded binary cannot have added to it afterwards; the LLVM backend
 is not included, because it needs LLVM installed on the machine that runs it.
@@ -735,4 +740,4 @@ carries the metadata and GitHub turns it into a **Cite this repository** button.
 
 ---
 
-**Version**: 1.1.0 · **Author**: Esan Maruff
+**Version**: 1.2.0 · **Author**: Esan Maruff

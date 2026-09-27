@@ -8,6 +8,71 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## 1.2.0 — 2026-09-27
+
+A package for the Raspberry Pi, one file extension instead of two, and a
+standard library that says in English what every function is for. The language
+is unchanged: every program means under 1.2.0 exactly what it meant under 1.1.0.
+
+### Raspberry Pi, and any 64-bit ARM Linux
+
+`etamil-linux-arm64.tar.gz` joins the release packages. It is for a Raspberry
+Pi 4 or 5 running 64-bit Raspberry Pi OS, and any other aarch64 Linux. Like the
+x64 package it is one static musl binary with the PostgreSQL and MySQL drivers
+included, so it does not care which Debian release the Pi is on. It is built and
+smoke-tested on an ARM runner rather than under emulation, so the binary that
+passed is the binary that ships.
+
+`uname -m` says which to download: `aarch64` means this one. A 32-bit Raspberry
+Pi OS reports `armv7l`, and there is no package for it.
+
+Not yet proven: a Raspberry Pi 5 kernel uses 16K memory pages where the CI runner
+uses 4K, so a passing smoke test does not show the binary runs there. The
+linker's default alignment should cover it; a report from a Pi 5 settles it.
+
+### `.qmz` is the one extension
+
+`.etamil` was discarded. The VS Code extension already registered only `.qmz`.
+Now the tree-sitter grammar, the Rouge lexer, the example and parity runners, and
+the documentation say the same. The compiler never looked at the extension and
+still does not.
+
+### Every standard-library function says what it is for
+
+153 functions in `nUlakam/` had no English documentation — 100 had no comment at
+all, 53 only Tamil. They are written now, in the library's own style: what the
+function does, then why it is that way.
+
+The documentation index was reading the wrong line for another 271. Where a
+comment opened with a bare signature, the index took the signature — which a
+caller can already see — and the sentence explaining the function never left
+the file. It skips a signature-only line now. VS Code hovers show the
+explanation, and searching for what a function *does* finds it: seven functions
+retrieval could not find at all now name the concept a reader searches for
+("trial balance", "GST", "parse JSON").
+
+### For contributors
+
+- **The website is checked against the compiler.** CI checks out the site and
+  compares its published keyword counts, and the version in `_config.yml`,
+  with the lexer and `Cargo.toml`. At 1.1.0 the site went on saying 1.0.0. A
+  release now fails CI until the site says the same version.
+- **The wasm boundary is checked.** `scripts/check_wasm_boundary.py` compares
+  what `lib.rs` and `wasm.rs` claim reaches the browser build with the
+  attributes on the declarations.
+- **Text checks run once**, in their own conventions job, instead of twice in
+  the compiler matrix.
+- **One implementation of the script-mark rule.** The rule saying which ASCII
+  is eTamil script and which is English is `script_spans()` in the compiler,
+  used by both editors, instead of two separate copies.
+- **Editor support is generated from the committed tree**, so an untracked file
+  in a working directory can no longer leak into shipped artifacts.
+- **The dev profile keeps line tables, not full debug info.** The largest debug
+  file falls to 55 MB, a fresh `target/` with every profile and feature is 2.6
+  GB, and a Windows link failure (`LNK1318`, a full disk) goes with it.
+- The installed-binary tests retry an exec that races another test thread on
+  Linux (`ETXTBSY`), rather than failing at random.
+
 ## 1.1.0 — 2026-09-23
 
 Four additions to the language, each on both backends — the VM, and LLVM
