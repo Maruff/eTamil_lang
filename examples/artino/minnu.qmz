@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __examples/artino/minnu.qmz — மின்னு: the first program on any board__
+//
+//   __etamil --artino --board uno examples/artino/minnu.qmz__
+//
+// __The built-in LED toggles every half second and the serial port counts__
+// __each blink. Pin 13 is the LED on an Uno, a Nano and a Mega; on a Pico it__
+// __is 25, so change விளக்கு to 25 before building with --board pico.__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+நிலை எண் விளக்கு = 13;
+
+// __Once, at power-on__
+முனை_வெளியீடு(விளக்கு);
+எண்ணிக்கை = 0;
+
+// __Every half second, for ever__
+இடைவெளி 0.5 {
+    முனை_மாற்று(விளக்கு);
+    எண்ணிக்கை = எண்ணிக்கை + 1;
+    அச்சு "மின்னல் " & எண்ணிக்கை & "  எரிகிறதா " & முனை_படி(விளக்கு);
+}

@@ -553,6 +553,136 @@ impl VM {
         args.reverse();
 
         match name {
+            // --- the board: nUlakam/vaZporuL/vaZporuL.qmz calls these, by their
+            // English names; src/vm/board.rs is the board itself. Pins and time
+            // give results a wrapper unwraps; serial ports give results the
+            // program handles.
+            // வன்_பலகை() — "sim", "pi" or "host"
+            "வன்_பலகை" | "vaZ_palakY" | "_boardName" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::String(super::board::name().to_string()))
+            }
+            // வன்_முனை_வகை(முனை, "out" | "in" | "in_pullup")
+            "வன்_முனை_வகை" | "vaZ_muZY_vakY" | "_pinMode" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::pin_mode(pin, &args[1].to_string()).map(|_| Value::Null)))
+            }
+            // வன்_முனை_எழுது(முனை, 0 | 1)
+            "வன்_முனை_எழுது" | "vaZ_muZY_ezuqu" | "_pinWrite" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let high = Self::whole(&args[1], "மட்டம் (level)")? != 0;
+                Ok(Self::board_result(super::board::pin_write(pin, high).map(|_| Value::Null)))
+            }
+            // வன்_முனை_படி(முனை) — சரி(0 | 1)
+            "வன்_முனை_படி" | "vaZ_muZY_pati" | "_pinRead" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::pin_read(pin).map(|h| Value::Number(Decimal::from(u8::from(h))))))
+            }
+            // வன்_ஒப்புமை_படி(முனை) — சரி(0 to 1023)
+            "வன்_ஒப்புமை_படி" | "vaZ_oppumY_pati" | "_analogRead" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::analog_read(pin).map(|v| Value::Number(Decimal::from(v)))))
+            }
+            // வன்_மில்லி() — milliseconds since the program began
+            "வன்_மில்லி" | "vaZ_milli" | "_millis" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::Number(Decimal::from(super::board::millis())))
+            }
+            // வன்_காத்திரு(மில்லி) — wait; on the simulated board, move its clock
+            "வன்_காத்திரு" | "vaZ_kAqqiru" | "_sleepMs" => {
+                Self::expect_args(name, &args, 1)?;
+                let ms = Self::whole(&args[0], "மில்லி (milliseconds)")?.max(0) as u64;
+                super::board::sleep_ms(ms);
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_ஒலி(முனை, அதிர்வெண்) — a tone; only the simulated board has one
+            "வன்_ஒலி" | "vaZ_oli" | "_tone" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let hz = Self::whole(&args[1], "அதிர்வெண் (frequency)")?;
+                Ok(Self::board_result(super::board::tone(pin, Some(hz)).map(|_| Value::Null)))
+            }
+            // வன்_ஒலி_நிறுத்து(முனை)
+            "வன்_ஒலி_நிறுத்து" | "vaZ_oli_niRuqqu" | "_noTone" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::tone(pin, None).map(|_| Value::Null)))
+            }
+            // வன்_காவல்(மில்லி) — a board's watchdog; nothing on the VM
+            "வன்_காவல்" | "vaZ_kAval" | "_watchdogBegin" => {
+                Self::expect_args(name, &args, 1)?;
+                Self::whole(&args[0], "மில்லி (milliseconds)")?;
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_காவல்_புதுப்பி()
+            "வன்_காவல்_புதுப்பி" | "vaZ_kAval_puquppi" | "_watchdogFeed" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_தொடர்_திற(சாதனம், வேகம்) — சரி(port) or தவறு(why)
+            "வன்_தொடர்_திற" | "vaZ_qotar_qiRa" | "_serialOpen" => {
+                Self::expect_args(name, &args, 2)?;
+                let baud = Self::whole(&args[1], "வேகம் (baud)")?;
+                let opened = super::board::serial_open(&args[0].to_string(), baud.clamp(0, u32::MAX as i64) as u32);
+                Ok(Self::board_result(opened.map(|port| Value::Number(Decimal::from(port)))))
+            }
+            // வன்_தொடர்_படி(துறை, காலம்) — சரி(line), சரி(இன்மை) if none yet, or தவறு(why)
+            "வன்_தொடர்_படி" | "vaZ_qotar_pati" | "_serialReadLine" => {
+                Self::expect_args(name, &args, 2)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                let wait = Self::whole(&args[1], "காலம் (wait)")?.max(0) as u64;
+                let line = super::board::serial_read_line(port, wait);
+                Ok(Self::board_result(line.map(|l| l.map(Value::String).unwrap_or(Value::Null))))
+            }
+            // வன்_தொடர்_எழுது(துறை, செய்தி) — சரி(bytes written)
+            "வன்_தொடர்_எழுது" | "vaZ_qotar_ezuqu" | "_serialWrite" => {
+                Self::expect_args(name, &args, 2)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                let written = super::board::serial_write(port, &args[1].to_string());
+                Ok(Self::board_result(written.map(|n| Value::Number(Decimal::from(n)))))
+            }
+            // வன்_தொடர்_மூடு(துறை)
+            "வன்_தொடர்_மூடு" | "vaZ_qotar_mUtu" | "_serialClose" => {
+                Self::expect_args(name, &args, 1)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                Ok(Self::board_result(super::board::serial_close(port).map(|_| Value::Null)))
+            }
+            // போலி_முனை_அமை(முனை, 0 | 1) — what an input reads, on the simulated board
+            "போலி_முனை_அமை" | "pOli_muZY_amY" | "_simSetPin" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let high = Self::whole(&args[1], "மட்டம் (level)")? != 0;
+                Ok(Self::board_result(super::board::sim_set_pin(pin, high).map(|_| Value::Null)))
+            }
+            // போலி_ஒப்புமை_அமை(முனை, அளவீடு)
+            "போலி_ஒப்புமை_அமை" | "pOli_oppumY_amY" | "_simSetAnalog" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let value = Self::whole(&args[1], "அளவீடு (reading)")?;
+                Ok(Self::board_result(super::board::sim_set_analog(pin, value).map(|_| Value::Null)))
+            }
+            // போலி_நேரம்_நகர்(மில்லி) — move the simulated clock
+            "போலி_நேரம்_நகர்" | "pOli_nEram_nakar" | "_simAdvanceMs" => {
+                Self::expect_args(name, &args, 1)?;
+                let ms = Self::whole(&args[0], "மில்லி (milliseconds)")?.max(0) as u64;
+                Ok(Self::board_result(super::board::sim_advance_ms(ms).map(|_| Value::Null)))
+            }
+            // போலி_வரி_ஊட்டு(சாதனம், வரி) — a line arrives on a simulated port
+            "போலி_வரி_ஊட்டு" | "pOli_vari_Uttu" | "_simFeedSerial" => {
+                Self::expect_args(name, &args, 2)?;
+                let fed = super::board::sim_feed(&args[0].to_string(), &args[1].to_string());
+                Ok(Self::board_result(fed.map(|_| Value::Null)))
+            }
+            // போலி_வரி_வெளியீடு(சாதனம்) — the lines written to a simulated port since last asked
+            "போலி_வரி_வெளியீடு" | "pOli_vari_veLiyItu" | "_simSerialOutput" => {
+                Self::expect_args(name, &args, 1)?;
+                let lines = super::board::sim_output(&args[0].to_string())?;
+                Ok(Value::Array(lines.into_iter().map(Value::String).collect()))
+            }
             // நீளம் — length of an array, record or string
             "நீளம்" | "nILam" | "_length" => {
                 Self::expect_args(name, &args, 1)?;
@@ -1770,6 +1900,37 @@ impl VM {
             }
             Err(message) => Value::Err(Box::new(Value::String(message))),
         }
+    }
+
+    /// A board call's outcome as a result value: சரி(v), or தவறு(why).
+    fn board_result(outcome: Result<Value, String>) -> Value {
+        match outcome {
+            Ok(value) => Value::Ok(Box::new(value)),
+            Err(why) => Value::Err(Box::new(Value::String(why))),
+        }
+    }
+
+    /// A whole number argument: a pin, a port, milliseconds.
+    fn whole(value: &Value, what: &str) -> Result<i64, String> {
+        let number = match value {
+            Value::Number(n) => *n,
+            other => {
+                return Err(format!(
+                    "{} ஒரு எண்ணாக இருக்க வேண்டும்  ({} must be a number, not {})",
+                    what,
+                    what,
+                    Self::type_name(other)
+                ));
+            }
+        };
+        if !number.fract().is_zero() {
+            return Err(format!(
+                "{} முழு எண்ணாக இருக்க வேண்டும்  ({} must be a whole number, not {})",
+                what, what, number
+            ));
+        }
+        rust_decimal::prelude::ToPrimitive::to_i64(&number)
+            .ok_or_else(|| format!("{} மிகப் பெரியது  ({} is too large: {})", what, what, number))
     }
 
     fn expect_args(name: &str, args: &[Value], want: usize) -> Result<(), String> {

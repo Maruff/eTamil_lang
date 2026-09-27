@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/ezuqqu.qmz — எழுத்து: letters as the VM counts them, and col.qmz on a board__
+//
+// __வணக்கம் is five letters — வ, ண, க், க, ம் — not seven code points. The string__
+// __library is eTamil built from நீளம் and indexing, so it compiles for a board as__
+// __written.__
+
+இறக்கு "nUlakam/col.qmz";
+
+வாழ்த்து = "வணக்கம்";
+அச்சு நீளம்(வாழ்த்து);
+அச்சு வாழ்த்து[2] & " " & வாழ்த்து[4];
+ஒவ்வொரு எ இல் வாழ்த்து {
+    அச்சு "[" & எ & "]";
+}
+அச்சு நீளம்("abc") & " " & நீளம்("") & " " & நீளம்("கொ") & " " & நீளம்("₹120");
+
+வரி_உரை = "வணக்கம் உலகம்";
+அச்சு துண்டு(வரி_உரை, 0, 5);
+அச்சு துண்டு(வரி_உரை, 6, 4);
+அச்சு தேடு(வரி_உரை, "உலகம்") & " " & தேடு(வரி_உரை, "இல்லை");
+அச்சு தொடங்குகிறதா(">01,P*2F", ">") & " " & முடிகிறதா("வணக்கம்", "கம்");
+அச்சு "[" & ஒழுங்கு("  இடைவெளி  ") & "]";

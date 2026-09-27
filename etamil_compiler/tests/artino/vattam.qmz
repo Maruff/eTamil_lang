@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/vattam.qmz — வட்டம்: rounding the author asked for, done exactly__
+//
+// __None of these may report: the rounding is written in the source, and a division__
+// __inside தரை, மேல் or வட்டமிடு goes straight to the rounded answer.__
+
+அச்சு தரை(7 / 2) & " " & மேல்(7 / 2) & " " & தரை(-7 / 2) & " " & மேல்(-7 / 2);
+அச்சு தரை(12.7) & " " & மேல்(12.1) & " " & தரை(-0.5) & " " & மேல்(-1.5);
+அச்சு வட்டமிடு(2 / 3, 2);
+அச்சு வட்டமிடு(1 / 3, 3);
+அச்சு வட்டமிடு(2.5, 0) & " " & வட்டமிடு(-2.5, 0) & " " & வட்டமிடு(1.005, 2);
+அச்சு வட்டமிடு(1000 * 18% / 7, 2);
+அச்சு வட்டமிடு(0.125 * 0.5, 2);
+
+// __A checksum the qIkkAppu bus can compute in eTamil: the remainder by 97__
+செயல் மீதி_97(ம) {
+    திரும்பு ம - 97 * தரை(ம / 97);
+}
+அச்சு மீதி_97(1234) & " " & மீதி_97(97) & " " & மீதி_97(5);

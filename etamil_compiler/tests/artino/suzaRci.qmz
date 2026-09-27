@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/suzaRci.qmz — சுழற்சி: the loop blocks, run against a world file__
+//
+// __suzaRci.world moves time on 50 ms a loop, turns pin 2 on and an analog__
+// __reading up part way, and sends two lines on port 0. The VM has no loop to__
+// __compare with, so the output is compared with suzaRci.expected.__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+எண்ணிக்கை = 0;
+சுற்றுகள் = 0;
+அச்சு "தொடக்கம் " & மில்லி_நொடி();
+
+இடைவெளி 0 {
+    சுற்றுகள் = சுற்றுகள் + 1;
+    வந்தது = இயல்பு(தொடர்_வரி_படி(0, 0), "");
+    (நீளம்(வந்தது) > 0) எனில் { அச்சு மில்லி_நொடி() & " வந்தது " & வந்தது; }
+}
+
+இடைவெளி 0.2 {
+    எண்ணிக்கை = எண்ணிக்கை + 1;
+    (முனை_படி(2)) எனில் { அச்சு மில்லி_நொடி() & " முனை 2 இயக்கத்தில், அளவீடு " & ஒப்புமை_படி(14); }
+}
+
+இடைவெளி 0.5 {
+    அச்சு மில்லி_நொடி() & ": " & எண்ணிக்கை & " முறை, " & சுற்றுகள் & " சுற்று";
+}

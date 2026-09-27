@@ -13,7 +13,7 @@ is decimal and exact, the tax rules are in the library rather than in a framewor
 you find later, and every keyword can be written in Tamil script or in ASCII.
 
 **This extension carries the whole toolchain.** The compiler for your platform,
-the 696-function `nUlakam` standard library, thirty-two example programs and the
+the 722-function `nUlakam` standard library, thirty-seven example programs and the
 eTamil font all travel inside it, so installing it is the entire installation —
 no Rust, no download, nothing to put on your `PATH`.
 
@@ -30,13 +30,13 @@ no Rust, no download, nothing to put on your `PATH`.
 |---|---|
 | **Syntax highlighting** | All 203 keywords across 545 spellings — Tamil script, romanized, and the English aliases |
 | **Errors as you type** | From the compiler's own front end, so they are the errors you will actually get |
-| **Completions** | Keywords with correct statement templates, 62 host builtins, and all 696 `செயல்` functions in the `nUlakam` standard library |
+| **Completions** | Keywords with correct statement templates, 82 host builtins, and all 722 `செயல்` functions in the `nUlakam` standard library |
 | **Hover** | Every spelling of a word, whether it is reserved, and the doc comment from its definition |
 | **Signature help** | Parameter names, read from the library's own source |
 | **Go to Definition** | Jumps into `nUlakam`, and to functions in the current file |
 | **Outline** | Every `செயல்` in the file |
 | **Run** | Run or serve the current file in a terminal |
-| **Examples** | **eTamil: Open an example** — thirty-two working programs, carried in the extension |
+| **Examples** | **eTamil: Open an example** — thirty-seven programs, carried in the extension |
 | **Documentation** | **eTamil: Documentation…** — the manual, the playground and the reference on [etamil.in](https://etamil.in) |
 
 Both spellings are first-class. Type `eZil` and you get a romanized template;
@@ -104,7 +104,7 @@ does is on **[etamil.in](https://etamil.in)**:
 keyword hover links the reference for that word.
 
 **eTamil: Open an example** is the shorter route. The extension carries the
-repository's thirty-two example programs — the accounting framework, the HTTP
+repository's thirty-seven example programs — the accounting framework, the HTTP
 server, the GST invoice, the project-costing worked example — and opens a copy
 you can edit and run. A copy, not the original: the extension directory is
 replaced on every update.
@@ -181,6 +181,20 @@ cargo build --release
 
 Either way the binary has to be on your `PATH` — the installers do that — or in
 `etamil.compilerPath`.
+
+## Firmware for a board
+
+**eTamil: Build for a board (artino)** compiles the open file for an Arduino Uno,
+Nano or Mega, or a Raspberry Pi Pico or Pico 2, into `artino-build` beside it.
+**eTamil: Build and upload to a board** asks for the serial port, `COM5` or
+`/dev/ttyACM0`, and uploads it. Both remember your last board and port for the
+workspace. After an Uno, Nano or Mega build, the terminal also shows how much of
+its RAM the variables and the deepest stack can take.
+
+They need an `etamil` built with LLVM (`cargo build --release --features llvm`, on
+Linux or macOS today) and `arduino-cli` with the board's core installed. The
+compiler this extension carries has no LLVM, so set `etamil.compilerPath` to one
+that does. The language side is in the repository's `docs/artino.md`.
 
 ## Settings
 

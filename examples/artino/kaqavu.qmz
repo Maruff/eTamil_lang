@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __examples/artino/kaqavu.qmz — கதவு: a servo, through the Servo library__
+//
+//   __etamil --artino --board uno examples/artino/kaqavu.qmz__
+//
+// __kaqavu.artino.toml names the C++: the Servo library, one Servo object, and__
+// __three eTamil names for its calls. The servo's signal wire goes to pin 9. It__
+// __sweeps from 0° to 180° and back, ten degrees every 50 ms, and says where it__
+// __is once a second.__
+//
+// __The Uno, Nano and Mega need the library: arduino-cli lib install "Servo". The__
+// __Pico's core carries its own.__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+நிலை எண் கதவு_முனை = 9;
+
+கதவு_இணை(கதவு_முனை);
+கோணம் = 0;
+நகர்வு = 10;
+
+இடைவெளி 0.05 {
+    கோணம் = கோணம் + நகர்வு;
+    ((கோணம் >= 180) அல்லது (கோணம் <= 0)) எனில் { நகர்வு = 0 - நகர்வு; }
+    கதவு_திருப்பு(கோணம்);
+}
+
+இடைவெளி 1 {
+    அச்சு "கதவு " & கதவு_கோணம்() & "°";
+}
