@@ -1,165 +1,20 @@
-# qittam — திட்டச் செலவு (project costing)
+# qittam — திட்டம்
 
-`celavu/` costs a product: a thing made repeatedly, where the question is how
-much of each period's spending reached a unit. This directory costs a
-**project**: a thing made once, where the question is different and harder —
-how much of the work is actually done, and what will the rest cost.
+Project management: the plan, the network, and what the plan is costing.
 
-The two share their arithmetic. Earned value is standard costing applied to a
-project, and `Ittu_maqippu.qmz` and `celavu/niyamam.qmz` compute the same kind
-of variance from the same kind of flexed budget. What changes is the measure of
-output: a production order counts units, a project counts budget earned.
+The work breakdown structure and the hundred-per-cent rule; the critical path, both as plain predecessors and with the four dependency types and lag; crashing, which buys time with money; control accounts and the budget baseline; and earned value, which compares what was planned, what was earned and what was spent.
 
-## Modules
+`Ittu_maqippu.qmz` gives three ways to estimate the cost at completion, because they disagree and the disagreement is the information.
 
-| File | Contents |
-|---|---|
-| `pakuppu.qmz` | the WBS — `கணு_ஆக்கு` `சேய்கள்` `இலைக்_கணுவா` `வேலைத்_தொகுப்புகள்` `உள்_கூட்டல்` `ஆழம்` `நூறு_விதி_சரியா` `விதியை_சரிபார்` |
-| `kattuppAtu.qmz` | control accounts, time-phased budget, reserves — `கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு` `பாதையில்_கணக்குகள்` `கட்டமைப்பை_சரிபார்` `காலப்_பகிர்வு` `திரட்டிய_நிதி` `நிதித்_தொகுதி_ஆக்கு` `அளவீட்டு_அடிப்படை` `அனுமதித்த_நிதி` `இருப்பை_விடுவி` |
-| `Ittu_maqippu.qmz` | earned value — `முறை_0_100` `முறை_50_50` `முறை_மைல்கற்கள்` `ஈட்டிய_மதிப்பு` `செலவு_வேறுபாடு` `கால_வேறுபாடு` `செலவுச்_செயல்திறன்` `காலச்_செயல்திறன்` `முடிவில்_மதிப்பீடு_*` `முடிக்கத்_தேவையான_திறன்` `நிலவரம்` |
-| `pAqY.qmz` | the critical path — `செயல்_ஆக்கு` `வலையைக்_கணக்கிடு` `கடுமையானவை` `பெறு_புலம்` `சுழற்சி_உள்ளதா` `உணர்திறன்_வலையா` |
-| `curukkal.qmz` | crashing — `செயல்_நேர_செலவு` `செலவுச்_சரிவு` `அதிகபட்ச_சுருக்கம்` `மலிவான_வேட்பாளர்` `கூட்டுச்_சரிவு` `மொத்தச்_செலவு` `தாமதச்_செலவுடன்` |
-| `oppanqa_vakY.qmz` | contract types and who carries the cost risk — `விற்பவர்_இடர்` `உறுதி_நிலை_லாபம்` `ஊக்கக்_கட்டணம்` `கட்டணத்தை_வரம்பிடு` `முழுப்_பொறுப்புப்_புள்ளி` `நிலை_விலை_ஊக்கம்` `செலவுடன்_நிலைக்_கட்டணம்` `செலவுடன்_ஊக்கம்` `நேரமும்_பொருளும்` `மிகைச்_செலவின்_விளைவு` |
-| `qotarpu.qmz` | the four dependency types and lag — `முனை_ஆக்கு` `தொடர்பு_ஆக்கு` `தொடர்பு_வகை_சரியா` `முன்னோட்டமா` `தொடர்பு_வலையைக்_கணக்கிடு` `தொடர்பு_கடுமையானவை` `தொடர்பு_முனையின்_புலம்` `மொத்தத்_தாமதம்` `முன்னோட்டங்கள்` `தாமதப்_பங்கு` `சுருக்கக்கூடிய_காலம்` |
-| `qittam_cOqaZY.qmz` | the tests — 166 assertions |
+## Files
 
-```bash
-etamil --vm nUlakam/qittam/qittam_cOqaZY.qmz
-```
-
-## Five decisions worth knowing
-
-### Spend against budget answers nothing
-
-A project has a budget of 1,550 and has spent 775. Is it in trouble?
-
-The question has no answer, and that is why `Ittu_maqippu.qmz` exists. Two
-numbers cannot describe three variables: spend says how much money left, budget
-says how much was meant to, and neither says anything about **work
-accomplished**. The test file pins the case exactly — a conventional report
-reads **+25 favourable** while the cost variance is **−155** and the schedule
-variance **−180**. The two readings disagree in direction, not degree.
-
-### Schedule variance is money, not time
-
-`கால_வேறுபாடு` of −180 does not mean the project is 180 behind. It means the
-work not yet done was *budgeted* at 180. Converting that to time needs the
-schedule — `pAqY.qmz` — not this module. Everyone meets this once.
-
-### Percent complete is a rule, not an opinion
-
-The hard part of earned value is not the arithmetic, it is deciding how much of
-a package is done, and "about 80%" has been the status of many packages for
-many months. Three conventions remove the judgement — `முறை_0_100`,
-`முறை_50_50`, `முறை_மைல்கற்கள்` — and the module deliberately offers **no
-function that accepts a typed-in percentage**.
-
-### The WBS is stored flat
-
-A list of nodes each naming its parent, not nested records. A nested record
-cannot be indexed by code without walking it; re-parenting is a field
-assignment rather than a rebuild; and the roll-up is a fold either way. The
-root's parent code is the empty string.
-
-`நூறு_விதி_சரியா` compares a parent's entered budget against its children's,
-because a parent with more has work nobody has been assigned and one with less
-has work counted twice. Both are invisible in a tree view. `விதியை_சரிபார்`
-returns the offending node and both figures rather than a boolean — "the WBS
-does not balance" is not actionable.
-
-### Only critical activities are worth crashing
-
-`மலிவான_வேட்பாளர்` takes the list of critical activity codes as an argument and
-will not return anything outside it. Shortening an activity with float buys
-nothing at all and is the most expensive mistake available, because it looks
-like progress. The tests assert it: C is cheaper per day than D and is never
-offered, because C has five days of float.
-
-### The point of total assumption is the number nobody writes down
-
-On a fixed price incentive contract the buyer shares an overrun only until the
-price reaches the ceiling. Past that the buyer pays no more, so every further
-rupee is the seller's alone.
-
-    PTA = target cost + (ceiling price − target price) ÷ buyer's share
-
-The tests prove the formula against itself: at the PTA the final price *is* the
-ceiling, exactly. With a target cost of ₹1,00,000, a ₹10,000 fee, a ₹1,25,000
-ceiling and a 75/25 split, the point is ₹1,20,000 — and ₹10,000 of overrun
-below it costs the seller ₹2,500 while the next ₹10,000 costs ₹10,000. **The
-marginal rate quadruples at a point that appears in none of the contract's
-schedules**, and a seller tracking cost against target sees nothing happen
-there.
-
-The ceiling applies to the price, not to the fee, so past the point the fee
-goes negative and the seller is paying to finish. Capping it at zero would hide
-that.
-
-### The same overrun costs four different amounts
-
-A ₹30,000 overrun on the same job: the fixed price seller loses ₹20,000, the
-incentive seller ₹5,000, and the cost plus seller nothing at all — it still
-earns its full fee. `மிகைச்_செலவின்_விளைவு` puts them side by side, because a
-cost variance reported without naming the contract type is half a fact.
-
-A not-to-exceed ceiling on a time-and-materials contract is the one most often
-misread: the buyer treats it as a budget and the seller as an estimate, and
-past it the seller works for nothing exactly as under a fixed price. The switch
-is invisible until it happens.
-
-### A lag is time nobody owns
-
-`qotarpu.qmz` adds the other three dependency types and lag. Each constraint
-becomes a lower bound on the successor's early start, which is what lets all
-four run in one pass, and both passes settle to a fixed point so a cycle fails
-loudly rather than looping.
-
-A **lag** is elapsed time with no activity, no cost and no owner — the
-commonest way a schedule conceals a dependency on somebody outside the project:
-concrete curing, a permit, a supplier's lead time. It appears in no resource
-plan and no budget. In the tests, six of the eleven days are lag —
-`தாமதப்_பங்கு` reports **54.55%** — and a project whose critical path runs
-mostly through other people's organisations will not be shortened by managing
-this one's resources.
-
-A **lead** — a negative lag — asserts that the work can overlap. If that is
-true then it is two activities, not one with a lead, and the lead hides the
-decomposition so nobody can check the claim or resource it. `முன்னோட்டங்கள்`
-lists them rather than counting them, because each is a claim that should be
-evidenced or rewritten.
-
-### An activity can have zero float and still be pointless to crash
-
-This is the sharpest consequence of the richer relationships, and it qualifies
-`curukkal.qmz` directly.
-
-An activity's duration reaches its successor **only through a relationship that
-depends on its finish**. Through a start-to-start the successor is tied to the
-predecessor's *start*, so shortening the predecessor moves nothing at all.
-
-In the tests the critical path A–C–D carries eleven days of work and five of
-lag, and only **six days are crashable**: A is critical, has zero float, and
-drives C by start-to-start, so buying a day of A buys nothing.
-`curukkal.qmz`, which looks only at float, would happily price it.
-
-## Where it stops
-
-- **`pAqY.qmz` is still finish-to-start only**, deliberately. The richer
-  scheduler is `qotarpu.qmz` alongside it rather than a rewrite of it: a
-  network a hand calculation can check is worth keeping, and the two agree on
-  the case they share.
-- **No resource levelling.** It is an optimisation problem with no efficient
-  exact solution, and a heuristic that cannot explain what it did will not be
-  trusted.
-- **Crashing is not automated.** The module gives the slope, the candidate and
-  the totals; the caller loops, because the critical path changes after every
-  step and where several paths are critical one activity per path must be
-  crashed. `கூட்டுச்_சரிவு` prices that comparison.
-- **No Monte Carlo.** Three-point estimates and PERT belong with it, and both
-  need a random source the standard library does not yet have.
-
-The passes in `pAqY.qmz` iterate to a fixed point rather than running over a
-topological sort. For hand-built networks the cost is irrelevant, and the
-benefit is that a cycle produces a `தவறு` from `சுழற்சி_உள்ளதா` rather than a
-stack overflow. A cycle is the commonest structural error in a network and it
-must fail loudly.
+| File | What it holds | Functions |
+|---|---|---|
+| `Ittu_maqippu.qmz` | ஈட்டு மதிப்பு (earned value management) | `முறை_0_100` `முறை_50_50` `முறை_மைல்கற்கள்` `ஈட்டிய_மதிப்பு` `செலவு_வேறுபாடு` `கால_வேறுபாடு` `கணக்கியல்_வேறுபாடு` `செலவுச்_செயல்திறன்` `காலச்_செயல்திறன்` `நிறைவுப்_பங்கு_நிதியால்` `முடிவில்_மதிப்பீடு_மீதியால்` `முடிவில்_மதிப்பீடு_திறனால்` `முடிவில்_மதிப்பீடு_இரண்டாலும்` `முடிக்க_மீதி` `முடிவில்_வேறுபாடு` `முடிக்கத்_தேவையான_திறன்` `எதிர்பார்க்கும்_காலம்` `நிலவரம்` `நிலவரத்தை_அச்சிடு` |
+| `curukkal.qmz` | சுருக்கல் (crashing, the time-cost trade-off) | `செயல்_நேர_செலவு` `அதிகபட்ச_சுருக்கம்` `செலவுச்_சரிவு` `மலிவான_வேட்பாளர்` `கடுமையானதா` `கூட்டுச்_சரிவு` `இயல்பு_நேரடிச்_செலவு` `மொத்தச்_செலவு` `தாமதச்_செலவுடன்` |
+| `kattuppAtu.qmz` | கட்டுப்பாட்டுக் கணக்கு (control accounts, | `கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு` `ஒரே_கணக்கா` `பாதையில்_கணக்குகள்` `கட்டமைப்பை_சரிபார்` `காலப்_பகிர்வு` `திரட்டிய_நிதி` `மொத்த_நிதி` `நிதித்_தொகுதி_ஆக்கு` `அளவீட்டு_அடிப்படை` `அனுமதித்த_நிதி` `இருப்பை_விடுவி` |
+| `oppanqa_vakY.qmz` | ஒப்பந்த வகை, and who carries the cost risk | `விற்பவர்_இடர்` `உறுதி_நிலை_லாபம்` `ஊக்கக்_கட்டணம்` `கட்டணத்தை_வரம்பிடு` `முழுப்_பொறுப்புப்_புள்ளி` `புள்ளியைத்_தாண்டியதா` `நிலை_விலை_ஊக்கம்` `செலவுடன்_நிலைக்_கட்டணம்` `செலவுடன்_ஊக்கம்` `நேரமும்_பொருளும்` `மிகைச்_செலவின்_விளைவு` |
+| `pAqY.qmz` | கடுமையான பாதை (the critical path method) | `செயல்_ஆக்கு` `செயலைத்_தேடு` `வழித்தோன்றல்கள்` `முன்னோடிகள்_உள்ளனவா` `சுழற்சி_உள்ளதா` `வலையைக்_கணக்கிடு` `கடுமையானவை` `உணர்திறன்_வலையா` `பெறு_புலம்` `குறி_உள்ளதா` `பதிவைத்_தேடு` `பதிவை_மாற்று` |
+| `pakuppu.qmz` | வேலைப் பகுப்பு (the work breakdown structure) | `கணு_ஆக்கு` `கணு_தேடு` `சேய்கள்` `மூலங்கள்` `இலைக்_கணுவா` `வேலைத்_தொகுப்புகள்` `உள்_கூட்டல்` `ஆழம்` `நூறு_விதி_சரியா` `விதியை_சரிபார்` |
+| `qittam_cOqaZY.qmz` | tests for the project costing modules | `காலத்தைப்_பெறு` |
+| `qotarpu.qmz` | தொடர்பு, the four dependency types and lag | `தொடர்பு_சுற்று_எல்லை` `முனை_ஆக்கு` `தொடர்பு_ஆக்கு` `தொடர்பு_வகை_சரியா` `முன்னோட்டமா` `முனையைப்_பெறு` `கால_அளவைப்_பெறு` `முந்தியைப்_பெறு` `முந்தியை_அமை` `தாழ்த்தியை_அமை` `தேவையான_தொடக்கம்` `அனுமதித்த_முடிவு` `தொடர்பு_வலையைக்_கணக்கிடு` `தொடர்பு_கடுமையானவை` `தொடர்பு_முனையின்_புலம்` `மொத்தத்_தாமதம்` `முன்னோட்டங்கள்` `தாமதப்_பங்கு` `சுருக்கக்கூடிய_காலம்` |

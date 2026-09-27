@@ -1,0 +1,19 @@
+# atippatY — அடிப்படை
+
+The fundamentals. Arrays, strings, records and arithmetic — the four things almost every other folder imports before it does anything of its own.
+
+Nothing here knows about money, dates or accounting. That is deliberate: a helper that knows what a rupee is cannot be used to sort a list of pin numbers, and `kaNiqam.qmz` is imported by 57 files precisely because it does not.
+
+Some of what used to live here now lives in the host. `பிரி`, `ஒன்றிணை` and `மாற்று` left `col.qmz`, and `புலம்_உள்ளதா` and `புலம்_அல்லது` left `poruL.qmz`, because a function defined here shadows a builtin of the same name. Each file records what went and why.
+
+## Files
+
+| File | What it holds | Functions |
+|---|---|---|
+| `aNi.qmz` | அணி (array) helpers | `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` `புலத்தால்_வடிகட்டு` `ஒவ்வொன்றுக்கும்` `வடிகட்டு` `மடி` `அணி_நிரப்பு` |
+| `aNi_cOqaZY.qmz` | tests for map, filter and fold | `இரட்டி` `மேல்_உள்ளவை` |
+| `col.qmz` | சரம் (string) helpers | `எழுத்து` `துண்டு` `தேடு` `கொண்டுள்ளதா` `தொடங்குகிறதா` `முடிகிறதா` `ஒழுங்கு` `திரும்பச்செய்` `இடமிருந்து_நிரப்பு` |
+| `kaNiqam.qmz` | கணிதம் (math) helpers | `முழுமதிப்பு` `சிறியது` `பெரியது` `கூட்டு` `சராசரி` `மிகச்சிறியது` `மிகப்பெரியது` `சதவீதம்` `முழு_எண்ணா` `மீதி` `வட்டக்_கழி` `குறையாக்_கழி` `வட்டப்_பங்கு` `வட்டப்_பெருக்கு` `நாள்_விகிதம்` `வட்ட_மாதங்கள்` |
+| `poruL.qmz` | பொருள் (record) helpers | `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
+
+`aNi.qmz`'s last three take a `செயல்` as a value — map, filter and fold. They were impossible until functions were values, and the loops written before them are left as they are.

@@ -1,125 +1,28 @@
-# kaNakkiyal — கணக்கியல், an accounting framework
+# kaNakkiyal — கணக்கியல்
 
-Double-entry accounting with IFRS-style presentation, GST, and financial
-statements. Written in eTamil, modelled on
-[ekmungai/eloquent-ifrs](https://github.com/ekmungai/eloquent-ifrs).
+Double-entry bookkeeping: the chart of accounts, the ledger, and the statements that come out of it.
 
-```etamil
-இறக்கு "nUlakam/kaNakkiyal/kaNakkukaL.qmz";
-இறக்கு "nUlakam/kaNakkiyal/pErEtu.qmz";
-இறக்கு "nUlakam/kaNakkiyal/aRikkYkaL.qmz";
+The ledger refuses an unbalanced transaction rather than posting it and leaving someone to find it later. Everything above it — the trial balance, the income statement, the balance sheet — is derived from postings rather than stored, so the statements cannot disagree with the ledger they came from.
 
-கணக்குகள் = [
-    மதிப்பு(கணக்கு_ஆக்கு("1000", "வங்கி",   வகை_சொத்து(), "நடப்பு")),
-    மதிப்பு(கணக்கு_ஆக்கு("3000", "மூலதனம்", வகை_பங்கு(),  "பங்கு"))
-];
+Also here: GST on transactions, the rate that applied on a given date, depreciation, payroll, period close, and multi-company and multi-currency support.
 
-பேரேடு = [];
-பேரேடு = மதிப்பு(பதிவிடு(பேரேடு, பரிவர்த்தனை_ஆக்கு(
-    "JV001", "2026-04-01", "தொடக்க மூலதனம்", [
-        பற்று_வரிசை("1000", 500000),
-        வரவு_வரிசை("3000", 500000)
-    ])));
+## Files
 
-இருப்பாய்வு_அச்சிடு(இருப்பாய்வு(பேரேடு, கணக்குகள்));
-```
+| File | What it holds | Functions |
+|---|---|---|
+| `Uqiyam.qmz` | ஊதியம் (payroll) | `மொத்தச்_சம்பளம்` `நாட்களுக்கு_ஏற்ப` `வரம்புடன்_பங்களிப்பு` `தகுதிக்குள்_பங்களிப்பு` `படிநிலை_வரி` `பணிக்கொடை` `சம்பளச்_சீட்டு` |
+| `aRikkYkaL.qmz` | அறிக்கைகள் (financial statements) | `இருப்பாய்வு` `வருமான_அறிக்கை` `இருப்புநிலை` `கால_வருமான_அறிக்கை` `நாள்_இருப்புநிலை` `கால_இருப்பாய்வு` `கணக்கு_அறிக்கை` `பணப்புழக்க_அறிக்கை` `இருப்பாய்வு_அச்சிடு` `வருமான_அறிக்கை_அச்சிடு` `இருப்புநிலை_அச்சிடு` |
+| `coqqu_Uqiyam_cOqaZY.qmz` | tests for depreciation and payroll | — |
+| `kAlam.qmz` | காலம் (reporting periods) | `காலம்_ஆக்கு` `இந்திய_ஆண்டு` `நாட்காட்டி_ஆண்டு` `காலத்தில்_உள்ளதா` `வரையிலா` `காலம்_விவரம்` |
+| `kaNakkukaL.qmz` | கணக்குகள் (chart of accounts) | `வகை_சொத்து` `வகை_பொறுப்பு` `வகை_பங்கு` `வகை_வருவாய்` `வகை_செலவு` `கணக்கு_ஆக்கு` `செல்லுபடியா` `பற்று_இயல்பா` `இருப்புநிலைக்கானதா` `கணக்கு_தேடு` `வகையால்_வடிகட்டு` |
+| `mutippu.qmz` | ஆண்டு முடிப்பு (period close) | `முடிப்பு_பரிவர்த்தனை` `ஆண்டை_முடி` `முடிக்கப்பட்டதா` |
+| `niRuvaZam.qmz` | நிறுவனம் and நாணயம் | `நிறுவனம்_ஆக்கு` `நிறுவனத்துடன்_பதிவிடு` `நிறுவன_வடிகட்டு` `நாணயம்_ஆக்கு` `மாற்று_விகிதம்_ஆக்கு` `அடிப்படைக்கு_மாற்று` `வேறுபாட்டுத்_தொகை` `அன்னிய_வேறுபாடு` |
+| `oqukkItu.qmz` | ஒதுக்கீடு (assignment / clearing) | `ஒதுக்கீடு_ஆக்கு` `ஒதுக்கப்பட்ட_மொத்தம்` `பயன்படுத்தப்பட்டது` `நிலுவைத்_தொகை` `ஒதுக்கு` `நிலுவைப்_பட்டியல்` `வயது_அட்டவணை` `வயது_அட்டவணை_அச்சிடு` |
+| `pErEtu.qmz` | பேரேடு (the ledger) | `வரிசை_ஆக்கு` `பற்று_வரிசை` `வரவு_வரிசை` `பரிவர்த்தனை_ஆக்கு` `மொத்த_பற்று` `மொத்த_வரவு` `சமநிலையா` `பதிவிடு` `கணக்கு_இருப்பு` `கணக்கு_பதிவுகள்` `காலம்_வடிகட்டு` `வரை_வடிகட்டு` `பரிவர்த்தனை_தொகை` `பரிவர்த்தனை_நாள்` `பரிவர்த்தனை_எண்கள்` |
+| `qEymAZam.qmz` | தேய்மானம் (depreciation) | `நேர்கோட்டு_ஆண்டு` `நேர்கோட்டு_விகிதம்` `குறையும்_ஆண்டு` `பகுதி_ஆண்டு` `நேர்கோட்டு_அட்டவணை` `குறையும்_அட்டவணை` `மொத்தத்_தேய்வு` `தொகுதி_தேய்வு` |
+| `vari.qmz` | வணிகவரி (GST) on transactions | `வரி_விகிதம்_ஆக்கு` `வரி_தொகை` `வரியுடன்_மொத்தம்` `அடிப்படையை_பிரி` `மாநில_பிரிப்பு` `விற்பனை_பரிவர்த்தனை` `கொள்முதல்_பரிவர்த்தனை` `பணம்_பெறு` `பணம்_செலுத்து` `ரொக்க_விற்பனை` `ரொக்க_கொள்முதல்` `வரவு_குறிப்பு` `பற்று_குறிப்பு` `எதிர்_பதிவு` `தொடக்க_இருப்பு` |
+| `vari_cOqaZY.qmz` | tests for the GST module | — |
+| `vari_vikiqam.qmz` | finding the rate that applied | `விகிதம்_தேடு` `படிகளை_ஏற்று` `படி_வரி_கணக்கிடு` `உள்_மாநிலமா` `மாநிலப்_பெயர்` `மாநிலங்கள்` `சரிபார்க்கப்படாத_விகிதங்கள்` |
+| `vari_vikiqam_cOqaZY.qmz` | tests for finding the rate that applied | — |
 
-## Design
-
-**The ledger is a value.** Posting returns a *new* ledger rather than editing
-the old one, so an entry cannot be changed after the fact — the property
-eloquent-ifrs protects by keeping clients away from the table.
-
-**Double entry is enforced.** `பதிவிடு` refuses a transaction whose sides
-disagree and returns `தவறு`; nothing unbalanced reaches the ledger.
-
-**Balances read in the account's own direction.** A liability with more
-credits than debits is positive, just as an asset with more debits than
-credits is. Every report depends on `பற்று_இயல்பா`.
-
-**Reports derive from the ledger.** Nothing is stored twice, so a statement
-cannot disagree with the postings behind it.
-
-## Modules
-
-| File | Contents |
-|---|---|
-| `kaNakkukaL.qmz` | Chart of accounts, the five IFRS roots, normal sides |
-| `kAlam.qmz` | Reporting periods, Indian and calendar years |
-| `pErEtu.qmz` | Transactions, line items, posting, balances, period filters |
-| `vari.qmz` | GST and every transaction type |
-| `oqukkItu.qmz` | Assignment, outstanding amounts, ageing |
-| `aRikkYkaL.qmz` | Trial balance, income statement, balance sheet, account statement, cash flow |
-| `niRuvaZam.qmz` | Entities, currencies, exchange differences |
-| `mutippu.qmz` | Year-end close |
-
-## Account types
-
-`வகை_சொத்து()` `வகை_பொறுப்பு()` `வகை_பங்கு()` `வகை_வருவாய்()` `வகை_செலவு()`
-
-Assets and expenses increase on the debit side; the rest on the credit side.
-
-## Transaction types
-
-| Function | eloquent-ifrs |
-|---|---|
-| `பரிவர்த்தனை_ஆக்கு` | JournalEntry |
-| `விற்பனை_பரிவர்த்தனை` | ClientInvoice |
-| `கொள்முதல்_பரிவர்த்தனை` | SupplierBill |
-| `ரொக்க_விற்பனை` | CashSale |
-| `ரொக்க_கொள்முதல்` | CashPurchase |
-| `பணம்_பெறு` | ClientReceipt |
-| `பணம்_செலுத்து` | SupplierPayment |
-| `வரவு_குறிப்பு` | CreditNote |
-| `பற்று_குறிப்பு` | DebitNote |
-| `எதிர்_பதிவு` | ContraEntry |
-| `தொடக்க_இருப்பு` | opening balance |
-| `அன்னிய_வேறுபாடு` | forex difference |
-
-## Reports
-
-| Function | Covers |
-|---|---|
-| `இருப்பாய்வு` / `கால_இருப்பாய்வு` | Trial balance |
-| `வருமான_அறிக்கை` / `கால_வருமான_அறிக்கை` | Income statement — **for a period** |
-| `இருப்புநிலை` / `நாள்_இருப்புநிலை` | Balance sheet — **as at a date** |
-| `கணக்கு_அறிக்கை` | Account statement with running balance |
-| `பணப்புழக்க_அறிக்கை` | Cash flow, direct method |
-| `வயது_அட்டவணை` | Ageing schedule |
-
-The period distinction is not cosmetic. An income statement covers a span; a
-balance sheet accumulates to a date. The plain forms run over the whole
-ledger, which is only correct for a first year with no close.
-
-## Clearing
-
-```etamil
-ஒதுக்கீடுகள் = மதிப்பு(ஒதுக்கு(ஒதுக்கீடுகள், பேரேடு,
-    "RCT001", "INV001", 118000, "1100", "சொத்து"));
-
-மீதம் = நிலுவைத்_தொகை(பேரேடு, ஒதுக்கீடுகள், "INV001", "1100", "சொத்து");
-```
-
-Refuses clearing more than the invoice is worth, or spreading a receipt
-further than the receipt itself. Both are accounting errors, not programming
-ones.
-
-## Naming
-
-Field names are compound (`கணக்கு_குறி`, `பற்று_தொகை`) rather than bare
-words, because **a keyword used as a field name is stored under its token
-name** — `{வரி: 1}` becomes the field `Tax`. See
-[ARCHITECTURE.md](../../docs/ARCHITECTURE.md#the-known-wart-keyword-names-are-translated).
-
-Follow the same convention when extending this framework.
-
-## Examples
-
-- `examples/finance/kaNakkiyal.qmz` — a full cycle with GST and the three statements
-- `examples/finance/niluvY_vayaqu.qmz` — clearing, ageing, periods, account statement
-
-## Not covered
-
-Budgets, fixed-asset depreciation schedules, inventory valuation,
-consolidation eliminations between entities, and tax return generation.
-Entities partition one ledger but do not yet eliminate intercompany balances.
+`vari_vikiqam.qmz` answers "what rate applied *then*", which is a different question from "what rate applies now" and the one an amended return actually needs.
