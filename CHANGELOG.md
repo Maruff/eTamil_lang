@@ -8,7 +8,7 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
-## Unreleased
+## 1.3.0 — 2026-09-27
 
 eTamil on Arduino boards. `etamil --artino` compiles a program to firmware for an
 Uno, Nano, Mega, Pico or Pico 2, and the VM gets a board of its own: pins and
