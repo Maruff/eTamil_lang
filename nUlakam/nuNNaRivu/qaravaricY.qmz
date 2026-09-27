@@ -10,7 +10,7 @@
 // __record is carried through untouched, so the same functions rank documents,__
 // __functions, chunks or anything else that has been given a number.__
 
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __மதிப்பெண்_பெறு(உருப்படி) — the score, or zero if the item has none__
 //

@@ -157,14 +157,14 @@ disposable. **Expect:** `கோப்பிலிருந்து வருவ
 ### The standard library
 
 ```bash
-etamil --vm nUlakam/paNam.qmz     # loads cleanly, defines functions, prints nothing
+etamil --vm nUlakam/paNam/paNam.qmz     # loads cleanly, defines functions, prints nothing
 ```
 
 To exercise it:
 
 ```bash
 cat > /tmp/money.qmz <<'EOF'
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 அச்சு ரூபாய்(12345678.5);
 அச்சு காசு_வடிவம்(0 - 4500.5);
 EOF
@@ -460,7 +460,7 @@ cd etamil-linux-x64
 ./etamil --version
 file ./etamil                     # expect: statically linked
 ldd  ./etamil                     # expect: not a dynamic executable
-printf 'இறக்கு "nUlakam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.50);\n' > /tmp/t.qmz
+printf 'இறக்கு "nUlakam/paNam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.50);\n' > /tmp/t.qmz
 ./etamil --vm /tmp/t.qmz           # expect ₹1,23,45,678.50
 ```
 

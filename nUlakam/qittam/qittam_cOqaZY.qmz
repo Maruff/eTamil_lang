@@ -9,8 +9,8 @@
 // __eye. Where a result is not exactly representable in binary floating point it__
 // __is asserted within a tolerance rather than for equality, and said so.__
 
-இறக்கு "../cOqaZY.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "pakuppu.qmz";
 இறக்கு "kattuppAtu.qmz";
 இறக்கு "Ittu_maqippu.qmz";

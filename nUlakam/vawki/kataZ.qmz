@@ -13,7 +13,7 @@
 // __it is an account that will not close.__
 
 இறக்கு "vatti.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __மாத_விகிதம்(ஆண்டு_விகிதம்) — the monthly rate as a fraction__
 செயல் மாத_விகிதம்(ஆண்டு_விகிதம்) {

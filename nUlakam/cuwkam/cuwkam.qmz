@@ -18,9 +18,9 @@
 // __சரக்கு, கட்டணம் and விலக்கு are keywords, so the words this module wants are__
 // __unavailable alone.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __--- assessable value -----------------------------------------------------__
 //

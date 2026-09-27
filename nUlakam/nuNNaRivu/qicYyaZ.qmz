@@ -10,7 +10,7 @@
 // __wanted: an array already has a length and an index, which is all a vector__
 // __is. Keeping them as arrays means ஒவ்வொரு, நீளம் and இணை work on them.__
 
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __புள்ளிப்_பெருக்கம்(அ, ஆ) — the dot product of two vectors__
 //

@@ -30,10 +30,10 @@
 // __பொறுப்பு, பங்கு and மதிப்பீடு are all keywords, and a keyword used as a bare__
 // __key is stored under its token name.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../aNi.qmz";
-இறக்கு "../kAcu.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+இறக்கு "../paNam/kAcu.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __படி 1 — the contract__

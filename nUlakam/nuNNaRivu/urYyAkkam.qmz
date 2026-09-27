@@ -14,9 +14,9 @@
 // __being asked about should not leave the machine unless its author decides__
 // __otherwise. A key, when there is one, is supplied by the person using it.__
 
-இறக்கு "../jEcAZ.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../vativam/jEcAZ.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __உள்ளூர்_வழங்குநர்() — the default: Ollama on this machine__
 செயல் உள்ளூர்_வழங்குநர்() { திரும்பு "ollama"; }

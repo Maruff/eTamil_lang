@@ -10,7 +10,7 @@
 // __shape and every truncation can be fed in directly; this checks that the__
 // __whole path works against something that answers.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "retis.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("ரெடிஸ்");

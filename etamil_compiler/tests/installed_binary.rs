@@ -86,7 +86,7 @@ fn run_isolated(source: &str) -> (bool, String) {
 #[test]
 fn the_standard_library_is_importable_with_nothing_on_disk() {
     // The README's money example, which is the first thing a new user runs.
-    let (ok, output) = run_isolated("இறக்கு \"nUlakam/paNam.qmz\";\nஅச்சு ரூபாய்(12345678.5);\n");
+    let (ok, output) = run_isolated("இறக்கு \"nUlakam/paNam/paNam.qmz\";\nஅச்சு ரூபாய்(12345678.5);\n");
 
     assert!(
         ok,
@@ -129,7 +129,9 @@ fn a_file_on_disk_overrides_the_built_in_copy() {
     // rebuilding the compiler, and a distribution package could not ship a
     // newer library than the binary it sits beside.
     let directory = std::env::temp_dir().join(format!("etamil-override-{}", std::process::id()));
-    let library = directory.join("nUlakam");
+    // The override has to sit where the import now points: paNam.qmz moved
+    // into nUlakam/paNam/ when the library was given a folder structure.
+    let library = directory.join("nUlakam").join("paNam");
     std::fs::create_dir_all(&library).expect("temp directory");
     std::fs::write(
         library.join("paNam.qmz"),
@@ -138,7 +140,7 @@ fn a_file_on_disk_overrides_the_built_in_copy() {
     .expect("write the override");
     std::fs::write(
         directory.join("program.qmz"),
-        "இறக்கு \"nUlakam/paNam.qmz\";\nஅச்சு ரூபாய்(1);\n",
+        "இறக்கு \"nUlakam/paNam/paNam.qmz\";\nஅச்சு ரூபாய்(1);\n",
     )
     .expect("write program");
 

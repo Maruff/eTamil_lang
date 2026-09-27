@@ -23,8 +23,8 @@
 // __estimate can produce negative revenue in a period, and that is the answer__
 // __rather than a fault.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __காலப்போக்கிலா — over time, or at a point in time__

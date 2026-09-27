@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/paNam.qmz — பணம் (money) formatting__
+// __nUlakam/paNam/paNam.qmz — பணம் (money) formatting__
 //
 // __Indian digit grouping: the last three digits, then groups of two, so__
 // __12345678.5 reads as 1,23,45,678.50 — not the 12,345,678.50 that a__
 // __western formatter would give you.__
 
-இறக்கு "col.qmz";
-இறக்கு "kaNiqam.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __குழுக்கள்(இலக்கங்கள்) — apply the 3-then-2s grouping to a digit string__
 செயல் குழுக்கள்(இலக்கங்கள்) {

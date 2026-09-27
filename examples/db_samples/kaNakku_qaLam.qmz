@@ -4,9 +4,9 @@
 // __spliced into the SQL text. A result set comes back as an array of records,__
 // __so it iterates like any other table.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
-இறக்கு "../../nUlakam/aNi.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
+இறக்கு "../../nUlakam/atippatY/aNi.qmz";
 
 தளம்_இணை சீகுலைட், "kaNakku.db";
 

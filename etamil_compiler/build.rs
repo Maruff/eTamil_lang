@@ -10,7 +10,7 @@
 //! PATH and nothing else. Installed that way, with `ETAMIL_PATH` unset, the
 //! compiler answered
 //!
-//!     ✗ தொகுதி 'nUlakam/paNam.qmz' கண்டுபிடிக்க முடியவில்லை
+//!     ✗ தொகுதி 'nUlakam/paNam/paNam.qmz' கண்டுபிடிக்க முடியவில்லை
 //!
 //! to the first line of the README's own money example. A language whose
 //! standard library disappears when it is installed the ordinary way cannot
@@ -47,7 +47,7 @@ fn main() {
         }
     };
 
-    // Keyed the way an author writes the import — `nUlakam/paNam.qmz` — so the
+    // Keyed the way an author writes the import — `nUlakam/paNam/paNam.qmz` — so the
     // embedded tree and the on-disk one are addressed identically.
     let prefix = root
         .file_name()

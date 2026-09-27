@@ -29,8 +29,8 @@
 // __Every ceiling, percentage and threshold is a parameter. Pass 0 for a ceiling__
 // __that does not exist.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __ஒரு கழிவு — one deduction__

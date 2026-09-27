@@ -28,8 +28,8 @@
 //
 // __Percentages are whole numbers out of a hundred, as everywhere else here.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __கட்டமைப்பு — the shape of the problem__

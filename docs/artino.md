@@ -251,7 +251,7 @@ variables. `ETAMIL_BOARD=sim` gives a **simulated board** on any machine:
 The VM's board is `src/vm/board.rs` (B5): the simulated board on any machine, a Raspberry Pi's pins
 through the Linux GPIO character device (BCM numbers, one line request a pin), and serial ports by
 device path on Linux and macOS (termios, raw, a line at a time). Windows has the simulated board only.
-Firmware logic can be tested with `etamil --vm` and `nUlakam/cOqaZY.qmz` before it is uploaded
+Firmware logic can be tested with `etamil --vm` and `nUlakam/cOqaZY/cOqaZY.qmz` before it is uploaded
 (`nUlakam/vaZporuL/vaZporuL_cOqaZY.qmz`).
 
 The library's own rules:
@@ -436,7 +436,7 @@ B3 is built in three slices, each finished and tested before the next:
 | Text | values and variables of up to 48 bytes of UTF-8; `&` with text, numbers and booleans; `==` and `!=`; `சொல்லாக்கு`; `சொல்` parameters (copied in) and text returned from a `செயல்` |
 | Reports | an index outside its array reads 0, or the write is skipped. Text that does not fit is cut at a character boundary, so no letter is split into bytes that are not text. Both are reported once per site |
 
-`அணி_நிரப்பு` is also new in `nUlakam/aNi.qmz`, so the same program runs on the VM.
+`அணி_நிரப்பு` is also new in `nUlakam/atippatY/aNi.qmz`, so the same program runs on the VM.
 
 Not in B3.1:
 - **`நீளம்` of text.** The VM counts letters as grapheme clusters (`வரி` is 2), which a board cannot do cheaply, so it is refused rather than answered differently.
@@ -468,7 +468,7 @@ letter, and an index outside its array). All four example programs link for the 
 | Serial ports | `தொடர்_திற`, `தொடர்_வரி_படி`, `தொடர்_எழுது`, `தொடர்_வரி_எழுது`, `தொடர்_மூடு` on ports 0–3: 0 is `Serial`, 1–3 the board's hardware ports where it has them (Mega 1–3, Pico 1–2, Uno none). A port the board lacks, or one that is closed, is a `தவறு` |
 | Reading a line | `\r` is dropped; a line longer than 48 bytes is cut and reported. **No whole line yet is `சரி("")`**, on the VM too: `vaZporuL.qmz` turns the host's `சரி(இன்மை)` into empty text, because a board has no `இன்மை` and one answer everywhere is what lets one program run on all of them |
 | Letters | `நீளம்` of text, indexing text, and `ஒவ்வொரு` over its letters, counted as the VM counts them for Latin and Tamil: a base character with the vowel signs, virama and combining marks after it, and `\r\n` as one. Any other script is counted one code point each, and reported |
-| The string library | With letters, `nUlakam/col.qmz` compiles for a board as written: `துண்டு`, `தேடு`, `தொடங்குகிறதா`, `முடிகிறதா`, `ஒழுங்கு` … |
+| The string library | With letters, `nUlakam/atippatY/col.qmz` compiles for a board as written: `துண்டு`, `தேடு`, `தொடங்குகிறதா`, `முடிகிறதா`, `ஒழுங்கு` … |
 | Rounding the author asked for | `தரை`, `மேல்`, `வட்டமிடு` (up to three places). A division or multiplication inside one goes straight to the rounded answer and is never reported. That is how a checksum like `ம - 97 * தரை(ம / 97)` runs exactly |
 | Parsing | `எண்ணாக்கு` gives `சரி(number)` or a `தவறு`. More than three decimals rounds and is reported |
 | `பலகை()` | the board's name, known when compiling: `uno`, `pico`, … |

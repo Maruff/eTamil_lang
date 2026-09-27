@@ -24,8 +24,8 @@
 // __குறியீட்டு_எண்ணிக்கை returns a count and முதன்மையாளரா takes the conclusion__
 // __as an argument rather than pretending to reach it.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __குறியீடுகள் — the three indicators__

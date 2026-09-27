@@ -45,8 +45,8 @@
 // __duration suggests, and சுருக்கக்கூடிய_காலம் says so before the money is__
 // __spent finding out.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __How many passes before a network is called circular. A pass propagates at__
 // __least one activity's worth of constraint, so a sound network settles well__

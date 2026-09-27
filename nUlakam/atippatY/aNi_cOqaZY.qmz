@@ -2,9 +2,9 @@
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __அணி சோதனை — map, filter and fold__
 //
-//   __etamil --vm nUlakam/aNi_cOqaZY.qmz__
+//   __etamil --vm nUlakam/atippatY/aNi_cOqaZY.qmz__
 
-இறக்கு "cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "aNi.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("அணி (map, filter, fold)");

@@ -29,7 +29,7 @@ echo "  binary   $BIN/etamil"
 echo "  library  $LIB/nUlakam"
 echo
 
-# ETAMIL_PATH lets  இறக்கு "nUlakam/paNam.qmz"  resolve from any directory.
+# ETAMIL_PATH lets  இறக்கு "nUlakam/paNam/paNam.qmz"  resolve from any directory.
 LINE="export ETAMIL_PATH=\"$LIB\""
 for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
     [ -f "$rc" ] || continue

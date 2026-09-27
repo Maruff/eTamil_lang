@@ -11,7 +11,7 @@
 
 இறக்கு "pErEtu.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // ஒதுக்கீடு_ஆக்கு(மூல_எண், இலக்கு_எண், தொகை)
 //   __மூல_எண்   — the clearing transaction (a receipt or payment)__

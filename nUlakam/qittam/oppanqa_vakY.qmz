@@ -24,8 +24,8 @@
 // __version of that confusion is treating a not-to-exceed time-and-materials__
 // __contract as though the ceiling were a target.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __வகைகள் — who carries the risk__

@@ -21,9 +21,9 @@
 // __embedded with a title prepended and questions are not, the two are being__
 // __placed in the space by different rules.__
 
-இறக்கு "../jEcAZ.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../vativam/jEcAZ.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __இயல்பு_முகவரி() — where Ollama listens by default__
 செயல் இயல்பு_முகவரி() { திரும்பு "http://127.0.0.1:11434"; }

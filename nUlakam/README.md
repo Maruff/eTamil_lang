@@ -5,7 +5,7 @@ needed a systems language, the DSL would not be sufficient for the
 frameworks built on top of it.
 
 ```etamil
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 
 அச்சு ரூபாய்(12345678.5);        // ₹1,23,45,678.50
 ```
@@ -88,7 +88,7 @@ VM already allows that: `பொருள்[சாவி] = மதிப்ப�
 So `jEcAZ.qmz` is ordinary eTamil, and Layer 0 gains nothing.
 
 ```etamil
-இறக்கு "nUlakam/jEcAZ.qmz";
+இறக்கு "nUlakam/vativam/jEcAZ.qmz";
 
 ப = மதிப்பு(ஜேசான்_படி(request_body));
 அச்சு ப["qokY"] + 1;                       // a number, not text
@@ -178,7 +178,7 @@ template *means* is decided in `AvaNam.qmz`: which placeholder gets which
 value, which rows repeat, what has to be escaped.
 
 ```etamil
-இறக்கு "nUlakam/AvaNam.qmz";
+இறக்கு "nUlakam/vativam/AvaNam.qmz";
 
 மதிப்புகள் = [{"குறி": "project.name", "மதிப்பு": "Beak PMO"}];
 தொகுதிகள் = [{"பெயர்": "o",

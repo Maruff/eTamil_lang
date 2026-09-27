@@ -32,8 +32,8 @@
 //   __Rule 119A rounds the amount interest is computed on **down** to the__
 //     __nearest hundred rupees. Not to the nearest — down.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __கடமை — who has to pay, and on what__

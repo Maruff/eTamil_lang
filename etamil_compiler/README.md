@@ -12,7 +12,7 @@ That installs the `etamil` binary. The standard library travels inside it, so
 there is nothing else to place and no environment variable to set:
 
 ```etamil
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 அச்சு ரூபாய்(12345678.5);        // ₹1,23,45,678.50 — Indian digit grouping
 ```
 

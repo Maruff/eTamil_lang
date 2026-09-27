@@ -30,7 +30,7 @@ literal and any bare division. Which is most of what a tax calculation is.
 ### The obvious workaround, and why it was not taken
 
 Fixed two-place decimals — every number an `i64` scaled by 100, which is what
-the paise convention in `nUlakam/kAcu.qmz` already does by hand. Measured
+the paise convention in `nUlakam/paNam/kAcu.qmz` already does by hand. Measured
 against the VM before committing to it:
 
 | | fixed 2-place | VM |
@@ -184,7 +184,7 @@ The previous design — values in `i64` registers — scored `7 match, 0 mismatc
 57 refused`. So the runtime bought 44 programs, and no module was rejected by
 clang's verifier in either run.
 
-What matches now is most of the library: `nUlakam/kAcu.qmz` and its suite,
+What matches now is most of the library: `nUlakam/paNam/kAcu.qmz` and its suite,
 accounting, tax, insurance, customs, banking, UPI addresses, Redis, JSON, the
 document builder, and the test framework they are all written against. Money to
 the paisa, compiled, agreeing with the interpreter line for line.
@@ -233,7 +233,7 @@ The list of unbuildable constructs is a pure function of the AST, so it has
 been lifted out of `#[cfg(feature = "llvm")]` and is reachable everywhere:
 
 ```bash
-etamil --llvm-gaps nUlakam/kAcu.qmz        # exits 0: nothing refused
+etamil --llvm-gaps nUlakam/paNam/kAcu.qmz        # exits 0: nothing refused
 etamil --llvm-gaps examples/api/simple_api.qmz
 #   4  வழி (a route)
 #   1  சேவையகம்_தொடங்கு (start a server)

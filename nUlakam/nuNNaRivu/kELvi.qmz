@@ -17,8 +17,8 @@
 // __comment that happens to contain a sentence addressed to a model is still__
 // __documentation, and this file's job is to keep that boundary.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __அதிகபட்ச_மேற்கோள்கள்() — how many retrieved pieces to show the model__
 //

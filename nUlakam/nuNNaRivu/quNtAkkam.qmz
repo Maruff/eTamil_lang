@@ -15,8 +15,8 @@
 // __paragraphs whole; breaking at a fixed character count cuts sentences in__
 // __half and leaves both halves meaning less than the whole did.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __பத்திகளாக(சரம்) — split on blank lines, keeping paragraphs intact__
 //

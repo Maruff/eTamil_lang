@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/kuRiyAkkam.qmz — குறியாக்கம் (encoding): base64 and hex__
+// __nUlakam/vativam/kuRiyAkkam.qmz — குறியாக்கம் (encoding): base64 and hex__
 //
 // __Written in eTamil. The host provides only பைட்டுகள் and பைட்டுச்_சரம் — the__
 // __UTF-8 bytes of a string and the string back — because a byte is not__
@@ -17,8 +17,8 @@
 //   __பதினாறு_ஆக்கு(சரம்)         -> lowercase hex__
 //   __பதினாறு_படி(சரம்)           -> சரி(சரம்) or தவறு__
 
-இறக்கு "kaNiqam.qmz";
-இறக்கு "col.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __அறுபத்துநான்கு_எழுத்துகள்() — the standard base64 alphabet__
 //

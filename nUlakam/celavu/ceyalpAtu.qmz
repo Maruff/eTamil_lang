@@ -26,8 +26,8 @@
 // __same proportions as the volume base, activity-based costing gives the same__
 // __answer at more expense. `பயனளிக்குமா` says when that is the case.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __செயல்பாடு — a cost pool and its driver__

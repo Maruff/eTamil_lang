@@ -25,8 +25,8 @@
 // __There is no Monte Carlo here. It needs a random source the standard library__
 // __does not have, and everything below is closed-form arithmetic.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __ஒரு மதிப்பீடு — one three-point estimate__

@@ -22,7 +22,7 @@
 // __run for ever on a calendar where all seven weekdays are off. That is a__
 // __configuration error, and it fails loudly here instead of hanging.__
 
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "nAL.qmz";
 
 // __How far forward or back a search will go before giving up. A run of__

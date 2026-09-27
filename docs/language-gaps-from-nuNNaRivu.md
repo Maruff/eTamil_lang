@@ -22,7 +22,7 @@ Reading a key that is absent is a fatal runtime error, not `இன்மை`:
 ```
 
 So every read of a possibly-absent key must be guarded by
-`புலம்_உள்ளதா`. And `புலம்_உள்ளதா` has no primitive to call: `nUlakam/poruL.qmz`
+`புலம்_உள்ளதா`. And `புலம்_உள்ளதா` has no primitive to call: `nUlakam/atippatY/poruL.qmz`
 implements it by iterating the record's field names, because nothing else is
 available. Building a record of *n* keys and then asking *n* times whether a
 key is present:
@@ -111,7 +111,7 @@ quadratic but only bites above about fifty thousand characters — 0.27s to buil
 50k, 0.88s for 100k, 4.88s for 200k — which is well past anything the tokenizer
 was doing per document.
 
-`nUlakam/col.qmz` records the same lesson for `பிரி` and `ஒன்றிணை`, which were
+`nUlakam/atippatY/col.qmz` records the same lesson for `பிரி` and `ஒன்றிணை`, which were
 moved into the host after costing "14 seconds over 8 KB". The pattern is
 established: **any loop that accumulates a string is a bug waiting for a large
 input.** A string builder, or a host `ஒன்றிணை` over an array built by `இணை`,
@@ -119,7 +119,7 @@ is the workaround; the latter is what should be reached for today.
 
 ## The eTamil JSON parser does not scale
 
-`ஜேசான்_படி` in `nUlakam/jEcAZ.qmz` is a hand-written recursive parser, and it
+`ஜேசான்_படி` in `nUlakam/vativam/jEcAZ.qmz` is a hand-written recursive parser, and it
 is correct. On a 624 KB corpus it did not finish in ten minutes.
 
 The same data as tab-separated text, split with the host `பிரி`:

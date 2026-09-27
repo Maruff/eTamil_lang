@@ -10,8 +10,8 @@
 
 இறக்கு "kaNakkukaL.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை)
 // __வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை) — one line of a journal entry__

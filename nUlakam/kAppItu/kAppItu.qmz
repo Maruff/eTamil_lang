@@ -18,8 +18,8 @@
 // __காப்பீடு, இழப்பு, விலக்கு and பங்கு are all keywords, so the words this__
 // __module most wants are unavailable alone. Compounds it is.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __--- premium --------------------------------------------------------------__
 //

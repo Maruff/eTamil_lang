@@ -18,8 +18,8 @@
 //
 // __விதிமுறைகளை_ஏற்று reads them. வகைப்படுத்து and ஒதுக்கீடு apply them.__
 
-இறக்கு "../poruL.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __விதிமுறைகளை_ஏற்று(நாள்) — the rules in force on that date__
 //

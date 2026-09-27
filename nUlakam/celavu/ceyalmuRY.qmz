@@ -29,8 +29,8 @@
 // __and dividing by *good output* instead is wrong whenever there is abnormal__
 // __loss, because it buries the abnormal loss in the survivors.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __இழப்புகள் — expected and unexpected__

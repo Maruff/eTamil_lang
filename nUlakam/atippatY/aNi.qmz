@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/aNi.qmz — அணி (array) helpers__
+// __nUlakam/atippatY/aNi.qmz — அணி (array) helpers__
 //
 // __The last three take a செயல் as a value — map, filter and fold. They were__
 // __missing until functions were values; the rule each one applies is now an__

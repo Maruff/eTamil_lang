@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/kaNiqam.qmz — கணிதம் (math) helpers__
+// __nUlakam/atippatY/kaNiqam.qmz — கணிதம் (math) helpers__
 //
 // __Rounding, floor and ceiling come from the host because they need the__
 // __decimal representation itself. Everything below is built from those.__

@@ -12,8 +12,8 @@
 // __array of terms, as coRpiri.qmz produces. Nothing here looks at the original__
 // __text, which is what lets the same counts serve any tokenizer.__
 
-இறக்கு "../aNi.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __ஆவணம்_ஆக்கு(குறி, பதங்கள்_பட்டியல்) — an indexed document__
 செயல் ஆவணம்_ஆக்கு(குறி, பதங்கள்_பட்டியல்) {

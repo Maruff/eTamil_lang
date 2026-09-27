@@ -18,8 +18,8 @@
 // __and paise, two decimal places and no more, and 0.1 + 0.2 being exactly 0.3__
 // __is the difference between a request accepted and one rejected.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __--- the address ----------------------------------------------------------__
 //

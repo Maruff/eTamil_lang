@@ -2,14 +2,14 @@
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __காசு சோதனை — money as whole paise__
 //
-//   __etamil --vm nUlakam/kAcu_cOqaZY.qmz__
+//   __etamil --vm nUlakam/paNam/kAcu_cOqaZY.qmz__
 //
 // __Every number in this file is a whole number. That is the discipline being__
 // __tested: two decimal places, exactly, with no fractional literal anywhere —__
 // __so a program written this way is not asking the LLVM backend for arithmetic__
 // __it cannot do.__
 
-இறக்கு "cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "kAcu.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("காசு (paise)");

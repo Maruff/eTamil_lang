@@ -18,8 +18,8 @@
 // __independently and phrased differently, and believe that one.__
 
 இறக்கு "qaravaricY.qmz";
-இறக்கு "../aNi.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) — one question and its answer__
 செயல் சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) {

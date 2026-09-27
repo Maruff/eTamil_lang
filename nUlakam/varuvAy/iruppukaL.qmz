@@ -23,8 +23,8 @@
 // __Record keys are quoted: சொத்து, பொறுப்பு, விலைப்பட்டியல், வருவாய், நிலுவை__
 // __and நிலை are all keywords.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __ஒரு ஒப்பந்தத்தின் நிலை — one contract's position__

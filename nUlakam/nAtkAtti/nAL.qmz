@@ -39,8 +39,8 @@
 // __Years outside 0001-9999 are not representable in the four-digit form and are__
 // __not supported.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __The epoch the host counts from, and the weekday it fell on. 1 January 1970__
 // __was a Thursday, which is day 4 when Sunday is 0.__

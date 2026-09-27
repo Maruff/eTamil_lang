@@ -21,7 +21,7 @@
 //
 // __A state that is neither is unsettled, and unsettled is not a refusal.__
 
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __The states, as the switch reports them.__
 தொடங்கியது = "INITIATED";   // __sent, nothing heard__

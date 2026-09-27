@@ -8,7 +8,7 @@
 // __builtins that vaZporuL.qmz is written over; until they land it stops at the__
 // __first call.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vaZporuL.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("வன்பொருள் (pins, time, serial)");

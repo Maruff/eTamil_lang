@@ -3,8 +3,8 @@
 // __Employees are records; the payroll is an array of them. Amounts are exact__
 // __decimals and formatted with Indian digit grouping.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
 
 // __வரி_கணக்கு(மொத்த_சம்பளம்) — slab tax on annual pay__
 செயல் வரி_கணக்கு(ஆண்டு_சம்பளம்) {

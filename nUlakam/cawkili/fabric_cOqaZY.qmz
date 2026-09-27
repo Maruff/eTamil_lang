@@ -13,7 +13,7 @@
 // __The parts that need no gateway — building a URL, telling a conflict from a__
 // __refusal — are tested either way.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "fabric.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("Fabric நுழைவாயில்");

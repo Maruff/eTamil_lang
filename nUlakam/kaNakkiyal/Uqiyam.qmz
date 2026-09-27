@@ -17,8 +17,8 @@
 // __ஊதியம், நிகர, செலவு and விலை are keywords, so the parameters below read as__
 // __compounds. That is the language's doing, not a style choice.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __--- what was earned ------------------------------------------------------__
 //

@@ -14,7 +14,7 @@
 // __per route costs nothing.__
 
 இறக்கு "katY.qmz";
-இறக்கு "../../nUlakam/jEcAZ.qmz";
+இறக்கு "../../nUlakam/vativam/jEcAZ.qmz";
 
 // __The webhook secret the payment gateway signs with. Read from the__
 // __environment in anything real; written here so the example runs.__

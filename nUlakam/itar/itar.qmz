@@ -20,8 +20,8 @@
 // __Probabilities are whole numbers out of a hundred, following the rates__
 // __convention everywhere else in nUlakam.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __ஒரு இடர் — one risk__

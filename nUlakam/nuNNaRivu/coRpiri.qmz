@@ -14,8 +14,8 @@
 // __name, and உரை and தரவு are reserved too — hence சரம் for the text itself,__
 // __which is what col.qmz already calls a string.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __பிரிப்பான்கள்() — every character that ends a term__
 //

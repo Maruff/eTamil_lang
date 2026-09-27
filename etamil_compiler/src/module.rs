@@ -144,7 +144,7 @@ fn load_inner(
 
 /// Find an imported file: next to the importer first, then along
 /// `ETAMIL_PATH`, then in a `nUlakam` directory beside the executable. That
-/// last one is what lets `இறக்கு "nUlakam/paNam.qmz";` work from anywhere
+/// last one is what lets `இறக்கு "nUlakam/paNam/paNam.qmz";` work from anywhere
 /// once the compiler is installed.
 fn locate(relative: &str, base_dir: &Path) -> Option<PathBuf> {
     let beside = base_dir.join(relative);

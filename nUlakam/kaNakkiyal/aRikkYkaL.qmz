@@ -8,8 +8,8 @@
 இறக்கு "pErEtu.qmz";
 இறக்கு "kaNakkukaL.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../paNam.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../paNam/paNam.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __--- இருப்பாய்வு (trial balance) ---__
 //

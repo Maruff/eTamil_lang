@@ -37,8 +37,8 @@
 // __income exempt for ever — no reversal, no temporary difference, no deferred__
 // __tax. They belong in the effective-rate reconciliation and nowhere else.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __தற்காலிக வேறுபாடு — the temporary difference__

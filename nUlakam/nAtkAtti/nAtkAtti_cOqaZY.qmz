@@ -10,8 +10,8 @@
 // __is a leap year and 2100 is not. Every expected value below was computed from__
 // __the calendar rather than from the code.__
 
-இறக்கு "../cOqaZY.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "nAL.qmz";
 இறக்கு "vElYnAL.qmz";
 

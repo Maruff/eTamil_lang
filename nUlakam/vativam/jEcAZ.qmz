@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/jEcAZ.qmz — ஜேசான் (JSON), written in eTamil__
+// __nUlakam/vativam/jEcAZ.qmz — ஜேசான் (JSON), written in eTamil__
 //
 // __Both directions live here rather than in the host, because the language__
 // __already has the one capability a JSON parser needs: a record key can be__
@@ -15,7 +15,7 @@
 // __run, which matters when a response is compared in a test. And `\uXXXX`__
 // __escapes are not decoded; the six escapes JSON uses in practice are.__
 
-இறக்கு "col.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __--- Serializing ----------------------------------------------------------__
 

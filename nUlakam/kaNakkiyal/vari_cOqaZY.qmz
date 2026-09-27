@@ -10,7 +10,7 @@
 // __either — வரி_விகிதம்_ஆக்கு takes one — which is what lets the real figures__
 // __live in a table that is updated when the rules change, rather than in code.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vari.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("வரி (GST)");

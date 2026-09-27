@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/kAcu.qmz — காசு: money as whole paise__
+// __nUlakam/paNam/kAcu.qmz — காசு: money as whole paise__
 //
 // __Two decimal places, exactly, without decimal arithmetic underneath.__
 //
@@ -27,7 +27,7 @@
 // __and using integer division would make it exact, and that is a much smaller__
 // __change than decimal arithmetic. See docs/llvm-backend-gaps.md.__
 
-இறக்கு "kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 பைசா_ஒரு_ரூபாய் = 100;
 

@@ -30,8 +30,8 @@
 // __shape வரி_வகிதம்/படிகளை_ஏற்று produces, effective-dated, so that last year's__
 // __return is computed on last year's law.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 இறக்கு "../kaNakkiyal/Uqiyam.qmz";
 
 // =========================================================================

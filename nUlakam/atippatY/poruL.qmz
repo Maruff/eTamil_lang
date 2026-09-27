@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
-// __nUlakam/poruL.qmz — பொருள் (record) helpers__
+// __nUlakam/atippatY/poruL.qmz — பொருள் (record) helpers__
 //
 // __Indexing a record by a field it does not have is an error, which is right__
 // __for a field a program expects and wrong for one it merely allows. A query__

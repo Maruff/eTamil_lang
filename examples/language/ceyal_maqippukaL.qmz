@@ -18,7 +18,7 @@
 
 // __Higher-order functions: map, filter and fold, from the standard library.__
 // __Each takes the rule it applies as a செயல்.__
-இறக்கு "../../nUlakam/aNi.qmz";
+இறக்கு "../../nUlakam/atippatY/aNi.qmz";
 
 விலைகள் = [1200, 450, 3100, 80, 999];
 அச்சு "இரட்டிப்பு: " & ஒவ்வொன்றுக்கும்(விலைகள், இரட்டி);

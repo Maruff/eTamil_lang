@@ -203,7 +203,7 @@ impl AuthManager {
 // who a user is, which routes need which role, where the accounts live.
 //
 // A token's payload crosses this boundary as **JSON text**, read and written
-// on the other side by nUlakam/jEcAZ.qmz. That keeps the host from having to
+// on the other side by nUlakam/vativam/jEcAZ.qmz. That keeps the host from having to
 // know what a claim means, and it means no Value-to-serde conversion lives
 // here at all.
 

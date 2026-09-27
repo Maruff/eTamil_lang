@@ -16,7 +16,7 @@
 // __as slabs, and whatever else is stated as a rate on a thing in a place.__
 // __Jurisdiction is a GST state code, or "" for a rule that applies everywhere.__
 
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 இறக்கு "Uqiyam.qmz";
 
 // விகிதம்_தேடு(வரி_வகை, குறியீட்டெண், மாநிலக்_குறி, நாள்)

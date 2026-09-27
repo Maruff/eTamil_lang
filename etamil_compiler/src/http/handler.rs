@@ -28,7 +28,7 @@ pub fn bind_request(vm: &mut VM, request: &HttpRequest, path_params: &HashMap<St
         Value::String(request.path.clone()),
     );
     // The body arrives as text. Parsing it — as JSON or anything else — is
-    // the language's own job; see nUlakam/jEcAZ.qmz.
+    // the language's own job; see nUlakam/vativam/jEcAZ.qmz.
     vm.variables.insert(
         "request_body".to_string(),
         Value::String(request.body.clone()),

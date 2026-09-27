@@ -29,8 +29,8 @@
 //
 // __Rates are a number out of a hundred: 30% is 30.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __சம்பளம் — salary__

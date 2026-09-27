@@ -14,8 +14,8 @@
 // __Where a result is not exactly representable in binary floating point it is__
 // __asserted within a tolerance rather than for equality, and said so.__
 
-இறக்கு "../cOqaZY.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "varumAZam.qmz";
 இறக்கு "kazivukaL.qmz";
 இறக்கு "varikkaNakku.qmz";

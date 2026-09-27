@@ -31,8 +31,8 @@
 // __Rates, thresholds and the no-PAN floor are all parameters. They are stated__
 // __per section and amended constantly; vari_vikiqam.qmz is where they live.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __ஒரு பிரிவு — a section__

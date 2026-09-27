@@ -79,7 +79,7 @@ eTamil runs backend programs today: functions, collections, error handling, modu
 | Running another program (`கட்டளை_ஓட்டு`) | ✅ Working | for the PDF, which comes out of LibreOffice. Deny by default: nothing runs unless `ETAMIL_EXEC_ALLOW` names it, arguments are a list and never reach a shell, and a program that will not finish is killed |
 | Sending a file (`பதில்_கோப்பு`) | ✅ Working | a response body that is not text — a PDF, an .odt, a picture. The language names the file and the server reads it, because a body built as a `சரம்` loses every byte that is not valid UTF-8. Content-Length counts what is actually sent; a missing file is a result, not an empty 200 |
 | File uploads (`request_files`, `பதிவேற்றம்_சேமி`) | ✅ Working | `multipart/form-data`, parsed over bytes. The request body is no longer decoded to text before parsing, which used to replace every byte of an upload that was not valid UTF-8. Text fields arrive in `request_fields`; files stay as bytes and the handler saves the one it wants, so nothing is spooled to a temporary file for someone to clean up |
-| Single sign-on (`சீட்டு_தலைப்பு`, `சீட்டு_பொதுச்_சரிபார்`) | ✅ Working | RS256 against a public key from an identity provider's JWKS, for Entra ID and the like. Fetching the JWKS, choosing the key and caching it are ordinary work for `வலை_பெறு` and `nUlakam/jEcAZ.qmz`; only reading a token's header and checking a signature live in the host. The issuer and the audience are required arguments, not options — a token a provider really signed, for a different application, is a real token and is still refused |
+| Single sign-on (`சீட்டு_தலைப்பு`, `சீட்டு_பொதுச்_சரிபார்`) | ✅ Working | RS256 against a public key from an identity provider's JWKS, for Entra ID and the like. Fetching the JWKS, choosing the key and caching it are ordinary work for `வலை_பெறு` and `nUlakam/vativam/jEcAZ.qmz`; only reading a token's header and checking a signature live in the host. The issuer and the audience are required arguments, not options — a token a provider really signed, for a different application, is a real token and is still refused |
 | Depreciation, payroll and tax rates (`nUlakam/kaNakkiyal/`) | ✅ Working | straight-line and written-down depreciation with schedules that close exactly, block-of-assets, payroll with the ceiling-versus-eligibility-limit distinction, and one marginal slab engine for income tax and professional tax. Rates live in an effective-dated table — every lookup takes the date it is asked about, and **no rate is seeded** |
 | Insurance and customs (`nUlakam/kAppItu/`, `nUlakam/cuwkam/`) | ✅ Working | premium, claim settlement and the **average clause** — under-insurance scales back even a partial loss, and the order of a settlement is not interchangeable. Customs centres on the **duty cascade**: the surcharge is on the duty and IGST is on the duty-inclusive value, and getting that wrong understates the tax. E-way bill validity rounds up, because rounding down expires a bill while the lorry is moving |
 | Accounting framework | ✅ Working | double entry, GST, three statements — **written in eTamil** |
@@ -91,10 +91,10 @@ eTamil runs backend programs today: functions, collections, error handling, modu
 | HTTP server (`--server`) | ✅ Working | worker pool; `வழி` routes with `:id` path parameters, query params, headers and request bodies; `பதில்` responses |
 | LLVM backend (`--llvm`) | 🟡 Expressions complete; I/O statements refused | Linux/macOS, `--features llvm`. Every value in the emitted IR is a handle into an arena in `src/runtime.rs`, and every operation on one is a call into the cdylib Cargo already builds — so decimals are **exact** (`1 / 3` prints all twenty-eight digits, as on the VM), formatting cannot drift from the VM's, and all fifty-nine builtins are reachable at once. Strings, arrays, records, results, booleans and `இன்மை` all have a representation, and so do function values, shaped records and methods: each compiled function has an entry the runtime can call through a value, and a shape's checks are `vm::shape`'s, shared with the VM. What is still refused is *statements*: files, databases, HTTP, routes. The IR is therefore not self-contained — it links `-letamil_compiler`. `docs/llvm-backend-gaps.md` explains the design and `scripts/run_parity.sh` measures it against the VM |
 | Response headers | ✅ Working | `பதில் 200, உடல், {"Content-Type": "text/html"}` — an ordinary record; defaults to JSON when omitted |
-| JSON (`nUlakam/jEcAZ.qmz`) | ✅ Working | `ஜேசான்_ஆக்கு` / `ஜேசான்_படி` — **written in eTamil**; `\uXXXX` escapes are not decoded |
+| JSON (`nUlakam/vativam/jEcAZ.qmz`) | ✅ Working | `ஜேசான்_ஆக்கு` / `ஜேசான்_படி` — **written in eTamil**; `\uXXXX` escapes are not decoded |
 | Scheduled blocks (`இடைவெளி`) | ✅ Working | `இடைவெளி 3600 { … }` under either server; the number is the gap *between* runs, so a slow job runs late rather than twice at once |
 | Bytes | ✅ Working | `பைட்டுகள்` / `பைட்டுச்_சரம்` — a byte array is an ordinary array of numbers, not a new value type |
-| base64 and hex (`nUlakam/kuRiyAkkam.qmz`) | ✅ Working | `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` — **written in eTamil** |
+| base64 and hex (`nUlakam/vativam/kuRiyAkkam.qmz`) | ✅ Working | `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` — **written in eTamil** |
 | Signing with a key only one side holds (ECDSA P-256) | ✅ Working | `வளைவு_சாவிகள்` `வளைவு_கையொப்பம்` `வளைவு_சரிபார்` `வளைவு_பொதுச்சாவி`. HMAC proves a message came from someone holding the same secret you do, so either side could have written it; this is signed with a private key and checked with a public one. SHA-256 digest, ASN.1 DER signature, keys as hex — the shapes Hyperledger Fabric MSP and X.509 expect. A signature that does not verify answers false; a key that is not a key is a தவறு |
 | Signing (HMAC-SHA256) | ✅ Working | `கையொப்பம்` / `கையொப்பம்_சரியா` — verify a signed webhook; the comparison is constant-time |
 | Mutual TLS (client certificates) | ✅ Working | `ETAMIL_TLS_CERT`, `ETAMIL_TLS_KEY`, `ETAMIL_TLS_CA`. Ordinary HTTPS proves the server is who it claims to be; a bank wants the other direction too, and will not discuss an account with a caller it cannot identify. PKCS#8, SEC1 or PKCS#1 keys. The CA and the identity are independent — trust a private root without presenting anything, or both. Half an identity is refused rather than sent anonymously |
@@ -109,7 +109,7 @@ eTamil runs backend programs today: functions, collections, error handling, modu
 | Async HTTP server (`--async`) | ✅ Working | tokio accept loop, handlers on the blocking pool; the VM stays synchronous |
 | Parse error positions | ✅ Working | every error carries a line and column, bilingually |
 | Type checking | ✅ Working | a declared type is enforced, with a position; deliberately narrow — no rule the rest of the language does not follow |
-| Tests in eTamil (`nUlakam/cOqaZY.qmz`) | ✅ Working | assertions, a summary, and a non-zero exit when anything fails, so a suite gates CI. `kaNakkiyal/vari_cOqaZY.qmz` is fifteen of them about GST arithmetic. `வெளியேறு(நிலை)` is what ends the process with a status |
+| Tests in eTamil (`nUlakam/cOqaZY/cOqaZY.qmz`) | ✅ Working | assertions, a summary, and a non-zero exit when anything fails, so a suite gates CI. `kaNakkiyal/vari_cOqaZY.qmz` is fifteen of them about GST arithmetic. `வெளியேறு(நிலை)` is what ends the process with a status |
 | Interactive shell (`--repl`) | ✅ Working | variables persist between lines, a செயல் can be typed across several, `இறக்கு` works, and a bare expression is answered rather than refused — `0.1 + 0.2` prints `0.3`. `:vars` shows what the session holds |
 | VS Code extension | ✅ Working | `eTamil_Code/` — highlighting for all 203 keywords in every spelling, completions for 62 builtins and 696 `nUlakam` functions, and errors from `--check` as you type. Carries the compiler, the standard library, the examples and the eTamil font, so installing it is the whole installation. Grammar and completion data are **generated** from `lexer.rs`; CI fails if they drift |
 
@@ -164,7 +164,7 @@ Each archive is published with a `.sha256` beside it — see
 
 The archive holds the compiler, `nUlakam/` (the eTamil standard library) and the
 examples. The install script copies them into place, puts `etamil` on your `PATH`
-and sets `ETAMIL_PATH` so `இறக்கு "nUlakam/paNam.qmz"` resolves from any
+and sets `ETAMIL_PATH` so `இறக்கு "nUlakam/paNam/paNam.qmz"` resolves from any
 directory. No installer needs administrator rights.
 
 **Windows (PowerShell)**
@@ -680,7 +680,7 @@ etamil_compiler/
 The standard library and the accounting framework are eTamil source, not Rust. The host provides only what a language cannot express — arithmetic on decimals, text measurement, file and socket access — and everything above that is readable and editable by the people who use it.
 
 ```etamil
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 அச்சு ரூபாய்(12345678.5);            // ₹1,23,45,678.50 — Indian grouping
 ```
 

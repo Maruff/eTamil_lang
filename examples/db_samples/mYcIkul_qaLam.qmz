@@ -12,9 +12,9 @@
 //
 // __The URL is written into the இணை line below; edit it for your server.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
-இறக்கு "../../nUlakam/aNi.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
+இறக்கு "../../nUlakam/atippatY/aNi.qmz";
 
 தளம்_இணை மைசீகுல், "mysql://root@localhost:3306/kaNakku";
 

@@ -63,7 +63,7 @@ fn print_help() {
     println!("    etamil --server --port 8080 examples/backend/hello_server.qmz");
     println!("    cat program.qmz | etamil --check     # errors only, nothing runs");
     println!("    etamil --repl                        # try something without a file");
-    println!("    etamil --llvm-gaps nUlakam/kAcu.qmz  # what stops --llvm compiling it");
+    println!("    etamil --llvm-gaps nUlakam/paNam/kAcu.qmz  # what stops --llvm compiling it");
     println!("    etamil --artino --board uno blink.qmz  # a sketch folder for arduino-cli");
 }
 
