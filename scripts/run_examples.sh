@@ -2,8 +2,9 @@
 #
 # Run every example and check each one behaves as expected.
 #
-# Three examples are expected to FAIL: they use route statements the VM cannot
-# execute, and failing loudly is the intended behaviour. This script fails if
+# Some examples are expected to FAIL: three use route statements the VM cannot
+# execute, and the artino ones are firmware. Failing loudly is the intended
+# behaviour. This script fails if
 # any other example breaks, or if one of those starts passing without the
 # expectation being updated.
 #
@@ -47,6 +48,21 @@ declare -A EXPECT_FAIL=(
     ["examples/api/simple_api.qmz"]="not implemented"
     ["examples/api/vari_cEvY.qmz"]="not implemented"
     ["examples/katY/katY_cEvY.qmz"]="not implemented"
+    # Firmware, for artino: the VM runs no இடைவெளி blocks and has no C++ to
+    # call. scripts/artino_conformance.sh is where these are tested.
+    ["examples/artino/minnu.qmz"]="not implemented"
+    ["examples/artino/pukY.qmz"]="not implemented"
+    ["examples/artino/kaqavu.qmz"]="unknown function"
+    ["examples/artino/viLakku.qmz"]="unknown function"
+    ["examples/artino/veppam.qmz"]="unknown function"
+)
+
+# Programs that need a board, run on the simulated one: they set pins and feed
+# serial ports themselves, so they are hermetic too.
+declare -A SIM_BOARD=(
+    ["nUlakam/vaZporuL/vaZporuL_cOqaZY.qmz"]=1
+    ["examples/artino/minnu.qmz"]=1
+    ["examples/artino/pukY.qmz"]=1
 )
 
 # Examples needing an external server, and the variable that opts them in.
@@ -77,7 +93,9 @@ while IFS= read -r file; do
     fi
 
     # I/O examples create files; keep the repository clean.
-    output="$(cd "$WORK" && echo "0" | "$BIN" --vm "$file" 2>&1)"
+    board=""
+    [[ -n "${SIM_BOARD[$rel]:-}" ]] && board="sim"
+    output="$(cd "$WORK" && echo "0" | ETAMIL_BOARD="$board" "$BIN" --vm "$file" 2>&1)"
     status=$?
 
     expected="${EXPECT_FAIL[$rel]:-}"

@@ -1,0 +1,15 @@
+artino: தொடக்கம்: அ / ஆ — needed more than three decimals; rounded (the VM keeps 28 digits)
+0.333
+0.333
+0.333
+artino: தொடக்கம், வரி 16: 2 / 3 — needed more than three decimals; rounded (the VM keeps 28 digits)
+0.667
+artino: தொடக்கம்: 0.001 * 0.5 — needed more than three decimals; rounded (the VM keeps 28 digits)
+0.001
+artino: தொடக்கம்: பெரிது * 1000 — too large for a board number; held at the limit
+9223372036854775.807
+artino: தொடக்கம்: (-பெரிது) - 1000 — too large for a board number; held at the limit
+-9223372036854775.807
+artino: தொடக்கம்: 5 / பூஜ்ஜியம் — division by zero; gave 0 (the VM stops with an error)
+0
+எல்லாம் முடிந்தது

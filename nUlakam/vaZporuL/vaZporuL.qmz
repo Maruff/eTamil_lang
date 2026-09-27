@@ -1,0 +1,197 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/vaZporuL.qmz — வன்பொருள் (hardware): pins, time, serial__
+//
+// __One hardware vocabulary for every board eTamil runs on, so the same program__
+// __drives a Raspberry Pi and an Arduino:__
+//
+//   __etamil --vm prog.qmz                   Raspberry Pi: real GPIO and serial ports__
+//   __ETAMIL_BOARD=sim etamil --vm prog.qmz  any machine: a simulated board, for tests__
+//   __etamil --artino --board uno prog.qmz   Arduino: compiled (docs/artino.md)__
+//
+// __Beside this file, one per board, are its pin names: yUnO.qmz (Uno), nAnO.qmz__
+// __(Nano), mekA.qmz (Mega), pIkO.qmz (Pico and Pico 2), rAspY.qmz (Raspberry Pi).__
+// __Each imports this file, so a program imports its board's file and nothing__
+// __else, and names விளக்கு_முனை or ஒப்புமை_0 rather than 13 or 14.__
+//
+// __On the VM each function is a thin layer over a host builtin, called by its__
+// ___english alias. Board state — pin levels, simulated time, serial buffers —__
+// __lives in the host, because an eTamil function cannot change a module's__
+// __variables. Under artino the compiler maps these same names to the board's__
+// __own calls and does not run this file's bodies.__
+//
+// __Two rules shape the surface:__
+// __- Pin and time calls return plain values. A pin that cannot be driven is a__
+// __  wiring or permission mistake, found the first time the program runs, so it__
+// __  stops the program with the host's message rather than becoming a result__
+// __  every caller must check.__
+// __- A serial port can be absent or unplugged at any time, so opening one gives__
+// __  a result (சரி or தவறு) that the program is expected to handle.__
+//
+// __The VM's side is src/vm/board.rs: the simulated board anywhere, a Raspberry__
+// __Pi's pins through the Linux GPIO device, and serial ports by device path on__
+// __Linux and macOS.__
+
+// __--- the board --------------------------------------------------------------__
+
+// __பலகை() — which board this is running on: "pi", "sim", "host", or an Arduino board name under artino__
+செயல் பலகை() {
+    திரும்பு _boardName();
+}
+
+// __--- pins ---------------------------------------------------------------------__
+//
+// __Pin numbers are the board's own: BCM GPIO numbers on a Raspberry Pi, the__
+// __printed pin numbers on an Arduino (A0 is 14 on an Uno), GPn on a Pico.__
+
+// __முனை_வெளியீடு(முனை) — make a pin an output__
+செயல் முனை_வெளியீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "out"));
+}
+
+// __முனை_உள்ளீடு(முனை) — make a pin an input__
+செயல் முனை_உள்ளீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "in"));
+}
+
+// __முனை_மேலிழு_உள்ளீடு(முனை) — an input held high by the board, for a switch to ground__
+செயல் முனை_மேலிழு_உள்ளீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "in_pullup"));
+}
+
+// __முனை_எழுது(முனை, இயக்கம்) — drive an output high (மெய்) or low (பொய்)__
+செயல் முனை_எழுது(முனை, இயக்கம்) {
+    மட்டம் = 0;
+    (இயக்கம்) எனில் { மட்டம் = 1; }
+    மதிப்பு(_pinWrite(முனை, மட்டம்));
+}
+
+// __முனை_படி(முனை) — மெய் when the pin is high__
+செயல் முனை_படி(முனை) {
+    திரும்பு மதிப்பு(_pinRead(முனை)) == 1;
+}
+
+// __முனை_மாற்று(முனை) — flip an output: high becomes low, low becomes high__
+செயல் முனை_மாற்று(முனை) {
+    முனை_எழுது(முனை, இல்லை முனை_படி(முனை));
+}
+
+// __ஒப்புமை_படி(முனை) — an analog reading, 0 to 1023__
+//
+// __Arduino boards and the simulated board have analog inputs. A Raspberry Pi__
+// __has none: the host refuses, naming an external ADC such as the MCP3008.__
+செயல் ஒப்புமை_படி(முனை) {
+    திரும்பு மதிப்பு(_analogRead(முனை));
+}
+
+// __--- time -------------------------------------------------------------------__
+
+// __மில்லி_நொடி() — milliseconds since the program started; never goes backwards__
+செயல் மில்லி_நொடி() {
+    திரும்பு _millis();
+}
+
+// __காத்திரு(மில்லி) — pause the program for this many milliseconds__
+//
+// __For programs on a Raspberry Pi that loop, such as a serial bridge. Firmware__
+// __under artino has no blocking wait — a paused board misses button presses —__
+// __so there it is refused in favour of இடைவெளி N { … }.__
+செயல் காத்திரு(மில்லி) {
+    மதிப்பு(_sleepMs(மில்லி));
+}
+
+// __--- sound and the watchdog ----------------------------------------------------__
+
+// __ஒலி_எழுப்பு(முனை, அதிர்வெண்) — a square wave of this many Hz on a pin, for a__
+// __plain speaker, until ஒலி_நிறுத்து. Arduino boards and the simulated board; a Pi__
+// __drives an active buzzer with முனை_எழுது instead.__
+செயல் ஒலி_எழுப்பு(முனை, அதிர்வெண்) {
+    மதிப்பு(_tone(முனை, அதிர்வெண்));
+}
+
+// __ஒலி_நிறுத்து(முனை) — silence it__
+செயல் ஒலி_நிறுத்து(முனை) {
+    மதிப்பு(_noTone(முனை));
+}
+
+// __காவல்_தொடங்கு(மில்லி) — restart the board unless காவல்_புதுப்பி comes within this__
+// __long: what gets a hung panel back without anyone there. On the VM it does__
+// __nothing; a Pi's service manager restarts a program that stops.__
+செயல் காவல்_தொடங்கு(மில்லி) {
+    மதிப்பு(_watchdogBegin(மில்லி));
+}
+
+// __காவல்_புதுப்பி() — the program is still running: start the watchdog's count again__
+செயல் காவல்_புதுப்பி() {
+    மதிப்பு(_watchdogFeed());
+}
+
+// __--- serial ports -----------------------------------------------------------__
+//
+// __A port is named the host's way: "/dev/ttyACM0" on a Pi, "COM5" on Windows,__
+// __"sim:<name>" on the simulated board. Under artino, 0 is the USB port and__
+// __1, 2, 3 are the hardware ports.__
+
+// __தொடர்_திற(சாதனம், வேகம்) — open a serial port at a baud rate: சரி(port) or தவறு(why)__
+செயல் தொடர்_திற(சாதனம், வேகம்) {
+    திரும்பு _serialOpen(சாதனம், வேகம்);
+}
+
+// __தொடர்_வரி_படி(துறை, காலம்) — the next whole line, waiting up to காலம் ms: சரி(line), சரி("") if none has arrived yet, or தவறு(why)__
+//
+// __காலம் 0 does not wait at all, which is what a firmware loop wants. "No line__
+// __yet" is empty text rather than இன்மை because a board has no இன்மை, and one__
+// __answer on every board is what lets one program run on all of them.__
+செயல் தொடர்_வரி_படி(துறை, காலம்) {
+    விடை = _serialReadLine(துறை, காலம்);
+    ((சரியா(விடை)) மற்றும் (மதிப்பு(விடை) == இன்மை)) எனில் { திரும்பு சரி(""); }
+    திரும்பு விடை;
+}
+
+// __தொடர்_எழுது(துறை, செய்தி) — send text as it is__
+செயல் தொடர்_எழுது(துறை, செய்தி) {
+    திரும்பு _serialWrite(துறை, செய்தி);
+}
+
+// __தொடர்_வரி_எழுது(துறை, செய்தி) — send text and end the line__
+செயல் தொடர்_வரி_எழுது(துறை, செய்தி) {
+    திரும்பு _serialWrite(துறை, செய்தி & "\n");
+}
+
+// __தொடர்_மூடு(துறை) — close a port__
+செயல் தொடர்_மூடு(துறை) {
+    திரும்பு _serialClose(துறை);
+}
+
+// __--- the simulated board (ETAMIL_BOARD=sim) -----------------------------------__
+//
+// __What a test uses to play the outside world: a switch pressed, a sensor__
+// __reading, time passing, a line arriving on a port. On any other board these__
+// __are refused by the host.__
+
+// __போலி_முனை(முனை, இயக்கம்) — set what an input pin reads__
+செயல் போலி_முனை(முனை, இயக்கம்) {
+    மட்டம் = 0;
+    (இயக்கம்) எனில் { மட்டம் = 1; }
+    மதிப்பு(_simSetPin(முனை, மட்டம்));
+}
+
+// __போலி_ஒப்புமை(முனை, அளவீடு) — set what an analog pin reads, 0 to 1023__
+செயல் போலி_ஒப்புமை(முனை, அளவீடு) {
+    மதிப்பு(_simSetAnalog(முனை, அளவீடு));
+}
+
+// __போலி_நேரம்(மில்லி) — move simulated time forward__
+செயல் போலி_நேரம்(மில்லி) {
+    மதிப்பு(_simAdvanceMs(மில்லி));
+}
+
+// __போலி_தொடர்_ஊட்டு(சாதனம், வரி) — make a line arrive on a simulated port__
+செயல் போலி_தொடர்_ஊட்டு(சாதனம், வரி) {
+    மதிப்பு(_simFeedSerial(சாதனம், வரி));
+}
+
+// __போலி_தொடர்_வெளியீடு(சாதனம்) — the lines the program wrote to a simulated port since the last call__
+செயல் போலி_தொடர்_வெளியீடு(சாதனம்) {
+    திரும்பு _simSerialOutput(சாதனம்);
+}

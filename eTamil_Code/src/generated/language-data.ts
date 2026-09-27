@@ -2825,6 +2825,286 @@ export const KEYWORDS: readonly KeywordEntry[] = [
 
 export const FUNCTIONS: readonly FunctionEntry[] = [
   {
+    "name": "வன்_பலகை",
+    "forms": [
+      "வன்_பலகை",
+      "vaZ_palakY",
+      "_boardName"
+    ],
+    "params": null,
+    "arity": 0,
+    "doc": "வன்_பலகை() — \"sim\", \"pi\" or \"host\"",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_முனை_வகை",
+    "forms": [
+      "வன்_முனை_வகை",
+      "vaZ_muZY_vakY",
+      "_pinMode"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_முனை_வகை(முனை, \"out\" | \"in\" | \"in_pullup\")",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_முனை_எழுது",
+    "forms": [
+      "வன்_முனை_எழுது",
+      "vaZ_muZY_ezuqu",
+      "_pinWrite"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_முனை_எழுது(முனை, 0 | 1)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_முனை_படி",
+    "forms": [
+      "வன்_முனை_படி",
+      "vaZ_muZY_pati",
+      "_pinRead"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_முனை_படி(முனை) — சரி(0 | 1)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_ஒப்புமை_படி",
+    "forms": [
+      "வன்_ஒப்புமை_படி",
+      "vaZ_oppumY_pati",
+      "_analogRead"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_ஒப்புமை_படி(முனை) — சரி(0 to 1023)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_மில்லி",
+    "forms": [
+      "வன்_மில்லி",
+      "vaZ_milli",
+      "_millis"
+    ],
+    "params": null,
+    "arity": 0,
+    "doc": "வன்_மில்லி() — milliseconds since the program began",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_காத்திரு",
+    "forms": [
+      "வன்_காத்திரு",
+      "vaZ_kAqqiru",
+      "_sleepMs"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_காத்திரு(மில்லி) — wait; on the simulated board, move its clock",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_ஒலி",
+    "forms": [
+      "வன்_ஒலி",
+      "vaZ_oli",
+      "_tone"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_ஒலி(முனை, அதிர்வெண்) — a tone; only the simulated board has one",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_ஒலி_நிறுத்து",
+    "forms": [
+      "வன்_ஒலி_நிறுத்து",
+      "vaZ_oli_niRuqqu",
+      "_noTone"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_ஒலி_நிறுத்து(முனை)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_காவல்",
+    "forms": [
+      "வன்_காவல்",
+      "vaZ_kAval",
+      "_watchdogBegin"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_காவல்(மில்லி) — a board's watchdog; nothing on the VM",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_காவல்_புதுப்பி",
+    "forms": [
+      "வன்_காவல்_புதுப்பி",
+      "vaZ_kAval_puquppi",
+      "_watchdogFeed"
+    ],
+    "params": null,
+    "arity": 0,
+    "doc": "வன்_காவல்_புதுப்பி()",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_தொடர்_திற",
+    "forms": [
+      "வன்_தொடர்_திற",
+      "vaZ_qotar_qiRa",
+      "_serialOpen"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_தொடர்_திற(சாதனம், வேகம்) — சரி(port) or தவறு(why)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_தொடர்_படி",
+    "forms": [
+      "வன்_தொடர்_படி",
+      "vaZ_qotar_pati",
+      "_serialReadLine"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_தொடர்_படி(துறை, காலம்) — சரி(line), சரி(இன்மை) if none yet, or தவறு(why)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_தொடர்_எழுது",
+    "forms": [
+      "வன்_தொடர்_எழுது",
+      "vaZ_qotar_ezuqu",
+      "_serialWrite"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "வன்_தொடர்_எழுது(துறை, செய்தி) — சரி(bytes written)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "வன்_தொடர்_மூடு",
+    "forms": [
+      "வன்_தொடர்_மூடு",
+      "vaZ_qotar_mUtu",
+      "_serialClose"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "வன்_தொடர்_மூடு(துறை)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "போலி_முனை_அமை",
+    "forms": [
+      "போலி_முனை_அமை",
+      "pOli_muZY_amY",
+      "_simSetPin"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "போலி_முனை_அமை(முனை, 0 | 1) — what an input reads, on the simulated board",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "போலி_ஒப்புமை_அமை",
+    "forms": [
+      "போலி_ஒப்புமை_அமை",
+      "pOli_oppumY_amY",
+      "_simSetAnalog"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "போலி_ஒப்புமை_அமை(முனை, அளவீடு)",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "போலி_நேரம்_நகர்",
+    "forms": [
+      "போலி_நேரம்_நகர்",
+      "pOli_nEram_nakar",
+      "_simAdvanceMs"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "போலி_நேரம்_நகர்(மில்லி) — move the simulated clock",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "போலி_வரி_ஊட்டு",
+    "forms": [
+      "போலி_வரி_ஊட்டு",
+      "pOli_vari_Uttu",
+      "_simFeedSerial"
+    ],
+    "params": null,
+    "arity": 2,
+    "doc": "போலி_வரி_ஊட்டு(சாதனம், வரி) — a line arrives on a simulated port",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "போலி_வரி_வெளியீடு",
+    "forms": [
+      "போலி_வரி_வெளியீடு",
+      "pOli_vari_veLiyItu",
+      "_simSerialOutput"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "போலி_வரி_வெளியீடு(சாதனம்) — the lines written to a simulated port since last asked",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
     "name": "நீளம்",
     "forms": [
       "நீளம்",
@@ -4152,6 +4432,21 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/aNi.qmz",
     "line": 106
+  },
+  {
+    "name": "அணி_நிரப்பு",
+    "forms": [
+      "அணி_நிரப்பு"
+    ],
+    "params": [
+      "மதிப்பு",
+      "எண்ணிக்கை"
+    ],
+    "arity": 2,
+    "doc": "அணி_நிரப்பு(மதிப்பு, எண்ணிக்கை) — an array of எண்ணிக்கை copies of மதிப்பு",
+    "kind": "stdlib",
+    "module": "nUlakam/aNi.qmz",
+    "line": 120
   },
   {
     "name": "இரட்டி",
@@ -14394,6 +14689,359 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/vaLam/vaLam.qmz",
     "line": 186
+  },
+  {
+    "name": "தலைப்பு_முனை",
+    "forms": [
+      "தலைப்பு_முனை"
+    ],
+    "params": [
+      "எண்ணிக்கை"
+    ],
+    "arity": 1,
+    "doc": "தலைப்பு_முனை(எண்ணிக்கை) — the BCM GPIO number of header pin 1–40, or -1 for a power or ground pin",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/rAspY.qmz",
+    "line": 45
+  },
+  {
+    "name": "பலகை",
+    "forms": [
+      "பலகை"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "பலகை() — which board this is running on: \"pi\", \"sim\", \"host\", or an Arduino board name under artino",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 38
+  },
+  {
+    "name": "முனை_வெளியீடு",
+    "forms": [
+      "முனை_வெளியீடு"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "முனை_வெளியீடு(முனை) — make a pin an output",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 48
+  },
+  {
+    "name": "முனை_உள்ளீடு",
+    "forms": [
+      "முனை_உள்ளீடு"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "முனை_உள்ளீடு(முனை) — make a pin an input",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 53
+  },
+  {
+    "name": "முனை_மேலிழு_உள்ளீடு",
+    "forms": [
+      "முனை_மேலிழு_உள்ளீடு"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "முனை_மேலிழு_உள்ளீடு(முனை) — an input held high by the board, for a switch to ground",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 58
+  },
+  {
+    "name": "முனை_எழுது",
+    "forms": [
+      "முனை_எழுது"
+    ],
+    "params": [
+      "முனை",
+      "இயக்கம்"
+    ],
+    "arity": 2,
+    "doc": "முனை_எழுது(முனை, இயக்கம்) — drive an output high (மெய்) or low (பொய்)",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 63
+  },
+  {
+    "name": "முனை_படி",
+    "forms": [
+      "முனை_படி"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "முனை_படி(முனை) — மெய் when the pin is high",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 70
+  },
+  {
+    "name": "முனை_மாற்று",
+    "forms": [
+      "முனை_மாற்று"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "முனை_மாற்று(முனை) — flip an output: high becomes low, low becomes high",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 75
+  },
+  {
+    "name": "ஒப்புமை_படி",
+    "forms": [
+      "ஒப்புமை_படி"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "ஒப்புமை_படி(முனை) — an analog reading, 0 to 1023",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 83
+  },
+  {
+    "name": "மில்லி_நொடி",
+    "forms": [
+      "மில்லி_நொடி"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "மில்லி_நொடி() — milliseconds since the program started; never goes backwards",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 90
+  },
+  {
+    "name": "காத்திரு",
+    "forms": [
+      "காத்திரு"
+    ],
+    "params": [
+      "மில்லி"
+    ],
+    "arity": 1,
+    "doc": "காத்திரு(மில்லி) — pause the program for this many milliseconds",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 99
+  },
+  {
+    "name": "ஒலி_எழுப்பு",
+    "forms": [
+      "ஒலி_எழுப்பு"
+    ],
+    "params": [
+      "முனை",
+      "அதிர்வெண்"
+    ],
+    "arity": 2,
+    "doc": "ஒலி_எழுப்பு(முனை, அதிர்வெண்) — a square wave of this many Hz on a pin, for a",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 108
+  },
+  {
+    "name": "ஒலி_நிறுத்து",
+    "forms": [
+      "ஒலி_நிறுத்து"
+    ],
+    "params": [
+      "முனை"
+    ],
+    "arity": 1,
+    "doc": "ஒலி_நிறுத்து(முனை) — silence it",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 113
+  },
+  {
+    "name": "காவல்_தொடங்கு",
+    "forms": [
+      "காவல்_தொடங்கு"
+    ],
+    "params": [
+      "மில்லி"
+    ],
+    "arity": 1,
+    "doc": "காவல்_தொடங்கு(மில்லி) — restart the board unless காவல்_புதுப்பி comes within this",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 120
+  },
+  {
+    "name": "காவல்_புதுப்பி",
+    "forms": [
+      "காவல்_புதுப்பி"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "காவல்_புதுப்பி() — the program is still running: start the watchdog's count again",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 125
+  },
+  {
+    "name": "தொடர்_திற",
+    "forms": [
+      "தொடர்_திற"
+    ],
+    "params": [
+      "சாதனம்",
+      "வேகம்"
+    ],
+    "arity": 2,
+    "doc": "தொடர்_திற(சாதனம், வேகம்) — open a serial port at a baud rate: சரி(port) or தவறு(why)",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 136
+  },
+  {
+    "name": "தொடர்_வரி_படி",
+    "forms": [
+      "தொடர்_வரி_படி"
+    ],
+    "params": [
+      "துறை",
+      "காலம்"
+    ],
+    "arity": 2,
+    "doc": "தொடர்_வரி_படி(துறை, காலம்) — the next whole line, waiting up to காலம் ms: சரி(line), சரி(\"\") if none has arrived yet, or தவறு(why)",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 145
+  },
+  {
+    "name": "தொடர்_எழுது",
+    "forms": [
+      "தொடர்_எழுது"
+    ],
+    "params": [
+      "துறை",
+      "செய்தி"
+    ],
+    "arity": 2,
+    "doc": "தொடர்_எழுது(துறை, செய்தி) — send text as it is",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 152
+  },
+  {
+    "name": "தொடர்_வரி_எழுது",
+    "forms": [
+      "தொடர்_வரி_எழுது"
+    ],
+    "params": [
+      "துறை",
+      "செய்தி"
+    ],
+    "arity": 2,
+    "doc": "தொடர்_வரி_எழுது(துறை, செய்தி) — send text and end the line",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 157
+  },
+  {
+    "name": "தொடர்_மூடு",
+    "forms": [
+      "தொடர்_மூடு"
+    ],
+    "params": [
+      "துறை"
+    ],
+    "arity": 1,
+    "doc": "தொடர்_மூடு(துறை) — close a port",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 162
+  },
+  {
+    "name": "போலி_முனை",
+    "forms": [
+      "போலி_முனை"
+    ],
+    "params": [
+      "முனை",
+      "இயக்கம்"
+    ],
+    "arity": 2,
+    "doc": "போலி_முனை(முனை, இயக்கம்) — set what an input pin reads",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 173
+  },
+  {
+    "name": "போலி_ஒப்புமை",
+    "forms": [
+      "போலி_ஒப்புமை"
+    ],
+    "params": [
+      "முனை",
+      "அளவீடு"
+    ],
+    "arity": 2,
+    "doc": "போலி_ஒப்புமை(முனை, அளவீடு) — set what an analog pin reads, 0 to 1023",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 180
+  },
+  {
+    "name": "போலி_நேரம்",
+    "forms": [
+      "போலி_நேரம்"
+    ],
+    "params": [
+      "மில்லி"
+    ],
+    "arity": 1,
+    "doc": "போலி_நேரம்(மில்லி) — move simulated time forward",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 185
+  },
+  {
+    "name": "போலி_தொடர்_ஊட்டு",
+    "forms": [
+      "போலி_தொடர்_ஊட்டு"
+    ],
+    "params": [
+      "சாதனம்",
+      "வரி"
+    ],
+    "arity": 2,
+    "doc": "போலி_தொடர்_ஊட்டு(சாதனம், வரி) — make a line arrive on a simulated port",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 190
+  },
+  {
+    "name": "போலி_தொடர்_வெளியீடு",
+    "forms": [
+      "போலி_தொடர்_வெளியீடு"
+    ],
+    "params": [
+      "சாதனம்"
+    ],
+    "arity": 1,
+    "doc": "போலி_தொடர்_வெளியீடு(சாதனம்) — the lines the program wrote to a simulated port since the last call",
+    "kind": "stdlib",
+    "module": "nUlakam/vaZporuL/vaZporuL.qmz",
+    "line": 195
   },
   {
     "name": "ஒப்பந்த_நிலை",

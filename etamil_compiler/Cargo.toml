@@ -178,6 +178,11 @@ p256 = { version = "0.14.0", features = ["ecdsa"] }
 # Randomness for key generation, taken straight from the OS.
 getrandom = "0.3"
 
+# Serial ports and a Raspberry Pi's GPIO for the VM (src/vm/board.rs):
+# termios, poll and ioctl. Already in the tree through tokio and others.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
 # --- Browser-only dependencies ---
 # The wasm build exists so the editor on etamil.in can report real diagnostics
 # and offer real completions without a server. It exposes lexer -> parser ->

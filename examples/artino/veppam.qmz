@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __examples/artino/veppam.qmz — வெப்பம்: a DS18B20 thermometer, through DallasTemperature__
+//
+//   __etamil --artino --board uno examples/artino/veppam.qmz__
+//
+// __The DS18B20's data wire on pin 2, with 4.7 kΩ from it to the supply__
+// __(veppam.artino.toml). Once a second: read the temperature asked for a__
+// __second ago, and ask again. Asking without waiting is what keeps the board__
+// __free for the rest of the program: a conversion takes 750 ms. Needs__
+// __arduino-cli lib install "OneWire" "DallasTemperature".__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+// __What the library gives for a sensor that did not answer__
+நிலை எண் இணைப்பில்லை = 0 - 127;
+
+உணரி_தொடங்கு();
+காத்திருக்காதே();
+அச்சு "உணரிகள்: " & உணரிகள்();
+வெப்பம்_கேள்();
+
+இடைவெளி 1 {
+    வெப்பம் = வெப்பம்_படி(0);
+    (வெப்பம் == இணைப்பில்லை) எனில் {
+        அச்சு "உணரி பதில் தரவில்லை";
+    } இன்றேல் {
+        அச்சு "வெப்பம் " & வட்டமிடு(வெப்பம், 1) & " °C";
+    }
+    வெப்பம்_கேள்();
+}

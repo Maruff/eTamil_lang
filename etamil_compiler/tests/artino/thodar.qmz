@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/thodar.qmz — தொடர்: serial ports, as the qIkkAppu bus uses them__
+//
+// __Compared with thodar.expected, with thodar.input arriving on port 0: the host__
+// __stand-in's port 0 is stdin and stdout. It has no ports 1–3, so opening one is a__
+// __தவறு, as it is on an Uno.__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+திறப்பு = தொடர்_திற(0, 115200);
+அச்சு திறப்பு;
+துறை = மதிப்பு(திறப்பு);
+வந்தது = மதிப்பு(தொடர்_வரி_படி(துறை, 0));
+அச்சு "வந்தது: " & வந்தது;
+எழுதியது = மதிப்பு(தொடர்_வரி_எழுது(துறை, "<01,1:N:182*3A"));
+அச்சு "எழுதியது " & எழுதியது;
+அச்சு தொடர்_திற(3, 9600);
+அச்சு தொடர்_வரி_படி(1, 0);
+அச்சு தொடர்_வரி_படி(துறை, 0);
+அச்சு தொடர்_வரி_படி(துறை, 0);
+அச்சு "பலகை: " & பலகை();

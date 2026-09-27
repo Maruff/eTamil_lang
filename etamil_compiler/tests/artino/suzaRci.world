@@ -1,0 +1,8 @@
+# 30 loops, 50 ms apart: 0 to 1450 ms
+loops 30 50
+analog 14 100
+at 300 line முதல்
+at 600 pin 2 1
+at 700 analog 14 700
+at 900 line இரண்டாவது
+at 1000 pin 2 0
