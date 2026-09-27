@@ -155,7 +155,9 @@ Expand-Archive etamil-windows-x64.zip -DestinationPath .
 ```
 
 ```bash
-# Linux
+# Linux — x64, or arm64 for a Raspberry Pi 4/5 on 64-bit Raspberry Pi OS;
+# `uname -m` tells you which (aarch64 means arm64). Substitute the name.
+# A 32-bit Raspberry Pi OS reports armv7l, and there is no package for it.
 tar -xzf etamil-linux-x64.tar.gz
 ./etamil-linux-x64/install.sh
 ```
