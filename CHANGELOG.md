@@ -19,6 +19,12 @@ GitHub's generated notes list the commits; this file says what they add up to.
   `arbitrary_precision`, so the number is read from the source's own text.
   An exponent, as in `1e3` or `-2.5E-2`, is still read. Writing JSON was
   already exact.
+- **The extension offers ARM Linux the arm64 package.** Since 1.2.0 the
+  release has published `etamil-linux-arm64.tar.gz`, but the install command
+  knew one Linux package, so a Raspberry Pi was told to download the x64
+  archive, which cannot run there. It now picks by architecture, as it already
+  did on macOS. `scripts/package_extension.py --from-release` also builds a
+  `linux-arm64` VSIX that carries the arm64 compiler.
 
 ---
 
