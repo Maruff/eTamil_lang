@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/paNam/kAcu.qmz — காசு: money as whole paise__
+// காசு: பணத்தை முழுப் பைசாவாக வைத்துக் கணக்கிடல்
 //
 // __Two decimal places, exactly, without decimal arithmetic underneath.__
 //
@@ -34,6 +35,7 @@
 // __--- making it ------------------------------------------------------------__
 //
 // __ரூபாயும்_பைசாவும்(ரூபாய், பைசா) — ₹2.05 is ரூபாயும்_பைசாவும்(2, 5)__
+// ரூபாயும்_பைசாவும்(ரூபாய், பைசா) — ரூபாயையும் பைசாவையும் சேர்த்து மொத்தப் பைசாவாக்கும்
 //
 // __Two whole numbers rather than one written 2.05, so that a program in paise__
 // __never has a fractional literal in it anywhere.__
@@ -42,6 +44,7 @@
 }
 
 // __ரூபாயாக(ரூபாய்) — whole rupees__
+// ரூபாயாக(ரூபாய்) — முழு ரூபாயை மொத்தப் பைசாவாக்கும்
 செயல் ரூபாயாக(ரூபாய்) {
     திரும்பு ரூபாய் * பைசா_ஒரு_ரூபாய்;
 }
@@ -49,6 +52,7 @@
 // __--- showing it -----------------------------------------------------------__
 //
 // __காசு_உரை(மொத்த_பைசா) — "2.05", built from the two halves rather than by__
+// காசு_உரை(மொத்த_பைசா) — பைசாவை ரூபாய்.பைசா வடிவ உரையாக்கும்
 // __dividing, so no fraction is ever produced to be formatted.__
 செயல் காசு_உரை(மொத்த_பைசா) {
     குறி = "";
@@ -73,16 +77,19 @@
 // __because whole numbers are exact in a double.__
 செயல் காசு_கூட்டு(அ, ஆ) { திரும்பு அ + ஆ; }
 // __காசு_கழி(அ, ஆ) — subtract one money amount from another__
+// காசு_கழி(அ, ஆ) — ஒரு தொகையிலிருந்து இன்னொன்றைக் கழிக்கும்
 //
 // __Plain subtraction, named for symmetry with காசு_கூட்டு so money arithmetic reads the same way throughout. No rounding: the operands are already at the scale money is held in, and rounding a difference that was never rounded into existence only loses paise.__
 செயல் காசு_கழி(அ, ஆ) { திரும்பு அ - ஆ; }
 
 // __காசு_மடங்கு(மொத்த_பைசா, எண்ணிக்கை) — a price times a quantity__
+// காசு_மடங்கு(மொத்த_பைசா, எண்ணிக்கை) — விலையை எண்ணிக்கையால் பெருக்கும்
 செயல் காசு_மடங்கு(மொத்த_பைசா, எண்ணிக்கை) {
     திரும்பு மொத்த_பைசா * எண்ணிக்கை;
 }
 
 // __காசு_கூட்டல்(பட்டியல்) — a column of money__
+// காசு_கூட்டல்(பட்டியல்) — பணத் தொகைகளின் பட்டியலைக் கூட்டும்
 செயல் காசு_கூட்டல்(பட்டியல்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒன்று இல் பட்டியல் {
@@ -94,6 +101,7 @@
 // __--- the operation that needs rounding -----------------------------------__
 //
 // __விழுக்காடு_காசு(மொத்த_பைசா, மேல், கீழ்) — a rate as a fraction__
+// விழுக்காடு_காசு(மொத்த_பைசா, மேல், கீழ்) — வீதத்தைப் பின்னமாகக் கொண்டு தொகையைக் கணக்கிடும்
 //
 // __18% is மேல்=18, கீழ்=100. A rate of 7.5% is 75 and 1000, because writing 7.5__
 // __would be the fractional literal this whole approach avoids.__
@@ -119,6 +127,8 @@
 //
 // __This is the classic way money disappears from a ledger: every share rounded__
 // __the same way, and the total quietly short.__
+// __சமமாகப்_பிரி(மொத்த_பைசா, எத்தனை) — split an amount evenly, losing no paisa__
+// சமமாகப்_பிரி(மொத்த_பைசா, எத்தனை) — தொகையைச் சமமாகப் பிரிக்கும்; மீதிப் பைசா தொலையாது
 செயல் சமமாகப்_பிரி(மொத்த_பைசா, எத்தனை) {
     (எத்தனை <= 0) எனில் { திரும்பு []; }
 
@@ -145,6 +155,8 @@
 // __Apportioning a total by weights — a cost across departments, a duty across__
 // __line items. Same discipline: the shares must add to the total, so the last__
 // __one takes whatever is left rather than being rounded independently.__
+// __விகிதத்தில்_பிரி(மொத்த_பைசா, எடைகள்) — apportion an amount by weights, losing no paisa__
+// விகிதத்தில்_பிரி(மொத்த_பைசா, எடைகள்) — எடைகளுக்கு ஏற்பத் தொகையைப் பிரிக்கும்
 செயல் விகிதத்தில்_பிரி(மொத்த_பைசா, எடைகள்) {
     மொத்த_எடை = 0;
     ஒவ்வொரு ஒரு_எடை இல் எடைகள் {

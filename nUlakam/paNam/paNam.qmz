@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/paNam/paNam.qmz — பணம் (money) formatting__
+// பணத்தை வடிவமைத்துக் காட்டும் செயல்கள்
 //
 // __Indian digit grouping: the last three digits, then groups of two, so__
 // __12345678.5 reads as 1,23,45,678.50 — not the 12,345,678.50 that a__
@@ -10,6 +11,7 @@
 இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __குழுக்கள்(இலக்கங்கள்) — apply the 3-then-2s grouping to a digit string__
+// குழுக்கள்(இலக்கங்கள்) — இலக்கங்களை மூன்று பின் இரண்டிரண்டாகப் பிரிக்கும் இந்திய முறை
 செயல் குழுக்கள்(இலக்கங்கள்) {
     மொத்தம் = நீளம்(இலக்கங்கள்);
     (மொத்தம் <= 3) எனில் { திரும்பு இலக்கங்கள்; }
@@ -32,6 +34,7 @@
 }
 
 // __காசு_வடிவம்(தொகை) — group and show exactly two decimal places__
+// காசு_வடிவம்(தொகை) — குழுவாக்கி, சரியாக இரண்டு தசம இடங்களுடன் காட்டும்
 செயல் காசு_வடிவம்(தொகை) {
     வட்டம் = வட்டமிடு(தொகை, 2);
 
@@ -51,21 +54,25 @@
 }
 
 // __ரூபாய்(தொகை) — format an amount as rupees, with the sign and Indian digit grouping__
+// ரூபாய்(தொகை) — தொகையை ரூபாயாக, குறியுடனும் இந்திய இலக்கக் குழுவுடனும் காட்டும்
 செயல் ரூபாய்(தொகை) {
     திரும்பு "₹" & காசு_வடிவம்(தொகை);
 }
 
 // __காசாக(தொகை) — round to the paisa, which is what a ledger stores__
+// காசாக(தொகை) — பைசா வரை வட்டமிடும்; பேரேடு சேமிப்பது இதுவே
 செயல் காசாக(தொகை) {
     திரும்பு வட்டமிடு(தொகை, 2);
 }
 
 // __லட்சம்(தொகை) / கோடி(தொகை) — express in lakhs or crores__
+// லட்சம்(தொகை) — தொகையை லட்சத்தில் சொல்லும்
 செயல் லட்சம்(தொகை) {
     திரும்பு வட்டமிடு(தொகை / 100000, 2);
 }
 
 // __கோடி(தொகை) — an amount expressed in crore__
+// கோடி(தொகை) — தொகையைக் கோடியில் சொல்லும்
 //
 // __Ten million to the crore, rounded to two places. The unit Indian financial reporting actually uses: a balance sheet in crore is read at a glance and the same figure in millions is converted in the reader's head, badly.__
 செயல் கோடி(தொகை) {

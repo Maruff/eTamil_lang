@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __அணி சோதனை — map, filter and fold__
+// அணிச் செயல்களுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/atippatY/aNi_cOqaZY.qmz__
 
@@ -10,6 +11,7 @@
 ஓட்டம் = சோதனை_தொடக்கம்("அணி (map, filter, fold)");
 
 // __இரட்டி(எ) — double a number__
+// இரட்டி(எ) — எண்ணை இரட்டிப்பாக்கும்
 //
 // __A fixture for the array tests in this file, not part of the library's surface. It exists so a map over an array has something trivial and obviously correct to map with.__
 செயல் இரட்டி(எ) { திரும்பு எ * 2; }

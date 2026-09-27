@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __ஆவணம் — render a document template.__
+// ஆவணம் — ஒரு ஆவண வார்ப்புருவை நிரப்பிக் கொடுக்கும்
 //
 // __Written in eTamil, and needing nothing from nUlakam: மாற்று, பிரி, ஒன்றிணை,__
 // __பொதி_படி and பொதி_மாற்று are enough. Every decision about what a template__
@@ -40,11 +41,14 @@ _XLSX_வடிவம் = {
 // __Containment through பிரி, so it costs one pass rather than one scan per__
 // __letter. col.qmz's கொண்டுள்ளதா reads letter by letter, which is fine on a__
 // __table cell and far too slow on a section of a document.__
+// __ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) — does the document text contain this?__
+// ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) — ஆவணப் பாடத்தில் இது இருக்கிறதா; ஒரே கடப்பில் பார்க்கும்
 செயல் ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) {
     திரும்பு நீளம்(பிரி(பாடம், தேடல்)) > 1;
 }
 
 // __XML escaping. & goes first, or it would escape the escapes.__
+// உரையை எக்ஸ்எம்எல் இல் பாதுகாப்பாக வைக்கும் வகையில் விடுவிக்கும்
 செயல் _xml_ஆக்கு(உள்ளீடு) {
     வெளியே = மாற்று(உள்ளீடு, "&", "&amp;");
     வெளியே = மாற்று(வெளியே, "<", "&lt;");
@@ -55,6 +59,8 @@ _XLSX_வடிவம் = {
 // __A piece by position, or "" past the end. This predates மற்றும்__
 // __short-circuiting, when a loop guard could not both test the bound and index__
 // __in one expression; it stays because the loop below reads better for it.__
+// __பகுதியை_எடு(பட்டியல், எங்கே) — the piece at a position, or "" past the end__
+// பகுதியை_எடு(பட்டியல், எங்கே) — அவ்விடத்தில் உள்ள பகுதி; எல்லையைத் தாண்டினால் வெற்றுச் சரம்
 செயல் பகுதியை_எடு(பட்டியல், எங்கே) {
     (எங்கே >= நீளம்(பட்டியல்)) எனில் { திரும்பு ""; }
     திரும்பு பட்டியல்[எங்கே];
@@ -64,6 +70,8 @@ _XLSX_வடிவம் = {
 // __followed it up to the next row — for the endfor row that tail holds the__
 // __table's closing tag and the next section. Dropping a row therefore means__
 // __dropping the row and keeping the tail, not dropping the piece.__
+// __வரிசைக்குப்_பின்(பகுதி) — what follows a table row, up to the next one__
+// வரிசைக்குப்_பின்(பகுதி) — ஒரு வரிசைக்குப் பின் தொடரும் பகுதியைத் தரும்
 செயல் வரிசைக்குப்_பின்(பகுதி, முடிவுக்_குறி) {
     கூறுகள் = பிரி(பகுதி, முடிவுக்_குறி);
     (நீளம்(கூறுகள்) < 2) எனில் { திரும்பு ""; }
@@ -77,6 +85,8 @@ _XLSX_வடிவம் = {
 }
 
 // __The loop variable named in `{%tr for o in charter.objectives %}`.__
+// __மாறிப்_பெயர்(முன்னொட்டு, பெயர்) — a template variable's full dotted name__
+// மாறிப்_பெயர்(முன்னொட்டு, பெயர்) — வார்ப்புருவில் ஒரு மாறியின் முழுப் பெயரை அமைக்கும்
 செயல் மாறிப்_பெயர்(பகுதி) {
     கூறுகள் = பிரி(பகுதி, "{%tr for ");
     (நீளம்(கூறுகள்) < 2) எனில் { திரும்பு ""; }
@@ -85,6 +95,8 @@ _XLSX_வடிவம் = {
 }
 
 // __One item's worth of a repeating row group.__
+// __உறுப்பை_நிரப்பு(பாடம், முன்னொட்டு, பதிவேடு) — substitute one record's fields__
+// உறுப்பை_நிரப்பு(பாடம், முன்னொட்டு, பதிவேடு) — பதிவேட்டின் புலங்களை வார்ப்புருவில் நிரப்பும்
 செயல் உறுப்பை_நிரப்பு(படிவம், மாற்றுப்_பெயர், புலங்கள், உறுப்பு) {
     வெளியே = படிவம்;
     ஒவ்வொரு புலம் இல் புலங்கள் {
@@ -95,6 +107,8 @@ _XLSX_வடிவம் = {
 }
 
 // __Which declared group owns this loop variable.__
+// __தொகுதியைத்_தேடு(பாடம், வடிவம்) — find the repeating row group__
+// தொகுதியைத்_தேடு(பாடம், வடிவம்) — திரும்பத் திரும்ப வரும் வரிசைத் தொகுதியைக் கண்டறியும்
 செயல் தொகுதியைத்_தேடு(தொகுதிகள், தேடல்) {
     ஒவ்வொரு தொகுதி இல் தொகுதிகள் {
         (தொகுதி["பெயர்"] == தேடல்) எனில் { திரும்பு தொகுதி; }
@@ -103,6 +117,8 @@ _XLSX_வடிவம் = {
 }
 
 // __The whole of it: XML in, XML out.__
+// __ஆவணம்_நிரப்பு(பாடம், வடிவம், மதிப்புகள், தொகுதிகள்) — render a whole document body__
+// ஆவணம்_நிரப்பு(பாடம், வடிவம், மதிப்புகள், தொகுதிகள்) — ஆவணப் பாடம் முழுவதையும் நிரப்பும்
 செயல் ஆவணம்_நிரப்பு(மூலம், வடிவம், மதிப்புகள், தொகுதிகள்) {
     வரிசைக்_குறி = வடிவம்["வரிசை"];
     முடிவுக்_குறி = வடிவம்["வரிசை_முடிவு"];
@@ -169,6 +185,8 @@ _XLSX_வடிவம் = {
 // __A template package rendered into a new package of the same kind. Only the__
 // __text entry changes; pictures, styles and the mimetype travel across__
 // __untouched, which is why they are copied rather than rebuilt.__
+// __பொதியை_நிரப்பு(மூலப்_பொதி, விடைப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) — render the document inside a package__
+// பொதியை_நிரப்பு(மூலப்_பொதி, விடைப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) — பொதிக் கோப்பினுள் இருக்கும் ஆவணத்தை நிரப்பும்
 செயல் பொதியை_நிரப்பு(மூலப்_பொதி, விளைவுப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) {
     உறுப்பு = வடிவம்["உறுப்பு"];
     படித்தது = பொதி_படி(மூலப்_பொதி, உறுப்பு);
@@ -183,6 +201,7 @@ _XLSX_வடிவம் = {
 
 // __The PDF of a rendered package. LibreOffice does the conversion, so__
 // __ETAMIL_EXEC_ALLOW has to name it.__
+// வெளிக் கட்டளையை ஓட்டி ஆவணத்தைப் பிடிஎஃப் ஆக மாற்றும்
 செயல் _pdf_ஆக்கு(நிரல், ஆவணக்_கோப்பு, சேமிப்பிடம்) {
     திரும்பு கட்டளை_ஓட்டு(நிரல், [
         "--headless",

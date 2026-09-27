@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vativam/jEcAZ.qmz — ஜேசான் (JSON), written in eTamil__
+// ஜேசான் வடிவம், இம்மொழியிலேயே எழுதப்பட்டது
 //
 // __Both directions live here rather than in the host, because the language__
 // __already has the one capability a JSON parser needs: a record key can be__
@@ -20,6 +21,7 @@
 // __--- Serializing ----------------------------------------------------------__
 
 // __எழுத்து_மறை(எழுத்து) — one letter, escaped for a JSON string.__
+// எழுத்து_மறை(எழுத்து) — ஒரு எழுத்தை ஜேசான் சரத்திற்கு ஏற்ப விடுவிக்கும்
 //
 // __"\r\n" is one letter, not two, so it needs an arm of its own: without it__
 // __a Windows line ending inside a string falls through unescaped and the__
@@ -35,6 +37,7 @@
 }
 
 // __ஜேசான்_சரம்(சரம்) — a quoted, escaped JSON string__
+// ஜேசான்_சரம்(சரம்) — மேற்கோள் இட்டு விடுவிக்கப்பட்ட ஜேசான் சரம்
 செயல் ஜேசான்_சரம்(சரம்) {
     விடை = "\"";
     ஒவ்வொரு ஒரு_எழுத்து இல் சொல்லாக்கு(சரம்) {

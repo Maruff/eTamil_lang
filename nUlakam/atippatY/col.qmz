@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/atippatY/col.qmz — சரம் (string) helpers__
+// சரத்தைக் கையாளும் துணைச் செயல்கள்
 //
 // __Written in eTamil, not Rust. The only primitives borrowed from the host__
 // __are நீளம், சொல்லாக்கு and indexing; everything here is built from those.__
 
 // __எழுத்து(சரம், எழுத்திடம்) — the letter at a position, or "" past either end.__
+// எழுத்து(சரம், எழுத்திடம்) — அவ்விடத்தில் உள்ள எழுத்து; எல்லையைத் தாண்டினால் வெற்றுச் சரம்
 //
 // __This was once necessary: மற்றும் evaluated both sides, so a guard like__
 // __`(இ < நீளம்(சரம்) மற்றும் சரம்[இ] == " ")` indexed out of bounds on the very__
@@ -22,6 +24,7 @@
 }
 
 // __துண்டு(சரம், தொடக்கம், அளவு) — substring__
+// துண்டு(சரம், தொடக்கம், அளவு) — சரத்தின் ஒரு பகுதியைத் தரும்
 செயல் துண்டு(சரம், தொடக்கம், அளவு) {
     விடை = "";
     எண்ணி = தொடக்கம்;
@@ -35,6 +38,7 @@
 }
 
 // __தேடு(சரம், தேடல்) — position of the first match, or -1__
+// தேடு(சரம், தேடல்) — முதன்முதலில் பொருந்தும் இடம்; இல்லையெனில் ஒன்று குறை
 செயல் தேடு(சரம், தேடல்) {
     மொத்தம் = நீளம்(சரம்);
     அளவு = நீளம்(தேடல்);
@@ -50,12 +54,14 @@
 }
 
 // __கொண்டுள்ளதா(சரம், தேடல்) — does it contain?__
+// கொண்டுள்ளதா(சரம், தேடல்) — இது சரத்தில் இருக்கிறதா
 செயல் கொண்டுள்ளதா(சரம், தேடல்) {
     திரும்பு தேடு(சரம், தேடல்) >= 0;
 }
 
 // தொடங்குகிறதா(சரம், முன்னொட்டு)
 // __தொடங்குகிறதா(சரம், முன்னொட்டு) — does the string start with this prefix?__
+// தொடங்குகிறதா(சரம், முன்னொட்டு) — இந்த முன்னொட்டுடன் சரம் தொடங்குகிறதா
 //
 // __Checks the length first, so a prefix longer than the string answers பொய் rather than slicing past the end. Counts in characters, not bytes, which is what makes it correct for Tamil text where one letter is several bytes.__
 செயல் தொடங்குகிறதா(சரம், முன்னொட்டு) {
@@ -66,6 +72,7 @@
 
 // முடிகிறதா(சரம், பின்னொட்டு)
 // __முடிகிறதா(சரம், பின்னொட்டு) — does the string end with this suffix?__
+// முடிகிறதா(சரம், பின்னொட்டு) — இந்தப் பின்னொட்டுடன் சரம் முடிகிறதா
 //
 // __The mirror of தொடங்குகிறதா, offsetting from the end. Same length guard and the same character-based counting.__
 செயல் முடிகிறதா(சரம், பின்னொட்டு) {
@@ -76,6 +83,7 @@
 }
 
 // __ஒழுங்கு(சரம்) — trim spaces from both ends__
+// ஒழுங்கு(சரம்) — இரு முனைகளிலும் உள்ள இடைவெளிகளை நீக்கும்
 //
 // __Both scans read through எழுத்து. Written as a direct index this crashed on__
 // __"" and on a string of nothing but spaces: the loop guard was correct, but__
@@ -105,6 +113,7 @@
 // __than delegating. See மாற்று too, which is new and has no version here.__
 
 // __திரும்பச்செய்(சரம், எண்ணிக்கை) — repeat__
+// திரும்பச்செய்(சரம், எண்ணிக்கை) — சரத்தைச் சொன்ன முறை திரும்பத் தரும்
 செயல் திரும்பச்செய்(சரம், எண்ணிக்கை) {
     விடை = "";
     எண்ணி = 0;
@@ -116,6 +125,7 @@
 }
 
 // __இடமிருந்து_நிரப்பு(சரம், அகலம், நிரப்பி) — left pad__
+// இடமிருந்து_நிரப்பு(சரம், அகலம், நிரப்பி) — இடப்பக்கம் நிரப்பி சொன்ன அகலத்தை நிறைக்கும்
 செயல் இடமிருந்து_நிரப்பு(சரம், அகலம், நிரப்பி) {
     விடை = சொல்லாக்கு(சரம்);
     (நீளம்(விடை) < அகலம்) சுற்று {

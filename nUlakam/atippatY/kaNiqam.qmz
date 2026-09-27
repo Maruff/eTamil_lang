@@ -1,17 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/atippatY/kaNiqam.qmz — கணிதம் (math) helpers__
+// கணிதத்திற்கான துணைச் செயல்கள்
 //
 // __Rounding, floor and ceiling come from the host because they need the__
 // __decimal representation itself. Everything below is built from those.__
 
 // __முழுமதிப்பு(எண்) — absolute value__
+// முழுமதிப்பு(எண்) — குறியின்றி எண்ணின் அளவு
 செயல் முழுமதிப்பு(மதிப்பு) {
     (மதிப்பு < 0) எனில் { திரும்பு 0 - மதிப்பு; }
     திரும்பு மதிப்பு;
 }
 
 // சிறியது(அ, ஆ) / பெரியது(அ, ஆ)
+// சிறியது(அ, ஆ) — இரண்டில் சிறிய எண்
 // __சிறியது(அ, ஆ) — the smaller of two numbers__
 //
 // __A tie returns ஆ, which matters only in that the values are equal. Present so callers do not write the comparison inline, where reversing it is easy and the mistake reads as correct.__
@@ -21,6 +24,7 @@
 }
 
 // __பெரியது(அ, ஆ) — the larger of two numbers__
+// பெரியது(அ, ஆ) — இரண்டில் பெரிய எண்
 //
 // __The pair to சிறியது. Between them they cover the clamping that shows up all over the accounting modules: an allowance that cannot go below zero, a claim capped at the sum insured.__
 செயல் பெரியது(அ, ஆ) {
@@ -29,6 +33,7 @@
 }
 
 // __கூட்டு(அணி) — sum of an array__
+// கூட்டு(அணி) — அணியில் உள்ள எண்களின் கூட்டுத்தொகை
 செயல் கூட்டு(பட்டியல்) {
     மொத்தம் = 0;
     ஒவ்வொரு உறுப்பு இல் பட்டியல் {
@@ -38,6 +43,7 @@
 }
 
 // __சராசரி(அணி) — mean; an empty array is an error, not a division by zero__
+// சராசரி(அணி) — சராசரி; காலி அணி தவறு, பூஜ்ஜியத்தால் வகுத்தல் அல்ல
 செயல் சராசரி(பட்டியல்) {
     எண்ணிக்கை = நீளம்(பட்டியல்);
     (எண்ணிக்கை == 0) எனில் {
@@ -47,6 +53,7 @@
 }
 
 // மிகச்சிறியது(அணி) / மிகப்பெரியது(அணி)
+// மிகச்சிறியது(பட்டியல்) — அணியின் மிகச் சிறிய உறுப்பு
 // __மிகச்சிறியது(பட்டியல்) — the smallest element of an array__
 //
 // __சரி with the value, or தவறு for an empty array. Empty has no minimum, and answering zero would be a lie that survives into a report — the least of nothing is not nothing.__
@@ -62,6 +69,7 @@
 }
 
 // __மிகப்பெரியது(பட்டியல்) — the largest element of an array__
+// மிகப்பெரியது(பட்டியல்) — அணியின் மிகப் பெரிய உறுப்பு
 //
 // __The pair to மிகச்சிறியது, and தவறு on empty for the same reason. Walks the array once rather than sorting it, so the cost is linear and the original order is untouched.__
 செயல் மிகப்பெரியது(பட்டியல்) {
@@ -76,16 +84,19 @@
 }
 
 // __சதவீதம்(தொகை, விகிதம்) — விகிதம் percent of தொகை, rounded to paise__
+// சதவீதம்(தொகை, விகிதம்) — தொகையின் விகிதச் சதவீதம், பைசா வரை வட்டமிட்டு
 செயல் சதவீதம்(தொகை, விகிதம்) {
     திரும்பு வட்டமிடு(தொகை * விகிதம் / 100, 2);
 }
 
 // __முழு_எண்ணா(மதிப்பு) — is this a whole number?__
+// முழு_எண்ணா(மதிப்பு) — இது முழு எண்ணா
 செயல் முழு_எண்ணா(மதிப்பு) {
     திரும்பு தரை(மதிப்பு) == மதிப்பு;
 }
 
 // __மீதி(எண், வகுப்பான்) — the remainder, since there is no % operator__
+// மீதி(எண், வகுப்பான்) — வகுத்தபின் மிஞ்சுவது; மீதிக்கெனச் செயற்குறி இல்லை
 //
 // __Written here rather than added to the host: it follows from தரை and the__
 // __arithmetic the language already has, so Layer 0 gains nothing by owning it.__
@@ -123,11 +134,13 @@
 // __what they share is arithmetic, and that is what lives here.__
 
 // __வட்டக்_கழி(அ, ஆ) — அ less ஆ, to the paisa__
+// வட்டக்_கழி(அ, ஆ) — அ இல் ஆ கழித்து, பைசா வரை வட்டமிட்டு
 செயல் வட்டக்_கழி(அ, ஆ) {
     திரும்பு வட்டமிடு(அ - ஆ, 2);
 }
 
 // __குறையாக்_கழி(அ, ஆ) — அ less ஆ, floored at zero__
+// குறையாக்_கழி(அ, ஆ) — அ இல் ஆ கழித்து, பூஜ்ஜியத்திற்குக் கீழே இறங்காமல்
 //
 // __A deduction larger than the income it is set against does not make the__
 // __income negative; it exhausts it. Chapter VI-A says so, and so does every__
@@ -139,16 +152,19 @@
 }
 
 // __வட்டப்_பங்கு(தொகை, வீதம்) — வீதம் per cent of தொகை, to the paisa__
+// வட்டப்_பங்கு(தொகை, வீதம்) — தொகையின் வீதச் சதவீதம், பைசா வரை
 செயல் வட்டப்_பங்கு(தொகை, வீதம்) {
     திரும்பு வட்டமிடு(சதவீதம்(தொகை, வீதம்), 2);
 }
 
 // __வட்டப்_பெருக்கு(அ, ஆ) — a rate times a quantity, to the paisa__
+// வட்டப்_பெருக்கு(அ, ஆ) — வீதத்தை அளவால் பெருக்கி, பைசா வரை
 செயல் வட்டப்_பெருக்கு(அ, ஆ) {
     திரும்பு வட்டமிடு(அ * ஆ, 2);
 }
 
 // __நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) — a period's share of an amount__
+// நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) — ஒரு காலத்திற்கு உரிய தொகையின் பங்கு
 //
 // __A premium for part of a year, a salary for part of a month, a rent for part__
 // __of a quarter. Three guards, and each of them is a real case: no period at__
@@ -163,6 +179,7 @@
 }
 
 // __வட்ட_மாதங்கள்(நாட்கள்) — days as whole months, any part month counting as one__
+// வட்ட_மாதங்கள்(நாட்கள்) — நாட்களை முழு மாதங்களாக; பகுதி மாதமும் ஒன்றாகக் கணக்கு
 //
 // __The convention the Income-tax Act uses for interest: a month begun is a__
 // __month owed. Thirty days to the month, so a caller holding real dates should__

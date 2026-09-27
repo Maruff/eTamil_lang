@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vativam/kuRiyAkkam.qmz — குறியாக்கம் (encoding): base64 and hex__
+// குறியாக்கம்: அறுபத்துநான்கு அடிப்படை, பதினாறு அடிப்படை
 //
 // __Written in eTamil. The host provides only பைட்டுகள் and பைட்டுச்_சரம் — the__
 // __UTF-8 bytes of a string and the string back — because a byte is not__
@@ -13,14 +14,19 @@
 // __express something already representable.__
 //
 //   __அறுபத்துநான்கு_ஆக்கு(சரம்)  -> base64 text__
+// அறுபத்துநான்கு_ஆக்கு(சரம்) — உரையை அறுபத்துநான்கு அடிப்படையில் குறியாக்கும்
 //   __அறுபத்துநான்கு_படி(சரம்)    -> சரி(சரம்) or தவறு__
+// அறுபத்துநான்கு_படி(சரம்) — அறுபத்துநான்கு அடிப்படையிலிருந்து உரையாக மீட்கும்
 //   __பதினாறு_ஆக்கு(சரம்)         -> lowercase hex__
+// பதினாறு_ஆக்கு(மூலம்) — சரத்தைப் பதினாறு அடிப்படையில் குறியாக்கும்
 //   __பதினாறு_படி(சரம்)           -> சரி(சரம்) or தவறு__
+// பதினாறு_படி(குறியிட்டது) — பதினாறு அடிப்படையிலிருந்து சரமாக மீட்கும்
 
 இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "../atippatY/col.qmz";
 
 // __அறுபத்துநான்கு_எழுத்துகள்() — the standard base64 alphabet__
+// அறுபத்துநான்கு_எழுத்துகள்() — அறுபத்துநான்கு அடிப்படைக் குறியாக்கத்தின் எழுத்துத் தொகுதி
 //
 // __RFC 4648 order, ending in plus and slash. Not the URL-safe variant: this alphabet is what an HTTP Basic header and an email attachment expect, and substituting minus and underscore silently produces something neither will decode.__
 செயல் அறுபத்துநான்கு_எழுத்துகள்() {
@@ -28,6 +34,7 @@
 }
 
 // __பதினாறு_எழுத்துகள்() — the hex alphabet, lowercase__
+// பதினாறு_எழுத்துகள்() — பதினாறு அடிப்படைக் குறியாக்கத்தின் எழுத்துத் தொகுதி, சிறிய எழுத்தில்
 //
 // __Lowercase because that is what checksums and hashes are usually printed in. பதினாறு_படி lowercases its input before looking a character up, so uppercase hex decodes correctly even though it is never produced.__
 செயல் பதினாறு_எழுத்துகள்() { திரும்பு "0123456789abcdef"; }
