@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/pIkO.qmz — பீகோ: the Raspberry Pi Pico's pins, and the hardware API__
+//
+//   __இறக்கு "nUlakam/vaZporuL/pIkO.qmz";__
+//   __etamil --artino --board pico prog.qmz        (or --board pico2)__
+//
+// __Import this instead of vaZporuL.qmz, and the program names the board's pins__
+// __rather than numbers. Every board file uses the same names, so moving a__
+// __program to another board is changing this one line. artino refuses a board__
+// __file that does not match --board.__
+//
+// __RP2040 (Pico) or RP2350 (Pico 2): the two share a pinout, so this file serves__
+// __both. 3.3 V, and the pins are not 5 V tolerant. Pin numbers are GPn; GP0–GP22__
+// __and GP26–GP28 are on the header, and every one can do PWM. Needs Earle__
+// __Philhower's "Raspberry Pi Pico/RP2040" Arduino core.__
+
+இறக்கு "vaZporuL.qmz";
+
+// __The boards this file describes. artino checks it against --board.__
+நிலை சொல் பலகைக்_கோப்பு = "pico,pico2";
+
+நிலை எண் விளக்கு_முனை = 25;          // __the on-board LED, GP25 (not on a Pico W)__
+
+// __Analog inputs, as pin numbers. A3 is not on the header: it reads VSYS / 3.__
+நிலை எண் ஒப்புமை_0 = 26;
+நிலை எண் ஒப்புமை_1 = 27;
+நிலை எண் ஒப்புமை_2 = 28;
+நிலை எண் ஒப்புமை_3 = 29;
+நிலை எண் ஒப்புமை_உச்சம் = 1023;       // __ஒப்புமை_படி's largest reading…__
+நிலை எண் ஒப்புமை_மில்லிவோல்ட் = 3300;  // __…and the voltage it stands for, in mV__
+
+// __Serial: the USB port and two hardware ports, on the core's default pins__
+நிலை எண் USB_துறை = 0;
+நிலை எண் தொடர்1_துறை = 1;
+நிலை எண் தொடர்1_அனுப்பு_முனை = 0;    // __GP0, TX__
+நிலை எண் தொடர்1_பெறு_முனை = 1;       // __GP1, RX__
+நிலை எண் தொடர்2_துறை = 2;
+நிலை எண் தொடர்2_அனுப்பு_முனை = 8;    // __GP8, TX__
+நிலை எண் தொடர்2_பெறு_முனை = 9;       // __GP9, RX__

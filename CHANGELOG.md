@@ -8,6 +8,178 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## Unreleased
+
+### Fixed
+
+- **`ஜேசான்_படி` reads a number exactly.** 1.4.0 said a number keeps its
+  decimal text, but it went through f64 on the way in:
+  `12345678901234567.891` was read as `12345678901234568`, and
+  `1.0000000000000000001` as `1`. `serde_json` is now built with
+  `arbitrary_precision`, so the number is read from the source's own text.
+  An exponent, as in `1e3` or `-2.5E-2`, is still read. Writing JSON was
+  already exact.
+
+---
+
+## 1.4.0 — 2026-09-27
+
+Two libraries written in eTamil, and the builtins they needed. nuNNaRivu finds
+the part of the documentation that answers a question, and can ask a model to
+phrase the answer. kOppumuRY lets a program find its files. Writing nuNNaRivu
+found seven gaps in the language, and they are fixed. One of them can refuse a
+program that ran under 1.3.0: two imported modules may no longer define the
+same name.
+
+### nuNNaRivu: retrieval and language models, in eTamil
+
+`nUlakam/nuNNaRivu/` answers "which part of the documentation answers this
+question?", and can then ask a model to phrase the answer. It has thirteen
+modules, written in eTamil over the host's arithmetic, strings and HTTP.
+
+- **Two kinds of search, because each fails where the other succeeds.**
+  `coRqEtal.qmz` scores by shared words (BM25). `oRRumY.qmz` finds by meaning,
+  over vectors from `utpoqippu.qmz`. `iNYppu.qmz` merges the two by rank,
+  because their scores are not on the same scale.
+- **Asking a model is optional.** Retrieval alone takes milliseconds, and
+  generation is never required. `urYyAkkam.qmz` uses a model on the machine
+  itself by default. Another provider needs a key from whoever runs the
+  program. There is no default key, and a provider left without one fails
+  before the request, saying so.
+- **`aLavItu.qmz` measures whether retrieval works**, so that tuning it is an
+  experiment rather than an opinion.
+
+Writing it found seven gaps in the language, and they are fixed:
+
+- **A record can be used as a map.** `புலம்_உள்ளதா` and `புலம்_அல்லது` are
+  one hash lookup. `poruL.qmz` had walked every field name, so 800 lookups over
+  800 keys took 61.6 s; they take 1.89 s now.
+- **JSON is a builtin.** `ஜேசான்_படி` and `ஜேசான்_ஆக்கு` replace a parser
+  written in eTamil: a 624 KB file that did not finish in ten minutes takes 1.31
+  s. A number keeps its exact decimal text rather than passing through f64.
+- **`x = x & e` appends in place** on the VM, as `x = இணை(x, v)` already did,
+  so building a string in a loop no longer copies everything written so far.
+- **`வர்க்கமூலம்`, `இயற்கை_மடக்கை`, `இயற்கை_அடுக்கு`, `அடுக்கேற்று` and
+  `பத்தின்_மடக்கை` are builtins**, computed on the decimal rather than on f64.
+  √25 is exactly 5 and log10(1000) exactly 3, where the old hand-written series
+  left digits in the 28th place.
+- **`வரிசையாக்கு` and `புலத்தால்_வரிசையாக்கு` sort**, replacing the insertion
+  sort each library wrote for itself.
+- **Two imported modules may no longer define the same name.** Imports are
+  flattened, so one quietly replaced the other. That made a program fail three
+  calls later with an error that named neither file. A program can still
+  define its own version of a library function; only a collision between
+  imports is refused. **This can refuse a program that ran under 1.3.0.**
+- **A reserved word used as a name says so**, when a name was clearly wanted.
+
+That brings the language to 93 builtins, with 794 functions in `nUlakam`. The
+eTamil versions the builtins replace are deleted, since a library function
+would shadow a builtin of the same name. `jEcAZ.qmz` goes from 340 lines to
+67. `docs/language-gaps-from-nuNNaRivu.md` records the whole list, the
+benchmarks, and what is still open: namespaced imports and private helpers.
+
+### The file system, from eTamil
+
+`nUlakam/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
+join and split paths, and read a name's extension. It can list a directory,
+walk everything under one, or collect the files with one extension:
+`நீட்சியால்_கோப்புகள்("nUlakam", "qmz")`. It can also turn a modification time
+into a date.
+
+Only three builtins come from the host, and the library is written in eTamil
+around them:
+- `கோப்பகம்_படி` reads a directory;
+- `கோப்பு_விவரம்` says whether a path is a directory, its size and when it
+  changed;
+- `கோப்பு_உள்ளதா` says whether a path exists.
+
+Their English names are `_readDir`, `_fileInfo` and `_fileExists`. That brings
+the language to 96 builtins, and `nUlakam` to 806 functions.
+
+A path is written with `/` on every platform, since Windows accepts it in every
+call. `பாதை_இயல்பாக்கு` turns a backslash into `/`. `கோப்பகம்_படி` answers
+with bare names in sorted order, so two runs list a directory the same way, and
+the library's listings join each name onto its directory.
+
+In the browser build, a directory is inferred from the in-memory file set. No
+modification time was ever recorded there, so `மாற்றம்` is `இன்மை` rather
+than a date in 1970.
+
+---
+
+## 1.3.0 — 2026-09-27
+
+eTamil on Arduino boards. `etamil --artino` compiles a program to firmware for an
+Uno, Nano, Mega, Pico or Pico 2, and the VM gets a board of its own: pins and
+serial ports on a Raspberry Pi, and a simulated board anywhere. For the VM and
+the desktop backend, every program means what it meant under 1.2.0.
+
+### artino: a program as firmware
+
+`etamil --artino --board uno prog.qmz` lowers the program through LLVM to an
+object for the board and packages it as a precompiled Arduino library, with a
+sketch around it. arduino-cli then builds it, or uploads it with `--upload COM5`.
+Top-level statements run once at power-on, `இடைவெளி N { }` runs every N seconds,
+and `சுழற்சி()` runs every time round the loop.
+
+A board number is the value × 1000 in 64 bits: three decimals, as
+`வட்டமிடு` would give them. Wherever that differs from the VM — a
+rounding, an overflow, a division by zero — the board says so once, over
+serial, and carries on. It never gives a different answer silently.
+
+Text and letters are counted as the VM counts them. So are arrays, results and
+`?`, `வடிவம்` records and serial ports. `nUlakam/col.qmz` and `aNi.qmz` compile
+for a board as written. `docs/artino.md` has what compiles, what is refused and
+why, and what each board takes.
+
+An Uno has 32 KB of flash and 2 KB of RAM. After every Uno, Nano or Mega build,
+`etamil` shows how much RAM the variables and the deepest stack can take,
+because arduino-cli counts only the first.
+
+### C++ libraries, through artino.toml
+
+A manifest beside the program names the C++ it may call: libraries, headers,
+objects, and an eTamil name for each call. Numbers, booleans and text cross the
+boundary. A `[[port]]` makes a Stream, such as SoftwareSerial, one of the
+program's serial ports. The examples drive a servo, a ring of NeoPixels and a
+DS18B20 thermometer.
+
+### The hardware library
+
+`nUlakam/vaZporuL/` holds the hardware API — pins, analog readings, time,
+serial ports, tone and the watchdog — and a file of pin names for each board:
+`yUnO`, `nAnO`, `mekA`, `pIkO` and `rAspY`. Importing a board's file names its
+pins, such as `விளக்கு_முனை` or `ஒப்புமை_0`, so moving a program to another board
+is changing one line. artino refuses a board file that does not match
+`--board`.
+
+On the VM the same functions work too. `ETAMIL_BOARD=sim` gives a simulated
+board on any machine, where a test sets the pins, feeds the serial ports and
+moves the clock. A Raspberry Pi's pins work through the Linux GPIO device, and
+serial ports by device path on Linux and macOS. Neither has run on real
+hardware yet. Windows has the simulated board only.
+
+### Editor support
+
+VS Code gains *Build for a board* and *Build and upload to a board*. They need
+an `etamil` built with `--features llvm`, and the compiler the extension
+carries has none. Completions and highlighting know the 20 new builtins and the
+board files: 82 builtins and 722 library functions.
+
+### For contributors
+
+- **artino's conformance suite runs in CI.** `scripts/artino_conformance.sh`
+  compiles every `tests/artino` program for the runner and compares it with
+  the VM. It runs again as `host-small`, which is how an Uno is compiled.
+  Every artino program is also compiled for Uno, Mega, Pico and Pico 2. That
+  is the only place the AVR and ARM code generation is exercised.
+- **Hardware can be tested off the board.** A `.world` file beside a test
+  scripts time, pins, analog readings and the lines arriving on each serial
+  port, including nodes that answer a program's polls.
+- **The LLVM build takes `libc` on Unix**, for termios and the GPIO ioctls.
+
+---
+
 ## 1.2.0 — 2026-09-27
 
 A package for the Raspberry Pi, one file extension instead of two, and a

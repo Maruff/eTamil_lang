@@ -94,42 +94,21 @@
     திரும்பு எண்_மதிப்பு - தரை(எண்_மதிப்பு / வகுப்பான்) * வகுப்பான்;
 }
 
-// __வர்க்கமூலம்(மதிப்பு) — the square root, by Newton's method__
+// __வர்க்கமூலம்(மதிப்பு) is a host builtin now.__
 //
-// __The host has no square root, no power and no exponential, so this is built__
-// __from the arithmetic the language has — the same reason மீதி is written here__
-// __rather than asked of Layer 0.__
+// __It was Newton's method here, written in eTamil because the host had no__
+// __square root and the arithmetic to build one was all the language gave.__
+// __Forty iterations per call, and it was never quite exact: √25 came back__
+// __as 5.000000000000000000000288615.__
 //
-// __Newton's method doubles the correct digits each pass, so a dozen iterations__
-// __is far more than a Decimal can hold; the loop stops when the estimate stops__
-// __moving and the bound of forty is only there so that a pathological input__
-// __cannot spin for ever.__
+// __The host computes it on the Decimal itself, not through f64, so it is__
+// __both faster and exact — √25 is 5. A negative input is still a தவறு for__
+// __the reason it always was: the root of a negative variance is a sign__
+// __error upstream, and answering zero hides it inside a confidence figure__
+// __that looks perfectly reasonable.__
 //
-// __A negative input is a தவறு rather than nil or zero. Taking the root of a__
-// __negative variance is not a rounding problem, it is a sign error upstream,__
-// __and answering zero would hide it inside a confidence figure that looks__
-// __perfectly reasonable.__
-செயல் வர்க்கமூலம்(மதிப்பு) {
-    (மதிப்பு < 0) எனில் {
-        திரும்பு தவறு("எதிர்மறை எண்ணின் வர்க்கமூலம் இல்லை  "
-                       & "(no square root of a negative number)");
-    }
-    (மதிப்பு == 0) எனில் { திரும்பு சரி(0); }
-
-    கணிப்பு = மதிப்பு;
-    (கணிப்பு < 1) எனில் { கணிப்பு = 1; }
-
-    சுற்றெண் = 0;
-    (சுற்றெண் < 40) சுற்று {
-        அடுத்த_கணிப்பு = (கணிப்பு + மதிப்பு / கணிப்பு) / 2;
-        (முழுமதிப்பு(அடுத்த_கணிப்பு - கணிப்பு) < 0.0000000001) எனில் {
-            திரும்பு சரி(அடுத்த_கணிப்பு);
-        }
-        கணிப்பு = அடுத்த_கணிப்பு;
-        சுற்றெண் = சுற்றெண் + 1;
-    }
-    திரும்பு சரி(கணிப்பு);
-}
+// __A function defined here would shadow the builtin, so it is gone rather__
+// __than delegating.__
 
 // __--- Money, to the paisa --------------------------------------------------__
 //

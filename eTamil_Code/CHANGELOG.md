@@ -1,5 +1,38 @@
 # Changelog
 
+## 1.4.0
+
+The extension moves to 1.4.0 with the language. See the repository's CHANGELOG
+for nuNNaRivu, kOppumuRY and the rest of 1.4.0.
+
+### Added
+
+- Completions and highlighting for the 14 new builtins, the
+  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY.qmz`: 96 builtins and 806
+  library functions.
+
+### Changed
+
+- The carried compiler is 1.4.0.
+
+## 1.3.0
+
+The extension moves to 1.3.0 with the language. See the repository's CHANGELOG
+for artino, eTamil compiled to Arduino boards, and the rest of 1.3.0.
+
+### Added
+
+- **eTamil: Build for a board (artino)** and **Build and upload to a board**:
+  pick an Uno, Nano, Mega, Pico or Pico 2 and, to upload, a serial port. They
+  need an `etamil` built with `--features llvm` set in `etamil.compilerPath`;
+  the carried compiler has no LLVM.
+- Completions and highlighting for the 20 new builtins and the
+  `nUlakam/vaZporuL` board files: 82 builtins and 722 library functions.
+
+### Changed
+
+- The carried compiler is 1.3.0.
+
 ## 1.2.0
 
 The extension moves to 1.2.0 with the language. The language itself is

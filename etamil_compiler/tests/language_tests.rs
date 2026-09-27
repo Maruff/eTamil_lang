@@ -1340,6 +1340,31 @@ fn json_survives_a_round_trip() {
     );
 }
 
+// A number is read from its decimal text, never through f64. Through a float,
+// 12345678901234567.891 came back as 12345678901234568 and 1.0000000000000000001
+// as 1 — an amount quietly changed on the way in.
+#[test]
+fn json_reads_numbers_exactly() {
+    let vm = run_with_stdlib(
+        r#"இறக்கு "jEcAZ.qmz";
+           ப = மதிப்பு(ஜேசான்_படி("{\"a\": 12345678901234567.891, \"b\": 1.0000000000000000001, \"c\": 0.1, \"d\": 1e3, \"e\": -2.5E-2}"));
+           அ = ப["a"];
+           ஆ = ப["b"];
+           இ = ப["c"];
+           ஈ = ப["d"];
+           உ = ப["e"];
+           மறுபடி = ஜேசான்_ஆக்கு(மதிப்பு(ஜேசான்_படி("[12345678901234567.891]")));"#,
+    )
+    .unwrap();
+
+    assert_eq!(num(&vm, "அ"), "12345678901234567.891".parse().unwrap());
+    assert_eq!(num(&vm, "ஆ"), "1.0000000000000000001".parse().unwrap());
+    assert_eq!(num(&vm, "இ"), "0.1".parse().unwrap());
+    assert_eq!(num(&vm, "ஈ"), dec(1000));
+    assert_eq!(num(&vm, "உ"), "-0.025".parse().unwrap());
+    assert_eq!(text(&vm, "மறுபடி"), "[12345678901234567.891]");
+}
+
 // Malformed input is a தவறு, never a half-read value: accepting trailing text
 // would quietly treat half a request body as the whole of it.
 #[test]
@@ -4289,4 +4314,260 @@ fn a_program_with_no_tamil_letter_in_it_runs() {
     assert_eq!(num(&vm, "_total"), dec(5));
     assert_eq!(num(&vm, "_count"), dec(3));
     assert_eq!(vm.variables.get("_flag"), Some(&Value::Boolean(true)));
+}
+
+// --- Record field access --------------------------------------------------
+// Both of these were eTamil functions in poruL.qmz until they could not be.
+// Asking whether a record had a field meant walking its field names, which is
+// all the language offers from the inside, and that made a record unusable as
+// a map: n lookups over n keys cost 0.12s at a hundred keys and 61.6s at eight
+// hundred, and indexing a corpus of 2383 chunks never finished. The builtins
+// are one hash lookup. These tests exist so the eTamil versions cannot quietly
+// come back and shadow them.
+
+#[test]
+fn has_field_answers_for_present_and_absent_keys() {
+    let vm = run(r#"ப = { a: 1, b: "two" };
+           உண்டு = புலம்_உள்ளதா(ப, "a");
+           இல்லை_ = புலம்_உள்ளதா(ப, "z");
+           காலி = புலம்_உள்ளதா({}, "a");"#)
+    .unwrap();
+
+    assert_eq!(text(&vm, "உண்டு"), "true");
+    assert_eq!(text(&vm, "இல்லை_"), "false");
+    assert_eq!(text(&vm, "காலி"), "false");
+}
+
+#[test]
+fn field_or_returns_the_field_or_the_fallback() {
+    let vm = run(r#"ப = { b: "two" };
+           இருப்பது = புலம்_அல்லது(ப, "b", "மாற்று");
+           இல்லாதது = புலம்_அல்லது(ப, "z", "மாற்று");"#)
+    .unwrap();
+
+    assert_eq!(text(&vm, "இருப்பது"), "two");
+    assert_eq!(text(&vm, "இல்லாதது"), "மாற்று");
+}
+
+#[test]
+fn field_builtins_answer_to_romanized_names_too() {
+    let vm = run(r#"ப = { a: 1 };
+           அ = pulam_uLLaqA(ப, "a");
+           ஆ = pulam_allaqu(ப, "z", 9);"#)
+    .unwrap();
+
+    assert_eq!(text(&vm, "அ"), "true");
+    assert_eq!(num(&vm, "ஆ"), dec(9));
+}
+
+// A falsy stored value must win over the fallback: புலம்_அல்லது asks whether
+// the field is there, not whether it is truthy. Returning the fallback for a
+// stored பொய் or 0 would silently rewrite data that was explicitly set.
+#[test]
+fn field_or_returns_a_stored_falsy_value_rather_than_the_fallback() {
+    let vm = run(r#"ப = { பூஜ்ஜியம்: 0, பொய்யானது: பொய் };
+           அ = புலம்_அல்லது(ப, "பூஜ்ஜியம்", 99);
+           ஆ = புலம்_அல்லது(ப, "பொய்யானது", மெய்);"#)
+    .unwrap();
+
+    assert_eq!(num(&vm, "அ"), dec(0));
+    assert_eq!(text(&vm, "ஆ"), "false");
+}
+
+#[test]
+fn field_builtins_refuse_a_non_record() {
+    assert!(run(r#"அ = புலம்_உள்ளதா([1, 2], "a");"#).is_err());
+    assert!(run(r#"அ = புலம்_அல்லது("சரம்", "a", 1);"#).is_err());
+}
+
+// --- Reserved words used as names -----------------------------------------
+// The position was never wrong: the error lands on the declaration. What it
+// did not do was explain itself. `வரிசை = 5;` reported "a statement was
+// expected", which mentions neither names nor the fact that வரிசை is the SQL
+// ORDER BY keyword. Five of these came up writing one library.
+
+#[test]
+fn a_reserved_word_as_a_parameter_says_so() {
+    let problem = run("செயல் ச(இடம், ஆ) { திரும்பு ஆ; }").unwrap_err();
+    assert!(problem.contains("இடம்"), "{}", problem);
+    assert!(
+        problem.contains("reserved word"),
+        "the message should name the cause: {}",
+        problem
+    );
+}
+
+#[test]
+fn a_reserved_word_as_an_assignment_target_asks_for_a_name() {
+    let problem = run("வரிசை = 5;").unwrap_err();
+    assert!(
+        problem.contains("a variable name"),
+        "assignment to a keyword should ask for a name, not a statement: {}",
+        problem
+    );
+    assert!(problem.contains("reserved word"), "{}", problem);
+}
+
+// The note is only useful where a name was being asked for. Attached to every
+// keyword-shaped error it told anyone who forgot a semicolon that அச்சு cannot
+// be a variable — true, and worse than silence.
+#[test]
+fn an_ordinary_syntax_error_is_not_told_about_names() {
+    let problem = run("அச்சு \"one\"\nஅச்சு \"two\";").unwrap_err();
+    assert!(
+        !problem.contains("reserved word"),
+        "a missing semicolon is not a naming problem: {}",
+        problem
+    );
+}
+
+// --- String building ------------------------------------------------------
+// `x = x & e` appends in place rather than building a new string from both
+// sides, the same optimisation `x = இணை(x, v)` already had. Accumulating
+// 200,000 characters took 4.88s before and is flat now. These check that the
+// shortcut did not change what the program means.
+
+#[test]
+fn self_concatenation_appends_in_place() {
+    let vm = run(r#"விடை = "a"; விடை = விடை & "b" & "c";"#).unwrap();
+    assert_eq!(text(&vm, "விடை"), "abc");
+}
+
+#[test]
+fn self_concatenation_still_joins_a_non_string_left_side() {
+    let vm = run(r#"கணக்கு = 1; கணக்கு = கணக்கு & " two";"#).unwrap();
+    assert_eq!(text(&vm, "கணக்கு"), "1 two");
+}
+
+// Assigning to a name that is not already local creates a local, so a string
+// reached from an outer scope is copied once and appended in place after that.
+// The global must be left alone.
+#[test]
+fn appending_to_an_outer_string_does_not_write_through() {
+    let vm = run(r#"வெளியது = "g";
+           செயல் தொடு() { வெளியது = வெளியது & "h"; திரும்பு வெளியது; }
+           உள்ளே = தொடு();"#)
+    .unwrap();
+
+    assert_eq!(text(&vm, "உள்ளே"), "gh");
+    assert_eq!(text(&vm, "வெளியது"), "g");
+}
+
+#[test]
+fn concatenation_to_a_different_name_leaves_the_source_alone() {
+    let vm = run(r#"ஆவி = "p"; ஈகை = ஆவி & "q";"#).unwrap();
+    assert_eq!(text(&vm, "ஈகை"), "pq");
+    assert_eq!(text(&vm, "ஆவி"), "p");
+}
+
+// --- Sorting --------------------------------------------------------------
+
+#[test]
+fn sort_orders_numbers_numerically_and_strings_by_text() {
+    let vm = run(r#"எண்கள் = வரிசையாக்கு([5, 1, 10, 2]);
+           முதல் = எண்கள்[0];
+           கடைசி = எண்கள்[3];
+           சொற்கள் = வரிசையாக்கு(["pear", "apple", "fig"]);
+           முன் = சொற்கள்[0];"#)
+    .unwrap();
+
+    assert_eq!(num(&vm, "முதல்"), dec(1));
+    assert_eq!(num(&vm, "கடைசி"), dec(10));
+    assert_eq!(text(&vm, "முன்"), "apple");
+}
+
+#[test]
+fn sort_by_field_orders_records_and_leaves_the_original_alone() {
+    let vm = run(
+        r#"ப = [ { பெயர்: "a", மதிப்பெண்: 3 }, { பெயர்: "b", மதிப்பெண்: 9 } ];
+           இறங்கு = புலத்தால்_வரிசையாக்கு(ப, "மதிப்பெண்", மெய்);
+           மேல் = இறங்கு[0].பெயர்;
+           ஏறு = புலத்தால்_வரிசையாக்கு(ப, "மதிப்பெண்", பொய்);
+           கீழ் = ஏறு[0].பெயர்;
+           மூலம் = ப[0].பெயர்;"#,
+    )
+    .unwrap();
+
+    assert_eq!(text(&vm, "மேல்"), "b");
+    assert_eq!(text(&vm, "கீழ்"), "a");
+    assert_eq!(text(&vm, "மூலம்"), "a");
+}
+
+// A record with no such field sorts as zero rather than failing: one malformed
+// row out of a retriever should cost that row its place, not the whole ranking.
+#[test]
+fn sort_by_field_tolerates_a_record_without_the_field() {
+    let vm = run(r#"ம = [ { பெயர்: "x", மதிப்பெண்: 3 }, { பெயர்: "d" } ];
+           ஏறு = புலத்தால்_வரிசையாக்கு(ம, "மதிப்பெண்", பொய்);
+           முதல் = ஏறு[0].பெயர்;"#)
+    .unwrap();
+
+    assert_eq!(text(&vm, "முதல்"), "d");
+}
+
+// --- Colliding module names -----------------------------------------------
+// Imports are flattened into one statement list, so two modules defining the
+// same name both produced a definition and whichever loaded last won, silently.
+// nuNNaRivu defined தேடு while col.qmz already exported a substring தேடு that
+// returns a position; the program got the wrong one and failed three calls
+// away with "cannot iterate over a number", naming neither file.
+
+#[test]
+fn two_imported_modules_may_not_define_the_same_name() {
+    let dir = std::env::temp_dir().join("etamil_collision_test");
+    let _ = std::fs::create_dir_all(&dir);
+    std::fs::write(dir.join("alpha.qmz"), "செயல் மோதல்(அ) { திரும்பு அ; }\n").unwrap();
+    std::fs::write(dir.join("beta.qmz"), "செயல் மோதல்(அ) { திரும்பு அ; }\n").unwrap();
+
+    let problem =
+        etamil_compiler::module::load_source("இறக்கு \"alpha.qmz\";\nஇறக்கு \"beta.qmz\";\n", &dir)
+            .unwrap_err();
+
+    assert!(problem.contains("மோதல்"), "{}", problem);
+    assert!(
+        problem.contains("alpha.qmz"),
+        "both files should be named: {}",
+        problem
+    );
+    assert!(
+        problem.contains("beta.qmz"),
+        "both files should be named: {}",
+        problem
+    );
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+// A program defining its own version of a library function is supported — the
+// bytecode compiler checks for an author's own இணை before using the in-place
+// append — so only collisions *between imported modules* are refused.
+#[test]
+fn a_program_may_still_define_its_own_version_of_an_imported_function() {
+    let dir = std::env::temp_dir().join("etamil_shadow_test");
+    let _ = std::fs::create_dir_all(&dir);
+    std::fs::write(dir.join("alpha.qmz"), "செயல் மோதல்(அ) { திரும்பு அ; }\n").unwrap();
+
+    let ast = etamil_compiler::module::load_source(
+        "இறக்கு \"alpha.qmz\";\nசெயல் மோதல்(அ) { திரும்பு 99; }\nவிடை = மோதல்(1);\n",
+        &dir,
+    )
+    .expect("shadowing an imported function is allowed");
+
+    let bytecode = BytecodeCompiler::compile_statements(ast);
+    let mut vm = VM::new();
+    vm.execute(bytecode).unwrap();
+    assert_eq!(num(&vm, "விடை"), dec(99));
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+// The same module reached twice is already skipped, so it must not look like
+// a collision with itself.
+#[test]
+fn importing_the_same_module_twice_is_not_a_collision() {
+    let dir = std::env::temp_dir().join("etamil_twice_test");
+    let _ = std::fs::create_dir_all(&dir);
+    std::fs::write(dir.join("alpha.qmz"), "செயல் ஒற்றை(அ) { திரும்பு அ; }\n").unwrap();
+
+    etamil_compiler::module::load_source("இறக்கு \"alpha.qmz\";\nஇறக்கு \"alpha.qmz\";\n", &dir)
+        .expect("importing the same file twice is not a redefinition");
+    let _ = std::fs::remove_dir_all(&dir);
 }

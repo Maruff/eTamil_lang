@@ -46,6 +46,12 @@ fn print_help() {
     println!("                       இடைவெளி blocks run on a timer under either server");
     println!("    --llvm             LLVM backend (requires --features llvm; Linux/macOS)");
     println!("    --llvm-gaps        List what the LLVM backend would refuse — no LLVM needed");
+    println!("    --artino           Compile for an Arduino board (requires --features llvm)");
+    println!("    --board <BOARD>    With --artino: uno (default), nano, mega, pico, pico2;");
+    println!("                       host builds an object for this machine, for testing");
+    println!("    --out <DIR>        With --artino: where the sketch goes (default: artino-build)");
+    println!("    --upload <PORT>    With --artino: build and upload through arduino-cli");
+    println!("    --artino-gaps      List what --artino would refuse — no LLVM needed");
     println!("    --host <HOST>      Server bind address (default: 127.0.0.1)");
     println!("    --port <PORT>      Server port (default: 8080)");
     println!("    -h, --help         Show this message");
@@ -58,6 +64,7 @@ fn print_help() {
     println!("    cat program.qmz | etamil --check     # errors only, nothing runs");
     println!("    etamil --repl                        # try something without a file");
     println!("    etamil --llvm-gaps nUlakam/kAcu.qmz  # what stops --llvm compiling it");
+    println!("    etamil --artino --board uno blink.qmz  # a sketch folder for arduino-cli");
 }
 
 /// `--check`: report every error the front end can find, and run nothing.
@@ -131,6 +138,198 @@ fn llvm_gaps(loaded: Result<Vec<parser::Stmt>, String>) -> ! {
     std::process::exit(1);
 }
 
+/// `--artino-gaps`: what `--artino` would refuse, counted like `--llvm-gaps`.
+///
+/// Only the functions the program reaches are judged, so importing a module
+/// with a function no board can run is not a gap unless something calls it.
+fn artino_gaps(loaded: Result<Vec<parser::Stmt>, String>) -> ! {
+    let ast = match loaded {
+        Ok(ast) => ast,
+        Err(message) => {
+            eprintln!("✗ {}", message);
+            std::process::exit(2);
+        }
+    };
+    let refused = etamil_compiler::artino::analyse::refusals(&ast);
+    if refused.is_empty() {
+        std::process::exit(0);
+    }
+    let mut counts: std::collections::BTreeMap<String, usize> = std::collections::BTreeMap::new();
+    for item in refused {
+        *counts.entry(item).or_insert(0) += 1;
+    }
+    let mut ranked: Vec<(String, usize)> = counts.into_iter().collect();
+    ranked.sort_by(|a, b| b.1.cmp(&a.1).then(a.0.cmp(&b.0)));
+    for (label, count) in ranked {
+        println!("{}\t{}", count, label);
+    }
+    std::process::exit(1);
+}
+
+/// `--artino`: the program as firmware for one board.
+///
+/// Analysis first, on any build, so a program that cannot become firmware is
+/// told why even by an etamil without LLVM. Then, with LLVM: an object for the
+/// board, the sketch folder around it, and arduino-cli if it is installed.
+fn run_artino(
+    ast: &[parser::Stmt],
+    source: &Path,
+    board_name: &str,
+    out: &Path,
+    upload: Option<&str>,
+) -> ! {
+    use etamil_compiler::artino;
+
+    let Some(board) = artino::board(board_name) else {
+        let known: Vec<&str> = artino::BOARDS.iter().map(|b| b.name).collect();
+        eprintln!(
+            "✗ No board called '{}'. artino knows: {}",
+            board_name,
+            known.join(", ")
+        );
+        std::process::exit(2);
+    };
+    if let Some(why) = artino::board_file_mismatch(ast, board.name) {
+        eprintln!("✗ {}", why);
+        std::process::exit(1);
+    }
+    // The C++ the program may call: <name>.artino.toml or artino.toml beside it.
+    let manifest = match artino::manifest::find(source) {
+        None => artino::manifest::Manifest::default(),
+        Some(path) => artino::manifest::load(&path, Some(board.name)).unwrap_or_else(|e| {
+            eprintln!("✗ {}", e);
+            std::process::exit(1);
+        }),
+    };
+    if let Some((number, _)) = manifest.ports.iter().find(|(n, _)| *n < board.serial_ports) {
+        eprintln!(
+            "✗ artino.toml makes port {} a [[port]], and the {} has its own port {}. Give it a number the board lacks, or boards = [...] leaving this one out.",
+            number, board.name, number
+        );
+        std::process::exit(1);
+    }
+    let program = match artino::analyse::analyse_with(ast, &manifest.functions) {
+        Ok(program) => program,
+        Err(mut errors) => {
+            errors.sort();
+            errors.dedup();
+            eprintln!("✗ artino cannot build this program for a board:");
+            for error in &errors {
+                eprintln!("    - {}", error);
+            }
+            std::process::exit(1);
+        }
+    };
+
+    #[cfg(feature = "llvm")]
+    {
+        let name = artino::sketch::sketch_name(source);
+        if let Err(e) = std::fs::create_dir_all(out) {
+            eprintln!("✗ Cannot create {}: {}", out.display(), e);
+            std::process::exit(1);
+        }
+        let object = out.join(format!("{}.{}.o", name, board.name));
+        let ir = out.join(format!("{}.{}.ll", name, board.name));
+        let compiled =
+            artino::emit::compile(&program, board, &object, Some(&ir)).unwrap_or_else(|e| {
+                eprintln!("✗ {}", e);
+                std::process::exit(1);
+            });
+        // The host is not a board: the object is for the conformance suite to
+        // link against its stand-in Arduino API, so there is no sketch.
+        if board.fqbn.is_empty() {
+            println!("✓ {} for this machine", object.display());
+            println!("  IR: {}", ir.display());
+            std::process::exit(0);
+        }
+        let bytes = std::fs::read(&object).unwrap_or_else(|e| {
+            eprintln!("✗ Cannot read {}: {}", object.display(), e);
+            std::process::exit(1);
+        });
+        let written = artino::sketch::write(
+            out,
+            source,
+            board,
+            program.ports,
+            &compiled,
+            &manifest,
+            &bytes,
+        )
+        .unwrap_or_else(|e| {
+            eprintln!("✗ Cannot write the sketch: {}", e);
+            std::process::exit(1);
+        });
+        let (sketch, libraries) = (written.sketch, written.libraries);
+        println!("✓ {} for {} ({})", sketch.display(), board.name, board.fqbn);
+        println!("  IR: {}", ir.display());
+
+        let cli = std::env::var("ARDUINO_CLI").unwrap_or_else(|_| "arduino-cli".to_string());
+        let mut command = std::process::Command::new(&cli);
+        // A known build folder, so the size report can find the linked image.
+        let build = sketch.with_file_name("build");
+        command
+            .arg("compile")
+            .arg("--fqbn")
+            .arg(board.fqbn)
+            .arg("--libraries")
+            .arg(&libraries)
+            .arg("--build-path")
+            .arg(&build)
+            .arg(&sketch);
+        if let Some(port) = upload {
+            command.arg("--upload").arg("--port").arg(port);
+        }
+        match command.status() {
+            Ok(status) if status.success() => {
+                // An AVR board's RAM: arduino-cli counts the variables, not the stack.
+                if board.triple == "avr" {
+                    let elf = build.join(format!("{}.ino.elf", name));
+                    match artino::size::report(&cli, &elf, board.ram) {
+                        Some((line, true)) => println!("  {}", line),
+                        Some((line, false)) => eprintln!("✗ {}", line),
+                        None => {}
+                    }
+                }
+                std::process::exit(0)
+            }
+            Ok(status) => {
+                eprintln!("✗ arduino-cli failed ({})", status);
+                // The likeliest reason, when the manifest names libraries.
+                for library in &manifest.libraries {
+                    eprintln!(
+                        "  needs the {} library: arduino-cli lib install \"{}\"",
+                        library, library
+                    );
+                }
+                std::process::exit(1);
+            }
+            Err(_) => {
+                println!();
+                println!("arduino-cli is not on PATH (or set ARDUINO_CLI). To build it elsewhere:");
+                println!(
+                    "  arduino-cli compile --fqbn {} --libraries {} {}",
+                    board.fqbn,
+                    libraries.display(),
+                    sketch.display()
+                );
+                std::process::exit(if upload.is_some() { 1 } else { 0 });
+            }
+        }
+    }
+
+    #[cfg(not(feature = "llvm"))]
+    {
+        let _ = (program, source, out, upload, manifest);
+        println!(
+            "✓ artino accepts this program for {} ({})",
+            board.name, board.fqbn
+        );
+        eprintln!("✗ Building it needs the LLVM backend, and this etamil was built without it.");
+        eprintln!("  Build with `cargo build --release --features llvm` (docs/artino.md).");
+        std::process::exit(1);
+    }
+}
+
 fn main() {
     // Parse command line arguments
     let args: Vec<String> = env::args().collect();
@@ -139,6 +338,11 @@ fn main() {
     let mut use_async_server = false; // Backend milestone 2: New async server flag
     let mut check_only_mode = false;
     let mut llvm_gaps_mode = false;
+    let mut artino_mode = false;
+    let mut artino_gaps_mode = false;
+    let mut artino_board = "uno".to_string();
+    let mut artino_out = "artino-build".to_string();
+    let mut artino_upload: Option<String> = None;
     let mut repl_mode = false;
     let mut server_host = "127.0.0.1".to_string();
     let mut server_port = 8080u16;
@@ -205,6 +409,22 @@ fn main() {
             // that can build the backend — which is the machine you want the
             // answer before travelling to.
             "--llvm-gaps" => llvm_gaps_mode = true,
+            "--artino" => artino_mode = true,
+            "--artino-gaps" => artino_gaps_mode = true,
+            "--board" | "--out" | "--upload" => {
+                let flag = args[i].clone();
+                if i + 1 >= args.len() {
+                    eprintln!("✗ {} needs a value", flag);
+                    std::process::exit(2);
+                }
+                let value = args[i + 1].clone();
+                match flag.as_str() {
+                    "--board" => artino_board = value,
+                    "--out" => artino_out = value,
+                    _ => artino_upload = Some(value),
+                }
+                i += 1;
+            }
             "--help" | "-h" => {
                 print_help();
                 return;
@@ -248,6 +468,10 @@ fn main() {
         llvm_gaps(loaded);
     }
 
+    if artino_gaps_mode {
+        artino_gaps(loaded);
+    }
+
     let ast = match loaded {
         Ok(ast) => ast,
         Err(message) => {
@@ -265,6 +489,19 @@ fn main() {
             eprintln!("✗ {}", error);
         }
         std::process::exit(1);
+    }
+
+    if artino_mode {
+        let source = filename
+            .clone()
+            .unwrap_or_else(|| "program.qmz".to_string());
+        run_artino(
+            &ast,
+            Path::new(&source),
+            &artino_board,
+            Path::new(&artino_out),
+            artino_upload.as_deref(),
+        );
     }
 
     // Backend milestone 2: Check if async server mode is enabled

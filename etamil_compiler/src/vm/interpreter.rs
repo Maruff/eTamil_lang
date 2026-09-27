@@ -16,6 +16,7 @@ use crate::vm::host;
 use crate::vm::value::FunctionValue;
 use crate::vm::{Bytecode, Instruction, Value};
 use rust_decimal::Decimal;
+use rust_decimal::MathematicalOps;
 #[cfg(not(target_family = "wasm"))]
 use std::io::Write as IoWrite;
 use std::str::FromStr;
@@ -553,6 +554,136 @@ impl VM {
         args.reverse();
 
         match name {
+            // --- the board: nUlakam/vaZporuL/vaZporuL.qmz calls these, by their
+            // English names; src/vm/board.rs is the board itself. Pins and time
+            // give results a wrapper unwraps; serial ports give results the
+            // program handles.
+            // வன்_பலகை() — "sim", "pi" or "host"
+            "வன்_பலகை" | "vaZ_palakY" | "_boardName" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::String(super::board::name().to_string()))
+            }
+            // வன்_முனை_வகை(முனை, "out" | "in" | "in_pullup")
+            "வன்_முனை_வகை" | "vaZ_muZY_vakY" | "_pinMode" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::pin_mode(pin, &args[1].to_string()).map(|_| Value::Null)))
+            }
+            // வன்_முனை_எழுது(முனை, 0 | 1)
+            "வன்_முனை_எழுது" | "vaZ_muZY_ezuqu" | "_pinWrite" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let high = Self::whole(&args[1], "மட்டம் (level)")? != 0;
+                Ok(Self::board_result(super::board::pin_write(pin, high).map(|_| Value::Null)))
+            }
+            // வன்_முனை_படி(முனை) — சரி(0 | 1)
+            "வன்_முனை_படி" | "vaZ_muZY_pati" | "_pinRead" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::pin_read(pin).map(|h| Value::Number(Decimal::from(u8::from(h))))))
+            }
+            // வன்_ஒப்புமை_படி(முனை) — சரி(0 to 1023)
+            "வன்_ஒப்புமை_படி" | "vaZ_oppumY_pati" | "_analogRead" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::analog_read(pin).map(|v| Value::Number(Decimal::from(v)))))
+            }
+            // வன்_மில்லி() — milliseconds since the program began
+            "வன்_மில்லி" | "vaZ_milli" | "_millis" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::Number(Decimal::from(super::board::millis())))
+            }
+            // வன்_காத்திரு(மில்லி) — wait; on the simulated board, move its clock
+            "வன்_காத்திரு" | "vaZ_kAqqiru" | "_sleepMs" => {
+                Self::expect_args(name, &args, 1)?;
+                let ms = Self::whole(&args[0], "மில்லி (milliseconds)")?.max(0) as u64;
+                super::board::sleep_ms(ms);
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_ஒலி(முனை, அதிர்வெண்) — a tone; only the simulated board has one
+            "வன்_ஒலி" | "vaZ_oli" | "_tone" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let hz = Self::whole(&args[1], "அதிர்வெண் (frequency)")?;
+                Ok(Self::board_result(super::board::tone(pin, Some(hz)).map(|_| Value::Null)))
+            }
+            // வன்_ஒலி_நிறுத்து(முனை)
+            "வன்_ஒலி_நிறுத்து" | "vaZ_oli_niRuqqu" | "_noTone" => {
+                Self::expect_args(name, &args, 1)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                Ok(Self::board_result(super::board::tone(pin, None).map(|_| Value::Null)))
+            }
+            // வன்_காவல்(மில்லி) — a board's watchdog; nothing on the VM
+            "வன்_காவல்" | "vaZ_kAval" | "_watchdogBegin" => {
+                Self::expect_args(name, &args, 1)?;
+                Self::whole(&args[0], "மில்லி (milliseconds)")?;
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_காவல்_புதுப்பி()
+            "வன்_காவல்_புதுப்பி" | "vaZ_kAval_puquppi" | "_watchdogFeed" => {
+                Self::expect_args(name, &args, 0)?;
+                Ok(Value::Ok(Box::new(Value::Null)))
+            }
+            // வன்_தொடர்_திற(சாதனம், வேகம்) — சரி(port) or தவறு(why)
+            "வன்_தொடர்_திற" | "vaZ_qotar_qiRa" | "_serialOpen" => {
+                Self::expect_args(name, &args, 2)?;
+                let baud = Self::whole(&args[1], "வேகம் (baud)")?;
+                let opened = super::board::serial_open(&args[0].to_string(), baud.clamp(0, u32::MAX as i64) as u32);
+                Ok(Self::board_result(opened.map(|port| Value::Number(Decimal::from(port)))))
+            }
+            // வன்_தொடர்_படி(துறை, காலம்) — சரி(line), சரி(இன்மை) if none yet, or தவறு(why)
+            "வன்_தொடர்_படி" | "vaZ_qotar_pati" | "_serialReadLine" => {
+                Self::expect_args(name, &args, 2)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                let wait = Self::whole(&args[1], "காலம் (wait)")?.max(0) as u64;
+                let line = super::board::serial_read_line(port, wait);
+                Ok(Self::board_result(line.map(|l| l.map(Value::String).unwrap_or(Value::Null))))
+            }
+            // வன்_தொடர்_எழுது(துறை, செய்தி) — சரி(bytes written)
+            "வன்_தொடர்_எழுது" | "vaZ_qotar_ezuqu" | "_serialWrite" => {
+                Self::expect_args(name, &args, 2)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                let written = super::board::serial_write(port, &args[1].to_string());
+                Ok(Self::board_result(written.map(|n| Value::Number(Decimal::from(n)))))
+            }
+            // வன்_தொடர்_மூடு(துறை)
+            "வன்_தொடர்_மூடு" | "vaZ_qotar_mUtu" | "_serialClose" => {
+                Self::expect_args(name, &args, 1)?;
+                let port = Self::whole(&args[0], "துறை (port)")?;
+                Ok(Self::board_result(super::board::serial_close(port).map(|_| Value::Null)))
+            }
+            // போலி_முனை_அமை(முனை, 0 | 1) — what an input reads, on the simulated board
+            "போலி_முனை_அமை" | "pOli_muZY_amY" | "_simSetPin" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let high = Self::whole(&args[1], "மட்டம் (level)")? != 0;
+                Ok(Self::board_result(super::board::sim_set_pin(pin, high).map(|_| Value::Null)))
+            }
+            // போலி_ஒப்புமை_அமை(முனை, அளவீடு)
+            "போலி_ஒப்புமை_அமை" | "pOli_oppumY_amY" | "_simSetAnalog" => {
+                Self::expect_args(name, &args, 2)?;
+                let pin = Self::whole(&args[0], "முனை (pin)")?;
+                let value = Self::whole(&args[1], "அளவீடு (reading)")?;
+                Ok(Self::board_result(super::board::sim_set_analog(pin, value).map(|_| Value::Null)))
+            }
+            // போலி_நேரம்_நகர்(மில்லி) — move the simulated clock
+            "போலி_நேரம்_நகர்" | "pOli_nEram_nakar" | "_simAdvanceMs" => {
+                Self::expect_args(name, &args, 1)?;
+                let ms = Self::whole(&args[0], "மில்லி (milliseconds)")?.max(0) as u64;
+                Ok(Self::board_result(super::board::sim_advance_ms(ms).map(|_| Value::Null)))
+            }
+            // போலி_வரி_ஊட்டு(சாதனம், வரி) — a line arrives on a simulated port
+            "போலி_வரி_ஊட்டு" | "pOli_vari_Uttu" | "_simFeedSerial" => {
+                Self::expect_args(name, &args, 2)?;
+                let fed = super::board::sim_feed(&args[0].to_string(), &args[1].to_string());
+                Ok(Self::board_result(fed.map(|_| Value::Null)))
+            }
+            // போலி_வரி_வெளியீடு(சாதனம்) — the lines written to a simulated port since last asked
+            "போலி_வரி_வெளியீடு" | "pOli_vari_veLiyItu" | "_simSerialOutput" => {
+                Self::expect_args(name, &args, 1)?;
+                let lines = super::board::sim_output(&args[0].to_string())?;
+                Ok(Value::Array(lines.into_iter().map(Value::String).collect()))
+            }
             // நீளம் — length of an array, record or string
             "நீளம்" | "nILam" | "_length" => {
                 Self::expect_args(name, &args, 1)?;
@@ -571,6 +702,287 @@ impl VM {
             }
             // இணை — append to an array, returning the extended array.
             // (சேர் / cEr is already the SQL JOIN keyword.)
+            // புலம்_உள்ளதா — does this record carry this field?
+            //
+            // A primitive because the eTamil version could not be one. poruL.qmz
+            // implemented it by walking the field names, which is the only thing
+            // available from inside the language, and that made a record unusable
+            // as a map: building a term-frequency map over a corpus of 2383 chunks
+            // never finished. Measured on the eTamil version, n lookups over a
+            // record of n keys took 0.12s at n=100 and 61.6s at n=800.
+            //
+            // Here it is one hash lookup. The reason it has to exist at all is
+            // that reading an absent field is a hard error, so every read of a
+            // maybe-absent key must be guarded by this call.
+            "புலம்_உள்ளதா" | "pulam_uLLaqA" | "_hasField" => {
+                Self::expect_args(name, &args, 2)?;
+                let fields = match &args[0] {
+                    Value::Map(record) => &record.fields,
+                    other => {
+                        return Err(format!(
+                            "புலம்_உள்ளதா ஒரு பொருள் தேவை  (hasField needs a record, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                Ok(Value::Boolean(fields.contains_key(&args[1].to_string())))
+            }
+
+            // புலம்_அல்லது — the field, or a fallback when it is not there
+            //
+            // The pair to புலம்_உள்ளதா, and the reason that one is rarely needed
+            // directly: query parameters, headers and a decoded JSON body are all
+            // records whose contents depend on what someone sent, and the caller
+            // almost always has a sensible default rather than a use for a
+            // boolean.
+            //
+            // Written as one builtin rather than left to the caller so that the
+            // lookup happens once. In eTamil it was necessarily two walks of the
+            // record — one to ask, one to read.
+            "புலம்_அல்லது" | "pulam_allaqu" | "_fieldOr" => {
+                Self::expect_args(name, &args, 3)?;
+                let fields = match &args[0] {
+                    Value::Map(record) => &record.fields,
+                    other => {
+                        return Err(format!(
+                            "புலம்_அல்லது ஒரு பொருள் தேவை  (fieldOr needs a record, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                Ok(match fields.get(&args[1].to_string()) {
+                    Some(found) => found.clone(),
+                    None => args[2].clone(),
+                })
+            }
+
+            // ஜேசான்_படி — JSON text into eTamil values
+            //
+            // A host builtin because the eTamil version could not keep up. It
+            // is in nUlakam/jEcAZ.qmz, it is correct, and it is a recursive
+            // descent parser written in the language — which means it pays the
+            // language's string and record costs on every character. A 624 KB
+            // corpus did not finish parsing in ten minutes.
+            //
+            // Returns சரி or தவறு, the same shape the eTamil version returned,
+            // and refuses trailing text for the same reason it did: accepting
+            // it would quietly read half a request body as though it were the
+            // whole one.
+            "ஜேசான்_படி" | "jEcAZ_pati" | "_jsonParse" => {
+                Self::expect_args(name, &args, 1)?;
+                let source = args[0].to_string();
+                Ok(match serde_json::from_str::<serde_json::Value>(&source) {
+                    Ok(parsed) => match Self::json_to_value(&parsed) {
+                        Ok(value) => Value::Ok(Box::new(value)),
+                        Err(message) => Value::Err(Box::new(Value::String(message))),
+                    },
+                    Err(problem) => Value::Err(Box::new(Value::String(format!(
+                        "செல்லாத ஜேசான்: {}  (invalid JSON)",
+                        problem
+                    )))),
+                })
+            }
+
+            // ஜேசான்_ஆக்கு — an eTamil value as JSON text
+            //
+            // The pair to ஜேசான்_படி, and replacing an eTamil version for the
+            // same reason: it built its result with & one piece at a time,
+            // which copies the whole string on every append.
+            //
+            // Returns a plain string, not a சரி, because the eTamil version
+            // did and every caller in nUlakam expects that.
+            "ஜேசான்_ஆக்கு" | "jEcAZ_Akku" | "_jsonStringify" => {
+                Self::expect_args(name, &args, 1)?;
+                Ok(Value::String(Self::value_to_json(&args[0])))
+            }
+
+            // வர்க்கமூலம் — the square root
+            //
+            // Was Newton's method in kaNiqam.qmz, written there because the
+            // host had no square root and the arithmetic to build one was all
+            // the language offered. Forty iterations per call, and every
+            // vector magnitude in nuNNaRivu paid them.
+            //
+            // A negative input is a தவறு rather than nil or zero, exactly as
+            // the eTamil version had it: the root of a negative variance is a
+            // sign error upstream, and answering zero hides it inside a
+            // confidence figure that looks perfectly reasonable.
+            "வர்க்கமூலம்" | "varkkamUlam" | "_sqrt" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.sqrt() {
+                    Some(root) => Value::Ok(Box::new(Value::Number(root))),
+                    None => Value::Err(Box::new(Value::String(
+                        "எதிர்மறை எண்ணின் வர்க்கமூலம் இல்லை  \
+                         (no square root of a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // இயற்கை_மடக்கை — the natural logarithm, base e
+            //
+            // Was an artanh series in nUlakam/nuNNaRivu/matakkY.qmz, which
+            // existed only because relevance scoring needs a logarithm and the
+            // host had none. Computed on Decimal here, not f64: the series it
+            // replaces was accurate to about 28 digits, and routing it through
+            // a binary float would have been a regression dressed as a
+            // speed-up.
+            //
+            // Zero and below are a தவறு. The logarithm of zero is not a large
+            // negative number, it is undefined, and a scoring function that
+            // quietly accepted it produces a ranking nobody can account for.
+            "இயற்கை_மடக்கை" | "iyaRkY_matakkY" | "_ln" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_ln() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "பூஜ்ஜியம் அல்லது எதிர்மறை எண்ணின் மடக்கை இல்லை  \
+                         (no logarithm of zero or a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // இயற்கை_அடுக்கு — e raised to a power, the inverse of the above
+            "இயற்கை_அடுக்கு" | "iyaRkY_atukku" | "_exp" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_exp() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "அடுக்கு ஒரு தசமத்தில் அடங்கவில்லை  \
+                         (the result does not fit a decimal)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // அடுக்கேற்று(அடிப்படை, அடுக்கு) — one number raised to another
+            //
+            // Named அடுக்கேற்று because அடுக்கு alone is a reserved word (it is
+            // the stack keyword) and cannot be a function name.
+            "அடுக்கேற்று" | "atukkERRu" | "_pow" => {
+                Self::expect_args(name, &args, 2)?;
+                let base = args[0].to_number();
+                let exponent = args[1].to_number();
+                Ok(match base.checked_powd(exponent) {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "அடுக்கேற்றம் ஒரு தசமத்தில் அடங்கவில்லை  \
+                         (the result does not fit a decimal)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // பத்தின்_மடக்கை — base 10
+            //
+            // Its own builtin rather than ln(x)/ln(10), because that division
+            // is not exact: computed that way log10(1000) came back as
+            // 2.9999999999999999999999999998. A base-10 logarithm is mostly
+            // asked for by somebody reading the answer, and an order of
+            // magnitude that reads as 2.999… is a bug report.
+            "பத்தின்_மடக்கை" | "paqqiZ_matakkY" | "_log10" => {
+                Self::expect_args(name, &args, 1)?;
+                let value = args[0].to_number();
+                Ok(match value.checked_log10() {
+                    Some(result) => Value::Ok(Box::new(Value::Number(result))),
+                    None => Value::Err(Box::new(Value::String(
+                        "பூஜ்ஜியம் அல்லது எதிர்மறை எண்ணின் மடக்கை இல்லை  \
+                         (no logarithm of zero or a negative number)"
+                            .to_string(),
+                    ))),
+                })
+            }
+
+            // வரிசையாக்கு(அணி) — an array in order, smallest first
+            //
+            // Here because every library that needed ordering wrote its own.
+            // qaravaricY.qmz used an insertion sort, which is the right shape
+            // for ranking tens of results and the wrong one for anything
+            // larger, and it is not the only place.
+            //
+            // Numbers sort numerically and everything else by its text, so a
+            // mixed array still has a defined order rather than an error: the
+            // caller asked for an ordering, and refusing one because a null
+            // crept into the data is rarely what is wanted. Sorting is stable,
+            // so equal elements keep the order they arrived in.
+            "வரிசையாக்கு" | "varicYyAkku" | "_sort" => {
+                Self::expect_args(name, &args, 1)?;
+                let items = match &args[0] {
+                    Value::Array(items) => items.clone(),
+                    other => {
+                        return Err(format!(
+                            "வரிசையாக்கு ஒரு அணி தேவை  (sort needs an array, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                let all_numbers = items.iter().all(|v| matches!(v, Value::Number(_)));
+                let mut sorted = items;
+                if all_numbers {
+                    sorted.sort_by(|a, b| {
+                        a.to_number()
+                            .partial_cmp(&b.to_number())
+                            .unwrap_or(std::cmp::Ordering::Equal)
+                    });
+                } else {
+                    sorted.sort_by_key(|value| value.to_string());
+                }
+                Ok(Value::Array(sorted))
+            }
+
+            // புலத்தால்_வரிசையாக்கு(அணி, புலம், இறங்குமா) — records by one field
+            //
+            // The form that ranking actually wants: a list of records ordered
+            // by a score they carry. Written as a builtin rather than left to
+            // a comparator because eTamil has no way to hand a function to the
+            // host, and because this is the case that appears every time.
+            //
+            // A record without the field sorts as zero rather than failing.
+            // One malformed row out of a retriever should cost that row its
+            // place, not cost the caller the whole ranking.
+            "புலத்தால்_வரிசையாக்கு" | "pulaqqAl_varicYyAkku" | "_sortByField" => {
+                Self::expect_args(name, &args, 3)?;
+                let items = match &args[0] {
+                    Value::Array(items) => items.clone(),
+                    other => {
+                        return Err(format!(
+                            "புலத்தால்_வரிசையாக்கு ஒரு அணி தேவை  \
+                             (sortByField needs an array, got {})",
+                            Self::type_name(other)
+                        ));
+                    }
+                };
+                let field = args[1].to_string();
+                let descending = args[2].is_truthy();
+
+                let key_of = |value: &Value| -> Decimal {
+                    match value {
+                        Value::Map(record) => match record.fields.get(&field) {
+                            Some(found) => found.to_number(),
+                            None => Decimal::ZERO,
+                        },
+                        _ => Decimal::ZERO,
+                    }
+                };
+
+                let mut sorted = items;
+                sorted.sort_by(|a, b| {
+                    let order = key_of(a)
+                        .partial_cmp(&key_of(b))
+                        .unwrap_or(std::cmp::Ordering::Equal);
+                    if descending {
+                        order.reverse()
+                    } else {
+                        order
+                    }
+                });
+                Ok(Value::Array(sorted))
+            }
+
             "இணை" | "iNY" | "_append" => {
                 Self::expect_args(name, &args, 2)?;
                 match &args[0] {
@@ -841,6 +1253,85 @@ impl VM {
                     Err(e) => Ok(Value::Err(Box::new(Value::String(format!(
                         "கோப்பு '{}' எழுத முடியவில்லை  (cannot write '{}'): {}",
                         filename, filename, e
+                    ))))),
+                }
+            }
+
+            // --- The file system ---------------------------------------------
+            //
+            // Reading and writing a *named* file has always been possible;
+            // finding out what files there are had not. Without it a program
+            // that works over a tree — collecting a corpus, walking a folder
+            // of statements to import — had to shell out to `find` through
+            // கட்டளை_ஓட்டு, which is not portable: `find` on Windows is a
+            // text-search tool, so the same program did something else
+            // entirely there.
+            //
+            // Three primitives, because three are what the language cannot
+            // express for itself. Everything above them — joining paths,
+            // taking a base name or an extension, walking a tree — is
+            // ordinary eTamil and lives in nUlakam/kOppumuRY.qmz.
+
+            // கோப்பகம்_படி(பாதை) — the entries of a directory, sorted, as bare
+            // names rather than paths. Joining is the caller's business:
+            // deciding the separator here would put a backslash in the middle
+            // of a path an author wrote with slashes.
+            "கோப்பகம்_படி" | "kOppakam_pati" | "_readDir" => {
+                Self::expect_args(name, &args, 1)?;
+                let path = args[0].to_string();
+                match host::read_dir(&path) {
+                    Ok(names) => Ok(Value::Ok(Box::new(Value::Array(
+                        names.into_iter().map(Value::String).collect(),
+                    )))),
+                    Err(e) => Ok(Value::Err(Box::new(Value::String(format!(
+                        "கோப்பகம் '{}' படிக்க முடியவில்லை  (cannot read directory '{}'): {}",
+                        path, path, e
+                    ))))),
+                }
+            }
+
+            // கோப்பு_உள்ளதா(பாதை) — a plain ஈர்மம், not a முடிவு. "No" is an
+            // answer rather than a failure, and there is nothing a caller
+            // could do differently for a path that is absent versus one it may
+            // not look at.
+            "கோப்பு_உள்ளதா" | "kOppu_uLLaqA" | "_fileExists" => {
+                Self::expect_args(name, &args, 1)?;
+                Ok(Value::Boolean(host::exists(&args[0].to_string())))
+            }
+
+            // கோப்பு_விவரம்(பாதை) — what a path is:
+            //   {வகை: "கோப்பகம்" | "கோப்பு", அளவு: எண், மாற்றம்: எண் | இன்மை}
+            //
+            // மாற்றம் is seconds since 1970 because that is the form
+            // arithmetic works on; நாளாக() in nUlakam turns it into a date. A
+            // file system that cannot report one yields இன்மை rather than 0,
+            // since 1970 is a real date and a program comparing against it
+            // would quietly believe the file was ancient.
+            "கோப்பு_விவரம்" | "kOppu_vivaram" | "_fileInfo" => {
+                Self::expect_args(name, &args, 1)?;
+                let path = args[0].to_string();
+                match host::metadata(&path) {
+                    Ok((is_directory, size, modified)) => {
+                        let mut fields = HashMap::new();
+                        fields.insert(
+                            "வகை".to_string(),
+                            Value::String(
+                                if is_directory { "கோப்பகம்" } else { "கோப்பு" }.to_string(),
+                            ),
+                        );
+                        fields.insert("அளவு".to_string(), Value::Number(Decimal::from(size)));
+                        fields.insert(
+                            "மாற்றம்".to_string(),
+                            match modified {
+                                Some(seconds) => Value::Number(Decimal::from(seconds)),
+                                None => Value::Null,
+                            },
+                        );
+                        Ok(Value::Ok(Box::new(Value::Map(fields.into()))))
+                    }
+                    Err(e) => Ok(Value::Err(Box::new(Value::String(format!(
+                        "கோப்பு '{}' பற்றி அறிய முடியவில்லை  (cannot stat '{}'): {}",
+                        path, path, e
                     ))))),
                 }
             }
@@ -1693,6 +2184,150 @@ impl VM {
         }
     }
 
+    /// JSON text -> an eTamil value.
+    ///
+    /// Numbers go through their decimal text rather than through f64: every
+    /// number in this language is a fixed-point Decimal, and routing an amount
+    /// through a binary float is exactly the bargain the language exists to
+    /// refuse. That text is the source's own only because serde_json is built
+    /// with `arbitrary_precision`; without it, `n.to_string()` is an f64 printed
+    /// back. The source may use an exponent, which `parse` does not read.
+    fn json_to_value(parsed: &serde_json::Value) -> Result<Value, String> {
+        Ok(match parsed {
+            serde_json::Value::Null => Value::Null,
+            serde_json::Value::Bool(b) => Value::Boolean(*b),
+            serde_json::Value::Number(n) => {
+                let text = n.to_string();
+                let parsed = if text.contains(['e', 'E']) {
+                    Decimal::from_scientific(&text)
+                } else {
+                    text.parse::<Decimal>()
+                };
+                match parsed {
+                    Ok(number) => Value::Number(number),
+                    Err(_) => {
+                        return Err(format!(
+                            "ஒரு தசமமாக அடங்காத எண்: {}  (number does not fit a decimal)",
+                            text
+                        ));
+                    }
+                }
+            }
+            serde_json::Value::String(text) => Value::String(text.clone()),
+            serde_json::Value::Array(items) => {
+                let mut out = Vec::with_capacity(items.len());
+                for item in items {
+                    out.push(Self::json_to_value(item)?);
+                }
+                Value::Array(out)
+            }
+            serde_json::Value::Object(pairs) => {
+                let mut fields = HashMap::with_capacity(pairs.len());
+                for (key, item) in pairs {
+                    fields.insert(key.clone(), Self::json_to_value(item)?);
+                }
+                Value::Map(fields.into())
+            }
+        })
+    }
+
+    /// The JSON spelling of a string, quotes included.
+    fn json_string(text: &str) -> String {
+        let mut out = String::with_capacity(text.len() + 2);
+        out.push('"');
+        for c in text.chars() {
+            match c {
+                '"' => out.push_str("\\\""),
+                '\\' => out.push_str("\\\\"),
+                '\n' => out.push_str("\\n"),
+                '\r' => out.push_str("\\r"),
+                '\t' => out.push_str("\\t"),
+                '\u{8}' => out.push_str("\\b"),
+                '\u{c}' => out.push_str("\\f"),
+                c if (c as u32) < 0x20 => out.push_str(&format!("\\u{:04x}", c as u32)),
+                c => out.push(c),
+            }
+        }
+        out.push('"');
+        out
+    }
+
+    /// An eTamil value -> JSON text.
+    ///
+    /// Written out rather than handed to serde so that a Decimal prints its
+    /// own exact text. serde_json has no decimal number type, and going
+    /// through f64 would turn 0.1 into 0.1000000000000000055511151231257827 —
+    /// the bargain this language exists to refuse.
+    fn value_to_json(value: &Value) -> String {
+        match value {
+            Value::Null => "null".to_string(),
+            Value::Boolean(b) => b.to_string(),
+            Value::Number(n) => n.to_string(),
+            Value::String(text) => Self::json_string(text),
+            Value::Array(items) => {
+                let parts: Vec<String> = items.iter().map(Self::value_to_json).collect();
+                format!("[{}]", parts.join(","))
+            }
+            Value::Map(record) => {
+                // Sorted, so the same record always produces the same text. A
+                // HashMap iterates in an arbitrary order, and a request body
+                // that changes shape between two identical calls defeats any
+                // cache and makes a failure hard to reproduce.
+                let mut keys: Vec<&String> = record.fields.keys().collect();
+                keys.sort();
+                let parts: Vec<String> = keys
+                    .iter()
+                    .map(|key| {
+                        format!(
+                            "{}:{}",
+                            Self::json_string(key),
+                            Self::value_to_json(&record.fields[*key])
+                        )
+                    })
+                    .collect();
+                format!("{{{}}}", parts.join(","))
+            }
+            // சரி, தவறு and a செயல் have no JSON spelling. This writes null,
+            // which is what the eTamil version in jEcAZ.qmz did. Worth noting
+            // that its own comment argued for refusing instead and the code
+            // did not: that contradiction is preserved here rather than
+            // decided, because changing it is a decision about the library's
+            // contract and this change is about speed.
+            _ => "null".to_string(),
+        }
+    }
+
+    /// A board call's outcome as a result value: சரி(v), or தவறு(why).
+    fn board_result(outcome: Result<Value, String>) -> Value {
+        match outcome {
+            Ok(value) => Value::Ok(Box::new(value)),
+            Err(why) => Value::Err(Box::new(Value::String(why))),
+        }
+    }
+
+    /// A whole number argument: a pin, a port, milliseconds.
+    fn whole(value: &Value, what: &str) -> Result<i64, String> {
+        let number = match value {
+            Value::Number(n) => *n,
+            other => {
+                return Err(format!(
+                    "{} ஒரு எண்ணாக இருக்க வேண்டும்  ({} must be a number, not {})",
+                    what,
+                    what,
+                    Self::type_name(other)
+                ));
+            }
+        };
+        if !number.fract().is_zero() {
+            return Err(format!(
+                "{} முழு எண்ணாக இருக்க வேண்டும்  ({} must be a whole number, not {})",
+                what, what, number
+            ));
+        }
+        rust_decimal::prelude::ToPrimitive::to_i64(&number)
+            .ok_or_else(|| format!("{} மிகப் பெரியது  ({} is too large: {})", what, what, number))
+    }
+
     fn expect_args(name: &str, args: &[Value], want: usize) -> Result<(), String> {
         if args.len() != want {
             return Err(format!(
@@ -2200,6 +2835,50 @@ impl VM {
                         .map(|ord| ord != std::cmp::Ordering::Less)
                         .unwrap_or(false);
                     self.stack.push(Value::Boolean(result));
+                }
+                Instruction::ConcatVar(name) => {
+                    let tail = self.pop()?;
+
+                    // Same scoping rule as AppendVar: inside a function,
+                    // assigning to a name that is not already local creates a
+                    // local rather than writing through to the global, so a
+                    // string reached from an outer scope is copied once here
+                    // and appended in place from then on.
+                    if let Some(frame) = self.frames.last()
+                        && !frame.locals.contains_key(name.as_str())
+                    {
+                        let outer = self.get_var(name).ok_or_else(|| {
+                            format!(
+                                "அறிவிக்கப்படாத மாறி '{}'  (undefined variable '{}')",
+                                name, name
+                            )
+                        })?;
+                        self.set_var(name, outer);
+                    }
+
+                    let scope = match self.frames.last_mut() {
+                        Some(frame) => &mut frame.locals,
+                        None => &mut self.variables,
+                    };
+                    match scope.get_mut(name.as_str()) {
+                        Some(Value::String(text)) => match &tail {
+                            Value::String(more) => text.push_str(more),
+                            other => text.push_str(&other.to_string()),
+                        },
+                        // & joins anything to anything, so a non-string left
+                        // side is not an error — it just cannot be appended to
+                        // in place. Fall back to building a new value.
+                        Some(other) => {
+                            let joined = format!("{}{}", other, tail);
+                            *other = Value::String(joined);
+                        }
+                        None => {
+                            return Err(format!(
+                                "அறிவிக்கப்படாத மாறி '{}'  (undefined variable '{}')",
+                                name, name
+                            ));
+                        }
+                    }
                 }
                 Instruction::Concat => {
                     let right = self.stack.pop().ok_or("Stack underflow")?;

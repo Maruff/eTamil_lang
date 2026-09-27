@@ -1,0 +1,44 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+# The C++ examples/artino/veppam.qmz calls.
+
+[[library]]
+name = "OneWire"
+
+[[library]]
+name = "DallasTemperature"
+
+[[include]]
+header = "OneWire.h"
+
+[[include]]
+header = "DallasTemperature.h"
+
+[[object]]
+cpp = "OneWire onewire(2);"
+
+[[object]]
+cpp = "DallasTemperature unarvi(&onewire);"
+
+[[function]]
+etamil = "உணரி_தொடங்கு"
+cpp = "unarvi.begin"
+
+[[function]]
+etamil = "காத்திருக்காதே"          # ask, and come back for the answer later
+cpp = "unarvi.setWaitForConversion(false)"
+
+[[function]]
+etamil = "உணரிகள்"                # how many answered on the wire
+cpp = "unarvi.getDeviceCount"
+returns = "int"
+
+[[function]]
+etamil = "வெப்பம்_கேள்"
+cpp = "unarvi.requestTemperatures"
+
+[[function]]
+etamil = "வெப்பம்_படி"             # °C of the n-th sensor; -127 if it did not answer
+cpp = "unarvi.getTempCByIndex"
+args = ["int"]
+returns = "num"

@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/aLavu.qmz — அளவு: where a fixed size is reached, and said__
+//
+// __Compared with aLavu.expected: the VM grows text without limit and stops at an__
+// __index outside its array; a board cuts text to 48 bytes and reads 0. Each site__
+// __reports once. The cut falls between Tamil letters, never inside one.__
+
+நீள்_உரை = "அஆஇஈஉஊஎஏஐஒஓஔகஙசஞடணதநபமயரலவழளறன";
+அச்சு நீள்_உரை;
+குறுகியது = "x" & நீள்_உரை;
+அச்சு குறுகியது;
+அ = [1, 2, 3];
+இ = 0;
+(இ < 5) சுற்று {
+    அச்சு அ[இ];
+    இ = இ + 1;
+}
+அ[7] = 9;
+அச்சு அ;

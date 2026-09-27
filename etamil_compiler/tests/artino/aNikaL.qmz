@@ -1,0 +1,45 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/aNikaL.qmz — அணிகள்: arrays of a fixed length, as a board holds them__
+
+இறக்கு "nUlakam/aNi.qmz";
+
+அளவீடுகள் = [180, 182, 179, 640, 650];
+அச்சு அளவீடுகள்;
+அச்சு "எத்தனை: " & நீளம்(அளவீடுகள்);
+அச்சு "முதல் " & அளவீடுகள்[0] & ", கடைசி " & அளவீடுகள்[4];
+
+மொத்தம் = 0;
+ஒவ்வொரு அளவீடு இல் அளவீடுகள் {
+    மொத்தம் = மொத்தம் + அளவீடு;
+}
+அச்சு "மொத்தம் " & மொத்தம் & ", சராசரி " & மொத்தம் / நீளம்(அளவீடுகள்);
+
+அளவீடுகள்[2] = 200;
+அச்சு அளவீடுகள்;
+
+// __நிலைகள் — one flag per point, made to size__
+நிலைகள் = அணி_நிரப்பு(பொய், 4);
+நிலைகள்[1] = மெய்;
+நிலைகள்[3] = அளவீடுகள்[3] > 600;
+அச்சு நிலைகள்;
+
+எண்ணிக்கை = 0;
+ஒவ்வொரு நிலைமை இல் நிலைகள் {
+    (நிலைமை) எனில் { எண்ணிக்கை = எண்ணிக்கை + 1; }
+}
+அச்சு "எச்சரிக்கை புள்ளிகள்: " & எண்ணிக்கை;
+
+// __The loop walks the array as it was when it began: changing it inside the loop__
+// __changes what is printed after, not what is walked.__
+படிகள் = [1, 2, 3];
+ஒவ்வொரு அடி இல் படிகள் {
+    படிகள்[0] = படிகள்[0] + 10;
+    அச்சு அடி;
+}
+அச்சு படிகள்;
+
+// __An array is copied when assigned, as the VM copies values__
+நகல் = படிகள்;
+நகல்[1] = 99;
+அச்சு படிகள்;

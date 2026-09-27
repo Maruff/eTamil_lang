@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/yUnO.qmz — யூனோ: the Arduino Uno's pins, and the hardware API__
+//
+//   __இறக்கு "nUlakam/vaZporuL/yUnO.qmz";__
+//   __etamil --artino --board uno prog.qmz__
+//
+// __Import this instead of vaZporuL.qmz, and the program names the board's pins__
+// __rather than numbers. Every board file uses the same names, so moving a__
+// __program to another board is changing this one line. artino refuses a board__
+// __file that does not match --board.__
+//
+// __ATmega328P, 5 V: 32 KB flash, 2 KB RAM. Digital pins 0–13; D0/D1 are the USB__
+// __serial port. PWM on 3, 5, 6, 9, 10, 11.__
+
+இறக்கு "vaZporuL.qmz";
+
+// __The boards this file describes. artino checks it against --board.__
+நிலை சொல் பலகைக்_கோப்பு = "uno";
+
+நிலை எண் விளக்கு_முனை = 13;          // __the on-board LED (LED_BUILTIN)__
+
+// __Analog inputs A0–A5, as pin numbers. A4 and A5 are also I2C SDA and SCL.__
+நிலை எண் ஒப்புமை_0 = 14;
+நிலை எண் ஒப்புமை_1 = 15;
+நிலை எண் ஒப்புமை_2 = 16;
+நிலை எண் ஒப்புமை_3 = 17;
+நிலை எண் ஒப்புமை_4 = 18;
+நிலை எண் ஒப்புமை_5 = 19;
+நிலை எண் ஒப்புமை_உச்சம் = 1023;       // __ஒப்புமை_படி's largest reading…__
+நிலை எண் ஒப்புமை_மில்லிவோல்ட் = 5000;  // __…and the voltage it stands for, in mV__
+
+// __Serial: only the USB port, on D0 (RX) and D1 (TX)__
+நிலை எண் USB_துறை = 0;

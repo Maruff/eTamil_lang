@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/ceyalkaL.qmz — செயல்கள்: functions, recursion, and whose names are whose__
+
+// __காரணீயம்(ந) — n factorial, by recursion__
+செயல் காரணீயம்(ந) {
+    (ந <= 1) எனில் { திரும்பு 1; }
+    திரும்பு ந * காரணீயம்(ந - 1);
+}
+
+// __பெரியது(அ, ஆ) — the larger of two numbers__
+செயல் பெரியது(அ, ஆ) {
+    (அ > ஆ) எனில் { திரும்பு அ; }
+    திரும்பு ஆ;
+}
+
+// __வர்க்கம்(ம) — a number times itself__
+செயல் வர்க்கம்(ம) {
+    திரும்பு ம * ம;
+}
+
+எல்லை = 100;
+
+// __எல்லைக்குள்ளா(ம) — reads the program's எல்லை, which it cannot change__
+செயல் எல்லைக்குள்ளா(ம) {
+    திரும்பு ம <= எல்லை;
+}
+
+// __மாற்றி() — assigns எல்லை, which makes a local of that name: the program's is untouched__
+செயல் மாற்றி() {
+    எல்லை = 0;
+    திரும்பு எல்லை;
+}
+
+அச்சு காரணீயம்(10);
+அச்சு காரணீயம்(1);
+அச்சு பெரியது(3, 9) & " " & பெரியது(-1, -5);
+அச்சு வர்க்கம்(1.5) & " " & வர்க்கம்(-4);
+அச்சு எல்லைக்குள்ளா(50) & " " & எல்லைக்குள்ளா(150);
+அச்சு மாற்றி() & " " & எல்லை;
+அச்சு பெரியது(காரணீயம்(4), வர்க்கம்(5));

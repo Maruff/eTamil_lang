@@ -10,7 +10,7 @@
 
 [package]
 name = "etamil_compiler"
-version = "1.2.0"
+version = "1.4.0"
 edition = "2024"          # edition 2024 itself needs 1.85; the floor below is higher
 # 1.88 is what the current `time` and `zip` releases require. Held at 1.85 until
 # RUSTSEC-2026-0009 (a stack-exhaustion DoS in time, reached through jsonwebtoken)
@@ -79,7 +79,11 @@ unicode-segmentation = "1.11"
 # --- Numbers ---
 # Every value in the language is a fixed-point decimal, not f64: this is a
 # language for tax and accounting, where 0.1 + 0.2 must equal 0.3 exactly.
-rust_decimal = "1.37"
+# `maths` supplies ln, exp, powd and sqrt on Decimal itself. They were
+# hand-written series in nUlakam until the host had them, and the series
+# were accurate to about 28 digits — so this has to be the decimal
+# implementation and not f64, or the builtin would be a regression.
+rust_decimal = { version = "1.37", features = ["maths"] }
 # Direct LLVM FFI bindings, enabled with --features llvm (Linux/macOS only)
 llvm-sys = { version = "180", features = ["prefer-dynamic"], optional = true }
 
@@ -94,7 +98,9 @@ llvm-sys = { version = "180", features = ["prefer-dynamic"], optional = true }
 
 # --- Serialization, auth, and telemetry ---
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
+# arbitrary_precision keeps a JSON number as its text, so ஜேசான்_படி reads it
+# into a Decimal exactly instead of through f64.
+serde_json = { version = "1.0", features = ["arbitrary_precision"] }
 chrono = { version = "0.4.35", features = ["serde"] }
 # uuid, jsonwebtoken and bcrypt are per-target too: uuid's v4 needs an OS
 # random source, and the other two reach a crypto backend with no wasm32
@@ -173,6 +179,11 @@ zip = { version = "8", default-features = false, features = ["deflate"] }
 p256 = { version = "0.14.0", features = ["ecdsa"] }
 # Randomness for key generation, taken straight from the OS.
 getrandom = "0.3"
+
+# Serial ports and a Raspberry Pi's GPIO for the VM (src/vm/board.rs):
+# termios, poll and ioctl. Already in the tree through tokio and others.
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
 
 # --- Browser-only dependencies ---
 # The wasm build exists so the editor on etamil.in can report real diagnostics

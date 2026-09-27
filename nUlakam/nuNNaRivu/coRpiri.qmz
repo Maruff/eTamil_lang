@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/coRpiri.qmz — சொற்பிரி, turning text into terms__
+//
+// __Every word-based search begins here, and two texts only ever match if this__
+// __file turns them into the same terms. "Reverse an array", "REVERSE AN ARRAY"__
+// __and "reverse an array." have to agree, or the match is lost to a full stop.__
+//
+// __The single rule: the question and the documents must be split by the same__
+// __function. An index built with one tokenizer and searched with another is__
+// __not slightly wrong, it is unrelated, and nothing downstream can detect it.__
+//
+// __A term is called பதம் throughout. சொல் is the SQL keyword and cannot be a__
+// __name, and உரை and தரவு are reserved too — hence சரம் for the text itself,__
+// __which is what col.qmz already calls a string.__
+
+இறக்கு "../col.qmz";
+இறக்கு "../aNi.qmz";
+
+// __பிரிப்பான்கள்() — every character that ends a term__
+//
+// __A function rather than a literal inside the loop, so that இயல்பாக்கு and__
+// __பிரிப்பானா cannot drift apart. Two tokenizers that disagree by one__
+// __character index a corpus that its own questions cannot match.__
+செயல் பிரிப்பான்கள்() {
+    திரும்பு [" ", "	", "
+", "
+", ".", ",", ";", ":", "!", "?",
+             "(", ")", "[", "]", "{", "}", "\"", "'", "`",
+             "/", "\\", "|", "-", "_", "=", "+", "*", "&",
+             "<", ">", "@", "#", "$", "%", "~",
+             "—", "–", "…", "“", "”", "‘", "’"];
+}
+
+// __இயல்பாக்கு(சரம்) — lower case, with every separator turned into a space__
+//
+// __Runs before splitting so that the split itself is a plain space split.__
+// __Case folding is applied to the Latin letters; Tamil has no letter case, so__
+// __கீழ்_எழுத்து leaves it exactly as it was.__
+//
+// __One மாற்று per separator rather than one pass per character. The character__
+// __loop this replaces built its result with &, which copies the whole string__
+// __every time — quadratic in the length of the text, and measurably so: a__
+// __corpus of two thousand chunks did not finish. மாற்று is a host builtin and__
+// __does each replacement in one pass.__
+செயல் இயல்பாக்கு(சரம்) {
+    விடை = கீழ்_எழுத்து(சரம்);
+    ஒவ்வொரு ஒரு_பிரிப்பான் இல் பிரிப்பான்கள்() {
+        விடை = மாற்று(விடை, ஒரு_பிரிப்பான், " ");
+    }
+    திரும்பு விடை;
+}
+
+// __பதங்கள்(சரம்) — the terms of a text, in order, empties dropped__
+//
+// __Order is kept rather than sorted. Nothing here uses adjacency yet, but a__
+// __tokenizer that throws away order cannot be extended to phrases later, and__
+// __keeping it costs nothing.__
+செயல் பதங்கள்(சரம்) {
+    துண்டுகள் = பிரி(இயல்பாக்கு(சரம்), " ");
+    விடை = [];
+    ஒவ்வொரு ஒரு_துண்டு இல் துண்டுகள் {
+        சுத்தம் = ஒழுங்கு(ஒரு_துண்டு);
+        (நீளம்(சுத்தம்) > 0) எனில் {
+            விடை = இணை(விடை, சுத்தம்);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __நிறுத்துப்_பதமா(பதம்) — is this word too common to carry meaning?__
+//
+// __Deliberately short. A long stop list removes words that turn out to matter:__
+// __"how do I" is noise in a document but is most of what distinguishes one__
+// __question from another, and dropping "not" reverses the meaning outright.__
+// __Only words that appear in nearly every English sentence are listed.__
+செயல் நிறுத்துப்_பதமா(பதம்) {
+    பொதுவானவை = ["a", "an", "the", "of", "to", "in", "on", "at", "for",
+                  "is", "are", "was", "were", "be", "and", "or",
+                  "this", "that", "it", "its", "as", "by", "with"];
+    திரும்பு உள்ளதா(பொதுவானவை, பதம்);
+}
+
+// __பொருளுள்ளவை(பதங்கள்_பட்டியல்) — drop the stop words__
+//
+// __Everything is dropped only if everything was a stop word, in which case__
+// __the original is returned: "how is it" filtered to nothing would match every__
+// __document equally, which is worse than matching on common words.__
+செயல் பொருளுள்ளவை(பதங்கள்_பட்டியல்) {
+    விடை = [];
+    ஒவ்வொரு பதம் இல் பதங்கள்_பட்டியல் {
+        (நிறுத்துப்_பதமா(பதம்) == பொய்) எனில் {
+            விடை = இணை(விடை, பதம்);
+        }
+    }
+    (நீளம்(விடை) == 0) எனில் { திரும்பு பதங்கள்_பட்டியல்; }
+    திரும்பு விடை;
+}
+
+// __பிரிப்பானா(எழுத்து_ஒன்று) — does this character end a term?__
+//
+// __Not used by இயல்பாக்கு any more, which replaces separators wholesale.__
+// __Kept because a caller inspecting text one character at a time still__
+// __needs to ask, and it reads the same list, so the two cannot disagree.__
+செயல் பிரிப்பானா(எழுத்து_ஒன்று) {
+    திரும்பு உள்ளதா(பிரிப்பான்கள்(), எழுத்து_ஒன்று);
+}
+
+// __தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — the distinct terms, first occurrence kept__
+செயல் தனிப்பதங்கள்(பதங்கள்_பட்டியல்) {
+    விடை = [];
+    ஒவ்வொரு பதம் இல் பதங்கள்_பட்டியல் {
+        (உள்ளதா(விடை, பதம்) == பொய்) எனில் {
+            விடை = இணை(விடை, பதம்);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __தேடல்_பதங்கள்(சரம்) — the whole pipeline, which is what callers want__
+//
+// __Split, drop stop words, deduplicate. Named separately from its parts so__
+// __that a question and a document are demonstrably put through the same__
+// __sequence: the guarantee at the top of this file is only kept if both sides__
+// __call one function rather than assembling the steps themselves.__
+செயல் தேடல்_பதங்கள்(சரம்) {
+    திரும்பு தனிப்பதங்கள்(பொருளுள்ளவை(பதங்கள்(சரம்)));
+}

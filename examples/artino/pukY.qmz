@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __examples/artino/pukY.qmz — புகை: a smoke sensor on an analog pin__
+//
+//   __etamil --artino --board uno examples/artino/pukY.qmz__
+//
+// __An MQ-type module's AO on A0 (pin 14 on an Uno; 26 on a Pico). The clean-air__
+// __reading at power-on is the baseline; a rise of 150 counts for a whole__
+// __second lights the LED, the way the qIkkAppu node confirms an alarm. Every__
+// __second the reading, the baseline and the state go to the serial port.__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+நிலை எண் புகை_முனை = 14;
+நிலை எண் விளக்கு = 13;
+நிலை எண் உயர்வு_எல்லை = 150;
+நிலை எண் உறுதி_எண்ணிக்கை = 10;
+
+// __உயர்ந்ததா(அளவீடு, அடி) — is this reading high enough above the baseline to count__
+செயல் உயர்ந்ததா(அளவீடு, அடி) {
+    திரும்பு அளவீடு - அடி >= உயர்வு_எல்லை;
+}
+
+// __அடுத்த_தொடர்(தொடர், உயர்வு) — samples in a row above the line, reset by one below it__
+செயல் அடுத்த_தொடர்(தொடர், ஈர்ம உயர்வு) {
+    (உயர்வு) எனில் { திரும்பு தொடர் + 1; }
+    திரும்பு 0;
+}
+
+முனை_வெளியீடு(விளக்கு);
+அடிப்படை = ஒப்புமை_படி(புகை_முனை);
+அளவீடு = அடிப்படை;
+தொடர் = 0;
+தீ = பொய்;
+
+// __Ten samples a second__
+இடைவெளி 0.1 {
+    அளவீடு = ஒப்புமை_படி(புகை_முனை);
+    தொடர் = அடுத்த_தொடர்(தொடர், உயர்ந்ததா(அளவீடு, அடிப்படை));
+    தீ = தொடர் >= உறுதி_எண்ணிக்கை;
+    முனை_எழுது(விளக்கு, தீ);
+}
+
+// __Once a second, what the node sees__
+இடைவெளி 1 {
+    அச்சு "புகை " & அளவீடு & "  அடிப்படை " & அடிப்படை & "  தீ " & தீ;
+}

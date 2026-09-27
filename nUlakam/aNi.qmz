@@ -110,3 +110,19 @@
     }
     திரும்பு திரட்டு;
 }
+
+// __அணி_நிரப்பு(மதிப்பு, எண்ணிக்கை) — an array of எண்ணிக்கை copies of மதிப்பு__
+//
+// __The way to make an array of a given size: a buffer of ten readings, a row of__
+// __flags, one per point. Under --artino the count must be a number written in__
+// __the source, because it is the array's length and a board fixes that when it__
+// __is compiled; here any count works.__
+செயல் அணி_நிரப்பு(மதிப்பு, எண்ணிக்கை) {
+    விடை = [];
+    இடம்_எண் = 0;
+    (இடம்_எண் < எண்ணிக்கை) சுற்று {
+        விடை = இணை(விடை, மதிப்பு);
+        இடம்_எண் = இடம்_எண் + 1;
+    }
+    திரும்பு விடை;
+}

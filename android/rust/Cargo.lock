@@ -532,7 +532,7 @@ dependencies = [
 
 [[package]]
 name = "etamil_android"
-version = "1.2.0"
+version = "1.4.0"
 dependencies = [
  "etamil_compiler",
  "jni",
@@ -542,7 +542,7 @@ dependencies = [
 
 [[package]]
 name = "etamil_compiler"
-version = "1.2.0"
+version = "1.4.0"
 dependencies = [
  "argon2",
  "base64",
@@ -553,6 +553,7 @@ dependencies = [
  "getrandom 0.4.3",
  "hmac",
  "jsonwebtoken",
+ "libc",
  "logos",
  "p256",
  "rusqlite",

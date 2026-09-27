@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "etamil_compiler"
-version = "1.2.0"
+version = "1.4.0"
 dependencies = [
  "argon2",
  "base64 0.22.1",
@@ -799,6 +799,7 @@ dependencies = [
  "getrandom 0.4.3",
  "hmac",
  "jsonwebtoken",
+ "libc",
  "llvm-sys",
  "logos",
  "mongodb",

@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/eNkaL.qmz — எண்கள்: numbers, as artino must print them__
+//
+// __Run by scripts/artino_conformance.sh on the VM and compiled for the host;__
+// __the two outputs must be identical. Every result here fits in three__
+// __decimals, so no line may round.__
+
+அச்சு 1;
+அச்சு 0;
+அச்சு -3;
+அச்சு 1.5;
+அச்சு 0.25;
+அச்சு 0.001;
+அச்சு 1000000;
+அச்சு 2 + 3 * 4;
+அச்சு (2 + 3) * 4;
+அச்சு 7 / 2;
+அச்சு 1 / 8;
+அச்சு 10 / 4;
+அச்சு -7 / 2;
+அச்சு 3 - 5;
+அச்சு 1.5 * 1.5;
+அச்சு 0.1 + 0.2;
+அச்சு 0.1 * 0.2;
+அச்சு 1000 * 18%;
+அச்சு 250000 * 5% - 12.5;
+அச்சு -2.5 * 4;
+அச்சு 1.125 * 8;
+
+அ = 12.345;
+அச்சு "அ = " & அ & ", இருமடங்கு " & அ * 2 & ", பாதி " & அ / 5;
+
+வருமானம் = 950000;
+வரி = (வருமானம் - 300000) * 5%;
+அச்சு "வரி " & வரி & " / காலாண்டு " & வரி / 4;

@@ -29,6 +29,7 @@ mod imp {
     use std::fs;
     use std::fs::OpenOptions;
     use std::io::Write as _;
+    use std::path::Path;
 
     thread_local! {
         /// Where output goes when there is no console to send it to.
@@ -102,6 +103,51 @@ mod imp {
             .open(path)
             .map_err(|e| e.to_string())?;
         writeln!(file, "{}", data).map_err(|e| e.to_string())
+    }
+
+    /// The entries of a directory, as bare names rather than paths.
+    ///
+    /// Bare names because joining is the caller's business and doing it here
+    /// would decide the separator for them — `nUlakam/paNam.qmz` is how an
+    /// author writes a path on every platform, and `\` leaking out of this
+    /// function would put a backslash in the middle of one.
+    ///
+    /// Sorted, because a directory has no order of its own and two runs that
+    /// disagree about it would make any program built on this
+    /// non-reproducible.
+    pub fn read_dir(path: &str) -> Result<Vec<String>, String> {
+        let mut names = Vec::new();
+        for entry in fs::read_dir(path).map_err(|e| e.to_string())? {
+            let entry = entry.map_err(|e| e.to_string())?;
+            names.push(entry.file_name().to_string_lossy().into_owned());
+        }
+        names.sort();
+        Ok(names)
+    }
+
+    /// Whether a path exists at all. Not a result: "no" is an answer, not a
+    /// failure, and a permission error is indistinguishable from absence to
+    /// the program either way.
+    pub fn exists(path: &str) -> bool {
+        Path::new(path).exists()
+    }
+
+    /// What a path is: whether it is a directory, how large, and when it was
+    /// last modified in seconds since 1970.
+    ///
+    /// The time is seconds rather than an ISO date because that is the form
+    /// arithmetic works on; `கோப்புமுறை.qmz` converts it for display. A file
+    /// system that cannot report a modification time yields `None` rather
+    /// than zero — 1970 is a date, and a program comparing against it would
+    /// quietly believe the file was ancient.
+    pub fn metadata(path: &str) -> Result<(bool, u64, Option<i64>), String> {
+        let data = fs::metadata(path).map_err(|e| e.to_string())?;
+        let modified = data
+            .modified()
+            .ok()
+            .and_then(|time| time.duration_since(std::time::UNIX_EPOCH).ok())
+            .map(|since| since.as_secs() as i64);
+        Ok((data.is_dir(), data.len(), modified))
     }
 
     /// Flush both streams and end the process.
@@ -246,6 +292,76 @@ mod imp {
             entry.push(b'\n');
         });
         Ok(())
+    }
+
+    /// The entries of a directory in the in-memory file set.
+    ///
+    /// There are no directories here — the browser side is a flat map of path
+    /// to bytes — so a directory is inferred: anything whose path begins with
+    /// `path/`. The segment immediately after the prefix is the entry name,
+    /// and a name that has more path after it is a subdirectory, reported
+    /// once. That makes the browser behave like the native side for the thing
+    /// programs actually do, which is walk a tree.
+    pub fn read_dir(path: &str) -> Result<Vec<String>, String> {
+        let prefix = if path.is_empty() || path == "." {
+            String::new()
+        } else {
+            format!("{}/", path.trim_end_matches('/'))
+        };
+
+        let mut names: Vec<String> = FILES.with(|files| {
+            files
+                .borrow()
+                .keys()
+                .filter_map(|key| key.strip_prefix(&prefix))
+                .filter(|rest| !rest.is_empty())
+                .map(|rest| match rest.find('/') {
+                    Some(cut) => rest[..cut].to_string(),
+                    None => rest.to_string(),
+                })
+                .collect()
+        });
+
+        if names.is_empty() && !prefix.is_empty() {
+            return Err(format!(
+                "கோப்பகம் '{}' இல்லை  (no such directory '{}')",
+                path, path
+            ));
+        }
+
+        names.sort();
+        names.dedup();
+        Ok(names)
+    }
+
+    pub fn exists(path: &str) -> bool {
+        FILES.with(|files| {
+            let files = files.borrow();
+            files.contains_key(path)
+                || files
+                    .keys()
+                    .any(|key| key.starts_with(&format!("{}/", path.trim_end_matches('/'))))
+        })
+    }
+
+    /// A path's kind and size in the in-memory file set.
+    ///
+    /// The modification time is `None`, not zero: nothing here was ever
+    /// written to a disk that recorded when. Reporting 1970 would be a date,
+    /// and a program comparing against it would quietly believe every file in
+    /// the browser was ancient.
+    pub fn metadata(path: &str) -> Result<(bool, u64, Option<i64>), String> {
+        FILES.with(|files| {
+            let files = files.borrow();
+            if let Some(bytes) = files.get(path) {
+                return Ok((false, bytes.len() as u64, None));
+            }
+            let prefix = format!("{}/", path.trim_end_matches('/'));
+            if files.keys().any(|key| key.starts_with(&prefix)) {
+                return Ok((true, 0, None));
+            }
+            Err(format!("கோப்பு '{}' இல்லை  (no such file '{}')", path, path))
+        })
     }
 
     /// A non-zero exit is the program's own failure and is reported as one.

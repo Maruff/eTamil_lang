@@ -342,7 +342,11 @@ jobs:
 
   llvm-backend:
     name: LLVM backend builds
-    runs-on: ubuntu-latest
+    # Pinned, not ubuntu-latest: Cargo.toml pins llvm-sys 180, so this job
+    # needs Ubuntu's llvm-18-dev, with its AVR and ARM targets for artino.
+    # ubuntu-latest moves to Ubuntu 26 from 19 October 2026, which may not carry
+    # LLVM 18. Move this when llvm-sys moves.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -383,6 +387,41 @@ jobs:
           set -o pipefail
           ETAMIL_BIN=etamil_compiler/target/debug/etamil ./scripts/run_parity.sh 2>&1             | tee "$RUNNER_TEMP/llvm-parity.log"
 
+      # artino (docs/artino.md): every etamil_compiler/tests/artino program
+      # compiled for this machine by the same lowering a board gets, linked
+      # with the runtime over a stand-in Arduino API, and run. What it prints
+      # must be what the VM prints, or its .expected; a .world file runs the
+      # loop too. Every test runs twice, the second time as host-small, which
+      # is how an Uno is compiled. Needs a C++ compiler, which the runner has.
+      - name: artino conformance
+        run: |
+          set -o pipefail
+          ETAMIL_BIN=etamil_compiler/target/debug/etamil ./scripts/artino_conformance.sh 2>&1 \
+            | tee "$RUNNER_TEMP/artino-conformance.log"
+
+      # The same programs, and the artino examples, for the boards themselves:
+      # an AVR and a Cortex-M object each, and the sketch around it. The runner
+      # has no arduino-cli, so nothing is linked. This is what LLVM makes of the
+      # IR for each target, and the only place the AVR and ARM code generation
+      # is exercised.
+      - name: artino for the boards
+        run: |
+          set -o pipefail
+          export ETAMIL_PATH="$PWD"
+          {
+            for board in uno mega pico pico2; do
+              for program in examples/artino/*.qmz etamil_compiler/tests/artino/*.qmz; do
+                if ! etamil_compiler/target/debug/etamil --artino --board "$board" \
+                     --out "$RUNNER_TEMP/artino/$board" "$program" > "$RUNNER_TEMP/artino-one.log" 2>&1; then
+                  cat "$RUNNER_TEMP/artino-one.log"
+                  echo "failed: $program for $board"
+                  exit 1
+                fi
+                echo "ok  $board  $program"
+              done
+            done
+          } 2>&1 | tee "$RUNNER_TEMP/artino-boards.log"
+
       # Put the failure where it can be read without opening the log.
       #
       # This job fails as a bare "Process completed with exit code 1" in the
@@ -394,7 +433,7 @@ jobs:
       - name: Why it failed
         if: failure()
         run: |
-          for log in llvm-build llvm-parity; do
+          for log in llvm-build llvm-parity artino-conformance artino-boards; do
             path="$RUNNER_TEMP/$log.log"
             [ -f "$path" ] || continue
             {

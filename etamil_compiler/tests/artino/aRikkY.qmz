@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __tests/artino/aRikkY.qmz — அறிக்கை: where a board and the VM must disagree, and say so__
+//
+// __Compared with aRikkY.expected, not with the VM: the VM prints 28 digits of__
+// __1 / 3 and stops at 5 / 0, which is the point. Each site reports once, however__
+// __often it runs, and names the line when the AST knows it.__
+
+அ = 1;
+ஆ = 3;
+எண்ணி = 0;
+(எண்ணி < 3) சுற்று {
+    அச்சு அ / ஆ;
+    எண்ணி = எண்ணி + 1;
+}
+மூன்றில்_இரண்டு = 2 / 3;
+அச்சு மூன்றில்_இரண்டு;
+அச்சு 0.001 * 0.5;
+பெரிது = 9223372036854775;
+அச்சு பெரிது * 1000;
+அச்சு -பெரிது - 1000;
+பூஜ்ஜியம் = 0;
+அச்சு 5 / பூஜ்ஜியம்;
+அச்சு "எல்லாம் முடிந்தது";
