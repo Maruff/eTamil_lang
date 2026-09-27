@@ -26,8 +26,8 @@
 use std::cell::RefCell;
 use std::collections::{BTreeMap, HashMap, HashSet};
 
-use rust_decimal::prelude::ToPrimitive;
 use rust_decimal::Decimal;
+use rust_decimal::prelude::ToPrimitive;
 
 use super::manifest::{Extern, Kind};
 use crate::parser::{DeclaredType, Expr, Stmt};
@@ -86,7 +86,13 @@ fn manifest_function(name: &str) -> Option<Extern> {
 }
 
 fn shape_name(id: u16) -> String {
-    SHAPE_NAMES.with(|names| names.borrow().get(id as usize).cloned().unwrap_or_else(|| "?".to_string()))
+    SHAPE_NAMES.with(|names| {
+        names
+            .borrow()
+            .get(id as usize)
+            .cloned()
+            .unwrap_or_else(|| "?".to_string())
+    })
 }
 
 /// What a result holds when it is சரி.
@@ -217,28 +223,106 @@ pub struct Intrinsic {
 }
 
 pub const INTRINSICS: &[Intrinsic] = &[
-    Intrinsic { name: "முனை_வெளியீடு", shim: "artino_pin_output", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "முனை_உள்ளீடு", shim: "artino_pin_input", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "முனை_மேலிழு_உள்ளீடு", shim: "artino_pin_input_pullup", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "முனை_எழுது", shim: "artino_pin_write", args: &[Arg::Int, Arg::Flag], ret: Ret::Void },
-    Intrinsic { name: "முனை_படி", shim: "artino_pin_read", args: &[Arg::Int], ret: Ret::Flag },
-    Intrinsic { name: "முனை_மாற்று", shim: "artino_pin_toggle", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "ஒப்புமை_படி", shim: "artino_analog_read", args: &[Arg::Int], ret: Ret::Int },
-    Intrinsic { name: "மில்லி_நொடி", shim: "artino_millis", args: &[], ret: Ret::Millis },
-    Intrinsic { name: "ஒலி_எழுப்பு", shim: "artino_tone", args: &[Arg::Int, Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "ஒலி_நிறுத்து", shim: "artino_no_tone", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "காவல்_தொடங்கு", shim: "artino_watchdog_begin", args: &[Arg::Int], ret: Ret::Void },
-    Intrinsic { name: "காவல்_புதுப்பி", shim: "artino_watchdog_feed", args: &[], ret: Ret::Void },
+    Intrinsic {
+        name: "முனை_வெளியீடு",
+        shim: "artino_pin_output",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "முனை_உள்ளீடு",
+        shim: "artino_pin_input",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "முனை_மேலிழு_உள்ளீடு",
+        shim: "artino_pin_input_pullup",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "முனை_எழுது",
+        shim: "artino_pin_write",
+        args: &[Arg::Int, Arg::Flag],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "முனை_படி",
+        shim: "artino_pin_read",
+        args: &[Arg::Int],
+        ret: Ret::Flag,
+    },
+    Intrinsic {
+        name: "முனை_மாற்று",
+        shim: "artino_pin_toggle",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "ஒப்புமை_படி",
+        shim: "artino_analog_read",
+        args: &[Arg::Int],
+        ret: Ret::Int,
+    },
+    Intrinsic {
+        name: "மில்லி_நொடி",
+        shim: "artino_millis",
+        args: &[],
+        ret: Ret::Millis,
+    },
+    Intrinsic {
+        name: "ஒலி_எழுப்பு",
+        shim: "artino_tone",
+        args: &[Arg::Int, Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "ஒலி_நிறுத்து",
+        shim: "artino_no_tone",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "காவல்_தொடங்கு",
+        shim: "artino_watchdog_begin",
+        args: &[Arg::Int],
+        ret: Ret::Void,
+    },
+    Intrinsic {
+        name: "காவல்_புதுப்பி",
+        shim: "artino_watchdog_feed",
+        args: &[],
+        ret: Ret::Void,
+    },
 ];
 
 /// vaZporuL functions artino recognises and does not build, with why.
 const NOT_ON_A_BOARD: &[(&str, &str)] = &[
-    ("காத்திரு", "a blocking pause (காத்திரு) — a paused board misses input; use இடைவெளி"),
-    ("போலி_முனை", "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim"),
-    ("போலி_ஒப்புமை", "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim"),
-    ("போலி_நேரம்", "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim"),
-    ("போலி_தொடர்_ஊட்டு", "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim"),
-    ("போலி_தொடர்_வெளியீடு", "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim"),
+    (
+        "காத்திரு",
+        "a blocking pause (காத்திரு) — a paused board misses input; use இடைவெளி",
+    ),
+    (
+        "போலி_முனை",
+        "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim",
+    ),
+    (
+        "போலி_ஒப்புமை",
+        "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim",
+    ),
+    (
+        "போலி_நேரம்",
+        "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim",
+    ),
+    (
+        "போலி_தொடர்_ஊட்டு",
+        "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim",
+    ),
+    (
+        "போலி_தொடர்_வெளியீடு",
+        "the simulated board (போலி_*) — it exists only under ETAMIL_BOARD=sim",
+    ),
 ];
 
 /// The builtins artino builds itself, in every spelling the VM accepts.
@@ -283,7 +367,9 @@ pub fn builtin(name: &str) -> Option<Builtin> {
         "சரியா" | "cariyA" | "_isOk" => Some(Builtin::IsOk),
         "தவறா" | "qavaRA" | "_isErr" => Some(Builtin::IsErr),
         "மதிப்பு" | "maqippu" | "_unwrap" => Some(Builtin::Unwrap),
-        "தவறு_மதிப்பு" | "qavaRu_maqippu" | "_unwrapErr" => Some(Builtin::UnwrapErr),
+        "தவறு_மதிப்பு" | "qavaRu_maqippu" | "_unwrapErr" => {
+            Some(Builtin::UnwrapErr)
+        }
         "இயல்பு" | "iyalpu" | "_unwrapOr" => Some(Builtin::UnwrapOr),
         "எண்ணாக்கு" | "eNNAkku" | "_toNumber" => Some(Builtin::ToNumber),
         "தரை" | "qarY" | "_floor" => Some(Builtin::Floor),
@@ -310,7 +396,10 @@ pub fn intrinsic(name: &str) -> Option<&'static Intrinsic> {
 }
 
 fn not_on_a_board(name: &str) -> Option<&'static str> {
-    NOT_ON_A_BOARD.iter().find(|(n, _)| *n == name).map(|(_, why)| *why)
+    NOT_ON_A_BOARD
+        .iter()
+        .find(|(n, _)| *n == name)
+        .map(|(_, why)| *why)
 }
 
 /// A number literal as value × 1000, or why it cannot be one.
@@ -331,7 +420,7 @@ pub fn scaled(n: &Decimal) -> Result<i64, String> {
 pub fn fill_count(expr: &Expr) -> Result<u16, String> {
     match expr {
         Expr::Number(n) if n.fract().is_zero() && !n.is_sign_negative() => match n.to_u16() {
-            Some(count) if count >= 1 && count <= MAX_ARRAY => Ok(count),
+            Some(count) if (1..=MAX_ARRAY).contains(&count) => Ok(count),
             _ => Err(format!("அணி_நிரப்பு makes 1 to {} items, not {}", MAX_ARRAY, n.normalize())),
         },
         _ => Err("அணி_நிரப்பு's count must be a whole number written in the source: it is the array's length".to_string()),
@@ -342,9 +431,9 @@ pub fn fill_count(expr: &Expr) -> Result<u16, String> {
 /// keeps three decimals, so more than three changes nothing.
 pub fn places(expr: &Expr) -> Result<u32, String> {
     match expr {
-        Expr::Number(n) if n.fract().is_zero() && !n.is_sign_negative() => {
-            n.to_u32().ok_or_else(|| format!("வட்டமிடு to {} places", n.normalize()))
-        }
+        Expr::Number(n) if n.fract().is_zero() && !n.is_sign_negative() => n
+            .to_u32()
+            .ok_or_else(|| format!("வட்டமிடு to {} places", n.normalize())),
         _ => Err("வட்டமிடு's places must be a whole number written in the source".to_string()),
     }
 }
@@ -383,10 +472,16 @@ fn written_plainly(body: &[Stmt], into: &mut HashSet<String>) {
 fn written_by(body: &[Stmt], into: &mut HashSet<String>, loops: bool) {
     for statement in body {
         match statement {
-            Stmt::Assign { name, .. } | Stmt::SetIndex { name, .. } | Stmt::SetField { name, .. } => {
+            Stmt::Assign { name, .. }
+            | Stmt::SetIndex { name, .. }
+            | Stmt::SetField { name, .. } => {
                 into.insert(name.clone());
             }
-            Stmt::If { then_branch, else_branch, .. } => {
+            Stmt::If {
+                then_branch,
+                else_branch,
+                ..
+            } => {
                 written_by(then_branch, into, loops);
                 if let Some(otherwise) = else_branch {
                     written_by(otherwise, into, loops);
@@ -423,7 +518,10 @@ pub struct ShapeInfo {
 
 impl ShapeInfo {
     pub fn field(&self, name: &str) -> Option<(usize, Ty)> {
-        self.fields.iter().position(|(n, _)| n == name).map(|i| (i, self.fields[i].1))
+        self.fields
+            .iter()
+            .position(|(n, _)| n == name)
+            .map(|i| (i, self.fields[i].1))
     }
 }
 
@@ -450,7 +548,10 @@ pub struct Program {
 
 impl Program {
     pub fn global(&self, name: &str) -> Option<Ty> {
-        self.globals.iter().find(|(n, _)| n == name).map(|(_, t)| *t)
+        self.globals
+            .iter()
+            .find(|(n, _)| n == name)
+            .map(|(_, t)| *t)
     }
 
     pub fn function(&self, name: &str) -> Option<&Function> {
@@ -504,7 +605,11 @@ fn refuse_stmt(statement: &Stmt, in_function: bool, found: &mut Vec<String>) {
                 refuse_expr(value, found);
             }
         }
-        Stmt::If { condition, then_branch, else_branch } => {
+        Stmt::If {
+            condition,
+            then_branch,
+            else_branch,
+        } => {
             refuse_expr(condition, found);
             refuse_block(then_branch, in_function, found);
             if let Some(branch) = else_branch {
@@ -515,7 +620,9 @@ fn refuse_stmt(statement: &Stmt, in_function: bool, found: &mut Vec<String>) {
             refuse_expr(condition, found);
             refuse_block(body, in_function, found);
         }
-        Stmt::ForEach { collection, body, .. } => {
+        Stmt::ForEach {
+            collection, body, ..
+        } => {
             refuse_expr(collection, found);
             refuse_block(body, in_function, found);
         }
@@ -533,7 +640,9 @@ fn refuse_stmt(statement: &Stmt, in_function: bool, found: &mut Vec<String>) {
                         found.push(format!("இடைவெளி period: {}", why));
                     }
                 }
-                _ => found.push("இடைவெளி with a period that is not a number written in the source".to_string()),
+                _ => found.push(
+                    "இடைவெளி with a period that is not a number written in the source".to_string(),
+                ),
             }
             refuse_block(body, in_function, found);
         }
@@ -542,8 +651,13 @@ fn refuse_stmt(statement: &Stmt, in_function: bool, found: &mut Vec<String>) {
         Stmt::FunctionDef { .. } => found.push("a செயல் defined inside a செயல் or block".to_string()),
         Stmt::ShapeDef { .. } => found.push("a வடிவம் defined inside a செயல் or block".to_string()),
         Stmt::SetField { value, .. } => refuse_expr(value, found),
-        Stmt::Input(_) => found.push("உள்ளிடு (keyboard input) — read a serial port instead".to_string()),
-        other => found.push(format!("{} — not available on a board", crate::codegen::stmt_label(other))),
+        Stmt::Input(_) => {
+            found.push("உள்ளிடு (keyboard input) — read a serial port instead".to_string())
+        }
+        other => found.push(format!(
+            "{} — not available on a board",
+            crate::codegen::stmt_label(other)
+        )),
     }
 }
 
@@ -603,7 +717,9 @@ fn reachable_functions(statements: &[Stmt]) -> HashSet<String> {
     let mut defined: HashMap<String, &Vec<Stmt>> = statements
         .iter()
         .filter_map(|s| match s {
-            Stmt::FunctionDef { name, body, .. } if !is_built_in(name) => Some((name.clone(), body)),
+            Stmt::FunctionDef { name, body, .. } if !is_built_in(name) => {
+                Some((name.clone(), body))
+            }
             _ => None,
         })
         .collect();
@@ -611,10 +727,18 @@ fn reachable_functions(statements: &[Stmt]) -> HashSet<String> {
     // is until it is typed, so it reaches every shape's `m`.
     let mut methods: HashMap<String, Vec<String>> = HashMap::new();
     for statement in statements {
-        if let Stmt::ShapeDef { name, methods: list, .. } = statement {
+        if let Stmt::ShapeDef {
+            name,
+            methods: list,
+            ..
+        } = statement
+        {
             for method in list {
                 let full = crate::vm::shape::method_function(name, &method.name);
-                methods.entry(method.name.clone()).or_default().push(full.clone());
+                methods
+                    .entry(method.name.clone())
+                    .or_default()
+                    .push(full.clone());
                 defined.insert(full, &method.body);
             }
         }
@@ -650,14 +774,23 @@ const METHOD_MARK: &str = "\u{1}method:";
 /// A name the board or artino provides, whose eTamil definition — in
 /// vaZporuL.qmz or aNi.qmz — is never compiled.
 fn is_built_in(name: &str) -> bool {
-    intrinsic(name).is_some() || not_on_a_board(name).is_some() || builtin(name).is_some() || manifest_function(name).is_some()
+    intrinsic(name).is_some()
+        || not_on_a_board(name).is_some()
+        || builtin(name).is_some()
+        || manifest_function(name).is_some()
 }
 
 fn calls_in_stmt(statement: &Stmt, into: &mut Vec<String>) {
     match statement {
-        Stmt::Assign { value, .. } | Stmt::Expression(value) | Stmt::Print(value) => calls_in_expr(value, into),
+        Stmt::Assign { value, .. } | Stmt::Expression(value) | Stmt::Print(value) => {
+            calls_in_expr(value, into)
+        }
         Stmt::Return(Some(value)) => calls_in_expr(value, into),
-        Stmt::If { condition, then_branch, else_branch } => {
+        Stmt::If {
+            condition,
+            then_branch,
+            else_branch,
+        } => {
             calls_in_expr(condition, into);
             then_branch.iter().for_each(|s| calls_in_stmt(s, into));
             if let Some(branch) = else_branch {
@@ -668,7 +801,9 @@ fn calls_in_stmt(statement: &Stmt, into: &mut Vec<String>) {
             calls_in_expr(condition, into);
             body.iter().for_each(|s| calls_in_stmt(s, into));
         }
-        Stmt::ForEach { collection, body, .. } => {
+        Stmt::ForEach {
+            collection, body, ..
+        } => {
             calls_in_expr(collection, into);
             body.iter().for_each(|s| calls_in_stmt(s, into));
         }
@@ -692,7 +827,10 @@ fn calls_in_expr(expr: &Expr, into: &mut Vec<String>) {
         | Expr::Comparison { left, right, .. }
         | Expr::Logical { left, right, .. }
         | Expr::Concat { left, right }
-        | Expr::Index { base: left, index: right } => {
+        | Expr::Index {
+            base: left,
+            index: right,
+        } => {
             calls_in_expr(left, into);
             calls_in_expr(right, into);
         }
@@ -700,12 +838,19 @@ fn calls_in_expr(expr: &Expr, into: &mut Vec<String>) {
         Expr::ArrayLiteral(items) => items.iter().for_each(|i| calls_in_expr(i, into)),
         Expr::Field { base, .. } => calls_in_expr(base, into),
         Expr::ShapeLiteral { fields, base, .. } => {
-            fields.iter().for_each(|(_, value)| calls_in_expr(value, into));
+            fields
+                .iter()
+                .for_each(|(_, value)| calls_in_expr(value, into));
             if let Some(base) = base {
                 calls_in_expr(base, into);
             }
         }
-        Expr::MethodCall { receiver, name, args, .. } => {
+        Expr::MethodCall {
+            receiver,
+            name,
+            args,
+            ..
+        } => {
             into.push(format!("{}{}", METHOD_MARK, name));
             calls_in_expr(receiver, into);
             args.iter().for_each(|a| calls_in_expr(a, into));
@@ -724,14 +869,20 @@ pub(crate) fn mentions(expr: &Expr, name: &str) -> bool {
         | Expr::Comparison { left, right, .. }
         | Expr::Logical { left, right, .. }
         | Expr::Concat { left, right }
-        | Expr::Index { base: left, index: right } => mentions(left, name) || mentions(right, name),
+        | Expr::Index {
+            base: left,
+            index: right,
+        } => mentions(left, name) || mentions(right, name),
         Expr::Not(inner) | Expr::Try(inner) => mentions(inner, name),
         Expr::ArrayLiteral(items) => items.iter().any(|i| mentions(i, name)),
         Expr::Field { base, .. } => mentions(base, name),
         Expr::ShapeLiteral { fields, base, .. } => {
-            fields.iter().any(|(_, value)| mentions(value, name)) || base.as_ref().is_some_and(|b| mentions(b, name))
+            fields.iter().any(|(_, value)| mentions(value, name))
+                || base.as_ref().is_some_and(|b| mentions(b, name))
         }
-        Expr::MethodCall { receiver, args, .. } => mentions(receiver, name) || args.iter().any(|a| mentions(a, name)),
+        Expr::MethodCall { receiver, args, .. } => {
+            mentions(receiver, name) || args.iter().any(|a| mentions(a, name))
+        }
         _ => false,
     }
 }
@@ -754,7 +905,10 @@ fn param_type(
         Some(DeclaredType::Shape(shape)) => match shapes.iter().position(|s| s == shape) {
             Some(id) => Some(Ty::Shape(id as u16)),
             None => {
-                errors.push(format!("{}: {} is declared {}, which is not a வடிவம் in this program", function, name, shape));
+                errors.push(format!(
+                    "{}: {} is declared {}, which is not a வடிவம் in this program",
+                    function, name, shape
+                ));
                 None
             }
         },
@@ -770,6 +924,12 @@ fn shape_key(shape: &str) -> String {
 
 /// What callers have passed each parameter, gathered while typing.
 type Observed = RefCell<HashMap<String, Vec<Option<Ty>>>>;
+
+/// A வடிவம் as declared: its name, and each field with the type written, if any.
+type ShapeDecl = (String, Vec<(String, Option<DeclaredType>)>);
+
+/// A செயல் by name: its parameters, typed where declared, and its body.
+type Defs = BTreeMap<String, (Vec<(String, Option<Ty>)>, Vec<Stmt>)>;
 
 /// Build the firmware view of a program, or every reason it cannot be built.
 pub fn analyse(statements: &[Stmt]) -> Result<Program, Vec<String>> {
@@ -788,16 +948,22 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
 
     // The வடிவங்கள் first: a parameter or a field can be declared as one.
     let mut shape_names: Vec<String> = Vec::new();
-    let mut shape_decls: Vec<(String, Vec<(String, Option<DeclaredType>)>)> = Vec::new();
+    let mut shape_decls: Vec<ShapeDecl> = Vec::new();
     for statement in statements {
         if let Stmt::ShapeDef { name, fields, .. } = statement {
             shape_names.push(name.clone());
-            shape_decls.push((name.clone(), fields.iter().map(|f| (f.name.clone(), f.declared.clone())).collect()));
+            shape_decls.push((
+                name.clone(),
+                fields
+                    .iter()
+                    .map(|f| (f.name.clone(), f.declared.clone()))
+                    .collect(),
+            ));
         }
     }
     SHAPE_NAMES.with(|names| *names.borrow_mut() = shape_names.clone());
 
-    let mut defs: BTreeMap<String, (Vec<(String, Option<Ty>)>, Vec<Stmt>)> = BTreeMap::new();
+    let mut defs: Defs = BTreeMap::new();
     let mut lines: HashMap<String, usize> = HashMap::new();
     let mut order: Vec<String> = Vec::new();
     let mut setup = Vec::new();
@@ -807,26 +973,45 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
 
     for statement in statements {
         match statement {
-            Stmt::FunctionDef { name, params, body, at, .. } => {
+            Stmt::FunctionDef {
+                name,
+                params,
+                body,
+                at,
+                ..
+            } => {
                 if !reachable.contains(name.as_str()) {
                     continue;
                 }
                 lines.insert(name.clone(), at.line);
                 if is_cycle(name) {
                     if !params.is_empty() {
-                        errors.push(format!("{} is called by the board with nothing, so it takes no parameters", name));
+                        errors.push(format!(
+                            "{} is called by the board with nothing, so it takes no parameters",
+                            name
+                        ));
                     }
                     cycle = Some(name.clone());
                 }
                 let typed = params
                     .iter()
-                    .map(|p| (p.name.clone(), param_type(&p.declared, &p.name, name, &shape_names, &mut errors)))
+                    .map(|p| {
+                        (
+                            p.name.clone(),
+                            param_type(&p.declared, &p.name, name, &shape_names, &mut errors),
+                        )
+                    })
                     .collect();
                 if defs.insert(name.clone(), (typed, body.clone())).is_none() {
                     order.push(name.clone());
                 }
             }
-            Stmt::ShapeDef { name: shape, methods, at, .. } => {
+            Stmt::ShapeDef {
+                name: shape,
+                methods,
+                at,
+                ..
+            } => {
                 let id = shape_names.iter().position(|s| s == shape).unwrap() as u16;
                 for method in methods {
                     let full = crate::vm::shape::method_function(shape, &method.name);
@@ -847,16 +1032,29 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
                             (p.name.clone(), ty)
                         })
                         .collect();
-                    if defs.insert(full.clone(), (typed, method.body.clone())).is_none() {
+                    if defs
+                        .insert(full.clone(), (typed, method.body.clone()))
+                        .is_none()
+                    {
                         order.push(full);
                     }
                 }
             }
-            Stmt::Schedule { seconds: Expr::Number(n), body } => {
+            Stmt::Schedule {
+                seconds: Expr::Number(n),
+                body,
+            } => {
                 let ms = scaled(n).unwrap_or(0);
                 match u32::try_from(ms) {
-                    Ok(ms) => schedules.push(Schedule { ms, seconds: n.normalize().to_string(), body: body.clone() }),
-                    Err(_) => errors.push(format!("இடைவெளி {} is longer than a board's clock can count", n.normalize())),
+                    Ok(ms) => schedules.push(Schedule {
+                        ms,
+                        seconds: n.normalize().to_string(),
+                        body: body.clone(),
+                    }),
+                    Err(_) => errors.push(format!(
+                        "இடைவெளி {} is longer than a board's clock can count",
+                        n.normalize()
+                    )),
                 }
             }
             Stmt::Import(_) => {}
@@ -872,18 +1070,28 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
         .collect();
     let mut fixed: HashMap<String, Vec<bool>> = defs
         .iter()
-        .map(|(name, (params, _))| (name.clone(), params.iter().map(|(_, t)| t.is_some()).collect()))
+        .map(|(name, (params, _))| {
+            (
+                name.clone(),
+                params.iter().map(|(_, t)| t.is_some()).collect(),
+            )
+        })
         .collect();
     for (shape, fields) in &shape_decls {
         let types: Vec<Option<Ty>> = fields
             .iter()
             .map(|(field, declared)| param_type(declared, field, shape, &shape_names, &mut errors))
             .collect();
-        fixed.insert(shape_key(shape), types.iter().map(Option::is_some).collect());
+        fixed.insert(
+            shape_key(shape),
+            types.iter().map(Option::is_some).collect(),
+        );
         signatures.insert(shape_key(shape), types);
     }
-    let shape_fields: Vec<(String, Vec<String>)> =
-        shape_decls.iter().map(|(n, f)| (n.clone(), f.iter().map(|(x, _)| x.clone()).collect())).collect();
+    let shape_fields: Vec<(String, Vec<String>)> = shape_decls
+        .iter()
+        .map(|(n, f)| (n.clone(), f.iter().map(|(x, _)| x.clone()).collect()))
+        .collect();
     let typed = |signatures: &HashMap<String, Vec<Option<Ty>>>, name: &str| -> Vec<(String, Ty)> {
         defs[name]
             .0
@@ -916,7 +1124,8 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
         for name in &order {
             let params = typed(&signatures, name);
             let body = &defs[name].1;
-            let mut scope = Scope::function(&params, &returns, &signatures, &observed, &shape_fields);
+            let mut scope =
+                Scope::function(&params, &returns, &signatures, &observed, &shape_fields);
             scope.globals = globals.clone();
             let found = scope.block(body, &mut noise);
             let ty = found.unwrap_or(Ty::Void);
@@ -932,7 +1141,9 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
         }
         // An undeclared parameter takes the type its callers passed.
         for (name, seen) in observed.into_inner() {
-            let Some(signature) = signatures.get_mut(&name) else { continue };
+            let Some(signature) = signatures.get_mut(&name) else {
+                continue;
+            };
             let declared = &fixed[&name];
             for (i, ty) in seen.into_iter().enumerate() {
                 if i >= signature.len() || declared[i] {
@@ -976,12 +1187,22 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
         scope.block(body, &mut errors);
         let ret = returns.get(name).copied().unwrap_or(Ty::Void);
         if scope.tried && !matches!(ret, Ty::Result(_)) {
-            errors.push(format!("{} uses ? but does not return a result (சரி or தவறு)", name));
+            errors.push(format!(
+                "{} uses ? but does not return a result (சரி or தவறு)",
+                name
+            ));
         }
         if ret == Ty::Result(Inner::Unknown) {
-            errors.push(format!("{} only ever returns தவறு, so what its சரி holds is unknown", name));
+            errors.push(format!(
+                "{} only ever returns தவறு, so what its சரி holds is unknown",
+                name
+            ));
         }
-        let locals = scope.names.into_iter().filter(|(n, _)| !params.iter().any(|(p, _)| p == n)).collect();
+        let locals = scope
+            .names
+            .into_iter()
+            .filter(|(n, _)| !params.iter().any(|(p, _)| p == n))
+            .collect();
         let letters = {
             let mut assigned = HashSet::new();
             written_plainly(body, &mut assigned);
@@ -1037,7 +1258,16 @@ pub fn analyse_with(statements: &[Stmt], externs: &[Extern]) -> Result<Program, 
         errors.dedup();
         return Err(errors);
     }
-    Ok(Program { shapes, ports, globals, functions, setup, schedules, cycle, externs: externs.to_vec() })
+    Ok(Program {
+        shapes,
+        ports,
+        globals,
+        functions,
+        setup,
+        schedules,
+        cycle,
+        externs: externs.to_vec(),
+    })
 }
 
 /// The serial ports a program can open: a port written as a number is that
@@ -1062,7 +1292,10 @@ fn ports_opened(statements: &[Stmt]) -> [bool; 4] {
             | Expr::Comparison { left, right, .. }
             | Expr::Logical { left, right, .. }
             | Expr::Concat { left, right }
-            | Expr::Index { base: left, index: right } => {
+            | Expr::Index {
+                base: left,
+                index: right,
+            } => {
                 walk_expr(left, ports);
                 walk_expr(right, ports);
             }
@@ -1085,13 +1318,19 @@ fn ports_opened(statements: &[Stmt]) -> [bool; 4] {
     fn walk(body: &[Stmt], ports: &mut [bool; 4]) {
         for statement in body {
             match statement {
-                Stmt::Assign { value, .. } | Stmt::Expression(value) | Stmt::Print(value) => walk_expr(value, ports),
+                Stmt::Assign { value, .. } | Stmt::Expression(value) | Stmt::Print(value) => {
+                    walk_expr(value, ports)
+                }
                 Stmt::Return(Some(value)) | Stmt::SetField { value, .. } => walk_expr(value, ports),
                 Stmt::SetIndex { index, value, .. } => {
                     walk_expr(index, ports);
                     walk_expr(value, ports);
                 }
-                Stmt::If { condition, then_branch, else_branch } => {
+                Stmt::If {
+                    condition,
+                    then_branch,
+                    else_branch,
+                } => {
                     walk_expr(condition, ports);
                     walk(then_branch, ports);
                     if let Some(branch) = else_branch {
@@ -1102,7 +1341,9 @@ fn ports_opened(statements: &[Stmt]) -> [bool; 4] {
                     walk_expr(condition, ports);
                     walk(body, ports);
                 }
-                Stmt::ForEach { collection, body, .. } => {
+                Stmt::ForEach {
+                    collection, body, ..
+                } => {
                     walk_expr(collection, ports);
                     walk(body, ports);
                 }
@@ -1181,7 +1422,10 @@ impl<'a> Scope<'a> {
     }
 
     fn shape_id(&self, name: &str) -> Option<u16> {
-        self.shapes.iter().position(|(n, _)| n == name).map(|i| i as u16)
+        self.shapes
+            .iter()
+            .position(|(n, _)| n == name)
+            .map(|i| i as u16)
     }
 
     /// A field's index and its type if known yet.
@@ -1195,13 +1439,21 @@ impl<'a> Scope<'a> {
     fn give_field(&mut self, id: u16, index: usize, ty: Ty, errors: &mut Vec<String>) {
         let (shape, fields) = &self.shapes[id as usize];
         let key = shape_key(shape);
-        if let Some(Some(known)) = self.signatures[&key].get(index) {
-            if unify(*known, ty).is_none() {
-                errors.push(format!("{}.{} holds {}, not {}", shape, fields[index], known.name(), ty.name()));
-            }
+        if let Some(Some(known)) = self.signatures[&key].get(index)
+            && unify(*known, ty).is_none()
+        {
+            errors.push(format!(
+                "{}.{} holds {}, not {}",
+                shape,
+                fields[index],
+                known.name(),
+                ty.name()
+            ));
         }
         let mut observed = self.observed.borrow_mut();
-        let seen = observed.entry(key).or_insert_with(|| vec![None; fields.len()]);
+        let seen = observed
+            .entry(key)
+            .or_insert_with(|| vec![None; fields.len()]);
         if seen[index].is_none() {
             seen[index] = Some(ty);
         }
@@ -1257,18 +1509,30 @@ impl<'a> Scope<'a> {
 
     fn stmt(&mut self, statement: &Stmt, errors: &mut Vec<String>) -> Option<Ty> {
         match statement {
-            Stmt::Assign { name, value, declared, .. } => {
+            Stmt::Assign {
+                name,
+                value,
+                declared,
+                ..
+            } => {
                 let ty = self.value(value, errors)?;
                 let fits = match declared {
                     Some(DeclaredType::Boolean) => ty == Ty::Bool,
                     Some(DeclaredType::Number) => ty == Ty::Num,
                     Some(DeclaredType::Text) => ty == Ty::Text,
                     Some(DeclaredType::Array) => matches!(ty, Ty::Array(..)),
-                    Some(DeclaredType::Shape(shape)) => self.shape_id(shape).map(Ty::Shape) == Some(ty),
+                    Some(DeclaredType::Shape(shape)) => {
+                        self.shape_id(shape).map(Ty::Shape) == Some(ty)
+                    }
                     _ => true,
                 };
                 if !fits {
-                    errors.push(format!("{} is declared {} but given {}", name, declared.as_ref().unwrap().name(), ty.name()));
+                    errors.push(format!(
+                        "{} is declared {} but given {}",
+                        name,
+                        declared.as_ref().unwrap().name(),
+                        ty.name()
+                    ));
                 }
                 self.bind(name, ty, errors);
                 None
@@ -1281,14 +1545,18 @@ impl<'a> Scope<'a> {
                 self.printed(expr, errors);
                 None
             }
-            Stmt::Return(value) => match value {
-                Some(value) => self.value(value, errors),
-                None => None,
-            },
-            Stmt::If { condition, then_branch, else_branch } => {
+            Stmt::Return(Some(value)) => self.value(value, errors),
+            Stmt::Return(None) => None,
+            Stmt::If {
+                condition,
+                then_branch,
+                else_branch,
+            } => {
                 self.condition(condition, errors);
                 let a = self.block(then_branch, errors);
-                let b = else_branch.as_ref().and_then(|branch| self.block(branch, errors));
+                let b = else_branch
+                    .as_ref()
+                    .and_then(|branch| self.block(branch, errors));
                 match (a, b) {
                     (Some(a), Some(b)) => unify(a, b).or(Some(a)),
                     (a, b) => a.or(b),
@@ -1298,7 +1566,11 @@ impl<'a> Scope<'a> {
                 self.condition(condition, errors);
                 self.block(body, errors)
             }
-            Stmt::ForEach { var, collection, body } => {
+            Stmt::ForEach {
+                var,
+                collection,
+                body,
+            } => {
                 match self.value(collection, errors) {
                     Some(Ty::Array(elem, _)) => {
                         self.other_loops.insert(var.clone());
@@ -1308,12 +1580,16 @@ impl<'a> Scope<'a> {
                         self.letter_loops.insert(var.clone());
                         self.bind(var, Ty::Text, errors)
                     }
-                    Some(other) => errors.push(format!("ஒவ்வொரு needs an array, not {}", other.name())),
+                    Some(other) => {
+                        errors.push(format!("ஒவ்வொரு needs an array, not {}", other.name()))
+                    }
                     None => {}
                 }
                 self.block(body, errors)
             }
-            Stmt::SetField { name, field, value, .. } => {
+            Stmt::SetField {
+                name, field, value, ..
+            } => {
                 let owned = self.names.iter().any(|(n, _)| n == name);
                 let given = self.value(value, errors);
                 match self.lookup(name) {
@@ -1330,15 +1606,28 @@ impl<'a> Scope<'a> {
                                     self.give_field(id, index, ty, errors);
                                 }
                             }
-                            None => errors.push(format!("{} has no field {}", shape_name(id), field)),
+                            None => {
+                                errors.push(format!("{} has no field {}", shape_name(id), field))
+                            }
                         }
                     }
-                    Some(other) => errors.push(format!("{}.{} = … needs a record, and {} is {}", name, field, name, other.name())),
-                    None => errors.push(format!("{} is used before anything is assigned to it", name)),
+                    Some(other) => errors.push(format!(
+                        "{}.{} = … needs a record, and {} is {}",
+                        name,
+                        field,
+                        name,
+                        other.name()
+                    )),
+                    None => errors.push(format!(
+                        "{} is used before anything is assigned to it",
+                        name
+                    )),
                 }
                 None
             }
-            Stmt::SetIndex { name, index, value, .. } => {
+            Stmt::SetIndex {
+                name, index, value, ..
+            } => {
                 let owned = self.names.iter().any(|(n, _)| n == name);
                 match self.lookup(name) {
                     Some(Ty::Array(elem, _)) => {
@@ -1349,14 +1638,27 @@ impl<'a> Scope<'a> {
                             ));
                         }
                         self.number(index, "an index", errors);
-                        if let Some(ty) = self.value(value, errors) {
-                            if ty != elem.ty() {
-                                errors.push(format!("{} holds {}, not {}", name, elem.ty().name(), ty.name()));
-                            }
+                        if let Some(ty) = self.value(value, errors)
+                            && ty != elem.ty()
+                        {
+                            errors.push(format!(
+                                "{} holds {}, not {}",
+                                name,
+                                elem.ty().name(),
+                                ty.name()
+                            ));
                         }
                     }
-                    Some(other) => errors.push(format!("{}[…] = … needs an array, and {} is {}", name, name, other.name())),
-                    None => errors.push(format!("{} is used before anything is assigned to it", name)),
+                    Some(other) => errors.push(format!(
+                        "{}[…] = … needs an array, and {} is {}",
+                        name,
+                        name,
+                        other.name()
+                    )),
+                    None => errors.push(format!(
+                        "{} is used before anything is assigned to it",
+                        name
+                    )),
                 }
                 None
             }
@@ -1370,18 +1672,21 @@ impl<'a> Scope<'a> {
     }
 
     fn condition(&mut self, expr: &Expr, errors: &mut Vec<String>) {
-        if let Some(ty) = self.value(expr, errors) {
-            if ty != Ty::Bool {
-                errors.push(format!("a condition must be true or false, not {}", ty.name()));
-            }
+        if let Some(ty) = self.value(expr, errors)
+            && ty != Ty::Bool
+        {
+            errors.push(format!(
+                "a condition must be true or false, not {}",
+                ty.name()
+            ));
         }
     }
 
     fn number(&mut self, expr: &Expr, what: &str, errors: &mut Vec<String>) {
-        if let Some(ty) = self.value(expr, errors) {
-            if ty != Ty::Num {
-                errors.push(format!("{} must be a number, not {}", what, ty.name()));
-            }
+        if let Some(ty) = self.value(expr, errors)
+            && ty != Ty::Num
+        {
+            errors.push(format!("{} must be a number, not {}", what, ty.name()));
         }
     }
 
@@ -1390,7 +1695,10 @@ impl<'a> Scope<'a> {
         match self.expr(expr, errors) {
             Some(Ty::Void) => {
                 if let Expr::Call { name, .. } = expr {
-                    errors.push(format!("{}(…) returns nothing, so it cannot be used as a value", name));
+                    errors.push(format!(
+                        "{}(…) returns nothing, so it cannot be used as a value",
+                        name
+                    ));
                 }
                 None
             }
@@ -1406,7 +1714,10 @@ impl<'a> Scope<'a> {
             Expr::Variable(name) => match self.lookup(name) {
                 Some(ty) => Some(ty),
                 None => {
-                    errors.push(format!("{} is used before anything is assigned to it", name));
+                    errors.push(format!(
+                        "{} is used before anything is assigned to it",
+                        name
+                    ));
                     None
                 }
             },
@@ -1415,17 +1726,24 @@ impl<'a> Scope<'a> {
                 let b = self.value(right, errors);
                 for ty in [a, b].into_iter().flatten() {
                     if ty != Ty::Num {
-                        errors.push(format!("{} needs numbers on both sides, not {}", op, ty.name()));
+                        errors.push(format!(
+                            "{} needs numbers on both sides, not {}",
+                            op,
+                            ty.name()
+                        ));
                     }
                 }
                 Some(Ty::Num)
             }
             Expr::Concat { left, right } => {
                 for side in [left, right] {
-                    if let Some(ty) = self.value(side, errors) {
-                        if let Ty::Array(..) | Ty::Result(_) | Ty::Shape(_) = ty {
-                            errors.push(format!("{} joined into text with & — print it on its own", ty.name()));
-                        }
+                    if let Some(ty) = self.value(side, errors)
+                        && let Ty::Array(..) | Ty::Result(_) | Ty::Shape(_) = ty
+                    {
+                        errors.push(format!(
+                            "{} joined into text with & — print it on its own",
+                            ty.name()
+                        ));
                     }
                 }
                 Some(Ty::Text)
@@ -1440,7 +1758,11 @@ impl<'a> Scope<'a> {
                     } else if let Ty::Array(..) | Ty::Result(_) | Ty::Shape(_) = a {
                         errors.push(format!("{} on {} — compare what they hold", op, a.name()));
                     } else if ordering && a != Ty::Num {
-                        errors.push(format!("{} orders numbers; {} has no order here", op, a.name()));
+                        errors.push(format!(
+                            "{} orders numbers; {} has no order here",
+                            op,
+                            a.name()
+                        ));
                     }
                 }
                 Some(Ty::Bool)
@@ -1456,11 +1778,18 @@ impl<'a> Scope<'a> {
             }
             Expr::ArrayLiteral(items) => {
                 if items.is_empty() {
-                    errors.push("[] has no length a board can use — use அணி_நிரப்பு(value, count)".to_string());
+                    errors.push(
+                        "[] has no length a board can use — use அணி_நிரப்பு(value, count)"
+                            .to_string(),
+                    );
                     return None;
                 }
                 if items.len() > MAX_ARRAY as usize {
-                    errors.push(format!("an array of {} items; a board array holds up to {}", items.len(), MAX_ARRAY));
+                    errors.push(format!(
+                        "an array of {} items; a board array holds up to {}",
+                        items.len(),
+                        MAX_ARRAY
+                    ));
                     return None;
                 }
                 let first = self.value(&items[0], errors)?;
@@ -1472,10 +1801,10 @@ impl<'a> Scope<'a> {
                     return None;
                 };
                 for item in &items[1..] {
-                    if let Some(ty) = self.value(item, errors) {
-                        if ty != first {
-                            errors.push(format!("an array mixes {} and {}", first.name(), ty.name()));
-                        }
+                    if let Some(ty) = self.value(item, errors)
+                        && ty != first
+                    {
+                        errors.push(format!("an array mixes {} and {}", first.name(), ty.name()));
                     }
                 }
                 Some(Ty::Array(elem, items.len() as u16))
@@ -1495,7 +1824,12 @@ impl<'a> Scope<'a> {
                 }
             }
             Expr::Call { name, args } => self.call(name, args, errors),
-            Expr::ShapeLiteral { shape, fields, base, .. } => {
+            Expr::ShapeLiteral {
+                shape,
+                fields,
+                base,
+                ..
+            } => {
                 let Some(id) = self.shape_id(shape) else {
                     errors.push(format!("{} is not a வடிவம் in this program", shape));
                     return None;
@@ -1520,20 +1854,32 @@ impl<'a> Scope<'a> {
                 }
                 match base {
                     Some(base) => {
-                        if let Some(ty) = self.value(base, errors) {
-                            if ty != Ty::Shape(id) {
-                                errors.push(format!("..{} needs a {} record, not {}", shape, shape, ty.name()));
-                            }
+                        if let Some(ty) = self.value(base, errors)
+                            && ty != Ty::Shape(id)
+                        {
+                            errors.push(format!(
+                                "..{} needs a {} record, not {}",
+                                shape,
+                                shape,
+                                ty.name()
+                            ));
                         }
                     }
                     None => {
-                        let missing: Vec<&String> =
-                            self.shapes[id as usize].1.iter().filter(|f| !given.contains(f)).collect();
+                        let missing: Vec<&String> = self.shapes[id as usize]
+                            .1
+                            .iter()
+                            .filter(|f| !given.contains(f))
+                            .collect();
                         if !missing.is_empty() {
                             errors.push(format!(
                                 "a {} needs every one of its fields; missing: {}",
                                 shape,
-                                missing.iter().map(|f| f.as_str()).collect::<Vec<_>>().join(", ")
+                                missing
+                                    .iter()
+                                    .map(|f| f.as_str())
+                                    .collect::<Vec<_>>()
+                                    .join(", ")
                             ));
                         }
                     }
@@ -1553,19 +1899,30 @@ impl<'a> Scope<'a> {
                     None
                 }
             },
-            Expr::MethodCall { receiver, name, args, .. } => {
+            Expr::MethodCall {
+                receiver,
+                name,
+                args,
+                ..
+            } => {
                 // கடன்.புதிது(…): the shape's own function, when கடன் is a
                 // வடிவம் and not a variable.
-                if let Expr::Variable(shape) = receiver.as_ref() {
-                    if self.lookup(shape).is_none() && self.shape_id(shape).is_some() {
-                        let types: Vec<Option<Ty>> = args.iter().map(|a| self.value(a, errors)).collect();
-                        let full = crate::vm::shape::method_function(shape, name);
-                        return self.call_typed(&full, types, errors);
-                    }
+                if let Expr::Variable(shape) = receiver.as_ref()
+                    && self.lookup(shape).is_none()
+                    && self.shape_id(shape).is_some()
+                {
+                    let types: Vec<Option<Ty>> =
+                        args.iter().map(|a| self.value(a, errors)).collect();
+                    let full = crate::vm::shape::method_function(shape, name);
+                    return self.call_typed(&full, types, errors);
                 }
                 let receiver_ty = self.value(receiver, errors)?;
                 let Ty::Shape(id) = receiver_ty else {
-                    errors.push(format!(".{}(…) needs a record, not {}", name, receiver_ty.name()));
+                    errors.push(format!(
+                        ".{}(…) needs a record, not {}",
+                        name,
+                        receiver_ty.name()
+                    ));
                     return None;
                 };
                 let full = crate::vm::shape::method_function(&self.shapes[id as usize].0, name);
@@ -1575,7 +1932,9 @@ impl<'a> Scope<'a> {
             }
             Expr::Try(inner) => {
                 if !self.in_function {
-                    errors.push("? outside a செயல் — there is no caller to hand the தவறு to".to_string());
+                    errors.push(
+                        "? outside a செயல் — there is no caller to hand the தவறு to".to_string(),
+                    );
                 }
                 self.tried = true;
                 match self.value(inner, errors)? {
@@ -1604,24 +1963,39 @@ impl<'a> Scope<'a> {
         let types: Vec<Option<Ty>> = args.iter().map(|a| self.value(a, errors)).collect();
         if let Some(board) = intrinsic(name) {
             if board.args.len() != args.len() {
-                errors.push(format!("{} takes {} argument(s), given {}", name, board.args.len(), args.len()));
+                errors.push(format!(
+                    "{} takes {} argument(s), given {}",
+                    name,
+                    board.args.len(),
+                    args.len()
+                ));
             }
             for (arg, ty) in board.args.iter().zip(&types) {
                 let wanted = match arg {
                     Arg::Int => Ty::Num,
                     Arg::Flag => Ty::Bool,
                 };
-                if let Some(ty) = ty {
-                    if *ty != wanted {
-                        errors.push(format!("{} wants {}, given {}", name, wanted.name(), ty.name()));
-                    }
+                if let Some(ty) = ty
+                    && *ty != wanted
+                {
+                    errors.push(format!(
+                        "{} wants {}, given {}",
+                        name,
+                        wanted.name(),
+                        ty.name()
+                    ));
                 }
             }
             return Some(board.ret.ty());
         }
         if let Some(function) = manifest_function(name) {
             if function.args.len() != args.len() {
-                errors.push(format!("{} takes {} argument(s), given {}", name, function.args.len(), args.len()));
+                errors.push(format!(
+                    "{} takes {} argument(s), given {}",
+                    name,
+                    function.args.len(),
+                    args.len()
+                ));
             }
             for (i, ((kind, ty), arg)) in function.args.iter().zip(&types).zip(args).enumerate() {
                 let wanted = match kind {
@@ -1629,16 +2003,27 @@ impl<'a> Scope<'a> {
                     Kind::Text => Ty::Text,
                     _ => Ty::Num,
                 };
-                if let Some(ty) = ty {
-                    if *ty != wanted {
-                        errors.push(format!("{}: argument {} goes to C++ as {}, given {}", name, i + 1, wanted.name(), ty.name()));
-                    }
+                if let Some(ty) = ty
+                    && *ty != wanted
+                {
+                    errors.push(format!(
+                        "{}: argument {} goes to C++ as {}, given {}",
+                        name,
+                        i + 1,
+                        wanted.name(),
+                        ty.name()
+                    ));
                 }
                 // A whole number C++ wants, written as a fraction, is wrong now.
-                if let (Kind::Int, Expr::Number(n)) = (kind, arg) {
-                    if !n.fract().is_zero() {
-                        errors.push(format!("{}: argument {} goes to C++ as a whole number, and {} is not one", name, i + 1, n));
-                    }
+                if let (Kind::Int, Expr::Number(n)) = (kind, arg)
+                    && !n.fract().is_zero()
+                {
+                    errors.push(format!(
+                        "{}: argument {} goes to C++ as a whole number, and {} is not one",
+                        name,
+                        i + 1,
+                        n
+                    ));
                 }
             }
             return Some(match function.returns {
@@ -1652,14 +2037,26 @@ impl<'a> Scope<'a> {
     }
 
     /// A call to a செயல் or a method, its arguments already typed.
-    fn call_typed(&mut self, name: &str, types: Vec<Option<Ty>>, errors: &mut Vec<String>) -> Option<Ty> {
+    fn call_typed(
+        &mut self,
+        name: &str,
+        types: Vec<Option<Ty>>,
+        errors: &mut Vec<String>,
+    ) -> Option<Ty> {
         if let Some(params) = self.signatures.get(name) {
             if params.len() != types.len() {
-                errors.push(format!("{} takes {} argument(s), given {}", name, params.len(), types.len()));
+                errors.push(format!(
+                    "{} takes {} argument(s), given {}",
+                    name,
+                    params.len(),
+                    types.len()
+                ));
             }
             {
                 let mut observed = self.observed.borrow_mut();
-                let seen = observed.entry(name.to_string()).or_insert_with(|| vec![None; params.len()]);
+                let seen = observed
+                    .entry(name.to_string())
+                    .or_insert_with(|| vec![None; params.len()]);
                 for (i, ty) in types.iter().enumerate().take(params.len()) {
                     if let Some(ty) = ty {
                         match seen[i] {
@@ -1678,16 +2075,16 @@ impl<'a> Scope<'a> {
             }
             for (i, (wanted, ty)) in params.iter().zip(&types).enumerate() {
                 let Some(wanted) = wanted else { continue };
-                if let Some(ty) = ty {
-                    if unify(*ty, *wanted).is_none() {
-                        errors.push(format!(
-                            "{}: argument {} should be {}, given {}",
-                            name,
-                            i + 1,
-                            wanted.name(),
-                            ty.name()
-                        ));
-                    }
+                if let Some(ty) = ty
+                    && unify(*ty, *wanted).is_none()
+                {
+                    errors.push(format!(
+                        "{}: argument {} should be {}, given {}",
+                        name,
+                        i + 1,
+                        wanted.name(),
+                        ty.name()
+                    ));
                 }
             }
             // None: recursion before its base case is typed, settled on a later pass.
@@ -1700,7 +2097,13 @@ impl<'a> Scope<'a> {
         None
     }
 
-    fn builtin(&mut self, builtin: Builtin, name: &str, args: &[Expr], errors: &mut Vec<String>) -> Option<Ty> {
+    fn builtin(
+        &mut self,
+        builtin: Builtin,
+        name: &str,
+        args: &[Expr],
+        errors: &mut Vec<String>,
+    ) -> Option<Ty> {
         let wanted = match builtin {
             Builtin::Board => 0,
             Builtin::Fill
@@ -1713,7 +2116,12 @@ impl<'a> Scope<'a> {
             _ => 1,
         };
         if args.len() != wanted {
-            errors.push(format!("{} takes {} argument(s), given {}", name, wanted, args.len()));
+            errors.push(format!(
+                "{} takes {} argument(s), given {}",
+                name,
+                wanted,
+                args.len()
+            ));
             return None;
         }
         match builtin {
@@ -1728,7 +2136,11 @@ impl<'a> Scope<'a> {
             Builtin::ToText => match self.value(&args[0], errors)? {
                 Ty::Num | Ty::Bool | Ty::Text => Some(Ty::Text),
                 other => {
-                    errors.push(format!("{} of {} — print it on its own", name, other.name()));
+                    errors.push(format!(
+                        "{} of {} — print it on its own",
+                        name,
+                        other.name()
+                    ));
                     None
                 }
             },
@@ -1754,7 +2166,10 @@ impl<'a> Scope<'a> {
                 match Inner::of(ty) {
                     Some(inner) => Some(Ty::Result(inner)),
                     None => {
-                        errors.push(format!("சரி({}) — a board's result holds a number, true or false, or text", ty.name()));
+                        errors.push(format!(
+                            "சரி({}) — a board's result holds a number, true or false, or text",
+                            ty.name()
+                        ));
                         None
                     }
                 }
@@ -1762,7 +2177,10 @@ impl<'a> Scope<'a> {
             Builtin::Err => {
                 let ty = self.value(&args[0], errors)?;
                 if ty != Ty::Text {
-                    errors.push(format!("தவறு({}) — on a board, a தவறு carries text", ty.name()));
+                    errors.push(format!(
+                        "தவறு({}) — on a board, a தவறு carries text",
+                        ty.name()
+                    ));
                 }
                 Some(Ty::Result(Inner::Unknown))
             }
@@ -1789,7 +2207,12 @@ impl<'a> Scope<'a> {
                 let fallback = self.value(&args[1], errors)?;
                 match held.ty() {
                     Some(ty) if ty != fallback => {
-                        errors.push(format!("{}: the result holds {} but the fallback is {}", name, ty.name(), fallback.name()));
+                        errors.push(format!(
+                            "{}: the result holds {} but the fallback is {}",
+                            name,
+                            ty.name(),
+                            fallback.name()
+                        ));
                         None
                     }
                     _ => Some(fallback),
@@ -1826,10 +2249,10 @@ impl<'a> Scope<'a> {
             }
             Builtin::SerialWrite | Builtin::SerialWriteLine => {
                 self.number(&args[0], "a serial port", errors);
-                if let Some(ty) = self.value(&args[1], errors) {
-                    if ty != Ty::Text {
-                        errors.push(format!("{} writes text, not {}", name, ty.name()));
-                    }
+                if let Some(ty) = self.value(&args[1], errors)
+                    && ty != Ty::Text
+                {
+                    errors.push(format!("{} writes text, not {}", name, ty.name()));
                 }
                 Some(Ty::Result(Inner::Num))
             }
@@ -1923,7 +2346,11 @@ mod tests {
              அ = எண்ணு(\"அஆஅ\", \"அ\");",
         ))
         .expect("builds");
-        let function = program.functions.iter().find(|f| f.name == "எண்ணு").expect("reached");
+        let function = program
+            .functions
+            .iter()
+            .find(|f| f.name == "எண்ணு")
+            .expect("reached");
         // Neither parameter is written, so both can be read where the caller holds them.
         assert!(!function.written.contains("சரம்") && !function.written.contains("தேடல்"));
         assert!(function.written.contains("கண்டது") && function.written.contains("எ"));
@@ -1935,12 +2362,28 @@ mod tests {
     #[test]
     fn a_manifest_s_functions_are_typed_at_the_boundary() {
         use crate::artino::manifest::{Extern, Kind};
-        let externs = [Extern { etamil: "கதவு".into(), cpp: "servo.write".into(), args: vec![Kind::Int], returns: Kind::Int }];
+        let externs = [Extern {
+            etamil: "கதவு".into(),
+            cpp: "servo.write".into(),
+            args: vec![Kind::Int],
+            returns: Kind::Int,
+        }];
         let program = analyse_with(&load("அ = கதவு(90);"), &externs).expect("builds");
         assert_eq!(program.global("அ"), Some(Ty::Num));
-        let found = analyse_with(&load("அ = கதவு(1.5);\nஆ = கதவு(\"x\");"), &externs).expect_err("refused");
-        assert!(found.iter().any(|f| f.contains("1.5 is not one")), "{:?}", found);
-        assert!(found.iter().any(|f| f.contains("argument 1 goes to C++ as a number, given text")), "{:?}", found);
+        let found =
+            analyse_with(&load("அ = கதவு(1.5);\nஆ = கதவு(\"x\");"), &externs).expect_err("refused");
+        assert!(
+            found.iter().any(|f| f.contains("1.5 is not one")),
+            "{:?}",
+            found
+        );
+        assert!(
+            found
+                .iter()
+                .any(|f| f.contains("argument 1 goes to C++ as a number, given text")),
+            "{:?}",
+            found
+        );
         // Without the manifest it is an unknown function.
         assert!(analyse(&load("அ = கதவு(90);")).is_err());
     }
@@ -1954,13 +2397,19 @@ mod tests {
     #[test]
     fn what_b3_1_refuses_is_named() {
         let found = refusals(&load("அ = {பெயர்: 1};\nஆ = இன்மை;"));
-        assert!(found.iter().any(|f| f.contains("record without a வடிவம்")), "{:?}", found);
+        assert!(
+            found.iter().any(|f| f.contains("record without a வடிவம்")),
+            "{:?}",
+            found
+        );
         assert!(found.iter().any(|f| f.contains("இன்மை")), "{:?}", found);
     }
 
     #[test]
     fn a_board_never_pauses() {
-        let found = refusals(&load("இறக்கு \"nUlakam/vaZporuL/vaZporuL.qmz\";\nகாத்திரு(100);"));
+        let found = refusals(&load(
+            "இறக்கு \"nUlakam/vaZporuL/vaZporuL.qmz\";\nகாத்திரு(100);",
+        ));
         assert!(found.iter().any(|f| f.contains("காத்திரு")), "{:?}", found);
     }
 
@@ -1968,21 +2417,47 @@ mod tests {
     fn four_decimals_are_refused_three_are_not() {
         assert!(refusals(&load("அ = 1.25;\nஆ = 18%;")).is_empty());
         let found = refusals(&load("அ = 1.2345;"));
-        assert!(found.iter().any(|f| f.contains("three decimal")), "{:?}", found);
+        assert!(
+            found.iter().any(|f| f.contains("three decimal")),
+            "{:?}",
+            found
+        );
     }
 
     #[test]
     fn type_mistakes_are_reported() {
         let found = errors("அ = 1;\nஅ = பொய்;");
-        assert!(found.iter().any(|e| e.contains("keeps one type")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("keeps one type")),
+            "{:?}",
+            found
+        );
         let found = errors("(5) எனில் { அ = 1; }");
-        assert!(found.iter().any(|e| e.contains("condition must be true or false")), "{:?}", found);
+        assert!(
+            found
+                .iter()
+                .any(|e| e.contains("condition must be true or false")),
+            "{:?}",
+            found
+        );
         let found = errors("அ = 1 + மெய்;");
-        assert!(found.iter().any(|e| e.contains("numbers on both sides")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("numbers on both sides")),
+            "{:?}",
+            found
+        );
         let found = errors("இறக்கு \"nUlakam/vaZporuL/vaZporuL.qmz\";\nமுனை_எழுது(13, 1);");
-        assert!(found.iter().any(|e| e.contains("wants true or false")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("wants true or false")),
+            "{:?}",
+            found
+        );
         let found = errors("அ = இல்லாதது(1);");
-        assert!(found.iter().any(|e| e.contains("neither a செயல்")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("neither a செயல்")),
+            "{:?}",
+            found
+        );
     }
 
     #[test]
@@ -2011,13 +2486,25 @@ mod tests {
     #[test]
     fn array_mistakes_are_reported() {
         let found = errors("அ = [];");
-        assert!(found.iter().any(|e| e.contains("அணி_நிரப்பு")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("அணி_நிரப்பு")),
+            "{:?}",
+            found
+        );
         let found = errors("அ = [1, மெய்];");
         assert!(found.iter().any(|e| e.contains("mixes")), "{:?}", found);
         let found = errors("அ = [1, 2];\nஅ = [1, 2, 3];");
-        assert!(found.iter().any(|e| e.contains("keeps one type")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("keeps one type")),
+            "{:?}",
+            found
+        );
         let found = errors("இறக்கு \"nUlakam/aNi.qmz\";\nந = 3;\nஅ = அணி_நிரப்பு(0, ந);");
-        assert!(found.iter().any(|e| e.contains("written in the source")), "{:?}", found);
+        assert!(
+            found.iter().any(|e| e.contains("written in the source")),
+            "{:?}",
+            found
+        );
         let found = errors("அ = [1];\nசெயல் மாற்று() { அ[0] = 2; திரும்பு 0; }\nஆ = மாற்று();");
         assert!(found.iter().any(|e| e.contains("cannot")), "{:?}", found);
     }
@@ -2031,7 +2518,10 @@ mod tests {
         .expect("builds");
         assert_eq!(program.global("அ"), Some(Ty::Text));
         assert_eq!(program.global("ஆ"), Some(Ty::Bool));
-        assert_eq!(program.function("வணக்கம்").unwrap().params, vec![("பெயர்".to_string(), Ty::Text)]);
+        assert_eq!(
+            program.function("வணக்கம்").unwrap().params,
+            vec![("பெயர்".to_string(), Ty::Text)]
+        );
         // Letters, as the VM counts them: நீளம் of text is a number now.
         let program = analyse(&load("அ = நீளம்(\"வரி\");")).expect("builds");
         assert_eq!(program.global("அ"), Some(Ty::Num));

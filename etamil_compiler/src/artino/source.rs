@@ -26,9 +26,15 @@ pub fn text(expr: &Expr) -> String {
             }
             format!("{} {} {}", operand(left), op, operand(right))
         }
-        Expr::Comparison { op, left, right } => format!("{} {} {}", operand(left), op, operand(right)),
+        Expr::Comparison { op, left, right } => {
+            format!("{} {} {}", operand(left), op, operand(right))
+        }
         Expr::Logical { op, left, right } => {
-            let word = if op == "&&" { "மற்றும்" } else { "அல்லது" };
+            let word = if op == "&&" {
+                "மற்றும்"
+            } else {
+                "அல்லது"
+            };
             format!("{} {} {}", operand(left), word, operand(right))
         }
         Expr::Not(inner) => format!("இல்லை {}", operand(inner)),
@@ -48,7 +54,10 @@ pub fn text(expr: &Expr) -> String {
 
 fn operand(expr: &Expr) -> String {
     match expr {
-        Expr::BinaryOp { .. } | Expr::Comparison { .. } | Expr::Logical { .. } | Expr::Concat { .. } => {
+        Expr::BinaryOp { .. }
+        | Expr::Comparison { .. }
+        | Expr::Logical { .. }
+        | Expr::Concat { .. } => {
             format!("({})", text(expr))
         }
         _ => text(expr),
@@ -60,8 +69,9 @@ mod tests {
     use super::*;
 
     fn expr(source: &str) -> Expr {
-        let program = crate::module::load_source(&format!("அ = {};", source), std::path::Path::new("."))
-            .expect("parses");
+        let program =
+            crate::module::load_source(&format!("அ = {};", source), std::path::Path::new("."))
+                .expect("parses");
         match program.into_iter().next() {
             Some(crate::parser::Stmt::Assign { value, .. }) => value,
             other => panic!("not an assignment: {:?}", other),
@@ -73,6 +83,9 @@ mod tests {
         assert_eq!(text(&expr("அளவீடு / 8")), "அளவீடு / 8");
         assert_eq!(text(&expr("(அ + 1) * 2.5")), "(அ + 1) * 2.5");
         assert_eq!(text(&expr("-அ")), "-அ");
-        assert_eq!(text(&expr("f(அ, 3) > 2 மற்றும் இல்லை ஆ")), "(f(அ, 3) > 2) மற்றும் இல்லை ஆ");
+        assert_eq!(
+            text(&expr("f(அ, 3) > 2 மற்றும் இல்லை ஆ")),
+            "(f(அ, 3) > 2) மற்றும் இல்லை ஆ"
+        );
     }
 }

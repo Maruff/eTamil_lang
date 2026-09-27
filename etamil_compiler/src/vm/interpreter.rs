@@ -1836,11 +1836,19 @@ impl VM {
         let number = match value {
             Value::Number(n) => *n,
             other => {
-                return Err(format!("{} ஒரு எண்ணாக இருக்க வேண்டும்  ({} must be a number, not {})", what, what, Self::type_name(other)));
+                return Err(format!(
+                    "{} ஒரு எண்ணாக இருக்க வேண்டும்  ({} must be a number, not {})",
+                    what,
+                    what,
+                    Self::type_name(other)
+                ));
             }
         };
         if !number.fract().is_zero() {
-            return Err(format!("{} முழு எண்ணாக இருக்க வேண்டும்  ({} must be a whole number, not {})", what, what, number));
+            return Err(format!(
+                "{} முழு எண்ணாக இருக்க வேண்டும்  ({} must be a whole number, not {})",
+                what, what, number
+            ));
         }
         rust_decimal::prelude::ToPrimitive::to_i64(&number)
             .ok_or_else(|| format!("{} மிகப் பெரியது  ({} is too large: {})", what, what, number))

@@ -86,6 +86,14 @@ describe('the README', { skip: available ? false : 'run npm run build' }, () => 
       thirty: 30,
       'thirty-one': 31,
       'thirty-two': 32,
+      'thirty-three': 33,
+      'thirty-four': 34,
+      'thirty-five': 35,
+      'thirty-six': 36,
+      'thirty-seven': 37,
+      'thirty-eight': 38,
+      'thirty-nine': 39,
+      forty: 40,
     };
     const examples = countExamples();
     // Whole words: "thirty-two" contains "thirty", and a substring match

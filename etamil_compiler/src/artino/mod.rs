@@ -51,9 +51,39 @@ pub struct Board {
 }
 
 pub const BOARDS: &[Board] = &[
-    Board { name: "uno", triple: "avr", cpu: "atmega328p", fqbn: "arduino:avr:uno", mcu: "atmega328p", line_reports: true, serial_ports: 1, flash_constants: true, ram: 2048 },
-    Board { name: "nano", triple: "avr", cpu: "atmega328p", fqbn: "arduino:avr:nano", mcu: "atmega328p", line_reports: true, serial_ports: 1, flash_constants: true, ram: 2048 },
-    Board { name: "mega", triple: "avr", cpu: "atmega2560", fqbn: "arduino:avr:mega", mcu: "atmega2560", line_reports: false, serial_ports: 4, flash_constants: true, ram: 8192 },
+    Board {
+        name: "uno",
+        triple: "avr",
+        cpu: "atmega328p",
+        fqbn: "arduino:avr:uno",
+        mcu: "atmega328p",
+        line_reports: true,
+        serial_ports: 1,
+        flash_constants: true,
+        ram: 2048,
+    },
+    Board {
+        name: "nano",
+        triple: "avr",
+        cpu: "atmega328p",
+        fqbn: "arduino:avr:nano",
+        mcu: "atmega328p",
+        line_reports: true,
+        serial_ports: 1,
+        flash_constants: true,
+        ram: 2048,
+    },
+    Board {
+        name: "mega",
+        triple: "avr",
+        cpu: "atmega2560",
+        fqbn: "arduino:avr:mega",
+        mcu: "atmega2560",
+        line_reports: false,
+        serial_ports: 4,
+        flash_constants: true,
+        ram: 8192,
+    },
     Board {
         name: "pico",
         triple: "thumbv6m-none-eabi",
@@ -157,8 +187,16 @@ mod tests {
         assert!(board_file_mismatch(&pico, "pico2").is_none());
         assert!(board_file_mismatch(&pico, "host").is_none());
         let refused = board_file_mismatch(&pico, "uno").expect("refused");
-        assert!(refused.contains("pico,pico2") && refused.contains("uno"), "{}", refused);
-        assert!(board_file_mismatch(&load("இறக்கு \"nUlakam/vaZporuL/rAspY.qmz\";"), "mega").is_some());
-        assert!(board_file_mismatch(&load("இறக்கு \"nUlakam/vaZporuL/vaZporuL.qmz\";"), "uno").is_none());
+        assert!(
+            refused.contains("pico,pico2") && refused.contains("uno"),
+            "{}",
+            refused
+        );
+        assert!(
+            board_file_mismatch(&load("இறக்கு \"nUlakam/vaZporuL/rAspY.qmz\";"), "mega").is_some()
+        );
+        assert!(
+            board_file_mismatch(&load("இறக்கு \"nUlakam/vaZporuL/vaZporuL.qmz\";"), "uno").is_none()
+        );
     }
 }

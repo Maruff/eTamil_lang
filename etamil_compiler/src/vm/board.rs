@@ -90,7 +90,11 @@ fn with<T>(f: impl FnOnce(&mut Board) -> T) -> T {
 
 fn detect() -> Kind {
     // In the browser there is no board but a simulated one.
-    if cfg!(target_family = "wasm") || std::env::var("ETAMIL_BOARD").map(|b| b == "sim").unwrap_or(false) {
+    if cfg!(target_family = "wasm")
+        || std::env::var("ETAMIL_BOARD")
+            .map(|b| b == "sim")
+            .unwrap_or(false)
+    {
         return Kind::Sim;
     }
     #[cfg(target_os = "linux")]
@@ -104,7 +108,10 @@ const NO_PINS: &str = "இந்தக் கணினியில் முன�
                        run it on a Raspberry Pi, or with ETAMIL_BOARD=sim to simulate one)";
 
 fn sim_only(what: &str) -> String {
-    format!("{} போலிப் பலகையில் மட்டும்  ({} works only on the simulated board: ETAMIL_BOARD=sim)", what, what)
+    format!(
+        "{} போலிப் பலகையில் மட்டும்  ({} works only on the simulated board: ETAMIL_BOARD=sim)",
+        what, what
+    )
 }
 
 // --- the board --------------------------------------------------------------------
@@ -127,7 +134,12 @@ pub fn pin_mode(pin: i64, mode: &str) -> Result<(), String> {
         "out" => Mode::Output,
         "in" => Mode::Input,
         "in_pullup" => Mode::InputPullUp,
-        other => return Err(format!("முனை வகை '{}' இல்லை  (no pin mode '{}': out, in or in_pullup)", other, other)),
+        other => {
+            return Err(format!(
+                "முனை வகை '{}' இல்லை  (no pin mode '{}': out, in or in_pullup)",
+                other, other
+            ));
+        }
     };
     with(|b| {
         match &mut b.kind {
@@ -156,7 +168,10 @@ fn mode_of(b: &Board, pin: i64) -> Result<Mode, String> {
 pub fn pin_write(pin: i64, high: bool) -> Result<(), String> {
     with(|b| {
         if mode_of(b, pin)? != Mode::Output {
-            return Err(format!("முனை {} வெளியீடு அல்ல  (pin {} is an input: make it an output first)", pin, pin));
+            return Err(format!(
+                "முனை {} வெளியீடு அல்ல  (pin {} is an input: make it an output first)",
+                pin, pin
+            ));
         }
         match &mut b.kind {
             Kind::Sim => {}
@@ -175,7 +190,11 @@ pub fn pin_read(pin: i64) -> Result<bool, String> {
         match &mut b.kind {
             // An output reads back what was written; an input what the test
             // set, or what a floating or pulled-up pin rests at.
-            Kind::Sim => Ok(b.levels.get(&pin).copied().unwrap_or(mode == Mode::InputPullUp)),
+            Kind::Sim => Ok(b
+                .levels
+                .get(&pin)
+                .copied()
+                .unwrap_or(mode == Mode::InputPullUp)),
             #[cfg(target_os = "linux")]
             Kind::Pi(chip) => chip.read(pin),
             Kind::Host => Err(NO_PINS.to_string()),
@@ -218,7 +237,11 @@ pub fn tone(pin: i64, hz: Option<i64>) -> Result<(), String> {
 pub fn millis() -> u64 {
     with(|b| match b.kind {
         Kind::Sim => b.sim_ms,
-        _ => b.started.get_or_insert_with(Instant::now).elapsed().as_millis() as u64,
+        _ => b
+            .started
+            .get_or_insert_with(Instant::now)
+            .elapsed()
+            .as_millis() as u64,
     })
 }
 
@@ -292,7 +315,10 @@ fn open_device(device: &str, _baud: u32) -> Result<Handle, String> {
 }
 
 fn handle_error(handle: i64) -> String {
-    format!("துறை {} திறந்திருக்கவில்லை  (port {} is not open)", handle, handle)
+    format!(
+        "துறை {} திறந்திருக்கவில்லை  (port {} is not open)",
+        handle, handle
+    )
 }
 
 fn slot(b: &mut Board, handle: i64) -> Result<&mut Handle, String> {
@@ -330,7 +356,8 @@ pub fn serial_write(handle: i64, text: &str) -> Result<usize, String> {
         sim.partial.push_str(text);
         while let Some(end) = sim.partial.find('\n') {
             let line: String = sim.partial.drain(..=end).collect();
-            sim.lines.push(line.trim_end_matches(['\n', '\r']).to_string());
+            sim.lines
+                .push(line.trim_end_matches(['\n', '\r']).to_string());
         }
         Ok(text.len())
     })
@@ -347,7 +374,13 @@ pub fn serial_close(handle: i64) -> Result<(), String> {
 // --- the simulated board's controls ---------------------------------------------------------
 
 fn sim_board<T>(what: &str, f: impl FnOnce(&mut Board) -> T) -> Result<T, String> {
-    with(|b| if matches!(b.kind, Kind::Sim) { Ok(f(b)) } else { Err(sim_only(what)) })
+    with(|b| {
+        if matches!(b.kind, Kind::Sim) {
+            Ok(f(b))
+        } else {
+            Err(sim_only(what))
+        }
+    })
 }
 
 pub fn sim_set_pin(pin: i64, high: bool) -> Result<(), String> {
@@ -358,7 +391,10 @@ pub fn sim_set_pin(pin: i64, high: bool) -> Result<(), String> {
 
 pub fn sim_set_analog(pin: i64, value: i64) -> Result<(), String> {
     if !(0..=1023).contains(&value) {
-        return Err(format!("ஒப்புமை அளவு 0–1023  (an analog reading is 0 to 1023, not {})", value));
+        return Err(format!(
+            "ஒப்புமை அளவு 0–1023  (an analog reading is 0 to 1023, not {})",
+            value
+        ));
     }
     sim_board("போலி_ஒப்புமை", |b| {
         b.analogs.insert(pin, value);
@@ -373,13 +409,17 @@ pub fn sim_feed(device: &str, line: &str) -> Result<(), String> {
     sim_board("போலி_தொடர்_ஊட்டு", |b| {
         let port = b.sim_ports.entry(sim_name(device)).or_default();
         for piece in line.split('\n') {
-            port.incoming.push_back(piece.trim_end_matches('\r').to_string());
+            port.incoming
+                .push_back(piece.trim_end_matches('\r').to_string());
         }
     })
 }
 
 pub fn sim_output(device: &str) -> Result<Vec<String>, String> {
-    sim_board("போலி_தொடர்_வெளியீடு", |b| std::mem::take(&mut b.sim_ports.entry(sim_name(device)).or_default().lines))
+    sim_board(
+        "போலி_தொடர்_வெளியீடு",
+        |b| std::mem::take(&mut b.sim_ports.entry(sim_name(device)).or_default().lines),
+    )
 }
 
 // --- a real serial port, on Linux and macOS ---------------------------------------------------
@@ -423,13 +463,19 @@ mod unix_serial {
     impl Port {
         pub fn open(name: &str, baud: u32) -> Result<Port, String> {
             let rate = speed(baud).ok_or_else(|| {
-                format!("வேகம் {} இல்லை  (no baud rate {}: 1200 to 230400, the usual steps)", baud, baud)
+                format!(
+                    "வேகம் {} இல்லை  (no baud rate {}: 1200 to 230400, the usual steps)",
+                    baud, baud
+                )
             })?;
             let path = CString::new(name).map_err(|_| failed(name, "a NUL in the name"))?;
             // SAFETY: plain POSIX calls on a descriptor this function owns;
             // every result is checked before the descriptor is used.
             unsafe {
-                let fd = libc::open(path.as_ptr(), libc::O_RDWR | libc::O_NOCTTY | libc::O_NONBLOCK);
+                let fd = libc::open(
+                    path.as_ptr(),
+                    libc::O_RDWR | libc::O_NOCTTY | libc::O_NONBLOCK,
+                );
                 if fd < 0 {
                     return Err(failed(name, "open"));
                 }
@@ -453,7 +499,11 @@ mod unix_serial {
                 // Blocking writes; reads wait in poll(), never in read().
                 let flags = libc::fcntl(fd, libc::F_GETFL);
                 libc::fcntl(fd, libc::F_SETFL, flags & !libc::O_NONBLOCK);
-                Ok(Port { fd, name: name.to_string(), pending: Vec::new() })
+                Ok(Port {
+                    fd,
+                    name: name.to_string(),
+                    pending: Vec::new(),
+                })
             }
         }
 
@@ -473,24 +523,49 @@ mod unix_serial {
                 if let Some(line) = self.take_line() {
                     return Ok(Some(line));
                 }
-                let left = deadline.saturating_duration_since(Instant::now()).as_millis() as libc::c_int;
-                let mut poll = libc::pollfd { fd: self.fd, events: libc::POLLIN, revents: 0 };
+                let left = deadline
+                    .saturating_duration_since(Instant::now())
+                    .as_millis() as libc::c_int;
+                let mut poll = libc::pollfd {
+                    fd: self.fd,
+                    events: libc::POLLIN,
+                    revents: 0,
+                };
                 // SAFETY: one pollfd for a descriptor this Port owns.
                 let ready = unsafe { libc::poll(&mut poll, 1, left) };
                 if ready < 0 {
-                    return Err(format!("துறை {} படிக்க முடியவில்லை  (cannot read {}: {})", self.name, self.name, std::io::Error::last_os_error()));
+                    return Err(format!(
+                        "துறை {} படிக்க முடியவில்லை  (cannot read {}: {})",
+                        self.name,
+                        self.name,
+                        std::io::Error::last_os_error()
+                    ));
                 }
                 if ready == 0 {
                     return Ok(None);
                 }
                 let mut buffer = [0u8; 256];
                 // SAFETY: reads into a local buffer of the length given.
-                let n = unsafe { libc::read(self.fd, buffer.as_mut_ptr() as *mut libc::c_void, buffer.len()) };
+                let n = unsafe {
+                    libc::read(
+                        self.fd,
+                        buffer.as_mut_ptr() as *mut libc::c_void,
+                        buffer.len(),
+                    )
+                };
                 if n < 0 {
-                    return Err(format!("துறை {} படிக்க முடியவில்லை  (cannot read {}: {})", self.name, self.name, std::io::Error::last_os_error()));
+                    return Err(format!(
+                        "துறை {} படிக்க முடியவில்லை  (cannot read {}: {})",
+                        self.name,
+                        self.name,
+                        std::io::Error::last_os_error()
+                    ));
                 }
                 if n == 0 && poll.revents & libc::POLLHUP != 0 {
-                    return Err(format!("துறை {} துண்டிக்கப்பட்டது  ({} was unplugged)", self.name, self.name));
+                    return Err(format!(
+                        "துறை {} துண்டிக்கப்பட்டது  ({} was unplugged)",
+                        self.name, self.name
+                    ));
                 }
                 self.pending.extend_from_slice(&buffer[..n as usize]);
             }
@@ -501,9 +576,16 @@ mod unix_serial {
             let total = bytes.len();
             while !bytes.is_empty() {
                 // SAFETY: writes from a slice of the length given.
-                let n = unsafe { libc::write(self.fd, bytes.as_ptr() as *const libc::c_void, bytes.len()) };
+                let n = unsafe {
+                    libc::write(self.fd, bytes.as_ptr() as *const libc::c_void, bytes.len())
+                };
                 if n <= 0 {
-                    return Err(format!("துறை {} எழுத முடியவில்லை  (cannot write {}: {})", self.name, self.name, std::io::Error::last_os_error()));
+                    return Err(format!(
+                        "துறை {} எழுத முடியவில்லை  (cannot write {}: {})",
+                        self.name,
+                        self.name,
+                        std::io::Error::last_os_error()
+                    ));
                 }
                 bytes = &bytes[n as usize..];
             }
@@ -533,7 +615,12 @@ mod pi_gpio {
     use std::ffi::CString;
 
     /// The chips whose lines are the 40-pin header's BCM GPIOs.
-    const LABELS: &[&str] = &["pinctrl-bcm2711", "pinctrl-bcm2835", "pinctrl-bcm2712", "pinctrl-rp1"];
+    const LABELS: &[&str] = &[
+        "pinctrl-bcm2711",
+        "pinctrl-bcm2835",
+        "pinctrl-bcm2712",
+        "pinctrl-rp1",
+    ];
 
     #[repr(C)]
     struct ChipInfo {
@@ -603,7 +690,14 @@ mod pi_gpio {
     }
 
     fn os_error(what: &str, pin: i64) -> String {
-        format!("முனை {}: {}  (pin {}: {}: {})", pin, what, pin, what, std::io::Error::last_os_error())
+        format!(
+            "முனை {}: {}  (pin {}: {}: {})",
+            pin,
+            what,
+            pin,
+            what,
+            std::io::Error::last_os_error()
+        )
     }
 
     impl Chip {
@@ -621,7 +715,11 @@ mod pi_gpio {
                         let label = String::from_utf8_lossy(&info.label);
                         let label = label.trim_end_matches('\0');
                         if LABELS.contains(&label) {
-                            return Some(Chip { fd, lines: info.lines, pins: HashMap::new() });
+                            return Some(Chip {
+                                fd,
+                                lines: info.lines,
+                                pins: HashMap::new(),
+                            });
                         }
                     }
                     libc::close(fd);
@@ -632,7 +730,10 @@ mod pi_gpio {
 
         pub fn request(&mut self, pin: i64, mode: Mode) -> Result<(), String> {
             if pin < 0 || pin >= self.lines as i64 || pin > 27 {
-                return Err(format!("முனை {} இல்லை  (no GPIO {}: a Pi's header has GPIO 0 to 27)", pin, pin));
+                return Err(format!(
+                    "முனை {} இல்லை  (no GPIO {}: a Pi's header has GPIO 0 to 27)",
+                    pin, pin
+                ));
             }
             if let Some(old) = self.pins.remove(&pin) {
                 // SAFETY: the line descriptor is ours, closed once.
@@ -660,12 +761,18 @@ mod pi_gpio {
         }
 
         fn line(&self, pin: i64) -> Result<libc::c_int, String> {
-            self.pins.get(&pin).copied().ok_or_else(|| format!("முனை {} கேட்கப்படவில்லை  (pin {} was not set up)", pin, pin))
+            self.pins
+                .get(&pin)
+                .copied()
+                .ok_or_else(|| format!("முனை {} கேட்கப்படவில்லை  (pin {} was not set up)", pin, pin))
         }
 
         pub fn write(&mut self, pin: i64, high: bool) -> Result<(), String> {
             let fd = self.line(pin)?;
-            let mut values = LineValues { bits: u64::from(high), mask: 1 };
+            let mut values = LineValues {
+                bits: u64::from(high),
+                mask: 1,
+            };
             // SAFETY: one ioctl on our line descriptor with a local struct.
             if unsafe { libc::ioctl(fd, SET_VALUES as _, &mut values) } != 0 {
                 return Err(os_error("எழுத முடியவில்லை (could not drive it)", pin));
@@ -739,12 +846,18 @@ mod tests {
         let bus = serial_open("1", 19200).unwrap();
         assert_eq!(serial_read_line(bus, 0).unwrap(), None);
         sim_feed("1", ">03,P*7F").unwrap();
-        assert_eq!(serial_read_line(bus, 0).unwrap().as_deref(), Some(">03,P*7F"));
+        assert_eq!(
+            serial_read_line(bus, 0).unwrap().as_deref(),
+            Some(">03,P*7F")
+        );
         serial_write(bus, "<03,").unwrap();
         serial_write(bus, "3:N:250*03\n").unwrap();
         assert_eq!(sim_output("1").unwrap(), vec!["<03,3:N:250*03"]);
         serial_close(bus).unwrap();
         assert!(serial_write(bus, "x").is_err());
-        assert!(serial_open("/dev/ttyACM0", 9600).is_err(), "no real devices on the sim board");
+        assert!(
+            serial_open("/dev/ttyACM0", 9600).is_err(),
+            "no real devices on the sim board"
+        );
     }
 }

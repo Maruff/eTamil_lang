@@ -41,7 +41,11 @@ pub fn stack(disassembly: &str) -> (u32, Vec<String>) {
         }
     };
     for line in disassembly.lines() {
-        if let Some(name) = line.strip_suffix(">:").and_then(|l| l.split_once(" <")).map(|(_, n)| n.to_string()) {
+        if let Some(name) = line
+            .strip_suffix(">:")
+            .and_then(|l| l.split_once(" <"))
+            .map(|(_, n)| n.to_string())
+        {
             finish(&mut functions, &current, frame);
             functions.entry(name.clone()).or_default();
             current = Some(name);
@@ -61,7 +65,10 @@ pub fn stack(disassembly: &str) -> (u32, Vec<String>) {
         match op {
             "push" => f.own += 1,
             "call" | "rcall" => {
-                if let Some(target) = line.rsplit_once('<').and_then(|(_, t)| t.split(['>', '+']).next()) {
+                if let Some(target) = line
+                    .rsplit_once('<')
+                    .and_then(|(_, t)| t.split(['>', '+']).next())
+                {
                     f.calls.push(target.to_string());
                 }
             }
@@ -83,11 +90,18 @@ pub fn stack(disassembly: &str) -> (u32, Vec<String>) {
     }
     finish(&mut functions, &current, frame);
 
-    fn deepest(name: &str, functions: &HashMap<String, Function>, seen: &mut Vec<String>, memo: &mut HashMap<String, (u32, Vec<String>)>) -> (u32, Vec<String>) {
+    fn deepest(
+        name: &str,
+        functions: &HashMap<String, Function>,
+        seen: &mut Vec<String>,
+        memo: &mut HashMap<String, (u32, Vec<String>)>,
+    ) -> (u32, Vec<String>) {
         if let Some(found) = memo.get(name) {
             return found.clone();
         }
-        let Some(f) = functions.get(name) else { return (0, Vec::new()) };
+        let Some(f) = functions.get(name) else {
+            return (0, Vec::new());
+        };
         if seen.iter().any(|s| s == name) {
             return (0, vec![format!("{} (recursion)", name)]);
         }
@@ -133,20 +147,44 @@ pub fn variables(headers: &str) -> u32 {
 
 /// avr-objdump, from the toolchain arduino-cli installed with the AVR core.
 fn objdump(cli: &str) -> Option<PathBuf> {
-    let output = Command::new(cli).args(["config", "get", "directories.data"]).output().ok()?;
+    let output = Command::new(cli)
+        .args(["config", "get", "directories.data"])
+        .output()
+        .ok()?;
     let data = PathBuf::from(String::from_utf8_lossy(&output.stdout).trim());
-    let tools = data.join("packages").join("arduino").join("tools").join("avr-gcc");
-    let mut versions: Vec<PathBuf> = std::fs::read_dir(tools).ok()?.flatten().map(|e| e.path()).collect();
+    let tools = data
+        .join("packages")
+        .join("arduino")
+        .join("tools")
+        .join("avr-gcc");
+    let mut versions: Vec<PathBuf> = std::fs::read_dir(tools)
+        .ok()?
+        .flatten()
+        .map(|e| e.path())
+        .collect();
     versions.sort();
-    let name = if cfg!(windows) { "avr-objdump.exe" } else { "avr-objdump" };
-    versions.into_iter().rev().map(|v| v.join("bin").join(name)).find(|p| p.is_file())
+    let name = if cfg!(windows) {
+        "avr-objdump.exe"
+    } else {
+        "avr-objdump"
+    };
+    versions
+        .into_iter()
+        .rev()
+        .map(|v| v.join("bin").join(name))
+        .find(|p| p.is_file())
 }
 
 /// The RAM line for a linked AVR image, and whether it fits.
 pub fn report(cli: &str, elf: &Path, ram: u32) -> Option<(String, bool)> {
     let tool = objdump(cli)?;
     let run = |flag: &str| {
-        Command::new(&tool).arg(flag).arg(elf).output().ok().map(|o| String::from_utf8_lossy(&o.stdout).into_owned())
+        Command::new(&tool)
+            .arg(flag)
+            .arg(elf)
+            .output()
+            .ok()
+            .map(|o| String::from_utf8_lossy(&o.stdout).into_owned())
     };
     let vars = variables(&run("-h")?);
     let (stack, chain) = stack(&run("-d")?);

@@ -55,8 +55,10 @@ use llvm_sys::target_machine::*;
 use llvm_sys::transforms::pass_builder::*;
 use llvm_sys::{LLVMIntPredicate, LLVMLinkage};
 
-use super::analyse::{self, Arg, Builtin, Elem, Inner, Program, Ret, ShapeInfo, Ty, LETTER_BYTES, TEXT_BYTES};
 use super::Board;
+use super::analyse::{
+    self, Arg, Builtin, Elem, Inner, LETTER_BYTES, Program, Ret, ShapeInfo, TEXT_BYTES, Ty,
+};
 use crate::parser::{Expr, Stmt};
 
 fn c(text: &str) -> CString {
@@ -79,7 +81,12 @@ unsafe fn take_message(message: *mut std::os::raw::c_char) -> String {
 /// `ir` is given, the optimised IR is written there too, for reading.
 pub use super::sketch::Compiled;
 
-pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path>) -> Result<Compiled, String> {
+pub fn compile(
+    program: &Program,
+    board: &Board,
+    object: &Path,
+    ir: Option<&Path>,
+) -> Result<Compiled, String> {
     unsafe {
         LLVM_InitializeAllTargetInfos();
         LLVM_InitializeAllTargets();
@@ -112,7 +119,11 @@ pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path
             LLVMCodeGenOptLevel::LLVMCodeGenLevelDefault,
             // A board image is linked at fixed addresses; a host executable
             // today is position-independent.
-            if host { LLVMRelocMode::LLVMRelocPIC } else { LLVMRelocMode::LLVMRelocStatic },
+            if host {
+                LLVMRelocMode::LLVMRelocPIC
+            } else {
+                LLVMRelocMode::LLVMRelocStatic
+            },
             LLVMCodeModel::LLVMCodeModelDefault,
         );
 
@@ -125,7 +136,11 @@ pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path
         LLVMSetModuleDataLayout(module, layout);
 
         // host-small is the host, built another way: பலகை() answers "host" on both.
-        let name = if board.name == "host-small" { "host" } else { board.name };
+        let name = if board.name == "host-small" {
+            "host"
+        } else {
+            board.name
+        };
         let mut emitter = Emitter::new(context, module, layout, board.triple == "avr", name);
         emitter.flash = board.flash_constants;
         emitter.line_reports = board.line_reports;
@@ -133,8 +148,16 @@ pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path
 
         let outcome = result.and_then(|_| {
             let mut message = ptr::null_mut();
-            if LLVMVerifyModule(module, LLVMVerifierFailureAction::LLVMReturnStatusAction, &mut message) != 0 {
-                return Err(format!("artino built IR LLVM rejects: {}", take_message(message)));
+            if LLVMVerifyModule(
+                module,
+                LLVMVerifierFailureAction::LLVMReturnStatusAction,
+                &mut message,
+            ) != 0
+            {
+                return Err(format!(
+                    "artino built IR LLVM rejects: {}",
+                    take_message(message)
+                ));
             }
             take_message(message);
 
@@ -153,7 +176,11 @@ pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path
                 let mut message = ptr::null_mut();
                 let path = c(&ir.to_string_lossy());
                 if LLVMPrintModuleToFile(module, path.as_ptr(), &mut message) != 0 {
-                    return Err(format!("writing {}: {}", ir.display(), take_message(message)));
+                    return Err(format!(
+                        "writing {}: {}",
+                        ir.display(),
+                        take_message(message)
+                    ));
                 }
             }
 
@@ -167,13 +194,20 @@ pub fn compile(program: &Program, board: &Board, object: &Path, ir: Option<&Path
                 &mut message,
             ) != 0
             {
-                return Err(format!("writing {}: {}", object.display(), take_message(message)));
+                return Err(format!(
+                    "writing {}: {}",
+                    object.display(),
+                    take_message(message)
+                ));
             }
             let used = |name: &str| {
                 let function = LLVMGetNamedFunction(module, c(name).as_ptr());
                 !function.is_null() && !LLVMGetFirstUse(function).is_null()
             };
-            Ok(Compiled { sites: std::mem::take(&mut emitter.site_texts), tone: used("artino_tone") || used("artino_no_tone") })
+            Ok(Compiled {
+                sites: std::mem::take(&mut emitter.site_texts),
+                tone: used("artino_tone") || used("artino_no_tone"),
+            })
         });
 
         LLVMDisposeBuilder(emitter.builder);
@@ -415,7 +449,14 @@ impl Emitter {
     fn call(&self, name: &str, args: &mut [LLVMValueRef]) -> LLVMValueRef {
         let (function, kind) = self.runtime[name];
         unsafe {
-            LLVMBuildCall2(self.builder, kind, function, args.as_mut_ptr(), args.len() as u32, c("").as_ptr())
+            LLVMBuildCall2(
+                self.builder,
+                kind,
+                function,
+                args.as_mut_ptr(),
+                args.len() as u32,
+                c("").as_ptr(),
+            )
         }
     }
 
@@ -429,7 +470,12 @@ impl Emitter {
         }
         unsafe {
             let bytes = text.as_bytes();
-            let value = LLVMConstStringInContext(self.context, bytes.as_ptr() as *const _, bytes.len() as u32, 0);
+            let value = LLVMConstStringInContext(
+                self.context,
+                bytes.as_ptr() as *const _,
+                bytes.len() as u32,
+                0,
+            );
             let global = LLVMAddGlobal(self.module, LLVMTypeOf(value), c("et.text").as_ptr());
             LLVMSetInitializer(global, value);
             LLVMSetGlobalConstant(global, 1);
@@ -450,22 +496,39 @@ impl Emitter {
     /// of `artino_said`, so the site itself never changes. On a board with
     /// `line_reports` the text is left out.
     fn site(&mut self, operation: &Expr) -> Result<LLVMValueRef, String> {
-        let shown = self.line.map(|n| format!(", வரி {}", n)).unwrap_or_default();
-        let place = format!("{}{}: {}", self.place, shown, super::source::text(operation));
+        let shown = self
+            .line
+            .map(|n| format!(", வரி {}", n))
+            .unwrap_or_default();
+        let place = format!(
+            "{}{}: {}",
+            self.place,
+            shown,
+            super::source::text(operation)
+        );
         let index = self.site_texts.len();
         if index > u16::MAX as usize {
             return Err("more than 65,536 report sites".to_string());
         }
-        let description = if self.line_reports { unsafe { LLVMConstNull(self.ptr()) } } else { self.program_text(&place)? };
+        let description = if self.line_reports {
+            unsafe { LLVMConstNull(self.ptr()) }
+        } else {
+            self.program_text(&place)?
+        };
         self.site_texts.push(place);
         unsafe {
             let i16 = LLVMInt16TypeInContext(self.context);
             let mut fields = [i16, i16, self.ptr()];
             let kind = LLVMStructTypeInContext(self.context, fields.as_mut_ptr(), 3, 0);
             let line = self.line.unwrap_or(0).min(u16::MAX as usize);
-            let mut values = [LLVMConstInt(i16, index as u64, 0), LLVMConstInt(i16, line as u64, 0), description];
+            let mut values = [
+                LLVMConstInt(i16, index as u64, 0),
+                LLVMConstInt(i16, line as u64, 0),
+                description,
+            ];
             let initial = LLVMConstStructInContext(self.context, values.as_mut_ptr(), 3, 0);
-            let global = LLVMAddGlobal(self.module, kind, c(&format!("et.site.{}", index)).as_ptr());
+            let global =
+                LLVMAddGlobal(self.module, kind, c(&format!("et.site.{}", index)).as_ptr());
             LLVMSetInitializer(global, initial);
             LLVMSetGlobalConstant(global, 1);
             LLVMSetLinkage(global, LLVMLinkage::LLVMInternalLinkage);
@@ -525,7 +588,11 @@ impl Emitter {
     /// their temporaries end. Otherwise, once LLVM inlines the function, they
     /// look alive for the rest of the caller and no slot can be shared.
     fn end_lifetimes(&mut self) {
-        let slots: Vec<LLVMValueRef> = self.scopes.iter().flat_map(|(_, temps)| temps.iter().copied()).collect();
+        let slots: Vec<LLVMValueRef> = self
+            .scopes
+            .iter()
+            .flat_map(|(_, temps)| temps.iter().copied())
+            .collect();
         for slot in slots {
             self.lifetime("llvm.lifetime.end", slot);
         }
@@ -539,7 +606,14 @@ impl Emitter {
             let kind = LLVMIntrinsicGetType(self.context, id, types.as_mut_ptr(), 1);
             // -1: the whole object.
             let mut args = [LLVMConstInt(self.i64(), u64::MAX, 1), slot];
-            LLVMBuildCall2(self.builder, kind, function, args.as_mut_ptr(), 2, c("").as_ptr());
+            LLVMBuildCall2(
+                self.builder,
+                kind,
+                function,
+                args.as_mut_ptr(),
+                2,
+                c("").as_ptr(),
+            );
         }
     }
 
@@ -549,7 +623,9 @@ impl Emitter {
         let mut pieces: Vec<&Expr> = Vec::new();
         flatten(whole, &mut pieces);
         matches!(pieces.first(), Some(Expr::Variable(first)) if first == name)
-            && !pieces[1..].iter().any(|piece| analyse::mentions(piece, name))
+            && !pieces[1..]
+                .iter()
+                .any(|piece| analyse::mentions(piece, name))
             && !self.in_flash(name)
             && self.target(name).is_ok_and(|(_, ty)| ty == Ty::Text)
     }
@@ -558,7 +634,9 @@ impl Emitter {
     fn known_text(&self, expr: &Expr) -> Option<String> {
         match expr {
             Expr::String(text) => Some(text.clone()),
-            Expr::Call { name, args } if args.is_empty() && analyse::builtin(name) == Some(Builtin::Board) => {
+            Expr::Call { name, args }
+                if args.is_empty() && analyse::builtin(name) == Some(Builtin::Board) =>
+            {
                 Some(self.board.to_string())
             }
             _ => None,
@@ -583,10 +661,17 @@ impl Emitter {
     fn constant(&self, value: &Expr, ty: Ty) -> Option<LLVMValueRef> {
         unsafe {
             match (value, ty) {
-                (Expr::String(text), Ty::Text) if text.len() < TEXT_BYTES as usize && !text.contains('\0') => {
+                (Expr::String(text), Ty::Text)
+                    if text.len() < TEXT_BYTES as usize && !text.contains('\0') =>
+                {
                     let mut bytes = text.as_bytes().to_vec();
                     bytes.resize(TEXT_BYTES as usize, 0);
-                    Some(LLVMConstStringInContext(self.context, bytes.as_ptr() as *const _, bytes.len() as u32, 1))
+                    Some(LLVMConstStringInContext(
+                        self.context,
+                        bytes.as_ptr() as *const _,
+                        bytes.len() as u32,
+                        1,
+                    ))
                 }
                 (Expr::ArrayLiteral(items), Ty::Array(Elem::Num, _)) => {
                     let mut values = items
@@ -597,7 +682,11 @@ impl Emitter {
                         })
                         .map(|n| n.map(|n| self.num(n)))
                         .collect::<Option<Vec<_>>>()?;
-                    Some(LLVMConstArray2(self.i64(), values.as_mut_ptr(), values.len() as u64))
+                    Some(LLVMConstArray2(
+                        self.i64(),
+                        values.as_mut_ptr(),
+                        values.len() as u64,
+                    ))
                 }
                 (Expr::ArrayLiteral(items), Ty::Array(Elem::Bool, _)) => {
                     let mut values = items
@@ -607,7 +696,11 @@ impl Emitter {
                             _ => None,
                         })
                         .collect::<Option<Vec<_>>>()?;
-                    Some(LLVMConstArray2(self.i1(), values.as_mut_ptr(), values.len() as u64))
+                    Some(LLVMConstArray2(
+                        self.i1(),
+                        values.as_mut_ptr(),
+                        values.len() as u64,
+                    ))
                 }
                 _ => None,
             }
@@ -639,26 +732,52 @@ impl Emitter {
         // Named structs first, bodies after, so a field can be another வடிவம்.
         self.shapes = program.shapes.clone();
         for shape in &program.shapes {
-            let kind = unsafe { LLVMStructCreateNamed(self.context, c(&format!("et.shape.{}", shape.name)).as_ptr()) };
+            let kind = unsafe {
+                LLVMStructCreateNamed(
+                    self.context,
+                    c(&format!("et.shape.{}", shape.name)).as_ptr(),
+                )
+            };
             self.shape_types.push(kind);
         }
         for (index, shape) in program.shapes.iter().enumerate() {
-            let mut fields: Vec<LLVMTypeRef> = shape.fields.iter().map(|(_, ty)| self.storage(*ty)).collect();
-            unsafe { LLVMStructSetBody(self.shape_types[index], fields.as_mut_ptr(), fields.len() as u32, 0) };
+            let mut fields: Vec<LLVMTypeRef> = shape
+                .fields
+                .iter()
+                .map(|(_, ty)| self.storage(*ty))
+                .collect();
+            unsafe {
+                LLVMStructSetBody(
+                    self.shape_types[index],
+                    fields.as_mut_ptr(),
+                    fields.len() as u32,
+                    0,
+                )
+            };
         }
 
         let mut constants = HashMap::new();
         for statement in &program.setup {
-            if let Stmt::Assign { name, value, immutable: true, .. } = statement {
+            if let Stmt::Assign {
+                name,
+                value,
+                immutable: true,
+                ..
+            } = statement
+            {
                 constants.insert(name.clone(), value);
             }
         }
         for (name, ty) in &program.globals {
             unsafe {
                 let kind = self.storage(*ty);
-                let global = LLVMAddGlobal(self.module, kind, c(&format!("et.g.{}", name)).as_ptr());
+                let global =
+                    LLVMAddGlobal(self.module, kind, c(&format!("et.g.{}", name)).as_ptr());
                 LLVMSetLinkage(global, LLVMLinkage::LLVMInternalLinkage);
-                match constants.get(name).and_then(|value| self.constant(value, *ty)) {
+                match constants
+                    .get(name)
+                    .and_then(|value| self.constant(value, *ty))
+                {
                     Some(initial) => {
                         LLVMSetInitializer(global, initial);
                         LLVMSetGlobalConstant(global, 1);
@@ -685,9 +804,14 @@ impl Emitter {
                 };
                 params.extend(function.params.iter().map(|(_, t)| self.passed(*t)));
                 let kind = LLVMFunctionType(ret, params.as_mut_ptr(), params.len() as u32, 0);
-                let value = LLVMAddFunction(self.module, c(&format!("et.f.{}", function.name)).as_ptr(), kind);
+                let value = LLVMAddFunction(
+                    self.module,
+                    c(&format!("et.f.{}", function.name)).as_ptr(),
+                    kind,
+                );
                 LLVMSetLinkage(value, LLVMLinkage::LLVMInternalLinkage);
-                self.functions.insert(function.name.clone(), (value, kind, function.ret));
+                self.functions
+                    .insert(function.name.clone(), (value, kind, function.ret));
             }
         }
         for function in &program.functions {
@@ -703,7 +827,11 @@ impl Emitter {
             self.block_of(&schedule.body)?;
             self.finish_void();
             let next = unsafe {
-                let next = LLVMAddGlobal(self.module, self.i32(), c(&format!("et.next.{}", index)).as_ptr());
+                let next = LLVMAddGlobal(
+                    self.module,
+                    self.i32(),
+                    c(&format!("et.next.{}", index)).as_ptr(),
+                );
                 LLVMSetInitializer(next, LLVMConstNull(self.i32()));
                 LLVMSetLinkage(next, LLVMLinkage::LLVMInternalLinkage);
                 next
@@ -740,7 +868,12 @@ impl Emitter {
                 let skip = self.block("skip");
                 LLVMBuildCondBr(self.builder, due, run, skip);
                 LLVMPositionBuilderAtEnd(self.builder, run);
-                let following = LLVMBuildAdd(self.builder, now, LLVMConstInt(self.i32(), ms as u64, 0), c("following").as_ptr());
+                let following = LLVMBuildAdd(
+                    self.builder,
+                    now,
+                    LLVMConstInt(self.i32(), ms as u64, 0),
+                    c("following").as_ptr(),
+                );
                 LLVMBuildStore(self.builder, following, next);
                 LLVMBuildCall2(self.builder, kind, body, ptr::null_mut(), 0, c("").as_ptr());
                 LLVMBuildBr(self.builder, skip);
@@ -748,7 +881,14 @@ impl Emitter {
             }
             if let Some(cycle) = &program.cycle {
                 let (function, kind, _) = self.functions[cycle];
-                LLVMBuildCall2(self.builder, kind, function, ptr::null_mut(), 0, c("").as_ptr());
+                LLVMBuildCall2(
+                    self.builder,
+                    kind,
+                    function,
+                    ptr::null_mut(),
+                    0,
+                    c("").as_ptr(),
+                );
             }
         }
         self.finish_void();
@@ -834,7 +974,9 @@ impl Emitter {
             // the type's zero (for text, the empty text already in `out`).
             unsafe {
                 match ret {
-                    ty if ty == Ty::Void || Self::returns_buffer(ty) => LLVMBuildRetVoid(self.builder),
+                    ty if ty == Ty::Void || Self::returns_buffer(ty) => {
+                        LLVMBuildRetVoid(self.builder)
+                    }
                     ty => LLVMBuildRet(self.builder, LLVMConstNull(self.storage(ty))),
                 };
             }
@@ -867,14 +1009,23 @@ impl Emitter {
     }
 
     fn slot(&self, name: &str) -> Option<(LLVMValueRef, Ty)> {
-        self.locals.get(name).or_else(|| self.globals.get(name)).copied()
+        self.locals
+            .get(name)
+            .or_else(|| self.globals.get(name))
+            .copied()
     }
 
     /// Where an assignment to `name` goes: in a செயல், the function's own
     /// (as on the VM); at the top level and in இடைவெளி blocks, the program's.
     fn target(&self, name: &str) -> Result<(LLVMValueRef, Ty), String> {
-        let found = if self.returns.is_some() { self.locals.get(name) } else { self.globals.get(name) };
-        found.copied().ok_or_else(|| format!("{} has no storage — an artino bug", name))
+        let found = if self.returns.is_some() {
+            self.locals.get(name)
+        } else {
+            self.globals.get(name)
+        };
+        found
+            .copied()
+            .ok_or_else(|| format!("{} has no storage — an artino bug", name))
     }
 
     /// One statement, in a block of its own, so the lifetimes of the
@@ -900,10 +1051,14 @@ impl Emitter {
     fn statement(&mut self, statement: &Stmt) -> Result<(), String> {
         match statement {
             // Its value is the global's initialiser.
-            Stmt::Assign { name, .. } if self.returns.is_none() && self.flash_constants.contains(name) => {}
-            Stmt::Assign { name, value: whole @ Expr::Concat { .. }, at, .. }
-                if self.appends_to(name, whole) =>
-            {
+            Stmt::Assign { name, .. }
+                if self.returns.is_none() && self.flash_constants.contains(name) => {}
+            Stmt::Assign {
+                name,
+                value: whole @ Expr::Concat { .. },
+                at,
+                ..
+            } if self.appends_to(name, whole) => {
                 let outer = self.line;
                 self.line = Some(at.line);
                 let mut pieces: Vec<&Expr> = Vec::new();
@@ -913,7 +1068,12 @@ impl Emitter {
                 self.line = outer;
                 lowered?;
             }
-            Stmt::Assign { name, value: Expr::Call { name: called, args }, at, .. } if self.returns_into(name, called, args) => {
+            Stmt::Assign {
+                name,
+                value: Expr::Call { name: called, args },
+                at,
+                ..
+            } if self.returns_into(name, called, args) => {
                 // A செயல்'s own variable, given a செயல்'s text or record: the
                 // callee writes it directly. Nothing it can reach is the
                 // variable — not its arguments, which do not name it, nor the
@@ -935,7 +1095,9 @@ impl Emitter {
                 self.line = outer;
                 lowered?;
             }
-            Stmt::Assign { name, value, at, .. } => {
+            Stmt::Assign {
+                name, value, at, ..
+            } => {
                 let outer = self.line;
                 self.line = Some(at.line);
                 let lowered = self.expr(value);
@@ -957,7 +1119,10 @@ impl Emitter {
                     // Nothing in the program can name the result buffer, so
                     // no argument can be reading it.
                     (Some(Expr::Call { name, args }), Some(out))
-                        if self.functions.get(name.as_str()).is_some_and(|(_, _, ret)| Some(*ret) == self.returns)
+                        if self
+                            .functions
+                            .get(name.as_str())
+                            .is_some_and(|(_, _, ret)| Some(*ret) == self.returns)
                             && analyse::builtin(name).is_none() =>
                     {
                         let mut values = Vec::new();
@@ -987,11 +1152,11 @@ impl Emitter {
                     (None, _) => match self.returns {
                         Some(Ty::Void) | None => {
                             self.end_lifetimes();
-                        LLVMBuildRetVoid(self.builder);
+                            LLVMBuildRetVoid(self.builder);
                         }
                         Some(ty) if Self::returns_buffer(ty) => {
                             self.end_lifetimes();
-                        LLVMBuildRetVoid(self.builder);
+                            LLVMBuildRetVoid(self.builder);
                         }
                         Some(ty) => {
                             self.end_lifetimes();
@@ -1000,7 +1165,11 @@ impl Emitter {
                     },
                 }
             },
-            Stmt::If { condition, then_branch, else_branch } => unsafe {
+            Stmt::If {
+                condition,
+                then_branch,
+                else_branch,
+            } => unsafe {
                 let (test, _) = self.expr(condition)?;
                 let then_block = self.block("then");
                 let else_block = self.block("else");
@@ -1035,15 +1204,29 @@ impl Emitter {
                 }
                 LLVMPositionBuilderAtEnd(self.builder, after);
             },
-            Stmt::ForEach { var, collection, body } => self.for_each(var, collection, body)?,
-            Stmt::SetIndex { name, index, value, .. } => {
-                let (array, ty) = self.slot(name).ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
+            Stmt::ForEach {
+                var,
+                collection,
+                body,
+            } => self.for_each(var, collection, body)?,
+            Stmt::SetIndex {
+                name, index, value, ..
+            } => {
+                let (array, ty) = self
+                    .slot(name)
+                    .ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
                 let Ty::Array(elem, n) = ty else {
-                    return Err(format!("{} is not an array — analyse should have refused it", name));
+                    return Err(format!(
+                        "{} is not an array — analyse should have refused it",
+                        name
+                    ));
                 };
                 let (position, _) = self.expr(index)?;
                 let (value, _) = self.expr(value)?;
-                let operation = Expr::Index { base: Box::new(Expr::Variable(name.clone())), index: Box::new(index.clone()) };
+                let operation = Expr::Index {
+                    base: Box::new(Expr::Variable(name.clone())),
+                    index: Box::new(index.clone()),
+                };
                 let site = self.site(&operation)?;
                 unsafe {
                     let (whole, inside) = self.bounds(position, n);
@@ -1061,10 +1244,17 @@ impl Emitter {
                     LLVMPositionBuilderAtEnd(self.builder, done);
                 }
             }
-            Stmt::SetField { name, field, value, .. } => {
-                let (record, ty) = self.slot(name).ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
+            Stmt::SetField {
+                name, field, value, ..
+            } => {
+                let (record, ty) = self
+                    .slot(name)
+                    .ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
                 let Ty::Shape(id) = ty else {
-                    return Err(format!("{} is not a record — analyse should have refused it", name));
+                    return Err(format!(
+                        "{} is not a record — analyse should have refused it",
+                        name
+                    ));
                 };
                 let (value, _) = self.expr(value)?;
                 let (at, field_ty) = self.field_at(record, id, field)?;
@@ -1075,7 +1265,7 @@ impl Emitter {
                 return Err(format!(
                     "{} reached the emitter — analyse should have refused it",
                     crate::codegen::stmt_label(other)
-                ))
+                ));
             }
         }
         Ok(())
@@ -1094,7 +1284,9 @@ impl Emitter {
                 analyse::written(body, &mut changed);
                 !changed.contains(name)
             }
-            Expr::ArrayLiteral(_) | Expr::String(_) | Expr::Concat { .. } | Expr::Call { .. } => true,
+            Expr::ArrayLiteral(_) | Expr::String(_) | Expr::Concat { .. } | Expr::Call { .. } => {
+                true
+            }
             _ => false,
         };
         let items = if in_place {
@@ -1108,7 +1300,9 @@ impl Emitter {
             return self.for_each_letter(var, collection, items, body);
         }
         let Ty::Array(elem, n) = ty else {
-            return Err("ஒவ்வொரு over something not an array — analyse should have refused it".to_string());
+            return Err(
+                "ஒவ்வொரு over something not an array — analyse should have refused it".to_string(),
+            );
         };
         let counter = self.temp(Ty::Num, "each_index");
         let (slot, _) = self.target(var)?;
@@ -1133,13 +1327,23 @@ impl Emitter {
             if Self::is_buffer(elem.ty()) {
                 self.copy(elem.ty(), slot, element);
             } else {
-                let item = LLVMBuildLoad2(self.builder, self.elem_type(elem), element, c("item").as_ptr());
+                let item = LLVMBuildLoad2(
+                    self.builder,
+                    self.elem_type(elem),
+                    element,
+                    c("item").as_ptr(),
+                );
                 LLVMBuildStore(self.builder, item, slot);
             }
             self.block_of(body)?;
             if !self.terminated() {
                 let at = LLVMBuildLoad2(self.builder, self.i64(), counter, c("at").as_ptr());
-                let next = LLVMBuildAdd(self.builder, at, LLVMConstInt(self.i64(), 1, 0), c("next").as_ptr());
+                let next = LLVMBuildAdd(
+                    self.builder,
+                    at,
+                    LLVMConstInt(self.i64(), 1, 0),
+                    c("next").as_ptr(),
+                );
                 LLVMBuildStore(self.builder, next, counter);
                 LLVMBuildBr(self.builder, head);
             }
@@ -1149,7 +1353,13 @@ impl Emitter {
     }
 
     /// `ஒவ்வொரு எழுத்து இல் உரை`: each letter, as the VM segments letters.
-    fn for_each_letter(&mut self, var: &str, collection: &Expr, text: LLVMValueRef, body: &[Stmt]) -> Result<(), String> {
+    fn for_each_letter(
+        &mut self,
+        var: &str,
+        collection: &Expr,
+        text: LLVMValueRef,
+        body: &[Stmt],
+    ) -> Result<(), String> {
         let site = self.site(collection)?;
         let count = self.call("artino_text_letters", &mut [text, site]);
         let counter = self.temp(Ty::Num, "each_letter");
@@ -1163,7 +1373,13 @@ impl Emitter {
             LLVMBuildBr(self.builder, head);
             LLVMPositionBuilderAtEnd(self.builder, head);
             let at = LLVMBuildLoad2(self.builder, self.i64(), counter, c("at").as_ptr());
-            let more = LLVMBuildICmp(self.builder, LLVMIntPredicate::LLVMIntSLT, at, count, c("more").as_ptr());
+            let more = LLVMBuildICmp(
+                self.builder,
+                LLVMIntPredicate::LLVMIntSLT,
+                at,
+                count,
+                c("more").as_ptr(),
+            );
             LLVMBuildCondBr(self.builder, more, inside, after);
             LLVMPositionBuilderAtEnd(self.builder, inside);
             let index = LLVMBuildTrunc(self.builder, at, self.i32(), c("index").as_ptr());
@@ -1171,7 +1387,12 @@ impl Emitter {
             self.block_of(body)?;
             if !self.terminated() {
                 let at = LLVMBuildLoad2(self.builder, self.i64(), counter, c("at").as_ptr());
-                let next = LLVMBuildAdd(self.builder, at, LLVMConstInt(self.i64(), 1, 0), c("next").as_ptr());
+                let next = LLVMBuildAdd(
+                    self.builder,
+                    at,
+                    LLVMConstInt(self.i64(), 1, 0),
+                    c("next").as_ptr(),
+                );
                 LLVMBuildStore(self.builder, next, counter);
                 LLVMBuildBr(self.builder, head);
             }
@@ -1184,21 +1405,45 @@ impl Emitter {
 
     unsafe fn result_ok(&mut self, result: LLVMValueRef) -> LLVMValueRef {
         unsafe {
-            let field = LLVMBuildStructGEP2(self.builder, self.result_type(), result, 0, c("ok_at").as_ptr());
+            let field = LLVMBuildStructGEP2(
+                self.builder,
+                self.result_type(),
+                result,
+                0,
+                c("ok_at").as_ptr(),
+            );
             LLVMBuildLoad2(self.builder, self.i1(), field, c("ok").as_ptr())
         }
     }
 
     unsafe fn result_payload(&mut self, result: LLVMValueRef) -> LLVMValueRef {
-        unsafe { LLVMBuildStructGEP2(self.builder, self.result_type(), result, 1, c("payload").as_ptr()) }
+        unsafe {
+            LLVMBuildStructGEP2(
+                self.builder,
+                self.result_type(),
+                result,
+                1,
+                c("payload").as_ptr(),
+            )
+        }
     }
 
     /// A result made here: `ok`, and what goes in the payload.
     unsafe fn make_result(&mut self, ok: bool, value: LLVMValueRef, ty: Ty) -> LLVMValueRef {
         unsafe {
             let result = self.temp(Ty::Result(Inner::Unknown), "result");
-            let field = LLVMBuildStructGEP2(self.builder, self.result_type(), result, 0, c("ok_at").as_ptr());
-            LLVMBuildStore(self.builder, LLVMConstInt(self.i1(), u64::from(ok), 0), field);
+            let field = LLVMBuildStructGEP2(
+                self.builder,
+                self.result_type(),
+                result,
+                0,
+                c("ok_at").as_ptr(),
+            );
+            LLVMBuildStore(
+                self.builder,
+                LLVMConstInt(self.i1(), u64::from(ok), 0),
+                field,
+            );
             let payload = self.result_payload(result);
             match ty {
                 Ty::Text => {
@@ -1216,7 +1461,12 @@ impl Emitter {
 
     /// What a சரி holds, read out of a result; the type's zero when it is a
     /// தவறு, which is reported — the VM would stop there.
-    unsafe fn unwrap(&mut self, result: LLVMValueRef, inner: Inner, site: LLVMValueRef) -> (LLVMValueRef, Ty) {
+    unsafe fn unwrap(
+        &mut self,
+        result: LLVMValueRef,
+        inner: Inner,
+        site: LLVMValueRef,
+    ) -> (LLVMValueRef, Ty) {
         unsafe {
             let ok = self.result_ok(result);
             let payload = self.result_payload(result);
@@ -1230,15 +1480,22 @@ impl Emitter {
             match inner {
                 Inner::Num | Inner::Bool => {
                     let ty = inner.ty().unwrap();
-                    let load = LLVMBuildLoad2(self.builder, self.storage(ty), payload, c("held").as_ptr());
+                    let load =
+                        LLVMBuildLoad2(self.builder, self.storage(ty), payload, c("held").as_ptr());
                     LLVMSetAlignment(load, 1);
                     let zero = LLVMConstNull(self.storage(ty));
-                    (LLVMBuildSelect(self.builder, ok, load, zero, c("unwrapped").as_ptr()), ty)
+                    (
+                        LLVMBuildSelect(self.builder, ok, load, zero, c("unwrapped").as_ptr()),
+                        ty,
+                    )
                 }
                 Inner::Text => {
                     let empty = self.temp(Ty::Text, "empty");
                     self.call("artino_text_clear", &mut [empty]);
-                    (LLVMBuildSelect(self.builder, ok, payload, empty, c("unwrapped").as_ptr()), Ty::Text)
+                    (
+                        LLVMBuildSelect(self.builder, ok, payload, empty, c("unwrapped").as_ptr()),
+                        Ty::Text,
+                    )
                 }
                 Inner::Nothing | Inner::Unknown => (LLVMConstNull(self.i1()), Ty::Void),
             }
@@ -1247,12 +1504,18 @@ impl Emitter {
 
     /// `r?` in a செயல் that returns a result: a தவறு goes straight back to
     /// the caller, carrying its text; a சரி gives what it holds.
-    fn try_expr(&mut self, operation: &Expr, inner_expr: &Expr) -> Result<(LLVMValueRef, Ty), String> {
+    fn try_expr(
+        &mut self,
+        operation: &Expr,
+        inner_expr: &Expr,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         let (result, ty) = self.expr(inner_expr)?;
         let Ty::Result(inner) = ty else {
             return Err("? on something not a result — analyse should have refused it".to_string());
         };
-        let out = self.out.ok_or_else(|| "? outside a செயல் returning a result — analyse should have refused it".to_string())?;
+        let out = self.out.ok_or_else(|| {
+            "? outside a செயல் returning a result — analyse should have refused it".to_string()
+        })?;
         let site = self.site(operation)?;
         unsafe {
             let ok = self.result_ok(result);
@@ -1288,7 +1551,13 @@ impl Emitter {
         }
     }
 
-    unsafe fn element(&mut self, array: LLVMValueRef, elem: Elem, n: u16, index: LLVMValueRef) -> LLVMValueRef {
+    unsafe fn element(
+        &mut self,
+        array: LLVMValueRef,
+        elem: Elem,
+        n: u16,
+        index: LLVMValueRef,
+    ) -> LLVMValueRef {
         unsafe {
             let mut indices = [LLVMConstInt(self.i64(), 0, 0), index];
             LLVMBuildInBoundsGEP2(
@@ -1346,7 +1615,11 @@ impl Emitter {
             }
             Ty::Array(Elem::Num, n) | Ty::Array(Elem::Bool, n) => unsafe {
                 let count = LLVMConstInt(i16, n as u64, 0);
-                let name = if ty == Ty::Array(Elem::Num, n) { "artino_print_num_array" } else { "artino_print_bool_array" };
+                let name = if ty == Ty::Array(Elem::Num, n) {
+                    "artino_print_num_array"
+                } else {
+                    "artino_print_bool_array"
+                };
                 self.call(name, &mut [value, count]);
             },
             Ty::Array(elem, n) => {
@@ -1359,11 +1632,20 @@ impl Emitter {
                     if index > 0 {
                         self.call("artino_print_text", &mut [comma]);
                     }
-                    let element = unsafe { self.element(value, elem, n, LLVMConstInt(self.i64(), index as u64, 0)) };
+                    let element = unsafe {
+                        self.element(value, elem, n, LLVMConstInt(self.i64(), index as u64, 0))
+                    };
                     let item = if Self::is_buffer(elem.ty()) {
                         element
                     } else {
-                        unsafe { LLVMBuildLoad2(self.builder, self.elem_type(elem), element, c("item").as_ptr()) }
+                        unsafe {
+                            LLVMBuildLoad2(
+                                self.builder,
+                                self.elem_type(elem),
+                                element,
+                                c("item").as_ptr(),
+                            )
+                        }
                     };
                     self.print_value(item, elem.ty())?;
                 }
@@ -1379,15 +1661,32 @@ impl Emitter {
                 self.call("artino_print_text", &mut [open]);
                 for (position, index) in order.into_iter().enumerate() {
                     let (name, field_ty) = shape.fields[index].clone();
-                    let label = self.program_text(&format!("{}{}: ", if position > 0 { ", " } else { "" }, name))?;
+                    let label = self.program_text(&format!(
+                        "{}{}: ",
+                        if position > 0 { ", " } else { "" },
+                        name
+                    ))?;
                     self.call("artino_print_text", &mut [label]);
                     let at = unsafe {
-                        LLVMBuildStructGEP2(self.builder, self.shape_types[id as usize], value, index as u32, c("field").as_ptr())
+                        LLVMBuildStructGEP2(
+                            self.builder,
+                            self.shape_types[id as usize],
+                            value,
+                            index as u32,
+                            c("field").as_ptr(),
+                        )
                     };
                     let item = if Self::is_buffer(field_ty) {
                         at
                     } else {
-                        unsafe { LLVMBuildLoad2(self.builder, self.storage(field_ty), at, c("field_value").as_ptr()) }
+                        unsafe {
+                            LLVMBuildLoad2(
+                                self.builder,
+                                self.storage(field_ty),
+                                at,
+                                c("field_value").as_ptr(),
+                            )
+                        }
                     };
                     self.print_value(item, field_ty)?;
                 }
@@ -1410,12 +1709,26 @@ impl Emitter {
     }
 
     /// The address of a record's field, and its type.
-    fn field_at(&mut self, record: LLVMValueRef, id: u16, field: &str) -> Result<(LLVMValueRef, Ty), String> {
-        let (index, ty) = self.shapes[id as usize]
-            .field(field)
-            .ok_or_else(|| format!("{} has no field {} — analyse should have refused it", self.shapes[id as usize].name, field))?;
+    fn field_at(
+        &mut self,
+        record: LLVMValueRef,
+        id: u16,
+        field: &str,
+    ) -> Result<(LLVMValueRef, Ty), String> {
+        let (index, ty) = self.shapes[id as usize].field(field).ok_or_else(|| {
+            format!(
+                "{} has no field {} — analyse should have refused it",
+                self.shapes[id as usize].name, field
+            )
+        })?;
         let at = unsafe {
-            LLVMBuildStructGEP2(self.builder, self.shape_types[id as usize], record, index as u32, c(field).as_ptr())
+            LLVMBuildStructGEP2(
+                self.builder,
+                self.shape_types[id as usize],
+                record,
+                index as u32,
+                c(field).as_ptr(),
+            )
         };
         Ok((at, ty))
     }
@@ -1429,7 +1742,9 @@ impl Emitter {
                 Expr::Boolean(b) => Ok((LLVMConstInt(self.i1(), u64::from(*b), 0), Ty::Bool)),
                 Expr::String(_) | Expr::Concat { .. } => self.text(expr),
                 Expr::Variable(name) => {
-                    let (slot, ty) = self.slot(name).ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
+                    let (slot, ty) = self
+                        .slot(name)
+                        .ok_or_else(|| format!("{} has no storage — an artino bug", name))?;
                     if self.in_flash(name) {
                         // Flash is not RAM on AVR: read into a temporary first.
                         let copy = self.temp(ty, name);
@@ -1439,7 +1754,10 @@ impl Emitter {
                     match ty {
                         // A buffer is read through its address; assigning copies.
                         ty if Self::is_buffer(ty) => Ok((slot, ty)),
-                        _ => Ok((LLVMBuildLoad2(self.builder, self.storage(ty), slot, c(name).as_ptr()), ty)),
+                        _ => Ok((
+                            LLVMBuildLoad2(self.builder, self.storage(ty), slot, c(name).as_ptr()),
+                            ty,
+                        )),
                     }
                 }
                 Expr::BinaryOp { op, left, right } => {
@@ -1459,7 +1777,10 @@ impl Emitter {
                             let (a, _) = self.expr(other)?;
                             let site = self.site(expr)?;
                             let k = LLVMConstInt(self.i32(), k as u64, 1);
-                            return Ok((self.call("artino_num_mul_whole", &mut [a, k, site]), Ty::Num));
+                            return Ok((
+                                self.call("artino_num_mul_whole", &mut [a, k, site]),
+                                Ty::Num,
+                            ));
                         }
                     }
                     let runtime = match op.as_str() {
@@ -1477,7 +1798,9 @@ impl Emitter {
                 Expr::Comparison { op, left, right } => {
                     // பலகை() == "pico" is decided now, so the other board's
                     // branch is not in the firmware at all.
-                    if let (Some(a), Some(b), "==" | "!=") = (self.known_text(left), self.known_text(right), op.as_str()) {
+                    if let (Some(a), Some(b), "==" | "!=") =
+                        (self.known_text(left), self.known_text(right), op.as_str())
+                    {
                         let same = (a == b) == (op == "==");
                         return Ok((LLVMConstInt(self.i1(), u64::from(same), 0), Ty::Bool));
                     }
@@ -1485,9 +1808,19 @@ impl Emitter {
                     let (b, _) = self.expr(right)?;
                     if ty == Ty::Text {
                         let same = self.call("artino_text_equal", &mut [a, b]);
-                        let predicate = if op == "==" { LLVMIntPredicate::LLVMIntNE } else { LLVMIntPredicate::LLVMIntEQ };
+                        let predicate = if op == "==" {
+                            LLVMIntPredicate::LLVMIntNE
+                        } else {
+                            LLVMIntPredicate::LLVMIntEQ
+                        };
                         return Ok((
-                            LLVMBuildICmp(self.builder, predicate, same, LLVMConstNull(self.i32()), c("text_same").as_ptr()),
+                            LLVMBuildICmp(
+                                self.builder,
+                                predicate,
+                                same,
+                                LLVMConstNull(self.i32()),
+                                c("text_same").as_ptr(),
+                            ),
                             Ty::Bool,
                         ));
                     }
@@ -1498,14 +1831,22 @@ impl Emitter {
                         ("<=", Ty::Num) => LLVMIntPredicate::LLVMIntSLE,
                         (">", Ty::Num) => LLVMIntPredicate::LLVMIntSGT,
                         (">=", Ty::Num) => LLVMIntPredicate::LLVMIntSGE,
-                        (other, _) => return Err(format!("the comparison {} — not in artino yet", other)),
+                        (other, _) => {
+                            return Err(format!("the comparison {} — not in artino yet", other));
+                        }
                     };
-                    Ok((LLVMBuildICmp(self.builder, predicate, a, b, c("compare").as_ptr()), Ty::Bool))
+                    Ok((
+                        LLVMBuildICmp(self.builder, predicate, a, b, c("compare").as_ptr()),
+                        Ty::Bool,
+                    ))
                 }
                 Expr::Logical { op, left, right } => self.logical(op, left, right),
                 Expr::Not(inner) => {
                     let (value, _) = self.expr(inner)?;
-                    Ok((LLVMBuildNot(self.builder, value, c("not").as_ptr()), Ty::Bool))
+                    Ok((
+                        LLVMBuildNot(self.builder, value, c("not").as_ptr()),
+                        Ty::Bool,
+                    ))
                 }
                 Expr::ArrayLiteral(items) => {
                     let mut values = Vec::new();
@@ -1517,7 +1858,8 @@ impl Emitter {
                     let ty = Ty::Array(elem, n);
                     let array = self.temp(ty, "array");
                     for (index, (value, _)) in values.into_iter().enumerate() {
-                        let element = self.element(array, elem, n, LLVMConstInt(self.i64(), index as u64, 0));
+                        let element =
+                            self.element(array, elem, n, LLVMConstInt(self.i64(), index as u64, 0));
                         self.copy(elem.ty(), element, value);
                     }
                     Ok((array, ty))
@@ -1542,24 +1884,48 @@ impl Emitter {
                     if ty == Ty::Text {
                         let (position, _) = self.expr(index)?;
                         let site = self.site(expr)?;
-                        let whole = LLVMBuildSDiv(self.builder, position, self.num(1000), c("index").as_ptr());
-                        let whole = LLVMBuildTrunc(self.builder, whole, self.i32(), c("letter_at").as_ptr());
+                        let whole = LLVMBuildSDiv(
+                            self.builder,
+                            position,
+                            self.num(1000),
+                            c("index").as_ptr(),
+                        );
+                        let whole = LLVMBuildTrunc(
+                            self.builder,
+                            whole,
+                            self.i32(),
+                            c("letter_at").as_ptr(),
+                        );
                         // A letter, not a whole text: 16 bytes, not 49.
-                        let letter = self.temp_of(LLVMArrayType2(self.i8(), LETTER_BYTES as u64), "letter");
+                        let letter =
+                            self.temp_of(LLVMArrayType2(self.i8(), LETTER_BYTES as u64), "letter");
                         // From flash, the text is copied inside the call, so the
                         // copy is on the stack only while the letter is found.
-                        let reader = if flash_text.is_some() { "artino_text_letter_flash" } else { "artino_text_letter" };
+                        let reader = if flash_text.is_some() {
+                            "artino_text_letter_flash"
+                        } else {
+                            "artino_text_letter"
+                        };
                         self.call(reader, &mut [array, whole, letter, site]);
                         return Ok((letter, Ty::Text));
                     }
                     let Ty::Array(elem, n) = ty else {
-                        return Err("[…] on something not an array — analyse should have refused it".to_string());
+                        return Err(
+                            "[…] on something not an array — analyse should have refused it"
+                                .to_string(),
+                        );
                     };
                     let (position, _) = self.expr(index)?;
                     let site = self.site(expr)?;
                     let (whole, inside) = self.bounds(position, n);
                     // Read at a safe place either way; report, and give zero, when outside.
-                    let safe = LLVMBuildSelect(self.builder, inside, whole, LLVMConstInt(self.i64(), 0, 0), c("safe").as_ptr());
+                    let safe = LLVMBuildSelect(
+                        self.builder,
+                        inside,
+                        whole,
+                        LLVMConstInt(self.i64(), 0, 0),
+                        c("safe").as_ptr(),
+                    );
                     let element = self.element(array, elem, n, safe);
                     let loaded = if Self::is_buffer(elem.ty()) {
                         element
@@ -1568,7 +1934,12 @@ impl Emitter {
                         self.copy_flash(item, element, elem.ty());
                         LLVMBuildLoad2(self.builder, self.elem_type(elem), item, c("item").as_ptr())
                     } else {
-                        LLVMBuildLoad2(self.builder, self.elem_type(elem), element, c("item").as_ptr())
+                        LLVMBuildLoad2(
+                            self.builder,
+                            self.elem_type(elem),
+                            element,
+                            c("item").as_ptr(),
+                        )
                     };
                     let refuse = self.block("index_bad");
                     let done = self.block("index_done");
@@ -1585,14 +1956,24 @@ impl Emitter {
                     } else {
                         LLVMConstNull(self.elem_type(elem))
                     };
-                    Ok((LLVMBuildSelect(self.builder, inside, loaded, zero, c("read").as_ptr()), elem.ty()))
+                    Ok((
+                        LLVMBuildSelect(self.builder, inside, loaded, zero, c("read").as_ptr()),
+                        elem.ty(),
+                    ))
                 }
-                Expr::ShapeLiteral { shape, fields, base, .. } => {
+                Expr::ShapeLiteral {
+                    shape,
+                    fields,
+                    base,
+                    ..
+                } => {
                     let id = self
                         .shapes
                         .iter()
                         .position(|s| &s.name == shape)
-                        .ok_or_else(|| format!("{} is not a வடிவம் — analyse should have refused it", shape))? as u16;
+                        .ok_or_else(|| {
+                            format!("{} is not a வடிவம் — analyse should have refused it", shape)
+                        })? as u16;
                     let record = self.temp(Ty::Shape(id), "record");
                     match base {
                         Some(base) => {
@@ -1600,7 +1981,11 @@ impl Emitter {
                             self.copy(Ty::Shape(id), record, source);
                         }
                         None => {
-                            LLVMBuildStore(self.builder, LLVMConstNull(self.shape_types[id as usize]), record);
+                            LLVMBuildStore(
+                                self.builder,
+                                LLVMConstNull(self.shape_types[id as usize]),
+                                record,
+                            );
                         }
                     }
                     for (field, value) in fields {
@@ -1613,19 +1998,37 @@ impl Emitter {
                 Expr::Field { base, name, .. } => {
                     let (record, ty) = self.expr(base)?;
                     let Ty::Shape(id) = ty else {
-                        return Err(format!(".{} on something not a record — analyse should have refused it", name));
+                        return Err(format!(
+                            ".{} on something not a record — analyse should have refused it",
+                            name
+                        ));
                     };
                     let (at, field_ty) = self.field_at(record, id, name)?;
                     if Self::is_buffer(field_ty) {
                         Ok((at, field_ty))
                     } else {
-                        Ok((LLVMBuildLoad2(self.builder, self.storage(field_ty), at, c(name).as_ptr()), field_ty))
+                        Ok((
+                            LLVMBuildLoad2(
+                                self.builder,
+                                self.storage(field_ty),
+                                at,
+                                c(name).as_ptr(),
+                            ),
+                            field_ty,
+                        ))
                     }
                 }
-                Expr::MethodCall { receiver, name, args, .. } => {
+                Expr::MethodCall {
+                    receiver,
+                    name,
+                    args,
+                    ..
+                } => {
                     // கடன்.புதிது(…): the shape's own function.
                     if let Expr::Variable(shape) = receiver.as_ref() {
-                        if self.slot(shape).is_none() && self.shapes.iter().any(|s| &s.name == shape) {
+                        if self.slot(shape).is_none()
+                            && self.shapes.iter().any(|s| &s.name == shape)
+                        {
                             let full = crate::vm::shape::method_function(shape, name);
                             let mut values = Vec::new();
                             for arg in args {
@@ -1636,9 +2039,13 @@ impl Emitter {
                     }
                     let (record, ty) = self.expr(receiver)?;
                     let Ty::Shape(id) = ty else {
-                        return Err(format!(".{}(…) on something not a record — analyse should have refused it", name));
+                        return Err(format!(
+                            ".{}(…) on something not a record — analyse should have refused it",
+                            name
+                        ));
                     };
-                    let full = crate::vm::shape::method_function(&self.shapes[id as usize].name, name);
+                    let full =
+                        crate::vm::shape::method_function(&self.shapes[id as usize].name, name);
                     let mut values = vec![record];
                     for arg in args {
                         values.push(self.expr(arg)?.0);
@@ -1647,7 +2054,10 @@ impl Emitter {
                 }
                 Expr::Call { name, args } => self.call_expr(name, args),
                 Expr::Try(inner) => self.try_expr(expr, inner),
-                other => Err(format!("{:?} reached the emitter — analyse should have refused it", other)),
+                other => Err(format!(
+                    "{:?} reached the emitter — analyse should have refused it",
+                    other
+                )),
             }
         }
     }
@@ -1660,7 +2070,11 @@ impl Emitter {
 
     /// Text built into `into` when given — a buffer nothing in the chain can
     /// read, such as a function's result — rather than a temporary copied there.
-    fn text_into(&mut self, expr: &Expr, into: Option<LLVMValueRef>) -> Result<(LLVMValueRef, Ty), String> {
+    fn text_into(
+        &mut self,
+        expr: &Expr,
+        into: Option<LLVMValueRef>,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         let mut pieces: Vec<&Expr> = Vec::new();
         flatten(expr, &mut pieces);
         let buffer = self.join(expr, &pieces, into, true)?;
@@ -1669,7 +2083,13 @@ impl Emitter {
 
     /// Append `pieces` to `into` (cleared first when `clear`), or to a new
     /// temporary. Every piece is worked out before any is appended.
-    fn join(&mut self, whole: &Expr, pieces: &[&Expr], into: Option<LLVMValueRef>, clear: bool) -> Result<LLVMValueRef, String> {
+    fn join(
+        &mut self,
+        whole: &Expr,
+        pieces: &[&Expr],
+        into: Option<LLVMValueRef>,
+        clear: bool,
+    ) -> Result<LLVMValueRef, String> {
         let mut ready = Vec::new();
         for piece in pieces {
             ready.push(match *piece {
@@ -1703,7 +2123,12 @@ impl Emitter {
                     let wide = LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr());
                     self.call("artino_text_append_bool", &mut [buffer, wide, site]);
                 },
-                Some(other) => return Err(format!("{} joined into text — analyse should have refused it", other.name())),
+                Some(other) => {
+                    return Err(format!(
+                        "{} joined into text — analyse should have refused it",
+                        other.name()
+                    ));
+                }
             }
         }
         Ok(buffer)
@@ -1711,11 +2136,21 @@ impl Emitter {
 
     /// மற்றும் / அல்லது, short-circuiting: the right side runs only when the
     /// left has not already decided.
-    fn logical(&mut self, op: &str, left: &Expr, right: &Expr) -> Result<(LLVMValueRef, Ty), String> {
+    fn logical(
+        &mut self,
+        op: &str,
+        left: &Expr,
+        right: &Expr,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         let stops_on = match op {
             "&&" => false,
             "||" => true,
-            other => return Err(format!("the logical operator {} — not in artino yet", other)),
+            other => {
+                return Err(format!(
+                    "the logical operator {} — not in artino yet",
+                    other
+                ));
+            }
         };
         unsafe {
             let (decided, _) = self.expr(left)?;
@@ -1749,7 +2184,10 @@ impl Emitter {
             values.push(self.expr(arg)?.0);
         }
         if let Some(index) = self.externs.iter().position(|e| e.etamil == name) {
-            let call = Expr::Call { name: name.to_string(), args: args.to_vec() };
+            let call = Expr::Call {
+                name: name.to_string(),
+                args: args.to_vec(),
+            };
             return self.call_extern(index, &call, values);
         }
         unsafe {
@@ -1759,22 +2197,37 @@ impl Emitter {
                     converted.push(match arg {
                         // A pin: the whole number, as int32.
                         Arg::Int => {
-                            let whole = LLVMBuildSDiv(self.builder, value, self.num(1000), c("whole").as_ptr());
+                            let whole = LLVMBuildSDiv(
+                                self.builder,
+                                value,
+                                self.num(1000),
+                                c("whole").as_ptr(),
+                            );
                             LLVMBuildTrunc(self.builder, whole, self.i32(), c("pin").as_ptr())
                         }
-                        Arg::Flag => LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr()),
+                        Arg::Flag => {
+                            LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr())
+                        }
                     });
                 }
                 let result = self.call(board.shim, &mut converted);
                 return Ok(match board.ret {
                     Ret::Void => (result, Ty::Void),
                     Ret::Int => {
-                        let wide = LLVMBuildSExt(self.builder, result, self.i64(), c("wide").as_ptr());
-                        (LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()), Ty::Num)
+                        let wide =
+                            LLVMBuildSExt(self.builder, result, self.i64(), c("wide").as_ptr());
+                        (
+                            LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()),
+                            Ty::Num,
+                        )
                     }
                     Ret::Millis => {
-                        let wide = LLVMBuildZExt(self.builder, result, self.i64(), c("wide").as_ptr());
-                        (LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()), Ty::Num)
+                        let wide =
+                            LLVMBuildZExt(self.builder, result, self.i64(), c("wide").as_ptr());
+                        (
+                            LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()),
+                            Ty::Num,
+                        )
                     }
                     Ret::Flag => (
                         LLVMBuildICmp(
@@ -1793,7 +2246,12 @@ impl Emitter {
     }
 
     /// A manifest function: its shim, with each value as C++ takes it.
-    fn call_extern(&mut self, index: usize, call: &Expr, values: Vec<LLVMValueRef>) -> Result<(LLVMValueRef, Ty), String> {
+    fn call_extern(
+        &mut self,
+        index: usize,
+        call: &Expr,
+        values: Vec<LLVMValueRef>,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         use super::manifest::{Extern, Kind};
         let function = self.externs[index].clone();
         unsafe {
@@ -1815,7 +2273,8 @@ impl Emitter {
                     };
                     params.extend(function.args.iter().map(|k| c_type(self, *k)));
                     let kind = LLVMFunctionType(ret, params.as_mut_ptr(), params.len() as u32, 0);
-                    let shim = LLVMAddFunction(self.module, c(&Extern::symbol(index)).as_ptr(), kind);
+                    let shim =
+                        LLVMAddFunction(self.module, c(&Extern::symbol(index)).as_ptr(), kind);
                     self.extern_shims.insert(index, (shim, kind));
                     (shim, kind)
                 }
@@ -1836,20 +2295,38 @@ impl Emitter {
                         };
                         self.call("artino_to_int", &mut [value, at])
                     }
-                    Kind::Bool => LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr()),
+                    Kind::Bool => {
+                        LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr())
+                    }
                     _ => value,
                 });
             }
-            let result = LLVMBuildCall2(self.builder, kind, shim, converted.as_mut_ptr(), converted.len() as u32, c("").as_ptr());
+            let result = LLVMBuildCall2(
+                self.builder,
+                kind,
+                shim,
+                converted.as_mut_ptr(),
+                converted.len() as u32,
+                c("").as_ptr(),
+            );
             Ok(match function.returns {
                 Kind::Void => (result, Ty::Void),
                 Kind::Int => {
                     let wide = LLVMBuildSExt(self.builder, result, self.i64(), c("wide").as_ptr());
-                    (LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()), Ty::Num)
+                    (
+                        LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()),
+                        Ty::Num,
+                    )
                 }
                 Kind::Num => (result, Ty::Num),
                 Kind::Bool => (
-                    LLVMBuildICmp(self.builder, LLVMIntPredicate::LLVMIntNE, result, LLVMConstNull(self.i32()), c("yes").as_ptr()),
+                    LLVMBuildICmp(
+                        self.builder,
+                        LLVMIntPredicate::LLVMIntNE,
+                        result,
+                        LLVMConstNull(self.i32()),
+                        c("yes").as_ptr(),
+                    ),
                     Ty::Bool,
                 ),
                 Kind::Text => (out.expect("made above"), Ty::Text),
@@ -1859,14 +2336,20 @@ impl Emitter {
 
     /// Call a செயல் or a method: a buffer it returns comes back through a
     /// temporary the call passes first.
-    fn call_function(&mut self, name: &str, values: Vec<LLVMValueRef>) -> Result<(LLVMValueRef, Ty), String> {
+    fn call_function(
+        &mut self,
+        name: &str,
+        values: Vec<LLVMValueRef>,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         self.call_function_into(name, values, None)
     }
 
     /// `x = f(…)` where f's result can be written straight into x: a local of
     /// f's type, in a செயல், that the arguments do not mention.
     fn returns_into(&self, target: &str, called: &str, args: &[Expr]) -> bool {
-        let Some((_, _, ret)) = self.functions.get(called) else { return false };
+        let Some((_, _, ret)) = self.functions.get(called) else {
+            return false;
+        };
         self.returns.is_some()
             && Self::returns_buffer(*ret)
             && analyse::builtin(called).is_none()
@@ -1881,17 +2364,26 @@ impl Emitter {
         into: Option<LLVMValueRef>,
     ) -> Result<(LLVMValueRef, Ty), String> {
         unsafe {
-            let (function, kind, ret) = *self
-                .functions
-                .get(name)
-                .ok_or_else(|| format!("{}(…) has no definition — analyse should have refused it", name))?;
+            let (function, kind, ret) = *self.functions.get(name).ok_or_else(|| {
+                format!(
+                    "{}(…) has no definition — analyse should have refused it",
+                    name
+                )
+            })?;
             if Self::returns_buffer(ret) {
                 let out = match into {
                     Some(slot) => slot,
                     None => self.temp(ret, "returned"),
                 };
                 values.insert(0, out);
-                LLVMBuildCall2(self.builder, kind, function, values.as_mut_ptr(), values.len() as u32, c("").as_ptr());
+                LLVMBuildCall2(
+                    self.builder,
+                    kind,
+                    function,
+                    values.as_mut_ptr(),
+                    values.len() as u32,
+                    c("").as_ptr(),
+                );
                 return Ok((out, ret));
             }
             let value = LLVMBuildCall2(
@@ -1906,7 +2398,12 @@ impl Emitter {
         }
     }
 
-    fn builtin(&mut self, builtin: Builtin, name: &str, args: &[Expr]) -> Result<(LLVMValueRef, Ty), String> {
+    fn builtin(
+        &mut self,
+        builtin: Builtin,
+        name: &str,
+        args: &[Expr],
+    ) -> Result<(LLVMValueRef, Ty), String> {
         match builtin {
             Builtin::Length => {
                 // An array's length is part of its type; the argument still runs.
@@ -1914,19 +2411,41 @@ impl Emitter {
                 match ty {
                     Ty::Array(_, n) => Ok((self.num(n as i64 * 1000), Ty::Num)),
                     Ty::Text => {
-                        let call = Expr::Call { name: name.to_string(), args: args.to_vec() };
+                        let call = Expr::Call {
+                            name: name.to_string(),
+                            args: args.to_vec(),
+                        };
                         let site = self.site(&call)?;
                         let count = self.call("artino_text_letters", &mut [value, site]);
                         unsafe {
-                            let wide = LLVMBuildSExt(self.builder, count, self.i64(), c("letters").as_ptr());
-                            Ok((LLVMBuildMul(self.builder, wide, self.num(1000), c("scaled").as_ptr()), Ty::Num))
+                            let wide = LLVMBuildSExt(
+                                self.builder,
+                                count,
+                                self.i64(),
+                                c("letters").as_ptr(),
+                            );
+                            Ok((
+                                LLVMBuildMul(
+                                    self.builder,
+                                    wide,
+                                    self.num(1000),
+                                    c("scaled").as_ptr(),
+                                ),
+                                Ty::Num,
+                            ))
                         }
                     }
-                    other => Err(format!("நீளம் of {} — analyse should have refused it", other.name())),
+                    other => Err(format!(
+                        "நீளம் of {} — analyse should have refused it",
+                        other.name()
+                    )),
                 }
             }
             Builtin::ToText => {
-                let call = Expr::Call { name: name.to_string(), args: args.to_vec() };
+                let call = Expr::Call {
+                    name: name.to_string(),
+                    args: args.to_vec(),
+                };
                 let (value, ty) = self.expr(&args[0])?;
                 let site = self.site(&call)?;
                 let buffer = self.temp(Ty::Text, "as_text");
@@ -1936,13 +2455,20 @@ impl Emitter {
                         self.call("artino_text_append_num", &mut [buffer, value, site]);
                     }
                     Ty::Bool => unsafe {
-                        let wide = LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr());
+                        let wide =
+                            LLVMBuildZExt(self.builder, value, self.i32(), c("flag").as_ptr());
                         self.call("artino_text_append_bool", &mut [buffer, wide, site]);
                     },
                     Ty::Text => {
                         self.call("artino_text_append", &mut [buffer, value, site]);
                     }
-                    other => return Err(format!("{} of {} — analyse should have refused it", name, other.name())),
+                    other => {
+                        return Err(format!(
+                            "{} of {} — analyse should have refused it",
+                            name,
+                            other.name()
+                        ));
+                    }
                 }
                 Ok((buffer, Ty::Text))
             }
@@ -1972,7 +2498,12 @@ impl Emitter {
                     LLVMPositionBuilderAtEnd(self.builder, inside);
                     let element = self.element(array, elem, count, at);
                     self.copy(elem.ty(), element, value);
-                    let next = LLVMBuildAdd(self.builder, at, LLVMConstInt(self.i64(), 1, 0), c("next").as_ptr());
+                    let next = LLVMBuildAdd(
+                        self.builder,
+                        at,
+                        LLVMConstInt(self.i64(), 1, 0),
+                        c("next").as_ptr(),
+                    );
                     LLVMBuildStore(self.builder, next, counter);
                     LLVMBuildBr(self.builder, head);
                     LLVMPositionBuilderAtEnd(self.builder, after);
@@ -1983,8 +2514,16 @@ impl Emitter {
         }
     }
 
-    fn builtin_b32(&mut self, builtin: Builtin, name: &str, args: &[Expr]) -> Result<(LLVMValueRef, Ty), String> {
-        let call = Expr::Call { name: name.to_string(), args: args.to_vec() };
+    fn builtin_b32(
+        &mut self,
+        builtin: Builtin,
+        name: &str,
+        args: &[Expr],
+    ) -> Result<(LLVMValueRef, Ty), String> {
+        let call = Expr::Call {
+            name: name.to_string(),
+            args: args.to_vec(),
+        };
         unsafe {
             match builtin {
                 Builtin::Ok => {
@@ -1999,7 +2538,10 @@ impl Emitter {
                 }
                 Builtin::Err => {
                     let (value, _) = self.expr(&args[0])?;
-                    Ok((self.make_result(false, value, Ty::Text), Ty::Result(Inner::Unknown)))
+                    Ok((
+                        self.make_result(false, value, Ty::Text),
+                        Ty::Result(Inner::Unknown),
+                    ))
                 }
                 Builtin::IsOk | Builtin::IsErr => {
                     let (result, _) = self.expr(&args[0])?;
@@ -2007,13 +2549,19 @@ impl Emitter {
                     if builtin == Builtin::IsOk {
                         Ok((ok, Ty::Bool))
                     } else {
-                        Ok((LLVMBuildNot(self.builder, ok, c("is_err").as_ptr()), Ty::Bool))
+                        Ok((
+                            LLVMBuildNot(self.builder, ok, c("is_err").as_ptr()),
+                            Ty::Bool,
+                        ))
                     }
                 }
                 Builtin::Unwrap => {
                     let (result, ty) = self.expr(&args[0])?;
                     let Ty::Result(inner) = ty else {
-                        return Err(format!("{} of something not a result — analyse should have refused it", name));
+                        return Err(format!(
+                            "{} of something not a result — analyse should have refused it",
+                            name
+                        ));
                     };
                     let site = self.site(&call)?;
                     Ok(self.unwrap(result, inner, site))
@@ -2032,7 +2580,10 @@ impl Emitter {
                     LLVMPositionBuilderAtEnd(self.builder, done);
                     let empty = self.temp(Ty::Text, "empty");
                     self.call("artino_text_clear", &mut [empty]);
-                    Ok((LLVMBuildSelect(self.builder, ok, empty, payload, c("error").as_ptr()), Ty::Text))
+                    Ok((
+                        LLVMBuildSelect(self.builder, ok, empty, payload, c("error").as_ptr()),
+                        Ty::Text,
+                    ))
                 }
                 Builtin::UnwrapOr => {
                     let (result, ty) = self.expr(&args[0])?;
@@ -2042,12 +2593,20 @@ impl Emitter {
                     let held = match (ty, fallback_ty) {
                         (_, Ty::Text) => payload,
                         (_, other) => {
-                            let load = LLVMBuildLoad2(self.builder, self.storage(other), payload, c("held").as_ptr());
+                            let load = LLVMBuildLoad2(
+                                self.builder,
+                                self.storage(other),
+                                payload,
+                                c("held").as_ptr(),
+                            );
                             LLVMSetAlignment(load, 1);
                             load
                         }
                     };
-                    Ok((LLVMBuildSelect(self.builder, ok, held, fallback, c("or").as_ptr()), fallback_ty))
+                    Ok((
+                        LLVMBuildSelect(self.builder, ok, held, fallback, c("or").as_ptr()),
+                        fallback_ty,
+                    ))
                 }
                 Builtin::ToNumber => {
                     let (text, _) = self.expr(&args[0])?;
@@ -2072,7 +2631,11 @@ impl Emitter {
                     self.call("artino_text_append_flash", &mut [buffer, flash, site]);
                     Ok((buffer, Ty::Text))
                 }
-                Builtin::SerialOpen | Builtin::SerialReadLine | Builtin::SerialWrite | Builtin::SerialWriteLine | Builtin::SerialClose => {
+                Builtin::SerialOpen
+                | Builtin::SerialReadLine
+                | Builtin::SerialWrite
+                | Builtin::SerialWriteLine
+                | Builtin::SerialClose => {
                     let (port, _) = self.expr(&args[0])?;
                     let port = self.whole_i32(port);
                     let inner = match builtin {
@@ -2095,7 +2658,11 @@ impl Emitter {
                         }
                         Builtin::SerialWrite | Builtin::SerialWriteLine => {
                             let (text, _) = self.expr(&args[1])?;
-                            let newline = LLVMConstInt(self.i32(), u64::from(builtin == Builtin::SerialWriteLine), 0);
+                            let newline = LLVMConstInt(
+                                self.i32(),
+                                u64::from(builtin == Builtin::SerialWriteLine),
+                                0,
+                            );
                             self.call("artino_serial_write", &mut [port, text, newline, result]);
                         }
                         _ => {
@@ -2120,7 +2687,12 @@ impl Emitter {
     /// தரை, மேல், வட்டமிடு. The author wrote this rounding, so it is done
     /// exactly and not reported: `தரை(a / b)` divides straight to the answer
     /// rather than rounding to three decimals first.
-    fn rounded(&mut self, arg: &Expr, places: u32, mode: u64) -> Result<(LLVMValueRef, Ty), String> {
+    fn rounded(
+        &mut self,
+        arg: &Expr,
+        places: u32,
+        mode: u64,
+    ) -> Result<(LLVMValueRef, Ty), String> {
         unsafe {
             let mode = LLVMConstInt(self.i32(), mode, 0);
             if let Expr::BinaryOp { op, left, right } = arg {
@@ -2129,7 +2701,11 @@ impl Emitter {
                     let (b, _) = self.expr(right)?;
                     let site = self.site(arg)?;
                     let places = LLVMConstInt(self.i32(), places as u64, 0);
-                    let runtime = if op == "/" { "artino_num_div_round" } else { "artino_num_mul_round" };
+                    let runtime = if op == "/" {
+                        "artino_num_div_round"
+                    } else {
+                        "artino_num_mul_round"
+                    };
                     return Ok((self.call(runtime, &mut [a, b, places, mode, site]), Ty::Num));
                 }
             }
@@ -2139,7 +2715,10 @@ impl Emitter {
                 return Ok((value, Ty::Num));
             }
             let places = LLVMConstInt(self.i32(), places as u64, 0);
-            Ok((self.call("artino_num_round", &mut [value, places, mode]), Ty::Num))
+            Ok((
+                self.call("artino_num_round", &mut [value, places, mode]),
+                Ty::Num,
+            ))
         }
     }
 }
@@ -2169,7 +2748,9 @@ fn whole_constant(expr: &Expr) -> Option<i32> {
         Expr::Number(n) => analyse::scaled(n).ok()?,
         other => folded(other)?,
     };
-    (value % 1000 == 0).then(|| i32::try_from(value / 1000).ok()).flatten()
+    (value % 1000 == 0)
+        .then(|| i32::try_from(value / 1000).ok())
+        .flatten()
 }
 
 /// The pieces of an & chain, left to right.
@@ -2190,6 +2771,9 @@ fn elem_of(ty: Ty) -> Result<Elem, String> {
         Ty::Bool => Ok(Elem::Bool),
         Ty::Text => Ok(Elem::Text),
         Ty::Shape(id) => Ok(Elem::Shape(id)),
-        other => Err(format!("an array of {} — analyse should have refused it", other.name())),
+        other => Err(format!(
+            "an array of {} — analyse should have refused it",
+            other.name()
+        )),
     }
 }

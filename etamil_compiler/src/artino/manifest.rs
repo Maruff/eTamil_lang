@@ -98,7 +98,12 @@ pub struct Manifest {
 pub fn find(program: &Path) -> Option<PathBuf> {
     let dir = program.parent().unwrap_or_else(|| Path::new("."));
     let stem = program.file_stem()?.to_string_lossy().into_owned();
-    [dir.join(format!("{}.artino.toml", stem)), dir.join("artino.toml")].into_iter().find(|p| p.is_file())
+    [
+        dir.join(format!("{}.artino.toml", stem)),
+        dir.join("artino.toml"),
+    ]
+    .into_iter()
+    .find(|p| p.is_file())
 }
 
 /// Read a manifest, keeping the entries for `board` (every entry when `None`).
@@ -118,7 +123,11 @@ enum Value {
 pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
     let mut manifest = Manifest::default();
     for (table, line, keys) in tables(text)? {
-        let get = |key: &str| keys.iter().find(|(k, _, _)| k == key).map(|(_, v, l)| (v, *l));
+        let get = |key: &str| {
+            keys.iter()
+                .find(|(k, _, _)| k == key)
+                .map(|(_, v, l)| (v, *l))
+        };
         let text_of = |key: &str| -> Result<String, String> {
             match get(key) {
                 Some((Value::Text(t), _)) => Ok(t.clone()),
@@ -132,7 +141,12 @@ pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
             "object" => &["cpp", "boards"],
             "function" => &["etamil", "cpp", "args", "returns", "boards"],
             "port" => &["number", "cpp", "boards"],
-            other => return Err(format!("line {}: [[{}]] is not an artino.toml table", line, other)),
+            other => {
+                return Err(format!(
+                    "line {}: [[{}]] is not an artino.toml table",
+                    line, other
+                ));
+            }
         };
         if let Some((key, _, l)) = keys.iter().find(|(k, _, _)| !allowed.contains(&k.as_str())) {
             return Err(format!("line {}: [[{}]] has no key {}", l, table, key));
@@ -140,13 +154,15 @@ pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
         match get("boards") {
             None => {}
             Some((Value::List(boards), _)) => {
-                if let Some(board) = board {
-                    if !boards.iter().any(|b| b == board) {
-                        continue;
-                    }
+                if let Some(board) = board
+                    && !boards.iter().any(|b| b == board)
+                {
+                    continue;
                 }
             }
-            Some((_, l)) => return Err(format!("line {}: boards must be a list of board names", l)),
+            Some((_, l)) => {
+                return Err(format!("line {}: boards must be a list of board names", l));
+            }
         }
         match table.as_str() {
             "library" => manifest.libraries.push(text_of("name")?),
@@ -158,7 +174,9 @@ pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
                     let words = match get(key) {
                         Some((Value::List(words), _)) => words.clone(),
                         Some((Value::Text(word), _)) if returns => vec![word.clone()],
-                        Some((_, l)) => return Err(format!("line {}: {} has the wrong form", l, key)),
+                        Some((_, l)) => {
+                            return Err(format!("line {}: {} has the wrong form", l, key));
+                        }
                         None if returns => vec!["void".to_string()],
                         None => Vec::new(),
                     };
@@ -170,7 +188,11 @@ pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
                                     "{}: {} is not {}",
                                     etamil,
                                     w,
-                                    if returns { "void, int, num, bool or text" } else { "int, num, bool or text" }
+                                    if returns {
+                                        "void, int, num, bool or text"
+                                    } else {
+                                        "int, num, bool or text"
+                                    }
                                 )
                             })
                         })
@@ -181,17 +203,30 @@ pub fn parse(text: &str, board: Option<&str>) -> Result<Manifest, String> {
                 if manifest.functions.iter().any(|f| f.etamil == etamil) {
                     return Err(format!("line {}: {} is declared twice", line, etamil));
                 }
-                manifest.functions.push(Extern { etamil, cpp: text_of("cpp")?, args, returns });
+                manifest.functions.push(Extern {
+                    etamil,
+                    cpp: text_of("cpp")?,
+                    args,
+                    returns,
+                });
             }
             _ => {
                 let number = match get("number") {
                     Some((Value::Whole(n @ 1..=3), _)) => *n as u8,
-                    Some((_, l)) => return Err(format!("line {}: a port's number is 1, 2 or 3", l)),
+                    Some((_, l)) => {
+                        return Err(format!("line {}: a port's number is 1, 2 or 3", l));
+                    }
                     None => return Err(format!("line {}: [[port]] needs number", line)),
                 };
                 let object = text_of("cpp")?;
-                if !object.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
-                    return Err(format!("line {}: a port's cpp names its object, such as bus", line));
+                if !object
+                    .chars()
+                    .all(|c| c.is_ascii_alphanumeric() || c == '_')
+                {
+                    return Err(format!(
+                        "line {}: a port's cpp names its object, such as bus",
+                        line
+                    ));
                 }
                 if manifest.ports.iter().any(|(n, _)| *n == number) {
                     return Err(format!("line {}: port {} is declared twice", line, number));
@@ -214,20 +249,32 @@ fn tables(text: &str) -> Result<Vec<Table>, String> {
         if content.is_empty() {
             continue;
         }
-        if let Some(name) = content.strip_prefix("[[").and_then(|r| r.strip_suffix("]]")) {
+        if let Some(name) = content
+            .strip_prefix("[[")
+            .and_then(|r| r.strip_suffix("]]"))
+        {
             out.push((name.trim().to_string(), line, Vec::new()));
             continue;
         }
         if content.starts_with('[') {
-            return Err(format!("line {}: artino.toml has only [[tables]]: {}", line, content));
+            return Err(format!(
+                "line {}: artino.toml has only [[tables]]: {}",
+                line, content
+            ));
         }
         let (key, value) = content
             .split_once('=')
             .ok_or_else(|| format!("line {}: expected key = value: {}", line, content))?;
         let Some(current) = out.last_mut() else {
-            return Err(format!("line {}: {} is outside any [[table]]", line, key.trim()));
+            return Err(format!(
+                "line {}: {} is outside any [[table]]",
+                line,
+                key.trim()
+            ));
         };
-        current.2.push((key.trim().to_string(), value_of(value.trim(), line)?, line));
+        current
+            .2
+            .push((key.trim().to_string(), value_of(value.trim(), line)?, line));
     }
     Ok(out)
 }
@@ -270,7 +317,11 @@ fn value_of(text: &str, line: usize) -> Result<Value, String> {
     if text.starts_with('"') || text.starts_with('\'') {
         let (item, after) = string_at(text, line)?;
         if !after.trim().is_empty() {
-            return Err(format!("line {}: something after the string: {}", line, after.trim()));
+            return Err(format!(
+                "line {}: something after the string: {}",
+                line,
+                after.trim()
+            ));
         }
         return Ok(Value::Text(item));
     }
@@ -279,9 +330,12 @@ fn value_of(text: &str, line: usize) -> Result<Value, String> {
         "false" => return Ok(Value::Flag(false)),
         _ => {}
     }
-    text.parse::<i64>()
-        .map(Value::Whole)
-        .map_err(|_| format!("line {}: {} is not a string, whole number, boolean or list of strings", line, text))
+    text.parse::<i64>().map(Value::Whole).map_err(|_| {
+        format!(
+            "line {}: {} is not a string, whole number, boolean or list of strings",
+            line, text
+        )
+    })
 }
 
 /// A string at the start of `text`, and what follows it.
@@ -351,12 +405,18 @@ pub fn shims(manifest: &Manifest, source_name: &str) -> String {
     if !manifest.ports.is_empty() {
         out.push_str("\nStream *artino_extra_port(int32_t port) {\n  switch (port) {\n");
         for (number, object) in &manifest.ports {
-            out.push_str(&format!("    case {}:\n      return &{};\n", number, object));
+            out.push_str(&format!(
+                "    case {}:\n      return &{};\n",
+                number, object
+            ));
         }
         out.push_str("    default:\n      return nullptr;\n  }\n}\n\n");
         out.push_str("void artino_extra_begin(int32_t port, int32_t baud) {\n  switch (port) {\n");
         for (number, object) in &manifest.ports {
-            out.push_str(&format!("    case {}:\n      {}.begin(baud);\n      break;\n", number, object));
+            out.push_str(&format!(
+                "    case {}:\n      {}.begin(baud);\n      break;\n",
+                number, object
+            ));
         }
         out.push_str("    default:\n      break;\n  }\n}\n");
     }
@@ -376,15 +436,16 @@ fn shim(index: usize, function: &Extern) -> String {
             _ => format!("a{}", i),
         })
         .collect();
-    let call = if function.cpp.contains("{0}") || function.args.is_empty() && function.cpp.contains('(') {
-        let mut call = function.cpp.clone();
-        for (i, value) in values.iter().enumerate() {
-            call = call.replace(&format!("{{{}}}", i), &format!("({})", value));
-        }
-        call
-    } else {
-        format!("{}({})", function.cpp, values.join(", "))
-    };
+    let call =
+        if function.cpp.contains("{0}") || function.args.is_empty() && function.cpp.contains('(') {
+            let mut call = function.cpp.clone();
+            for (i, value) in values.iter().enumerate() {
+                call = call.replace(&format!("{{{}}}", i), &format!("({})", value));
+            }
+            call
+        } else {
+            format!("{}({})", function.cpp, values.join(", "))
+        };
     let mut params: Vec<String> = Vec::new();
     if function.returns == Kind::Text {
         params.push("char *out".to_string());
@@ -392,7 +453,11 @@ fn shim(index: usize, function: &Extern) -> String {
     for (i, kind) in function.args.iter().enumerate() {
         params.push(format!("{} a{}", kind.cpp(), i));
     }
-    let returns = if function.returns == Kind::Text { "void" } else { function.returns.cpp() };
+    let returns = if function.returns == Kind::Text {
+        "void"
+    } else {
+        function.returns.cpp()
+    };
     let body = match function.returns {
         Kind::Void => format!("{};", call),
         Kind::Int => format!("return (int32_t)({});", call),
@@ -405,7 +470,11 @@ fn shim(index: usize, function: &Extern) -> String {
         function.etamil,
         returns,
         Extern::symbol(index),
-        if params.is_empty() { "void".to_string() } else { params.join(", ") },
+        if params.is_empty() {
+            "void".to_string()
+        } else {
+            params.join(", ")
+        },
         body
     )
 }
@@ -458,7 +527,10 @@ boards = ["uno", "nano"]
     #[test]
     fn mistakes_name_their_line() {
         let wrong = |text: &str| parse(text, None).expect_err("refused");
-        assert!(wrong("[[function]]\netamil = \"அ\"\ncpp = \"f\"\nargs = [\"float\"]").contains("float"));
+        assert!(
+            wrong("[[function]]\netamil = \"அ\"\ncpp = \"f\"\nargs = [\"float\"]")
+                .contains("float")
+        );
         assert!(wrong("[[servo]]\nname = \"x\"").contains("line 1"));
         assert!(wrong("[[port]]\nnumber = 4\ncpp = \"bus\"").contains("line 2"));
         assert!(wrong("name = \"x\"").contains("outside"));
@@ -469,8 +541,18 @@ boards = ["uno", "nano"]
     fn shims_convert_at_the_boundary() {
         let manifest = Manifest {
             functions: vec![
-                Extern { etamil: "அ".into(), cpp: "servo.write".into(), args: vec![Kind::Int], returns: Kind::Void },
-                Extern { etamil: "ஆ".into(), cpp: "sensors.getTempCByIndex".into(), args: vec![Kind::Int], returns: Kind::Num },
+                Extern {
+                    etamil: "அ".into(),
+                    cpp: "servo.write".into(),
+                    args: vec![Kind::Int],
+                    returns: Kind::Void,
+                },
+                Extern {
+                    etamil: "ஆ".into(),
+                    cpp: "sensors.getTempCByIndex".into(),
+                    args: vec![Kind::Int],
+                    returns: Kind::Num,
+                },
                 Extern {
                     etamil: "இ".into(),
                     cpp: "strip.setPixelColor({0}, strip.Color({1}, {2}, {3}))".into(),
@@ -481,8 +563,16 @@ boards = ["uno", "nano"]
             ..Manifest::default()
         };
         let text = shims(&manifest, "p.qmz");
-        assert!(text.contains("void artino_x_0(int32_t a0) { servo.write(a0); }"), "{}", text);
+        assert!(
+            text.contains("void artino_x_0(int32_t a0) { servo.write(a0); }"),
+            "{}",
+            text
+        );
         assert!(text.contains("int64_t artino_x_1(int32_t a0) { return artino_num_of((double)(sensors.getTempCByIndex(a0))); }"), "{}", text);
-        assert!(text.contains("strip.setPixelColor((a0), strip.Color((a1), (a2), (a3)))"), "{}", text);
+        assert!(
+            text.contains("strip.setPixelColor((a0), strip.Color((a1), (a2), (a3)))"),
+            "{}",
+            text
+        );
     }
 }

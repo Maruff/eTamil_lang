@@ -171,12 +171,22 @@ fn artino_gaps(loaded: Result<Vec<parser::Stmt>, String>) -> ! {
 /// Analysis first, on any build, so a program that cannot become firmware is
 /// told why even by an etamil without LLVM. Then, with LLVM: an object for the
 /// board, the sketch folder around it, and arduino-cli if it is installed.
-fn run_artino(ast: &[parser::Stmt], source: &Path, board_name: &str, out: &Path, upload: Option<&str>) -> ! {
+fn run_artino(
+    ast: &[parser::Stmt],
+    source: &Path,
+    board_name: &str,
+    out: &Path,
+    upload: Option<&str>,
+) -> ! {
     use etamil_compiler::artino;
 
     let Some(board) = artino::board(board_name) else {
         let known: Vec<&str> = artino::BOARDS.iter().map(|b| b.name).collect();
-        eprintln!("✗ No board called '{}'. artino knows: {}", board_name, known.join(", "));
+        eprintln!(
+            "✗ No board called '{}'. artino knows: {}",
+            board_name,
+            known.join(", ")
+        );
         std::process::exit(2);
     };
     if let Some(why) = artino::board_file_mismatch(ast, board.name) {
@@ -220,10 +230,11 @@ fn run_artino(ast: &[parser::Stmt], source: &Path, board_name: &str, out: &Path,
         }
         let object = out.join(format!("{}.{}.o", name, board.name));
         let ir = out.join(format!("{}.{}.ll", name, board.name));
-        let compiled = artino::emit::compile(&program, board, &object, Some(&ir)).unwrap_or_else(|e| {
-            eprintln!("✗ {}", e);
-            std::process::exit(1);
-        });
+        let compiled =
+            artino::emit::compile(&program, board, &object, Some(&ir)).unwrap_or_else(|e| {
+                eprintln!("✗ {}", e);
+                std::process::exit(1);
+            });
         // The host is not a board: the object is for the conformance suite to
         // link against its stand-in Arduino API, so there is no sketch.
         if board.fqbn.is_empty() {
@@ -235,7 +246,16 @@ fn run_artino(ast: &[parser::Stmt], source: &Path, board_name: &str, out: &Path,
             eprintln!("✗ Cannot read {}: {}", object.display(), e);
             std::process::exit(1);
         });
-        let written = artino::sketch::write(out, source, board, program.ports, &compiled, &manifest, &bytes).unwrap_or_else(|e| {
+        let written = artino::sketch::write(
+            out,
+            source,
+            board,
+            program.ports,
+            &compiled,
+            &manifest,
+            &bytes,
+        )
+        .unwrap_or_else(|e| {
             eprintln!("✗ Cannot write the sketch: {}", e);
             std::process::exit(1);
         });
@@ -276,7 +296,10 @@ fn run_artino(ast: &[parser::Stmt], source: &Path, board_name: &str, out: &Path,
                 eprintln!("✗ arduino-cli failed ({})", status);
                 // The likeliest reason, when the manifest names libraries.
                 for library in &manifest.libraries {
-                    eprintln!("  needs the {} library: arduino-cli lib install \"{}\"", library, library);
+                    eprintln!(
+                        "  needs the {} library: arduino-cli lib install \"{}\"",
+                        library, library
+                    );
                 }
                 std::process::exit(1);
             }
@@ -297,7 +320,10 @@ fn run_artino(ast: &[parser::Stmt], source: &Path, board_name: &str, out: &Path,
     #[cfg(not(feature = "llvm"))]
     {
         let _ = (program, source, out, upload, manifest);
-        println!("✓ artino accepts this program for {} ({})", board.name, board.fqbn);
+        println!(
+            "✓ artino accepts this program for {} ({})",
+            board.name, board.fqbn
+        );
         eprintln!("✗ Building it needs the LLVM backend, and this etamil was built without it.");
         eprintln!("  Build with `cargo build --release --features llvm` (docs/artino.md).");
         std::process::exit(1);
@@ -466,7 +492,9 @@ fn main() {
     }
 
     if artino_mode {
-        let source = filename.clone().unwrap_or_else(|| "program.qmz".to_string());
+        let source = filename
+            .clone()
+            .unwrap_or_else(|| "program.qmz".to_string());
         run_artino(
             &ast,
             Path::new(&source),
