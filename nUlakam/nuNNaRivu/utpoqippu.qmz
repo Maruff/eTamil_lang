@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/utpoqippu.qmz — உட்பொதிப்பு, turning text into vectors__
+//
+// __oRRumY.qmz compares vectors; this is where they come from. A model reads a__
+// __piece of text and returns a list of numbers positioned so that texts about__
+// __similar things land near each other.__
+//
+// __The model runs locally, over HTTP to an Ollama on this machine. That is a__
+// __deliberate constraint rather than a convenience: an assistant for a__
+// __language should not require its users to hold an account with anybody, and__
+// __the documentation being indexed should not leave the machine it is on.__
+//
+// __Two rules that are easy to get wrong and silent when broken:__
+//
+// __The same model must embed the documents and the questions. Vectors from__
+// __two models are unrelated coordinate systems, and comparing across them__
+// __produces confident nonsense rather than an error.__
+//
+// __The text must be prepared the same way both times. If documents are__
+// __embedded with a title prepended and questions are not, the two are being__
+// __placed in the space by different rules.__
+
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../aNi.qmz";
+
+// __இயல்பு_முகவரி() — where Ollama listens by default__
+செயல் இயல்பு_முகவரி() { திரும்பு "http://127.0.0.1:11434"; }
+
+// __இயல்பு_மாதிரி() — a small embedding model that runs on modest hardware__
+//
+// __all-minilm is 45 MB and 384 dimensions. Named here so that every caller__
+// __gets the same default, since a mismatch between two callers is exactly the__
+// __failure described above.__
+செயல் இயல்பு_மாதிரி() { திரும்பு "all-minilm"; }
+
+// __உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) — assemble the text to embed__
+//
+// __Several plain words are unavailable as names here. முகவரி, பதில் and__
+// __வரம்பு are all reserved — they are the address, response and constraint__
+// __keywords — so this file says இணையவழி, பதிலிறுப்பு and எல்லை instead.__
+//
+// __Title first, then as much of the body as the model can attend to. Small__
+// __embedding models have a short window and silently ignore the rest, so__
+// __sending a whole document wastes the call and buries the part that__
+// __identifies it. The title carries most of the signal, which is why it leads.__
+//
+// __தலைப்பு is reserved (it is the HTTP header keyword), hence தலைப்புரை.__
+செயல் உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) {
+    சுருக்கம் = உடல்பகுதி;
+    (நீளம்(உடல்பகுதி) > எல்லை) எனில் {
+        சுருக்கம் = துண்டு(உடல்பகுதி, 0, எல்லை);
+    }
+    திரும்பு தலைப்புரை & "\n\n" & சுருக்கம்;
+}
+
+// __கோரிக்கை_உடல்(மாதிரி, உரைகள்) — the JSON body Ollama's embed endpoint wants__
+//
+// __Built through ஜேசான்_ஆக்கு rather than by concatenating strings, so that a__
+// __quotation mark or a newline inside a document cannot produce a malformed__
+// __request. Documentation contains both.__
+செயல் கோரிக்கை_உடல்(மாதிரி, உரைகள்) {
+    திரும்பு ஜேசான்_ஆக்கு({ model: மாதிரி, input: உரைகள் });
+}
+
+// __பதிலைப்_பிரி(பதில்_உரை, எதிர்பார்த்த_எண்ணிக்கை) — read the vectors back__
+//
+// __Refuses a reply with the wrong number of vectors rather than returning the__
+// __ones that arrived. A short batch would silently misalign every vector with__
+// __the wrong document, and nothing downstream could detect it — the search__
+// __would simply return wrong answers with high confidence for ever after.__
+செயல் பதிலைப்_பிரி(பதில்_உரை, எதிர்பார்த்த_எண்ணிக்கை) {
+    பகுத்தது = ஜேசான்_படி(பதில்_உரை);
+    (தவறா(பகுத்தது)) எனில் { திரும்பு பகுத்தது; }
+    விடை_பொருள் = மதிப்பு(பகுத்தது);
+    (புலம்_உள்ளதா(விடை_பொருள், "embeddings") == பொய்) எனில் {
+        திரும்பு தவறு("பதிலில் embeddings இல்லை  (no embeddings in the reply)");
+    }
+    திசையன்கள் = விடை_பொருள்["embeddings"];
+    (நீளம்(திசையன்கள்) != எதிர்பார்த்த_எண்ணிக்கை) எனில் {
+        திரும்பு தவறு("எதிர்பார்த்தது " & சொல்லாக்கு(எதிர்பார்த்த_எண்ணிக்கை)
+                       & ", கிடைத்தது " & சொல்லாக்கு(நீளம்(திசையன்கள்))
+                       & "  (vector count does not match the texts sent)");
+    }
+    திரும்பு சரி(திசையன்கள்);
+}
+
+// __பொதி(இணையவழி, மாதிரி, உரைகள்) — embed a batch of texts__
+//
+// __A batch rather than one call per text: the per-request overhead dominates__
+// __otherwise. Not an unlimited batch, though — a failure costs the whole batch,__
+// __and on a small machine a very large one can exhaust memory partway.__
+செயல் பொதி(இணையவழி, மாதிரி, உரைகள்) {
+    (நீளம்(உரைகள்) == 0) எனில் { திரும்பு சரி([]); }
+    பதிலிறுப்பு = வலை_பதி(இணையவழி & "/api/embed",
+                      கோரிக்கை_உடல்(மாதிரி, உரைகள்),
+                      { "Content-Type": "application/json" });
+    (தவறா(பதிலிறுப்பு)) எனில் {
+        திரும்பு தவறு("உட்பொதிப்பு சேவையை அணுக முடியவில்லை: " & சொல்லாக்கு(தவறு_மதிப்பு(பதிலிறுப்பு))
+                       & "  (could not reach the embedding service)");
+    }
+    விடை = மதிப்பு(பதிலிறுப்பு);
+    (விடை.நிலைக்_குறி != 200) எனில் {
+        திரும்பு தவறு("உட்பொதிப்பு சேவை " & சொல்லாக்கு(விடை.நிலைக்_குறி) & " திருப்பியது"
+                       & "  (the embedding service refused the request)");
+    }
+    திரும்பு பதிலைப்_பிரி(விடை.உடலுரை, நீளம்(உரைகள்));
+}
+
+// __ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) — embed a single text, for a question__
+செயல் ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) {
+    பல = பொதி(இணையவழி, மாதிரி, [ஒரு_உரை]);
+    (தவறா(பல)) எனில் { திரும்பு பல; }
+    திரும்பு சரி(மதிப்பு(பல)[0]);
+}
+
+// __சேவை_இயங்குகிறதா(இணையவழி) — is there an embedder to talk to at all?__
+//
+// __Worth asking before a long indexing run, and worth asking separately from__
+// __embedding: "the service is down" and "the text produced no vector" need__
+// __different responses, and a caller that cannot tell them apart will retry__
+// __the wrong one.__
+செயல் சேவை_இயங்குகிறதா(இணையவழி) {
+    பதிலிறுப்பு = வலை_பெறு(இணையவழி & "/api/tags", {});
+    (தவறா(பதிலிறுப்பு)) எனில் { திரும்பு பொய்; }
+    திரும்பு மதிப்பு(பதிலிறுப்பு).நிலைக்_குறி == 200;
+}

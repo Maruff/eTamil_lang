@@ -8,30 +8,26 @@
 // __HTTP handler that crashes on the absence of an optional parameter is__
 // __unusable — so reading one needs a way to say "or this instead".__
 //
-// __ஒவ்வொரு over a record yields its field names, so all of this is ordinary__
-// __eTamil. Nothing here needs the host.__
+// __ஒவ்வொரு over a record yields its field names, so the rest of this file__
+// __is ordinary eTamil.__
 //
 // __The parameter is named பதிவேடு rather than the plainer பொருள் because that__
 // __word is the record type keyword and is hard reserved — it cannot be a name.__
 
-// __புலம்_உள்ளதா(பதிவேடு, பெயர்) — does the record carry this field?__
-செயல் புலம்_உள்ளதா(பதிவேடு, பெயர்) {
-    ஒவ்வொரு புலப்_பெயர் இல் பதிவேடு {
-        (புலப்_பெயர் == பெயர்) எனில் { திரும்பு மெய்; }
-    }
-    திரும்பு பொய்;
-}
-
-// __புலம்_அல்லது(பதிவேடு, பெயர், மாற்று_மதிப்பு) — the field, or a fallback__
+// __புலம்_உள்ளதா(பதிவேடு, பெயர்) and புலம்_அல்லது(பதிவேடு, பெயர், மாற்று) are__
+// __host builtins now.__
 //
-// __The workhorse: query_params, path_params, headers and a decoded JSON body__
-// __are all records whose contents depend on what someone sent.__
-செயல் புலம்_அல்லது(பதிவேடு, பெயர், மாற்று_மதிப்பு) {
-    (புலம்_உள்ளதா(பதிவேடு, பெயர்)) எனில் {
-        திரும்பு பதிவேடு[பெயர்];
-    }
-    திரும்பு மாற்று_மதிப்பு;
-}
+// __Both were written here, in eTamil, like everything else in this file.__
+// __Neither could be: asking whether a record has a field meant walking its__
+// __field names, because that is the only thing the language offers from the__
+// __inside, and reading one meant walking them twice. That made a record__
+// __unusable as a map — n lookups over n keys cost 0.12 seconds at a hundred__
+// __keys and 61.6 seconds at eight hundred, and building a word-frequency__
+// __map over a corpus never finished at all.__
+//
+// __The host does one hash lookup. A function defined here would shadow the__
+// __builtin, so they are gone rather than delegating — see col.qmz, where__
+// __பிரி and ஒன்றிணை left for the same reason.__
 
 // __புலங்கள்(பதிவேடு) — the field names, as an array__
 செயல் புலங்கள்(பதிவேடு) {

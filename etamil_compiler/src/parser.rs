@@ -18,6 +18,13 @@ pub struct ParseError {
     pub expected: String,
     /// The source text actually found, empty at the end of input.
     pub found: String,
+    /// True when `found` is a word the parser cannot accept as a name.
+    ///
+    /// The language reserves 203 words, and they include common nouns — சொல்,
+    /// உரை, தரவு, தலைப்பு, இடம், வரிசை, வரம்பு, முகவரி, பதில், எண். Using one
+    /// as a variable or a parameter is an ordinary mistake, and without this
+    /// the message describes the symptom rather than the cause.
+    pub reserved: bool,
 }
 
 impl std::fmt::Display for ParseError {
@@ -42,7 +49,16 @@ impl std::fmt::Display for ParseError {
                 self.column,
                 self.expected,
                 self.found
-            )
+            )?;
+            if self.reserved {
+                write!(
+                    f,
+                    "\n  '{}' ஒரு ஒதுக்கப்பட்ட சொல்; அதைப் பெயராகப் பயன்படுத்த முடியாது  \
+                     ('{}' is a reserved word and cannot be used as a name)",
+                    self.found, self.found
+                )?;
+            }
+            Ok(())
         }
     }
 }
@@ -502,6 +518,12 @@ impl<'a> Parser<'a> {
             column: spanned.column,
             expected: expected.to_string(),
             found: spanned.text.clone(),
+            // Only where a name was actually wanted. is_identifier_like is the
+            // parser's own answer to "may this word be a name?", so the test
+            // cannot drift from what the parser accepts — but attaching it to
+            // every keyword-shaped error told someone who forgot a semicolon
+            // that அச்சு cannot be a variable, which is true and useless.
+            reserved: expected.contains("name") && !Self::is_identifier_like(&spanned.token),
         }
     }
 
@@ -511,6 +533,7 @@ impl<'a> Parser<'a> {
             column: self.last.1,
             expected: expected.to_string(),
             found: String::new(),
+            reserved: false,
         }
     }
 
@@ -1210,6 +1233,15 @@ impl<'a> Parser<'a> {
                             .mismatch(keyword, "எனில் (eZil) or சுற்று (cuRRu) after a condition"))
                     }
                 }
+            }
+            // `வரிசை = 5;` is someone naming a variable, not writing an
+            // unrecognisable statement. Reported as "a statement was expected"
+            // it names neither the problem nor the remedy, and this is the
+            // shape the mistake actually takes.
+            _ if !Self::is_identifier_like(&current.token)
+                && matches!(self.tokens.peek(), Some(next) if next.token == Token::Assign) =>
+            {
+                Err(self.mismatch(current, "a variable name"))
             }
             _ => Err(self.mismatch(current, "a statement")),
         }

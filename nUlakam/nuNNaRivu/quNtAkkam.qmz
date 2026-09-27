@@ -1,0 +1,125 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/quNtAkkam.qmz — துண்டாக்கம், splitting documents for indexing__
+//
+// __Whole documents are the wrong unit to search. A page answering forty__
+// __questions matches all forty weakly, and returning it answers none of them:__
+// __the reader still has to find the paragraph. Splitting first means a match__
+// __points at the part that actually answers.__
+//
+// __Splitting too finely fails the other way. A fragment that has lost the__
+// __sentence naming its subject cannot be matched by anything, and a fragment__
+// __shown on its own cannot be understood. That is what the overlap is for.__
+//
+// __Where to split matters as much as how big. Breaking at a blank line keeps__
+// __paragraphs whole; breaking at a fixed character count cuts sentences in__
+// __half and leaves both halves meaning less than the whole did.__
+
+இறக்கு "../col.qmz";
+இறக்கு "../aNi.qmz";
+
+// __பத்திகளாக(சரம்) — split on blank lines, keeping paragraphs intact__
+//
+// __The preferred split, because the author already decided where the breaks__
+// __belong. Empty results are dropped, so runs of blank lines do not produce__
+// __chunks made of nothing.__
+செயல் பத்திகளாக(சரம்) {
+    கூறுகள் = பிரி(சரம், "\n\n");
+    விடை = [];
+    ஒவ்வொரு ஒரு_கூறு இல் கூறுகள் {
+        சுத்தம் = ஒழுங்கு(ஒரு_கூறு);
+        (நீளம்(சுத்தம்) > 0) எனில் {
+            விடை = இணை(விடை, சுத்தம்);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __வரிகளாக(சரம்) — split on single newlines__
+செயல் வரிகளாக(சரம்) {
+    கூறுகள் = பிரி(சரம், "\n");
+    விடை = [];
+    ஒவ்வொரு ஒரு_கூறு இல் கூறுகள் {
+        சுத்தம் = ஒழுங்கு(ஒரு_கூறு);
+        (நீளம்(சுத்தம்) > 0) எனில் {
+            விடை = இணை(விடை, சுத்தம்);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — fixed-size chunks that overlap__
+//
+// __The fallback for text with no paragraph structure. மேற்பொருந்தல் is how__
+// __many characters each chunk repeats from the one before, so a sentence__
+// __straddling a boundary survives whole in one of them.__
+//
+// __An overlap at or above the chunk size would never advance, so it is capped__
+// __below the size rather than trusted — the failure would be an endless loop__
+// __producing an ever-growing array, which is a poor way to learn about a__
+// __mistake in a configuration value.__
+செயல் அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) {
+    (அளவு <= 0) எனில் { திரும்பு [சரம்]; }
+    பாதுகாப்பான_மேற்பொருந்தல் = மேற்பொருந்தல்;
+    (பாதுகாப்பான_மேற்பொருந்தல் >= அளவு) எனில் {
+        பாதுகாப்பான_மேற்பொருந்தல் = அளவு - 1;
+    }
+    (பாதுகாப்பான_மேற்பொருந்தல் < 0) எனில் { பாதுகாப்பான_மேற்பொருந்தல் = 0; }
+
+    நகர்வு = அளவு - பாதுகாப்பான_மேற்பொருந்தல்;
+    மொத்தம் = நீளம்(சரம்);
+    விடை = [];
+    தொடக்கம் = 0;
+    (தொடக்கம் < மொத்தம்) சுற்று {
+        விடை = இணை(விடை, துண்டு(சரம், தொடக்கம், அளவு));
+        தொடக்கம் = தொடக்கம் + நகர்வு;
+    }
+    திரும்பு விடை;
+}
+
+// __பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) — merge short paragraphs up to a size__
+//
+// __Paragraph splitting alone leaves one-line paragraphs — a heading, a single__
+// __sentence — that carry too little to be matched on their own. This packs__
+// __consecutive ones together until adding the next would exceed the limit,__
+// __so headings travel with the text they introduce.__
+செயல் பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) {
+    விடை = [];
+    நடப்புத்_துண்டு = "";
+    ஒவ்வொரு ஒரு_பத்தி இல் பத்திகள் {
+        (நீளம்(நடப்புத்_துண்டு) == 0) எனில் {
+            நடப்புத்_துண்டு = ஒரு_பத்தி;
+        } இன்றேல் {
+            (நீளம்(நடப்புத்_துண்டு) + நீளம்(ஒரு_பத்தி) + 2 <= அதிகபட்ச_அளவு) எனில் {
+                நடப்புத்_துண்டு = நடப்புத்_துண்டு & "\n\n" & ஒரு_பத்தி;
+            } இன்றேல் {
+                விடை = இணை(விடை, நடப்புத்_துண்டு);
+                நடப்புத்_துண்டு = ஒரு_பத்தி;
+            }
+        }
+    }
+    (நீளம்(நடப்புத்_துண்டு) > 0) எனில் {
+        விடை = இணை(விடை, நடப்புத்_துண்டு);
+    }
+    திரும்பு விடை;
+}
+
+// __ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) — the recommended pipeline__
+//
+// __Paragraphs first, merged up to the limit, and anything still oversized cut__
+// __to length. Structure is respected where it exists and imposed only where it__
+// __does not, which is the order that keeps the most meaning.__
+செயல் ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) {
+    ஒன்றிணைந்தவை = பத்திகளை_ஒன்றிணை(பத்திகளாக(சரம்), அதிகபட்ச_அளவு);
+    விடை = [];
+    ஒவ்வொரு ஒரு_துண்டு இல் ஒன்றிணைந்தவை {
+        (நீளம்(ஒரு_துண்டு) <= அதிகபட்ச_அளவு) எனில் {
+            விடை = இணை(விடை, ஒரு_துண்டு);
+        } இன்றேல் {
+            ஒவ்வொரு சிறு_துண்டு இல் அளவுக்கேற்பத்_துண்டாக்கு(ஒரு_துண்டு, அதிகபட்ச_அளவு, 0) {
+                விடை = இணை(விடை, சிறு_துண்டு);
+            }
+        }
+    }
+    திரும்பு விடை;
+}

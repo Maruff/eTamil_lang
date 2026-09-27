@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/matakkY.qmz — மடக்கை, logarithms__
+//
+// __Here because relevance scoring needs one and the language has none. The__
+// __host offers rounding, floor and ceiling; வர்க்கமூலம் in kaNiqam is built__
+// __from arithmetic for the same reason this is.__
+//
+// __It lives in nuNNaRivu rather than in kaNiqam because the need came from__
+// __here. If a second caller outside this folder ever wants it, that is the__
+// __moment to move it up, not before.__
+//
+// __Why a logarithm at all: term weighting needs a function that grows without__
+// __bound but ever more slowly, so that a word appearing in two documents out__
+// __of a thousand is treated as far rarer than one appearing in two hundred,__
+// __while a word in nine hundred is barely distinguished from one in a__
+// __thousand. Nothing algebraic has that shape.__
+
+இறக்கு "../kaNiqam.qmz";
+
+// __இரண்டின்_மடக்கை — ln 2, to the precision a Decimal can carry__
+//
+// __A constant rather than a computation: it is needed on every call to fold__
+// __the exponent back in, and deriving it each time would be the slowest part__
+// __of the function.__
+செயல் இரண்டின்_மடக்கை() {
+    திரும்பு 0.693147180559945309417232121458;
+}
+
+// __இயற்கை_மடக்கை(மதிப்பு) is a host builtin now.__
+//
+// __It was an artanh series here: reduce the value to between 1 and 2,__
+// __sum thirty terms, fold the exponent back in. Accurate to about 28__
+// __digits and slow, and it existed only because the host had none.__
+//
+// __The host computes it on the Decimal, so the accuracy is kept. It__
+// __still returns சரி or தவறு, and zero and below are still a தவறு.__
+//
+// __What is left below are the two wrappers, which are a division each__
+// __and were never the expensive part.__
+
+// __பத்தின்_மடக்கை(மதிப்பு) is a host builtin now.__
+//
+// __It was ln(x) / ln(10) here, and that division is not exact: log10 of__
+// __a thousand came back as 2.9999999999999999999999999998. The host has__
+// __a base-10 logarithm of its own, which answers 3.__
+
+// __இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) — base 2__
+செயல் இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) {
+    இயற்கை = இயற்கை_மடக்கை(மதிப்பு);
+    (தவறா(இயற்கை)) எனில் { திரும்பு இயற்கை; }
+    திரும்பு சரி(மதிப்பு(இயற்கை) / இரண்டின்_மடக்கை());
+}

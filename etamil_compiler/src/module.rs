@@ -8,7 +8,7 @@
 //! rather than looping — the same guarantees `#pragma once` gives, without
 //! needing the author to think about it.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 use crate::lexer;
@@ -32,14 +32,16 @@ fn parse_source(source: &str) -> Result<Vec<Stmt>, String> {
 /// Load a program from disk, resolving its imports.
 pub fn load_file(path: &Path) -> Result<Vec<Stmt>, String> {
     let mut visited = HashSet::new();
-    load_inner(path, &mut visited)
+    let mut defined = HashMap::new();
+    load_inner(path, &mut visited, &mut defined, true)
 }
 
 /// Load a program held in memory. Imports resolve relative to `base_dir`.
 pub fn load_source(source: &str, base_dir: &Path) -> Result<Vec<Stmt>, String> {
     let mut visited = HashSet::new();
+    let mut defined = HashMap::new();
     let statements = parse_source(source)?;
-    resolve(statements, base_dir, &mut visited)
+    resolve(statements, base_dir, &mut visited, &mut defined, true)
 }
 
 /// Where a module's imports resolve from.
@@ -54,7 +56,11 @@ enum Origin {
 }
 
 /// Parse an embedded module and resolve whatever it imports.
-fn load_embedded(virtual_path: &str, visited: &mut HashSet<PathBuf>) -> Result<Vec<Stmt>, String> {
+fn load_embedded(
+    virtual_path: &str,
+    visited: &mut HashSet<PathBuf>,
+    defined: &mut HashMap<String, String>,
+) -> Result<Vec<Stmt>, String> {
     let source = crate::stdlib::source(virtual_path).ok_or_else(|| {
         format!(
             "உள்ளமைந்த தொகுதி '{}' இல்லை  (no built-in module '{}')",
@@ -78,10 +84,18 @@ fn load_embedded(virtual_path: &str, visited: &mut HashSet<PathBuf>) -> Result<V
         statements,
         &Origin::Embedded(crate::stdlib::parent(virtual_path)),
         visited,
+        defined,
+        virtual_path,
+        false,
     )
 }
 
-fn load_inner(path: &Path, visited: &mut HashSet<PathBuf>) -> Result<Vec<Stmt>, String> {
+fn load_inner(
+    path: &Path,
+    visited: &mut HashSet<PathBuf>,
+    defined: &mut HashMap<String, String>,
+    is_entry: bool,
+) -> Result<Vec<Stmt>, String> {
     // Canonicalize so the same file reached by two different paths is still
     // recognised as already imported.
     let canonical = path.canonicalize().map_err(|e| {
@@ -111,7 +125,21 @@ fn load_inner(path: &Path, visited: &mut HashSet<PathBuf>) -> Result<Vec<Stmt>, 
         .parent()
         .map(Path::to_path_buf)
         .unwrap_or_else(|| PathBuf::from("."));
-    resolve(statements, &base_dir, visited)
+    // The file's own name, for the collision message. The whole path
+    // would be accurate and unreadable; the file name is what someone
+    // recognises and what they will grep for.
+    let label = canonical
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_else(|| canonical.display().to_string());
+    resolve_from(
+        statements,
+        &Origin::Disk(base_dir),
+        visited,
+        defined,
+        &label,
+        is_entry,
+    )
 }
 
 /// Find an imported file: next to the importer first, then along
@@ -161,17 +189,48 @@ fn resolve(
     statements: Vec<Stmt>,
     base_dir: &Path,
     visited: &mut HashSet<PathBuf>,
+    defined: &mut HashMap<String, String>,
+    is_entry: bool,
 ) -> Result<Vec<Stmt>, String> {
-    resolve_from(statements, &Origin::Disk(base_dir.to_path_buf()), visited)
+    resolve_from(
+        statements,
+        &Origin::Disk(base_dir.to_path_buf()),
+        visited,
+        defined,
+        "",
+        is_entry,
+    )
 }
 
+/// `label` names the module these statements were read from, for the error
+/// message; `is_entry` marks the program itself, which may define whatever it
+/// likes.
 fn resolve_from(
     statements: Vec<Stmt>,
     origin: &Origin,
     visited: &mut HashSet<PathBuf>,
+    defined: &mut HashMap<String, String>,
+    label: &str,
+    is_entry: bool,
 ) -> Result<Vec<Stmt>, String> {
     let mut out = Vec::new();
     for statement in statements {
+        // Only definitions written *in this file* are registered here. A
+        // nested import registers its own under its own name when it is
+        // resolved, so every name is attributed to the file that wrote it.
+        if !is_entry
+            && let Stmt::FunctionDef { name, .. } = &statement
+            && let Some(earlier) = defined.insert(name.clone(), label.to_string())
+            && earlier != label
+        {
+            return Err(format!(
+                "'{}' இரண்டு தொகுதிகளில் வரையறுக்கப்பட்டுள்ளது: '{}' மற்றும் '{}'  \
+                 ('{}' is defined in two modules, '{}' and '{}'. Imports are \
+                 flattened, so one would silently replace the other — rename one \
+                 of them.)",
+                name, earlier, label, name, earlier, label
+            ));
+        }
         match statement {
             Stmt::Import(relative) => {
                 let imported = match origin {
@@ -181,9 +240,9 @@ fn resolve_from(
                     // ordering is what lets the library be edited without
                     // rebuilding the compiler.
                     Origin::Disk(base_dir) => match locate(&relative, base_dir) {
-                        Some(found) => load_inner(&found, visited)?,
+                        Some(found) => load_inner(&found, visited, defined, false)?,
                         None if crate::stdlib::contains(&relative) => {
-                            load_embedded(&relative, visited)?
+                            load_embedded(&relative, visited, defined)?
                         }
                         None => return Err(not_found(&relative)),
                     },
@@ -193,7 +252,7 @@ fn resolve_from(
                     Origin::Embedded(virtual_dir) => {
                         let target = crate::stdlib::join(virtual_dir, &relative);
                         if crate::stdlib::contains(&target) {
-                            load_embedded(&target, visited)?
+                            load_embedded(&target, visited, defined)?
                         } else {
                             return Err(not_found(&relative));
                         }

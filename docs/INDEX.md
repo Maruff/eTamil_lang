@@ -60,6 +60,7 @@ Both pages carry a status banner; read it first.
 |---|---|
 | [Architecture](ARCHITECTURE.md) | Why the project is built this way: the layering rule, every design decision and its reasoning, the known warts, and how to work on it |
 | [Roadmap](ROADMAP.md) | What is unfinished, why it matters, what finishing it takes |
+| [Language gaps found building nuNNaRivu](language-gaps-from-nuNNaRivu.md) | What a library of 88 functions hit that the language does not yet do well — measured, ranked by what it costs |
 
 ## Examples
 
