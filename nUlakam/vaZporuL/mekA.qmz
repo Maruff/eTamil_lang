@@ -1,0 +1,53 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/mekA.qmz — மெகா: the Arduino Mega 2560's pins, and the hardware API__
+//
+//   __இறக்கு "nUlakam/vaZporuL/mekA.qmz";__
+//   __etamil --artino --board mega prog.qmz__
+//
+// __Import this instead of vaZporuL.qmz, and the program names the board's pins__
+// __rather than numbers. Every board file uses the same names, so moving a__
+// __program to another board is changing this one line. artino refuses a board__
+// __file that does not match --board.__
+//
+// __ATmega2560, 5 V: 256 KB flash, 8 KB RAM. Digital pins 0–53. PWM on 2–13 and__
+// __44–46. I2C on 20 (SDA) and 21 (SCL).__
+
+இறக்கு "vaZporuL.qmz";
+
+// __The boards this file describes. artino checks it against --board.__
+நிலை சொல் பலகைக்_கோப்பு = "mega";
+
+நிலை எண் விளக்கு_முனை = 13;          // __the on-board LED (LED_BUILTIN)__
+
+// __Analog inputs A0–A15, as pin numbers__
+நிலை எண் ஒப்புமை_0 = 54;
+நிலை எண் ஒப்புமை_1 = 55;
+நிலை எண் ஒப்புமை_2 = 56;
+நிலை எண் ஒப்புமை_3 = 57;
+நிலை எண் ஒப்புமை_4 = 58;
+நிலை எண் ஒப்புமை_5 = 59;
+நிலை எண் ஒப்புமை_6 = 60;
+நிலை எண் ஒப்புமை_7 = 61;
+நிலை எண் ஒப்புமை_8 = 62;
+நிலை எண் ஒப்புமை_9 = 63;
+நிலை எண் ஒப்புமை_10 = 64;
+நிலை எண் ஒப்புமை_11 = 65;
+நிலை எண் ஒப்புமை_12 = 66;
+நிலை எண் ஒப்புமை_13 = 67;
+நிலை எண் ஒப்புமை_14 = 68;
+நிலை எண் ஒப்புமை_15 = 69;
+நிலை எண் ஒப்புமை_உச்சம் = 1023;       // __ஒப்புமை_படி's largest reading…__
+நிலை எண் ஒப்புமை_மில்லிவோல்ட் = 5000;  // __…and the voltage it stands for, in mV__
+
+// __Serial: the USB port and three hardware ports, with the pins each uses__
+நிலை எண் USB_துறை = 0;               // __D0 (RX), D1 (TX)__
+நிலை எண் தொடர்1_துறை = 1;
+நிலை எண் தொடர்1_அனுப்பு_முனை = 18;   // __TX1__
+நிலை எண் தொடர்1_பெறு_முனை = 19;      // __RX1__
+நிலை எண் தொடர்2_துறை = 2;
+நிலை எண் தொடர்2_அனுப்பு_முனை = 16;   // __TX2__
+நிலை எண் தொடர்2_பெறு_முனை = 17;      // __RX2__
+நிலை எண் தொடர்3_துறை = 3;
+நிலை எண் தொடர்3_அனுப்பு_முனை = 14;   // __TX3__
+நிலை எண் தொடர்3_பெறு_முனை = 15;      // __RX3__

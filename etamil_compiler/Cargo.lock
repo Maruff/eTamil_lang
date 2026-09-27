@@ -832,6 +832,7 @@ dependencies = [
  "getrandom 0.4.3",
  "hmac",
  "jsonwebtoken",
+ "libc",
  "llvm-sys",
  "logos",
  "mongodb",

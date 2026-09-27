@@ -5,6 +5,8 @@
 //! Pipeline: `lexer` -> `parser` -> `vm::bytecode::compiler` -> `vm::interpreter`.
 //! `codegen` is an optional LLVM backend replacing the last two stages,
 //! enabled with `--features llvm`.
+//! `artino` compiles the same checked AST for Arduino boards (docs/artino.md);
+//! its analysis runs anywhere, its LLVM lowering needs the same feature.
 //!
 //! # wasm builds
 //!
@@ -15,7 +17,7 @@
 //! bytecode interpreter, not a reimplementation of either.
 //!
 //! What is gated out is what needs an operating system -- a filesystem, a
-//! socket, a terminal: `module`, `repl`, `db`, `redis`, `http`, `codegen` and
+//! socket, a terminal: `module`, `repl`, `db`, `redis`, `http`, `codegen`, `artino` and
 //! the feature-gated drivers. A statement that reaches one of them refuses
 //! through `wasm_stubs` with a message naming what is not available in the
 //! browser, rather than quietly doing nothing. Several modules below the front end are portable and are
@@ -100,6 +102,11 @@ pub mod net;
 // build; gated here too so a wasm build does not depend on that staying true.
 #[cfg(not(target_family = "wasm"))]
 pub mod codegen;
+// eTamil for Arduino boards. The analysis and the sketch writer are portable
+// Rust and the emitter is behind `llvm`, but it names statements with
+// codegen's labels and writes files, so it leaves a wasm build with codegen.
+#[cfg(not(target_family = "wasm"))]
+pub mod artino;
 // The server behind வழி and the routing around it. Needs to bind a socket.
 #[cfg(not(target_family = "wasm"))]
 pub mod http;

@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __examples/artino/viLakku.qmz — விளக்கு: a ring of NeoPixels, through Adafruit's library__
+//
+//   __etamil --artino --board uno examples/artino/viLakku.qmz__
+//
+// __Eight WS2812 LEDs, data on pin 6 (viLakku.artino.toml). One lit LED runs__
+// __round the ring, changing colour each lap: the way a panel's zone ring can__
+// __show which zone is in alarm. Needs arduino-cli lib install "Adafruit NeoPixel".__
+
+இறக்கு "nUlakam/vaZporuL/vaZporuL.qmz";
+
+நிலை எண் விளக்குகள் = 8;
+
+// __Colours, as red, green, blue from 0 to 255__
+நிலை சிவப்பு = [255, 0, 0];
+நிலை பச்சை = [0, 160, 0];
+நிலை நீலம் = [0, 0, 255];
+
+விளக்குகள்_தொடங்கு();
+விளக்குகள்_ஒளி(40);
+இடத்தில் = 0;
+சுற்றுகள் = 0;
+
+இடைவெளி 0.1 {
+    விளக்குகள்_அணை();
+    (சுற்றுகள் == 0) எனில் { விளக்கு_நிறம்(இடத்தில், சிவப்பு[0], சிவப்பு[1], சிவப்பு[2]); }
+    (சுற்றுகள் == 1) எனில் { விளக்கு_நிறம்(இடத்தில், பச்சை[0], பச்சை[1], பச்சை[2]); }
+    (சுற்றுகள் == 2) எனில் { விளக்கு_நிறம்(இடத்தில், நீலம்[0], நீலம்[1], நீலம்[2]); }
+    விளக்குகள்_காட்டு();
+    இடத்தில் = இடத்தில் + 1;
+    (இடத்தில் == விளக்குகள்) எனில் {
+        இடத்தில் = 0;
+        சுற்றுகள் = சுற்றுகள் + 1;
+        (சுற்றுகள் == 3) எனில் { சுற்றுகள் = 0; }
+    }
+}

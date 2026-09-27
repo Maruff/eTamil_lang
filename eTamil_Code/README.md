@@ -182,6 +182,20 @@ cargo build --release
 Either way the binary has to be on your `PATH` — the installers do that — or in
 `etamil.compilerPath`.
 
+## Firmware for a board
+
+**eTamil: Build for a board (artino)** compiles the open file for an Arduino Uno,
+Nano or Mega, or a Raspberry Pi Pico or Pico 2, into `artino-build` beside it.
+**eTamil: Build and upload to a board** asks for the serial port, `COM5` or
+`/dev/ttyACM0`, and uploads it. Both remember your last board and port for the
+workspace. After an Uno, Nano or Mega build, the terminal also shows how much of
+its RAM the variables and the deepest stack can take.
+
+They need an `etamil` built with LLVM (`cargo build --release --features llvm`, on
+Linux or macOS today) and `arduino-cli` with the board's core installed. The
+compiler this extension carries has no LLVM, so set `etamil.compilerPath` to one
+that does. The language side is in the repository's `docs/artino.md`.
+
 ## Settings
 
 | Setting | Default | |
