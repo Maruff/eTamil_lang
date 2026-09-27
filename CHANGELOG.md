@@ -8,6 +8,84 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## Unreleased
+
+### nuNNaRivu: retrieval and language models, in eTamil
+
+`nUlakam/nuNNaRivu/` answers "which part of the documentation answers this
+question?", and can then ask a model to phrase the answer. It has thirteen
+modules, written in eTamil over the host's arithmetic, strings and HTTP.
+
+- **Two kinds of search, because each fails where the other succeeds.**
+  `coRqEtal.qmz` scores by shared words (BM25). `oRRumY.qmz` finds by meaning,
+  over vectors from `utpoqippu.qmz`. `iNYppu.qmz` merges the two by rank,
+  because their scores are not on the same scale.
+- **Asking a model is optional.** Retrieval alone takes milliseconds, and
+  generation is never required. `urYyAkkam.qmz` uses a model on the machine
+  itself by default. Another provider needs a key from whoever runs the
+  program. There is no default key, and a provider left without one fails
+  before the request, saying so.
+- **`aLavItu.qmz` measures whether retrieval works**, so that tuning it is an
+  experiment rather than an opinion.
+
+Writing it found seven gaps in the language, and they are fixed:
+
+- **A record can be used as a map.** `புலம்_உள்ளதா` and `புலம்_அல்லது` are
+  one hash lookup. `poruL.qmz` had walked every field name, so 800 lookups over
+  800 keys took 61.6 s; they take 1.89 s now.
+- **JSON is a builtin.** `ஜேசான்_படி` and `ஜேசான்_ஆக்கு` replace a parser
+  written in eTamil: a 624 KB file that did not finish in ten minutes takes 1.31
+  s. A number keeps its exact decimal text rather than passing through f64.
+- **`x = x & e` appends in place** on the VM, as `x = இணை(x, v)` already did,
+  so building a string in a loop no longer copies everything written so far.
+- **`வர்க்கமூலம்`, `இயற்கை_மடக்கை`, `இயற்கை_அடுக்கு`, `அடுக்கேற்று` and
+  `பத்தின்_மடக்கை` are builtins**, computed on the decimal rather than on f64.
+  √25 is exactly 5 and log10(1000) exactly 3, where the old hand-written series
+  left digits in the 28th place.
+- **`வரிசையாக்கு` and `புலத்தால்_வரிசையாக்கு` sort**, replacing the insertion
+  sort each library wrote for itself.
+- **Two imported modules may no longer define the same name.** Imports are
+  flattened, so one quietly replaced the other. That made a program fail three
+  calls later with an error that named neither file. A program can still
+  define its own version of a library function; only a collision between
+  imports is refused. **This can refuse a program that ran under 1.3.0.**
+- **A reserved word used as a name says so**, when a name was clearly wanted.
+
+That brings the language to 93 builtins, with 794 functions in `nUlakam`. The
+eTamil versions the builtins replace are deleted, since a library function
+would shadow a builtin of the same name. `jEcAZ.qmz` goes from 340 lines to
+67. `docs/language-gaps-from-nuNNaRivu.md` records the whole list, the
+benchmarks, and what is still open: namespaced imports and private helpers.
+
+### The file system, from eTamil
+
+`nUlakam/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
+join and split paths, and read a name's extension. It can list a directory,
+walk everything under one, or collect the files with one extension:
+`நீட்சியால்_கோப்புகள்("nUlakam", "qmz")`. It can also turn a modification time
+into a date.
+
+Only three builtins come from the host, and the library is written in eTamil
+around them:
+- `கோப்பகம்_படி` reads a directory;
+- `கோப்பு_விவரம்` says whether a path is a directory, its size and when it
+  changed;
+- `கோப்பு_உள்ளதா` says whether a path exists.
+
+Their English names are `_readDir`, `_fileInfo` and `_fileExists`. That brings
+the language to 96 builtins, and `nUlakam` to 806 functions.
+
+A path is written with `/` on every platform, since Windows accepts it in every
+call. `பாதை_இயல்பாக்கு` turns a backslash into `/`. `கோப்பகம்_படி` answers
+with bare names in sorted order, so two runs list a directory the same way, and
+the library's listings join each name onto its directory.
+
+In the browser build, a directory is inferred from the in-memory file set. No
+modification time was ever recorded there, so `மாற்றம்` is `இன்மை` rather
+than a date in 1970.
+
+---
+
 ## 1.3.0 — 2026-09-27
 
 eTamil on Arduino boards. `etamil --artino` compiles a program to firmware for an
