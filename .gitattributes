@@ -27,5 +27,5 @@
 *.db        binary
 *.vsidx     binary
 
-# Serial input with CRLF on purpose: artino must drop the  a real port sends.
+# Serial input with CRLF on purpose: artino must drop the \r a real port sends.
 etamil_compiler/tests/artino/thodar.input -text
