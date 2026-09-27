@@ -1257,6 +1257,85 @@ impl VM {
                 }
             }
 
+            // --- The file system ---------------------------------------------
+            //
+            // Reading and writing a *named* file has always been possible;
+            // finding out what files there are had not. Without it a program
+            // that works over a tree — collecting a corpus, walking a folder
+            // of statements to import — had to shell out to `find` through
+            // கட்டளை_ஓட்டு, which is not portable: `find` on Windows is a
+            // text-search tool, so the same program did something else
+            // entirely there.
+            //
+            // Three primitives, because three are what the language cannot
+            // express for itself. Everything above them — joining paths,
+            // taking a base name or an extension, walking a tree — is
+            // ordinary eTamil and lives in nUlakam/kOppumuRY.qmz.
+
+            // கோப்பகம்_படி(பாதை) — the entries of a directory, sorted, as bare
+            // names rather than paths. Joining is the caller's business:
+            // deciding the separator here would put a backslash in the middle
+            // of a path an author wrote with slashes.
+            "கோப்பகம்_படி" | "kOppakam_pati" | "_readDir" => {
+                Self::expect_args(name, &args, 1)?;
+                let path = args[0].to_string();
+                match host::read_dir(&path) {
+                    Ok(names) => Ok(Value::Ok(Box::new(Value::Array(
+                        names.into_iter().map(Value::String).collect(),
+                    )))),
+                    Err(e) => Ok(Value::Err(Box::new(Value::String(format!(
+                        "கோப்பகம் '{}' படிக்க முடியவில்லை  (cannot read directory '{}'): {}",
+                        path, path, e
+                    ))))),
+                }
+            }
+
+            // கோப்பு_உள்ளதா(பாதை) — a plain ஈர்மம், not a முடிவு. "No" is an
+            // answer rather than a failure, and there is nothing a caller
+            // could do differently for a path that is absent versus one it may
+            // not look at.
+            "கோப்பு_உள்ளதா" | "kOppu_uLLaqA" | "_fileExists" => {
+                Self::expect_args(name, &args, 1)?;
+                Ok(Value::Boolean(host::exists(&args[0].to_string())))
+            }
+
+            // கோப்பு_விவரம்(பாதை) — what a path is:
+            //   {வகை: "கோப்பகம்" | "கோப்பு", அளவு: எண், மாற்றம்: எண் | இன்மை}
+            //
+            // மாற்றம் is seconds since 1970 because that is the form
+            // arithmetic works on; நாளாக() in nUlakam turns it into a date. A
+            // file system that cannot report one yields இன்மை rather than 0,
+            // since 1970 is a real date and a program comparing against it
+            // would quietly believe the file was ancient.
+            "கோப்பு_விவரம்" | "kOppu_vivaram" | "_fileInfo" => {
+                Self::expect_args(name, &args, 1)?;
+                let path = args[0].to_string();
+                match host::metadata(&path) {
+                    Ok((is_directory, size, modified)) => {
+                        let mut fields = HashMap::new();
+                        fields.insert(
+                            "வகை".to_string(),
+                            Value::String(
+                                if is_directory { "கோப்பகம்" } else { "கோப்பு" }.to_string(),
+                            ),
+                        );
+                        fields.insert("அளவு".to_string(), Value::Number(Decimal::from(size)));
+                        fields.insert(
+                            "மாற்றம்".to_string(),
+                            match modified {
+                                Some(seconds) => Value::Number(Decimal::from(seconds)),
+                                None => Value::Null,
+                            },
+                        );
+                        Ok(Value::Ok(Box::new(Value::Map(fields.into()))))
+                    }
+                    Err(e) => Ok(Value::Err(Box::new(Value::String(format!(
+                        "கோப்பு '{}' பற்றி அறிய முடியவில்லை  (cannot stat '{}'): {}",
+                        path, path, e
+                    ))))),
+                }
+            }
+
             // --- ODF packages -----------------------------------------------
             // An .odt or .ods is a zip: content.xml and styles.xml hold the
             // text, and beside them sit pictures, thumbnails, and a mimetype
