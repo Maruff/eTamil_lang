@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/itar/mUZRuppuLLi.qmz — மூன்றுப்புள்ளி, three-point estimation__
+// மூன்றுப்புள்ளி மதிப்பீடு
 //
 // __qittam/pAqY.qmz computes a critical path from single-point durations, and a__
 // __single-point duration is a guess wearing a suit. Three-point estimation asks__
@@ -38,6 +39,7 @@
 // __estimate with the pessimistic case below the most likely produces a negative__
 // __standard deviation, and a negative variance propagates into a square root__
 // __that refuses — a long way from where the mistake was made.__
+// முப்புள்ளி_ஆக்கு(நம்பிக்கை, வாய்ப்பானது, அவநம்பிக்கை) — மூன்று புள்ளி மதிப்பீட்டை உருவாக்கும்
 செயல் முப்புள்ளி_ஆக்கு(நம்பிக்கை, வாய்ப்பானது, அவநம்பிக்கை) {
     (நம்பிக்கை > வாய்ப்பானது அல்லது வாய்ப்பானது > அவநம்பிக்கை) எனில் {
         திரும்பு தவறு("மூன்று புள்ளிகள் வரிசையில் இல்லை  "
@@ -53,6 +55,7 @@
 }
 
 // __பீட்டா_சராசரி(ஒரு_மதிப்பீடு) — the PERT expected value__
+// பீட்டா_சராசரி(ஒரு_மதிப்பீடு) — வாய்ப்பானதற்கு நான்கு மடங்கு எடை தரும் எதிர்பார்ப்பு
 //
 //     __(optimistic + 4 × most likely + pessimistic) ÷ 6__
 //
@@ -67,6 +70,7 @@
 }
 
 // __முக்கோண_சராசரி(ஒரு_மதிப்பீடு) — the simple average of the three__
+// முக்கோண_சராசரி(ஒரு_மதிப்பீடு) — மூன்றின் எளிய சராசரி
 //
 // __The triangular distribution's mean. It is offered because it is defensible__
 // __where the most likely case is itself a guess — weighting a guess by four__
@@ -80,6 +84,7 @@
 }
 
 // __நியம_விலகல்(ஒரு_மதிப்பீடு) — (pessimistic − optimistic) ÷ 6__
+// நியம_விலகல்(ஒரு_மதிப்பீடு) — அவநம்பிக்கைக்கும் நம்பிக்கைக்கும் உள்ள வேறுபாடு ஆறால் வகுத்தது
 //
 // __Six standard deviations span the range, on the assumption that the two__
 // __extremes are roughly three deviations either side of the mean. The__
@@ -92,6 +97,7 @@
 }
 
 // __பரவல்(ஒரு_மதிப்பீடு) — the variance, the deviation squared__
+// பரவல்(ஒரு_மதிப்பீடு) — விலகலின் வர்க்கம்
 //
 // __Computed from the raw range rather than from the rounded deviation, so that__
 // __a path of many activities does not accumulate rounding in the one figure__
@@ -106,6 +112,7 @@
 // =========================================================================
 
 // __பாதை_சராசரி(மதிப்பீடுகள்) — expected durations add__
+// பாதை_சராசரி(மதிப்பீடுகள்) — எதிர்பார்க்கும் காலங்கள் கூடும்
 செயல் பாதை_சராசரி(மதிப்பீடுகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_மதிப்பீடு இல் மதிப்பீடுகள் {
@@ -115,6 +122,7 @@
 }
 
 // __பாதை_பரவல்(மதிப்பீடுகள்) — **variances** add__
+// பாதை_பரவல்(மதிப்பீடுகள்) — கூட வேண்டியது பரவல்களே, விலகல்கள் அல்ல
 //
 // __This is the rule, and it is the whole reason variance is worth carrying__
 // __about rather than just the deviation.__
@@ -127,6 +135,7 @@
 }
 
 // __பாதை_விலகல்(மதிப்பீடுகள்) — the root of the sum of the variances__
+// பாதை_விலகல்(மதிப்பீடுகள்) — பரவல்களின் கூட்டுத்தொகையின் வர்க்கமூலம்
 செயல் பாதை_விலகல்(மதிப்பீடுகள்) {
     விடை = வர்க்கமூலம்(பாதை_பரவல்(மதிப்பீடுகள்));
     (தவறா(விடை)) எனில் { திரும்பு விடை; }
@@ -142,6 +151,7 @@
 // __size of the overstatement is what makes the rule worth remembering, and__
 // __because the wrong answer is always larger — a schedule made to look less__
 // __certain than it is, which nobody queries.__
+// தவறாக_விலகல்களைக்_கூட்டினால்(மதிப்பீடுகள்) — விலகல்களைக் கூட்டும் தவறு என்ன விளைவைத் தரும் என்பதைக் காட்டும்
 செயல் தவறாக_விலகல்களைக்_கூட்டினால்(மதிப்பீடுகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_மதிப்பீடு இல் மதிப்பீடுகள் {
@@ -164,6 +174,7 @@
 // __carried to two decimals looks like a measurement, and it rests on a beta__
 // __assumption, a six-sigma range assumption and a normal approximation, any of__
 // __which is a larger source of error than this table.__
+// வளைவு_அட்டவணை() — இயல்நிலை வளைவின் அட்டவணை
 செயல் வளைவு_அட்டவணை() {
     திரும்பு [
         {"z": 0.0, "p": 0.5000}, {"z": 0.1, "p": 0.5398},
@@ -263,6 +274,7 @@
 // __**is** the target has a fifty per cent chance, which surprises people every__
 // __time and is the single most useful thing this module says: committing to the__
 // __expected duration is committing to a coin toss.__
+// இலக்கு_நிகழ்தகவு(இலக்கு_காலம், மதிப்பீடுகள்) — இலக்குக்குள் முடியும் நிகழ்தகவு
 செயல் இலக்கு_நிகழ்தகவு(இலக்கு_காலம், மதிப்பீடுகள்) {
     விலகல்_விடை = பாதை_விலகல்(மதிப்பீடுகள்);
     (தவறா(விலகல்_விடை)) எனில் { திரும்பு விலகல்_விடை; }
@@ -286,6 +298,7 @@
 // __committed to. The gap between this and the expected duration is the__
 // __schedule contingency, and it is the same idea as a contingency reserve in__
 // __itar.qmz applied to time instead of money.__
+// நம்பிக்கை_காலம்(நிகழ்தகவு_சதவீதம், மதிப்பீடுகள்) — சொன்ன நிகழ்தகவுக்கு உரிய காலம்
 செயல் நம்பிக்கை_காலம்(நிகழ்தகவு_சதவீதம், மதிப்பீடுகள்) {
     _z_விடை = _நம்பிக்கைக்கான_Z(நிகழ்தகவு_சதவீதம்);
     (தவறா(_z_விடை)) எனில் { திரும்பு _z_விடை; }

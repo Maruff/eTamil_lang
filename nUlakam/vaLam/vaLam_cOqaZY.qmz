@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வளம்_சோதனை — tests for resources, timesheets and posting__
+// வளம், நேரத்தாள், பதிவுக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/vaLam/vaLam_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/upi/vilAcam.qmz — UPI virtual payment addresses, and the pay link__
+// ஒருங்கிணைந்த பணப்பரிமாற்ற முகவரிகளும் கட்டண இணைப்பும்
 //
 // __What this is, and what it is not.__
 //
@@ -28,6 +29,7 @@
 // __which is the check that catches a typed address; the rest is the PSP's__
 // __business, and refusing an address it would have accepted is worse than__
 // __passing one it will reject with a clear message.__
+// முகவரி_சரியா(வி_பி_ஏ) — இது முறையான பணப்பரிமாற்ற முகவரியா
 செயல் முகவரி_சரியா(வி_பி_ஏ) {
     (நீளம்(வி_பி_ஏ) == 0) எனில் { திரும்பு பொய்; }
 
@@ -49,6 +51,7 @@
 }
 
 // __கை_பகுதி(வி_பி_ஏ) — the handle, which says which PSP holds the account__
+// கை_பகுதி(வி_பி_ஏ) — முகவரியின் பின் பகுதி; கணக்கை வைத்திருப்பவரைக் குறிக்கும்
 செயல் கை_பகுதி(வி_பி_ஏ) {
     (முகவரி_சரியா(வி_பி_ஏ) == பொய்) எனில் { திரும்பு ""; }
     திரும்பு பிரி(வி_பி_ஏ, "@")[1];
@@ -57,6 +60,7 @@
 // __--- the amount -----------------------------------------------------------__
 //
 // __தொகை_சரியா(தொகை_மதிப்பு) — is this an amount UPI will take?__
+// தொகை_சரியா(தொகை_மதிப்பு) — இதைப் பணப்பரிமாற்றம் ஏற்குமா
 //
 // __Positive, and not more than two decimal places. The second is the one that__
 // __bites: an amount computed as a third of something arrives with a tail of__
@@ -68,6 +72,7 @@
 }
 
 // __தொகை_உரை(தொகை_மதிப்பு) — the amount as UPI wants it written__
+// தொகை_உரை(தொகை_மதிப்பு) — பணப்பரிமாற்றம் எதிர்பார்க்கும் வடிவத்தில் தொகை
 //
 // __Always two decimal places. A decimal normalises 249.50 to 249.5, and while__
 // __most apps accept that, the spec writes rupees and paise and some payment__
@@ -101,6 +106,7 @@
 // __--- the link -------------------------------------------------------------__
 //
 // __பணம்_இணைப்பு(விவரங்கள்) — the upi:// link behind every payment QR__
+// பணம்_இணைப்பு(பெறுநர், பெயர், தொகை, குறிப்பு) — கட்டணம் செலுத்தும் இணைப்பைக் கட்டும்
 //
 // __விவரங்கள் carries what the spec names:__
 //   __pa  the payee address, required__
@@ -148,6 +154,7 @@
 }
 
 // __விருப்பத்தைச்_சேர்(இணைப்பு, பெயர், மதிப்பீடு) — append one optional parameter to a UPI link__
+// விருப்பத்தைச்_சேர்(இணைப்பு, பெயர், மதிப்பீடு) — இணைப்புடன் ஒரு விருப்ப அளபுருவைச் சேர்க்கும்
 //
 // __An empty value is dropped rather than written as an empty parameter, because some UPI apps treat a present-but-blank field as a value and refuse the link. The value is percent-encoded; a payee name with a space is otherwise a link that ends at the space.__
 செயல் விருப்பத்தைச்_சேர்(இணைப்பு, பெயர், மதிப்பீடு) {
@@ -158,6 +165,7 @@
 // __--- reading one back -----------------------------------------------------__
 //
 // __இணைப்பைப்_படி(இணைப்பு) — the parameters of a upi:// link, as a record__
+// இணைப்பைப்_படி(இணைப்பு) — கட்டண இணைப்பின் அளபுருக்களைப் பதிவேடாகப் படிக்கும்
 //
 // __For checking what was printed on a sticker, and for a payer app reading what__
 // __it was handed. Values are left percent-encoded: decoding needs the reverse__

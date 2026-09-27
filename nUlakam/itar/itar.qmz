@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/itar/itar.qmz — இடர், the risk register__
+// இடர்ப் பதிவேடு
 //
 // __qittam/kattuppAtu.qmz takes a contingency reserve as a number somebody__
 // __passes in. This is where that number comes from.__
@@ -35,6 +36,7 @@
 // __the kind rather than in the amount means a register can be read without__
 // __knowing which convention its author used, and it makes a threat entered as__
 // __a negative impact obvious instead of silently doubling back to positive.__
+// இடர்_ஆக்கு(இடர்க்_குறி, விவரம், நிகழ்தகவு, தாக்கத்_தொகை, இடர்_வகை, பதிலளிப்பு) — பதிவேட்டில் ஓர் இடரை உருவாக்கும்
 செயல் இடர்_ஆக்கு(இடர்க்_குறி, விவரம், நிகழ்தகவு, தாக்கத்_தொகை, இடர்_வகை,
                   உரிமையாளர்) {
     திரும்பு {"குறி": இடர்க்_குறி,
@@ -50,6 +52,7 @@
 // __A probability outside 0 to 100, a negative impact, or an unknown kind. The__
 // __impact check matters: a threat entered with a negative impact is a threat__
 // __that will be added to the reserve instead of subtracted from it.__
+// இடர்_செல்லுபடியா(ஒரு_இடர்) — இந்த இடர்ப் பதிவு முறையானதா
 செயல் இடர்_செல்லுபடியா(ஒரு_இடர்) {
     (ஒரு_இடர்["நிகழ்தகவு"] < 0 அல்லது ஒரு_இடர்["நிகழ்தகவு"] > 100) எனில் {
         திரும்பு தவறு("நிகழ்தகவு 0 முதல் 100 வரை இருக்க வேண்டும்  "
@@ -73,6 +76,7 @@
 // =========================================================================
 //
 // __எதிர்பார்ப்பு(ஒரு_இடர்) — probability times impact, signed by kind__
+// எதிர்பார்ப்பு(ஒரு_இடர்) — நிகழ்தகவும் தாக்கமும் பெருக்கியது, வகைக்கேற்ற குறியுடன்
 //
 // __Negative for a threat, positive for an opportunity, so a register sums__
 // __without the caller sorting it first.__
@@ -91,6 +95,7 @@
 }
 
 // __மொத்த_எதிர்பார்ப்பு(இடர்கள்) — the register's net exposure__
+// மொத்த_எதிர்பார்ப்பு(இடர்கள்) — பதிவேட்டின் நிகர வெளிப்பாடு
 //
 // __Threats and opportunities together. A net figure near zero does not mean a__
 // __project without risk; it means the two sides are of similar size, and they__
@@ -108,6 +113,7 @@
 // __One side of the register on its own. Both are wanted: the threats size the__
 // __contingency reserve, and the opportunities are what a project manager is__
 // __supposed to be chasing rather than merely recording.__
+// வகையால்_எதிர்பார்ப்பு(இடர்கள், இடர்_வகை) — ஒரு வகைக்கு மட்டுமான எதிர்பார்ப்பு
 செயல் வகையால்_எதிர்பார்ப்பு(இடர்கள், இடர்_வகை) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_இடர் இல் இடர்கள் {
@@ -137,6 +143,7 @@
 // __them. The components are returned alongside the score so a caller can break__
 // __the tie the way the score cannot, and எதிர்பார்ப்பு is the answer wherever__
 // __real money is available.__
+// இடர்_மதிப்பெண்(ஒரு_இடர்) — நிகழ்தகவையும் தாக்கத்தையும் சேர்த்த மதிப்பெண்
 செயல் இடர்_மதிப்பெண்(நிகழ்தகவுத்_தரம், தாக்கத்_தரம்) {
     திரும்பு {"மதிப்பெண்": நிகழ்தகவுத்_தரம் * தாக்கத்_தரம்,
               "நிகழ்தகவுத்_தரம்": நிகழ்தகவுத்_தரம்,
@@ -149,6 +156,7 @@
 // __because they are a matter of appetite rather than of fact, and an__
 // __organisation that treats a score of 12 as high is making a policy statement__
 // __and not a measurement.__
+// மதிப்பெண்_நிலைமை(மதிப்பெண், உயர்_எல்லை, நடுத்தர_எல்லை) — மதிப்பெண்ணை உயர், நடுத்தர, தாழ் என வகுக்கும்
 செயல் மதிப்பெண்_நிலைமை(மதிப்பெண், உயர்_எல்லை, நடுத்தர_எல்லை) {
     (மதிப்பெண் >= உயர்_எல்லை) எனில் { திரும்பு "உயர்"; }
     (மதிப்பெண் >= நடுத்தர_எல்லை) எனில் { திரும்பு "நடுத்தரம்"; }
@@ -171,6 +179,7 @@
 // __and reducing an opportunity is the opposite of what is wanted. A register__
 // __that lets any response attach to any risk collects such entries, and nobody__
 // __reviewing it notices because every line has a response.__
+// பதிலளிப்பு_சரியா(இடர்_வகை, பதிலளிப்பு) — இந்த வகை இடருக்கு இந்தப் பதிலளிப்பு பொருந்துமா
 செயல் பதிலளிப்பு_சரியா(இடர்_வகை, பதிலளிப்பு) {
     (பதிலளிப்பு == "ஏற்பு") எனில் { திரும்பு மெய்; }
 
@@ -194,6 +203,7 @@
 //
 // __Answers the residual risk and the reduction in exposure, because the second__
 // __is what the response has to be judged against.__
+// எஞ்சிய_இடர்(ஒரு_இடர், புதிய_நிகழ்தகவு, புதிய_தாக்கம்) — பதிலளித்த பிறகும் எஞ்சும் இடர்
 செயல் எஞ்சிய_இடர்(ஒரு_இடர், புதிய_நிகழ்தகவு, புதிய_தாக்கம்) {
     மீதி_இடர் = இடர்_ஆக்கு(ஒரு_இடர்["குறி"], ஒரு_இடர்["விவரம்"],
                             புதிய_நிகழ்தகவு, புதிய_தாக்கம்,
@@ -217,12 +227,14 @@
 // __The comparison is against the *reduction* in exposure, not against the__
 // __impact. A risk with a 5% chance of costing a crore is worth five lakh of__
 // __prevention, not a crore of it.__
+// பதிலளிப்பு_பயனுள்ளதா(நன்மை, பதிலளிப்புச்_செலவு) — பதிலளிப்பின் நன்மை செலவை விஞ்சுகிறதா
 செயல் பதிலளிப்பு_பயனுள்ளதா(நன்மை, பதிலளிப்புச்_செலவு) {
     திரும்பு நன்மை > பதிலளிப்புச்_செலவு;
 }
 
 // பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு)
 // __பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு) — what a risk response is worth, net__
+// பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு) — பதிலளிப்பின் நிகர மதிப்பு
 //
 // __The reduction in expected loss less what the response costs. Through வட்டக்_கழி so the subtraction rounds once: a mitigation whose net benefit is a rounding artefact should not appear to be worth doing.__
 செயல் பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு) {
@@ -245,6 +257,7 @@
 //
 // __This is the number qittam/kattuppAtu.qmz's நிதித்_தொகுதி_ஆக்கு wants for its__
 // தற்செயல்_இருப்பு.
+// தற்செயல்_இருப்பைக்_கணக்கிடு(இடர்கள்) — அறியப்பட்ட இடர்களுக்கான தற்செயல் இருப்பு
 செயல் தற்செயல்_இருப்பைக்_கணக்கிடு(இடர்கள்) {
     அச்சுறுத்தல்_மொத்தம் = வகையால்_எதிர்பார்ப்பு(இடர்கள், "அச்சுறுத்தல்");
     திரும்பு வட்டமிடு(முழுமதிப்பு(அச்சுறுத்தல்_மொத்தம்), 2);
@@ -259,6 +272,7 @@
 // __complete as the risk workshop was — which is the one thing it must not__
 // __depend on. So it is a policy percentage, set by whoever carries the__
 // __unknown, and this function takes that percentage rather than inventing one.__
+// மேலாண்மை_இருப்பைக்_கணக்கிடு(அடிப்படை_நிதி, கொள்கை_விகிதம்) — அறியப்படாதவற்றுக்கான மேலாண்மை இருப்பு
 செயல் மேலாண்மை_இருப்பைக்_கணக்கிடு(அடிப்படை_நிதி, கொள்கை_விகிதம்) {
     திரும்பு வட்டப்_பங்கு(அடிப்படை_நிதி, கொள்கை_விகிதம்);
 }
@@ -270,6 +284,7 @@
 // கிளை_ஆக்கு(விவரம், நிகழ்தகவு, விளைவுத்_தொகை)
 //
 // __One branch of a decision: what happens, how likely, and what it is worth.__
+// கிளை_ஆக்கு(விவரம், நிகழ்தகவு, விளைவுத்_தொகை) — முடிவு மரத்தின் ஒரு கிளையை உருவாக்கும்
 செயல் கிளை_ஆக்கு(விவரம், நிகழ்தகவு, விளைவுத்_தொகை) {
     திரும்பு {"விவரம்": விவரம்,
               "நிகழ்தகவு": நிகழ்தகவு,
@@ -282,6 +297,7 @@
 // __probability. The probabilities must total 100, and a set that does not is a__
 // __தவறு rather than a scaled answer — the same refusal__
 // __varuvAy/oppanqam.qmz makes, and for the same reason.__
+// கிளைகளின்_எதிர்பார்ப்பு(கிளைகள்) — எல்லாக் கிளைகளையும் சேர்த்த எதிர்பார்ப்பு
 செயல் கிளைகளின்_எதிர்பார்ப்பு(கிளைகள்) {
     (நீளம்(கிளைகள்) == 0) எனில் {
         திரும்பு தவறு("கிளைகள் இல்லை  (no branches)");
@@ -312,6 +328,7 @@
 // __how close the second was. A decision taken on an expected value that beats__
 // __the alternative by one per cent is a decision taken on the estimates rather__
 // __than on the merits.__
+// சிறந்த_முடிவு(வாய்ப்புகள்) — எதிர்பார்ப்பின்படி சிறந்த வாய்ப்பைத் தேர்ந்தெடுக்கும்
 செயல் சிறந்த_முடிவு(வாய்ப்புகள்) {
     (நீளம்(வாய்ப்புகள்) == 0) எனில் {
         திரும்பு தவறு("ஒப்பிட வாய்ப்புகள் இல்லை  (no options to compare)");

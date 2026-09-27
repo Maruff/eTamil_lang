@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __UPI சோதனை — tests for addresses, pay links and payment states__
+// முகவரி, கட்டண இணைப்பு, நிலைமைகளுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/upi/upi_cOqaZY.qmz__
 //

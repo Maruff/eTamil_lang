@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nAtkAtti/vElYnAL.qmz — வேலைநாள் (working days)__
+// வேலை நாட்கள்
 //
 // __nAL.qmz counts every day. This one counts only the days work happens on,__
 // __which is the difference between a duration and a date.__
@@ -42,6 +43,7 @@
 //
 // __விடுமுறை_நாட்கள் is a list of ISO dates. Holidays that fall on a weekend__
 // __need not be removed — a day that is off twice is off once.__
+// நாட்காட்டி_ஆக்கு(வார_ஓய்வு_நாட்கள், விடுமுறை_நாட்கள்) — வேலை நாட்காட்டியை உருவாக்கும்
 செயல் நாட்காட்டி_ஆக்கு(வார_ஓய்வு_நாட்கள், விடுமுறை_நாட்கள்) {
     திரும்பு {"வார_ஓய்வு": வார_ஓய்வு_நாட்கள்,
               "விடுமுறைகள்": விடுமுறை_நாட்கள்};
@@ -49,6 +51,7 @@
 
 // பட்டியலில்_உள்ளதா(ஒரு_பட்டியல், தேடும்_உருப்படி)
 // __பட்டியலில்_உள்ளதா(ஒரு_பட்டியல், தேடும்_உருப்படி) — is this value in the list?__
+// பட்டியலில்_உள்ளதா(ஒரு_பட்டியல், தேடும்_உருப்படி) — இம்மதிப்பு பட்டியலில் உள்ளதா
 //
 // __A linear scan, which is right for the lists it is used on: a weekend is two weekday numbers and a holiday calendar is a few dozen dates. Local to this module so the calendar has no dependency on col.qmz.__
 செயல் பட்டியலில்_உள்ளதா(ஒரு_பட்டியல், தேடும்_உருப்படி) {
@@ -59,6 +62,7 @@
 }
 
 // __வார_ஓய்வா(ஒரு_நாள், ஒரு_நாட்காட்டி) — does this date fall on the weekly off?__
+// வார_ஓய்வா(ஒரு_நாள், ஒரு_நாட்காட்டி) — இந்நாள் வார ஓய்வு நாளா
 //
 // __The off days come from the calendar rather than being assumed to be Saturday and Sunday. A six-day working week with only Sunday off is common here, and a factory running Tuesday to Sunday is not unusual.__
 செயல் வார_ஓய்வா(ஒரு_நாள், ஒரு_நாட்காட்டி) {
@@ -66,6 +70,7 @@
 }
 
 // __விடுமுறையா(ஒரு_நாள், ஒரு_நாட்காட்டி) — is this date a declared holiday?__
+// விடுமுறையா(ஒரு_நாள், ஒரு_நாட்காட்டி) — இந்நாள் அறிவிக்கப்பட்ட விடுமுறையா
 //
 // __Holidays are listed as dates, not rules, because most of the ones that matter in India move with the lunar calendar and cannot be derived from the Gregorian one. The list is the caller's to supply and to keep current.__
 செயல் விடுமுறையா(ஒரு_நாள், ஒரு_நாட்காட்டி) {
@@ -73,6 +78,7 @@
 }
 
 // __வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி) — neither a weekly off nor a holiday__
+// வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி) — வார ஓய்வும் அல்ல, விடுமுறையும் அல்ல
 செயல் வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி) {
     (வார_ஓய்வா(ஒரு_நாள், ஒரு_நாட்காட்டி)) எனில் { திரும்பு பொய்; }
     (விடுமுறையா(ஒரு_நாள், ஒரு_நாட்காட்டி)) எனில் { திரும்பு பொய்; }
@@ -80,6 +86,7 @@
 }
 
 // __வேலை_வாரம்_உள்ளதா(ஒரு_நாட்காட்டி) — is any weekday worked at all__
+// வேலை_வாரம்_உள்ளதா(ஒரு_நாட்காட்டி) — வாரத்தில் ஏதேனும் ஒரு நாள் வேலை உண்டா
 //
 // __The guard every search depends on. A calendar whose weekly offs cover all__
 // __seven days has no working day anywhere, ever, and walking forward to look__
@@ -105,6 +112,7 @@
 // __Monday answers Tuesday rather than Monday. Use நகர்த்தி_வேலை_நாள் for "this__
 // __day, or the next working one" — the two are different questions and using__
 // __one for the other shifts every date in a schedule by a day.__
+// அடுத்த_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — இதற்குப் பின் வரும் முதல் வேலை நாள்
 செயல் அடுத்த_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) {
     (இல்லை வேலை_வாரம்_உள்ளதா(ஒரு_நாட்காட்டி)) எனில் {
         திரும்பு தவறு("நாட்காட்டியில் வேலை நாள் எதுவும் இல்லை  "
@@ -123,6 +131,7 @@
 }
 
 // __முந்தைய_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — the last working day on or before this date__
+// முந்தைய_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — இந்நாளிலோ அதற்கு முன்போ உள்ள கடைசி வேலை நாள்
 //
 // __Steps back until it finds one. The pair to அடுத்த_வேலை_நாள், and the direction matters: a payment due on a holiday is usually brought forward, while a deadline is usually pushed back, and neither convention is safe to assume for the other.__
 செயல் முந்தைய_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) {
@@ -147,6 +156,7 @@
 // __This day if it is worked, otherwise the next one that is. The form a start__
 // __date wants: an activity told to start on a Sunday starts on the Monday, and__
 // __one told to start on a Monday starts that Monday.__
+// நகர்த்தி_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — வேலை நாள் இல்லையெனில் அடுத்த வேலை நாளுக்கு நகர்த்தும்
 செயல் நகர்த்தி_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) {
     (வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி)) எனில் { திரும்பு சரி(ஒரு_நாள்); }
     திரும்பு அடுத்த_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி);
@@ -165,6 +175,7 @@
 //
 // __A negative count walks backwards, which is how a "must be ready five working__
 // __days before delivery" date is found.__
+// வேலை_நாட்களைக்_கூட்டு(ஒரு_நாள், எண்ணிக்கை, ஒரு_நாட்காட்டி) — சொன்ன வேலை நாட்களைக் கூட்டும்
 செயல் வேலை_நாட்களைக்_கூட்டு(ஒரு_நாள், எண்ணிக்கை, ஒரு_நாட்காட்டி) {
     (எண்ணிக்கை == 0) எனில் { திரும்பு சரி(ஒரு_நாள்); }
 
@@ -194,6 +205,7 @@
 // __A range whose end precedes its start is zero rather than negative. A__
 // __backwards range is a caller's error and a negative count of days would__
 // __propagate silently into a cost.__
+// வேலை_நாட்களை_எண்ணு(தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) — இரு நாள்களுக்கு இடையே உள்ள வேலை நாட்கள்
 செயல் வேலை_நாட்களை_எண்ணு(தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) {
     (நாள்_வேறுபாடு(தொடக்கம், முடிவு) < 0) எனில் { திரும்பு 0; }
 
@@ -225,6 +237,7 @@
 //
 // __The start is rolled onto a working day first, because an activity cannot__
 // __begin on a Sunday.__
+// முடிவு_நாள்(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) — சொன்ன வேலை நாட்களுக்குப் பின் முடியும் நாள்
 செயல் முடிவு_நாள்(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) {
     (கால_அளவு <= 0) எனில் {
         திரும்பு தவறு("கால அளவு ஒரு நாளாவது இருக்க வேண்டும்  "
@@ -242,6 +255,7 @@
 // __row can be drawn from one call. The count is returned because the elapsed__
 // __days and the worked days differ by exactly the weekends and holidays, and__
 // __showing both is what makes a schedule arguable.__
+// பணி_அட்டவணை(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) — பணியின் தொடக்கமும் முடிவும்
 செயல் பணி_அட்டவணை(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) {
     உண்மைத்_தொடக்கம் = நகர்த்தி_வேலை_நாள்(தொடக்கம், ஒரு_நாட்காட்டி);
     (தவறா(உண்மைத்_தொடக்கம்)) எனில் { திரும்பு உண்மைத்_தொடக்கம்; }
@@ -282,6 +296,7 @@
 // __financial year — which changes the accounts, the interest and the tax.__
 // __Modified following is the usual convention in lending for exactly that__
 // __reason, and it is why this cannot be a flag for "roll forward".__
+// உருட்டு(ஒரு_நாள், ஒரு_நாட்காட்டி) — வேலை நாள் இல்லையெனில் அடுத்ததற்கு உருட்டும்
 செயல் உருட்டு(ஒரு_நாள், ஒரு_நாட்காட்டி, மரபுப்_பெயர்) {
     (வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி)) எனில் { திரும்பு சரி(ஒரு_நாள்); }
 

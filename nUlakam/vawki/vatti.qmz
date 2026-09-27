@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vawki/vatti.qmz — வட்டி (interest)__
+// வட்டி
 //
 // __Rates are written the way சதவீதம் in kaNiqam.qmz already expects them: as a__
 // __number out of a hundred. 8.5% per annum is 8.5 — not 8.5%, and not 0.085.__
@@ -30,11 +31,13 @@
 உண்மை_360 = 360;
 
 // __நாட்கள்(தொடக்க_நாள், முடிவு_நாள்) — actual days between two ISO dates__
+// நாட்கள்(தொடக்க_நாள், முடிவு_நாள்) — இரு நாள்களுக்கு இடையே உள்ள உண்மையான நாட்கள்
 செயல் நாட்கள்(தொடக்க_நாள், முடிவு_நாள்) {
     திரும்பு நாள்_வேறுபாடு(தொடக்க_நாள், முடிவு_நாள்);
 }
 
 // __ஆண்டுப்_பங்கு(எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) — the year fraction__
+// ஆண்டுப்_பங்கு(எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) — ஆண்டில் இது எவ்வளவு பங்கு
 செயல் ஆண்டுப்_பங்கு(எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) {
     திரும்பு எத்தனை_நாட்கள் / ஆண்டு_நாட்கள்;
 }
@@ -42,6 +45,7 @@
 // __--- powers ---------------------------------------------------------------__
 //
 // __அடுக்கு(அடிப்படை, எத்தனை_முறை) — a base raised a whole number of times.__
+// அடுக்கு(அடிப்படை, எத்தனை_முறை) — ஓர் அடிப்படையை முழு எண் முறை பெருக்கும்
 //
 // __By repeated multiplication, not a floating-point pow. Every number here is a__
 // __fixed-point decimal, and the reason for that is that money must not drift;__
@@ -63,12 +67,14 @@
 // எளிய_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், எத்தனை_நாட்கள், ஆண்டு_நாட்கள்)
 //
 // __Rounded to the paisa, because that is the unit a bank posts.__
+// எளிய_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) — கூட்டாத எளிய வட்டி
 செயல் எளிய_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) {
     ஆண்டுக்_கணக்கு = சதவீதம்(அசல்_தொகை, ஆண்டு_விகிதம்);
     திரும்பு வட்டமிடு(ஆண்டுக்_கணக்கு * எத்தனை_நாட்கள் / ஆண்டு_நாட்கள், 2);
 }
 
 // __நாளாந்த_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டு_நாட்கள்) — one day's interest__
+// நாளாந்த_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டு_நாட்கள்) — ஒரு நாளுக்கான வட்டி
 //
 // __Deliberately not rounded. A day's interest on a small balance is often a__
 // __fraction of a paisa, and rounding each day before adding them up loses more__
@@ -86,6 +92,7 @@
 //
 // __Answers the interest alone rather than the maturity value, so it reads the__
 // __same way எளிய_வட்டி does.__
+// கூட்டு_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) — வட்டிக்கும் வட்டி சேரும் கணக்கு
 செயல் கூட்டு_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) {
     ஒரு_முறை_விகிதம் = ஆண்டு_விகிதம் / (ஆண்டுக்கு_எத்தனை * 100);
     எத்தனை_முறைகள் = ஆண்டுக்கு_எத்தனை * ஆண்டுகள்;
@@ -95,6 +102,7 @@
 
 // முதிர்வுத்_தொகை(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை)
 // __முதிர்வுத்_தொகை(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) — what a deposit is worth at maturity__
+// முதிர்வுத்_தொகை(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) — முதிர்வில் வைப்புத்தொகை எவ்வளவாகும்
 //
 // __Principal plus compound interest, so the compounding frequency matters: the same nominal rate paid quarterly and annually gives different money, and quoting one while computing the other is the commonest error in a deposit schedule.__
 செயல் முதிர்வுத்_தொகை(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) {

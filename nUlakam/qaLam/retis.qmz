@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qaLam/retis.qmz — Redis, in words rather than command strings__
+// ரெடிஸ், கட்டளைச் சரங்களாக அல்லாமல் சொற்களாக
 //
 // __The host gives one thing: ரெடிஸ்_கட்டளை, a command name and its arguments.__
 // __That is deliberate — it is the shape of Redis, so every command works,__
@@ -20,11 +21,13 @@
 // __--- keys -----------------------------------------------------------------__
 
 // __சேமி(சாவி, மதிப்புரு) — SET__
+// சேமி(சாவி, மதிப்புரு) — சாவிக்கு ஒரு மதிப்பைச் சேமிக்கும்
 செயல் சேமி(சாவி, மதிப்புரு) {
     திரும்பு ரெடிஸ்_கட்டளை("SET", [சாவி, சொல்லாக்கு(மதிப்புரு)]);
 }
 
 // __காலத்துடன்_சேமி(சாவி, மதிப்புரு, வினாடிகள்) — SET with an expiry__
+// காலத்துடன்_சேமி(சாவி, மதிப்புரு, வினாடிகள்) — சொன்ன வினாடிகளில் காலாவதியாகும்படிச் சேமிக்கும்
 //
 // __What a cache is for: a value that stops being true after a while should stop__
 // __being served after a while, and saying so at write time is more reliable__
@@ -35,12 +38,14 @@
 }
 
 // __எடு(சாவி) — GET. A key that is not there answers சரி(nil), not a தவறு:__
+// எடு(சாவி) — சாவியின் மதிப்பை எடுக்கும்; சாவி இல்லாதது தவறு அல்ல, இன்மை
 // __a miss is the ordinary outcome of a cache read.__
 செயல் எடு(சாவி) {
     திரும்பு ரெடிஸ்_கட்டளை("GET", [சாவி]);
 }
 
 // __இருக்கிறதா(சாவி) — is the key there at all?__
+// இருக்கிறதா(சாவி) — இந்தச் சாவி இருக்கிறதா என்று பார்க்கும்
 செயல் இருக்கிறதா(சாவி) {
     விளைவு = ரெடிஸ்_கட்டளை("EXISTS", [சாவி]);
     (தவறா(விளைவு)) எனில் { திரும்பு விளைவு; }
@@ -48,11 +53,13 @@
 }
 
 // __நீக்கு(சாவி) — DEL. Answers how many keys went.__
+// நீக்கு(சாவி) — சாவியை நீக்கும்; எத்தனை நீங்கின என்று சொல்லும்
 செயல் நீக்கு(சாவி) {
     திரும்பு ரெடிஸ்_கட்டளை("DEL", [சாவி]);
 }
 
 // __ஒன்று_கூட்டு(சாவி) — INCR, and the new value comes back a number__
+// ஒன்று_கூட்டு(சாவி) — மதிப்பை ஒன்று கூட்டி, புதிய மதிப்பை எண்ணாகத் தரும்
 //
 // __Atomic at the server, which is the point: two requests counting the same__
 // __thing do not need a lock between them.__
@@ -63,11 +70,13 @@
 // __--- lists ----------------------------------------------------------------__
 
 // __முன்_சேர்(சாவி, மதிப்புரு) — LPUSH, for a queue__
+// முன்_சேர்(சாவி, மதிப்புரு) — பட்டியலின் முன்னே சேர்க்கும்; வரிசைக்கு உதவும்
 செயல் முன்_சேர்(சாவி, மதிப்புரு) {
     திரும்பு ரெடிஸ்_கட்டளை("LPUSH", [சாவி, சொல்லாக்கு(மதிப்புரு)]);
 }
 
 // __வரிசைப்_பகுதி(சாவி, தொடக்கம், முடிவு) — LRANGE. -1 as the end means to the end.__
+// வரிசைப்_பகுதி(சாவி, தொடக்கம், முடிவு) — பட்டியலின் ஒரு பகுதி; முடிவாக ஒன்று குறை என்றால் இறுதி வரை
 செயல் வரிசைப்_பகுதி(சாவி, தொடக்கம், முடிவு) {
     திரும்பு ரெடிஸ்_கட்டளை("LRANGE",
         [சாவி, சொல்லாக்கு(தொடக்கம்), சொல்லாக்கு(முடிவு)]);
@@ -76,6 +85,7 @@
 // __--- the cache pattern ----------------------------------------------------__
 
 // __உயிர்ப்பா() — PING, to see whether it is there at all__
+// உயிர்ப்பா() — சேவை உயிரோடு இருக்கிறதா என்று பார்க்கும்
 செயல் உயிர்ப்பா() {
     திரும்பு ரெடிஸ்_கட்டளை("PING", []);
 }
@@ -86,6 +96,7 @@
 // __unreachable. All three are the same thing to a caller: no cached answer, so__
 // __compute it. Distinguishing them is possible with எடு and worth doing when__
 // __the cache is load-bearing, and this is for when it is not.__
+// இல்லையெனில்_இயல்பு(சாவி, மாற்று_மதிப்பு) — சாவி இல்லையெனில் மாற்று மதிப்பைத் தரும்
 செயல் இல்லையெனில்_இயல்பு(சாவி, மாற்று_மதிப்பு) {
     விளைவு = எடு(சாவி);
     (தவறா(விளைவு)) எனில் { திரும்பு மாற்று_மதிப்பு; }

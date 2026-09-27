@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/cawkili/fabric.qmz — Hyperledger Fabric, through a REST gateway__
+// ஹைப்பர்லெட்ஜர் ஃபேப்ரிக், ஓர் ஓய்வு நுழைவாயில் வழியாக
 //
 // __Fabric's own peer Gateway speaks gRPC, which eTamil does not. Fronting a__
 // __network with a REST gateway is an ordinary deployment — Firefly does it, and__
@@ -29,6 +30,7 @@
 இறக்கு "../atippatY/poruL.qmz";
 
 // __நுழைவு(முகவரிப்_பாதை, சேனல், நிரல்பொருள், தலைப்புகள்) — a gateway to talk to__
+// நுழைவு(முகவரிப்_பாதை, சேனல், நிரல்பொருள், தலைப்புகள்) — பேசுவதற்கான நுழைவாயிலை அமைக்கும்
 //
 // __நிரல்பொருள் is the chaincode name. The two path templates carry {channel}__
 // __and {chaincode}, which are filled in per call.__
@@ -42,6 +44,7 @@
 }
 
 // __பாதையை_அமை(நுழைவு, வினவல், எழுதும்) — different gateway, different paths__
+// பாதையை_அமை(நுழைவு, வினவல், எழுதும்) — ஒவ்வொரு நுழைவாயிலுக்கும் பாதைகள் வேறு
 செயல் பாதையை_அமை(நுழைவுப்_பொருள், வினவல், எழுதும்) {
     திரும்பு {"முகவரிப்_பாதை": நுழைவுப்_பொருள்["முகவரிப்_பாதை"],
               "சேனல்": நுழைவுப்_பொருள்["சேனல்"],
@@ -52,6 +55,7 @@
 }
 
 // __முழு_முகவரி(நுழைவுப்_பொருள், பாதைப்_படிவம்) — build the gateway URL for one call__
+// முழு_முகவரி(நுழைவுப்_பொருள், பாதைப்_படிவம்) — ஒரு அழைப்புக்கான முழு முகவரியைக் கட்டும்
 //
 // __Substitutes the channel and chaincode into a path template. Kept as a template rather than concatenation so every route in this module reads the same way and a missing segment is visible in the template rather than hidden in string joins.__
 செயல் முழு_முகவரி(நுழைவுப்_பொருள், பாதைப்_படிவம்) {
@@ -61,6 +65,7 @@
 }
 
 // __உடலைக்_கட்டு(செயற்பெயர், அளபுருக்கள்) — the JSON body of a chaincode invocation__
+// உடலைக்_கட்டு(செயற்பெயர், அளபுருக்கள்) — நிரல்பொருள் அழைப்புக்கான ஜேசான் உடல்
 //
 // __Fabric expects the function name and an array of string arguments, which is the shape every chaincode sees regardless of what it does. Built through ஜேசான்_ஆக்கு, so escaping is handled once and not per call site.__
 செயல் உடலைக்_கட்டு(செயற்பெயர், அளபுருக்கள்) {
@@ -92,6 +97,7 @@
 // __--- reading --------------------------------------------------------------__
 //
 // __மதிப்பிடு(நுழைவு, செயற்பெயர், அளபுருக்கள்) — a query. Nothing is written,__
+// மதிப்பிடு(நுழைவு, செயற்பெயர், அளபுருக்கள்) — வினவல் மட்டும்; ஒன்றும் எழுதப்படுவதில்லை
 // __nothing is ordered, and no conflict can arise.__
 செயல் மதிப்பிடு(நுழைவுப்_பொருள், செயற்பெயர், அளபுருக்கள்) {
     திரும்பு விடையைப்_படி(
@@ -103,6 +109,7 @@
 // __--- writing --------------------------------------------------------------__
 //
 // __சமர்ப்பி(நுழைவு, செயற்பெயர், அளபுருக்கள்) — one attempt at a write.__
+// சமர்ப்பி(நுழைவு, செயற்பெயர், அளபுருக்கள்) — எழுதுவதற்கான ஒரு முயற்சி
 //
 // __Use மீண்டும்_சமர்ப்பி unless you have a reason not to: a single attempt is__
 // __correct only for a transaction you would rather fail than retry.__
@@ -114,6 +121,7 @@
 }
 
 // __மோதலா(பிழை) — is this the read-write conflict, or a real failure?__
+// மோதலா(பிழை) — இது படிப்பு-எழுத்து மோதலா, அல்லது உண்மையான தோல்வியா
 //
 // __The one Fabric error worth knowing by name. Two transactions that read the__
 // __same key and both write it cannot both commit: the second is rejected at__
@@ -139,6 +147,7 @@
 // __Only a conflict is retried. A chaincode that rejected the transaction will__
 // __reject it again, and retrying a business failure turns one refusal into__
 // __several.__
+// மீண்டும்_சமர்ப்பி(நுழைவு, செயற்பெயர், அளபுருக்கள், எத்தனை_முறை) — மோதல் வந்தால் மீண்டும் முயலும்
 செயல் மீண்டும்_சமர்ப்பி(நுழைவுப்_பொருள், செயற்பெயர், அளபுருக்கள், எத்தனை_முறை) {
     முயற்சி = 0;
     கடைசி = தவறு({"வகைப்பாடு": "முயற்சி", "விவரம்": "no attempt was made"});

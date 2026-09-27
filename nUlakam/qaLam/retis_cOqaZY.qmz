@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __ரெடிஸ் சோதனை — the client, against a server__
+// ரெடிஸ் இணைப்பிக்கான சோதனைகள், ஒரு வழங்கிக்கு எதிராக
 //
 //   __python nUlakam/qaLam/retis_pOli.py 6399 &__
 //   __ETAMIL_REDIS=127.0.0.1:6399 etamil --vm nUlakam/qaLam/retis_cOqaZY.qmz__
@@ -117,6 +118,7 @@
 }
 
 // __கொண்டுள்ளதா_எளிது(பாடம், தேடல்) — does this text contain that substring?__
+// கொண்டுள்ளதா_எளிது(பாடம், தேடல்) — இந்தப் பாடத்தில் அந்தத் துண்டு இருக்கிறதா
 //
 // __A test fixture, implemented by splitting and counting the pieces rather than by scanning. Local to the Redis tests so they assert on replies without depending on col.qmz, which they are not testing.__
 செயல் கொண்டுள்ளதா_எளிது(பாடம், தேடல்) {
