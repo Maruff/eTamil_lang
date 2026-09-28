@@ -121,6 +121,7 @@
 // __Answers a தவறு rather than a link when the address or amount is wrong. A__
 // __malformed link becomes a QR that a shop prints, sticks to a counter, and__
 // __discovers is unscannable one customer at a time.__
+// பணம்_இணைப்பு(விவரங்கள்) — செலுத்துவோர் திறக்கக்கூடிய பணம் செலுத்தும் இணைப்பை உருவாக்கும்
 செயல் பணம்_இணைப்பு(விவரங்கள்) {
     முகவரி = புலம்_அல்லது(விவரங்கள், "pa", "");
     (முகவரி_சரியா(முகவரி) == பொய்) எனில் {

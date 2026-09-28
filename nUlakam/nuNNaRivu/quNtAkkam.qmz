@@ -62,6 +62,7 @@
 // __below the size rather than trusted — the failure would be an endless loop__
 // __producing an ever-growing array, which is a poor way to learn about a__
 // __mistake in a configuration value.__
+// அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — பத்திப் பிரிவில்லாத உரையை அளவுக்கேற்பத் துண்டாக்கும்; மேற்பொருந்தல் எல்லையில் விழும் தொடரைக் காக்கும்
 செயல் அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) {
     (அளவு <= 0) எனில் { திரும்பு [சரம்]; }
     பாதுகாப்பான_மேற்பொருந்தல் = மேற்பொருந்தல்;

@@ -4376,7 +4376,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எழுத்து(சரம், எழுத்திடம்) — the letter at a position, or \"\" past either end.",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 20
+    "line": 21
   },
   {
     "name": "துண்டு",
@@ -4392,7 +4392,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "துண்டு(சரம், தொடக்கம், அளவு) — substring",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 28
+    "line": 29
   },
   {
     "name": "தேடு",
@@ -4407,7 +4407,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தேடு(சரம், தேடல்) — position of the first match, or -1",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 42
+    "line": 43
   },
   {
     "name": "கொண்டுள்ளதா",
@@ -4422,7 +4422,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கொண்டுள்ளதா(சரம், தேடல்) — does it contain?",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 58
+    "line": 59
   },
   {
     "name": "தொடங்குகிறதா",
@@ -4437,7 +4437,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடங்குகிறதா(சரம், முன்னொட்டு) — does the string start with this prefix?",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 67
+    "line": 68
   },
   {
     "name": "முடிகிறதா",
@@ -4452,7 +4452,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முடிகிறதா(சரம், பின்னொட்டு) — does the string end with this suffix?",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 78
+    "line": 79
   },
   {
     "name": "ஒழுங்கு",
@@ -4466,7 +4466,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒழுங்கு(சரம்) — trim spaces from both ends",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 91
+    "line": 92
   },
   {
     "name": "திரும்பச்செய்",
@@ -4481,7 +4481,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "திரும்பச்செய்(சரம், எண்ணிக்கை) — repeat",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 117
+    "line": 118
   },
   {
     "name": "இடமிருந்து_நிரப்பு",
@@ -4497,7 +4497,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இடமிருந்து_நிரப்பு(சரம், அகலம், நிரப்பி) — left pad",
     "kind": "stdlib",
     "module": "nUlakam/atippatY/col.qmz",
-    "line": 129
+    "line": 130
   },
   {
     "name": "முழுமதிப்பு",
@@ -4989,7 +4989,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மோதலா(பிழை) — is this the read-write conflict, or a real failure?",
     "kind": "stdlib",
     "module": "nUlakam/cawkili/fabric.qmz",
-    "line": 134
+    "line": 135
   },
   {
     "name": "மீண்டும்_சமர்ப்பி",
@@ -5006,7 +5006,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மீண்டும்_சமர்ப்பி(நுழைவு, செயற்பெயர், அளபுருக்கள், எத்தனை_முறை) — மோதல் வந்தால் மீண்டும் முயலும்",
     "kind": "stdlib",
     "module": "nUlakam/cawkili/fabric.qmz",
-    "line": 152
+    "line": 153
   },
   {
     "name": "ஊதிய_மொத்த_வேறுபாடு",
@@ -6640,7 +6640,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தலைப்பு_சரியா(குறியீட்டெண்) — is this a well-formed tariff heading?",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 86
+    "line": 87
   },
   {
     "name": "எண்களே",
@@ -6654,7 +6654,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எண்களே(பாடம்) — is every character of this string a digit?",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 99
+    "line": 100
   },
   {
     "name": "அத்தியாயம்",
@@ -6668,7 +6668,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அத்தியாயம்(குறியீட்டெண்) — the chapter a heading belongs to",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 111
+    "line": 112
   },
   {
     "name": "பொருந்துமா",
@@ -6683,7 +6683,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பொருந்துமா(குறியீட்டெண், தலைப்புக்_குறி) — does a code fall under a heading?",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 121
+    "line": 122
   },
   {
     "name": "தேவையா",
@@ -6698,7 +6698,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தேவையா(மதிப்பு, வரம்புத்_தொகை) — does this consignment need one at all?",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 133
+    "line": 134
   },
   {
     "name": "செல்லுபடி_நாட்கள்",
@@ -6713,7 +6713,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "செல்லுபடி_நாட்கள்(தூரம், ஒரு_நாள்_தூரம்) — தூரத்திற்கு ஏற்ப வழிச்சீட்டு செல்லுபடியாகும் நாட்கள்",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 147
+    "line": 148
   },
   {
     "name": "வழிச்சீட்டு_சரிபார்",
@@ -6727,7 +6727,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வழிச்சீட்டு_சரிபார்(விவரங்கள்) — is this complete enough to generate?",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 162
+    "line": 163
   },
   {
     "name": "ஜிஎஸ்டி_எண்_சரியா",
@@ -6741,7 +6741,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஜிஎஸ்டி_எண்_சரியா(எண்) — the shape of a GSTIN",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 204
+    "line": 205
   },
   {
     "name": "ஜிஎஸ்டி_மாநிலம்",
@@ -6755,7 +6755,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஜிஎஸ்டி_மாநிலம்(எண்) — the state code a GSTIN begins with",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 211
+    "line": 212
   },
   {
     "name": "முதல்_இரண்டு",
@@ -6769,7 +6769,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முதல்_இரண்டு(குறியீட்டு_உரை) — the leading two characters, or \"\" if there are not two",
     "kind": "stdlib",
     "module": "nUlakam/cuwkam/cuwkam.qmz",
-    "line": 222
+    "line": 223
   },
   {
     "name": "இடர்_ஆக்கு",
@@ -6816,7 +6816,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எதிர்பார்ப்பு(ஒரு_இடர்) — probability times impact, signed by kind",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 90
+    "line": 91
   },
   {
     "name": "மொத்த_எதிர்பார்ப்பு",
@@ -6830,7 +6830,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மொத்த_எதிர்பார்ப்பு(இடர்கள்) — the register's net exposure",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 103
+    "line": 104
   },
   {
     "name": "வகையால்_எதிர்பார்ப்பு",
@@ -6845,7 +6845,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வகையால்_எதிர்பார்ப்பு(இடர்கள், இடர்_வகை) — ஒரு வகைக்கு மட்டுமான எதிர்பார்ப்பு",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 117
+    "line": 118
   },
   {
     "name": "இடர்_மதிப்பெண்",
@@ -6860,7 +6860,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இடர்_மதிப்பெண்(ஒரு_இடர்) — நிகழ்தகவையும் தாக்கத்தையும் சேர்த்த மதிப்பெண்",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 147
+    "line": 148
   },
   {
     "name": "மதிப்பெண்_நிலைமை",
@@ -6876,7 +6876,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மதிப்பெண்_நிலைமை(மதிப்பெண், உயர்_எல்லை, நடுத்தர_எல்லை) — மதிப்பெண்ணை உயர், நடுத்தர, தாழ் என வகுக்கும்",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 160
+    "line": 161
   },
   {
     "name": "பதிலளிப்பு_சரியா",
@@ -6891,7 +6891,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதிலளிப்பு_சரியா(இடர்_வகை, பதிலளிப்பு) — இந்த வகை இடருக்கு இந்தப் பதிலளிப்பு பொருந்துமா",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 183
+    "line": 184
   },
   {
     "name": "எஞ்சிய_இடர்",
@@ -6907,7 +6907,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எஞ்சிய_இடர்(ஒரு_இடர், புதிய_நிகழ்தகவு, புதிய_தாக்கம்) — பதிலளித்த பிறகும் எஞ்சும் இடர்",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 207
+    "line": 208
   },
   {
     "name": "பதிலளிப்பு_பயனுள்ளதா",
@@ -6922,7 +6922,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதிலளிப்பு_பயனுள்ளதா(நன்மை, பதிலளிப்புச்_செலவு) — பதிலளிப்பின் நன்மை செலவை விஞ்சுகிறதா",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 231
+    "line": 232
   },
   {
     "name": "பதிலளிப்பு_நிகரம்",
@@ -6937,7 +6937,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு) — what a risk response is worth, net",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 240
+    "line": 241
   },
   {
     "name": "தற்செயல்_இருப்பைக்_கணக்கிடு",
@@ -6951,7 +6951,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தற்செயல்_இருப்பைக்_கணக்கிடு(இடர்கள்) — அறியப்பட்ட இடர்களுக்கான தற்செயல் இருப்பு",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 261
+    "line": 262
   },
   {
     "name": "மேலாண்மை_இருப்பைக்_கணக்கிடு",
@@ -6966,7 +6966,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மேலாண்மை_இருப்பைக்_கணக்கிடு(அடிப்படை_நிதி, கொள்கை_விகிதம்) — அறியப்படாதவற்றுக்கான மேலாண்மை இருப்பு",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 276
+    "line": 277
   },
   {
     "name": "கிளை_ஆக்கு",
@@ -6982,7 +6982,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கிளை_ஆக்கு(விவரம், நிகழ்தகவு, விளைவுத்_தொகை) — முடிவு மரத்தின் ஒரு கிளையை உருவாக்கும்",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 288
+    "line": 289
   },
   {
     "name": "கிளைகளின்_எதிர்பார்ப்பு",
@@ -6996,7 +6996,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கிளைகளின்_எதிர்பார்ப்பு(கிளைகள்) — எல்லாக் கிளைகளையும் சேர்த்த எதிர்பார்ப்பு",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 301
+    "line": 302
   },
   {
     "name": "சிறந்த_முடிவு",
@@ -7010,7 +7010,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "சிறந்த_முடிவு(வாய்ப்புகள்) — எதிர்பார்ப்பின்படி சிறந்த வாய்ப்பைத் தேர்ந்தெடுக்கும்",
     "kind": "stdlib",
     "module": "nUlakam/itar/itar.qmz",
-    "line": 332
+    "line": 333
   },
   {
     "name": "முப்புள்ளி_ஆக்கு",
@@ -7315,7 +7315,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோரல்_தீர்வு(விவரங்கள்) — what is actually payable",
     "kind": "stdlib",
     "module": "nUlakam/kAppItu/kAppItu.qmz",
-    "line": 110
+    "line": 111
   },
   {
     "name": "கோரல்_இல்லா_சலுகை",
@@ -7331,7 +7331,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோரல்_இல்லா_சலுகை(ஆண்டு_முனைமம், தொடர்_ஆண்டுகள், படிகள்) — கோரல் இல்லாத ஆண்டுகளுக்கான சலுகை",
     "kind": "stdlib",
     "module": "nUlakam/kAppItu/kAppItu.qmz",
-    "line": 154
+    "line": 155
   },
   {
     "name": "நிலுவைக்_கோரல்கள்",
@@ -7345,7 +7345,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நிலுவைக்_கோரல்கள்(கோரல்கள்) — what is reported and not yet paid",
     "kind": "stdlib",
     "module": "nUlakam/kAppItu/kAppItu.qmz",
-    "line": 175
+    "line": 176
   },
   {
     "name": "பாதை_இணை",
@@ -7360,7 +7360,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பாதை_இணை(முதல், இரண்டாவது) — join two path pieces with a single `/`.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 21
+    "line": 22
   },
   {
     "name": "அடிப்பெயர்",
@@ -7374,7 +7374,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அடிப்பெயர்(பாதை) — the last segment. \"a/b/c.qmz\" gives \"c.qmz\".",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 39
+    "line": 41
   },
   {
     "name": "கோப்பக_பெயர்",
@@ -7388,7 +7388,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோப்பக_பெயர்(பாதை) — everything before the last segment, or \"\" at the top.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 46
+    "line": 49
   },
   {
     "name": "நீட்சி",
@@ -7402,7 +7402,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நீட்சி(பாதை) — the extension without its dot, or \"\" if there is none.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 66
+    "line": 70
   },
   {
     "name": "பெயர்_மட்டும்",
@@ -7416,7 +7416,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பெயர்_மட்டும்(பாதை) — the base name with its extension removed.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 79
+    "line": 84
   },
   {
     "name": "பாதை_இயல்பாக்கு",
@@ -7430,7 +7430,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பாதை_இயல்பாக்கு(பாதை) — one spelling of a path: backslashes become slashes and",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 92
+    "line": 98
   },
   {
     "name": "கோப்பகமா",
@@ -7444,7 +7444,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோப்பகமா(பாதை) — is this a directory? பொய் if it does not exist.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 101
+    "line": 108
   },
   {
     "name": "வினாடியை_நாளாக",
@@ -7458,7 +7458,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வினாடியை_நாளாக(வினாடிகள்) — a மாற்றம் time as an ISO date.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 113
+    "line": 121
   },
   {
     "name": "கோப்பக_பட்டியல்",
@@ -7472,7 +7472,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோப்பக_பட்டியல்(கோப்பகம்) — the entries of one directory as full paths.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 122
+    "line": 131
   },
   {
     "name": "கோப்பக_நட",
@@ -7486,7 +7486,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோப்பக_நட(கோப்பகம்) — every file under a directory, at any depth, as full paths.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 144
+    "line": 154
   },
   {
     "name": "நீட்சியால்_கோப்புகள்",
@@ -7501,7 +7501,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — every file under a directory with one extension.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 171
+    "line": 182
   },
   {
     "name": "துண்டு_அணி",
@@ -7517,7 +7517,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "துண்டு_அணி(அணி, தொடக்கம், அளவு) — a slice of an array.",
     "kind": "stdlib",
     "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
-    "line": 185
+    "line": 197
   },
   {
     "name": "மொத்தச்_சம்பளம்",
@@ -9329,7 +9329,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முடிந்த_மாதங்கள்(தொடக்கம், முடிவு) — whole months completed",
     "kind": "stdlib",
     "module": "nUlakam/nAtkAtti/mAqam.qmz",
-    "line": 101
+    "line": 102
   },
   {
     "name": "முடிந்த_ஆண்டுகள்",
@@ -9344,7 +9344,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முடிந்த_ஆண்டுகள்(தொடக்கம், முடிவு) — whole years completed",
     "kind": "stdlib",
     "module": "nUlakam/nAtkAtti/mAqam.qmz",
-    "line": 122
+    "line": 123
   },
   {
     "name": "பகுதி_மாதங்கள்",
@@ -9359,7 +9359,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பகுதி_மாதங்கள்(தொடக்கம், முடிவு) — months, counting a part month as whole",
     "kind": "stdlib",
     "module": "nUlakam/nAtkAtti/mAqam.qmz",
-    "line": 141
+    "line": 143
   },
   {
     "name": "முந்தையது",
@@ -9374,7 +9374,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முந்தையது(அ, ஆ) / பிந்தையது(அ, ஆ) — the earlier and the later",
     "kind": "stdlib",
     "module": "nUlakam/nAtkAtti/mAqam.qmz",
-    "line": 154
+    "line": 156
   },
   {
     "name": "பிந்தையது",
@@ -9389,7 +9389,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பிந்தையது(அ, ஆ) — the later of two dates",
     "kind": "stdlib",
     "module": "nUlakam/nAtkAtti/mAqam.qmz",
-    "line": 163
+    "line": 165
   },
   {
     "name": "வாரநாள்",
@@ -10085,7 +10085,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்வரித்_தவணைகள்() — the schedule for a non-corporate assessee",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 119
+    "line": 120
   },
   {
     "name": "ஒற்றைத்_தவணை_அட்டவணை",
@@ -10097,7 +10097,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒற்றைத்_தவணை_அட்டவணை() — the presumptive-income schedule",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 135
+    "line": 136
   },
   {
     "name": "தவணை_வரை_தேவை",
@@ -10113,7 +10113,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தவணை_வரை_தேவை(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை, தவணை_எண்) — அத்தவணை வரை செலுத்தியிருக்க வேண்டியது",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 145
+    "line": 146
   },
   {
     "name": "தவணை_அட்டவணையை_ஆக்கு",
@@ -10128,7 +10128,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தவணை_அட்டவணையை_ஆக்கு(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை) — தவணை வாரியான செலுத்தல் அட்டவணை",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 165
+    "line": 166
   },
   {
     "name": "வட்டிக்குரிய_அடிப்படை",
@@ -10142,7 +10142,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வட்டிக்குரிய_அடிப்படை(தொகை_மதிப்பு) — வட்டி கணக்கிட நூறின் மடங்காக வட்டமிடும்",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 195
+    "line": 196
   },
   {
     "name": "மாதங்களாக",
@@ -10156,7 +10156,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மாதங்களாக(நாட்களின்_எண்ணிக்கை) — நாட்களை மாதங்களாக்கும்",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 205
+    "line": 206
   },
   {
     "name": "தவணை_வட்டி",
@@ -10173,7 +10173,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தவணை_வட்டி(தேவை, செலுத்தியது, மாத_வீதம், மாதங்கள்) — ஒரு தவணை குறைந்ததற்கான வட்டி",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 230
+    "line": 231
   },
   {
     "name": "குறைபாட்டு_வட்டி",
@@ -10191,7 +10191,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "குறைபாட்டு_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்திய_முன்வரி, மாத_வீதம், மாதங்கள்) — முன்வரிக் குறைபாட்டுக்கான வட்டி",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 290
+    "line": 291
   },
   {
     "name": "தாமதத்_தாக்கல்_வட்டி",
@@ -10208,7 +10208,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தாமதத்_தாக்கல்_வட்டி(மொத்த_வரி, செலுத்தியவை, மாத_வீதம், மாதங்கள்) — தாமதமாகத் தாக்கல் செய்ததற்கான வட்டி",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 326
+    "line": 327
   },
   {
     "name": "செலுத்த_வேண்டியது",
@@ -10226,7 +10226,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "செலுத்த_வேண்டியது(மொத்த_வரி, மூலப்_பிடித்தம், செலுத்திய_முன்வரி, வட்டிகள்) — இறுதியில் செலுத்த வேண்டிய தொகை",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/muZvari.qmz",
-    "line": 351
+    "line": 352
   },
   {
     "name": "வரி_அடிப்படை_சொத்து",
@@ -10769,7 +10769,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஈட்டு_விதிகள்() — the restriction table, as pairs of {loss kind, income kind}",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 253
+    "line": 254
   },
   {
     "name": "ஈடுசெய்ய_முடியுமா",
@@ -10784,7 +10784,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை) — may a loss of this head be set off against that head?",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 292
+    "line": 293
   },
   {
     "name": "தலைப்பு_ஆக்கு",
@@ -10799,7 +10799,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தலைப்பு_ஆக்கு(வருமான_வகை, தொகை_மதிப்பு) — one head's figure",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 308
+    "line": 309
   },
   {
     "name": "ஈட்டைச்_செய்",
@@ -10815,7 +10815,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஈட்டைச்_செய்(இழப்பு_வகை, இழப்புத்_தொகை, தலைப்புகள்) — விதிகளின்படி இழப்பை ஈடுசெய்யும்",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 326
+    "line": 327
   },
   {
     "name": "மொத்த_வருமானம்",
@@ -10829,7 +10829,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மொத்த_வருமானம்(தலைப்புகள்) — the heads added up",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 368
+    "line": 370
   },
   {
     "name": "தலைப்பைத்_தேடு",
@@ -10844,7 +10844,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தலைப்பைத்_தேடு(தலைப்புகள், வருமான_வகை) — one head's figure, or nil",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 383
+    "line": 385
   },
   {
     "name": "இழப்புத்_தலைப்புகள்",
@@ -10858,7 +10858,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இழப்புத்_தலைப்புகள்(தலைப்புகள்) — every head still showing a loss",
     "kind": "stdlib",
     "module": "nUlakam/nErativari/varumAZam.qmz",
-    "line": 398
+    "line": 400
   },
   {
     "name": "சோதனை_ஆக்கு",
@@ -10986,7 +10986,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இயல்பாக்கு(சரம்) — lower case, with every separator turned into a space",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 49
+    "line": 50
   },
   {
     "name": "பதங்கள்",
@@ -11000,7 +11000,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதங்கள்(சரம்) — the terms of a text, in order, empties dropped",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 63
+    "line": 64
   },
   {
     "name": "நிறுத்துப்_பதமா",
@@ -11014,7 +11014,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நிறுத்துப்_பதமா(பதம்) — is this word too common to carry meaning?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 82
+    "line": 83
   },
   {
     "name": "பொருளுள்ளவை",
@@ -11028,7 +11028,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பொருளுள்ளவை(பதங்கள்_பட்டியல்) — drop the stop words",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 95
+    "line": 96
   },
   {
     "name": "பிரிப்பானா",
@@ -11042,7 +11042,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பிரிப்பானா(எழுத்து_ஒன்று) — does this character end a term?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 112
+    "line": 113
   },
   {
     "name": "தனிப்பதங்கள்",
@@ -11056,7 +11056,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — the distinct terms, first occurrence kept",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 118
+    "line": 119
   },
   {
     "name": "தேடல்_பதங்கள்",
@@ -11070,7 +11070,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தேடல்_பதங்கள்(சரம்) — the whole pipeline, which is what callers want",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 135
+    "line": 136
   },
   {
     "name": "கே1",
@@ -11140,7 +11140,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — every document scored, best first",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRqEtal.qmz",
-    "line": 94
+    "line": 95
   },
   {
     "name": "சிறந்தவை",
@@ -11156,7 +11156,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "சிறந்தவை(குறியீட்டு, கேள்விப்_பதங்கள், எண்ணிக்கை) — the top n matches",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRqEtal.qmz",
-    "line": 107
+    "line": 108
   },
   {
     "name": "ஆவணம்_ஆக்கு",
@@ -11329,7 +11329,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — weight by kind of result",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/iNYppu.qmz",
-    "line": 103
+    "line": 104
   },
   {
     "name": "அதிகபட்ச_மேற்கோள்கள்",
@@ -11495,7 +11495,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — nearest by meaning",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/oRRumY.qmz",
-    "line": 51
+    "line": 52
   },
   {
     "name": "அகலம்_ஒத்ததா",
@@ -11510,7 +11510,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) — do the widths agree?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/oRRumY.qmz",
-    "line": 73
+    "line": 74
   },
   {
     "name": "வரம்புக்குள்_அண்மையவை",
@@ -11526,7 +11526,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) — சொன்ன ஒற்றுமைக்கு மேல் உள்ள அனைத்தும்",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/oRRumY.qmz",
-    "line": 85
+    "line": 86
   },
   {
     "name": "மதிப்பெண்_பெறு",
@@ -11554,7 +11554,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வரிசைப்படுத்து(பட்டியல்) — sort scored items, highest score first",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 42
+    "line": 43
   },
   {
     "name": "முதல்_சில",
@@ -11569,7 +11569,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முதல்_சில(பட்டியல், எண்ணிக்கை) — the top n, already sorted",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 48
+    "line": 49
   },
   {
     "name": "வரம்புக்கு_மேல்",
@@ -11584,7 +11584,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வரம்புக்கு_மேல்(பட்டியல், குறைந்தபட்சம்) — keep only scores at or above a floor",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 58
+    "line": 59
   },
   {
     "name": "மேலோங்கியதா",
@@ -11599,7 +11599,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மேலோங்கியதா(பட்டியல், மடங்கு) — does the top result dominate the runner-up?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 79
+    "line": 81
   },
   {
     "name": "இடம்_குறி",
@@ -11615,7 +11615,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இடம்_குறி(பட்டியல், அடையாளப்_புலம், தேடல்) — 1-based rank of an item, or -1",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 95
+    "line": 97
   },
   {
     "name": "மதிப்பெண்_சேர்",
@@ -11630,7 +11630,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) — the same item with a new score",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/qaravaricY.qmz",
-    "line": 113
+    "line": 115
   },
   {
     "name": "புள்ளிப்_பெருக்கம்",
@@ -11776,7 +11776,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — fixed-size chunks that overlap",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/quNtAkkam.qmz",
-    "line": 65
+    "line": 66
   },
   {
     "name": "பத்திகளை_ஒன்றிணை",
@@ -11791,7 +11791,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) — merge short paragraphs up to a size",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/quNtAkkam.qmz",
-    "line": 91
+    "line": 92
   },
   {
     "name": "ஆவணத்தைத்_துண்டாக்கு",
@@ -11806,7 +11806,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) — the recommended pipeline",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/quNtAkkam.qmz",
-    "line": 118
+    "line": 119
   },
   {
     "name": "உள்ளூர்_வழங்குநர்",
@@ -12009,7 +12009,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) — assemble the text to embed",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 54
+    "line": 55
   },
   {
     "name": "கோரிக்கை_உடல்",
@@ -12024,7 +12024,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கோரிக்கை_உடல்(மாதிரி, உரைகள்) — the JSON body Ollama's embed endpoint wants",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 68
+    "line": 69
   },
   {
     "name": "பதிலைப்_பிரி",
@@ -12039,7 +12039,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதிலைப்_பிரி(பதில்_உரை, எதிர்பார்த்த_எண்ணிக்கை) — read the vectors back",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 79
+    "line": 80
   },
   {
     "name": "பொதி",
@@ -12055,7 +12055,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பொதி(இணையவழி, மாதிரி, உரைகள்) — embed a batch of texts",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 101
+    "line": 102
   },
   {
     "name": "ஒன்றைப்_பொதி",
@@ -12071,7 +12071,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) — embed a single text, for a question",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 120
+    "line": 121
   },
   {
     "name": "சேவை_இயங்குகிறதா",
@@ -12085,7 +12085,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "சேவை_இயங்குகிறதா(இணையவழி) — is there an embedder to talk to at all?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/utpoqippu.qmz",
-    "line": 133
+    "line": 134
   },
   {
     "name": "ரூபாயும்_பைசாவும்",
@@ -13668,7 +13668,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்னோட்டமா(ஒரு_தொடர்பு) — a lead rather than a lag",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 109
+    "line": 110
   },
   {
     "name": "முனையைப்_பெறு",
@@ -13683,7 +13683,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முனையைப்_பெறு(முனைகள், முனைக்_குறி) — find one activity by its code",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 119
+    "line": 120
   },
   {
     "name": "கால_அளவைப்_பெறு",
@@ -13698,7 +13698,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கால_அளவைப்_பெறு(முனைகள், முனைக்_குறி) — an activity's duration, or zero",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 130
+    "line": 131
   },
   {
     "name": "முந்தியைப்_பெறு",
@@ -13714,7 +13714,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முந்தியைப்_பெறு(முந்திகள், முனைக்_குறி, புலப்_பெயர்) — read one early-pass field",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 140
+    "line": 141
   },
   {
     "name": "முந்தியை_அமை",
@@ -13731,7 +13731,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முந்தியை_அமை(முந்திகள், முனைக்_குறி, புது_தொடக்கம், கால_அளவு) — முன்னோக்கிய கடப்பில் ஒரு பதிவை எழுதும்",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 153
+    "line": 154
   },
   {
     "name": "தாழ்த்தியை_அமை",
@@ -13748,7 +13748,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தாழ்த்தியை_அமை(தாழ்த்திகள், முனைக்_குறி, புது_முடிவு, கால_அளவு) — write one late-pass entry",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 171
+    "line": 172
   },
   {
     "name": "தேவையான_தொடக்கம்",
@@ -13765,7 +13765,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தேவையான_தொடக்கம்(ஒரு_தொடர்பு, முன்னோடி_தொடக்கம், முன்னோடி_முடிவு, தாமதம்) — சார்பு கோரும் மிகச் சீக்கிரத் தொடக்கம்",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 195
+    "line": 196
   },
   {
     "name": "அனுமதித்த_முடிவு",
@@ -13782,7 +13782,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அனுமதித்த_முடிவு(ஒரு_தொடர்பு, பின்தொடர்_தொடக்கம், பின்தொடர்_முடிவு, தாமதம்) — சார்பு அனுமதிக்கும் மிகத் தாமதமான முடிவு",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 220
+    "line": 221
   },
   {
     "name": "தொடர்பு_வலையைக்_கணக்கிடு",
@@ -13797,7 +13797,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்பு_வலையைக்_கணக்கிடு(முனைகள், தொடர்புகள்) — சார்புகளுடன் கூடிய வலையைக் கணக்கிடும்",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 252
+    "line": 253
   },
   {
     "name": "தொடர்பு_கடுமையானவை",
@@ -13811,7 +13811,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்பு_கடுமையானவை(வலை_விடை) — the codes with no float",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 382
+    "line": 383
   },
   {
     "name": "தொடர்பு_முனையின்_புலம்",
@@ -13827,7 +13827,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தொடர்பு_முனையின்_புலம்(வலை_விடை, முனைக்_குறி, புலப்_பெயர்) — read one field from a solved network",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 396
+    "line": 397
   },
   {
     "name": "மொத்தத்_தாமதம்",
@@ -13841,7 +13841,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மொத்தத்_தாமதம்(தொடர்புகள்) — every positive lag in the network, added up",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 416
+    "line": 417
   },
   {
     "name": "முன்னோட்டங்கள்",
@@ -13855,7 +13855,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்னோட்டங்கள்(தொடர்புகள்) — the relationships carrying a lead",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 432
+    "line": 433
   },
   {
     "name": "தாமதப்_பங்கு",
@@ -13870,7 +13870,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தாமதப்_பங்கு(தொடர்புகள், திட்ட_காலம்) — திட்டக் காலத்தில் தாமதத்தின் பங்கு",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 451
+    "line": 452
   },
   {
     "name": "சுருக்கக்கூடிய_காலம்",
@@ -13886,7 +13886,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "சுருக்கக்கூடிய_காலம்(தொடர்புகள்) — தாமதத்தை நீக்கிச் சுருக்கக்கூடிய காலம்",
     "kind": "stdlib",
     "module": "nUlakam/qittam/qotarpu.qmz",
-    "line": 483
+    "line": 484
   },
   {
     "name": "நிலைமைகள்",
@@ -14068,7 +14068,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணம்_இணைப்பு(விவரங்கள்) — the upi:// link behind every payment QR",
     "kind": "stdlib",
     "module": "nUlakam/upi/vilAcam.qmz",
-    "line": 124
+    "line": 125
   },
   {
     "name": "விருப்பத்தைச்_சேர்",
@@ -14084,7 +14084,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "விருப்பத்தைச்_சேர்(இணைப்பு, பெயர், மதிப்பீடு) — append one optional parameter to a UPI link",
     "kind": "stdlib",
     "module": "nUlakam/upi/vilAcam.qmz",
-    "line": 161
+    "line": 162
   },
   {
     "name": "இணைப்பைப்_படி",
@@ -14098,7 +14098,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "இணைப்பைப்_படி(இணைப்பு) — the parameters of a upi:// link, as a record",
     "kind": "stdlib",
     "module": "nUlakam/upi/vilAcam.qmz",
-    "line": 175
+    "line": 176
   },
   {
     "name": "நேர_உள்ளீடு",
@@ -14373,7 +14373,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மேல்நிலைப்_பதிவு(...) — overhead absorbed onto the project",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 123
+    "line": 124
   },
   {
     "name": "வருவாய்ப்_பதிவு",
@@ -14392,7 +14392,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வருவாய்ப்_பதிவு(...) — revenue recognised under Ind AS 115",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 142
+    "line": 143
   },
   {
     "name": "விலைப்பட்டியல்_பதிவு",
@@ -14411,7 +14411,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "விலைப்பட்டியல்_பதிவு(...) — invoicing the customer",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 160
+    "line": 162
   },
   {
     "name": "முன்பணப்_பதிவு",
@@ -14430,7 +14430,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்பணப்_பதிவு(...) — money received before the work is done",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 175
+    "line": 177
   },
   {
     "name": "நட்ட_ஒதுக்கீட்டுப்_பதிவு",
@@ -14449,7 +14449,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நட்ட_ஒதுக்கீட்டுப்_பதிவு(...) — the provision for an onerous contract",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 189
+    "line": 191
   },
   {
     "name": "ஈட்டிய_செலவு",
@@ -14464,7 +14464,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஈட்டிய_செலவு(பேரேடு, நடப்புக்_கணக்கு) — இதுவரை ஈட்டிய மொத்தச் செலவு",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 214
+    "line": 216
   },
   {
     "name": "காலம்_வரை_செலவு",
@@ -14480,7 +14480,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "காலம்_வரை_செலவு(பேரேடு, நடப்புக்_கணக்கு, வரம்பு_நாள்) — சொன்ன நாள் வரையிலான செலவு",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 224
+    "line": 226
   },
   {
     "name": "செலவை_ஒப்பிடு",
@@ -14496,7 +14496,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "செலவை_ஒப்பிடு(பேரேடு, நடப்புக்_கணக்கு, நேரத்தாள்_தொகை) — பேரேட்டுச் செலவையும் நேரத்தாள் தொகையையும் ஒப்பிடும்",
     "kind": "stdlib",
     "module": "nUlakam/vaLam/paqivu.qmz",
-    "line": 239
+    "line": 241
   },
   {
     "name": "வளம்_ஆக்கு",
@@ -16201,7 +16201,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — the EMI",
     "kind": "stdlib",
     "module": "nUlakam/vawki/kataZ.qmz",
-    "line": 35
+    "line": 36
   },
   {
     "name": "தவணை_அட்டவணை",
@@ -16217,7 +16217,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தவணை_அட்டவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — மாதம்வாரியாக அசலும் வட்டியும்",
     "kind": "stdlib",
     "module": "nUlakam/vawki/kataZ.qmz",
-    "line": 56
+    "line": 57
   },
   {
     "name": "மொத்த_வட்டி",
@@ -16231,7 +16231,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மொத்த_வட்டி(அட்டவணை) — what the borrowing cost, over the whole term",
     "kind": "stdlib",
     "module": "nUlakam/vawki/kataZ.qmz",
-    "line": 92
+    "line": 93
   },
   {
     "name": "மொத்தத்_திருப்பி",
@@ -16245,7 +16245,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மொத்தத்_திருப்பி(அட்டவணை) — every instalment added up",
     "kind": "stdlib",
     "module": "nUlakam/vawki/kataZ.qmz",
-    "line": 102
+    "line": 103
   },
   {
     "name": "முன்கூட்டியே_அடைத்தால்",
@@ -16260,7 +16260,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்கூட்டியே_அடைத்தால்(அட்டவணை, எத்தனாவது_மாதம்) — what is owed to settle",
     "kind": "stdlib",
     "module": "nUlakam/vawki/kataZ.qmz",
-    "line": 117
+    "line": 118
   },
   {
     "name": "நாட்கள்",

@@ -17,6 +17,7 @@
 //
 // __The parameter is எழுத்திடம் rather than the plainer இடம் because that word__
 // __is the SQL LEFT keyword and is hard reserved — it cannot be a name at all.__
+// எழுத்து(சரம், எழுத்திடம்) — அவ்விடத்தில் உள்ள எழுத்து; இல்லையேல் வெற்றுச் சரம்
 செயல் எழுத்து(சரம், எழுத்திடம்) {
     (எழுத்திடம் < 0) எனில் { திரும்பு ""; }
     (எழுத்திடம் >= நீளம்(சரம்)) எனில் { திரும்பு ""; }

@@ -250,6 +250,7 @@
 //
 // __The kinds are strings so that the table is data. The set of kinds is the__
 // __law's, not this library's, and extending it is adding rows here.__
+// ஈட்டு_விதிகள்() — எந்த இழப்பை எந்தத் தலைப்புக்கு எதிராக ஈடுசெய்யலாம் என்னும் விதிகள்
 செயல் ஈட்டு_விதிகள்() {
     திரும்பு [
         {"இழப்பு_வகை": "வீட்டுச்_சொத்து", "வருமான_வகை": "சம்பளம்"},
@@ -365,6 +366,7 @@
 // __answer is nil and the losses are carried forward — the Act has no concept of__
 // __negative total income, and a negative figure entering the slab engine would__
 // __produce a refund out of nothing.__
+// மொத்த_வருமானம்(தலைப்புகள்) — தலைப்புகள் அனைத்தையும் கூட்டிய மொத்த வருமானம்; ஈடுசெய்ய இயலாத இழப்பு மறைந்துவிடாது
 செயல் மொத்த_வருமானம்(தலைப்புகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_தலைப்பு இல் தலைப்புகள் {

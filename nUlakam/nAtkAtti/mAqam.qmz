@@ -98,6 +98,7 @@
 // __because the 28th is as late as February goes — clamping made the target__
 // __date, so the target date counts as reached. Without that rule, a monthly__
 // __obligation starting on the 31st would never complete a month in February.__
+// முடிந்த_மாதங்கள்(தொடக்கம், முடிவு) — முற்றுப்பெற்ற நாட்காட்டி மாதங்கள்; நாட்களை முப்பதால் வகுத்தல் அல்ல
 செயல் முடிந்த_மாதங்கள்(தொடக்கம், முடிவு) {
     (நாள்_வேறுபாடு(தொடக்கம், முடிவு) <= 0) எனில் { திரும்பு 0; }
 
@@ -138,6 +139,7 @@
 // __full year is twelve months by this rule against thirteen by the division.__
 // __The division always overcharges and never under-charges, which is why it__
 // __survives review: nobody disputes an interest computation in their favour.__
+// பகுதி_மாதங்கள்(தொடக்கம், முடிவு) — தொடங்கிய மாதமும் சேர்ந்த நாட்காட்டி மாதங்கள்; நாட்களை முப்பதால் வகுத்து மேல்வழித்தல் அல்ல
 செயல் பகுதி_மாதங்கள்(தொடக்கம், முடிவு) {
     (நாள்_வேறுபாடு(தொடக்கம், முடிவு) <= 0) எனில் { திரும்பு 0; }
 

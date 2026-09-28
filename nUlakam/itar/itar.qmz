@@ -87,6 +87,7 @@
 // __never two. That is what a reserve is for, and it is why a reserve sized from__
 // __expected value is right for a portfolio and merely reasonable for one__
 // __project.__
+// எதிர்பார்ப்பு(ஒரு_இடர்) — இடரின் எதிர்பார்க்கப்படும் மதிப்பு; வாய்ப்பையும் தாக்கத்தையும் பெருக்கியது
 செயல் எதிர்பார்ப்பு(ஒரு_இடர்) {
     அளவு_மதிப்பு = வட்டமிடு(சதவீதம்(ஒரு_இடர்["தாக்கம்"],
                                       ஒரு_இடர்["நிகழ்தகவு"]), 2);

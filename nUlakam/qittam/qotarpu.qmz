@@ -106,6 +106,7 @@
 //
 // __The same overlap written as a start-to-start with a positive lag, closed by__
 // __a finish-to-finish, says what is actually true and survives being questioned.__
+// முன்னோட்டமா(ஒரு_தொடர்பு) — இத்தொடர்பு முன்னோட்டமா; எதிர்மறை இடைவெளி வேலைகள் மேற்பொருந்துவதைக் காட்டும், அது ஒன்றல்ல இரு செயல்கள்
 செயல் முன்னோட்டமா(ஒரு_தொடர்பு) {
     திரும்பு ஒரு_தொடர்பு["தாமதம்"] < 0;
 }

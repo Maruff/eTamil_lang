@@ -48,6 +48,7 @@
 // __Vectors of a different width are skipped rather than scored. They came from__
 // __a different model, and the alternative to skipping is a confident number__
 // __computed across two unrelated spaces.__
+// அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — கேள்விக்கு மிக அண்மையான ஆவணங்கள்; அனைத்தோடும் ஒப்பிடுவதால் சரியானது, ஆனால் மெதுவானது
 செயல் அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) {
     ஆய்வு = ஒருமைப்படுத்து(கேள்வித்_திசையன்);
     அகலம் = நீளம்(ஆய்வு);

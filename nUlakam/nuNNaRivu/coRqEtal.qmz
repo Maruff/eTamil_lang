@@ -91,6 +91,7 @@
 //
 // __Documents scoring zero are dropped. They share no query term at all, and__
 // __carrying them makes the caller filter a list that is mostly the collection.__
+// பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — கேள்விப் பதங்களுக்குப் பொருந்தும் பதிவுகள்; தேடு என்னும் பெயர் ஏற்கெனவே சொல்லில் இருப்பதால் இப்பெயர்
 செயல் பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) {
     விடை = [];
     ஒவ்வொரு ஆவணம் இல் குறியீட்டு.ஆவணங்கள் {
