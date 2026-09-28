@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) — the scope gate__
+// இப்புதிய பணியைச் சேர்க்கலாமா
+
+இறக்கு "../mARRak_kOrikkY.qmz";
+
+// __Before scope is signed, anything may go on the plan.__
+// நோக்கம் கையொப்பமாகும் முன் எதையும் சேர்க்கலாம்
+அச்சு மதிப்பு(புதிய_பணிக்கு_அனுமதியா(பொய், "", ""));
+
+// __After signing, a sub-task under an existing task is the team breaking down__
+// __work it already owns, and is allowed.__
+// கையொப்பத்திற்குப் பின்னும் துணைப் பணி அனுமதிக்கப்படும்
+அச்சு மதிப்பு(புதிய_பணிக்கு_அனுமதியா(மெய், "T-12", ""));
+
+// __A new top-level task is new scope, and needs the change request that__
+// __approved it.__
+// புதிய மேல்மட்டப் பணிக்கு மாற்றக் கோரிக்கை தேவை
+மறுப்பு = புதிய_பணிக்கு_அனுமதியா(மெய், "", "");
+அச்சு தவறா(மறுப்பு);
+அச்சு தவறு_மதிப்பு(மறுப்பு);
+அச்சு தவறா(புதிய_பணிக்கு_அனுமதியா(மெய், "", "CR-042"));
+
+// __The gate checks that a change request is named, not that it was approved.__
+// __Looking it up in the register is the caller's job.__
+// கோரிக்கை ஏற்கப்பட்டதா என்பதை அழைப்பவரே சரிபார்க்க வேண்டும்

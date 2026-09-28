@@ -1,0 +1,90 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/pula_urimY.qmz — புல உரிமை (which side owns each field)__
+// ஒவ்வொரு புலத்துக்கும் உரிமையாளர்
+//
+// __Two-way sync without ownership is a coin toss: whichever side saved last__
+// __wins, and a planner's due date is silently overwritten by a developer who__
+// __only moved a card. The fix is to decide, per field, who is allowed to change__
+// __it, and to refuse — visibly — writes from the other side.__
+//
+//   __எங்களுடையது    ours: the plan — title, dates, estimate. Sent, never accepted.__
+//   __அவர்களுடையது   theirs: the doing — hours worked, who has it, progress.__
+//                  __Accepted, never sent.__
+//   __இருவருடையது    shared: status, which both sides legitimately move.__
+//
+// __A field with no entry belongs to nobody and moves in neither direction.__
+// __That is deliberate: a new field appearing in a payload should not start__
+// __overwriting data because nobody thought about it.__
+//
+// __Field names are the PMO side's, as in qittam/paNi.qmz.__
+
+// __புல_உரிமை_ஆக்கு(புலப்_பெயர், உரிமையாளர்) — one ownership entry__
+// புல_உரிமை_ஆக்கு(புலப்_பெயர், உரிமையாளர்) — ஒரு புலத்தின் உரிமை
+செயல் புல_உரிமை_ஆக்கு(புலப்_பெயர், உரிமையாளர்) {
+    திரும்பு { புலப்_பெயர்: புலப்_பெயர், உரிமையாளர்: உரிமையாளர் };
+}
+
+// __இயல்பு_உரிமைகள்() — the ownership a PMO normally wants__
+// இயல்பு_உரிமைகள்() — வழக்கமான புல உரிமைகள்
+செயல் இயல்பு_உரிமைகள்() {
+    திரும்பு [
+        புல_உரிமை_ஆக்கு("தலைப்பு", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("விவரம்", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("முன்னுரிமை", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("இறுதி_நாள்", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("தொடக்க_நாள்", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("மதிப்பீட்டு_மணி", "எங்களுடையது"),
+        புல_உரிமை_ஆக்கு("நடப்பு_நிலை", "இருவருடையது"),
+        புல_உரிமை_ஆக்கு("நிறைவு", "அவர்களுடையது"),
+        புல_உரிமை_ஆக்கு("பொறுப்பாளர்", "அவர்களுடையது"),
+        புல_உரிமை_ஆக்கு("உண்மை_மணி", "அவர்களுடையது")
+    ];
+}
+
+// __உரிமையாளர்(உரிமைகள், புலப்_பெயர்) — who owns one field__
+// உரிமையாளர்(உரிமைகள், புலப்_பெயர்) — ஒரு புலத்தின் உரிமையாளர்
+//
+// __"யாருமில்லை" for a field with no entry.__
+செயல் உரிமையாளர்(உரிமைகள், புலப்_பெயர்) {
+    ஒவ்வொரு ஒன்று இல் உரிமைகள் {
+        (ஒன்று.புலப்_பெயர் == புலப்_பெயர்) எனில் { திரும்பு ஒன்று.உரிமையாளர்; }
+    }
+    திரும்பு "யாருமில்லை";
+}
+
+// __வரவைப்_பிரி(உரிமைகள், மாற்றங்கள்) — split an incoming change into what to apply and what to refuse__
+// வரவைப்_பிரி(உரிமைகள், மாற்றங்கள்) — வந்த மாற்றத்தை ஏற்பவை, மறுப்பவை எனப் பிரிக்கும்
+//
+// __{ஏற்பவை, மறுப்பவை}: a record of the fields the other side may set, and the__
+// __list of field names it may not. The refused names are for the sync log —__
+// __a refusal nobody can see is indistinguishable from a sync that is broken.__
+செயல் வரவைப்_பிரி(உரிமைகள், மாற்றங்கள்) {
+    ஏற்பவை = {};
+    மறுப்பவை = [];
+    ஒவ்வொரு புலப்_பெயர் இல் மாற்றங்கள் {
+        யார் = உரிமையாளர்(உரிமைகள், புலப்_பெயர்);
+        (யார் == "அவர்களுடையது" அல்லது யார் == "இருவருடையது") எனில் {
+            ஏற்பவை[புலப்_பெயர்] = மாற்றங்கள்[புலப்_பெயர்];
+        } இன்றேல் {
+            மறுப்பவை = இணை(மறுப்பவை, புலப்_பெயர்);
+        }
+    }
+    திரும்பு { ஏற்பவை: ஏற்பவை, மறுப்பவை: மறுப்பவை };
+}
+
+// __அனுப்பவேண்டியவை(உரிமைகள், ஒரு_பதிவு) — the fields of a record this side may send__
+// அனுப்பவேண்டியவை(உரிமைகள், ஒரு_பதிவு) — இப்பக்கம் அனுப்பக்கூடிய புலங்கள்
+//
+// __Ours and shared, and nothing else — least of all the fields the other side__
+// __owns, which sending back would echo their own edits at them.__
+செயல் அனுப்பவேண்டியவை(உரிமைகள், ஒரு_பதிவு) {
+    விடை = {};
+    ஒவ்வொரு புலப்_பெயர் இல் ஒரு_பதிவு {
+        யார் = உரிமையாளர்(உரிமைகள், புலப்_பெயர்);
+        (யார் == "எங்களுடையது" அல்லது யார் == "இருவருடையது") எனில் {
+            விடை[புலப்_பெயர்] = ஒரு_பதிவு[புலப்_பெயர்];
+        }
+    }
+    திரும்பு விடை;
+}

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/varavu.qmz — வரவு (what comes in: service hooks and echoes)__
+// உள்வரும் மாற்றங்கள்: சேவைக் கொக்கிகளும் எதிரொலிகளும்
+//
+// __Every change we push to Azure DevOps comes back to us as a service hook,__
+// __because from Azure DevOps's side it is a change like any other. Applied, it__
+// __triggers another push, which comes back again: a sync loop, and the__
+// __commonest way two-way integrations fall over. So before anything incoming__
+// __is applied it is tested against three brakes, cheapest first:__
+//
+//   __1. its revision is one we pushed ourselves or older__
+//   __2. the person who changed it is our own service identity__
+//   __3. its fingerprint is what we already applied__
+//
+// __The first two are echoes; the third is a real event with nothing new in it.__
+// __All three are skipped, and logged as skipped, so a sync that is doing nothing__
+// __can be told apart from one that is broken.__
+//
+// __A hook's body is never trusted for the item's content. It tells us which__
+// __item and which revision; the item itself is fetched again from the API, so a__
+// __forged hook can at worst make us re-read something.__
+
+இறக்கு "kYrEkY.qmz";
+
+// __வரவு_முடிவு(வரவுத்_திருத்தம், அனுப்பிய_திருத்தம், மாற்றியவர், எங்கள்_அடையாளம், வரவுக்_கைரேகை, பதிந்த_கைரேகை) — apply, or skip and why__
+// வரவு_முடிவு(வரவுத்_திருத்தம், அனுப்பிய_திருத்தம், மாற்றியவர், எங்கள்_அடையாளம், வரவுக்_கைரேகை, பதிந்த_கைரேகை) — ஏற்பதா, தவிர்ப்பதா
+//
+// __"ஏற்கலாம்" to apply; "எதிரொலி" for our own change coming back;__
+// __"மாற்றமில்லை" for a change that changes nothing. Pass 0 and "" for what has__
+// __never been pushed or applied.__
+செயல் வரவு_முடிவு(வரவுத்_திருத்தம், அனுப்பிய_திருத்தம், மாற்றியவர், எங்கள்_அடையாளம், வரவுக்_கைரேகை, பதிந்த_கைரேகை) {
+    (அனுப்பிய_திருத்தம் > 0 மற்றும் வரவுத்_திருத்தம் <= அனுப்பிய_திருத்தம்) எனில் { திரும்பு "எதிரொலி"; }
+    (எங்கள்_அடையாளம் != "" மற்றும் மாற்றியவர் == எங்கள்_அடையாளம்) எனில் { திரும்பு "எதிரொலி"; }
+    (பதிந்த_கைரேகை != "" மற்றும் கைரேகை_ஒன்றா(வரவுக்_கைரேகை, பதிந்த_கைரேகை)) எனில் {
+        திரும்பு "மாற்றமில்லை";
+    }
+    திரும்பு "ஏற்கலாம்";
+}
+
+// __கொக்கிச்_சீட்டு_சரியா(வந்த_சீட்டு, பதிந்த_கைரேகை, ரகசிய_விசை) — is this service hook ours?__
+// கொக்கிச்_சீட்டு_சரியா(வந்த_சீட்டு, பதிந்த_கைரேகை, ரகசிய_விசை) — இச்சேவைக் கொக்கி நம்முடையதா
+//
+// __The hook's URL carries a secret token. Store only கைரேகை(token, ரகசிய_விசை), never__
+// __the token, so a leaked database does not let anyone post hooks; compare in__
+// __constant time.__
+செயல் கொக்கிச்_சீட்டு_சரியா(வந்த_சீட்டு, பதிந்த_கைரேகை, ரகசிய_விசை) {
+    திரும்பு கைரேகை_ஒன்றா(கைரேகை(வந்த_சீட்டு, ரகசிய_விசை), பதிந்த_கைரேகை);
+}
+
+// __கொக்கி_நிகழ்வைப்_படி(உடலுரை) — which item, and which revision, a service hook is about__
+// கொக்கி_நிகழ்வைப்_படி(உடலுரை) — சேவைக் கொக்கி எந்த உருப்படியைப் பற்றியது
+//
+// __சரி({நிகழ்வுக்_குறி, நிகழ்வு_வகை, பணியுருப்படி_எண், திருத்தம்}) from the__
+// __hook's JSON body. For workitem.updated Azure DevOps puts the item's id in__
+// __resource.workItemId and the update's own id in resource.id; for every__
+// __other event resource.id is the item. Getting that backwards applies update__
+// __number 7 to work item 7. நிகழ்வுக்_குறி is the event's id — store it unique__
+// __and a hook delivered twice is applied once.__
+செயல் கொக்கி_நிகழ்வைப்_படி(உடலுரை) {
+    படித்தது = ஜேசான்_படி(உடலுரை);
+    (தவறா(படித்தது)) எனில் { திரும்பு படித்தது; }
+    நிகழ்வு = மதிப்பு(படித்தது);
+    (இல்லை புலம்_உள்ளதா(நிகழ்வு, "resource")) எனில் {
+        திரும்பு தவறு("கொக்கியில் resource இல்லை  (the hook has no resource)");
+    }
+    வளம் = நிகழ்வு["resource"];
+    உருப்படி_எண் = புலம்_அல்லது(வளம், "workItemId", புலம்_அல்லது(வளம், "id", 0));
+    திரும்பு சரி({
+        நிகழ்வுக்_குறி: புலம்_அல்லது(நிகழ்வு, "id", ""),
+        நிகழ்வு_வகை: புலம்_அல்லது(நிகழ்வு, "eventType", ""),
+        பணியுருப்படி_எண்: உருப்படி_எண்,
+        திருத்தம்: புலம்_அல்லது(வளம், "rev", 0)
+    });
+}

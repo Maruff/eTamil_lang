@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — the url of one work item__
+// ஒரு பணியுருப்படியின் உரலி
+
+இறக்கு "../ajUr.qmz";
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+
+// __The url an update is sent to, and the one a child's parent link names.__
+// திருத்தம் அனுப்பப்படும் உரலி; குழந்தையின் பெற்றோர் இணைப்பும் இதையே குறிக்கும்
+அச்சு பணியுருப்படி_உரலி(இணைப்பு, 1201);
+
+// __An id read back from a database as 1201.0, or kept as the text "1201",__
+// __gives the same url: a whole number is written without its decimals.__
+// 1201.0 ஆகவோ "1201" என உரையாகவோ வந்தாலும் அதே உரலி
+அச்சு பணியுருப்படி_உரலி(இணைப்பு, 1201.0) == பணியுருப்படி_உரலி(இணைப்பு, "1201");

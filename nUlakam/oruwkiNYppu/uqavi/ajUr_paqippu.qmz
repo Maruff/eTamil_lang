@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அஜூர்_பதிப்பு() — the REST api-version every call sends__
+// ஒவ்வோர் அழைப்பும் அனுப்பும் இடைமுகப் பதிப்பு
+
+இறக்கு "../ajUr.qmz";
+
+அச்சு அஜூர்_பதிப்பு();
+
+// __Every url this file builds ends with it, so all four calls move to a new__
+// __version together, in one line, and never drift apart.__
+// இக்கோப்பு உருவாக்கும் ஒவ்வோர் உரலியும் இதில் முடியும்; நான்கும் ஒன்றாகவே மாறும்
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+அச்சு பணியுருப்படி_உரலி(இணைப்பு, 118);
+
+// __Leaving it out is not an option Azure DevOps offers: a request with no__
+// __api-version is answered 400, so the version is part of the url, always.__
+// பதிப்பில்லாக் கோரிக்கைக்கு அஜூர் 400 தரும்; ஆகவே அது எப்போதும் உரலியில்
+அச்சு கொண்டுள்ளதா(திட்ட_உரலி(இணைப்பு, "wit/wiql"), "api-version=" & அஜூர்_பதிப்பு());

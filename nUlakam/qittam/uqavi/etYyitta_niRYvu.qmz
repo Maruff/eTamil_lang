@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எடையிட்ட_நிறைவு(பணிகள்) — percentage complete, weighted by estimated effort__
+// மதிப்பீட்டு மணியால் எடையிட்ட நிறைவு
+
+இறக்கு "../paNi.qmz";
+
+// __A finished forty-hour integration outweighs an untouched one-hour config__
+// __change: 4000 over 41 hours, not the plain mean of 50.__
+// முடிந்த நாற்பது மணிப் பணி ஒரு மணிப் பணியை விட அதிகம் எடையுடையது
+அச்சு எடையிட்ட_நிறைவு([பணி_ஆக்கு("T-1", "", "மூடியது", 100, 40, ""),
+                      பணி_ஆக்கு("T-2", "", "செய்யவேண்டியது", 0, 1, "")]);
+
+// __With no estimates anywhere, it falls back to the plain mean rather than 0.__
+// மதிப்பீடே இல்லையெனில் வெறும் சராசரி
+அச்சு எடையிட்ட_நிறைவு([பணி_ஆக்கு("T-1", "", "மூடியது", 100, 0, ""),
+                      பணி_ஆக்கு("T-2", "", "செய்யவேண்டியது", 0, 0, "")]);
+
+// __But one estimate is enough to switch to weights, and then every task with__
+// __no estimate weighs nothing: the untouched T-2 no longer drags it down.__
+// ஒரு மதிப்பீடு இருந்தாலே எடைமுறை; மதிப்பீடற்ற பணிகள் எடையற்றுப் போகும்
+அச்சு எடையிட்ட_நிறைவு([பணி_ஆக்கு("T-1", "", "மூடியது", 100, 8, ""),
+                      பணி_ஆக்கு("T-2", "", "செய்யவேண்டியது", 0, 0, "")]);
+
+// __A cancelled task is left out entirely: its 80% was work that will never be__
+// __delivered, so the project stands at the 0% of the one task still in play.__
+// கைவிட்ட பணி முழுதும் விலக்கப்படும்; அதன் 80% திட்டத்தை உயர்த்தாது
+அச்சு எடையிட்ட_நிறைவு([பணி_ஆக்கு("T-1", "", "கைவிட்டது", 80, 10, ""),
+                      பணி_ஆக்கு("T-2", "", "செய்யவேண்டியது", 0, 10, "")]);
+அச்சு எடையிட்ட_நிறைவு([]);

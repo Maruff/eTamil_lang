@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணி_நிலைகள்() — the five task statuses, in working order__
+// ஐந்து பணி நிலைகள்
+
+இறக்கு "../paNi.qmz";
+
+// __The order a board draws its columns in.__
+// பலகை நெடுவரிசைகளை வரையும் வரிசை
+அச்சு பணி_நிலைகள்();
+அச்சு நீளம்(பணி_நிலைகள்());
+
+// __Five statuses, but only two count as done. Cancelled sits at the end of the__
+// __list like closed does, and is not done.__
+// ஐந்தில் இரண்டே முடிந்தவை; கைவிட்டது முடிந்ததல்ல
+ஒவ்வொரு ஒன்று இல் பணி_நிலைகள்() {
+    அச்சு ஒன்று & " " & சொல்லாக்கு(பணி_முடிந்ததா(ஒன்று));
+}

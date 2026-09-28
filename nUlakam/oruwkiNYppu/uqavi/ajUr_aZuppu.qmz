@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அஜூர்_அனுப்பு(கோரிக்கை_முறை, இலக்கு_உரலி, உடலுரை, தலைப்புகள்) — send one request, and give every failure one shape__
+// ஒரு கோரிக்கையை அனுப்பும்; எல்லாத் தோல்விக்கும் ஒரே வடிவம்
+
+இறக்கு "../ajUr.qmz";
+இறக்கு "../aZuppu_varicY.qmz";
+
+// __Port 9 on this machine refuses at once, so the sample runs offline. A real__
+// __organisation answers சரி({நிலைக்_குறி: 200, பதில்_உடல்: …}) with the JSON read.__
+// உள்ளூர்த் துறை 9 உடனே மறுக்கும்; உண்மையான நிறுவனம் சரி(...) தரும்
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+விடை = அஜூர்_அனுப்பு("GET", பணியுருப்படி_உரலி(இணைப்பு, 118), இன்மை, அஜூர்_தலைப்புகள்(இணைப்பு, ""));
+
+// __No response at all is status 0, and Retry-After is 0 since nobody sent one.__
+// பதிலே இல்லை என்றால் நிலைக் குறி 0
+தோல்வி = தவறு_மதிப்பு(விடை);
+அச்சு தவறா(விடை);
+அச்சு தோல்வி.நிலைக்_குறி;
+அச்சு தோல்வி.மீண்டும்_முயல்_நொடிகள்;
+
+// __The message names the url but never the token, so it is safe to log.__
+// செய்தியில் உரலி உண்டு, சீட்டு இல்லை; பதிவில் இடலாம்
+அச்சு கொண்டுள்ளதா(தோல்வி.செய்தி, "fake-pat");
+
+// __The shape is what the outbox takes, so the worker's error path is one call:__
+// __0 is the network, worth retrying, and the row is rescheduled, not parked.__
+// இவ்வடிவத்தையே வெளியனுப்பு வரிசை ஏற்கிறது; 0 மீண்டும் முயலத்தக்கது
+வரிசை_உருப்படி = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "திருத்து", 1, "fake-key-118");
+அடுத்தது = தோல்வியைப்_பதி(வரிசை_உருப்படி, தோல்வி.நிலைக்_குறி, தோல்வி.செய்தி,
+    1000, 1, தோல்வி.மீண்டும்_முயல்_நொடிகள்);
+அச்சு அடுத்தது.நடப்பு_நிலை;
+அச்சு அடுத்தது.அடுத்த_முயற்சி;

@@ -1,0 +1,60 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/viZA.qmz — வினா (WIQL queries for the reconciliation sweep)__
+// ஒப்புநோக்குத் தேடலுக்கான வினாக்கள்
+//
+// __Service hooks are how Azure DevOps tells us something changed, and they are__
+// __lossy: a hook that fires while we are down is gone. So sync also sweeps —__
+// __"everything in this project changed since X" — and applies whatever the__
+// __hooks missed. The sweep is a WIQL query, and X is the watermark: the time of__
+// __the last clean sweep.__
+//
+// __Two rules keep the sweep from missing things. The first sweep, with no__
+// __watermark, looks back தொடக்கத்_தேடல்_நாட்கள்() days rather than forever.__
+// __Every later one starts a day before the watermark, because an item saved in__
+// __the same second the last sweep ran may or may not have been in it, and__
+// __applying an item twice is harmless while missing it is not. The caller__
+// __advances the watermark only after a sweep that applied cleanly.__
+
+இறக்கு "../atippatY/col.qmz";
+
+// __தொடக்கத்_தேடல்_நாட்கள்() — how far the first sweep looks back__
+// தொடக்கத்_தேடல்_நாட்கள்() — முதல் தேடல் பின்னோக்கிப் பார்க்கும் நாட்கள்
+செயல் தொடக்கத்_தேடல்_நாட்கள்() { திரும்பு 30; }
+
+// __வினா_மேற்கோள்(மூல_உரை) — a WIQL string literal__
+// வினா_மேற்கோள்(மூல_உரை) — வினாவுக்கான மேற்கோள் மூல_உரை
+//
+// __Single quotes around the text, and any quote inside doubled. A project__
+// __called O'Brien Portal otherwise ends the literal early, and whatever follows__
+// __it is read as query.__
+செயல் வினா_மேற்கோள்(மூல_உரை) {
+    திரும்பு "'" & மாற்று(சொல்லாக்கு(மூல_உரை), "'", "''") & "'";
+}
+
+// __தேடல்_தொடக்க_நாள்(நீர்க்குறி, இன்றைய_நாள்) — where this sweep starts__
+// தேடல்_தொடக்க_நாள்(நீர்க்குறி, இன்றைய_நாள்) — இத்தேடல் தொடங்கும் நாள்
+//
+// __நீர்க்குறி is the ISO date of the last clean sweep, or "" for none.__
+செயல் தேடல்_தொடக்க_நாள்(நீர்க்குறி, இன்றைய_நாள்) {
+    (நீர்க்குறி == "") எனில் {
+        திரும்பு நாள்_கூட்டு(இன்றைய_நாள், 0 - தொடக்கத்_தேடல்_நாட்கள்());
+    }
+    திரும்பு நாள்_கூட்டு(நீர்க்குறி, 0 - 1);
+}
+
+// __மாறியவை_வினா(திட்டப்_பெயர், முதல்_நாள், பகுதிப்_பாதை) — the WIQL for "changed since"__
+// மாறியவை_வினா(திட்டப்_பெயர், முதல்_நாள், பகுதிப்_பாதை) — இந்நாளுக்குப் பின் மாறியவற்றுக்கான வினா
+//
+// __Ids only, oldest change first, so the items are applied in the order they__
+// __were edited. பகுதிப்_பாதை narrows the sweep to one area — the project's own__
+// __corner of a shared Azure DevOps project — and "" searches the whole project.__
+செயல் மாறியவை_வினா(திட்டப்_பெயர், முதல்_நாள், பகுதிப்_பாதை) {
+    வினா = "SELECT [System.Id] FROM WorkItems WHERE [System.TeamProject] = "
+           & வினா_மேற்கோள்(திட்டப்_பெயர்)
+           & " AND [System.ChangedDate] >= " & வினா_மேற்கோள்(முதல்_நாள்);
+    (பகுதிப்_பாதை != "") எனில் {
+        வினா = வினா & " AND [System.AreaPath] UNDER " & வினா_மேற்கோள்(பகுதிப்_பாதை);
+    }
+    திரும்பு வினா & " ORDER BY [System.ChangedDate] ASC";
+}

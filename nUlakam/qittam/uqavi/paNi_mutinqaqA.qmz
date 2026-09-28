@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணி_முடிந்ததா(பணி_நிலை) — does this status count as done?__
+// இந்நிலை முடிந்ததாகக் கணக்கிடப்படுமா
+
+இறக்கு "../paNi.qmz";
+
+// __Resolved counts as done even while it waits for the reporter to confirm.__
+// உறுதிப்படுத்தலுக்குக் காத்திருந்தாலும் தீர்ந்தது முடிந்ததே
+அச்சு பணி_முடிந்ததா("தீர்ந்தது");
+அச்சு பணி_முடிந்ததா("மூடியது");
+அச்சு பணி_முடிந்ததா("நடப்பில்");
+
+// __Cancelled is finished with, but not done. Counting it as done would credit__
+// __the project with a feature nobody built.__
+// கைவிட்டது முடிந்ததல்ல; அதை எண்ணினால் செய்யாத வேலைக்கு மதிப்பெண் கிடைக்கும்
+அச்சு பணி_முடிந்ததா("கைவிட்டது");
+
+// __The test is an exact match, so a misspelt status is simply not done.__
+// சரியான சொல் மட்டுமே பொருந்தும்; எழுத்துப்பிழையுள்ளது முடிந்ததல்ல
+அச்சு பணி_முடிந்ததா("மூடியதது");

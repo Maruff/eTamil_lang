@@ -1,0 +1,84 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/attavaNY.qmz — அட்டவணை (the network on the calendar)__
+// வலையை நாட்காட்டியில் இடுதல்
+//
+// __pAqY.qmz computes the critical path in working days counted from zero, which__
+// __is what the algorithm needs and what nobody wants to read. A project plan is__
+// __read in dates. This file is the step between: effort into durations, and a__
+// __computed network onto a calendar that knows the weekend and the holidays.__
+//
+// __The two halves stay apart on purpose. The network does not know what a__
+// __Saturday is, and the calendar does not know what a predecessor is, so the__
+// __same network can be laid onto a five-day week, a six-day week or a plant__
+// __that shuts for Pongal, and each answer is one call.__
+//
+// __Offsets become dates by counting working days from the project start. An__
+// __activity whose earliest start is offset 3 starts on the fourth working day,__
+// __and one lasting 2 days finishes on the working day after it starts — both__
+// __days are inclusive, which is how a plan is read and why the finish is__
+// __start + (duration − 1). A zero-duration activity is a milestone: it happens__
+// __at the end of the day its predecessors finish, so it is dated that day, not__
+// __the next working day — a go-live after the last task is on the project's__
+// __finish date, not after it.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../nAtkAtti/vElYnAL.qmz";
+இறக்கு "pAqY.qmz";
+
+// __மணியிலிருந்து_நாட்கள்(மணிகள், நாள்_மணிகள்) — an effort estimate as a duration__
+// மணியிலிருந்து_நாட்கள்(மணிகள், நாள்_மணிகள்) — மதிப்பீட்டு மணியைக் கால அளவாக்கும்
+//
+// __Whole working days, rounded up, and never less than one. Forty hours at__
+// __eight a day is five days; forty-one is six, because the forty-first hour__
+// __happens on a sixth day whether or not the plan admits it. A task with no__
+// __estimate still takes a day on the plan, or it would vanish from it.__
+செயல் மணியிலிருந்து_நாட்கள்(மணிகள், நாள்_மணிகள்) {
+    திரும்பு பெரியது(1, மேல்(மணிகள் / நாள்_மணிகள்));
+}
+
+// __மீதி_நாட்கள்(கால_அளவு, நிறைவு) — the working days an in-flight task still needs__
+// மீதி_நாட்கள்(கால_அளவு, நிறைவு) — நடப்பிலுள்ள பணிக்கு இன்னும் தேவையான நாட்கள்
+//
+// __Rescheduling mid-project uses the work that is left, not the work that was__
+// __planned. Rounded up, so a task at 90% of ten days still needs one day, not__
+// __none; a task at 100% needs none.__
+செயல் மீதி_நாட்கள்(கால_அளவு, நிறைவு) {
+    திரும்பு மேல்(கால_அளவு * (100 - நிறைவு) / 100);
+}
+
+// __நாட்காட்டியில்_இடு(கணக்கிட்டவை, திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி) — dates for every activity__
+// நாட்காட்டியில்_இடு(கணக்கிட்டவை, திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி) — ஒவ்வொரு செயலுக்கும் நாட்களை இடும்
+//
+// __கணக்கிட்டவை is the மதிப்பு of pAqY.qmz's வலையைக்_கணக்கிடு. Each activity__
+// __comes back with four dates added — தொடக்க_நாள் and முடிவு_நாள் (early__
+// __start and finish), பிந்தைய_தொடக்க_நாள் and பிந்தைய_முடிவு_நாள் (late) —__
+// __and the whole with திட்ட_முடிவு_நாள். A start that falls on a day off moves__
+// __to the next working day first. Float stays in working days, because a float__
+// __of "three calendar days" across a weekend is one day of real slack.__
+செயல் நாட்காட்டியில்_இடு(கணக்கிட்டவை, திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி) {
+    தொடக்க_விடை = நகர்த்தி_வேலை_நாள்(திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி);
+    (தவறா(தொடக்க_விடை)) எனில் { திரும்பு தொடக்க_விடை; }
+    முதல்_நாள் = மதிப்பு(தொடக்க_விடை);
+
+    விடை_பட்டி = [];
+    ஒவ்வொரு ஒரு_செயல் இல் கணக்கிட்டவை.செயல்கள் {
+        // __A milestone sits on the last day before its offset, not the first after it.__
+        பின்னகர்வு = 0;
+        (ஒரு_செயல்.செயல்_காலம் == 0) எனில் { பின்னகர்வு = 1; }
+        முன்_தொ = பெரியது(0, ஒரு_செயல்.முந்தைய_தொடக்கம் - பின்னகர்வு);
+        பின்_தொ = பெரியது(0, ஒரு_செயல்.பிந்தைய_தொடக்கம் - பின்னகர்வு);
+        புதியது = ஒரு_செயல்;
+        புதியது["தொடக்க_நாள்"] = மதிப்பு(வேலை_நாட்களைக்_கூட்டு(முதல்_நாள், முன்_தொ, ஒரு_நாட்காட்டி));
+        புதியது["முடிவு_நாள்"] = மதிப்பு(வேலை_நாட்களைக்_கூட்டு(முதல்_நாள்,
+            பெரியது(முன்_தொ, ஒரு_செயல்.முந்தைய_முடிவு - 1), ஒரு_நாட்காட்டி));
+        புதியது["பிந்தைய_தொடக்க_நாள்"] = மதிப்பு(வேலை_நாட்களைக்_கூட்டு(முதல்_நாள், பின்_தொ, ஒரு_நாட்காட்டி));
+        புதியது["பிந்தைய_முடிவு_நாள்"] = மதிப்பு(வேலை_நாட்களைக்_கூட்டு(முதல்_நாள்,
+            பெரியது(பின்_தொ, ஒரு_செயல்.பிந்தைய_முடிவு - 1), ஒரு_நாட்காட்டி));
+        விடை_பட்டி = இணை(விடை_பட்டி, புதியது);
+    }
+    கடைசி = மதிப்பு(வேலை_நாட்களைக்_கூட்டு(முதல்_நாள்,
+        பெரியது(0, கணக்கிட்டவை.திட்ட_காலம் - 1), ஒரு_நாட்காட்டி));
+    திரும்பு சரி({ செயல்கள்: விடை_பட்டி, திட்ட_காலம்: கணக்கிட்டவை.திட்ட_காலம்,
+                  திட்டத்_தொடக்க_நாள்: முதல்_நாள், திட்ட_முடிவு_நாள்: கடைசி });
+}

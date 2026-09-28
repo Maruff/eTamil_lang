@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மணியிலிருந்து_நாட்கள்(மணிகள், நாள்_மணிகள்) — an effort estimate as a duration in working days__
+// மதிப்பீட்டு மணியைக் கால அளவாக்கும்
+
+இறக்கு "../attavaNY.qmz";
+
+// __Forty hours at eight a day is a five-day task.__
+// நாளுக்கு எட்டு மணியில் நாற்பது மணி ஐந்து நாள்
+அச்சு மணியிலிருந்து_நாட்கள்(40, 8);
+
+// __Forty-one is six, not 5.125: the last hour happens on a sixth day.__
+// நாற்பத்தொன்று ஆறு நாள்; கடைசி மணி ஆறாம் நாளில் நடக்கும்
+அச்சு மணியிலிருந்து_நாட்கள்(41, 8);
+
+// __A two-hour fix and a task nobody estimated both take one day, so neither__
+// __vanishes from the plan.__
+// இரண்டு மணி வேலையும் மதிப்பிடாத பணியும் ஒரு நாள்
+அச்சு மணியிலிருந்து_நாட்கள்(2, 8);
+அச்சு மணியிலிருந்து_நாட்கள்(0, 8);
+
+// __The working day is the caller's to give: the same forty hours on a six-hour__
+// __day is seven days.__
+// வேலை நாள் மணியை அழைப்பவர் தர வேண்டும்
+அச்சு மணியிலிருந்து_நாட்கள்(40, 6);

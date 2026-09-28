@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மணியிலிருந்து_நிறைவு(முடிந்த_மணி, மீதி_மணி) — percentage complete from CompletedWork and RemainingWork__
+// முடிந்த, மீதி மணிகளிலிருந்து நிறைவு விழுக்காடு
+
+இறக்கு "../varYpatam.qmz";
+
+// __Six hours done and two left is three quarters of the way.__
+// ஆறு மணி முடிந்து இரண்டு மீதி என்றால் முக்கால் பங்கு
+அச்சு மணியிலிருந்து_நிறைவு(6, 2);
+
+// __Rounded to a whole percent: one hour of three is 33, not 33.33.__
+// முழு விழுக்காட்டுக்கு வட்டமிடப்படும்
+அச்சு மணியிலிருந்து_நிறைவு(1, 2);
+
+// __Nothing done yet but hours planned is a real 0.__
+// திட்டமிட்ட மணிகள் உண்டு, எதுவும் முடியவில்லை: உண்மையான 0
+அச்சு மணியிலிருந்து_நிறைவு(0, 8);
+
+// __Both empty is no figure at all, and இன்மை says so; 0 would claim that__
+// __the work has not started, which nobody said.__
+// இரண்டும் வெற்று என்றால் எண்ணே இல்லை; இன்மை
+அச்சு மணியிலிருந்து_நிறைவு(0, 0);
+அச்சு மணியிலிருந்து_நிறைவு(இன்மை, இன்மை);
+
+// __Only one empty is read as 0 hours, so hours logged against a blank__
+// __RemainingWork come out as 100. Keep RemainingWork filled in on the board.__
+// ஒன்று மட்டும் வெற்று எனில் அது 0 ஆகக் கொள்ளப்படும்; மீதி வெற்றாயின் 100 வரும்
+அச்சு மணியிலிருந்து_நிறைவு(6, இன்மை);

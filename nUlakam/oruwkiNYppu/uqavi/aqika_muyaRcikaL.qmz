@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அதிக_முயற்சிகள்() — attempts before an item is given up on__
+// கைவிடுவதற்கு முன் அதிகபட்ச முயற்சிகள்
+
+இறக்கு "../mItci.qmz";
+
+அச்சு அதிக_முயற்சிகள்();
+
+// __Eight attempts with doubling waits of 2, 4 … 128 seconds between them__
+// __cover about four minutes of an outage before a person is asked to look.__
+// எட்டு முயற்சிகள் ஏறத்தாழ நான்கு நிமிடத் தடையைத் தாங்கும்
+மொத்தக்_காத்திருப்பு = 0;
+ஒவ்வொரு முன்_முயற்சி இல் [1, 2, 3, 4, 5, 6, 7] {
+    மொத்தக்_காத்திருப்பு = மொத்தக்_காத்திருப்பு + காத்திருப்பு_நொடிகள்(முன்_முயற்சி, 1, 0);
+}
+அச்சு மொத்தக்_காத்திருப்பு;
+
+// __The count includes the first try, so the eighth failure is the last.__
+// முதல் முயற்சியும் எண்ணிக்கையில் அடங்கும்; எட்டாவது தோல்வியே கடைசி
+அச்சு கைவிடலாமா(அதிக_முயற்சிகள்() - 1);
+அச்சு கைவிடலாமா(அதிக_முயற்சிகள்());

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திருத்தச்_சோதனை(திருத்த_எண்) — refuse the update if the item has moved on__
+// உருப்படி மாறியிருந்தால் திருத்தத்தை மறுக்கும்
+
+இறக்கு "../ottu.qmz";
+இறக்கு "../mItci.qmz";
+
+// __We read work item 118 at revision 7. The test says "only if it is still 7".__
+// உருப்படி 118-ஐத் திருத்தம் 7-இல் படித்தோம்; இன்னும் 7 எனில் மட்டும் திருத்து
+அச்சு ஜேசான்_ஆக்கு(திருத்தச்_சோதனை(7));
+
+// __It goes first in the patch. Azure DevOps applies operations in order and__
+// __all or nothing, so a failed test at the front means no field was touched.__
+// ஒட்டின் முதலில் வர வேண்டும்; சோதனை தோற்றால் எந்தப் புலமும் மாறாது
+ஒட்டுகள் = [திருத்தச்_சோதனை(7), புல_ஒட்டு("System.Title", "அறிக்கை வடிவமைப்பு")];
+அச்சு ஒட்டுகள்[0]["op"];
+
+// __If a developer saved the item since, it is at 8, and Azure DevOps answers__
+// __412. That is not worth retrying as it is — the same patch fails the same__
+// __way — so fetch the item again and rebuild the patch.__
+// இடையில் யாராவது சேமித்திருந்தால் 412; அதையே மீண்டும் அனுப்பாமல் மறுபடி படித்து ஒட்டை உருவாக்குக
+அச்சு மீள்_முயலத்தக்கதா(412);

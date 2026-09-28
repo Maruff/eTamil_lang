@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வினா_மேற்கோள்(மூல_உரை) — a WIQL string literal__
+// வினாவுக்கான மேற்கோள் உரை
+
+இறக்கு "../viZA.qmz";
+
+அச்சு வினா_மேற்கோள்("PMO Portal");
+
+// __A quote inside is doubled. Left alone, the one in O'Brien would end the__
+// __literal early and the rest of the name would be read as query.__
+// உள்ளே உள்ள மேற்கோள் இரட்டிக்கப்படும்; இல்லையெனில் மீதி வினாவாகப் படிக்கப்படும்
+அச்சு வினா_மேற்கோள்("O'Brien Portal");
+
+// __So a name built to break out of the literal stays inside it.__
+// மேற்கோளை உடைக்க எழுதிய பெயரும் அதற்குள்ளேயே இருக்கும்
+அச்சு வினா_மேற்கோள்("x' OR [System.Id] > 0 OR 'y");
+
+// __Numbers and dates are quoted as text, which is how WIQL compares a date.__
+// எண்களும் நாட்களும் உரையாகவே மேற்கோளிடப்படும்
+அச்சு வினா_மேற்கோள்(2026);

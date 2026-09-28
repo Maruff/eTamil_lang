@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடுத்த_நிலைகள்(வரைவு, இப்போதைய_நிலை) — where this state may go next, the buttons a screen draws__
+// இந்நிலையிலிருந்து செல்லக்கூடியவை
+
+இறக்கு "../nilYmARRam.qmz";
+இறக்கு "../mARRak_kOrikkY.qmz";
+
+வரைவு = மாற்றக்_கோரிக்கை_வரைவு();
+
+// __A change request just raised offers three buttons: review, reject, cancel.__
+// புதிய மாற்றக் கோரிக்கைக்கு மூன்று பொத்தான்கள்
+ஒவ்வொரு அடுத்தது இல் அடுத்த_நிலைகள்(வரைவு, "கோரியது") {
+    அச்சு அடுத்தது;
+}
+
+// __Approved is not the end. The one way on is revocation, so the screen of an__
+// __approved change still shows a button.__
+// ஏற்றதும் இறுதியல்ல; திரும்பப்பெறும் ஒரே வழி உண்டு
+அச்சு அடுத்த_நிலைகள்(வரைவு, "ஏற்றது");
+
+// __A state the machine does not recognise, here a typo, draws no buttons at__
+// __all rather than raising an error in the middle of the page.__
+// அறியாத நிலைக்குப் பொத்தான்களே இல்லை; பிழையும் இல்லை
+அச்சு நீளம்(அடுத்த_நிலைகள்(வரைவு, "ஏற்றத்து"));

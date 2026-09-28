@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qayArippu/vAkkuRuqi.qmz — வாக்குறுதி (release commitments to customers)__
+// வாடிக்கையாளருக்கு அளித்த வெளியீட்டு வாக்குறுதிகள்
+//
+// __A commitment is a feature promised to a customer for a date. The register of__
+// __them is what a product manager is judged on, and it is judged on two things:__
+// __was the feature delivered by the date, and when it was not, was the customer__
+// __told before the date passed rather than after.__
+//
+// __Its states, held in நடப்பு_நிலை:__
+//
+//   __ஏற்றது → ஒதுக்கியது → உறுதியளித்தது → கட்டுமானத்தில் → வெளியிட்டது__
+//
+// __with நழுவியது (slipped — it will miss the date) and விலக்கியது (withdrawn)__
+// __possible along the way. Delivered and withdrawn are closed; everything else__
+// __is open.__
+//
+// __The date that counts is the revised one when there is one, else the__
+// __original target. Revising the date does not reset the notice rules: the__
+// __customer was promised the target, so the question of whether they were told__
+// __in time is asked against the target.__
+
+// __வாக்குறுதி_ஆக்கு(வாக்குறுதிக்_குறி, இலக்கு_நாள், திருத்திய_நாள், வாக்குறுதி_நிலை, தெரிவித்த_நாள்) — one commitment__
+// வாக்குறுதி_ஆக்கு(வாக்குறுதிக்_குறி, இலக்கு_நாள், திருத்திய_நாள், வாக்குறுதி_நிலை, தெரிவித்த_நாள்) — ஒரு வாக்குறுதியை உருவாக்கும்
+//
+// __Dates are ISO text, "" when there is none: no revision yet, customer not yet__
+// __told. The state is not checked against the seven above, and a misspelt one__
+// __counts as open — the safe direction, since an open commitment is looked at —__
+// __so a register that takes states from a form should offer only those seven.__
+செயல் வாக்குறுதி_ஆக்கு(வாக்குறுதிக்_குறி, இலக்கு_நாள், திருத்திய_நாள், வாக்குறுதி_நிலை, தெரிவித்த_நாள்) {
+    திரும்பு {
+        வாக்குறுதிக்_குறி: வாக்குறுதிக்_குறி,
+        இலக்கு_நாள்: இலக்கு_நாள்,
+        திருத்திய_நாள்: திருத்திய_நாள்,
+        நடப்பு_நிலை: வாக்குறுதி_நிலை,
+        தெரிவித்த_நாள்: தெரிவித்த_நாள்
+    };
+}
+
+// __உரிய_நாள்(வாக்குறுதி) — the date the commitment is now due__
+// உரிய_நாள்(வாக்குறுதி) — வாக்குறுதி இப்போது நிறைவேற வேண்டிய நாள்
+செயல் உரிய_நாள்(வாக்குறுதி) {
+    (வாக்குறுதி.திருத்திய_நாள் != "") எனில் { திரும்பு வாக்குறுதி.திருத்திய_நாள்; }
+    திரும்பு வாக்குறுதி.இலக்கு_நாள்;
+}
+
+// __வாக்குறுதி_திறந்ததா(வாக்குறுதி) — is it still to be delivered?__
+// வாக்குறுதி_திறந்ததா(வாக்குறுதி) — இன்னும் நிறைவேற வேண்டியதா
+செயல் வாக்குறுதி_திறந்ததா(வாக்குறுதி) {
+    திரும்பு வாக்குறுதி.நடப்பு_நிலை != "வெளியிட்டது" மற்றும் வாக்குறுதி.நடப்பு_நிலை != "விலக்கியது";
+}
+
+// __வாக்குறுதி_கடந்ததா(வாக்குறுதி, இன்றைய_நாள்) — open and past its due date?__
+// வாக்குறுதி_கடந்ததா(வாக்குறுதி, இன்றைய_நாள்) — திறந்திருந்து உரிய நாள் கடந்ததா
+செயல் வாக்குறுதி_கடந்ததா(வாக்குறுதி, இன்றைய_நாள்) {
+    உரியது = உரிய_நாள்(வாக்குறுதி);
+    திரும்பு வாக்குறுதி_திறந்ததா(வாக்குறுதி) மற்றும் உரியது != "" மற்றும் உரியது < இன்றைய_நாள்;
+}
+
+// __அறிவிப்பு_தேவையா(வாக்குறுதி, இன்றைய_நாள்) — must the customer be told now?__
+// அறிவிப்பு_தேவையா(வாக்குறுதி, இன்றைய_நாள்) — வாடிக்கையாளருக்கு இப்போது தெரிவிக்க வேண்டுமா
+//
+// __Slipped, not yet told, and the target still ahead — the window in which__
+// __telling them is still telling them in time. Once the target passes it is no__
+// __longer "due" but "late", and அறிவிப்பு_தாமதமா picks it up. A commitment__
+// __with no target has no deadline to be late against, so it stays "due" until__
+// __the customer is told.__
+செயல் அறிவிப்பு_தேவையா(வாக்குறுதி, இன்றைய_நாள்) {
+    (வாக்குறுதி.நடப்பு_நிலை != "நழுவியது") எனில் { திரும்பு பொய்; }
+    (வாக்குறுதி.தெரிவித்த_நாள் != "") எனில் { திரும்பு பொய்; }
+    திரும்பு வாக்குறுதி.இலக்கு_நாள் == "" அல்லது வாக்குறுதி.இலக்கு_நாள் > இன்றைய_நாள்;
+}
+
+// __அறிவிப்பு_தாமதமா(வாக்குறுதி, இன்றைய_நாள்) — was, or is, the customer told too late?__
+// அறிவிப்பு_தாமதமா(வாக்குறுதி, இன்றைய_நாள்) — வாடிக்கையாளருக்குத் தாமதமாகத் தெரிவிக்கப்பட்டதா
+//
+// __Slipped, and either still untold on or after the target, or told after it.__
+// __Told on the target day itself counts as in time.__
+செயல் அறிவிப்பு_தாமதமா(வாக்குறுதி, இன்றைய_நாள்) {
+    (வாக்குறுதி.நடப்பு_நிலை != "நழுவியது" அல்லது வாக்குறுதி.இலக்கு_நாள் == "") எனில் { திரும்பு பொய்; }
+    (வாக்குறுதி.தெரிவித்த_நாள் == "") எனில் { திரும்பு வாக்குறுதி.இலக்கு_நாள் <= இன்றைய_நாள்; }
+    திரும்பு வாக்குறுதி.தெரிவித்த_நாள் > வாக்குறுதி.இலக்கு_நாள்;
+}
+
+// __தெரிவித்ததாகப்_பதி(வாக்குறுதி, நாள்) — record that the customer has been told__
+// தெரிவித்ததாகப்_பதி(வாக்குறுதி, நாள்) — வாடிக்கையாளருக்குத் தெரிவித்ததைப் பதியும்
+//
+// __Only the first time. The date is evidence of when the customer first heard,__
+// __and a later reminder overwriting it would make a late notice look timely.__
+செயல் தெரிவித்ததாகப்_பதி(வாக்குறுதி, நாள்) {
+    (வாக்குறுதி.தெரிவித்த_நாள் != "") எனில் { திரும்பு வாக்குறுதி; }
+    புதியது = வாக்குறுதி;
+    புதியது["தெரிவித்த_நாள்"] = நாள்;
+    திரும்பு புதியது;
+}
+
+// __வாக்குறுதி_எண்ணிக்கைகள்(வாக்குறுதிகள், இன்றைய_நாள்) — the register's dashboard figures__
+// வாக்குறுதி_எண்ணிக்கைகள்(வாக்குறுதிகள், இன்றைய_நாள்) — பதிவேட்டின் முகப்பு எண்ணிக்கைகள்
+//
+// __{மொத்தம், திறந்தவை, கடந்தவை, அறிவிப்பு_தேவை, அறிவிப்பு_தாமதம்}.__
+செயல் வாக்குறுதி_எண்ணிக்கைகள்(வாக்குறுதிகள், இன்றைய_நாள்) {
+    திறந்தவை = 0;
+    கடந்தவை = 0;
+    தேவை = 0;
+    தாமதம் = 0;
+    ஒவ்வொரு ஒன்று இல் வாக்குறுதிகள் {
+        (வாக்குறுதி_திறந்ததா(ஒன்று)) எனில் { திறந்தவை = திறந்தவை + 1; }
+        (வாக்குறுதி_கடந்ததா(ஒன்று, இன்றைய_நாள்)) எனில் { கடந்தவை = கடந்தவை + 1; }
+        (அறிவிப்பு_தேவையா(ஒன்று, இன்றைய_நாள்)) எனில் { தேவை = தேவை + 1; }
+        (அறிவிப்பு_தாமதமா(ஒன்று, இன்றைய_நாள்)) எனில் { தாமதம் = தாமதம் + 1; }
+    }
+    திரும்பு { மொத்தம்: நீளம்(வாக்குறுதிகள்), திறந்தவை: திறந்தவை, கடந்தவை: கடந்தவை,
+              அறிவிப்பு_தேவை: தேவை, அறிவிப்பு_தாமதம்: தாமதம் };
+}

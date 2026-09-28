@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆதரவு_நிலை(மாற்றிய_நாள், இன்றைய_நாள், ஆதரவு_மாதங்கள்) — where a version is in its support life__
+// ஒரு பதிப்பின் ஆதரவு நிலை
+
+இறக்கு "../paqippu.qmz";
+
+// __Nothing has replaced 6.4.0 yet, so it is current.__
+// எதுவும் மாற்றாததால் நடப்பு
+அச்சு ஆதரவு_நிலை("", "2026-09-28", 12);
+
+// __6.3.0 was replaced on 1 March 2026 and is still inside its twelve months.__
+// மாற்றப்பட்டது, ஆனால் இன்னும் ஆதரவு உண்டு
+அச்சு ஆதரவு_நிலை("2026-03-01", "2026-09-28", 12);
+
+// __Support ends on the anniversary itself, not the day after.__
+// ஆதரவு ஓராண்டு நிறையும் நாளிலேயே முடியும்
+அச்சு ஆதரவு_நிலை("2025-09-28", "2026-09-27", 12);
+அச்சு ஆதரவு_நிலை("2025-09-28", "2026-09-28", 12);
+
+// __Replaced on 31 January with one month of support: February has no 31st,__
+// __so support ends on the 28th.__
+// பிப்ரவரியில் முப்பத்தொன்று இல்லை; ஆதரவு இருபத்தெட்டில் முடியும்
+அச்சு ஆதரவு_நிலை("2026-01-31", "2026-02-27", 1);
+அச்சு ஆதரவு_நிலை("2026-01-31", "2026-02-28", 1);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒருமுறைக்_குறி(இணைப்புக்_குறி, பொருள்_வகை, செயல்பாடு, புலத்_தொகுப்பு, ரகசிய_விசை) — the key that stops one job being queued twice__
+// ஒரே வேலை இருமுறை வரிசைப்படாமல் தடுக்கும் குறி
+
+இறக்கு "../kYrEkY.qmz";
+
+ரகசியம் = "fake-secret-for-samples";
+மாற்றம் = { "பணிக்_குறி": "PMO-118", "நடப்பு_நிலை": "நடப்பில்" };
+
+// __A save fires the trigger twice. Both firings give the same key, so the__
+// __second insert hits the unique constraint and nothing is queued twice.__
+// தூண்டல் இருமுறை இயங்கினாலும் குறி ஒன்றே; இரண்டாவது சேர்ப்பு நடக்காது
+முதல்_குறி = ஒருமுறைக்_குறி("இணைப்பு-1", "பணி", "திருத்து", மாற்றம், ரகசியம்);
+மறு_குறி = ஒருமுறைக்_குறி("இணைப்பு-1", "பணி", "திருத்து", மாற்றம், ரகசியம்);
+அச்சு முதல்_குறி == மறு_குறி;
+
+// __Another operation on the same fields is another job...__
+// அதே புலங்களில் வேறு செயல்பாடு வேறு வேலை
+அச்சு ஒருமுறைக்_குறி("இணைப்பு-1", "பணி", "உருவாக்கு", மாற்றம், ரகசியம்) == முதல்_குறி;
+
+// __...and so is the same change pushed to a second Azure DevOps connection.__
+// இரண்டாவது இணைப்புக்கு அதே மாற்றமும் வேறு வேலையே
+அச்சு ஒருமுறைக்_குறி("இணைப்பு-2", "பணி", "திருத்து", மாற்றம், ரகசியம்) == முதல்_குறி;

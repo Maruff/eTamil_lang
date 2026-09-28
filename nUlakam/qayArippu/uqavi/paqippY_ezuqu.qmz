@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிப்பை_எழுது(ஒரு_பதிப்பு) — a version record as text__
+// பதிப்புப் பதிவை உரையாக்கும்
+
+இறக்கு "../paqippu.qmz";
+
+அச்சு பதிப்பை_எழுது({ பெரும்_எண்: 6, சிறு_எண்: 10, திருத்த_எண்: 0 });
+
+// __Written without the V, whatever the input had: "V6.3.1" reads and writes__
+// __back as 6.3.1. Add the V yourself where a branch name needs it.__
+// உள்ளீட்டில் வி இருந்தாலும் எழுதும்போது இருக்காது; கிளைப் பெயருக்கு நீங்களே சேர்க்கவும்
+படித்தது = மதிப்பு(பதிப்பைப்_படி("V6.3.1"));
+அச்சு பதிப்பை_எழுது(படித்தது);
+அச்சு "V" & பதிப்பை_எழுது(படித்தது);
+
+// __Apart from the V, reading and writing round-trip exactly, because the reader__
+// __refuses anything — such as a leading zero — that would be written back differently.__
+// வி தவிர, படித்து எழுதினால் அதே உரை மீளும்; வேறாக மீளக்கூடியவற்றைப் படிப்பதே மறுக்கும்
+அச்சு பதிப்பை_எழுது(மதிப்பு(பதிப்பைப்_படி("6.10.0"))) == "6.10.0";

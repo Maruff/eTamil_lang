@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இறுதி_நிலையா(வரைவு, ஒரு_நிலை) — has this state nowhere left to go?__
+// இது இறுதி நிலையா
+
+இறக்கு "../nilYmARRam.qmz";
+இறக்கு "../mARRak_kOrikkY.qmz";
+
+வரைவு = மாற்றக்_கோரிக்கை_வரைவு();
+
+// __Rejected and revoked are the end of a change request.__
+// மறுத்ததும் திரும்பப்பெற்றதும் இறுதி நிலைகள்
+அச்சு இறுதி_நிலையா(வரைவு, "மறுத்தது");
+அச்சு இறுதி_நிலையா(வரைவு, "திரும்பப்பெற்றது");
+
+// __Approved is not, because it can still be revoked. A register that closes__
+// __approved changes as final loses the ability to take one back.__
+// ஏற்றது இறுதியல்ல; அதைத் திரும்பப்பெறலாம்
+அச்சு இறுதி_நிலையா(வரைவு, "ஏற்றது");
+
+// __A state the machine does not know has no next states, so it reads as__
+// __terminal. Check a state is known before trusting this answer.__
+// அறியாத நிலைக்கு அடுத்த நிலைகள் இல்லை; ஆகவே அது இறுதியாகத் தோன்றும்
+அச்சு இறுதி_நிலையா(வரைவு, "ஏற்றத்து");

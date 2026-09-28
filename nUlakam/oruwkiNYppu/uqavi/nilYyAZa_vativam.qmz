@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையான_வடிவம்(மதிப்பு_தரவு) — a value with every number in its shortest form__
+// எண்களைச் சுருக்கிய நிலையான வடிவம்
+
+இறக்கு "../kYrEkY.qmz";
+
+// __An estimate read back from a NUMERIC column carries a scale the task never__
+// __had. As JSON the two copies differ, though they are the same task.__
+// தரவுத்தளத்திலிருந்து படித்த மதிப்பீட்டில் கூடுதல் பதின்மங்கள் வரும்
+எழுதியது = { "மதிப்பீட்டு_மணி": 5, "விலை": 3.1 };
+படித்தது = { "மதிப்பீட்டு_மணி": 5.0, "விலை": 3.10 };
+அச்சு ஜேசான்_ஆக்கு(படித்தது);
+அச்சு ஜேசான்_ஆக்கு(எழுதியது) == ஜேசான்_ஆக்கு(படித்தது);
+
+// __Rewritten in their shortest form, they agree.__
+// சுருக்கிய வடிவில் இரண்டும் ஒன்றே
+அச்சு ஜேசான்_ஆக்கு(நிலையான_வடிவம்(படித்தது));
+அச்சு ஜேசான்_ஆக்கு(நிலையான_வடிவம்(எழுதியது)) == ஜேசான்_ஆக்கு(நிலையான_வடிவம்(படித்தது));
+
+// __It walks into arrays, and leaves text alone: "5.0" typed as text stays text,__
+// __because a version string is not a number.__
+// அணிகளுக்குள்ளும் செல்லும்; உரையாக உள்ள "5.0" மாறாது
+அச்சு ஜேசான்_ஆக்கு(நிலையான_வடிவம்([2.50, "5.0", மெய்]));

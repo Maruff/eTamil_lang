@@ -1,0 +1,172 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒருங்கிணைப்பு_சோதனை — tests for the Azure DevOps integration modules__
+// அஜூர் டெவ்ஆப்ஸ் ஒருங்கிணைப்புத் தொகுதிகளுக்கான சோதனைகள்
+//
+// __Run it like any other program:  etamil --vm nUlakam/oruwkiNYppu/oruwkiNYppu_cOqaZY.qmz__
+// __It exits non-zero if anything fails, so it works as a CI step.__
+//
+// __Nothing here reaches the network. The one request that is sent goes to__
+// __127.0.0.1:9, which refuses at once, to pin the shape of a failure.__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "varYpatam.qmz";
+இறக்கு "pula_urimY.qmz";
+இறக்கு "mItci.qmz";
+இறக்கு "kYrEkY.qmz";
+இறக்கு "ottu.qmz";
+இறக்கு "viZA.qmz";
+இறக்கு "varavu.qmz";
+இறக்கு "aZuppu_varicY.qmz";
+இறக்கு "ajUr.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("ஒருங்கிணைப்பு — Azure DevOps integration");
+
+// =========================================================================
+// __வரைபடம் — states, priorities, types, progress__
+// =========================================================================
+//
+// __A made-up process that renamed every state, so only the categories help.__
+
+விசித்திர_நிலைகள் = [{"name": "Idea", "category": "Proposed"},
+                     {"name": "Doing", "category": "InProgress"},
+                     {"name": "Ready for UAT", "category": "InProgress"},
+                     {"name": "Shipped", "category": "Completed"}];
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(வெளி_நிலை("நடப்பில்", விசித்திர_நிலைகள்)), "Doing", "a candidate name wins");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(வெளி_நிலை("தீர்ந்தது", விசித்திர_நிலைகள்)), "Ready for UAT", "including a Ready state");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(வெளி_நிலை("மூடியது", விசித்திர_நிலைகள்)), "Shipped", "else the category decides");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(வெளி_நிலை("கைவிட்டது", விசித்திர_நிலைகள்)),
+                  "a type with no Removed state cannot represent cancelled");
+
+ஓட்டம் = சமம்(ஓட்டம், உள்_நிலை("Ready for UAT", "InProgress"), "தீர்ந்தது", "a Ready state is resolved");
+ஓட்டம் = சமம்(ஓட்டம், உள்_நிலை("Shipped", "Completed"), "மூடியது", "Completed is closed");
+ஓட்டம் = சமம்(ஓட்டம், உள்_நிலை("Parked", "Mystery"), "நடப்பில்", "anything unknown is in progress");
+
+ஓட்டம் = சமம்(ஓட்டம், முன்னுரிமை_எண்("மிக_உயர்"), 1, "critical is priority 1");
+ஓட்டம் = சமம்(ஓட்டம், முன்னுரிமை_எண்(""), 3, "unset is 3, not 1");
+ஓட்டம் = சமம்(ஓட்டம், எண்ணிலிருந்து_முன்னுரிமை(4), "குறைவு", "4 comes back as low");
+
+விதிகள் = [வகை_விதி_ஆக்கு("", "", "Task", 100), வகை_விதி_ஆக்கு("பணி_வகை", "மைல்கல்", "Feature", 10)];
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பணியுருப்படி_வகை(விதிகள், {பணி_வகை: "மைல்கல்"})), "Feature",
+              "the specific rule is tried before the default");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பணியுருப்படி_வகை(விதிகள், {பணி_வகை: "பணி"})), "Task", "and the default catches the rest");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பணியுருப்படி_வகை([விதிகள்[1]], {})), "with no default, no match is refused");
+
+ஓட்டம் = சமம்(ஓட்டம், மணியிலிருந்து_நிறைவு(6, 2), 75, "6 of 8 hours is 75%");
+ஓட்டம் = சமம்(ஓட்டம், மணியிலிருந்து_நிறைவு(0, 0), இன்மை, "no hours at all is no figure");
+
+// =========================================================================
+// __புல உரிமை — who owns what__
+// =========================================================================
+
+உரிமைகள் = இயல்பு_உரிமைகள்();
+பிரித்தது = வரவைப்_பிரி(உரிமைகள், {"தலைப்பு": "renamed", நிறைவு: 40, நடப்பு_நிலை: "நடப்பில்", புதியது: 1});
+ஓட்டம் = சமம்(ஓட்டம், பிரித்தது.ஏற்பவை.நிறைவு, 40, "their progress is accepted");
+ஓட்டம் = சமம்(ஓட்டம், பிரித்தது.ஏற்பவை.நடப்பு_நிலை, "நடப்பில்", "so is the shared status");
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(பிரித்தது.மறுப்பவை), 2, "our title and an unknown field are refused");
+அனுப்ப = அனுப்பவேண்டியவை(உரிமைகள், {"தலைப்பு": "x", நிறைவு: 40, நடப்பு_நிலை: "நடப்பில்"});
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை புலம்_உள்ளதா(அனுப்ப, "நிறைவு"), "their field is never sent back");
+ஓட்டம் = சமம்(ஓட்டம், உரிமையாளர்(உரிமைகள், "பொருத்தமில்லாதது"), "யாருமில்லை", "an unlisted field belongs to nobody");
+
+// =========================================================================
+// __மீட்சி and the outbox__
+// =========================================================================
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், மீள்_முயலத்தக்கதா(503), "503 is worth retrying");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், மீள்_முயலத்தக்கதா(0), "so is no response at all");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை மீள்_முயலத்தக்கதா(400), "400 is not");
+ஓட்டம் = சமம்(ஓட்டம், காத்திருப்பு_நொடிகள்(3, 1, 0), 8, "the third retry waits 8 seconds");
+ஓட்டம் = சமம்(ஓட்டம், காத்திருப்பு_நொடிகள்(12, 1, 0), 300, "capped at five minutes");
+ஓட்டம் = சமம்(ஓட்டம், காத்திருப்பு_நொடிகள்(3, 9, 0), 10, "jitter is held to 1.3");
+ஓட்டம் = சமம்(ஓட்டம், காத்திருப்பு_நொடிகள்(3, 1, 45), 45, "Retry-After wins");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கைவிடலாமா(8), "eight attempts is the last");
+
+முதல்_உருப்படி = அனுப்பு_உருப்படி_ஆக்கு("T1", "பணி", "உருவாக்கு", 1, "k1");
+மைல்_உருப்படி = அனுப்பு_உருப்படி_ஆக்கு("M1", "மைல்கல்", "உருவாக்கு", 0, "k2");
+தோற்றது = தோல்வியைப்_பதி(முதல்_உருப்படி, 503, "busy", 1000, 1, 0);
+ஓட்டம் = சமம்(ஓட்டம், தோற்றது.அடுத்த_முயற்சி, 1002, "one failed attempt waits 2 seconds");
+ஓட்டம் = சமம்(ஓட்டம், தோல்வியைப்_பதி(முதல்_உருப்படி, 400, "bad", 1000, 1, 0).நடப்பு_நிலை, "தேங்கியது",
+              "a permanent failure is parked at once");
+தயார் = அனுப்பத்_தயாரானவை([முதல்_உருப்படி, மைல்_உருப்படி], 0);
+ஓட்டம் = சமம்(ஓட்டம், தயார்[0].பொருள்_குறி, "M1", "the milestone goes before the task under it");
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(அனுப்பத்_தயாரானவை([தோற்றது], 1001)), 0, "a row waiting out its backoff is not ready");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், வரிசையில்_உள்ளதா([முதல்_உருப்படி], "k1"), "a waiting job is already queued");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை வரிசையில்_உள்ளதா([அனுப்பியதாகப்_பதி(முதல்_உருப்படி)], "k1"),
+                  "a sent one is history");
+
+// =========================================================================
+// __கைரேகை, ஒட்டு, வினா__
+// =========================================================================
+
+ஓட்டம் = சமம்(ஓட்டம், கைரேகை({அ: 1, ஆ: [5.0]}, "k"), கைரேகை({ஆ: [5], அ: 1}, "k"),
+              "key order and trailing zeros do not change a fingerprint");
+ஓட்டம் = வேறுபடு(ஓட்டம், கைரேகை({அ: 1}, "k"), கைரேகை({அ: 2}, "k"), "a value does");
+ஓட்டம் = வேறுபடு(ஓட்டம், கைரேகை({அ: 1}, "k"), கைரேகை({அ: 1}, "j"), "and so does the key");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை கைரேகை_ஒன்றா("ab", "abc"), "fingerprints of different length differ");
+ஓட்டம் = சமம்(ஓட்டம், ஒருமுறைக்_குறி("c", "பணி", "திருத்து", {அ: 1}, "k"),
+              ஒருமுறைக்_குறி("c", "பணி", "திருத்து", {அ: 1}, "k"), "the same job has the same key");
+
+ஓட்டம் = சமம்(ஓட்டம், குறிச்சொற்களை_இணை("WBS:1.2; team-x ;Phase:2", ["WBS:1.3"], ["WBS:", "Phase:"]),
+              "team-x; WBS:1.3", "our tags are replaced and the team's kept");
+ஓட்டம் = சமம்(ஓட்டம், குறிச்சொற்களை_இணை("", ["Beak:on"], ["Beak:"]), "Beak:on", "an empty tag field");
+
+ஒட்டுகள் = பணி_ஒட்டுகள்({"தலைப்பு": "Build API", விவரம்: "", மதிப்பீட்டு_மணி: 16},
+                        {"தலைப்பு": "System.Title", "விவரம்": "System.Description",
+                         "இறுதி_நாள்": "Microsoft.VSTS.Scheduling.DueDate"}, 7);
+ஓட்டம் = சமம்(ஓட்டம், ஒட்டுகள்[0]["op"], "test", "an update starts with the revision test");
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(ஒட்டுகள்), 3, "a missing due date is left out, not cleared");
+ஓட்டம் = சமம்(ஓட்டம், ஒட்டுகள்[1]["value"], "Build API", "a blank description is sent as the title");
+ஓட்டம் = சமம்(ஓட்டம், பெற்றோர்_ஒட்டு("u")["value"]["rel"], "System.LinkTypes.Hierarchy-Reverse",
+              "the parent link type");
+
+ஓட்டம் = சமம்(ஓட்டம், வினா_மேற்கோள்("O'Brien"), "'O''Brien'", "a quote inside a WIQL literal is doubled");
+ஓட்டம் = சமம்(ஓட்டம், தேடல்_தொடக்க_நாள்("", "2026-09-28"), "2026-08-29", "the first sweep looks back 30 days");
+ஓட்டம் = சமம்(ஓட்டம், தேடல்_தொடக்க_நாள்("2026-09-20", "2026-09-28"), "2026-09-19", "later ones overlap a day");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(மாறியவை_வினா("P", "2026-09-19", "P\\A"), "UNDER 'P\\A'"),
+                  "an area path narrows the sweep");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை கொண்டுள்ளதா(மாறியவை_வினா("P", "2026-09-19", ""), "UNDER"),
+                  "and no area path searches the project");
+
+// =========================================================================
+// __வரவு — echoes and hooks__
+// =========================================================================
+
+ஓட்டம் = சமம்(ஓட்டம், வரவு_முடிவு(5, 5, "a", "svc", "x", "y"), "எதிரொலி", "a revision we pushed is an echo");
+ஓட்டம் = சமம்(ஓட்டம், வரவு_முடிவு(6, 5, "svc", "svc", "x", "y"), "எதிரொலி", "so is a change by our identity");
+ஓட்டம் = சமம்(ஓட்டம், வரவு_முடிவு(6, 5, "a", "svc", "x", "x"), "மாற்றமில்லை", "same fingerprint, nothing new");
+ஓட்டம் = சமம்(ஓட்டம், வரவு_முடிவு(6, 5, "a", "svc", "x", "y"), "ஏற்கலாம்", "a real change is applied");
+ஓட்டம் = சமம்(ஓட்டம், வரவு_முடிவு(1, 0, "a", "", "x", ""), "ஏற்கலாம்", "never pushed, never applied: apply");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொக்கிச்_சீட்டு_சரியா("tok", கைரேகை("tok", "k"), "k"), "the right hook token passes");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை கொக்கிச்_சீட்டு_சரியா("tok2", கைரேகை("tok", "k"), "k"), "a wrong one does not");
+மாற்றிய_கொக்கி = மதிப்பு(கொக்கி_நிகழ்வைப்_படி(
+    "{\"id\": \"e1\", \"eventType\": \"workitem.updated\", \"resource\": {\"id\": 3, \"workItemId\": 42, \"rev\": 9}}"));
+ஓட்டம் = சமம்(ஓட்டம், மாற்றிய_கொக்கி.பணியுருப்படி_எண், 42, "an update hook names the item in workItemId");
+புதிய_கொக்கி = மதிப்பு(கொக்கி_நிகழ்வைப்_படி(
+    "{\"id\": \"e2\", \"eventType\": \"workitem.created\", \"resource\": {\"id\": 42, \"rev\": 1}}"));
+ஓட்டம் = சமம்(ஓட்டம், புதிய_கொக்கி.பணியுருப்படி_எண், 42, "a create hook names it in id");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கொக்கி_நிகழ்வைப்_படி("{}")), "a hook with no resource is refused");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கொக்கி_நிகழ்வைப்_படி("not json")), "and so is one that is not JSON");
+
+// =========================================================================
+// __அஜூர் — the REST client__
+// =========================================================================
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("https://dev.azure.com/beak/", "Beak PMO", "PAT", "abc");
+ஓட்டம் = சமம்(ஓட்டம், பணியுருப்படி_உரலி(இணைப்பு, 42),
+              "https://dev.azure.com/beak/Beak%20PMO/_apis/wit/workitems/42?api-version=7.1",
+              "a work item url, trailing slash and space handled");
+ஓட்டம் = சமம்(ஓட்டம், திட்ட_உரலி(இணைப்பு, "wit/wiql?x=1"),
+              "https://dev.azure.com/beak/Beak%20PMO/_apis/wit/wiql?x=1&api-version=7.1",
+              "a path with a query string gets & not a second ?");
+ஓட்டம் = சமம்(ஓட்டம், புலம்_அல்லது(அஜூர்_தலைப்புகள்(இணைப்பு, ""), "Authorization", ""), "Basic OmFiYw==",
+              "a PAT is Basic with an empty user");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை புலம்_உள்ளதா(அஜூர்_தலைப்புகள்(இணைப்பு, ""), "Content-Type"),
+                  "a read sends no content type");
+தாங்கி = அஜூர்_இணைப்பு_ஆக்கு("https://dev.azure.com/beak", "P", "Bearer", "eyJ");
+ஓட்டம் = சமம்(ஓட்டம், புலம்_அல்லது(அஜூர்_தலைப்புகள்(தாங்கி, ""), "Authorization", ""), "Bearer eyJ", "an Entra token is Bearer");
+மறுத்தது = பணியுருப்படியைப்_பெறு(அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "p", "PAT", "x"), 1);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(மறுத்தது), "an unreachable service is a தவறு");
+ஓட்டம் = சமம்(ஓட்டம், தவறு_மதிப்பு(மறுத்தது).நிலைக்_குறி, 0, "with status 0, which the outbox retries");
+
+சோதனை_முடிவு(ஓட்டம்);

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடக்கத்_தேடல்_நாட்கள்() — how far the first sweep looks back__
+// முதல் தேடல் பின்னோக்கிப் பார்க்கும் நாட்கள்
+
+இறக்கு "../viZA.qmz";
+
+அச்சு தொடக்கத்_தேடல்_நாட்கள்();
+
+// __A project connected today, with no watermark yet, sweeps from thirty days__
+// __ago rather than from the beginning of time: a ten-year-old project has__
+// __items nobody wants pulled into a new PMO.__
+// நீர்க்குறி இல்லாத புதிய இணைப்பு முப்பது நாள் முன்பிலிருந்து தேடும்
+அச்சு தேடல்_தொடக்க_நாள்("", "2026-09-28");
+
+// __Once a sweep has applied cleanly the watermark takes over, and the thirty__
+// __days no longer matter.__
+// ஒரு தேடல் சரியாக முடிந்தபின் நீர்க்குறியே தொடக்கம்
+அச்சு தேடல்_தொடக்க_நாள்("2026-09-27", "2026-09-28");

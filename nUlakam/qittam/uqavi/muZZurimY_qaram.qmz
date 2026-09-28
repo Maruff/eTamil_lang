@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்னுரிமை_தரம்(முன்னுரிமை) — a priority as a sortable rank__
+// முன்னுரிமையை வரிசைப்படுத்தும் எண்ணாக்கும்
+
+இறக்கு "../paNi.qmz";
+
+// __Lower is more urgent, so an ascending sort puts the fire at the top.__
+// சிறிய எண் அதிக அவசரம்
+ஒவ்வொரு ஒன்று இல் ["மிக_உயர்", "உயர்", "நடுத்தர", "குறைவு"] {
+    அச்சு ஒன்று & " " & சொல்லாக்கு(முன்னுரிமை_தரம்(ஒன்று));
+}
+
+// __A priority nobody set, or one spelt differently, is 9 and sorts last rather__
+// __than stopping the backlog from being shown.__
+// அமைக்காத அல்லது வேறுவிதமாக எழுதிய முன்னுரிமை 9, கடைசியில் வரும்
+அச்சு முன்னுரிமை_தரம்("");
+அச்சு முன்னுரிமை_தரம்("அவசரம்");
+
+// __So a login outage marked மிக_உயர் outranks a report typo marked உயர்.__
+// ஆகவே மிக_உயர் பணி உயர் பணிக்கு முன் வரும்
+அச்சு முன்னுரிமை_தரம்("மிக_உயர்") < முன்னுரிமை_தரம்("உயர்");

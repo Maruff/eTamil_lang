@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மைல்கல்_ஆக்கு(மைல்கல்_குறி, அடிப்படை_நாள், முன்கணிப்பு_நாள், உண்மை_நாள், மைல்கல்_நிலை) — one milestone__
+// ஒரு மைல்கல்லை உருவாக்கும்
+
+இறக்கு "../nalam.qmz";
+
+// __User acceptance testing, promised for 1 October, now forecast for the 8th.__
+// __The actual is "" because it has not happened yet.__
+// பயனர் ஏற்புச் சோதனை: அக்டோபர் 1 வாக்களித்தது, இப்போது 8 எனக் கணிப்பு
+ஏற்புச்_சோதனை = மைல்கல்_ஆக்கு("M3", "2026-10-01", "2026-10-08", "", "இடரில்");
+அச்சு ஏற்புச்_சோதனை.மைல்கல்_குறி & " " & ஏற்புச்_சோதனை.முன்கணிப்பு_நாள்;
+
+// __The status lands in நடப்பு_நிலை, like every other lifecycle in qittam.__
+// நிலை நடப்பு_நிலை புலத்தில் சேமிக்கப்படும்
+அச்சு ஏற்புச்_சோதனை.நடப்பு_நிலை;
+
+// __The baseline never moves. Replanning changes the forecast, and the gap__
+// __between the two is what the steering committee reads.__
+// அடிப்படை நாள் மாறாது; மறுதிட்டம் முன்கணிப்பையே மாற்றும்
+அச்சு ஏற்புச்_சோதனை.அடிப்படை_நாள்;
+அச்சு மைல்கல்_வேறுபாடு(ஏற்புச்_சோதனை);
