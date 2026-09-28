@@ -8,6 +8,29 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## 1.4.2 — 2026-09-28
+
+Security updates to two dependencies. The language, and what every program
+means, are unchanged.
+
+### Security
+
+- **rustls 0.23.43 → 0.23.45**, for
+  [RUSTSEC-2026-0285](https://rustsec.org/advisories/RUSTSEC-2026-0285):
+  TLS 1.3 handshake messages were accepted across encryption-level
+  boundaries (medium, 5.3). rustls carries outbound HTTP, as `வலை_பெறு` and
+  the rest, and the optional `rustls` feature. Both the compiler and the
+  Android app update.
+- **rust_decimal 1.42.1 → 1.43.0**, which removes rkyv, and
+  [RUSTSEC-2026-0235](https://rustsec.org/advisories/RUSTSEC-2026-0235) with
+  it, from both lockfiles. rkyv was never compiled into eTamil. It was listed
+  only because rust_decimal's `std` feature named it, and Cargo locks a crate
+  behind a weak dependency feature even when nothing turns that feature on.
+
+`cargo audit` now reports no vulnerabilities.
+
+---
+
 ## 1.4.1 — 2026-09-28
 
 A fix to 1.4.0: reading JSON rounded a number with more than about 17

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.2
+
+### Changed
+
+- The carried compiler is 1.4.2, with the security updates to rustls and
+  rust_decimal. See the repository's CHANGELOG.
+
 ## 1.4.1
 
 ### Changed

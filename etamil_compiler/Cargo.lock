@@ -787,7 +787,7 @@ dependencies = [
 
 [[package]]
 name = "etamil_compiler"
-version = "1.4.1"
+version = "1.4.2"
 dependencies = [
  "argon2",
  "base64 0.22.1",
