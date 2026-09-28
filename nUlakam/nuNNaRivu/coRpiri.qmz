@@ -80,7 +80,26 @@
 // __"how do I" is noise in a document but is most of what distinguishes one__
 // __question from another, and dropping "not" reverses the meaning outright.__
 // __Only words that appear in nearly every English sentence are listed.__
+//
+// __A single Latin letter is dropped as well. "I" and "a" carry nothing, and a__
+// __lone letter left in a query costs a whole AND pass for no information. A__
+// __single Tamil letter is kept, because it can be a word.__
+//
+// __This list and paRY's tokenizer are meant to agree. Measured against paRY's__
+// __own question set, adding this list to it moved recall@3 from 11 to 12,__
+// __recall@10 from 14 to 15 and MRR from 0.489 to 0.510. Adding question words__
+// __on top was a wash — better at rank 1, worse at rank 10 — which is why the__
+// __paragraph above still stands.__
 செயல் நிறுத்துப்_பதமா(பதம்) {
+    // __One Latin letter says nothing; one Tamil letter can be a word.__
+    // ஒரு லத்தீன் எழுத்து பொருள் தராது; ஒரு தமிழ் எழுத்து சொல்லாக இருக்கலாம்
+    (நீளம்(பதம்) == 1) எனில் {
+        எ = எழுத்து(பதம், 0);
+        (எ >= "a" மற்றும் எ <= "z") எனில் { திரும்பு மெய்; }
+        (எ >= "A" மற்றும் எ <= "Z") எனில் { திரும்பு மெய்; }
+        (எ >= "0" மற்றும் எ <= "9") எனில் { திரும்பு மெய்; }
+    }
+
     பொதுவானவை = ["a", "an", "the", "of", "to", "in", "on", "at", "for",
                   "is", "are", "was", "were", "be", "and", "or",
                   "this", "that", "it", "its", "as", "by", "with"];

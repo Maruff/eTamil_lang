@@ -11014,7 +11014,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "நிறுத்துப்_பதமா(பதம்) — is this word too common to carry meaning?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 83
+    "line": 93
   },
   {
     "name": "பொருளுள்ளவை",
@@ -11028,7 +11028,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பொருளுள்ளவை(பதங்கள்_பட்டியல்) — drop the stop words",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 96
+    "line": 115
   },
   {
     "name": "பிரிப்பானா",
@@ -11042,7 +11042,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பிரிப்பானா(எழுத்து_ஒன்று) — does this character end a term?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 113
+    "line": 132
   },
   {
     "name": "தனிப்பதங்கள்",
@@ -11056,7 +11056,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — the distinct terms, first occurrence kept",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 119
+    "line": 138
   },
   {
     "name": "தேடல்_பதங்கள்",
@@ -11070,7 +11070,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "தேடல்_பதங்கள்(சரம்) — the whole pipeline, which is what callers want",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/coRpiri.qmz",
-    "line": 136
+    "line": 155
   },
   {
     "name": "கே1",
