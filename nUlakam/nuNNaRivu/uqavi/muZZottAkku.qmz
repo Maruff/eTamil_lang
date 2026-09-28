@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __muZZottAkku — the prefix form, so a half-typed word still matches__
+// முன்னொட்டாக்கு — பாதி எழுதிய சொல்லும் பொருந்தும் வடிவம்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __FTS5 spells this "word" * — the star sits OUTSIDE the quotes. Inside__
+// __them it would be a literal asterisk to search for.__
+// நட்சத்திரம் மேற்கோளுக்கு வெளியே நிற்கும்
+அச்சு முன்னொட்டாக்கு("கண");
+அச்சு முன்னொட்டாக்கு("வரி");

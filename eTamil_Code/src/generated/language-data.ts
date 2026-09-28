@@ -11159,6 +11159,72 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 108
   },
   {
+    "name": "அட்டவணையை_நிரப்பு",
+    "forms": [
+      "அட்டவணையை_நிரப்பு"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "அட்டவணையை_நிரப்பு() — build the lookup table in the open database",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 31
+  },
+  {
+    "name": "வேறு_வடிவங்கள்",
+    "forms": [
+      "வேறு_வடிவங்கள்"
+    ],
+    "params": [
+      "ஒரு_சொல்"
+    ],
+    "arity": 1,
+    "doc": "வேறு_வடிவங்கள்(சொல்) — every spelling of the name this word is",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 54
+  },
+  {
+    "name": "விரிந்த_பதங்கள்",
+    "forms": [
+      "விரிந்த_பதங்கள்"
+    ],
+    "params": [
+      "பதங்கள்"
+    ],
+    "arity": 1,
+    "doc": "விரிந்த_பதங்கள்(பதங்கள்) — the words asked for, plus the other spellings",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 79
+  },
+  {
+    "name": "பெயரா",
+    "forms": [
+      "பெயரா"
+    ],
+    "params": [
+      "ஒரு_சொல்"
+    ],
+    "arity": 1,
+    "doc": "பெயரா(சொல்) — is this word a name the language knows under another spelling?",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 93
+  },
+  {
+    "name": "வடிவக்_குழுக்கள்",
+    "forms": [
+      "வடிவக்_குழுக்கள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "வடிவக்_குழுக்கள்() — one array per name, holding its spellings",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam_qaravu.qmz",
+    "line": 15
+  },
+  {
     "name": "ஆவணம்_ஆக்கு",
     "forms": [
       "ஆவணம்_ஆக்கு"
@@ -11465,6 +11531,153 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/matakkY.qmz",
     "line": 52
+  },
+  {
+    "name": "பெயர்_சரியா",
+    "forms": [
+      "பெயர்_சரியா"
+    ],
+    "params": [
+      "பெயர்"
+    ],
+    "arity": 1,
+    "doc": "பெயர்_சரியா(பெயர்) — is this safe to write into SQL as an identifier?",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 36
+  },
+  {
+    "name": "சொல்_தப்பி",
+    "forms": [
+      "சொல்_தப்பி"
+    ],
+    "params": [
+      "சொல்_ஒன்று"
+    ],
+    "arity": 1,
+    "doc": "சொல்_தப்பி(சொல்) — one word as an FTS5 string literal",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 59
+  },
+  {
+    "name": "முன்னொட்டாக்கு",
+    "forms": [
+      "முன்னொட்டாக்கு"
+    ],
+    "params": [
+      "சொல்_ஒன்று"
+    ],
+    "arity": 1,
+    "doc": "முன்னொட்டாக்கு(சொல்) — the prefix form, so a half-typed word still matches",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 76
+  },
+  {
+    "name": "வினவல்_ஆக்கு",
+    "forms": [
+      "வினவல்_ஆக்கு"
+    ],
+    "params": [
+      "கேள்வி",
+      "முன்னொட்டா"
+    ],
+    "arity": 2,
+    "doc": "வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — one MATCH expression from a question",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 90
+  },
+  {
+    "name": "வினவல்_வரிசை",
+    "forms": [
+      "வினவல்_வரிசை"
+    ],
+    "params": [
+      "கேள்வி"
+    ],
+    "arity": 1,
+    "doc": "வினவல்_வரிசை(கேள்வி) — the passes to try, narrowest first",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 119
+  },
+  {
+    "name": "அட்டவணை_ஆக்கு",
+    "forms": [
+      "அட்டவணை_ஆக்கு"
+    ],
+    "params": [
+      "அட்டவணை",
+      "நெடுவரிசைகள்"
+    ],
+    "arity": 2,
+    "doc": "அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — make the index",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 152
+  },
+  {
+    "name": "ஆவணம்_இடு",
+    "forms": [
+      "ஆவணம்_இடு"
+    ],
+    "params": [
+      "அட்டவணை",
+      "நெடுவரிசைகள்",
+      "மதிப்புகள்"
+    ],
+    "arity": 3,
+    "doc": "ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) — put one document in",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 179
+  },
+  {
+    "name": "எடைப்_பட்டி",
+    "forms": [
+      "எடைப்_பட்டி"
+    ],
+    "params": [
+      "எடைகள்"
+    ],
+    "arity": 1,
+    "doc": "எடைப்_பட்டி(எடைகள்) — the per-column weights bm25() takes after the table",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 208
+  },
+  {
+    "name": "முழுப்_பொருத்தம்",
+    "forms": [
+      "முழுப்_பொருத்தம்"
+    ],
+    "params": [
+      "அட்டவணை",
+      "கேள்வி",
+      "எடைகள்",
+      "எண்ணிக்கை"
+    ],
+    "arity": 4,
+    "doc": "முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) — search, best first",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 231
+  },
+  {
+    "name": "ஆவண_எண்ணிக்கை",
+    "forms": [
+      "ஆவண_எண்ணிக்கை"
+    ],
+    "params": [
+      "அட்டவணை"
+    ],
+    "arity": 1,
+    "doc": "ஆவண_எண்ணிக்கை(அட்டவணை) — how many documents the index holds",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 259
   },
   {
     "name": "பொதிந்த_ஆவணம்",

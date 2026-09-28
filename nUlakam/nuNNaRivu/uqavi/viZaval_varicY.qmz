@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __viZaval_varicY — the passes to try, narrowest first__
+// வினவல்_வரிசை — முயற்சிக்க வேண்டிய வினவல்கள், குறுகியது முதலில்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __Three passes for a question of several words: every word together, then__
+// __any of them, then the longest as a prefix. The order is the point — start__
+// __wide and a document sharing one common word outranks nothing, because__
+// __there is no narrower answer left to prefer.__
+// வரிசையே முக்கியம்: குறுகியது முதலில், விரிந்தது பின்
+ஒவ்வொரு ஒன்று இல் வினவல்_வரிசை("வரி விகிதம் என்ன") { அச்சு ஒன்று; }
+
+அச்சு "--";
+
+// __A single word has no AND pass: it would be the same as the OR one, so it__
+// __is left out rather than run twice.__
+// ஒரு சொல் மட்டுமெனில் எல்லாம் சேர்ந்த முயற்சி தேவையில்லை
+ஒவ்வொரு ஒன்று இல் வினவல்_வரிசை("கணக்கு") { அச்சு ஒன்று; }
+
+அச்சு "--";
+
+// __Nothing worth searching for gives no passes at all, which முழுப்_பொருத்தம்__
+// __reads as "no results" rather than "every document".__
+// தேடத்தக்கது ஏதுமில்லையெனில் முயற்சிகளும் இல்லை
+அச்சு நீளம்(வினவல்_வரிசை(""));

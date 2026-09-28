@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __peyarA — is this word a name the language knows under another spelling?__
+// பெயரா — இச்சொல் மொழி அறிந்த, வேறு வடிவமும் உள்ள பெயரா
+
+இறக்கு "../colvativam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணையை_நிரப்பு();
+
+// __A keyword, in any of its spellings.__
+// ஒரு திறவுச்சொல், அதன் எந்த வடிவத்திலும்
+அச்சு பெயரா("அச்சு");
+அச்சு பெயரா("accu");
+
+// __An ordinary English word is not one, and neither is a standard library__
+// __function: those are Tamil-only, so they have no other spelling to find.__
+// நூலக செயல்கள் தமிழில் மட்டுமே இருப்பதால் அவை இங்கு இல்லை
+அச்சு பெயரா("reverse");
+அச்சு பெயரா("தலைகீழ்");

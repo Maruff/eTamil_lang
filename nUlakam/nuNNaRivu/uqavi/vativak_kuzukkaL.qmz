@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __vativak_kuzukkaL — every name that has more than one spelling__
+// வடிவக்_குழுக்கள் — ஒன்றுக்கு மேற்பட்ட வடிவம் உள்ள பெயர்கள்
+
+இறக்கு "../colvativam_qaravu.qmz";
+
+// __Generated from the compiler's own tables, so it cannot disagree with what__
+// __the language accepts. 299 groups: the keywords and builtins. The standard__
+// __library is Tamil-only and is left out, because a group of one expands to__
+// __nothing.__
+// தொகுப்பானின் அட்டவணையிலிருந்தே உருவாக்கப்படுவதால், மொழி ஏற்பதோடு முரண்பட முடியாது
+குழுக்கள் = வடிவக்_குழுக்கள்();
+அச்சு நீளம்(குழுக்கள்);
+
+// __Each group is one name. Most have two spellings, some three.__
+// ஒவ்வொரு குழுவும் ஒரு பெயர்
+ஒவ்வொரு ஒன்று இல் குழுக்கள்[0] { அச்சு ஒன்று; }

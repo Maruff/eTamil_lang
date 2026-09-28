@@ -13,7 +13,7 @@ is decimal and exact, the tax rules are in the library rather than in a framewor
 you find later, and every keyword can be written in Tamil script or in ASCII.
 
 **This extension carries the whole toolchain.** The compiler for your platform,
-the 806-function `nUlakam` standard library, thirty-seven example programs and the
+the 821-function `nUlakam` standard library, thirty-seven example programs and the
 eTamil font all travel inside it, so installing it is the entire installation —
 no Rust, no download, nothing to put on your `PATH`.
 
@@ -30,7 +30,7 @@ no Rust, no download, nothing to put on your `PATH`.
 |---|---|
 | **Syntax highlighting** | All 203 keywords across 545 spellings — Tamil script, romanized, and the English aliases |
 | **Errors as you type** | From the compiler's own front end, so they are the errors you will actually get |
-| **Completions** | Keywords with correct statement templates, 96 host builtins, and all 806 `செயல்` functions in the `nUlakam` standard library |
+| **Completions** | Keywords with correct statement templates, 96 host builtins, and all 821 `செயல்` functions in the `nUlakam` standard library |
 | **Hover** | Every spelling of a word, whether it is reserved, and the doc comment from its definition |
 | **Signature help** | Parameter names, read from the library's own source |
 | **Go to Definition** | Jumps into `nUlakam`, and to functions in the current file |
