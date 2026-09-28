@@ -77,13 +77,15 @@
     திரும்பு சொல்_தப்பி(சொல்_ஒன்று) & " *";
 }
 
-// __வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — a MATCH expression from a plain question__
+// __வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — one MATCH expression from a question__
 //
 // __The question is never passed through as written. coRpiri.qmz extracts the__
-// __words worth searching for, each is quoted, and they are joined with OR so__
-// __that a document matching some of them still answers. Joining with AND__
-// __instead is how a search comes back empty for a question that was merely__
-// __wordier than the document it wanted.__
+// __words worth searching for and each is quoted. This joins them with OR, so__
+// __a document matching some of them still answers.__
+//
+// __OR alone is not the best a search can do — it is the widest pass of the__
+// __three that வினவல்_வரிசை builds. Prefer that when you have a question rather__
+// __than a term list; this is the piece it is made of.__
 // வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — சாதாரணக் கேள்வியிலிருந்து பொருத்த வினவலைக் கட்டும்
 செயல் வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) {
     பதங்கள் = தேடல்_பதங்கள்(கேள்வி);
@@ -97,6 +99,48 @@
         இன்றேல் { விடை = விடை & " OR " & துண்டம்; }
     }
     திரும்பு விடை;
+}
+
+// __வினவல்_வரிசை(கேள்வி) — the passes to try, narrowest first__
+//
+// __One query is a compromise between precision and recall. Three in order is__
+// __not: ask for every word together, and only if that finds nothing widen to__
+// __any of them, and only then fall back to the longest word as a prefix for__
+// __someone who stopped typing halfway.__
+//
+// __The order is what makes it work. Starting wide means a document sharing__
+// __one common word outranks nothing, because there is no narrower answer left__
+// __to prefer. Starting narrow means the precise answer wins when it exists__
+// __and the loose one is still there when it does not.__
+//
+// __A single-word question has no AND pass — it would be the same as the OR__
+// __one — so it is left out rather than run twice.__
+// வினவல்_வரிசை(கேள்வி) — முயற்சிக்க வேண்டிய வினவல்கள், குறுகியது முதலில்
+செயல் வினவல்_வரிசை(கேள்வி) {
+    பதங்கள் = தேடல்_பதங்கள்(கேள்வி);
+    (நீளம்(பதங்கள்) == 0) எனில் { திரும்பு []; }
+
+    முயற்சிகள் = [];
+
+    (நீளம்(பதங்கள்) > 1) எனில் {
+        குறுகியது = "";
+        ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+            துண்டம் = சொல்_தப்பி(ஒரு_பதம்);
+            (நீளம்(குறுகியது) == 0) எனில் { குறுகியது = துண்டம்; }
+            இன்றேல் { குறுகியது = குறுகியது & " AND " & துண்டம்; }
+        }
+        முயற்சிகள் = இணை(முயற்சிகள், குறுகியது);
+    }
+
+    முயற்சிகள் = இணை(முயற்சிகள், வினவல்_ஆக்கு(கேள்வி, பொய்));
+
+    நீளமானது = "";
+    ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+        (நீளம்(ஒரு_பதம்) > நீளம்(நீளமானது)) எனில் { நீளமானது = ஒரு_பதம்; }
+    }
+    முயற்சிகள் = இணை(முயற்சிகள், முன்னொட்டாக்கு(நீளமானது));
+
+    திரும்பு முயற்சிகள்;
 }
 
 // __அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — make the index__
@@ -176,6 +220,10 @@
 // __with everything else in nuNNaRivu without a caller having to remember that__
 // __SQLite counts the other way.__
 //
+// __The passes of வினவல்_வரிசை are tried narrowest first and the first that__
+// __finds anything wins, so a precise answer is preferred when it exists and a__
+// __loose one is still there when it does not.__
+//
 // __An empty question answers an empty array rather than every document: a__
 // __search for nothing is not a search for everything, and returning the whole__
 // __collection is how a blank input becomes a page of noise.__
@@ -185,20 +233,25 @@
         திரும்பு தவறு("அட்டவணைப் பெயர் ஏற்புடையதல்ல: " & அட்டவணை);
     }
 
-    வினவல் = வினவல்_ஆக்கு(கேள்வி, பொய்);
-    (நீளம்(வினவல்) == 0) எனில் { திரும்பு சரி([]); }
+    வினவல்கள் = வினவல்_வரிசை(கேள்வி);
+    (நீளம்(வினவல்கள்) == 0) எனில் { திரும்பு சரி([]); }
 
     தரவரிசை = "bm25(" & அட்டவணை & எடைப்_பட்டி(எடைகள்) & ")";
-    தளம்_வினா "SELECT " & அட்டவணை & ".*, " & தரவரிசை & " AS ஆ FROM " & அட்டவணை &
-              " WHERE " & அட்டவணை & " MATCH ? ORDER BY ஆ LIMIT ?",
-              [வினவல், எண்ணிக்கை], வரிசைகள்;
+    கட்டளை = "SELECT " & அட்டவணை & ".*, " & தரவரிசை & " AS ஆ FROM " & அட்டவணை &
+             " WHERE " & அட்டவணை & " MATCH ? ORDER BY ஆ LIMIT ?";
 
-    விடை = [];
-    ஒவ்வொரு ஒரு_வரிசை இல் வரிசைகள் {
-        ஒரு_வரிசை["மதிப்பு"] = 0 - ஒரு_வரிசை["ஆ"];
-        விடை = இணை(விடை, ஒரு_வரிசை);
+    ஒவ்வொரு ஒரு_வினவல் இல் வினவல்கள் {
+        தளம்_வினா கட்டளை, [ஒரு_வினவல், எண்ணிக்கை], வரிசைகள்;
+        (நீளம்(வரிசைகள்) > 0) எனில் {
+            விடை = [];
+            ஒவ்வொரு ஒரு_வரிசை இல் வரிசைகள் {
+                ஒரு_வரிசை["மதிப்பு"] = 0 - ஒரு_வரிசை["ஆ"];
+                விடை = இணை(விடை, ஒரு_வரிசை);
+            }
+            திரும்பு சரி(விடை);
+        }
     }
-    திரும்பு சரி(விடை);
+    திரும்பு சரி([]);
 }
 
 // __ஆவண_எண்ணிக்கை(அட்டவணை) — how many documents the index holds__

@@ -11518,10 +11518,24 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
       "முன்னொட்டா"
     ],
     "arity": 2,
-    "doc": "வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — a MATCH expression from a plain question",
+    "doc": "வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — one MATCH expression from a question",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 88
+    "line": 90
+  },
+  {
+    "name": "வினவல்_வரிசை",
+    "forms": [
+      "வினவல்_வரிசை"
+    ],
+    "params": [
+      "கேள்வி"
+    ],
+    "arity": 1,
+    "doc": "வினவல்_வரிசை(கேள்வி) — the passes to try, narrowest first",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 119
   },
   {
     "name": "அட்டவணை_ஆக்கு",
@@ -11536,7 +11550,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — make the index",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 108
+    "line": 152
   },
   {
     "name": "ஆவணம்_இடு",
@@ -11552,7 +11566,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) — put one document in",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 135
+    "line": 179
   },
   {
     "name": "எடைப்_பட்டி",
@@ -11566,7 +11580,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எடைப்_பட்டி(எடைகள்) — the per-column weights bm25() takes after the table",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 164
+    "line": 208
   },
   {
     "name": "முழுப்_பொருத்தம்",
@@ -11583,7 +11597,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) — search, best first",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 183
+    "line": 231
   },
   {
     "name": "ஆவண_எண்ணிக்கை",
@@ -11597,7 +11611,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஆவண_எண்ணிக்கை(அட்டவணை) — how many documents the index holds",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
-    "line": 206
+    "line": 259
   },
   {
     "name": "பொதிந்த_ஆவணம்",
