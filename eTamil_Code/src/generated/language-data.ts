@@ -12606,7 +12606,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அதிக_முயற்சிகள்() — attempts before an item is given up on",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/mItci.qmz",
-    "line": 27
+    "line": 28
   },
   {
     "name": "மேல்_காத்திருப்பு",
@@ -12618,7 +12618,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மேல்_காத்திருப்பு() — the longest backoff, in seconds",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/mItci.qmz",
-    "line": 31
+    "line": 32
   },
   {
     "name": "மீள்_முயலத்தக்கதா",
@@ -12632,7 +12632,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மீள்_முயலத்தக்கதா(நிலைக்_குறி) — is a failure with this status worth retrying?",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/mItci.qmz",
-    "line": 38
+    "line": 39
   },
   {
     "name": "காத்திருப்பு_நொடிகள்",
@@ -12648,7 +12648,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — how long to wait before the next attempt",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/mItci.qmz",
-    "line": 51
+    "line": 52
   },
   {
     "name": "கைவிடலாமா",
@@ -12662,7 +12662,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கைவிடலாமா(முயற்சிகள்) — has this item had its last attempt?",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/mItci.qmz",
-    "line": 63
+    "line": 64
   },
   {
     "name": "ஒட்டுச்_செயல்",
@@ -12883,7 +12883,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) — the task status for a state that came in",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 80
+    "line": 81
   },
   {
     "name": "முன்னுரிமை_எண்",
@@ -12897,7 +12897,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "முன்னுரிமை_எண்(முன்னுரிமை) — a task priority as Microsoft.VSTS.Common.Priority",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 94
+    "line": 97
   },
   {
     "name": "எண்ணிலிருந்து_முன்னுரிமை",
@@ -12911,7 +12911,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எண்ணிலிருந்து_முன்னுரிமை(அஜூர்_எண்) — Microsoft.VSTS.Common.Priority as a task priority",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 103
+    "line": 106
   },
   {
     "name": "வகை_விதி_ஆக்கு",
@@ -12928,7 +12928,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வகை_விதி_ஆக்கு(பொருத்தப்_புலம், பொருத்த_மதிப்பு, பணியுருப்படி_வகை, வரிசை_எண்) — one work-item type rule",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 116
+    "line": 119
   },
   {
     "name": "பணியுருப்படி_வகை",
@@ -12943,7 +12943,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணியுருப்படி_வகை(விதிகள், ஒரு_பதிவு) — the work-item type a record becomes",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 127
+    "line": 130
   },
   {
     "name": "மணியிலிருந்து_நிறைவு",
@@ -12958,7 +12958,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மணியிலிருந்து_நிறைவு(முடிந்த_மணி, மீதி_மணி) — percentage complete from CompletedWork and RemainingWork",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
-    "line": 144
+    "line": 148
   },
   {
     "name": "வரவு_முடிவு",
@@ -13007,7 +13007,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "கொக்கி_நிகழ்வைப்_படி(உடலுரை) — which item, and which revision, a service hook is about",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/varavu.qmz",
-    "line": 60
+    "line": 61
   },
   {
     "name": "தொடக்கத்_தேடல்_நாட்கள்",

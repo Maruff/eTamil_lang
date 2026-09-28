@@ -17,9 +17,9 @@
 // "தயார்" எனத் தொடங்கும் நிலை சோதனை வாயில்; அது தீர்ந்ததாகவே வரும்
 அச்சு உள்_நிலை("Ready for UAT", "InProgress");
 
-// __The prefix is read before the category, so a backlog state a team calls__
-// __just Ready, under Proposed, also comes in as resolved. Watch for it.__
-// முன்னொட்டு வகைமைக்கு முன்பே பார்க்கப்படுகிறது; முன்மொழிவு வகைமையில் உள்ள "தயார்" நிலையும் தீர்ந்தது ஆகும்
+// __The prefix counts only under InProgress. A backlog state a team calls just__
+// __Ready, under Proposed, means refined and waiting, so it stays to do.__
+// முன்னொட்டு நடப்பு வகைமையில் மட்டும்; முன்மொழிவு வகைமையில் உள்ள "தயார்" நிலை செய்யவேண்டியதே
 அச்சு உள்_நிலை("Ready", "Proposed");
 
 // __An unknown category is taken as in progress, the least wrong guess.__

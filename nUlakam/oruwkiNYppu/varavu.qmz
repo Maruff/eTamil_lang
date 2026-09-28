@@ -55,8 +55,9 @@
 // __hook's JSON body. For workitem.updated Azure DevOps puts the item's id in__
 // __resource.workItemId and the update's own id in resource.id; for every__
 // __other event resource.id is the item. Getting that backwards applies update__
-// __number 7 to work item 7. நிகழ்வுக்_குறி is the event's id — store it unique__
-// __and a hook delivered twice is applied once.__
+// __number 7 to work item 7. A resource naming no item at all is தவறு, not__
+// __item 0. நிகழ்வுக்_குறி is the event's id — store it unique and a hook__
+// __delivered twice is applied once.__
 செயல் கொக்கி_நிகழ்வைப்_படி(உடலுரை) {
     படித்தது = ஜேசான்_படி(உடலுரை);
     (தவறா(படித்தது)) எனில் { திரும்பு படித்தது; }
@@ -66,6 +67,9 @@
     }
     வளம் = நிகழ்வு["resource"];
     உருப்படி_எண் = புலம்_அல்லது(வளம், "workItemId", புலம்_அல்லது(வளம், "id", 0));
+    (உருப்படி_எண் == 0 அல்லது உருப்படி_எண் == இன்மை) எனில் {
+        திரும்பு தவறு("கொக்கி எந்தப் பணியுருப்படியையும் குறிக்கவில்லை  (the hook names no work item)");
+    }
     திரும்பு சரி({
         நிகழ்வுக்_குறி: புலம்_அல்லது(நிகழ்வு, "id", ""),
         நிகழ்வு_வகை: புலம்_அல்லது(நிகழ்வு, "eventType", ""),

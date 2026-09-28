@@ -25,7 +25,7 @@
 அச்சு தவறா(கொக்கி_நிகழ்வைப்_படி("<html>502 Bad Gateway</html>"));
 அச்சு கொக்கி_நிகழ்வைப்_படி("{\"id\": \"evt-53\", \"eventType\": \"workitem.deleted\"}");
 
-// __But a resource with no id at all reads as item 0, so check for 0 before__
-// __fetching anything.__
-// குறி இல்லாத வளம் உருப்படி 0 எனப் படிக்கப்படும்; 0-ஐச் சரிபார்த்த பின்பே பெறுக
-அச்சு மதிப்பு(கொக்கி_நிகழ்வைப்_படி("{\"id\": \"evt-54\", \"resource\": {}}")).பணியுருப்படி_எண்;
+// __So is a resource that names no item at all: there is nothing to fetch, and__
+// __reading it as work item 0 would send the caller looking for one.__
+// எந்த உருப்படியையும் குறிக்காத வளமும் தவறு; அதை உருப்படி 0 எனப் படிப்பதில்லை
+அச்சு கொக்கி_நிகழ்வைப்_படி("{\"id\": \"evt-54\", \"resource\": {}}");

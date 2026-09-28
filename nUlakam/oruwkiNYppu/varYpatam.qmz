@@ -72,13 +72,16 @@
 // __உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) — the task status for a state that came in__
 // உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) — வந்த வெளி நிலைக்குரிய பணி நிலை
 //
-// __Read from the category, with one exception taken first: a state whose name__
+// __Read from the category, with one exception: an InProgress state whose name__
 // __begins "Ready" is a test gate and counts as resolved, because teams add__
 // __"Ready for UAT" under InProgress so that their board shows it as work still__
-// __in hand. Anything unrecognised is in progress — someone is doing something__
-// __to it, which is the least wrong thing to assume.__
+// __in hand. Only under InProgress — a backlog state called "Ready" under__
+// __Proposed means refined and waiting, and stays to do. Anything unrecognised is__
+// __in progress — someone is doing something to it, the least wrong guess.__
 செயல் உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) {
-    (தொடங்குகிறதா(வெளி_நிலைப்_பெயர், "Ready")) எனில் { திரும்பு "தீர்ந்தது"; }
+    (வகைமை == "InProgress" மற்றும் தொடங்குகிறதா(வெளி_நிலைப்_பெயர், "Ready")) எனில் {
+        திரும்பு "தீர்ந்தது";
+    }
     (வகைமை == "Proposed") எனில் { திரும்பு "செய்யவேண்டியது"; }
     (வகைமை == "Resolved") எனில் { திரும்பு "தீர்ந்தது"; }
     (வகைமை == "Completed") எனில் { திரும்பு "மூடியது"; }
@@ -138,11 +141,15 @@
 // மணியிலிருந்து_நிறைவு(முடிந்த_மணி, மீதி_மணி) — முடிந்த, மீதி மணிகளிலிருந்து நிறைவு
 //
 // __Azure DevOps has no percentage field; the team records hours done and hours__
-// __left, and the percentage is done ÷ (done + left). When both are empty there__
-// __is no figure at all, and இன்மை says so — 0 would claim the work has not__
-// __started, which nobody said.__
+// __left, and the percentage is done ÷ (done + left). With RemainingWork empty__
+// __there is no figure, and இன்மை says so: hours logged against a blank remainder__
+// __would otherwise read as 100%, finished, when nobody said how much is left.__
+// __An empty CompletedWork beside a real remainder is work not yet started, 0.__
 செயல் மணியிலிருந்து_நிறைவு(முடிந்த_மணி, மீதி_மணி) {
-    மொத்தம் = முடிந்த_மணி + மீதி_மணி;
+    (மீதி_மணி == இன்மை அல்லது மீதி_மணி == "") எனில் { திரும்பு இன்மை; }
+    முடிந்தவை = முடிந்த_மணி;
+    (முடிந்தவை == இன்மை அல்லது முடிந்தவை == "") எனில் { முடிந்தவை = 0; }
+    மொத்தம் = முடிந்தவை + மீதி_மணி;
     (மொத்தம் <= 0) எனில் { திரும்பு இன்மை; }
-    திரும்பு வட்டமிடு(முடிந்த_மணி * 100 / மொத்தம், 0);
+    திரும்பு வட்டமிடு(முடிந்தவை * 100 / மொத்தம், 0);
 }
