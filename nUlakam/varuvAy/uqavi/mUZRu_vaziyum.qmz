@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மூன்று_வழியும்(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், ஒரு_மாற்றம், புதிய_முன்னேற்றம்) — all three treatments computed, so the choice can be seen__
+// மூன்று கணக்கீட்டு வழிகளையும் ஒப்பிட்டுக் காட்டும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+மாற்றம் = மாற்றம்_ஆக்கு("M1", 200000, 200000, மெய், மெய்);
+அனைத்தும் = மூன்று_வழியும்(1000000, 400000, மாற்றம், 0.5);
+
+// __The same modification, three answers. Two of them recognise nothing now__
+// __and one of them recognises a catch-up immediately.__
+// ஒரே மாற்றம், மூன்று விடைகள்
+அச்சு அனைத்தும்["தனி_ஒப்பந்தம்"]["இப்போதைய_வருவாய்"];
+அச்சு அனைத்தும்["முடித்து_புதியது"]["எஞ்சிய_மதிப்பு"];
+அச்சு அனைத்தும்["கூட்டுப்_பிடிப்பு"]["இப்போதைய_வருவாய்"];
+
+// __Which is why the classification is worth arguing about, and why showing__
+// __all three is more honest than showing the one that was chosen.__
+// அதனாலேயே வகைப்பாடு முக்கியம்; மூன்றையும் காட்டுவதே நேர்மை

@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுமதித்த_முடிவு(ஒரு_தொடர்பு, பின்தொடர்_தொடக்கம், பின்தொடர்_முடிவு, முன்னோடி_கால_அளவு) — the latest finish a dependency permits__
+// சார்பு அனுமதிக்கும் மிகத் தாமதமான முடிவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The backward pass's half of the same question, and it has to mirror__
+// __தேவையான_தொடக்கம் exactly: any difference between the two shows up as float__
+// __that is not there.__
+// அதே வினாவின் பின்னோக்கிய பாதி; இரண்டும் சரியாகப் பொருந்த வேண்டும்
+அச்சு அனுமதித்த_முடிவு(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0), 4, 10, 4);
+அச்சு அனுமதித்த_முடிவு(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 2), 6, 12, 4);
+அச்சு அனுமதித்த_முடிவு(தொடர்பு_ஆக்கு("P", "Q", "தொடக்கம்_தொடக்கம்", 2), 2, 8, 4);

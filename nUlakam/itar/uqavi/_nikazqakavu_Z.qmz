@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// ___நிகழ்தகவு_Z(_z_மதிப்பு) — the share of the curve below this many deviations__
+// இத்தனை விலகல்களுக்குக் கீழ் உள்ள வளைவின் பங்கு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __Half the curve lies below the mean.__
+// வளைவின் பாதி சராசரிக்குக் கீழே
+அச்சு _நிகழ்தகவு_Z(0);
+
+// __One deviation above the mean, and one below — which are complements, by__
+// __symmetry, and the two account for the whole curve.__
+// சராசரிக்கு மேலே ஒரு விலகல், கீழே ஒரு விலகல்; இரண்டும் சேர்ந்து முழு வளைவு
+அச்சு _நிகழ்தகவு_Z(1);
+அச்சு _நிகழ்தகவு_Z(0 - 1);
+அச்சு வட்டமிடு(_நிகழ்தகவு_Z(1) + _நிகழ்தகவு_Z(0 - 1), 2);
+
+// __Far out on the tail it flattens rather than reaching a hundred: a date__
+// __nothing can be later than is not a date this model can offer.__
+// வாலின் விளிம்பில் இது நூறை எட்டுவதில்லை
+அச்சு _நிகழ்தகவு_Z(4);

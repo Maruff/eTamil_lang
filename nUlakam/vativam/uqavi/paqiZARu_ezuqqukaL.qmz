@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதினாறு_எழுத்துகள்() — the hex alphabet, in lower case__
+// பதினாறின் எழுத்துகள், சிற்றெழுத்தில்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __Lower case, and the decoder folds its input down to match, so hex written__
+// __in capitals by another tool still reads.__
+// சிற்றெழுத்து; பேரெழுத்தில் வந்தாலும் படிப்பான் அதைத் தாழ்த்திப் படிக்கும்
+அச்சு பதினாறு_எழுத்துகள்();
+அச்சு நீளம்(பதினாறு_எழுத்துகள்());

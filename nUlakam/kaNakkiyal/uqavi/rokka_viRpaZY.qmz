@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ரொக்க_விற்பனை(பரிவர்த்தனை_எண், நாள், விவரம், வங்கி_கணக்கு, வருவாய்_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a sale paid for at once__
+// உடனே பணம் வரும் விற்பனை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The same entry as a credit sale with the bank in place of the customer,__
+// __so it is written as that rather than as a second implementation.__
+// கடன் விற்பனையின் அதே பதிவே; வாடிக்கையாளருக்குப் பதிலாக வங்கி
+ரொக்கம் = ரொக்க_விற்பனை(1, "2026-04-01", "கடைச் சில்லறை",
+                          "1000", "4000", "2200", 10000, 18);
+அச்சு சமநிலையா(ரொக்கம்);
+அச்சு நீளம்(ரொக்கம்["வரிசைகள்"]);

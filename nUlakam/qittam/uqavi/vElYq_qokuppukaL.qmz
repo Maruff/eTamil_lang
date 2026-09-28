@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேலைத்_தொகுப்புகள்(கணுக்கள்) — every leaf in the tree__
+// மரத்தின் இலைகளான வேலைத் தொகுப்புகள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+             கணு_ஆக்கு("1.2", "1", "கட்டுமானம்", 600000)];
+
+// __What is scheduled, costed and assigned. Everything above them is a way of__
+// __reading them, and a total that counts a parent as well as its children__
+// __counts the same money twice.__
+// அட்டவணையும் செலவும் இவற்றுக்கே; பெற்றோரையும் சேர்த்தால் இரட்டைக் கணக்கு
+ஒவ்வொரு ஒரு_கணு இல் வேலைத்_தொகுப்புகள்(கணுக்கள்) { அச்சு ஒரு_கணு["கணு_குறி"]; }
+அச்சு நீளம்(வேலைத்_தொகுப்புகள்(கணுக்கள்));

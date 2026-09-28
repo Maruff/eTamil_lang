@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பகுதியை_எடு(பட்டியல், எங்கே) — the item at that position, or nothing__
+// அந்த இடத்திலுள்ள உறுப்பு, அல்லது வெற்றுச் சரம்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+துண்டுகள் = ["முதல்", "இரண்டாம்", "மூன்றாம்"];
+அச்சு பகுதியை_எடு(துண்டுகள், 0);
+அச்சு பகுதியை_எடு(துண்டுகள், 2);
+
+// __Past the end answers with nothing rather than failing. The template walker__
+// __reads ahead while looking for the end of a loop, and running off the end of__
+// __a truncated document is a thing that happens — it should stop the loop,__
+// __not the program.__
+// முடிவுக்கு அப்பால் வெற்றுச் சரமே; நிரல் நிற்பதில்லை
+அச்சு "[" & பகுதியை_எடு(துண்டுகள், 9) & "]";

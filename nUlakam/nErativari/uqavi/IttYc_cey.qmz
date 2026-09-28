@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈட்டைச்_செய்(இழப்பு_வகை, இழப்புத்_தொகை, தலைப்புகள்) — apply a loss across the heads the rules allow__
+// விதிகளின்படி இழப்பை ஈடுசெய்யும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+தலைப்புகள் = [தலைப்பு_ஆக்கு("சம்பளம்", 1200000),
+               தலைப்பு_ஆக்கு("பிற", 50000)];
+
+// __A house-property loss is absorbed in order, head by head, and the heads__
+// __come back reduced so the computation can go on from there.__
+// தலைப்புகள் குறைக்கப்பட்டே திரும்பும்; கணக்கு அங்கிருந்தே தொடரும்
+விளைவு = ஈட்டைச்_செய்("வீட்டுச்_சொத்து", 200000, தலைப்புகள்);
+அச்சு விளைவு["ஈடுசெய்தது"];
+அச்சு விளைவு["எஞ்சியது"];
+அச்சு விளைவு["தலைப்புகள்"][0]["தொகை"];
+
+// __A business loss cannot touch the salary, so almost none of it is absorbed__
+// __and the rest is carried forward.__
+// தொழில் இழப்பு சம்பளத்தைத் தொடாது; பெரும்பகுதி முன் கொண்டு செல்லப்படும்
+தொழில் = ஈட்டைச்_செய்("தொழில்", 200000, தலைப்புகள்);
+அச்சு தொழில்["ஈடுசெய்தது"];
+அச்சு தொழில்["எஞ்சியது"];

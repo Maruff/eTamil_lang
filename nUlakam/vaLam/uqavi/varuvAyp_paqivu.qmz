@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வருவாய்ப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், ஒப்பந்தச்_சொத்துக்_கணக்கு, வருவாய்க்_கணக்கு, தொகை_மதிப்பு) — revenue recognised, before anything is billed__
+// விலைப்பட்டியல் இடும் முன்பே ஏற்கப்பட்ட வருவாய்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __Revenue is earned as the work is done, and billed on whatever dates the__
+// __contract says. The two are different events, so they are different postings.__
+// வருவாய் பணி நடக்கும்போது ஈட்டப்படுகிறது; விலைப்பட்டியல் வேறு நிகழ்வு
+பதிவு = வருவாய்ப்_பதிவு(5, "2026-03-31", "ஏற்கப்பட்ட வருவாய்",
+                          "CA-SNG", "REVENUE", 60000);
+அச்சு சமநிலையா(பதிவு);
+
+// __The debit is a contract asset: work done that has not yet become a__
+// __receivable.__
+// பற்று ஒரு ஒப்பந்தச் சொத்து; இன்னும் பெறவேண்டியதாகவில்லை
+அச்சு பதிவு["வரிசைகள்"][0]["கணக்கு_குறி"];

@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நட்டக்_கணக்கு(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு, ஒப்பந்தச்_சொத்தின்_மதிப்பு) — the loss, taken first against the asset and then as a provision__
+// நட்டம்: முதலில் சொத்தைக் குறைத்து, பின் ஒதுக்கீடாக
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The order matters. The loss is written against any contract asset first,__
+// __and only what is left over becomes a provision — a provision raised while__
+// __the asset still stands counts the same loss twice.__
+// வரிசை முக்கியம்; முதலில் சொத்து, பின் மிச்சமே ஒதுக்கீடு
+கணக்கு = நட்டக்_கணக்கு(500000, 900000, 250000);
+அச்சு கணக்கு["மொத்த_நட்டம்"];
+அச்சு கணக்கு["குறைவு"];
+அச்சு கணக்கு["ஒதுக்கீடு"];
+
+// __With an asset large enough, the whole loss is absorbed by writing it down.__
+// சொத்து போதுமானதாக இருந்தால் முழு நட்டமும் அதிலேயே அடங்கும்
+அச்சு நட்டக்_கணக்கு(500000, 900000, 600000)["ஒதுக்கீடு"];
+
+// __And a contract that is not onerous provides for nothing.__
+// நட்டம் தராத ஒப்பந்தத்திற்கு ஒதுக்கீடு இல்லை
+அச்சு நட்டக்_கணக்கு(900000, 700000, 250000)["நட்டமா"];

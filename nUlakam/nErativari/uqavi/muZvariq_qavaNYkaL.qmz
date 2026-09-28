@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்வரித்_தவணைகள்() — the four instalments, with the relief percentages__
+// நான்கு தவணைகள், நிவாரண விகிதங்களுடன்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Cumulative percentages, not instalment sizes: by the first date 15% must__
+// __have been paid, by the second 45%, and so on.__
+// இவை திரட்டிய விகிதங்கள்; தவணையின் அளவு அல்ல
+ஒவ்வொரு ஒரு_தவணை இல் முன்வரித்_தவணைகள்() {
+    அச்சு ஒரு_தவணை["தவணை_எண்"];
+    அச்சு ஒரு_தவணை["விகிதம்"];
+}
+
+// __The relief percentage is lower than the required one for the first two,__
+// __which is a deliberate tolerance: paying 12% by the first date attracts no__
+// __interest even though 15% was due.__
+// முதல் இரு தவணைகளுக்கு நிவாரண விகிதம் குறைவு; அது வேண்டுமென்றே
+அச்சு முன்வரித்_தவணைகள்()[0]["நிவாரண_விகிதம்"];
+அச்சு முன்வரித்_தவணைகள்()[2]["நிவாரண_விகிதம்"];

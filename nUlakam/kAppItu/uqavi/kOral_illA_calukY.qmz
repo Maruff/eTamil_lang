@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோரல்_இல்லா_சலுகை(ஆண்டு_முனைமம், தொடர்_ஆண்டுகள், படிகள்) — the no-claim bonus earned by claim-free years__
+// கோரல் இல்லாத ஆண்டுகளுக்கான சலுகை
+
+இறக்கு "../kAppItu.qmz";
+
+// __The steps are the insurer's own table, passed in rather than built in:__
+// __every company publishes a different one and changes it between years.__
+// படிகள் நிறுவனத்தின் அட்டவணை; உள்ளே எழுதப்படவில்லை, வெளியே இருந்தே வருகிறது
+படிகள்_பட்டி = [{"ஆண்டு": 1, "விகிதம்": 20},
+                {"ஆண்டு": 2, "விகிதம்": 25},
+                {"ஆண்டு": 5, "விகிதம்": 50}];
+
+// __A first-year policy has earned nothing.__
+// முதல் ஆண்டுக் கொள்கை ஒன்றும் ஈட்டவில்லை
+அச்சு கோரல்_இல்லா_சலுகை(10000, 0, படிகள்_பட்டி)["விகிதம்"];
+
+// __Three claim-free years takes the two-year step, not the five-year one:__
+// __the highest step reached, not the next one coming.__
+// மூன்று ஆண்டுகள் இரண்டாம் படியையே எடுக்கும், ஐந்தாம் படியை அல்ல
+அச்சு கோரல்_இல்லா_சலுகை(10000, 3, படிகள்_பட்டி)["விகிதம்"];
+
+// __And it stops at the top step rather than growing for ever.__
+// உச்சப் படியிலேயே நிற்கும்; என்றென்றும் வளராது
+அச்சு கோரல்_இல்லா_சலுகை(10000, 9, படிகள்_பட்டி)["சலுகை"];
+அச்சு கோரல்_இல்லா_சலுகை(10000, 9, படிகள்_பட்டி)["செலுத்த"];

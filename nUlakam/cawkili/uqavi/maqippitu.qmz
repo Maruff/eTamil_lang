@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பிடு(நுழைவுப்_பொருள், செயற்பெயர், அளபுருக்கள்) — a query; nothing is written and no conflict can arise__
+// வினவல் மட்டும்; ஒன்றும் எழுதப்படுவதில்லை
+
+இறக்கு "../fabric.qmz";
+
+// __Pointed at a port with nothing behind it, so this sample needs no gateway.__
+// __What it shows is the failure mode: an unreachable gateway comes back as a__
+// __தவறு rather than hanging, and it is classed வலை rather than blamed on the__
+// __chaincode.__
+// நுழைவாயில் இல்லாத துறை; தொங்குவதில்லை, தவறாகவே திரும்பும்
+எங்கும்_இல்லை = நுழைவு("http://127.0.0.1:1", "mychannel", "basic", {});
+
+விளைவு = மதிப்பிடு(எங்கும்_இல்லை, "ReadAsset", ["asset1"]);
+அச்சு தவறா(விளைவு);
+அச்சு தவறு_மதிப்பு(விளைவு)["வகைப்பாடு"];
+
+// __Against a real gateway the same call answers சரி with the chaincode's__
+// __body. A query is safe to repeat: it writes nothing and orders nothing.__
+// உண்மையான நுழைவாயிலில் இதுவே சரி(...) தரும்; வினவலை மீண்டும் செய்வது பாதுகாப்பானது

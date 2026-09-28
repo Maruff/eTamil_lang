@@ -16,3 +16,16 @@ Dates and working days.
 | `nAtkAtti_cOqaZY.qmz` | tests for the calendar | — |
 | `vAram.qmz` | வாரம்: weekdays, quarters and the financial year | `வாரநாள்` `வாரநாள்_பெயர்` `நிதியாண்டின்_தொடக்க_ஆண்டு` `கால்_ஆண்டு_எண்` |
 | `vElYnAL.qmz` | வேலைநாள் (working days) | `தேடல்_எல்லை` `நாட்காட்டி_ஆக்கு` `பட்டியலில்_உள்ளதா` `வார_ஓய்வா` `விடுமுறையா` `வேலை_நாளா` `வேலை_வாரம்_உள்ளதா` `அடுத்த_வேலை_நாள்` `முந்தைய_வேலை_நாள்` `நகர்த்தி_வேலை_நாள்` `வேலை_நாட்களைக்_கூட்டு` `வேலை_நாட்களை_எண்ணு` `முடிவு_நாள்` `பணி_அட்டவணை` `உருட்டு` |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 40 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh nAtkAtti
+```

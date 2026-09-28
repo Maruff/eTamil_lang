@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அதிக_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) — was more absorbed than was spent?__
+// செலவழித்ததை விட அதிகம் உள்வாங்கப்பட்டதா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Over-absorption inflates the cost of everything made this year, and the__
+// __credit at the year end goes to profit rather than back to the products.__
+// மிகை உள்வாங்கல் இவ்வாண்டு செய்த அனைத்தின் செலவையும் பெருக்கும்
+அச்சு அதிக_உள்வாங்கலா(உள்வாங்கல்_வேறுபாடு(620000, 600000));
+அச்சு அதிக_உள்வாங்கலா(உள்வாங்கல்_வேறுபாடு(560000, 600000));

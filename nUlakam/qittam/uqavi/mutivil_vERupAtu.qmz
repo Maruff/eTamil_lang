@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவில்_வேறுபாடு(மொத்த_நிதி, முடிவில்_மதிப்பீடு) — how much the project will be over or under__
+// முடிவில் எதிர்பார்க்கும் வேறுபாடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Negative is an overrun. This is the figure to put in front of a steering__
+// __committee: not what has been spent, but what it will come to.__
+// எதிர்மறை என்றால் மீறல்; இதுவே வழிநடத்தும் குழுவுக்குச் சொல்ல வேண்டியது
+அச்சு முடிவில்_வேறுபாடு(1000000, 1200000);
+அச்சு முடிவில்_வேறுபாடு(1000000, 950000);
+அச்சு முடிவில்_வேறுபாடு(1000000, 1000000);

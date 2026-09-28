@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பட்டியலில்_உள்ளதா(ஒரு_பட்டியல், தேடும்_உருப்படி) — is this value in that list?__
+// இம்மதிப்பு பட்டியலில் உள்ளதா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __What both the weekend check and the holiday check are built on.__
+// வார ஓய்வுச் சோதனையும் விடுமுறைச் சோதனையும் இதன்மீதே
+அச்சு பட்டியலில்_உள்ளதா([0, 6], 6);
+அச்சு பட்டியலில்_உள்ளதா([0, 6], 3);
+
+// __It compares by value, so it works on dates as readily as on numbers.__
+// மதிப்பாலேயே ஒப்பிடுகிறது; நாட்களுக்கும் எண்களுக்கும் ஒரே மாதிரி
+அச்சு பட்டியலில்_உள்ளதா(["2026-03-05"], "2026-03-05");
+அச்சு பட்டியலில்_உள்ளதா([], "2026-03-05");

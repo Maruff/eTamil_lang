@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறும்_எதிர்பார்ப்பு(விளைவுகள்) — variable consideration, as a probability-weighted expectation__
+// மாறும் தொகையின் நிகழ்தகவு சார்ந்த எதிர்பார்ப்பு
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The right method when there is a range of outcomes and a portfolio of__
+// __similar contracts: a volume rebate over many customers, say.__
+// பல ஒத்த ஒப்பந்தங்கள் இருக்கும்போது இதுவே சரியான முறை
+விளைவுகள் = [{"தொகை": 100000, "நிகழ்தகவு": 60},
+              {"தொகை": 50000, "நிகழ்தகவு": 30},
+              {"தொகை": 0, "நிகழ்தகவு": 10}];
+அச்சு மதிப்பு(மாறும்_எதிர்பார்ப்பு(விளைவுகள்));
+
+// __Probabilities that do not total a hundred are refused: an expectation over__
+// __outcomes that do not cover every case is an average of the wrong thing.__
+// நூறாகச் சேராத நிகழ்தகவுகள் மறுக்கப்படும்
+அச்சு தவறு_மதிப்பு(மாறும்_எதிர்பார்ப்பு([{"தொகை": 100000, "நிகழ்தகவு": 70}]));
+அச்சு தவறா(மாறும்_எதிர்பார்ப்பு([]));

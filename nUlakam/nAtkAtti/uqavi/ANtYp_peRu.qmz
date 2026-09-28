@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆண்டைப்_பெறு(ஒரு_நாள்) — the year, as a number__
+// ஆண்டு, எண்ணாக
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __A number rather than the text, so it can be compared and added to.__
+// உரை அல்ல, எண்; ஒப்பிடவும் கூட்டவும் முடியும்
+அச்சு ஆண்டைப்_பெறு("2026-03-02");
+அச்சு ஆண்டைப்_பெறு("1999-12-31");
+
+// __Comparing the years of two dates is not the same as comparing the dates.__
+// இரு நாட்களின் ஆண்டுகளை ஒப்பிடுவது, நாட்களை ஒப்பிடுவதல்ல
+அச்சு ஆண்டைப்_பெறு("2026-01-01") == ஆண்டைப்_பெறு("2026-12-31");

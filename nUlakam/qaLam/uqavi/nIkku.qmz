@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நீக்கு(சாவி) — delete a key, and say how many went__
+// சாவியை நீக்கும்; எத்தனை நீங்கின என்று சொல்லும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+சேமி("மாதிரி:நீக்க", "ஏதோ");
+
+// __The count is the useful part: deleting a key that was not there answers 0__
+// __rather than failing, so a cache eviction that ran twice is not an error.__
+// எண்ணிக்கையே பயனுள்ளது; இல்லாத சாவியை நீக்கினால் 0, தவறு அல்ல
+முதல்_முறை = நீக்கு("மாதிரி:நீக்க");
+இரண்டாம்_முறை = நீக்கு("மாதிரி:நீக்க");
+
+(சரியா(முதல்_முறை)) எனில் {
+    அச்சு மதிப்பு(முதல்_முறை);
+    அச்சு மதிப்பு(இரண்டாம்_முறை);
+}
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

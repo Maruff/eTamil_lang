@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __லாபம்(விற்பனை_விலை, மாறும்_செலவு, அலகுகள், நிலையான_செலவு) — profit, once the fixed cost is met__
+// நிலையான செலவு போக லாபம்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு லாபம்(500, 300, 1000, 150000);
+
+// __Below the break-even volume it is a loss, and the arithmetic says so__
+// __rather than flooring at zero.__
+// சமநிலைக்குக் கீழே இது நட்டமே; பூஜ்ஜியத்தில் நிற்பதில்லை
+அச்சு லாபம்(500, 300, 500, 150000);

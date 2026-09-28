@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தகுதிக்குள்_பங்களிப்பு(மொத்தத்_தொகை, விகிதம், தகுதி_எல்லை) — a contribution only if the wage is under a limit__
+// தகுதி எல்லைக்குள் இருந்தால் மட்டும் பங்களிப்பு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __State insurance works the other way from provident fund: above the limit__
+// __there is no contribution at all rather than a capped one.__
+// எல்லைக்கு மேல் பங்களிப்பே இல்லை; வரம்பிடப்பட்ட பங்களிப்பு அல்ல
+அச்சு தகுதிக்குள்_பங்களிப்பு(18000, 0.75, 21000);
+அச்சு தகுதிக்குள்_பங்களிப்பு(25000, 0.75, 21000);
+
+// __Which makes a raise across the limit cost the employee nothing and gain__
+// __them the whole contribution back.__
+// எல்லையைத் தாண்டும் ஊதிய உயர்வு, பங்களிப்பு முழுவதையும் திருப்பித் தரும்
+அச்சு தகுதிக்குள்_பங்களிப்பு(21000, 0.75, 21000);

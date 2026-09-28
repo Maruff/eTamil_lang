@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்) — the cost of hours nobody worked__
+// வேலையின்றிப் போன நேரத்தின் விலை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Separated out rather than left inside the efficiency variance. Hours nobody__
+// __worked and hours worked slowly are different problems with different__
+// __owners: one is a breakdown or a shortage, the other is the shop floor.__
+// வேலையே இல்லாத நேரமும், மெதுவாக வேலை செய்த நேரமும் வெவ்வேறு பிரச்சினைகள்
+அச்சு ஊதிய_செயலிழப்பு_வேறுபாடு(120, 100);
+அச்சு ஊதிய_செயலிழப்பு_வேறுபாடு(120, 0);

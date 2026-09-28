@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விடுமுறையா(ஒரு_நாள், ஒரு_நாட்காட்டி) — is this a declared holiday?__
+// இந்நாள் அறிவிக்கப்பட்ட விடுமுறையா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+அச்சு விடுமுறையா("2026-03-05", நாட்காட்டி);
+அச்சு விடுமுறையா("2026-03-06", நாட்காட்டி);
+
+// __Holidays are a list rather than a rule. Most Indian holidays follow a lunar__
+// __calendar and are declared each year, so there is no rule to encode.__
+// விடுமுறைகள் விதி அல்ல, பட்டியலே; அவை ஆண்டுதோறும் அறிவிக்கப்படுகின்றன
+அச்சு விடுமுறையா("2027-03-05", நாட்காட்டி);

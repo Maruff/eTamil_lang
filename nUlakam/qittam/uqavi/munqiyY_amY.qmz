@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முந்தியை_அமை(முந்திகள், முனைக்_குறி, புது_தொடக்கம், கால_அளவு) — write an entry into the forward pass__
+// முன்னோக்கிய கடப்பில் ஒரு பதிவை எழுதும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முந்திகள் = [{"குறி": "P", "தொடக்கம்": 0, "முடிவு": 4}];
+
+// __The finish is derived from the start and the duration rather than passed__
+// __in, so the two cannot disagree.__
+// முடிவு தொடக்கத்திலிருந்தே கணக்கிடப்படுகிறது; இரண்டும் முரண்பட முடியாது
+புதியது = முந்தியை_அமை(முந்திகள், "P", 2, 4);
+அச்சு முந்தியைப்_பெறு(புதியது, "P", "தொடக்கம்");
+அச்சு முந்தியைப்_பெறு(புதியது, "P", "முடிவு");

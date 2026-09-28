@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கணக்கு_தேடு(கணக்குகள், குறி) — find an account by its code__
+// குறியைக் கொண்டு ஒரு கணக்கைத் தேடும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+கணக்குகள் = [மதிப்பு(கணக்கு_ஆக்கு("1000", "வங்கி", வகை_சொத்து(), "நடப்பு")),
+              மதிப்பு(கணக்கு_ஆக்கு("4000", "விற்பனை", வகை_வருவாய்(), "இயக்கம்"))];
+
+அச்சு மதிப்பு(கணக்கு_தேடு(கணக்குகள், "4000"))["பெயர்"];
+
+// __A posting to an account that is not in the chart is a posting nobody can__
+// __report on, so the code is named in the தவறு.__
+// பட்டியலில் இல்லாத கணக்குக்குப் பதிவிடுவது, அறிக்கையிட முடியாத பதிவு
+அச்சு தவறு_மதிப்பு(கணக்கு_தேடு(கணக்குகள், "9999"));

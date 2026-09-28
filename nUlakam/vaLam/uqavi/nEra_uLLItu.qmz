@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேர_உள்ளீடு(வளக்_குறி, ஒரு_நாள், பணிக்_குறி, மணிகள், கட்டணத்திற்குரியதா) — one line on a timesheet__
+// நேரத்தாளில் ஒரு பதிவு
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+உள்ளீடு = நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 8, மெய்);
+
+அச்சு உள்ளீடு["மணிகள்"];
+அச்சு உள்ளீடு["பணிக்_குறி"];
+
+// __A new entry starts as a draft. Nothing is costed until it has been through__
+// __submission and approval, so a sheet somebody is still typing cannot__
+// __appear in a project's actual cost.__
+// புதிய பதிவு வரைவாகவே தொடங்கும்
+அச்சு உள்ளீடு["நிலைமை"];
+
+// __Whether the time is chargeable is recorded on the entry, because the same__
+// __person on the same day may do both.__
+// கட்டணத்துக்கு உரியதா என்பது பதிவிலேயே; ஒரே நாளில் இரண்டும் இருக்கலாம்
+அச்சு உள்ளீடு["கட்டணத்துக்குரியதா"];

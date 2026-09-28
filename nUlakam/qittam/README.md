@@ -22,3 +22,16 @@ The work breakdown structure and the hundred-per-cent rule; the critical path, b
 | `pakuppu.qmz` | வேலைப் பகுப்பு (the work breakdown structure) | `கணு_ஆக்கு` `கணு_தேடு` `சேய்கள்` `மூலங்கள்` `இலைக்_கணுவா` `வேலைத்_தொகுப்புகள்` `உள்_கூட்டல்` `ஆழம்` `நூறு_விதி_சரியா` `விதியை_சரிபார்` |
 | `qittam_cOqaZY.qmz` | tests for the project costing modules | `காலத்தைப்_பெறு` |
 | `qotarpu.qmz` | தொடர்பு, the four dependency types and lag | `தொடர்பு_சுற்று_எல்லை` `முனை_ஆக்கு` `தொடர்பு_ஆக்கு` `தொடர்பு_வகை_சரியா` `முன்னோட்டமா` `முனையைப்_பெறு` `கால_அளவைப்_பெறு` `முந்தியைப்_பெறு` `முந்தியை_அமை` `தாழ்த்தியை_அமை` `தேவையான_தொடக்கம்` `அனுமதித்த_முடிவு` `தொடர்பு_வலையைக்_கணக்கிடு` `தொடர்பு_கடுமையானவை` `தொடர்பு_முனையின்_புலம்` `மொத்தத்_தாமதம்` `முன்னோட்டங்கள்` `தாமதப்_பங்கு` `சுருக்கக்கூடிய_காலம்` |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 91 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh qittam
+```

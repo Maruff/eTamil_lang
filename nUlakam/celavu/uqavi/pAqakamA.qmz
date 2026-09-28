@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதகமா(வேறுபாட்டுத்_தொகை) — is this variance adverse?__
+// இவ்வேறுபாடு பாதகமானதா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு பாதகமா(0 - 5000);
+அச்சு பாதகமா(5000);
+
+// __Exactly nothing is neither, which is a third state and not a rounding__
+// __error worth hiding.__
+// சரியாகப் பூஜ்ஜியம் என்பது மூன்றாவது நிலை
+அச்சு பாதகமா(0);

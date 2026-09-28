@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவு_முன்னேற்றம்(ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு) — progress measured by cost incurred__
+// செலவை வைத்து அளக்கும் முன்னேற்றம்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __An input method: it measures effort, and assumes effort converts evenly__
+// __into value. Convenient, and wrong wherever it does not.__
+// இது உள்ளீட்டு முறை; முயற்சியை அளக்கிறது, விளைவை அல்ல
+அச்சு மதிப்பு(செலவு_முன்னேற்றம்(300000, 1200000));
+அச்சு மதிப்பு(செலவு_முன்னேற்றம்(1200000, 1200000));
+
+// __Without a total expected cost there is nothing to measure against, and__
+// __that is a தவறு rather than a guess.__
+// மொத்தச் செலவு மதிப்பிடப்படவில்லையெனில் அளக்க ஒன்றுமில்லை
+அச்சு தவறா(செலவு_முன்னேற்றம்(300000, 0));

@@ -17,3 +17,16 @@ Income under each head with the set-off rules between them; Chapter VI-A deducti
 | `oqqivari.qmz` | ஒத்திவரி, deferred tax under Ind AS 12 | `வரி_அடிப்படை_சொத்து` `வரி_அடிப்படை_பொறுப்பு` `தற்காலிக_வேறுபாடு` `வேறுபாட்டு_வகை` `ஒத்திவரிக்_கணக்கு` `ஒத்திவரியைத்_திரட்டு` `அங்கீகரிக்கத்தக்க_சொத்து` `இழப்பின்_ஒத்திவரி` `ஈடுசெய்யலாமா` `ஒத்திவரி_மாற்றம்` `மொத்த_வரிச்_செலவு` `நிரந்தர_தாக்கம்` `வீத_ஒப்புரவு` |
 | `varikkaNakku.qmz` | வரிக்கணக்கு, total income to tax payable | `அடிப்படை_வரி` `தள்ளுபடியைக்_கணக்கிடு` `மேல்வரி_படி` `மேல்வரி_விகிதம்` `மேல்வரி_தொகை` `விளிம்பு_நிவாரணம்` `கழிவு_வரி` `வரியை_வட்டமிடு` `வரியைக்_கணக்கிடு` `முறையை_ஆக்கு` `முறையின்_வரி` `முறைகளை_ஒப்பிடு` |
 | `varumAZam.qmz` | வருமானம், head by head | `சம்பள_வருமானம்` `நிகர_ஆண்டு_மதிப்பீடு` `வாடகைச்_சொத்து_வருமானம்` `சொந்த_வீட்டு_வருமானம்` `வீட்டு_இழப்பை_ஈடுசெய்` `குறுகிய_காலமா` `குறியீட்டுச்_செலவு` `மூலதன_ஆதாயம்` `விலக்கிய_ஆதாயம்` `ஈட்டு_விதிகள்` `ஈடுசெய்ய_முடியுமா` `தலைப்பு_ஆக்கு` `ஈட்டைச்_செய்` `மொத்த_வருமானம்` `தலைப்பைத்_தேடு` `இழப்புத்_தலைப்புகள்` |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 76 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh nErativari
+```

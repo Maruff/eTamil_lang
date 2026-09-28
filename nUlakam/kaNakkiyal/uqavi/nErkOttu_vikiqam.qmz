@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேர்கோட்டு_விகிதம்(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — the straight-line rate, as a percentage__
+// நேர்கோட்டுத் தேய்வு விகிதம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The same thing expressed as a rate, because tax rules and asset registers__
+// __are written in rates rather than in lives.__
+// வரி விதிகளும் சொத்துப் பதிவேடுகளும் விகிதத்திலேயே எழுதப்படுகின்றன
+அச்சு நேர்கோட்டு_விகிதம்(500000, 50000, 5);
+அச்சு நேர்கோட்டு_விகிதம்(500000, 0, 10);

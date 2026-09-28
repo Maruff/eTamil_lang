@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிலிறுப்பைப்_பிரி(பதில்_உரை) — take the generated text out of a reply__
+// பதிலிலிருந்து உருவாக்கப்பட்ட உரையை எடுக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A well-formed reply gives the text, trimmed.__
+// முறையான பதிலிலிருந்து உரை கிடைக்கும்
+அச்சு மதிப்பு(பதிலிறுப்பைப்_பிரி("{\"response\": \"  A hundredth of a rupee.  \"}"));
+
+// __A reply that is not JSON at all is a தவறு rather than an empty answer: a__
+// __server that returned an HTML error page has not answered the question.__
+// ஜேசான் அல்லாத பதில் தவறே; காலி விடை அல்ல
+அச்சு தவறா(பதிலிறுப்பைப்_பிரி("<html>502</html>"));
+
+// __And so is well-formed JSON with no response field in it.__
+// பதில் புலமே இல்லாத ஜேசானும் தவறே
+அச்சு தவறு_மதிப்பு(பதிலிறுப்பைப்_பிரி("{\"error\": \"model not found\"}"));

@@ -17,3 +17,16 @@ Also here: contract modifications and the three ways they can be accounted for, 
 | `oppanqac_celavu.qmz` | ஒப்பந்தச் செலவு, and contracts that lose | `பெறுதல்_செலவின்_வகை` `நிறைவேற்றல்_செலவின்_வகை` `கழிப்புத்_தொகை` `முதலீட்டுக்_குறைவு` `தவிர்க்க_முடியாத_செலவு` `நட்டம்_தருமா` `நட்டக்_கணக்கு` |
 | `oppanqam.qmz` | ஒப்பந்தம், the contract and its price | `ஒப்பந்தம்_ஆக்கு` `ஒப்பந்தம்_உள்ளதா` `கடமை_ஆக்கு` `தனிக்_கடமையா` `மாறும்_எதிர்பார்ப்பு` `மிக_வாய்ப்பான_தொகை` `கட்டுப்பாட்டுடன்` `பரிமாற்ற_மதிப்பு` `கடமைகளுக்கு_ஒதுக்கு` `ஒதுக்கியதன்_கூட்டல்` `எஞ்சிய_முறை` `தள்ளுபடியை_ஒதுக்கு` `குறியில்_உள்ளதா` |
 | `varuvAy_cOqaZY.qmz` | tests for revenue recognition | — |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 53 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh varuvAy
+```

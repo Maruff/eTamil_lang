@@ -12,3 +12,16 @@ Premiums at a percentage or per thousand, loaded and discounted, and pro-rated f
 |---|---|---|
 | `kAppItu.qmz` | காப்பீடு (insurance): policy, premium, claim | `முனைமம்` `ஆயிரத்திற்கு_முனைமம்` `ஏற்ற_இறக்கத்துடன்` `குறுகிய_காலம்` `கழிவுக்குப்_பின்` `சராசரி_விதி` `கோரல்_தீர்வு` `கோரல்_இல்லா_சலுகை` `நிலுவைக்_கோரல்கள்` |
 | `kAppItu_cOqaZY.qmz` | tests for policy, premium and claim | — |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 9 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh kAppItu
+```

@@ -14,3 +14,16 @@ A resource has a rate that changes over time, so `விகிதத்தைத
 | `paqivu.qmz` | பதிவு, project cost into the ledger | `நடப்புக்_கணக்குக்_குறி` `உழைப்புப்_பதிவு` `பொருள்_பதிவு` `துணை_ஒப்பந்தப்_பதிவு` `மேல்நிலைப்_பதிவு` `வருவாய்ப்_பதிவு` `விலைப்பட்டியல்_பதிவு` `முன்பணப்_பதிவு` `நட்ட_ஒதுக்கீட்டுப்_பதிவு` `ஈட்டிய_செலவு` `காலம்_வரை_செலவு` `செலவை_ஒப்பிடு` |
 | `vaLam.qmz` | வளம், resources and what they cost | `வளம்_ஆக்கு` `விகிதப்_பதிவு` `விகிதத்தைத்_தேடு` `மேலதிக_விகிதம்` `காலத்_திறன்` `கிடைக்கும்_மணிகள்` `பயன்பாட்டு_விகிதம்` `கட்டண_விகிதம்` `வளத்தைத்_தேடு` |
 | `vaLam_cOqaZY.qmz` | tests for resources, timesheets and posting | — |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 33 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh vaLam
+```

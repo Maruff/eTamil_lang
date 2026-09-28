@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒத்திவரிக்_கணக்கு(புத்தக_மதிப்பு, வரி_அடிப்படை, சொத்தா, எதிர்பார்க்கும்_வீதம்) — the deferred tax asset or liability, from one line__
+// ஒரு வரிசையிலிருந்து ஒத்திவரிச் சொத்தா பொறுப்பா, எவ்வளவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A machine depreciated faster for tax: the deduction has been taken early,__
+// __so tax will be higher later — a deferred tax liability.__
+// வரிக்காக விரைவாகத் தேய்மானம்; எனவே பின்னர் வரி அதிகம் — ஒத்திவரிப் பொறுப்பு
+இயந்திரம் = ஒத்திவரிக்_கணக்கு(800000, 600000, மெய், 25);
+அச்சு இயந்திரம்["வகை"];
+அச்சு இயந்திரம்["ஒத்திவரி_பொறுப்பு"];
+
+// __A warranty provision deductible only when paid: the deduction is still to__
+// __come — a deferred tax asset.__
+// செலுத்தும்போதே கழிக்கக்கூடிய ஒதுக்கீடு — ஒத்திவரிச் சொத்து
+ஒதுக்கீடு = ஒத்திவரிக்_கணக்கு(500000, 0, பொய், 25);
+அச்சு ஒதுக்கீடு["வகை"];
+அச்சு ஒதுக்கீடு["ஒத்திவரி_சொத்து"];
+
+// __The rate is the one expected to apply when it reverses, not today's.__
+// வீதம் என்பது மாறும்போது பொருந்தும் வீதமே; இன்றையது அல்ல
+அச்சு ஒத்திவரிக்_கணக்கு(800000, 800000, மெய், 25)["ஒத்திவரி_பொறுப்பு"];

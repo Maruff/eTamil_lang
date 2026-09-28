@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திசை_அளவு(திசையன்) — the length of a vector__
+// திசையனின் நீளம்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு (திசை_அளவு([3, 4]));
+அச்சு (திசை_அளவு([1, 0, 0]));
+
+// __A vector of nothing has no length, and normalising it would divide by zero.__
+// பூஜ்ஜியத் திசையனுக்கு நீளம் இல்லை
+அச்சு (திசை_அளவு([0, 0, 0]));

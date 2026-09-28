@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இருப்புநிலைக்கானதா(கணக்கு_வகை) — does this element appear on the balance sheet?__
+// இது இருப்புநிலைக் குறிப்பில் வருமா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Three of the five. The other two are the income statement, and the link__
+// __between them is the year-end close.__
+// ஐந்தில் மூன்று; மற்ற இரண்டும் வருமான அறிக்கை
+அச்சு இருப்புநிலைக்கானதா(வகை_சொத்து());
+அச்சு இருப்புநிலைக்கானதா(வகை_பொறுப்பு());
+அச்சு இருப்புநிலைக்கானதா(வகை_பங்கு());
+அச்சு இருப்புநிலைக்கானதா(வகை_வருவாய்());
+அச்சு இருப்புநிலைக்கானதா(வகை_செலவு());

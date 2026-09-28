@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாணயம்_ஆக்கு(குறி, பெயர், சின்னம்) — a currency__
+// ஒரு நாணயம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+நாணயங்கள் = [நாணயம்_ஆக்கு("INR", "இந்திய ரூபாய்", "₹"),
+              நாணயம்_ஆக்கு("USD", "அமெரிக்க டாலர்", "$")];
+
+அச்சு நாணயங்கள்[0]["சின்னம்"];
+அச்சு நாணயங்கள்[1]["பெயர்"];

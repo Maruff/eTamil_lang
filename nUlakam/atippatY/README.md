@@ -20,3 +20,16 @@ Some of what used to live here now lives in the host. `பிரி`, `ஒன்
 | `vikiqam.qmz` | விகிதம் (rates): percentages and arithmetic that lands on the paisa | `சதவீதம்` `வட்டக்_கழி` `குறையாக்_கழி` `வட்டப்_பங்கு` `வட்டப்_பெருக்கு` `நாள்_விகிதம்` `வட்ட_மாதங்கள்` |
 
 `aNi.qmz`'s last three take a `செயல்` as a value — map, filter and fold. They were impossible until functions were values, and the loops written before them are left as they are.
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 41 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh atippatY
+```

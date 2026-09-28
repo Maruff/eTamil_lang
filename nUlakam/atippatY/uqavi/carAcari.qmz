@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சராசரி(அணி) — mean; an empty array is an error, not a division by zero__
+// சராசரி; காலி அணி தவறு, பூஜ்ஜியத்தால் வகுத்தல் அல்ல
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு மதிப்பு(சராசரி([10, 20, 30]));
+
+// __Empty answers தவறு. A mean of nothing is undefined, and zero__
+// __would survive into a report looking like a figure.__
+// காலி அணி தவறு; ஒன்றுமில்லாததன் சராசரி வரையறுக்கப்படவில்லை
+அச்சு தவறா(சராசரி([]));

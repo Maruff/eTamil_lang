@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சாதகமா(வேறுபாட்டுத்_தொகை) — is this variance favourable?__
+// இவ்வேறுபாடு சாதகமானதா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Every variance in this folder is signed the same way: positive is__
+// __favourable. Saying it once here means no caller has to remember which__
+// __direction is good news for which figure.__
+// நேர்மறை என்றால் சாதகம்; இது ஒரே இடத்தில் சொல்லப்படுகிறது
+அச்சு சாதகமா(5000);
+அச்சு சாதகமா(0 - 5000);
+அச்சு சாதகமா(0);

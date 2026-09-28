@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// ___xml_ஆக்கு(உள்ளீடு) — escape a value so it cannot break the XML it goes into__
+// ஒரு மதிப்பு ஆவணக் குறியீட்டை உடைக்காதபடி மறைக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __Every value substituted into a document goes through this. A customer__
+// __called \"Raja & Sons\" written into a .docx unescaped produces a file Word__
+// __refuses to open, and the report is blamed on the template.__
+// ஆவணத்துள் செல்லும் ஒவ்வொரு மதிப்பும் இதன் வழியே செல்கிறது
+அச்சு _xml_ஆக்கு("Raja & Sons");
+அச்சு _xml_ஆக்கு("a < b > c");
+
+// __The ampersand is replaced first, so an escape is not escaped twice.__
+// & முதலில் மாற்றப்படுகிறது; மறைப்பு இருமுறை மறைக்கப்படுவதில்லை
+அச்சு _xml_ஆக்கு("&lt;");
+
+// __Tamil needs nothing done to it.__
+// தமிழுக்கு எதுவும் செய்யத் தேவையில்லை
+அச்சு _xml_ஆக்கு("வணக்கம்");

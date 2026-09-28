@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்டப்_பங்கு(தொகை, வீதம்) — a per-cent share of an amount, to the paisa__
+// தொகையின் வீதச் சதவீதம், பைசா வரை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு வட்டப்_பங்கு(2500, 12);
+அச்சு வட்டப்_பங்கு(2500, 0);

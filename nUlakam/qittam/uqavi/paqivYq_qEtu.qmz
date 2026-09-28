@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிவைத்_தேடு(பதிவுகள், செயல்_குறி, புலப்_பெயர்) — a start or a finish from one pass__
+// ஒரு கடப்பிலிருந்து தொடக்கம் அல்லது முடிவைப் படிக்கும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The working store of a pass: an activity code with a start and a finish.__
+// ஒரு கடப்பின் வேலைப் பதிவு
+பதிவுகள் = [{"செயல்_குறி": "A", "தொடக்கம்": 0, "முடிவு": 3},
+             {"செயல்_குறி": "B", "தொடக்கம்": 3, "முடிவு": 7}];
+
+அச்சு பதிவைத்_தேடு(பதிவுகள், "B", "தொடக்கம்");
+அச்சு பதிவைத்_தேடு(பதிவுகள், "B", "முடிவு");
+
+// __Anything but \"தொடக்கம்\" reads the finish.__
+// தொடக்கம் அல்லாத எதுவும் முடிவையே படிக்கும்
+அச்சு பதிவைத்_தேடு(பதிவுகள், "A", "எதுவும்");

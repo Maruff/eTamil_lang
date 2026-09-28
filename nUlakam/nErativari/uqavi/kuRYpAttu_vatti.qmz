@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறைபாட்டு_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்திய_முன்வரி, குறைந்த_விகிதம், மாத_வீதம், மாதங்கள்) — interest for a year's advance tax being short overall__
+// முன்வரிக் குறைபாட்டுக்கான வட்டி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A separate charge from the instalment interest: this one asks whether the__
+// __year's advance tax reached 90% at all, and runs from the year end.__
+// இது தவணை வட்டியிலிருந்து வேறு; ஆண்டு முழுவதும் 90% எட்டியதா என்பதே வினா
+குறைவு = குறைபாட்டு_வட்டி(100000, 70000, 90, 1, 4);
+அச்சு குறைவு["பொருந்துமா"];
+அச்சு குறைவு["குறை"];
+அச்சு குறைவு["வட்டி"];
+
+// __Over ninety per cent and it does not apply at all — and note that the__
+// __interest, when it does apply, is on the whole shortfall rather than on the__
+// __part below ninety per cent.__
+// 90 சதவீதம் தாண்டினால் இது பொருந்தாது
+அச்சு குறைபாட்டு_வட்டி(100000, 95000, 90, 1, 4)["பொருந்துமா"];
+அச்சு குறைபாட்டு_வட்டி(100000, 100000, 90, 1, 4)["வட்டி"];

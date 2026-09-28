@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்கூட்டியே_அடைத்தால்(அட்டவணை, எத்தனாவது_மாதம்) — what is left to settle after that instalment__
+// அந்தத் தவணைக்குப் பின் அடைக்க வேண்டியது
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+அட்டவணை = தவணை_அட்டவணை(1000000, 9, 240);
+
+// __After ten years of a twenty-year loan, well over half the principal is__
+// __still owed. Half the instalments does not mean half the loan.__
+// இருபதாண்டுக் கடனில் பத்தாண்டுக்குப் பின்னும் பாதிக்கு மேல் நிலுவையே
+அச்சு முன்கூட்டியே_அடைத்தால்(அட்டவணை, 120);
+
+// __After the last one there is nothing left, which is what makes the schedule__
+// __safe to quote a settlement figure from.__
+// கடைசித் தவணைக்குப் பின் ஒன்றுமில்லை
+அச்சு முன்கூட்டியே_அடைத்தால்(அட்டவணை, 240);
+
+// __A month the schedule does not have answers 0 rather than failing. Read it__
+// __with a month that exists; this is not a way to ask whether one does.__
+// அட்டவணையில் இல்லாத மாதத்திற்கு 0; இது மாதம் உள்ளதா எனக் கேட்கும் வழி அல்ல
+அச்சு முன்கூட்டியே_அடைத்தால்(அட்டவணை, 999);

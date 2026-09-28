@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவில்_மதிப்பீடு_திறனால்(மொத்த_நிதி, செலவுத்_திறன்) — the forecast if performance to date continues__
+// இதுவரையான செயல்திறன் தொடரும் என்ற அனுமானத்தில்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The usual one, and usually the right one: a project running at five-sixths__
+// __of its plan goes on doing so, because the reasons are structural.__
+// வழக்கமானது, பெரும்பாலும் சரியானது; காரணங்கள் கட்டமைப்பு சார்ந்தவை
+அச்சு மதிப்பு(முடிவில்_மதிப்பீடு_திறனால்(1000000, 0.8333));
+அச்சு மதிப்பு(முடிவில்_மதிப்பீடு_திறனால்(1000000, 1));
+
+// __With an index of nothing the forecast is unbounded, which is a தவறு.__
+// குறியீடு பூஜ்ஜியமெனில் கணிப்பே இல்லை
+அச்சு தவறா(முடிவில்_மதிப்பீடு_திறனால்(1000000, 0));

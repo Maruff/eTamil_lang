@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரவு_குறிப்பு(பரிவர்த்தனை_எண், நாள், விவரம், வாடிக்கையாளர்_கணக்கு, வருவாய்_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a credit note, reversing a sale__
+// விற்பனையைத் திருப்பும் வரவுக் குறிப்பு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A reversal rather than a negative sale, so both the original and the__
+// __correction stay on the ledger and the audit trail is complete.__
+// எதிர்மறை விற்பனை அல்ல, திருப்பல்; இரண்டும் பேரேட்டில் நிற்கும்
+குறிப்பு = வரவு_குறிப்பு(4, "2026-04-15", "திருப்பியது",
+                          "1100", "4000", "2200", 2000, 18);
+அச்சு சமநிலையா(குறிப்பு);
+
+// __And the tax is reversed too, which a credit note written by hand as a__
+// __single line almost never does.__
+// வரியும் திருப்பப்படுகிறது
+அச்சு நீளம்(குறிப்பு["வரிசைகள்"]);

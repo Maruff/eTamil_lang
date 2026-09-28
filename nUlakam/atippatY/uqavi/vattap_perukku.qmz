@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்டப்_பெருக்கு(அ, ஆ) — a rate times a quantity, to the paisa__
+// வீதத்தை அளவால் பெருக்கி, பைசா வரை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு வட்டப்_பெருக்கு(12.5, 8);
+
+// __An hourly rate times hours worked lands on the paisa.__
+// மணி விகிதத்தை மணிகளால் பெருக்கினால் பைசாவில் முடியும்
+அச்சு வட்டப்_பெருக்கு(333.333, 3);

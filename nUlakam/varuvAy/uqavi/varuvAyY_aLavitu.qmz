@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வருவாயை_அளவிடு(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு, முதன்மையாளரா) — measure the revenue whichever the conclusion was__
+// முதன்மையா முகவரா என்பதைப் பொறுத்து வருவாயை அளக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+அச்சு மதிப்பு(வருவாயை_அளவிடு(1000000, 850000, மெய்))["வருவாய்"];
+அச்சு மதிப்பு(வருவாயை_அளவிடு(1000000, 850000, பொய்))["வருவாய்"];
+
+// __A third party charging more than the customer pays is refused: an agent__
+// __cannot earn a negative fee, and a principal making a loss on a__
+// __pass-through should say so deliberately rather than through this.__
+// வாடிக்கையாளர் தொகையைவிட மூன்றாம் தரப்புச் செலவு அதிகமானால் மறுக்கப்படும்
+அச்சு தவறா(வருவாயை_அளவிடு(1000000, 1100000, பொய்));

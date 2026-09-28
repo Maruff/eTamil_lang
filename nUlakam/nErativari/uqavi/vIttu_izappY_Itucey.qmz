@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வீட்டு_இழப்பை_ஈடுசெய்(வீட்டு_இழப்புத்_தொகை, ஈட்டு_உச்ச_வரம்பு) — set off a house-property loss up to the cap, carry the rest__
+// வீட்டு இழப்பை வரம்புக்குள் ஈடுசெய்யும்; மீதியை முன் கொண்டு செல்லும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Only part of a house-property loss can be set off against other income in__
+// __the year. What is left is carried forward rather than lost, and losing__
+// __track of it is losing a real deduction.__
+// ஒரு பகுதியே இந்த ஆண்டில் ஈடுசெய்யப்படும்; மீதி முன் கொண்டு செல்லப்படும்
+விளைவு = வீட்டு_இழப்பை_ஈடுசெய்(400000, 200000);
+அச்சு விளைவு["ஈடுசெய்தது"];
+அச்சு விளைவு["முன்_கொண்டுசெல்வது"];
+
+// __A loss inside the cap is set off whole, and nothing is carried.__
+// வரம்புக்குள் உள்ள இழப்பு முழுவதும் ஈடுசெய்யப்படும்
+அச்சு வீட்டு_இழப்பை_ஈடுசெய்(150000, 200000)["முன்_கொண்டுசெல்வது"];
+அச்சு வீட்டு_இழப்பை_ஈடுசெய்(0, 200000)["ஈடுசெய்தது"];

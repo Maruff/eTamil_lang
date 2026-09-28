@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __போலி_ஒப்புமை(முனை, அளவீடு) — set what an analog pin reads__
+// ஒப்புமை முனை என்ன படிக்கும் என்பதை அமைக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __The reading is set as the board's own number, not as a voltage, because__
+// __that is what ஒப்புமை_படி answers.__
+// அளவீடாகவே அமைக்கப்படுகிறது; மின்னழுத்தமாக அல்ல
+போலி_ஒப்புமை(14, 0);
+அச்சு ஒப்புமை_படி(14);
+
+// __Which makes the awkward readings easy to test: the threshold exactly, one__
+// __either side of it, and the top of the scale.__
+// எல்லை மதிப்புகளைச் சோதிப்பது எளிதாகிறது
+போலி_ஒப்புமை(14, 612);
+அச்சு ஒப்புமை_படி(14);
+போலி_ஒப்புமை(14, 1023);
+அச்சு ஒப்புமை_படி(14);

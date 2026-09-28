@@ -21,3 +21,16 @@ The board files each name one board's pins under the same Tamil names, so a prog
 | `vaZporuL.qmz` | வன்பொருள் (hardware): pins, time, serial | — |
 | `vaZporuL_cOqaZY.qmz` | tests for pins, time and serial on the simulated board | — |
 | `yUnO.qmz` | யூனோ: the Arduino Uno's pins, and the hardware API | — |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 25 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh vaZporuL
+```

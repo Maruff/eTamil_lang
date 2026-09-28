@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணிக்கொடை(கடைசிச்_சம்பளம், பணி_ஆண்டுகள், மேல்_எண், கீழ்_எண், உச்ச_வரம்பு) — gratuity on the statutory formula__
+// பணிக்கொடைத் தொகை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Fifteen days' wages for every completed year, on a month of twenty-six__
+// __working days. The fraction is passed in because the numbers differ for__
+// __seasonal establishments and for employees outside the Act.__
+// பதினைந்து நாள் ஊதியம், இருபத்தாறு நாள் மாதத்தில்
+அச்சு பணிக்கொடை(50000, 10, 15, 26, 2000000);
+
+// __The ceiling bites on a long service at a high salary, which is what it is__
+// __there for.__
+// நீண்ட சேவைக்கும் உயர் சம்பளத்துக்கும் உச்ச வரம்பு பொருந்தும்
+அச்சு பணிக்கொடை(300000, 30, 15, 26, 2000000);
+அச்சு பணிக்கொடை(50000, 0, 15, 26, 2000000);

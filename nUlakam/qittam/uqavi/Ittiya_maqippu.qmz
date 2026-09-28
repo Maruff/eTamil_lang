@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈட்டிய_மதிப்பு(கணு_நிதி, நிறைவுப்_பங்கு) — the budget of the work actually done__
+// உண்மையில் முடிந்த வேலையின் நிதி மதிப்பு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Earned value is a budget figure, not a cost figure: it is what the work__
+// __done was supposed to cost, whatever it actually cost.__
+// இது நிதி எண்; செலவு எண் அல்ல
+அச்சு ஈட்டிய_மதிப்பு(400000, 0.5);
+அச்சு ஈட்டிய_மதிப்பு(400000, 1);
+அச்சு ஈட்டிய_மதிப்பு(400000, 0);
+
+// __Which is what makes it comparable both with the plan and with the actual__
+// __cost — and why those two comparisons mean different things.__
+// அதனாலேயே திட்டத்துடனும் உண்மைச் செலவுடனும் ஒப்பிட முடிகிறது

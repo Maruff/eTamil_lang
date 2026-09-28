@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கழிவு_வரி(வரி_மற்றும்_மேல்வரி, கழிவு_வீதம்) — the education and health cess__
+// கல்வி மற்றும் சுகாதாரக் கழிவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Charged on the tax plus the surcharge, so it compounds on both — which is__
+// __why the effective top rate is higher than the headline one.__
+// வரியின்மீதும் மேல்வரியின்மீதும் சேர்த்து
+அச்சு கழிவு_வரி(1350000, 4);
+அச்சு கழிவு_வரி(1485000, 4);
+
+// __No tax, no cess.__
+// வரி இல்லை, கழிவும் இல்லை
+அச்சு கழிவு_வரி(0, 4);

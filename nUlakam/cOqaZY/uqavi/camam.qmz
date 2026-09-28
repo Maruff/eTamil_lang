@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமம்(ஓட்டம், கிடைத்தது, எதிர்பார்த்தது, விவரம்) — the two must be equal, and a failure shows both__
+// இரண்டும் ஒன்றாக இருக்க வேண்டும்; தோல்வியில் இரண்டையும் காட்டும்
+
+இறக்கு "../cOqaZY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("சமம்");
+
+ஓட்டம் = சமம்(ஓட்டம், 10 * 3, 30, "ten threes");
+ஓட்டம் = சமம்(ஓட்டம், 1000 - 180, 820, "a thousand less its tax");
+
+// __Worth preferring over உறுதிசெய் for any comparison of two values. A__
+// __failure that says only "false" makes the reader redo the arithmetic by__
+// __hand; this one prints what it expected and what it got.__
+// ஒப்பீடுகளுக்கு இதுவே சிறந்தது; தோல்வியில் எதிர்பார்த்ததையும் கிடைத்ததையும் அச்சிடும்
+அச்சு ஓட்டம்["வெற்றி"];

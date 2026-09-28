@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாட்காட்டி_ஆண்டு(ஆண்டு) — a calendar year as a period__
+// நாட்காட்டி ஆண்டு ஒரு காலமாக
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __For a subsidiary reporting to a parent on a calendar year, and for anything__
+// __outside India.__
+// நாட்காட்டி ஆண்டில் அறிக்கையிடும் நிறுவனங்களுக்கு
+காலம் = நாட்காட்டி_ஆண்டு(2026);
+அச்சு காலம்["தொடக்கம்"];
+அச்சு காலம்["முடிவு"];

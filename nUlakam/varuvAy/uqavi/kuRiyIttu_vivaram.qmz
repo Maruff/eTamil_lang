@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறியீட்டு_விவரம்(நிறைவேற்ற_பொறுப்பா, சரக்கு_இடர்_உண்டா, விலை_விருப்பம்_உண்டா) — the three indicators and their count, kept together__
+// மூன்று குறியீடுகளும் அவற்றின் எண்ணிக்கையும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The individual answers survive beside the count, so a paper recording the__
+// __judgement can say which indicators were present rather than how many.__
+// எண்ணிக்கையுடன் தனித்தனி விடைகளும் தங்குகின்றன
+விவரம் = குறியீட்டு_விவரம்(மெய், பொய், மெய்);
+அச்சு விவரம்["நிறைவேற்ற_பொறுப்பு"];
+அச்சு விவரம்["சரக்கு_இடர்"];
+அச்சு விவரம்["விலை_விருப்பம்"];
+அச்சு விவரம்["எண்ணிக்கை"];

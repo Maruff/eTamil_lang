@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இந்தக்_காலத்து_வருவாய்(இதுவரை_தொகை, முன்பு_அங்கீகரித்தது) — this period's revenue: cumulative less what was taken before__
+// இக்காலத்தில் மட்டும் அங்கீகரிக்க வேண்டியது
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+அச்சு இந்தக்_காலத்து_வருவாய்(600000, 250000);
+
+// __It can be negative, and that is not a bug. A forecast cost that rose makes__
+// __progress fall, and the correction belongs in the period the estimate__
+// __changed rather than being smeared over the rest of the contract.__
+// இது எதிர்மறையாகவும் வரலாம்; மதிப்பீடு மாறிய காலத்திலேயே திருத்தம்
+அச்சு இந்தக்_காலத்து_வருவாய்(250000, 600000);
+அச்சு இந்தக்_காலத்து_வருவாய்(600000, 600000);

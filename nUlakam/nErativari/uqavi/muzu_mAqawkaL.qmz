@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முழு_மாதங்கள்(நாட்களின்_எண்ணிக்கை) — days as whole months, a part month counting as one__
+// நாட்களை முழு மாதங்களாக; பகுதி மாதமும் ஒன்றாகக் கணக்கு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Interest under the Act runs in months, and any part of a month is a whole__
+// __one. A day's delay costs a month of interest.__
+// ஒரு நாள் தாமதமும் ஒரு மாத வட்டியே
+அச்சு முழு_மாதங்கள்(30);
+அச்சு முழு_மாதங்கள்(31);
+அச்சு முழு_மாதங்கள்(1);
+அச்சு முழு_மாதங்கள்(0);

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிந்த_ஆண்டுகள்(தொடக்கம், முடிவு) — how many whole years have passed__
+// முழுமையாக முடிந்த ஆண்டுகள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Somebody's age, a policy's completed years, a length of service.__
+// ஒருவரின் வயது, சேவைக் காலம், கொள்கையின் முடிந்த ஆண்டுகள்
+அச்சு முடிந்த_ஆண்டுகள்("2000-03-15", "2026-03-15");
+
+// __A day short of the anniversary is a year short, which is exactly how age is__
+// __counted and not at all how a year difference is.__
+// ஆண்டு நிறைவுக்கு ஒரு நாள் குறைந்தால் ஒரு ஆண்டே குறையும்
+அச்சு முடிந்த_ஆண்டுகள்("2000-03-15", "2026-03-14");
+அச்சு ஆண்டைப்_பெறு("2026-03-14") - ஆண்டைப்_பெறு("2000-03-15");

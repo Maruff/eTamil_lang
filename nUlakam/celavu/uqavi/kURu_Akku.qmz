@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூறு_ஆக்கு(கூறு_பெயர், கூறு_தொகை, நேரடியா, மாறுபடுமா) — one element of cost, with both its classifications__
+// ஒரு செலவுக் கூறு, இரு வகைப்பாடுகளுடன்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Two independent questions: can it be traced to the cost object, and does__
+// __it move with volume. They are not the same question, and a cost that is__
+// __direct and fixed is perfectly ordinary.__
+// இரு தனித்தனி வினாக்கள்; நேரடியானதும் நிலையானதுமான செலவு சாதாரணமே
+கூறுகள் = [கூறு_ஆக்கு("நேரடிப் பொருள்", 400000, மெய், மெய்),
+            கூறு_ஆக்கு("நேரடி ஊதியம்", 250000, மெய், மெய்),
+            கூறு_ஆக்கு("தொழிற்சாலை வாடகை", 120000, பொய், பொய்)];
+
+அச்சு கூறுகள்[0]["கூறு_தொகை"];
+அச்சு கூறுகள்[2]["நேரடியா"];
+அச்சு கூறுகள்[2]["மாறுபடுமா"];

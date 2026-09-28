@@ -141,6 +141,25 @@ produces the field `வரி`. It used to be filed under the English token name
 2. The consequence is that `{வரி: 1}` and `{vari: 1}` are now *different*
 fields, so a program should pick one spelling and keep to it.
 
+## Worked examples, one per function
+
+Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
+each function in it, named after the function it demonstrates. 791 of them, and
+each one shows the ordinary use together with the cases that are easy to get
+wrong: the boundary, the empty input, the failure that is a தவறு rather than a
+crash. The reasoning is in English and Tamil, like the library itself.
+
+They are executed rather than admired. Documentation that is not run stops being
+true, so a sample that no longer matches its function fails:
+
+```
+./scripts/run_samples.sh              # all of them
+./scripts/run_samples.sh paNam upi    # only these folders
+```
+
+They are kept out of `run_examples.sh` and given their own CI job, because each
+costs about a second and the examples gate is on the critical path.
+
 ## Import paths
 
 `இறக்கு` looks beside the importing file, then along `ETAMIL_PATH`, then next

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதல்_இரண்டு(குறியீட்டு_உரை) — the first two characters, or nothing__
+// முதல் இரண்டு எழுத்துகள்; இரண்டு இல்லையெனில் வெற்றுச் சரம்
+
+இறக்கு "../cuwkam.qmz";
+
+// __The one place the chapter and the state code are actually cut, so the two__
+// __cannot drift apart.__
+// அத்தியாயமும் மாநிலக் குறியும் வெட்டப்படும் ஒரே இடம் இதுவே
+அச்சு முதல்_இரண்டு("84713010");
+அச்சு முதல்_இரண்டு("33ABCDE1234F1Z5");
+
+// __Something shorter than two characters answers with nothing rather than__
+// __failing, because a short code is a data problem for the caller to report,__
+// __not a reason to stop.__
+// இரண்டுக்கும் குறைவானது வெற்றுச் சரமே தரும்; நிற்பதற்குக் காரணம் அல்ல
+அச்சு "[" & முதல்_இரண்டு("8") & "]";
+அச்சு "[" & முதல்_இரண்டு("") & "]";

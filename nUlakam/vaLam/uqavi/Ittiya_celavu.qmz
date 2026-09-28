@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈட்டிய_செலவு(பேரேடு, நடப்புக்_கணக்கு) — the actual cost so far, read out of the ledger__
+// இதுவரை ஈட்டிய மொத்தச் செலவு, பேரேட்டிலிருந்தே
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+ஏடு = [];
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, உழைப்புப்_பதிவு(1, "2026-03-02", "உழைப்பு",
+                                             நடப்புக்_கணக்கு, "PAYROLL", 12000)));
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, பொருள்_பதிவு(2, "2026-03-05", "பொருள்",
+                                           நடப்புக்_கணக்கு, "STORES", 8000)));
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, மேல்நிலைப்_பதிவு(3, "2026-04-02", "மேல்நிலை",
+                                               நடப்புக்_கணக்கு, "OH-ABS", 5000)));
+
+// __Out of the general ledger, not out of a spreadsheet. A project cost that__
+// __cannot be traced to a posting is a number somebody typed.__
+// பேரேட்டிலிருந்தே; விரிதாளிலிருந்து அல்ல
+அச்சு ஈட்டிய_செலவு(ஏடு, நடப்புக்_கணக்கு);
+
+// __A control account nothing was posted to has no cost.__
+// ஒன்றும் பதிவாகாத கணக்குக்குச் செலவும் இல்லை
+அச்சு ஈட்டிய_செலவு(ஏடு, "WIP-SNG-S1");

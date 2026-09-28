@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்_மாநிலமா(விற்பனையாளர்_மாநிலம், வாங்குபவர்_மாநிலம்) — is this supply within one state?__
+// இது ஒரே மாநிலத்துக்குள்ளா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The whole of the central-versus-integrated question, in one comparison.__
+// மத்திய-ஒருங்கிணைந்த வினாவின் முழு விடையும் இந்த ஒப்பீட்டிலேயே
+அச்சு உள்_மாநிலமா("33", "33");
+அச்சு உள்_மாநிலமா("33", "27");
+
+// __And it is what மாநில_பிரிப்பு is given.__
+// மாநில_பிரிப்புக்குக் கொடுக்கப்படுவது இதுவே
+அச்சு மாநில_பிரிப்பு(1800, உள்_மாநிலமா("33", "27")).igst;

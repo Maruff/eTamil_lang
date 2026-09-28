@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவுடன்_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உண்மைச்_செலவு, விற்பவர்_பகிர்வு, குறைந்த_கட்டணம், உச்சக்_கட்டணம்) — cost plus a fee that moves with performance__
+// செலவுடன் ஊக்கக் கட்டணம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The buyer still pays the cost, so the incentive is only on the fee — which__
+// __makes it a much weaker incentive than a fixed-price one, and safer for work__
+// __whose scope may change.__
+// வாங்குபவர் செலவைச் செலுத்துவதால், ஊக்கம் கட்டணத்தின்மீது மட்டுமே
+நன்றாக = செலவுடன்_ஊக்கம்(1000000, 100000, 900000, 0.5, 50000, 120000);
+அச்சு நன்றாக["விற்பவர்_கட்டணம்"];
+அச்சு நன்றாக["வாங்குபவர்_செலவு"];
+
+// __The fee limits bite, and the unconstrained figure is reported beside the__
+// __capped one.__
+// கட்டண எல்லைகள் செயல்படும்; வரம்பின்றிக் கிடைத்திருக்கும் கட்டணமும் காட்டப்படுகிறது
+அச்சு நன்றாக["கட்டணம்_வரம்பின்றி"];
+அச்சு செலவுடன்_ஊக்கம்(1000000, 100000, 1300000, 0.5, 50000, 120000)["விற்பவர்_கட்டணம்"];

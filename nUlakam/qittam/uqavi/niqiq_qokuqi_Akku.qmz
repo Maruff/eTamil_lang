@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிதித்_தொகுதி_ஆக்கு(அடிப்படை_நிதி, தற்செயல்_இருப்பு, மேலாண்மை_இருப்பு) — the three layers a project's money comes in__
+// திட்ட நிதியின் மூன்று அடுக்குகள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The baseline is the work; the contingency is for the risks on the register;__
+// __the management reserve is for what nobody listed. They are held separately__
+// __because different people may spend them.__
+// மூன்றும் தனித்தனியே; ஒவ்வொன்றையும் செலவிடுபவர் வேறு
+தொகுதி = நிதித்_தொகுதி_ஆக்கு(1000000, 150000, 100000);
+அச்சு தொகுதி["அடிப்படை_நிதி"];
+அச்சு தொகுதி["தற்செயல்_இருப்பு"];
+அச்சு தொகுதி["மேலாண்மை_இருப்பு"];

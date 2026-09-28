@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __fifo_சமமான_அலகுகள்(தொடக்க_நிலை_அலகுகள், தொடக்க_நிறைவு, முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) — equivalent units on the first-in-first-out method__
+// முதலில் வந்தது முதலில் என்ற முறையில் சமமான அலகுகள்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __This one takes the work done on the opening stock out, so it measures what__
+// __this period actually did rather than what was in the factory at the end.__
+// இது இக்காலத்தில் உண்மையில் செய்த வேலையையே அளக்கிறது
+அச்சு fifo_சமமான_அலகுகள்(500, 40, 9000, 400, 50);
+அச்சு சராசரி_சமமான_அலகுகள்(9000, 400, 50);

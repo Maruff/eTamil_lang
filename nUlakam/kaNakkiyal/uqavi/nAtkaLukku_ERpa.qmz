@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாட்களுக்கு_ஏற்ப(தொகை_மதிப்பு, ஊதிய_நாட்கள், மாத_நாட்கள்) — pro-rate an amount for days worked__
+// பணிபுரிந்த நாட்களுக்கு ஏற்பத் தொகை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Someone who joined mid-month. The month's own length is passed in, because__
+// __February and March are not the same number of days and a payroll that__
+// __assumes thirty is wrong twice a year.__
+// மாதத்தின் நீளமும் அளபுருவே; பிப்ரவரியும் மார்ச்சும் ஒன்றல்ல
+அச்சு நாட்களுக்கு_ஏற்ப(48000, 15, 30);
+அச்சு நாட்களுக்கு_ஏற்ப(48000, 15, 31);
+அச்சு நாட்களுக்கு_ஏற்ப(48000, 30, 30);

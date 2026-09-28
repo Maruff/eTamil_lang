@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கடுமையானதா(கடுமையான_குறிகள், செயல்_குறி) — is this activity on the critical path?__
+// இச்செயல் கடுமையான பாதையில் உள்ளதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Crashing an activity that is not critical spends money and shortens nothing.__
+// __It is the single most common mistake in a schedule squeeze.__
+// கடுமையற்ற செயலைச் சுருக்குவது பணத்தைச் செலவழித்து ஒன்றும் சுருக்காது
+அச்சு கடுமையானதா(["A", "D"], "A");
+அச்சு கடுமையானதா(["A", "D"], "C");

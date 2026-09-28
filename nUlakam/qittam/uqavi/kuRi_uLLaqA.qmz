@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறி_உள்ளதா(பட்டியல், தேடும்_குறி) — is this code in that list?__
+// இக்குறி பட்டியலில் உள்ளதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __What the cycle check keeps its settled set with.__
+// சுழற்சிச் சோதனை தீர்ந்தவற்றை வைத்திருப்பது இதனால்
+அச்சு குறி_உள்ளதா(["A", "B"], "B");
+அச்சு குறி_உள்ளதா(["A", "B"], "Z");
+அச்சு குறி_உள்ளதா([], "A");

@@ -216,6 +216,25 @@ cause; or a lint that lists collisions in a file before compiling it. A
 twenty-line script doing the last of these paid for itself immediately while
 writing this library.
 
+### What 791 worked examples added to this
+
+Writing one sample per function across the whole library hit the reserved list
+eleven more times, and the words were exactly the ones a short example wants for
+its own locals: `உரை` for a piece of text, `தரவு` for the data being passed in,
+`பதில்` for a reply, `வரிசை` for a row, `பொருள்` for the thing being costed,
+`பணி` for a task, `தொகுப்பு` for a batch, `இல்லை` for the absent case, `சொல்`,
+`சேர்`, `எண்`.
+
+The samples are two dozen lines each and have no domain of their own to borrow
+vocabulary from, so they reach for the plainest word every time — which is the
+reserved one. A library can rename `பதம்` for `சொல்` once and live with it; an
+example cannot, because the renaming is then part of what the reader is being
+taught.
+
+This is the same finding as above with a sharper edge: the cost is not paid once
+per library, it is paid once per file, and it falls hardest on the files whose
+whole purpose is to be easy to read.
+
 ## No module system
 
 Two problems, both hit.

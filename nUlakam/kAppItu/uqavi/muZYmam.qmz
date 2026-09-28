@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனைமம்(காப்பீட்டுத்_தொகை, விகிதம்) — premium at a percentage rate__
+// சதவீத வீதத்தில் முனைமம்
+
+இறக்கு "../kAppItu.qmz";
+
+// __Fifty lakh insured at half a per cent.__
+// ஐம்பது லட்சம், அரை சதவீத வீதத்தில்
+அச்சு முனைமம்(5000000, 0.5);
+
+// __The rate is a percentage, so 1.8 means 1.8%, not 1.8 per mille and not__
+// __0.018. Rates written the wrong way round are off by a hundred, which is__
+// __large enough to notice and small enough to invoice.__
+// வீதம் சதவீதமே; 1.8 என்பது 1.8%, ஆயிரத்திற்கு 1.8 அல்ல
+அச்சு முனைமம்(5000000, 1.8);

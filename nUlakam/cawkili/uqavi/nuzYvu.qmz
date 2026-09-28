@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நுழைவு(முகவரிப்_பாதை, சேனல், நிரல்பொருள், தலைப்புகள்) — set up the gateway to talk to__
+// பேசுவதற்கான நுழைவாயிலை அமைக்கும்
+
+இறக்கு "../fabric.qmz";
+
+நு = நுழைவு("https://gw.example/api", "mychannel", "basic",
+            {"Content-Type": "application/json"});
+
+// __A record, not a connection: nothing is opened here. It carries where the__
+// __gateway is, which channel and chaincode to address, and the two default__
+// __route templates.__
+// இது ஒரு பதிவேடு; இணைப்பு அல்ல — இங்கே எதுவும் திறக்கப்படுவதில்லை
+அச்சு நு["சேனல்"];
+அச்சு நு["நிரல்பொருள்"];
+அச்சு நு["வினவல்_பாதை"];
+அச்சு நு["எழுதும்_பாதை"];

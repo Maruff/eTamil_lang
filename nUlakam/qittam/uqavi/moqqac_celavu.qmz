@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தச்_செலவு(நேரடிச்_செலவு, நாள்_மறைமுகச்_செலவு, காலம்) — direct cost plus the cost of time itself__
+// நேரடியும் மறைமுகமும் சேர்த்த செலவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Indirect cost is what a day of project costs whether or not anything is__
+// __done on it: site establishment, supervision, the office. It is the reason__
+// __crashing can make a project cheaper rather than dearer.__
+// ஒவ்வொரு நாளும் செலவாகும் மேல்நிலை; இதனாலேயே சுருக்குவது மலிவாகவும் ஆகலாம்
+அச்சு மொத்தச்_செலவு(200000, 5000, 20);
+அச்சு மொத்தச்_செலவு(230000, 5000, 17);
+
+// __Three days bought for 30,000 saved 15,000 of indirect cost, so the squeeze__
+// __cost 15,000 net rather than 30,000.__
+// மூன்று நாள் வாங்கியது, பதினைந்தாயிரம் மறைமுகச் செலவைச் சேமித்தது

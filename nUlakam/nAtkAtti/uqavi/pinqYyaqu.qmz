@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிந்தையது(அ, ஆ) — the later of two dates__
+// இரு நாள்களில் பிந்தியது
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு பிந்தையது("2026-03-02", "2026-01-15");
+
+// __A pair of these is how a task's early start is taken from its predecessors:__
+// __the latest of everything that has to finish first.__
+// முன்னோடிப் பணிகள் அனைத்திலும் பிந்தியதே ஒரு பணியின் தொடக்கம்
+அச்சு பிந்தையது(பிந்தையது("2026-03-02", "2026-03-10"), "2026-02-25");

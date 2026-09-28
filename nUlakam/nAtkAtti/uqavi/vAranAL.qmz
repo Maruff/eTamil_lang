@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வாரநாள்(ஒரு_நாள்) — the day of the week, Sunday zero__
+// வாரநாள் எண்; பூஜ்ஜியம் ஞாயிறு, ஆறு சனி
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Sunday is zero and Saturday is six, and that is stated rather than assumed__
+// __because the other convention is just as common.__
+// ஞாயிறு பூஜ்ஜியம், சனி ஆறு
+அச்சு வாரநாள்("2026-03-01");
+அச்சு வாரநாள்("2026-03-02");
+அச்சு வாரநாள்("2026-03-07");
+
+// __These numbers are what a calendar's weekend list is written in.__
+// நாட்காட்டியின் வார ஓய்வுப் பட்டியல் இந்த எண்களிலேயே எழுதப்படுகிறது

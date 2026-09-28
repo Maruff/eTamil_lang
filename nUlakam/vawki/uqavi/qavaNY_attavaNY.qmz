@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவணை_அட்டவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — every instalment, split into interest and principal__
+// ஒவ்வொரு தவணையும், வட்டியும் அசலுமாகப் பிரிக்கப்பட்டு
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+அட்டவணை = தவணை_அட்டவணை(100000, 12, 12);
+
+// __Early instalments are mostly interest and late ones mostly principal,__
+// __although every instalment is the same size. This is the thing borrowers__
+// __are most often surprised by.__
+// ஆரம்பத் தவணைகளில் பெரும்பாலும் வட்டி; இறுதியில் பெரும்பாலும் அசல்
+அச்சு அட்டவணை[0]["வட்டி"];
+அச்சு அட்டவணை[0]["அசலுக்கு"];
+அச்சு அட்டவணை[11]["வட்டி"];
+அச்சு அட்டவணை[11]["அசலுக்கு"];
+
+// __The last instalment absorbs the rounding, so the balance ends at exactly__
+// __zero. Twelve equal instalments each rounded to paise do not, and a loan__
+// __account left holding four paise is a loan that cannot be closed.__
+// கடைசித் தவணை வட்டமிடலின் மிச்சத்தை ஏற்கிறது; மீதம் சரியாகப் பூஜ்ஜியம்
+அச்சு அட்டவணை[11]["மீதம்"];

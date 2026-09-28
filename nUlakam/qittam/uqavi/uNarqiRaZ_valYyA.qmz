@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உணர்திறன்_வலையா(கணக்கிட்டவை) — is half the network or more on the critical path?__
+// இவ்வலை உணர்திறன் மிக்கதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []),
+             செயல்_ஆக்கு("B", 4, ["A"]),
+             செயல்_ஆக்கு("C", 2, ["A"]),
+             செயல்_ஆக்கு("D", 5, ["B", "C"])];
+
+// __A network where most activities are critical has almost no slack anywhere,__
+// __and almost any delay moves the end date. Worth knowing before committing__
+// __to the date rather than after the first slip.__
+// பெரும்பாலும் கடுமையான வலையில் எந்தத் தாமதமும் முடிவு நாளை நகர்த்தும்
+அச்சு உணர்திறன்_வலையா(மதிப்பு(வலையைக்_கணக்கிடு(செயல்கள்)));
+
+// __A single chain is entirely critical.__
+// ஒற்றைச் சங்கிலி முழுவதும் கடுமையானதே
+அச்சு உணர்திறன்_வலையா(மதிப்பு(வலையைக்_கணக்கிடு(
+    [செயல்_ஆக்கு("A", 3, []), செயல்_ஆக்கு("B", 4, ["A"])])));

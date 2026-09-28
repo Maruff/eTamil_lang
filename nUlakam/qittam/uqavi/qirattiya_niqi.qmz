@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திரட்டிய_நிதி(பகிர்வுகள், காலம்_வரை) — the budget planned up to a period__
+// சொன்ன காலம் வரை திரட்டிய நிதி
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+பகிர்வுகள் = [காலப்_பகிர்வு(1, 100000),
+              காலப்_பகிர்வு(2, 250000),
+              காலப்_பகிர்வு(3, 400000)];
+
+// __The S-curve, read at a point. This is the planned value that earned-value__
+// __reporting compares against, and it has to be cumulative rather than the__
+// __period's own figure.__
+// இது திரட்டியதாக இருக்க வேண்டும்; அந்தக் காலத்தின் தொகை மட்டும் அல்ல
+அச்சு திரட்டிய_நிதி(பகிர்வுகள், 1);
+அச்சு திரட்டிய_நிதி(பகிர்வுகள், 2);
+அச்சு திரட்டிய_நிதி(பகிர்வுகள், 3);
+அச்சு திரட்டிய_நிதி(பகிர்வுகள், 0);

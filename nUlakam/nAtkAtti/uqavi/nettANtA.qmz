@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நெட்டாண்டா(ஆண்டு_மதிப்பு) — is this a leap year?__
+// இது நெட்டாண்டா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Every four years.__
+// நான்கு ஆண்டுகளுக்கு ஒருமுறை
+அச்சு நெட்டாண்டா(2024);
+அச்சு நெட்டாண்டா(2026);
+
+// __Except every hundred, and except that again every four hundred. 1900 was__
+// __not a leap year and 2000 was, which is the rule spreadsheets got wrong for__
+// __twenty years and some still carry.__
+// நூறுக்கு ஒருமுறை விதிவிலக்கு; நானூறுக்கு ஒருமுறை அதற்கும் விதிவிலக்கு
+அச்சு நெட்டாண்டா(1900);
+அச்சு நெட்டாண்டா(2000);
+அச்சு நெட்டாண்டா(2100);

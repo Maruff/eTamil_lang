@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூட்டுத்_திசையன்(அ, ஆ) — add two vectors element by element__
+// இரு திசையன்களை உறுப்புவாரியாகக் கூட்டும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு மதிப்பு(கூட்டுத்_திசையன்([1, 2, 3], [4, 5, 6]))[0];
+அச்சு மதிப்பு(கூட்டுத்_திசையன்([1, 2, 3], [4, 5, 6]))[2];
+
+// __Different widths are refused here too.__
+// அகலம் வேறுபட்டால் இங்கேயும் மறுக்கப்படும்
+அச்சு தவறா(கூட்டுத்_திசையன்([1, 2], [1, 2, 3]));

@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நகர்த்து(இருந்து, வரை) — make the move, or refuse it__
+// நகர்வைச் செய்யும், அல்லது மறுக்கும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __The allowed move answers with the new state, so it can be assigned__
+// __straight into wherever the payment's state is kept.__
+// அனுமதிக்கப்பட்ட நகர்வு புதிய நிலைமையைத் தரும்
+நகர்ந்தது = நகர்த்து(நிலுவையில், வெற்றியானது);
+அச்சு மதிப்பு(நகர்ந்தது);
+
+// __An impossible move is refused rather than allowed, and the message says__
+// __which move it was — the difference between a log line you can act on and__
+// __one that says a state machine rejected something.__
+// இயலாத நகர்வு மறுக்கப்படும்; எந்த நகர்வு என்பதையும் சொல்லும்
+மறுத்தது = நகர்த்து(வெற்றியானது, தோல்வியானது);
+அச்சு தவறா(மறுத்தது);
+அச்சு தவறு_மதிப்பு(மறுத்தது);
+
+// __And a state nobody recognises is refused before the move is even__
+// __considered.__
+// தெரியாத நிலைமை, நகர்வு பரிசீலிக்கப்படுமுன்பே மறுக்கப்படும்
+அச்சு தவறு_மதிப்பு(நகர்த்து(நிலுவையில், "SETTLED"));

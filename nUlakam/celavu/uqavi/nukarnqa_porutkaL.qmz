@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நுகர்ந்த_பொருட்கள்(ஆரம்பப்_பொருட்கள், வாங்கியவை, இறுதிப்_பொருட்கள்) — materials consumed, from the stock movement__
+// காலத்தில் நுகரப்பட்ட பொருட்கள்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Opening plus purchases less closing. What was bought is not what was used,__
+// __and a cost sheet built on purchases moves with the buying department's__
+// __timing rather than with production.__
+// வாங்கியது நுகர்ந்தது அல்ல
+அச்சு நுகர்ந்த_பொருட்கள்(50000, 400000, 70000);
+அச்சு நுகர்ந்த_பொருட்கள்(0, 400000, 0);

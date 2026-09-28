@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_வெளியீடு(முனை) — make this pin an output__
+// இந்த முனையை வெளியீடாக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __Every pin has to be told what it is before it is used. A pin driven__
+// __without this does nothing on some boards and is a fault on others.__
+// பயன்படுத்தும் முன் ஒவ்வொரு முனைக்கும் அதன் பணி சொல்லப்பட வேண்டும்
+முனை_வெளியீடு(13);
+முனை_எழுது(13, மெய்);
+அச்சு முனை_படி(13);
+
+// __It answers nothing. A pin that cannot be driven is a wiring or permission__
+// __mistake found the first time the program runs, so it stops the program__
+// __with the host's message rather than becoming a result every caller checks.__
+// இது ஒன்றும் தருவதில்லை; இயக்க முடியாத முனை என்பது நிரல் நிற்கும் தவறு

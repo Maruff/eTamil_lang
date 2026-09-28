@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_கூட்டு(அ, ஆ) — add two amounts__
+// இரு தொகைகளைக் கூட்டும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __Ordinary addition, named. It exists so that a line of money arithmetic__
+// __reads as money arithmetic, and so that a reader can see at a glance that__
+// __both sides were in paise.__
+// சாதாரணக் கூட்டலே; இரு பக்கமும் பைசாவில் இருந்தன என்பது ஒரே பார்வையில் தெரியும்
+அச்சு காசு_உரை(காசு_கூட்டு(ரூபாயும்_பைசாவும்(249, 50), ரூபாயும்_பைசாவும்(100, 75)));
+
+// __Nothing is lost on the way: a hundred additions of a third of a rupee end__
+// __exactly where they should, which the same sum in fractions does not.__
+// வழியில் ஒன்றும் இழக்கப்படுவதில்லை
+மொத்தம் = 0;
+எண்ணி = 0;
+(எண்ணி < 100) சுற்று { மொத்தம் = காசு_கூட்டு(மொத்தம், 33); எண்ணி = எண்ணி + 1; }
+அச்சு காசு_உரை(மொத்தம்);

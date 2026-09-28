@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவணம்_நிரப்பு(மூலம், வடிவம், மதிப்புகள், தொகுதிகள்) — fill a document's XML: repeat its rows, substitute its values__
+// ஆவணத்தின் உள் குறியீட்டை நிரப்பும்: வரிசைகளைப் பெருக்கி, மதிப்புகளை மாற்றி
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __A .docx is a zip of XML, and this works on the XML inside it — so the whole__
+// __of the templating can be demonstrated and tested without a zip, a Word__
+// __installation or a temporary directory.__
+// ஆவணக் கோப்பு என்பது குறியீட்டுப் பொதி; இது அதனுள்ளிருப்பதின்மீதே வேலை செய்கிறது
+மூலம் = "<w:body><w:tr>தலைப்பு: {{ நிறுவனம் }}</w:tr>"
+        & "<w:tr>{%tr for வரி in வரிகள் %}</w:tr>"
+        & "<w:tr>{{ வரி.பெயர் }}: {{ வரி.தொகை }}</w:tr>"
+        & "<w:tr>{%tr endfor %}</w:tr></w:body>";
+
+// __The block is named after the loop VARIABLE — வரி, what sits between__
+// __for and in — and not after the collection. That is the name the fields__
+// __inside the loop are written against.__
+// தொகுதிக்குப் பெயர் வளைய மாறியின் பெயரே; தொகுப்பின் பெயர் அல்ல
+தொகுதிகள் = [{"பெயர்": "வரி",
+               "புலங்கள்": ["பெயர்", "தொகை"],
+               "வரிசைகள்": [{"பெயர்": "குமார்", "தொகை": "2,500.00"},
+                             {"பெயர்": "ராஜா", "தொகை": "1,200.00"}]}];
+
+// __The values are a list rather than a record, so the order they are applied__
+// __in is the caller's.__
+// மதிப்புகள் பட்டியலாக வருகின்றன; எந்த வரிசையில் மாற்றுவது என்பது அழைப்பவரின் தேர்வு
+மதிப்புகள் = [{"குறி": "நிறுவனம்", "மதிப்பு": "Raja & Sons"}];
+
+அச்சு ஆவணம்_நிரப்பு(மூலம், _DOCX_வடிவம், மதிப்புகள், தொகுதிகள்);
+
+// __The same source filled for an OpenDocument file differs only in the format__
+// __record, because the row markers are the only thing that changes.__
+// அதே மூலத்தைத் திறந்த ஆவண வடிவத்திற்கு நிரப்ப, வடிவப் பதிவேடு மட்டுமே வேறு

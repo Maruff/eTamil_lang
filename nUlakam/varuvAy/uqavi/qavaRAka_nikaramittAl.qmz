@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவறாக_நிகரமிட்டால்(நிலைகள்) — how much disappears if the two sides are netted__
+// சொத்தையும் பொறுப்பையும் தவறாக நிகரமிட்டால் என்ன மறையும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+நிலைகள் = [ஒப்பந்த_நிலை("C-1", 600000, 450000),
+            ஒப்பந்த_நிலை("C-2", 300000, 500000),
+            ஒப்பந்த_நிலை("C-3", 900000, 700000)];
+
+// __Netting a liability on one contract against an asset on another shortens__
+// __the balance sheet on both sides and tells the reader nothing true: the__
+// __customer who has paid in advance is not the customer who owes money.__
+// ஒரு ஒப்பந்தத்தின் பொறுப்பை மற்றொன்றின் சொத்துடன் நிகரமிடுவது தவறு
+மறைந்தது = தவறாக_நிகரமிட்டால்(நிலைகள்);
+அச்சு மறைந்தது["மறைந்த_தொகை"];
+அச்சு மறைந்தது["உண்மையான_சொத்து"];
+அச்சு மறைந்தது["உண்மையான_பொறுப்பு"];
+
+// __Here on purpose, so the amount at stake can be quantified rather than__
+// __asserted.__
+// எவ்வளவு மறையும் என்பதை எண்ணாகச் சொல்லவே இது இங்கே உள்ளது

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இணைப்பைப்_படி(இணைப்பு) — read a upi://pay link back into its parts__
+// பணம் இணைப்பைப் பகுதிகளாகப் படிக்கும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+இணைப்பு = மதிப்பு(பணம்_இணைப்பு({"pa": "shop@okhdfcbank", "pn": "Shop",
+                                  "am": 249.50, "tr": "INV-9"}));
+
+// __The address comes back, and so does the reference to reconcile on — which__
+// __is the field a scanned QR code is usually being read for.__
+// முகவரியும், சரிக்கட்டுவதற்கான குறிப்பெண்ணும் திரும்பக் கிடைக்கும்
+படித்தது = மதிப்பு(இணைப்பைப்_படி(இணைப்பு));
+அச்சு படித்தது["pa"];
+அச்சு படித்தது["tr"];
+அச்சு படித்தது["am"];
+
+// __Something that is not a UPI link is refused, so a QR code that turned out__
+// __to hold a web address does not half-parse into a payment.__
+// பணம் இணைப்பு அல்லாதது மறுக்கப்படும்
+அச்சு தவறா(இணைப்பைப்_படி("https://example.com"));

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோசைன்_ஒற்றுமை(அ, ஆ) — how close two vectors point, regardless of length__
+// இரு திசையன்களுக்கு இடையேயான கோணத்தின் கோசைன்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __One for the same direction, nothing for a right angle. Length is divided__
+// __out, so a long document and a short one about the same thing score alike.__
+// நீளம் வகுக்கப்படுகிறது; நீளமும் குறுகியதும் ஒரே பொருளானால் ஒரே மதிப்பெண்
+அச்சு மதிப்பு(கோசைன்_ஒற்றுமை([1, 0, 0], [2, 0, 0]));
+அச்சு மதிப்பு(கோசைன்_ஒற்றுமை([1, 0, 0], [0, 1, 0]));
+அச்சு வட்டமிடு(மதிப்பு(கோசைன்_ஒற்றுமை([1, 1, 0], [1, 0, 0])), 4);

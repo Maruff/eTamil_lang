@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இடம்_காண்(அணி, மதிப்பு) — the first position, or -1__
+// முதன்முதலில் அமையும் இடம்; இல்லையெனில் ஒன்று குறை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+எண்கள் = [10, 20, 30, 20];
+அச்சு இடம்_காண்(எண்கள், 20);
+
+// __The first 20, not the last: positions count from zero.__
+// முதல் இருபது, கடைசியல்ல; இடம் பூஜ்ஜியத்திலிருந்து எண்ணப்படும்
+அச்சு இடம்_காண்(எண்கள், 99);

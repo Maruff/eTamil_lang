@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதை_பரவல்(மதிப்பீடுகள்) — the variance of a path: variances add, deviations do not__
+// பாதையின் பரவல்: கூட வேண்டியது பரவல்களே, விலகல்கள் அல்ல
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __The variances are what add, and only because the tasks are taken to be__
+// __independent. Tasks that share a team, a supplier or a site are not, and__
+// __this understates the spread for them.__
+// பரவல்களே கூடும்; அதுவும் பணிகள் தனித்தனி என்ற ஊகத்தின்மீதே
+அச்சு பாதை_பரவல்(பாதை);

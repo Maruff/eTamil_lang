@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — the part caused by paying a different rate__
+// மணிக்கு அதிகமாகவோ குறைவாகவோ கொடுத்ததால்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __A wage settlement, or overtime worked at a premium.__
+// ஊதிய ஒப்பந்தமோ, மிகை நேர ஊதியமோ
+அச்சு ஊதிய_வீத_வேறுபாடு(2100, 120, 125);
+அச்சு ஊதிய_வீத_வேறுபாடு(2100, 120, 115);

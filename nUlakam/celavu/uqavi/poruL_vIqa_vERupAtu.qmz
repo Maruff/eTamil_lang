@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்) — the part caused by paying a different price__
+// விலை வேறுபட்டதால் வந்த வேறுபாடு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Priced on the ACTUAL quantity, because the buyer's saving applies to what__
+// __was actually bought rather than to what was supposed to be needed.__
+// உண்மை அளவின்மீதே; வாங்கியதற்கே சேமிப்பு பொருந்தும்
+அச்சு பொருள்_வீத_வேறுபாடு(1100, 50, 48);
+அச்சு பொருள்_வீத_வேறுபாடு(1100, 50, 52);

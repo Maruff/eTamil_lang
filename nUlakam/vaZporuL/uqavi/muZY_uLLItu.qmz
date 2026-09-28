@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_உள்ளீடு(முனை) — make this pin an input__
+// இந்த முனையை உள்ளீடாக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __A plain input reads whatever the wire is holding. Use this where something__
+// __actively drives the pin high and low — another board's output, a sensor__
+// __with a push-pull line.__
+// வெறும் உள்ளீடு; கம்பி எதைப் பிடித்திருக்கிறதோ அதையே படிக்கும்
+முனை_உள்ளீடு(4);
+
+// __With nothing driving it, what it reads is not defined. The simulated board__
+// __starts every pin low, and a real one floats — which is why a switch wants__
+// __முனை_மேலிழு_உள்ளீடு instead.__
+// ஒன்றும் இயக்காதபோது படிப்பது வரையறுக்கப்படவில்லை
+போலி_முனை(4, மெய்);
+அச்சு முனை_படி(4);
+போலி_முனை(4, பொய்);
+அச்சு முனை_படி(4);

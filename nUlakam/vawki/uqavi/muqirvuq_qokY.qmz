@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதிர்வுத்_தொகை(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) — what the deposit is worth at maturity__
+// முதிர்வின்போது வைப்புத்தொகை எவ்வளவு
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __The principal and the compound interest together — the figure printed on a__
+// __fixed deposit receipt.__
+// அசலும் கூட்டு வட்டியும் சேர்ந்தது; வைப்புச் சீட்டில் அச்சிடப்படுவது இதுவே
+அச்சு முதிர்வுத்_தொகை(100000, 8, 5, 4);
+
+// __Which is the principal plus what கூட்டு_வட்டி says, by construction.__
+// இது அசலும் கூட்டு_வட்டி சொல்வதும் சேர்ந்ததே
+அச்சு 100000 + கூட்டு_வட்டி(100000, 8, 5, 4);
+
+// __A deposit not yet started is worth what was put into it.__
+// தொடங்காத வைப்பின் மதிப்பு போட்டதே
+அச்சு முதிர்வுத்_தொகை(100000, 8, 0, 4);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்) — the material variances as one record__
+// பொருள் வேறுபாடுகள் ஒரே பதிவேடாக
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+தொகுதி = பொருள்_வேறுபாட்டுத்_தொகுதி(1000, 50, 1100, 48);
+
+அச்சு தொகுதி["வீத_வேறுபாடு"];
+அச்சு தொகுதி["பயன்பாட்டு_வேறுபாடு"];
+அச்சு தொகுதி["மொத்த_வேறுபாடு"];
+
+// __The two add back to the total, which is what makes the split worth__
+// __trusting: a buyer who saved money and a shop floor that wasted it.__
+// இரண்டும் சேர்ந்தால் மொத்தம்; அதுவே இப்பிரிவை நம்பத்தக்கதாக்குகிறது
+அச்சு தொகுதி["வீத_வேறுபாடு"] + தொகுதி["பயன்பாட்டு_வேறுபாடு"];

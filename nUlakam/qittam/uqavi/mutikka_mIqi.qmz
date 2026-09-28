@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிக்க_மீதி(முடிவில்_மதிப்பீடு, உண்மைச்_செலவு) — what is still to be spent__
+// முடிக்க இன்னும் தேவைப்படும் மதிப்பீடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The number a request for more money is written against. A forecast at__
+// __completion of 12,00,000 with 3,00,000 already spent is a request for__
+// __9,00,000, not for 2,00,000.__
+// கூடுதல் நிதிக் கோரிக்கை இந்த எண்ணின்மீதே எழுதப்படுகிறது
+அச்சு முடிக்க_மீதி(1200000, 300000);
+
+// __A project already past its forecast needs nothing more by this arithmetic,__
+// __which is a sign the forecast needs redoing.__
+// கணிப்பைத் தாண்டிய திட்டத்திற்கு இது ஒன்றும் தேவையில்லை எனும்; கணிப்பே மீள்பரிசீலனைக்குரியது
+அச்சு முடிக்க_மீதி(1200000, 1300000);

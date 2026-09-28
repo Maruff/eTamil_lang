@@ -149,3 +149,16 @@ not `5.000000000000000000000288615`, and `log10(1000)` is `3`, not
 
 What is left in `matakkY.qmz` is the base-2 wrapper and the `ln 2` constant it
 divides by, neither of which was ever the expensive part.
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 86 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh nuNNaRivu
+```

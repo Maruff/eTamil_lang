@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாதத்தைப்_பெறு(ஒரு_நாள்) — the month, one to twelve__
+// மாதம், ஒன்று முதல் பன்னிரண்டு வரை
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __One to twelve, not zero to eleven. Every off-by-one month bug in every__
+// __language starts with someone forgetting which convention they are in.__
+// ஒன்று முதல் பன்னிரண்டு; பூஜ்ஜியம் முதல் பதினொன்று அல்ல
+அச்சு மாதத்தைப்_பெறு("2026-01-15");
+அச்சு மாதத்தைப்_பெறு("2026-12-15");

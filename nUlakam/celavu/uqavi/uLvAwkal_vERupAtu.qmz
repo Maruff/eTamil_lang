@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்வாங்கல்_வேறுபாடு(உள்வாங்கிய_தொகை, உண்மை_மேல்நிலை) — the difference between what was charged and what was spent__
+// உள்வாங்கியதற்கும் செலவழித்ததற்கும் உள்ள வேறுபாடு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The number nobody looks at until the year end, and by then the products__
+// __have been priced on a rate that was wrong all year.__
+// ஆண்டிறுதிவரை யாரும் பார்க்காத எண்; அதற்குள் விலைகள் தவறான விகிதத்தில் நிர்ணயிக்கப்பட்டிருக்கும்
+அச்சு உள்வாங்கல்_வேறுபாடு(560000, 600000);
+அச்சு உள்வாங்கல்_வேறுபாடு(620000, 600000);

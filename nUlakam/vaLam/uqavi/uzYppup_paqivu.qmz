@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உழைப்புப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, ஊதியக்_கணக்கு, தொகை_மதிப்பு) — labour cost into work in progress__
+// உழைப்புச் செலவுப் பதிவு
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+
+// __Debit work in progress, credit payroll. The project picks up the cost and__
+// __the payroll account is relieved of it.__
+// நடப்புக் கணக்கு பற்று; ஊதியக் கணக்கு வரவு
+பதிவு = உழைப்புப்_பதிவு(1, "2026-03-02", "உழைப்பு", நடப்புக்_கணக்கு,
+                         "PAYROLL", 12000);
+
+// __Every posting balances, and it is built rather than written out, so it__
+// __cannot fail to.__
+// ஒவ்வொரு பதிவும் சமநிலையில் உள்ளது
+அச்சு சமநிலையா(பதிவு);
+அச்சு நீளம்(பதிவு["வரிசைகள்"]);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விகிதத்தில்_பிரி(மொத்த_பைசா, எடைகள்) — split an amount in proportion to weights, losing nothing__
+// எடைகளுக்கு ஏற்பப் பிரிக்கும்; ஒன்றும் இழக்கப்படுவதில்லை
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __Freight apportioned over three consignments by value.__
+// மூன்று சரக்குகளுக்கு மதிப்பின் விகிதத்தில் கப்பல் கட்டணம்
+பங்குகள் = விகிதத்தில்_பிரி(ரூபாயாக(1000), [1, 2, 3]);
+ஒவ்வொரு ஒரு_பங்கு இல் பங்குகள் { அச்சு காசு_உரை(ஒரு_பங்கு); }
+
+// __The last share takes whatever is left rather than being computed, so the__
+// __parts add back to the whole exactly. Rounding each share on its own leaves__
+// __a paisa unallocated, and an unallocated paisa is a journal that will not__
+// __post.__
+// கடைசிப் பங்கு மிச்சத்தையே எடுக்கும்; அதனால் கூட்டல் சரியாகப் பொருந்தும்
+அச்சு காசு_உரை(காசு_கூட்டல்(பங்குகள்));
+
+// __Weights that add to nothing give nothing: there is no way to apportion__
+// __across parties that hold no share.__
+// எடைகள் பூஜ்ஜியமாகக் கூடினால் பிரிக்க வழியில்லை
+அச்சு நீளம்(விகிதத்தில்_பிரி(ரூபாயாக(1000), [0, 0]));

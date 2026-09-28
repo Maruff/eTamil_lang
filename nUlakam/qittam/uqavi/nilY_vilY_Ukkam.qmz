@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலை_விலை_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, விற்பவர்_பகிர்வு, உண்மைச்_செலவு) — how a fixed-price incentive contract settles__
+// நிலை விலை ஊக்க ஒப்பந்தத்தின் முடிவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Under the target: the fee rises and the buyer pays less than the target__
+// __price.__
+// இலக்குக்குக் கீழே முடித்தால் கட்டணம் கூடும்
+நன்றாக = (நிலை_விலை_ஊக்கம்(1000000, 100000, 1250000, 0.5, 900000));
+அச்சு நன்றாக["இறுதி_விலை"];
+அச்சு நன்றாக["விற்பவர்_லாபம்"];
+
+// __Over the ceiling: the price stops and the fee the formula would have given__
+// __is reported beside it, so the effect of the cap is visible.__
+// உச்சத்தைத் தாண்டினால் விலை நிற்கும்; வரம்பின்றிக் கிடைத்திருக்கும் கட்டணமும் காட்டப்படுகிறது
+மோசமாக = (நிலை_விலை_ஊக்கம்(1000000, 100000, 1250000, 0.5, 1300000));
+அச்சு மோசமாக["இறுதி_விலை"];
+அச்சு மோசமாக["உச்சம்_தொட்டதா"];
+அச்சு மோசமாக["விற்பவர்_லாபம்"];

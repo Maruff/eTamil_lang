@@ -26,3 +26,16 @@ Also here: GST on transactions, the rate that applied on a given date, depreciat
 | `vari_vikiqam_cOqaZY.qmz` | tests for finding the rate that applied | — |
 
 `vari_vikiqam.qmz` answers "what rate applied *then*", which is a different question from "what rate applies now" and the one an amended return actually needs.
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 99 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh kaNakkiyal
+```

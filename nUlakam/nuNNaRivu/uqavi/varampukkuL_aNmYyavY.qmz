@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரம்புக்குள்_அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், குறைந்தபட்சம்) — everything above a similarity threshold, however many__
+// சொன்ன ஒற்றுமைக்கு மேல் உள்ள அனைத்தும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [பொதிந்த_ஆவணம்("vari.md", [1, 0, 0]),
+              பொதிந்த_ஆவணம்("paNam.md", [0, 1, 0]),
+              பொதிந்த_ஆவணம்("vatti.md", [0.9, 0.1, 0])];
+
+// __A count answers \"the best three\" even when only one is any good. A__
+// __threshold answers \"whatever is actually close\", which is the question a__
+// __prompt builder is asking.__
+// எண்ணிக்கை அல்ல, உண்மையில் அண்மையானவையே
+அச்சு நீளம்(வரம்புக்குள்_அண்மையவை(ஆவணங்கள், [1, 0, 0], 0.8));
+அச்சு நீளம்(வரம்புக்குள்_அண்மையவை(ஆவணங்கள், [1, 0, 0], 0.99));

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மடங்காக்கு(திசையன், மடங்கு) — multiply every element by a number__
+// ஒவ்வொரு உறுப்பையும் ஒரு எண்ணால் பெருக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு மடங்காக்கு([1, 2, 3], 2)[2];
+
+// __Scaling does not change direction, so the similarity to anything is__
+// __unchanged — which is exactly why normalising is safe.__
+// அளவிடுதல் திசையை மாற்றாது; ஒற்றுமையும் மாறாது
+அச்சு மதிப்பு(கோசைன்_ஒற்றுமை([1, 2, 3], மடங்காக்கு([1, 2, 3], 10)));

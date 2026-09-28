@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கணக்கியல்_வேறுபாடு(திட்டமிட்டது, உண்மைச்_செலவு) — planned less actual, which measures nothing useful__
+// திட்டமிட்டதற்கும் உண்மைக்கும் உள்ள வேறுபாடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Here because it is what a plain accounting system reports, and because it__
+// __is worth being able to show what it misses: it says nothing about how much__
+// __work was done.__
+// வழக்கமான கணக்கியல் அறிவிப்பது இதையே; வேலை எவ்வளவு முடிந்தது என்பதை இது சொல்வதில்லை
+அச்சு கணக்கியல்_வேறுபாடு(300000, 250000);
+
+// __Spent less than planned, and it looks like good news. Earned value says it__
+// __is not: only 2,50,000 was planned for and 2,00,000 of work got done.__
+// குறைவாகச் செலவழித்தது நல்ல செய்தி போலத் தெரிகிறது; ஆனால் வேலையும் குறைவே
+அச்சு செலவு_வேறுபாடு(200000, 250000);
+அச்சு கால_வேறுபாடு(200000, 300000);

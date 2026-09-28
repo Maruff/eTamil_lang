@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவணை_அட்டவணையை_ஆக்கு(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை) — the payment plan, instalment by instalment__
+// தவணை வாரியான செலுத்தல் அட்டவணை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Both figures on each row: what should have been paid by that date in total,__
+// __and what has to be paid on the date itself. Confusing the two is how a__
+// __taxpayer pays 15% four times and is short at the end of the year.__
+// ஒவ்வொரு வரிசையிலும் இரு எண்கள்: திரட்டியதும், இப்போது செலுத்த வேண்டியதும்
+ஒவ்வொரு ஒரு_வரிசை இல் தவணை_அட்டவணையை_ஆக்கு(100000, முன்வரித்_தவணைகள்()) {
+    அச்சு ஒரு_வரிசை["திரட்டியது"];
+    அச்சு ஒரு_வரிசை["இப்போது_செலுத்த"];
+}

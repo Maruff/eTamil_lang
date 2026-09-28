@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கிளை_ஆக்கு(விவரம், நிகழ்தகவு, விளைவுத்_தொகை) — one branch of a decision tree__
+// முடிவு மரத்தின் ஒரு கிளை
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __Unlike a register entry, a branch's outcome carries its own sign: a branch__
+// __is one thing that might happen, and it may be good or bad on its own terms.__
+// கிளையின் விளைவு தன் குறியைத் தானே சுமக்கிறது
+வெற்றி = கிளை_ஆக்கு("வெற்றி", 60, 1000000);
+தோல்வி = கிளை_ஆக்கு("தோல்வி", 40, 0 - 200000);
+
+அச்சு வெற்றி["விவரம்"];
+அச்சு வெற்றி["நிகழ்தகவு"];
+அச்சு தோல்வி["விளைவு"];

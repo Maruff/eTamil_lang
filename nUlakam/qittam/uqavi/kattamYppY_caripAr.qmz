@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டமைப்பை_சரிபார்(கணக்குகள், கணுக்கள்) — check every work package has exactly one account__
+// ஒவ்வொரு வேலைத் தொகுப்பையும் சரிபார்க்கும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+             கணு_ஆக்கு("1.2", "1", "கட்டுமானம்", 600000)];
+
+நல்லது = [கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு("CA-1", "1.1", "பா"),
+           கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு("CA-2", "1.2", "நி")];
+அச்சு சரியா(கட்டமைப்பை_சரிபார்(நல்லது, கணுக்கள்));
+
+// __Run before a baseline is set. A work package with no control account is__
+// __work that will be done and not reported, and it is found at the month end.__
+// அடிப்படை நிர்ணயிக்குமுன் இதைச் செய்ய வேண்டும்
+அச்சு தவறு_மதிப்பு(கட்டமைப்பை_சரிபார்(
+    [கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு("CA-1", "1.1", "பா")], கணுக்கள்));

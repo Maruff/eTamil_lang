@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விலைப்பட்டியல்_நிகரம்(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) — what is actually payable on this invoice__
+// தேக்கம் போக விலைப்பட்டியலின் நிகரத் தொகை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __What the customer will pay now, as against what was certified. The whole__
+// __amount is revenue; only part of it is cash.__
+// இப்போது செலுத்தப்படுவது; முழுத் தொகையும் வருவாயே, ஆனால் பணமல்ல
+அச்சு விலைப்பட்டியல்_நிகரம்(1000000, 5);
+அச்சு விலைப்பட்டியல்_நிகரம்(1000000, 0);
+
+// __Which is the number a cash forecast needs and the invoice total is not.__
+// பணவரவு மதிப்பீட்டுக்குத் தேவைப்படுவது இதுவே

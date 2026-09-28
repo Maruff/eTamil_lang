@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __படிநிலை_வரிசை_வேறுபாடு(முதல்_வரிசை, இரண்டாம்_வரிசை, உற்பத்திக்_குறிகள், ஒரு_குறி) — how much the answer moves if the order changes__
+// வரிசை மாறினால் விடை எவ்வளவு மாறும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+S1 = சேவை_நிலையம்_ஆக்கு("S1", 100000,
+         [பகிர்வு_ஆக்கு("P1", 50), பகிர்வு_ஆக்கு("P2", 30),
+          பகிர்வு_ஆக்கு("S2", 20)]);
+S2 = சேவை_நிலையம்_ஆக்கு("S2", 60000,
+         [பகிர்வு_ஆக்கு("P1", 40), பகிர்வு_ஆக்கு("P2", 50),
+          பகிர்வு_ஆக்கு("S1", 10)]);
+
+// __Here on purpose. The step method's answer depends on an order somebody__
+// __chose, and quantifying that is more honest than defending the choice.__
+// வரிசையை யாரோ தேர்ந்தெடுத்தார்; அதன் விளைவை எண்ணாகச் சொல்வதே நேர்மை
+வேறுபாடு = படிநிலை_வரிசை_வேறுபாடு([S1, S2], [S2, S1], ["P1", "P2"], "P1");
+அச்சு வேறுபாடு["முதல்_வரிசையில்"];
+அச்சு வேறுபாடு["இரண்டாம்_வரிசையில்"];
+அச்சு வேறுபாடு["வேறுபாடு"];

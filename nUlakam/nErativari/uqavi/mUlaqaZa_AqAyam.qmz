@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மூலதன_ஆதாயம்(விற்ற_மதிப்பு, மாற்றல்_செலவுகள், கொள்முதல்_மதிப்பு, மேம்பாட்டுச்_செலவு) — the capital gain, or the loss__
+// மூலதன ஆதாயம் அல்லது இழப்பு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Transfer costs — brokerage, stamp duty on the sale — come off the sale__
+// __value, and improvements are added to the cost.__
+// மாற்றல் செலவுகள் விற்ற மதிப்பிலிருந்து; மேம்பாடுகள் கொள்முதல் செலவில்
+அச்சு மூலதன_ஆதாயம்(5000000, 100000, 1000000, 500000);
+
+// __It can be a loss, which is a different thing from a gain of nothing: a__
+// __loss can be set off and carried forward.__
+// இது இழப்பாகவும் வரலாம்; அது பூஜ்ஜிய ஆதாயம் அல்ல
+அச்சு மூலதன_ஆதாயம்(800000, 20000, 1000000, 0);
+
+// __Used with குறியீட்டுச்_செலவு where indexation applies.__
+// குறியீட்டுச் செலவுடன் சேர்த்துப் பயன்படுத்தப்படுகிறது
+அச்சு மூலதன_ஆதாயம்(5000000, 100000, மதிப்பு(குறியீட்டுச்_செலவு(1000000, 117, 363)), 0);

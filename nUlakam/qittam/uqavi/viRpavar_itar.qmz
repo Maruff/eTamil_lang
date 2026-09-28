@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விற்பவர்_இடர்(ஒப்பந்த_வகை) — how much of the cost risk the seller carries__
+// இவ்வகை ஒப்பந்தத்தில் விற்பவர் சுமக்கும் இடர்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __A fixed price puts all of it on the seller; cost plus fixed fee puts none of__
+// __it there. Everything else is somewhere in between, and the whole of__
+// __contract choice is choosing where.__
+// உறுதி விலையில் முழுவதும் விற்பவர்மீது; செலவுக்கூடு நிலைக் கட்டணத்தில் ஒன்றுமில்லை
+அச்சு விற்பவர்_இடர்("உறுதி_நிலை_விலை");
+அச்சு விற்பவர்_இடர்("நிலை_விலை_ஊக்கம்");
+அச்சு விற்பவர்_இடர்("செலவுடன்_ஊக்கம்");
+அச்சு விற்பவர்_இடர்("செலவுடன்_நிலைக்_கட்டணம்");
+
+// __A type nobody recognises answers with nothing rather than guessing.__
+// தெரியாத வகைக்கு ஊகம் இல்லை
+அச்சு "[" & விற்பவர்_இடர்("ஏதோ") & "]";

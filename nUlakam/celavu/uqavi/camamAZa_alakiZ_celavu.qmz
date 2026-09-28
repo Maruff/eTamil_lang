@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமமான_அலகின்_செலவு(காலத்தின்_செலவு, சமமான_அலகுகள்) — cost per equivalent unit__
+// ஒரு சமமான அலகுக்கான செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு மதிப்பு(சமமான_அலகின்_செலவு(500000, 9200));
+
+// __With no equivalent units there is nothing to divide by, which happens when__
+// __a process ran and produced nothing at all.__
+// சமமான அலகுகளே இல்லையெனில் வகுக்க ஒன்றுமில்லை
+அச்சு தவறா(சமமான_அலகின்_செலவு(500000, 0));

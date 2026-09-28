@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதினாறு_படி(குறியிட்டது) — decode hex, or say what was wrong with it__
+// பதினாறிலிருந்து படிக்கும், அல்லது என்ன தவறு என்பதைச் சொல்லும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+அச்சு மதிப்பு(பதினாறு_படி(பதினாறு_ஆக்கு("தமிழ்")));
+
+// __Capitals are accepted: the case a hash was printed in is not part of it.__
+// பேரெழுத்தும் ஏற்கப்படும்
+அச்சு மதிப்பு(பதினாறு_படி("4D616E"));
+
+// __An odd number of characters is refused rather than half-read. Hex comes in__
+// __pairs, and an odd length means something was truncated on the way.__
+// ஒற்றை எண்ணிக்கை மறுக்கப்படும்; அது வழியில் துண்டிக்கப்பட்டது என்பதைக் காட்டுகிறது
+அச்சு தவறு_மதிப்பு(பதினாறு_படி("4D616"));
+
+// __And so is a character that is not hex at all.__
+// பதினாறில் இல்லாத எழுத்தும் மறுக்கப்படும்
+அச்சு தவறு_மதிப்பு(பதினாறு_படி("4D61ZZ"));

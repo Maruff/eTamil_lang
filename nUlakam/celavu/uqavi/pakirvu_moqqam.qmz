@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பகிர்வு_மொத்தம்(ஒரு_நிலையம்) — a centre's shares, added up__
+// ஒரு நிலையத்தின் பங்குகள் கூட்டியது
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+நிலையம் = சேவை_நிலையம்_ஆக்கு("S1", 100000,
+    [பகிர்வு_ஆக்கு("P1", 40), பகிர்வு_ஆக்கு("P2", 40), பகிர்வு_ஆக்கு("S2", 20)]);
+
+// __Worth checking against a hundred before anything is apportioned: shares__
+// __that do not add up leave cost in the service centre for ever.__
+// நூறாகக் கூடாத பங்குகள், செலவை நிரந்தரமாகச் சேவை நிலையத்திலேயே விட்டுவிடும்
+அச்சு பகிர்வு_மொத்தம்(நிலையம்);

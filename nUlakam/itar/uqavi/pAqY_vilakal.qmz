@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதை_விலகல்(மதிப்பீடுகள்) — the path's standard deviation__
+// பாதையின் நியம விலகல்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __The root of the summed variances. This is the number a confidence range is__
+// __built from, so getting to it the wrong way makes every date wrong.__
+// கூட்டிய பரவல்களின் வர்க்கமூலம்
+அச்சு மதிப்பு(பாதை_விலகல்(பாதை));

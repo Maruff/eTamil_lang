@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வாடகைச்_சொத்து_வருமானம்(நிகர_ஆண்டு_மதிப்பு, நியம_விகிதம், கடன்_வட்டித்_தொகை) — income from a let property__
+// வாடகைக்கு விட்ட வீட்டின் வருமானம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The standard deduction is a flat percentage and is not evidence-based:__
+// __actual repairs, insurance and collection costs are not deductible, whether__
+// __they were more or less than the percentage.__
+// நியமக் கழிவு ஒரு விழுக்காடே; உண்மைச் செலவுகள் கழிக்கப்படுவதில்லை
+அச்சு வாடகைச்_சொத்து_வருமானம்(348000, 30, 0);
+
+// __Interest on the loan has no cap on a let property, so a heavily mortgaged__
+// __one can show a large loss — which is the whole point of the set-off rules.__
+// வாடகை வீட்டின் கடன் வட்டிக்கு உச்ச வரம்பு இல்லை
+அச்சு வாடகைச்_சொத்து_வருமானம்(348000, 30, 400000);

@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __படி_வரி_கணக்கிடு(வரி_வகை, மாநிலக்_குறி, நாள், வரிக்குரிய_தொகை) — compute a banded tax from the table__
+// படிகளைக் கொண்டு வரியைக் கணக்கிடும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE vari_vikiqam (
+             vari_vakY TEXT NOT NULL, kuRi TEXT NOT NULL, mAnilam TEXT NOT NULL,
+             vikiqam REAL, nilYq_qokY REAL,
+             varampu_muqal REAL NOT NULL DEFAULT 0, varampu_varY REAL,
+             amal_qotakkam TEXT NOT NULL, amal_mutivu TEXT, mUlam TEXT NOT NULL)", [];
+தளம்_செய் "INSERT INTO vari_vikiqam
+             (vari_vakY, kuRi, mAnilam, nilYq_qokY, varampu_muqal,
+              amal_qotakkam, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["pt", "band1", "33", 0, 0, "2020-01-01", "எடுத்துக்காட்டு"];
+
+// __Bands rather than code. A state that changes its slabs needs a row, not a__
+// __release.__
+// மாநிலம் படிகளை மாற்றினால் ஒரு வரிசை போதும்; வெளியீடு தேவையில்லை
+அச்சு மதிப்பு(படி_வரி_கணக்கிடு("pt", "33", "2026-04-01", 30000));
+
+// __A tax with no bands loaded is a தவறு rather than a tax of nothing.__
+// படிகளே இல்லாத வரி தவறே; பூஜ்ஜிய வரி அல்ல
+அச்சு தவறா(படி_வரி_கணக்கிடு("pt", "99", "2026-04-01", 30000));

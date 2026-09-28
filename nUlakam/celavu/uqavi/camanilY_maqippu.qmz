@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமநிலை_மதிப்பு(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — the break-even point in money__
+// சமநிலை விற்பனை மதிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __For a business that thinks in turnover rather than in units, and for one__
+// __selling a mix where a unit is not a meaningful thing.__
+// வருவாயில் சிந்திக்கும் நிறுவனங்களுக்கு
+அச்சு மதிப்பு(சமநிலை_மதிப்பு(150000, 500, 300));
+அச்சு தவறா(சமநிலை_மதிப்பு(150000, 300, 300));

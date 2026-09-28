@@ -472,6 +472,11 @@ def read_stdlib() -> list[dict]:
     # this — aNi.qmz and AvaNam.qmz swap places, and CI then rejects a
     # file that was correct when it was generated.
     for path in sorted(NULAKAM.rglob("*.qmz"), key=lambda p: p.as_posix()):
+        # uqavi/ holds the worked examples, not the library. A helper a sample
+        # defines to make its own point is not something an editor should offer
+        # as a completion, and three of them had already got in this way.
+        if "uqavi" in path.relative_to(NULAKAM).parts:
+            continue
         module = path.relative_to(ROOT).as_posix()
         lines = path.read_text(encoding="utf-8").splitlines()
 

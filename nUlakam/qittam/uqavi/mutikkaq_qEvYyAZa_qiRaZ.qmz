@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிக்கத்_தேவையான_திறன்(மொத்த_நிதி, ஈட்டியது, உண்மைச்_செலவு) — the efficiency needed to finish within the budget__
+// நிதிக்குள் முடிக்கத் தேவையான செயல்திறன்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The reality check. A project running at 0.83 that needs 1.07 to recover is__
+// __not going to recover, and saying so in September is worth more than saying__
+// __it in March.__
+// உண்மையைச் சொல்லும் எண்; இப்போது 0.83, தேவை 1.07 என்றால் மீட்சி இல்லை
+அச்சு வட்டமிடு(மதிப்பு(முடிக்கத்_தேவையான_திறன்(1000000, 250000, 300000)), 4);
+அச்சு வட்டமிடு(மதிப்பு(செலவுச்_செயல்திறன்(250000, 300000)), 4);
+
+// __With the budget already spent there is nothing left to be efficient with.__
+// நிதி முழுவதும் செலவானபின் திறன் பற்றிப் பேச ஒன்றுமில்லை
+அச்சு தவறா(முடிக்கத்_தேவையான_திறன்(1000000, 250000, 1000000));

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூட்டுச்_சரிவு(தரவுகள், குறிகள்) — the cost of a day when several paths must shorten together__
+// பல செயல்களை ஒன்றாகச் சுருக்கும் செலவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தரவுகள் = [செயல்_நேர_செலவு("A", 10, 100000, 7, 130000),
+            செயல்_நேர_செலவு("D", 6, 60000, 5, 75000)];
+
+// __Once there are two critical paths, a day has to be taken off both or the__
+// __project does not move. The cost of a day is then the sum, which is why__
+// __crashing gets abruptly more expensive as paths go critical.__
+// இரு கடுமையான பாதைகள் இருந்தால், இரண்டிலிருந்தும் ஒரு நாள் எடுக்க வேண்டும்
+அச்சு கூட்டுச்_சரிவு(தரவுகள், ["A"]);
+அச்சு கூட்டுச்_சரிவு(தரவுகள், ["A", "D"]);

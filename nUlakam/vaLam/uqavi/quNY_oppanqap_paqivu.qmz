@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __துணை_ஒப்பந்தப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, செலுத்தவேண்டிய_கணக்கு, தொகை_மதிப்பு) — a subcontractor's certified work__
+// துணை ஒப்பந்தக்காரரின் சான்றளிக்கப்பட்ட பணி
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+
+// __Credited to payables, because the work has been done and not yet paid for.__
+// __Posting it when the invoice is paid instead puts the cost in the wrong__
+// __month, and the variance report for that month is wrong in both directions.__
+// வேலை முடிந்துவிட்டது, பணம் இன்னும் செலுத்தப்படவில்லை
+பதிவு = துணை_ஒப்பந்தப்_பதிவு(3, "2026-03-20", "துணை ஒப்பந்தம்",
+                               நடப்புக்_கணக்கு, "CREDITORS", 45000);
+அச்சு சமநிலையா(பதிவு);

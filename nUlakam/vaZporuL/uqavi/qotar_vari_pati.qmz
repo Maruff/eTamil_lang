@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்_வரி_படி(துறை, காலம்) — read one line, waiting at most this long__
+// ஒரு வரியைப் படிக்கும்; அதிகபட்சம் இத்தனை நேரம் காத்திருக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+
+// __Nothing has arrived yet, and that answers சரி with empty text rather than__
+// __தவறு. A device that has not spoken is not a fault; a caller that cannot__
+// __tell the two apart retries the wrong one, or reports a dead sensor every__
+// __time round a fast loop.__
+// ஒன்றும் வரவில்லை என்பது தவறல்ல; சரி("") எனவே திரும்பும்
+அச்சு "[" & மதிப்பு(தொடர்_வரி_படி(துறை, 0)) & "]";
+
+// __A line that did arrive comes back whole, without its newline.__
+// வந்த வரி முழுமையாக, வரி முறிவின்றி
+போலி_தொடர்_ஊட்டு("sim:bus", ">01,P*2F");
+அச்சு மதிப்பு(தொடர்_வரி_படி(துறை, 0));
+
+தொடர்_மூடு(துறை);

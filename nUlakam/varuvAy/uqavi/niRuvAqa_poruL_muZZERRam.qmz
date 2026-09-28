@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறுவாத_பொருள்_முன்னேற்றம்(ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு, நிறுவாத_பொருள்_செலவு) — progress with uninstalled materials taken out__
+// நிறுவப்படாத பொருளை விலக்கிய முன்னேற்றம்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Buying a lift and leaving it in the car park is not progress. A cost method__
+// __that counts it says a job is a third done on the day the goods arrived.__
+// பொருளை வாங்கி வைத்திருப்பது முன்னேற்றம் அல்ல
+அச்சு மதிப்பு(செலவு_முன்னேற்றம்(500000, 1500000));
+அச்சு மதிப்பு(நிறுவாத_பொருள்_முன்னேற்றம்(500000, 1500000, 400000));
+
+// __With nothing left once the materials are excluded, there is nothing to__
+// __measure.__
+// பொருட்களை நீக்கியபின் ஒன்றுமில்லையெனில் அளக்க முடியாது
+அச்சு தவறா(நிறுவாத_பொருள்_முன்னேற்றம்(500000, 400000, 400000));

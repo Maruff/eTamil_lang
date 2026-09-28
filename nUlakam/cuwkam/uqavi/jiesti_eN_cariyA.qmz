@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஜிஎஸ்டி_எண்_சரியா(எண்_மதிப்பு) — is this the right shape for a GST number?__
+// ஜிஎஸ்டி எண்ணின் வடிவம் சரியாக உள்ளதா
+
+இறக்கு "../cuwkam.qmz";
+
+// __Fifteen characters, the first two of them digits.__
+// பதினைந்து எழுத்துகள்; முதல் இரண்டு இலக்கங்கள்
+அச்சு ஜிஎஸ்டி_எண்_சரியா("33ABCDE1234F1Z5");
+
+// __Fourteen is not. This is a shape check and not a checksum: it catches a__
+// __truncated paste and a typed state code, and it will not catch a number__
+// __that is well-formed and belongs to nobody.__
+// இது வடிவச் சோதனையே; இலக்கச் சரிபார்ப்பு அல்ல
+அச்சு ஜிஎஸ்டி_எண்_சரியா("33ABCDE1234F1Z");
+அச்சு ஜிஎஸ்டி_எண்_சரியா("XXABCDE1234F1Z5");
+அச்சு ஜிஎஸ்டி_எண்_சரியா("");

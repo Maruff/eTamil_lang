@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உறுதிசெய்(ஓட்டம், நிபந்தனை, விவரம்) — the condition must hold__
+// நிபந்தனை மெய்யாக இருக்க வேண்டும்
+
+இறக்கு "../cOqaZY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("உறுதிசெய்");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், 2 + 2 == 4, "two and two make four");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்([1, 2, 3]) > 0, "the list is not empty");
+
+// __The run goes in and a new run comes out. Nothing is counted in a hidden__
+// __place: assigning to a name inside a செயல் makes a local, so a counter__
+// __incremented there would be lost on return.__
+// ஓட்டம் உள்ளே சென்று புதிய ஓட்டமாய் வெளிவரும்; எண்ணிக்கை எங்கும் மறைந்திருக்கவில்லை
+அச்சு ஓட்டம்["வெற்றி"];

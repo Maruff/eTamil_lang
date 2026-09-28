@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __படிநிலை_வரி(வரிக்குரிய_தொகை, படிகள்) — tax on a banded table__
+// படிவரிசைப்படி வரி
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The engine behind both professional tax and income tax: each band at its__
+// __own rate, or a flat amount where the band names one.__
+// தொழில் வரிக்கும் வருமான வரிக்கும் பொதுவான கணக்கு
+படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+           {"முதல்": 250000, "விகிதம்": 5},
+           {"முதல்": 500000, "விகிதம்": 20}];
+அச்சு படிநிலை_வரி(600000, படிகள்);
+அச்சு படிநிலை_வரி(250000, படிகள்);
+அச்சு படிநிலை_வரி(0, படிகள்);

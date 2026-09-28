@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அதிகபட்ச_சுருக்கம்(நேரத்_தரவு) — how many days can be bought at all__
+// விலைக்கு வாங்கக்கூடிய கால அலகுகள் எத்தனை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Three days, and no more at any price. Beyond this the activity cannot be__
+// __done faster however much is spent, which is the limit a schedule squeeze__
+// __runs into.__
+// இதற்கு மேல் எவ்வளவு செலவழித்தாலும் வேகமாக முடியாது
+அச்சு அதிகபட்ச_சுருக்கம்(செயல்_நேர_செலவு("A", 10, 100000, 7, 130000));
+
+// __An activity that cannot be crashed at all offers nothing.__
+// சுருக்கவே முடியாத செயல் ஒன்றும் தருவதில்லை
+அச்சு அதிகபட்ச_சுருக்கம்(செயல்_நேர_செலவு("B", 5, 50000, 5, 50000));

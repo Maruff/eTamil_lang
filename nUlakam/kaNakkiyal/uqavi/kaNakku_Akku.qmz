@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கணக்கு_ஆக்கு(குறி, பெயர், கணக்கு_வகை, உள்வகை) — one account in the chart__
+// பட்டியலில் ஒரு கணக்கு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The element decides how the account behaves; the sub-type is for grouping__
+// __on a report and changes no arithmetic.__
+// மூலம் நடத்தையைத் தீர்மானிக்கிறது; உள்வகை அறிக்கைக்கானது மட்டுமே
+கணக்குகள் = [மதிப்பு(கணக்கு_ஆக்கு("1000", "வங்கி", வகை_சொத்து(), "நடப்பு")),
+              மதிப்பு(கணக்கு_ஆக்கு("4000", "விற்பனை", வகை_வருவாய்(), "இயக்கம்"))];
+
+அச்சு கணக்குகள்[0]["பெயர்"];
+அச்சு கணக்குகள்[0]["கணக்கு_வகை"];
+அச்சு கணக்குகள்[1]["உள்வகை"];

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ரொக்க_கொள்முதல்(பரிவர்த்தனை_எண், நாள், விவரம், வங்கி_கணக்கு, செலவு_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a purchase paid for at once__
+// உடனே பணம் செலுத்தும் கொள்முதல்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ரொக்கம் = ரொக்க_கொள்முதல்(1, "2026-04-01", "எழுதுபொருள்",
+                            "1000", "5000", "1200", 10000, 18);
+அச்சு சமநிலையா(ரொக்கம்);
+அச்சு நீளம்(ரொக்கம்["வரிசைகள்"]);

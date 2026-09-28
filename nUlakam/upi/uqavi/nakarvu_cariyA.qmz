@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நகர்வு_சரியா(இருந்து, வரை) — may a payment go from this state to that one?__
+// இந்த நிலைமையிலிருந்து அந்த நிலைமைக்கு நகரலாமா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __The moves a payment is allowed to make.__
+// அனுமதிக்கப்பட்ட நகர்வுகள்
+அச்சு நகர்வு_சரியா(தொடங்கியது, நிலுவையில்);
+அச்சு நகர்வு_சரியா(நிலுவையில், வெற்றியானது);
+அச்சு நகர்வு_சரியா(வெற்றியானது, திருப்பியது);
+
+// __A success does not become a failure on a later poll, and a failure does__
+// __not quietly become a success. A PSP that reports one is reporting about a__
+// __different transaction, and taking it at its word overwrites a settled__
+// __payment with a wrong one.__
+// வெற்றி பின்னர் தோல்வியாகாது; தோல்வி அமைதியாக வெற்றியாகாது
+அச்சு நகர்வு_சரியா(வெற்றியானது, தோல்வியானது);
+அச்சு நகர்வு_சரியா(தோல்வியானது, வெற்றியானது);
+
+// __Nothing goes backwards.__
+// ஒன்றும் பின்னோக்கிச் செல்வதில்லை
+அச்சு நகர்வு_சரியா(நிலுவையில், தொடங்கியது);
+
+// __But the same callback arriving twice is not an error, and treating it as__
+// __one turns an ordinary retry by the PSP into an alert.__
+// அதே அறிவிப்பு இருமுறை வருவது பிழை அல்ல
+அச்சு நகர்வு_சரியா(வெற்றியானது, வெற்றியானது);

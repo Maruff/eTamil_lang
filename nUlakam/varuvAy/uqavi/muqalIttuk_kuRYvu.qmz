@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதலீட்டுக்_குறைவு(புத்தக_மதிப்பு, எஞ்சிய_வருவாய், எஞ்சிய_செலவு) — is the capitalised cost still recoverable?__
+// முதலீட்டு மதிப்பு இன்னும் மீட்கக்கூடியதா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Recoverable means what is left to be received, less what it will still cost__
+// __to earn it. A commission carried at 90,000 against 2,00,000 of remaining__
+// __revenue that will cost 1,50,000 to deliver is 40,000 too high.__
+// மீட்கக்கூடியது என்பது எஞ்சிய வருவாய் போக எஞ்சிய செலவு
+அச்சு முதலீட்டுக்_குறைவு(90000, 200000, 150000)["குறைவு"];
+அச்சு முதலீட்டுக்_குறைவு(90000, 200000, 150000)["மீட்கக்கூடியது"];
+
+// __Comfortably covered, and nothing is written down.__
+// நன்கு மறைக்கப்பட்டால் ஒன்றும் குறைக்கப்படுவதில்லை
+அச்சு முதலீட்டுக்_குறைவு(90000, 500000, 150000)["குறைவு"];
+
+// __A contract that will cost more than it brings in recovers nothing, and the__
+// __whole carrying amount goes.__
+// வருவாயைவிடச் செலவு அதிகமானால் ஒன்றும் மீட்கப்படாது
+அச்சு முதலீட்டுக்_குறைவு(90000, 100000, 150000)["குறைவு"];

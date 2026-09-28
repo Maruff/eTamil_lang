@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேடல்_எல்லை() — how far a working-day search will look before giving up__
+// வேலை நாள் தேடலில் எத்தனை நாட்கள் வரை தேடுவது
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __A bound rather than a loop that runs until it finds one. A calendar whose__
+// __weekend list holds all seven days has no working day at all, and without a__
+// __limit the search for the next one never returns.__
+// எல்லையற்ற தேடல் அல்ல; ஏழு நாளும் ஓய்வு என்றால் வேலை நாளே இல்லை
+அச்சு தேடல்_எல்லை();
+
+// __Over a year, so a real calendar with a long shutdown in it still finds its__
+// __way out.__
+// ஓர் ஆண்டுக்கும் மேல்; நீண்ட விடுமுறை உள்ள நாட்காட்டியும் வழி கண்டுபிடிக்கும்

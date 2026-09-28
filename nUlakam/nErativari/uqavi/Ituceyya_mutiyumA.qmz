@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈடுசெய்ய_முடியுமா(இழப்பு_வகை, வருமான_வகை) — may this kind of loss go against that kind of income?__
+// இவ்வகை இழப்பை அவ்வகை வருமானத்துக்கு எதிராக ஈடுசெய்யலாமா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A house-property loss goes against almost anything, including salary.__
+// வீட்டுச் சொத்து இழப்பு கிட்டத்தட்ட எதற்கும் எதிராகச் செல்லும்
+அச்சு ஈடுசெய்ய_முடியுமா("வீட்டுச்_சொத்து", "சம்பளம்");
+
+// __A business loss does not go against salary, and that surprises people:__
+// __a salaried person with a loss-making side business cannot use it.__
+// தொழில் இழப்பு சம்பளத்திற்கு எதிராகச் செல்லாது
+அச்சு ஈடுசெய்ய_முடியுமா("தொழில்", "சம்பளம்");
+அச்சு ஈடுசெய்ய_முடியுமா("தொழில்", "வீட்டுச்_சொத்து");
+
+// __A speculation loss goes only against speculation income, and a long-term__
+// __capital loss only against long-term gains — the rules are asymmetric, so a__
+// __short-term loss may go against a long-term gain but not the reverse.__
+// விதிகள் சமச்சீரற்றவை; குறுகிய இழப்பு நீண்ட ஆதாயத்திற்கு எதிராகச் செல்லும், மாறாக அல்ல
+அச்சு ஈடுசெய்ய_முடியுமா("ஊகத்_தொழில்", "தொழில்");
+அச்சு ஈடுசெய்ய_முடியுமா("குறுகிய_ஆதாயம்", "நீண்ட_ஆதாயம்");
+அச்சு ஈடுசெய்ய_முடியுமா("நீண்ட_ஆதாயம்", "குறுகிய_ஆதாயம்");

@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறியீட்டு_ஆக்கு(ஆவணங்கள்) — everything the scoring needs, computed once__
+// மதிப்பெண் இடத் தேவையான அனைத்தையும் ஒரே முறை தொகுக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [ஆவணம்_ஆக்கு("vari.md", தேடல்_பதங்கள்("income tax slab rates")),
+              ஆவணம்_ஆக்கு("paNam.md", தேடல்_பதங்கள்("money paise rupees format")),
+              ஆவணம்_ஆக்கு("vatti.md", தேடல்_பதங்கள்("simple and compound interest"))];
+
+// __Built once and searched many times. The document frequencies and the__
+// __average length do not change between queries, and recomputing them per__
+// __query is the whole cost of a naive implementation.__
+// ஒரு முறை கட்டி, பல முறை தேடப்படுகிறது
+குறியீட்டு = குறியீட்டு_ஆக்கு(ஆவணங்கள்);
+அச்சு குறியீட்டு["மொத்த_ஆவணங்கள்"];
+அச்சு குறியீட்டு["சராசரி_நீளம்"];

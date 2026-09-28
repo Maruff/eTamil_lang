@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பெண்_நிலைமை(மதிப்பெண், உயர்_எல்லை, நடுத்தர_எல்லை) — band a score high, medium or low__
+// மதிப்பெண்ணை உயர், நடுத்தர, தாழ் என வகுக்கும்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __The two thresholds are arguments rather than constants: every organisation__
+// __draws them somewhere else, and an escalation rule hard-coded here would be__
+// __somebody else's rule.__
+// எல்லைகள் அளபுருக்களே; ஒவ்வொரு நிறுவனமும் வேறிடத்தில் கோடு போடுகிறது
+அச்சு மதிப்பெண்_நிலைமை(20, 15, 8);
+அச்சு மதிப்பெண்_நிலைமை(10, 15, 8);
+அச்சு மதிப்பெண்_நிலைமை(4, 15, 8);
+
+// __On the boundary counts as the higher band, which is the safe direction for__
+// __something that decides who gets told.__
+// எல்லையில் உள்ளது மேல் நிலைக்கே; அதுவே பாதுகாப்பான திசை
+அச்சு மதிப்பெண்_நிலைமை(15, 15, 8);
+அச்சு மதிப்பெண்_நிலைமை(8, 15, 8);

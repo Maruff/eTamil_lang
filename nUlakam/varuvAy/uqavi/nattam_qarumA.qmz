@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நட்டம்_தருமா(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு) — is this contract onerous?__
+// இவ்வொப்பந்தம் நட்டம் தருமா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Measured on what is left, not on the contract as a whole. Money already__
+// __earned cannot subsidise a loss that is still to come — a contract can be__
+// __profitable to date and onerous from here.__
+// எஞ்சியவற்றின்மீதே; ஏற்கெனவே ஈட்டியது வரப்போகும் நட்டத்தை மறைக்காது
+அச்சு நட்டம்_தருமா(500000, 700000);
+அச்சு நட்டம்_தருமா(900000, 700000);
+
+// __Breaking even exactly is not onerous.__
+// சரியாகச் சமமானது நட்டம் அல்ல
+அச்சு நட்டம்_தருமா(700000, 700000);

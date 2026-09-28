@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கழிப்புத்_தொகை(முதலீட்டுத்_தொகை, முன்னேற்றம், முன்பு_கழித்தது) — amortise a capitalised cost in step with the revenue__
+// வருவாயுடன் சேர்ந்தே முதலீட்டுத் தொகையைக் கழிக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __On the same progress the revenue is recognised on, so the margin stays__
+// __even. Amortising a commission straight-line against revenue that is not__
+// __straight-line reports a margin that moves for no reason.__
+// வருவாயின் அதே முன்னேற்றத்தில்; அதனால் விளிம்பு சீராக இருக்கும்
+முதல்_காலம் = கழிப்புத்_தொகை(120000, 0.25, 0);
+அச்சு முதல்_காலம்["இதுவரை_கழித்தது"];
+அச்சு முதல்_காலம்["இந்தக்_காலம்"];
+அச்சு முதல்_காலம்["புத்தக_மதிப்பு"];
+
+// __Cumulative, like the revenue: the period's charge is the difference.__
+// வருவாயைப் போலவே இதுவரைத் தொகையே; வேறுபாடே இக்காலத்தின் கழிப்பு
+அச்சு கழிப்புத்_தொகை(120000, 0.60, 30000)["இந்தக்_காலம்"];
+
+// __Progress that went backwards does not produce a credit.__
+// முன்னேற்றம் பின்னோக்கிச் சென்றாலும் வரவு எழுவதில்லை
+அச்சு கழிப்புத்_தொகை(120000, 0.10, 30000)["இந்தக்_காலம்"];

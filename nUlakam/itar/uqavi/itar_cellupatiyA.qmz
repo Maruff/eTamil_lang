@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இடர்_செல்லுபடியா(ஒரு_இடர்) — is this register entry well formed?__
+// இந்த இடர்ப் பதிவு முறையானதா
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+நல்லது = இடர்_ஆக்கு("R1", "விற்பனையாளர் தாமதம்", 30, 500000,
+                     "அச்சுறுத்தல்", "பாலமுரளி");
+அச்சு சரியா(இடர்_செல்லுபடியா(நல்லது));
+
+// __A probability above a hundred is refused. A register is filled in by hand,__
+// __and the figures go straight into a reserve nobody re-derives.__
+// நூற்றுக்கு மேல் நிகழ்தகவு மறுக்கப்படும்
+அச்சு தவறா(இடர்_செல்லுபடியா(இடர்_ஆக்கு("X", "", 130, 1000, "அச்சுறுத்தல்", "")));
+
+// __And so is a negative impact, for the reason above: the direction belongs__
+// __to the kind.__
+// எதிர்மறைத் தாக்கமும் மறுக்கப்படும்
+அச்சு தவறா(இடர்_செல்லுபடியா(இடர்_ஆக்கு("X", "", 30, 0 - 1000, "அச்சுறுத்தல்", "")));
+
+// __An unknown kind is refused rather than treated as a threat, which would__
+// __be a guess with money attached.__
+// தெரியாத வகை, அச்சுறுத்தலாக ஊகிக்கப்படாமல் மறுக்கப்படும்
+அச்சு தவறு_மதிப்பு(இடர்_செல்லுபடியா(இடர்_ஆக்கு("X", "", 30, 1000, "ஏதோ", "")));

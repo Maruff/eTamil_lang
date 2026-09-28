@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவுகளைத்_தொகு(இடநிலைகள்) — the whole report for one retrieval system__
+// ஓர் அமைப்புக்கான முழு அறிக்கை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+இடநிலைகள் = [1, 1, 2, 5, 0 - 1];
+தொகுப்பு_விடை = முடிவுகளைத்_தொகு(இடநிலைகள்);
+
+// __Every measure at once, because they disagree and the disagreement is the__
+// __information: a change that raises the top-ten figure and lowers the top-one__
+// __has made the search worse for anything quoting a few passages.__
+// அளவீடுகள் வேறுபடுவதே தகவல்
+அச்சு தொகுப்பு_விடை["கேள்விகள்"];
+அச்சு தொகுப்பு_விடை["முதலில்"];
+அச்சு தொகுப்பு_விடை["மூன்றில்"];
+அச்சு தொகுப்பு_விடை["பத்தில்"];
+
+// __And the questions nothing was found for at all, which no average shows.__
+// ஒன்றுமே கிடைக்காத கேள்விகள்; சராசரி அதைக் காட்டாது
+அச்சு தொகுப்பு_விடை["கிடைக்காதவை"];
+அச்சு வட்டமிடு(தொகுப்பு_விடை["சராசரி_தலைகீழ்"], 4);

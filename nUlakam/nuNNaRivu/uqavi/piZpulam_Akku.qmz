@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பின்புலம்_ஆக்கு(மேற்கோள்கள்) — the quotations as one numbered block__
+// கிடைத்த மேற்கோள்களை ஒரே எண்ணிடப்பட்ட தொகுதியாக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+மேற்கோள்கள் = [மேற்கோள்_ஆக்கு("paNam — காசு", "பைசாவாகவே வைக்கப்படுகிறது."),
+                மேற்கோள்_ஆக்கு("vatti — வட்டி", "நாட்களில் எண்ணப்படுகிறது.")];
+
+// __Numbered, so a model can cite [1] and a reader can find it. Only the first__
+// __few are used however many are passed in.__
+// எண்ணிடப்பட்டவை; மாதிரி [1] என்று குறிப்பிடலாம்
+அச்சு பின்புலம்_ஆக்கு(மேற்கோள்கள்);

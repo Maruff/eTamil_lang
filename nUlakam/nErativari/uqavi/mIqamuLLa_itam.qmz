@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீதமுள்ள_இடம்(கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு) — how much room is left under the combined ceiling__
+// கூட்டு வரம்பில் இன்னும் மிச்சம் உள்ள இடம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The number worth knowing in February: how much more can still be invested__
+// __before the year ends and the ceiling is wasted.__
+// பிப்ரவரியில் தெரிய வேண்டிய எண் இதுவே
+அச்சு மீதமுள்ள_இடம்([கழிவு_ஆக்கு("80C", 90000, 150000, மெய்)], 150000);
+
+// __Nothing left once the ceiling is reached, however much more is claimed.__
+// வரம்பை எட்டியபின் இடமில்லை
+அச்சு மீதமுள்ள_இடம்([கழிவு_ஆக்கு("80C", 200000, 150000, மெய்)], 150000);
+அச்சு மீதமுள்ள_இடம்([], 150000);

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடுக்கு(அடிப்படை, எத்தனை_முறை) — a number multiplied by itself, a whole number of times__
+// ஒரு எண்ணை அத்தனை முறை தன்னால் பெருக்குதல்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Repeated multiplication rather than an exponential, so the growth factor__
+// __stays exact. A rate compounded 240 times through logarithms drifts, and on__
+// __a twenty-year loan the drift shows up in the final instalment.__
+// மீண்டும் மீண்டும் பெருக்குதல்; மடக்கை வழியே சென்றால் துல்லியம் நழுவும்
+அச்சு அடுக்கு(2, 10);
+அச்சு அடுக்கு(1.01, 12);
+
+// __Anything to the power of nothing is one, which is what makes a schedule of__
+// __no months come out as no interest rather than as an error.__
+// எதுவும் பூஜ்ஜியத்தின் அடுக்கில் ஒன்றே
+அச்சு அடுக்கு(1.05, 0);
+அச்சு அடுக்கு(1.05, 0 - 3);

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை) — one line of a journal entry__
+// நாட்குறிப்புப் பதிவின் ஒரு வரிசை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Both sides on the same line, and one of them is always nothing. Written__
+// __this way because a line with a signed amount cannot be read without__
+// __knowing the account's element.__
+// இரு பக்கமும் ஒரே வரிசையில்; ஒன்று எப்போதும் பூஜ்ஜியம்
+ஒரு_வரிசை = வரிசை_ஆக்கு("1000", 5000, 0);
+அச்சு ஒரு_வரிசை["கணக்கு_குறி"];
+அச்சு ஒரு_வரிசை["பற்று_தொகை"];
+அச்சு ஒரு_வரிசை["வரவு_தொகை"];

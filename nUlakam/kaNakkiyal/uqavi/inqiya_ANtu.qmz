@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இந்திய_ஆண்டு(ஆண்டு) — the Indian financial year, April to March__
+// இந்திய நிதியாண்டு, ஏப்ரல் முதல் மார்ச் வரை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Named by the year it starts in, which is the convention that matches__
+// __\"FY 2026-27\" being written as 2026.__
+// தொடங்கும் ஆண்டால் பெயரிடப்படுகிறது
+காலம் = இந்திய_ஆண்டு(2026);
+அச்சு காலம்["தொடக்கம்"];
+அச்சு காலம்["முடிவு"];

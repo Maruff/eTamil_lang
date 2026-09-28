@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இரு_வழியும்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — both treatments side by side, with what separates them__
+// இரு வழியிலும் கணக்கிட்டு வேறுபாட்டைக் காட்டும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+இரண்டும் = இரு_வழியும்(1000000, 850000);
+
+// __The revenue differs by 8,50,000 and the profit by nothing at all.__
+// வருவாய் வேறுபடுகிறது; லாபம் சிறிதும் வேறுபடவில்லை
+அச்சு இரண்டும்["வருவாய்_வேறுபாடு"];
+அச்சு இரண்டும்["லாப_வேறுபாடு"];
+
+// __What does change is the margin, from a tenth of revenue to all of it —__
+// __which is why gross presentation is worth arguing about and why the ratios__
+// __of two companies in the same business may not be comparable at all.__
+// மாறுவது விளிம்பே; அதனாலேயே ஒப்பீடுகள் பொருந்தாமல் போகின்றன
+அச்சு இரண்டும்["முதன்மை_விளிம்பு"];
+அச்சு இரண்டும்["முகவர்_விளிம்பு"];

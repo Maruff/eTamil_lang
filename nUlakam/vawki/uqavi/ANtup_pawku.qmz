@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆண்டுப்_பங்கு(எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) — days as a fraction of a year, on the convention you name__
+// நாட்களை ஆண்டின் பின்னமாக, நீங்கள் சொல்லும் மரபின்படி
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __The year length is an argument, not a constant, because there is no one__
+// __right answer. Money markets count 360 days and bank loans count 365, and__
+// __on a crore for ninety days the two differ by about thirty thousand rupees.__
+// ஆண்டின் நீளம் அளபுருவே; ஒரே சரியான விடை இல்லை
+அச்சு ஆண்டுப்_பங்கு(90, உண்மை_365);
+அச்சு ஆண்டுப்_பங்கு(90, உண்மை_360);
+
+// __A full year is one, on whichever convention it was counted.__
+// முழு ஆண்டு என்பது ஒன்று
+அச்சு ஆண்டுப்_பங்கு(365, உண்மை_365);

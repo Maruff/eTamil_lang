@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒதுக்கீடு(விதிமுறைகள், தாமத_நாட்கள், நிலுவைத்_தொகை) — the provision to hold against an overdue account__
+// தாமதமான கணக்குக்கு ஒதுக்க வேண்டிய தொகை
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+விதிகள் = [{"vakY": "நல்லது", "nAtkaL_muqal": 0, "nAtkaL_varY": 90,
+             "oqukkItu_vikiqam": 1, "mUlam": "எடுத்துக்காட்டு"},
+            {"vakY": "சந்தேகம்", "nAtkaL_muqal": 91, "nAtkaL_varY": 365,
+             "oqukkItu_vikiqam": 20, "mUlam": "எடுத்துக்காட்டு"}];
+
+// __The class, the rate and the money, together — because a provision figure__
+// __with no class beside it cannot be checked by the person who has to sign it.__
+// வகைப்பாடும், விழுக்காடும், தொகையும் சேர்ந்தே; கையொப்பமிடுபவர் சரிபார்க்க வேண்டும்
+விடை = மதிப்பு(ஒதுக்கீடு(விதிகள், 120, 500000));
+அச்சு விடை["வகைப்பாடு"];
+அச்சு விடை["விழுக்காடு"];
+அச்சு விடை["ஒதுக்கீடு"];
+
+// __A day either side of the boundary is a twentyfold difference in what must__
+// __be set aside.__
+// எல்லைக்கு ஒரு நாள் இப்புறம் அப்புறம் என்றால் ஒதுக்கீடு இருபது மடங்கு வேறு
+அச்சு மதிப்பு(ஒதுக்கீடு(விதிகள், 90, 500000))["ஒதுக்கீடு"];
+அச்சு மதிப்பு(ஒதுக்கீடு(விதிகள், 91, 500000))["ஒதுக்கீடு"];
+
+// __And a delay outside the table is refused rather than provided for at__
+// __whatever rate happened to be last.__
+// அட்டவணைக்கு வெளியே உள்ள தாமதம் மறுக்கப்படும்
+அச்சு தவறா(ஒதுக்கீடு(விதிகள், 400, 500000));

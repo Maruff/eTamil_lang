@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முகவரி_சரியா(வி_பி_ஏ) — is this a well-formed UPI address?__
+// இது சரியான வடிவத்தில் உள்ள பணமுகவரியா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __An ordinary VPA, and a phone number — which is a perfectly good name.__
+// வழக்கமான முகவரி; கைபேசி எண்ணும் முகவரியாகலாம்
+அச்சு முகவரி_சரியா("ravi@okaxis");
+அச்சு முகவரி_சரியா("9876543210@ybl");
+
+// __No handle, no address; and no name either.__
+// கை இல்லையெனில் முகவரி இல்லை; பெயர் இல்லாவிட்டாலும் அதுவே
+அச்சு முகவரி_சரியா("ravi@");
+அச்சு முகவரி_சரியா("@okaxis");
+அச்சு முகவரி_சரியா("a@b@c");
+
+// __A space is what a typed or pasted address most often carries, and it is__
+// __invisible on the screen the clerk is reading it from.__
+// தட்டச்சு செய்த முகவரியில் அடிக்கடி வரும் குறை இடைவெளியே; திரையில் அது தெரிவதில்லை
+அச்சு முகவரி_சரியா("ravi @okaxis");
+அச்சு முகவரி_சரியா("");

@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒருமைப்படுத்து(திசையன்) — scale a vector to length one__
+// நீளம் ஒன்றாகும்படி அளவிடும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Done once when a document is embedded, so similarity is a dot product__
+// __rather than a division at every comparison.__
+// ஆவணம் பொதியப்படும்போதே ஒருமுறை; ஒவ்வொரு ஒப்பீட்டிலும் வகுத்தல் தேவையில்லை
+ஒருமை = ஒருமைப்படுத்து([3, 4]);
+அச்சு வட்டமிடு((திசை_அளவு(ஒருமை)), 6);
+அச்சு வட்டமிடு(ஒருமை[0], 4);
+
+// __A zero vector is returned as it is rather than divided by its length.__
+// பூஜ்ஜியத் திசையன் அப்படியே திரும்பும்
+அச்சு ஒருமைப்படுத்து([0, 0])[0];

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தனிக்_கடமையா(தனியே_பயன்தருமா, தனியே_அடையாளம்_காணலாமா) — is this promise distinct, or part of something bigger?__
+// இது தனிக் கடமையா, அல்லது பெரிய ஒன்றின் பகுதியா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Both tests, and both have to pass. A lift and its installation are each__
+// __useful on their own, and are still one obligation because the contract is__
+// __for a working lift.__
+// இரண்டு சோதனைகளும் தேற வேண்டும்
+அச்சு தனிக்_கடமையா(மெய், மெய்);
+அச்சு தனிக்_கடமையா(மெய், பொய்);
+அச்சு தனிக்_கடமையா(பொய், மெய்);
+
+// __Getting this wrong splits a contract into pieces and recognises revenue__
+// __on a delivery that has not produced anything the customer can use.__
+// இதைத் தவறாக முடிவு செய்தால் வருவாய் மிக விரைவில் அங்கீகரிக்கப்படும்

@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சராசரி_சமமான_அலகுகள்(முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) — equivalent units on the weighted average method__
+// எடையிட்ட சராசரி முறையில் சமமான அலகுகள்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Two hundred units half finished are a hundred finished ones as far as cost__
+// __is concerned. The average method counts the opening work in progress as__
+// __though it were started this period.__
+// பாதி முடிந்த இருநூறு அலகுகள், செலவைப் பொறுத்தவரை நூறு முடிந்த அலகுகளே
+அச்சு சராசரி_சமமான_அலகுகள்(9000, 400, 50);
+அச்சு சராசரி_சமமான_அலகுகள்(9000, 0, 0);

@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முந்தைய_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — the last working day on or before this one__
+// இந்நாளிலோ அதற்கு முன்போ உள்ள கடைசி வேலை நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __On or before, unlike அடுத்த_வேலை_நாள். A working day is its own previous__
+// __working day, which is what a payment due date rolled backwards needs.__
+// இந்நாளும் சேர்த்து; வேலை நாளாக இருந்தால் அதுவே விடை
+அச்சு மதிப்பு(முந்தைய_வேலை_நாள்("2026-03-02", நாட்காட்டி));
+அச்சு மதிப்பு(முந்தைய_வேலை_நாள்("2026-03-08", நாட்காட்டி));
+அச்சு மதிப்பு(முந்தைய_வேலை_நாள்("2026-03-05", நாட்காட்டி));

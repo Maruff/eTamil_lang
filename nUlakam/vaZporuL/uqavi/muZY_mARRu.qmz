@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_மாற்று(முனை) — flip an output to the other state__
+// வெளியீட்டை மறுநிலைக்கு மாற்றும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+முனை_வெளியீடு(13);
+முனை_எழுது(13, மெய்);
+
+// __A blink is this in a loop, and the pin itself remembers the state — so__
+// __nothing in the program has to, and nothing can disagree with the pin.__
+// முனையே நிலையை நினைவில் வைக்கிறது; நிரல் வைக்கத் தேவையில்லை
+முனை_மாற்று(13);
+அச்சு முனை_படி(13);
+
+முனை_மாற்று(13);
+அச்சு முனை_படி(13);

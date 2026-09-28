@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வீத_ஒப்புரவு(கணக்கு_லாபம், சட்ட_வீதம், நிரந்தர_வேறுபாடுகள், பிற_சரிசெய்தல்கள்) — why the effective tax rate is not the statutory one__
+// சட்ட வீதத்துக்கும் உண்மை வீதத்துக்கும் இடையிலான ஒப்புரவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The note every set of accounts carries and few readers work through. It__
+// __starts from the tax the statutory rate would give and explains the__
+// __difference item by item.__
+// ஒவ்வொரு கணக்கிலும் வரும் குறிப்பு; சட்ட வீதத்திலிருந்து தொடங்கி வேறுபாட்டை விளக்குகிறது
+ஒப்புரவு = வீத_ஒப்புரவு(10000000, 25, [400000, 0 - 200000], [50000]);
+அச்சு ஒப்புரவு["எதிர்பார்த்த_வரி"];
+அச்சு ஒப்புரவு["நிரந்தரத்_தாக்கம்"];
+அச்சு ஒப்புரவு["பிற_சரிசெய்தல்கள்"];
+அச்சு ஒப்புரவு["வரிச்_செலவு"];
+
+// __And the effective rate, which is what a reader comparing two companies__
+// __actually wants.__
+// பயனுள்ள வீதமே ஒப்பிடுபவர் தேடுவது
+அச்சு ஒப்புரவு["பயனுள்ள_வீதம்"];
+அச்சு வீத_ஒப்புரவு(10000000, 25, [], [])["பயனுள்ள_வீதம்"];

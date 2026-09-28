@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பற்று_குறிப்பு(பரிவர்த்தனை_எண், நாள், விவரம், விற்பனையாளர்_கணக்கு, செலவு_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a debit note, reversing a purchase__
+// கொள்முதலைத் திருப்பும் பற்றுக் குறிப்பு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+குறிப்பு = பற்று_குறிப்பு(5, "2026-04-18", "திருப்பியது",
+                           "2100", "5000", "1200", 2000, 18);
+அச்சு சமநிலையா(குறிப்பு);
+அச்சு நீளம்(குறிப்பு["வரிசைகள்"]);

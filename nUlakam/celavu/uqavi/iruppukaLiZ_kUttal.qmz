@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இருப்புகளின்_கூட்டல்(இருப்புகள்) — every balance, added up__
+// எல்லா இருப்புகளும் கூட்டியது
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+இருப்புகள் = [{"குறி": "P1", "தொகை": 50000},
+               {"குறி": "P2", "தொகை": 30000}];
+
+// __The check that a re-apportionment has not created or destroyed money.__
+// மீள்பகிர்வு பணத்தை உருவாக்கவோ அழிக்கவோ இல்லை என்பதன் சோதனை
+அச்சு இருப்புகளின்_கூட்டல்(இருப்புகள்);
+அச்சு இருப்புகளின்_கூட்டல்([]);

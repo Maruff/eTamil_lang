@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிவை_மாற்று(பதிவுகள், செயல்_குறி, புது_தொடக்கம், புது_முடிவு) — write new dates for one activity in a pass__
+// ஒரு கடப்பில் ஒரு செயலின் நாள்களை மாற்றும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+பதிவுகள் = [{"செயல்_குறி": "A", "தொடக்கம்": 0, "முடிவு": 3},
+             {"செயல்_குறி": "B", "தொடக்கம்": 0, "முடிவு": 4}];
+
+// __A new list rather than a changed one, because a function here cannot alter__
+// __what it was given — and the pass repeats until nothing changes, so it has__
+// __to be able to compare the two.__
+// புதிய பட்டியலே; ஒரு செயல் தனக்குக் கொடுக்கப்பட்டதை மாற்ற முடியாது
+புதியது = பதிவை_மாற்று(பதிவுகள், "B", 3, 7);
+அச்சு பதிவைத்_தேடு(புதியது, "B", "தொடக்கம்");
+அச்சு பதிவைத்_தேடு(பதிவுகள், "B", "தொடக்கம்");

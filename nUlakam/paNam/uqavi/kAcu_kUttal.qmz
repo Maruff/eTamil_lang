@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_கூட்டல்(பட்டியல்) — the total of a list of amounts__
+// பட்டியலிலுள்ள தொகைகளின் கூட்டல்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+வரிகள் = [ரூபாயும்_பைசாவும்(249, 50),
+           ரூபாயும்_பைசாவும்(100, 75),
+           ரூபாயும்_பைசாவும்(50, 25)];
+அச்சு காசு_உரை(காசு_கூட்டல்(வரிகள்));
+
+// __An empty invoice totals nothing rather than failing, so a page with no__
+// __lines on it still prints.__
+// வரிகளே இல்லாத பட்டியலின் கூட்டல் பூஜ்ஜியம்; தவறு அல்ல
+அச்சு காசு_உரை(காசு_கூட்டல்([]));

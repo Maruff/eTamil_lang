@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __படிகளை_ஏற்று(வரி_வகை, மாநிலக்_குறி, நாள்) — the bands in force for a tax on a date__
+// அந்நாளுக்கு உரிய வரிப் படிகள்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE vari_vikiqam (
+             vari_vakY TEXT NOT NULL, kuRi TEXT NOT NULL, mAnilam TEXT NOT NULL,
+             vikiqam REAL, nilYq_qokY REAL,
+             varampu_muqal REAL NOT NULL DEFAULT 0, varampu_varY REAL,
+             amal_qotakkam TEXT NOT NULL, amal_mutivu TEXT, mUlam TEXT NOT NULL)", [];
+
+// __Professional tax is a state tax with its own bands, so the state code is__
+// __part of the lookup rather than a filter applied afterwards.__
+// தொழில் வரி மாநில வரி; மாநிலக் குறி தேடலின் பகுதியே
+தளம்_செய் "INSERT INTO vari_vikiqam
+             (vari_vakY, kuRi, mAnilam, nilYq_qokY, varampu_muqal,
+              amal_qotakkam, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["pt", "band1", "33", 0, 0, "2020-01-01", "எடுத்துக்காட்டு"];
+தளம்_செய் "INSERT INTO vari_vikiqam
+             (vari_vakY, kuRi, mAnilam, nilYq_qokY, varampu_muqal,
+              amal_qotakkam, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["pt", "band2", "33", 208, 21001, "2020-01-01", "எடுத்துக்காட்டு"];
+
+அச்சு நீளம்(படிகளை_ஏற்று("pt", "33", "2026-04-01"));
+அச்சு படிகளை_ஏற்று("pt", "33", "2026-04-01")[1]["நிலைத்_தொகை"];

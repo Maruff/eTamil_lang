@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செயல்முறையைக்_கணக்கிடு(உள்ளீட்டு_அலகுகள், மொத்தச்_செலவு, இயல்பு_விகிதம், உண்மை_வெளியீடு, அலகுக்_கழிவு_மதிப்பு) — the whole process account, from five figures__
+// செயல்முறைக் கணக்கு முழுவதும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Ten thousand units in, five per cent normal loss, and 9,300 came out good.__
+// பத்தாயிரம் உள்ளே, ஐந்து சதவீத இயல்பு இழப்பு, 9,300 நல்லவை
+கணக்கு = மதிப்பு(செயல்முறையைக்_கணக்கிடு(10000, 500000, 5, 9300, 20));
+
+அச்சு கணக்கு["இயல்பு_இழப்பு"];
+அச்சு கணக்கு["உண்மை_இழப்பு"];
+அச்சு கணக்கு["அசாதாரண_வேறுபாடு"];
+அச்சு கணக்கு["அலகுச்_செலவு"];
+
+// __The unit cost is what it would have been had the month gone normally, which__
+// __is what makes this month comparable with the last one.__
+// அலகுச் செலவு, இயல்பாக நடந்திருந்தால் என்னவாக இருந்திருக்குமோ அதுவே

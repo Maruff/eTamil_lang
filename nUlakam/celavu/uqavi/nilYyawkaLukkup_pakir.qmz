@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையங்களுக்குப்_பகிர்(மொத்த_மேல்நிலை_பைசா, எடைகள்) — apportion overhead to cost centres by weights__
+// மேல்நிலையை நிலையங்களுக்குப் பகிரும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __In paise, and the last centre takes the remainder, so the parts add back to__
+// __the whole exactly. An overhead pool that does not fully apportion leaves a__
+// __few paise in no cost centre at all.__
+// பைசாவில்; கடைசி நிலையம் மிச்சத்தை எடுக்கும், எனவே கூட்டல் சரியாகப் பொருந்தும்
+பங்குகள் = நிலையங்களுக்குப்_பகிர்(100000000, [50, 30, 20]);
+ஒவ்வொரு ஒரு_பங்கு இல் பங்குகள் { அச்சு ஒரு_பங்கு; }
+
+// __Weights that add to nothing give nothing to apportion on.__
+// எடைகள் பூஜ்ஜியமெனில் பகிர அடிப்படையே இல்லை
+அச்சு நீளம்(நிலையங்களுக்குப்_பகிர்(100000000, [0, 0]));

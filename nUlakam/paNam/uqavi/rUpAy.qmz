@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ரூபாய்(தொகை) — the same, with the rupee sign__
+// அதுவே, ரூபாய்க் குறியுடன்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __For anything a person reads: an invoice line, a total, a report heading.__
+// ஒருவர் படிக்கும் எதற்கும்: விலைப்பட்டியல் வரி, மொத்தம், அறிக்கைத் தலைப்பு
+அச்சு ரூபாய்(1234567.5);
+அச்சு ரூபாய்(0);
+அச்சு ரூபாய்(0 - 250);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணம்_இணைப்பு(விவரங்கள்) — build a upi://pay link, or refuse to__
+// பணம் இணைப்பைக் கட்டும், அல்லது மறுக்கும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+இணைப்பு = மதிப்பு(பணம்_இணைப்பு({"pa": "shop@okhdfcbank", "pn": "Raja & Sons",
+                                  "am": 249.50, "tn": "Order 12", "tr": "INV-9"}));
+அச்சு இணைப்பு;
+
+// __With no amount the payer types one, which is what a donation box or an__
+// __open counter wants.__
+// தொகை இல்லையெனில் செலுத்துபவரே தட்டச்சு செய்வார்
+அச்சு மதிப்பு(பணம்_இணைப்பு({"pa": "temple@ybl", "pn": "Trust"}));
+
+// __A bad address is refused rather than printed onto a sticker. A QR code on__
+// __a shop counter is read thousands of times and corrected never; the place__
+// __to catch it is here.__
+// தவறான முகவரி மறுக்கப்படும்; ஒட்டுச்சீட்டில் அச்சிடப்படுவதில்லை
+அச்சு தவறா(பணம்_இணைப்பு({"pa": "bad", "pn": "X"}));
+அச்சு தவறா(பணம்_இணைப்பு({"pa": "s@ok", "pn": ""}));
+அச்சு தவறா(பணம்_இணைப்பு({"pa": "s@ok", "pn": "S", "am": 1.005}));

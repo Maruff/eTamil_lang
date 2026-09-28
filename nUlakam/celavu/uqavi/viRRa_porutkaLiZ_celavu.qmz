@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விற்ற_பொருட்களின்_செலவு(உற்பத்தி, ஆரம்ப_முடிந்தவை, இறுதி_முடிந்தவை) — cost of goods sold, from the finished-goods movement__
+// விற்ற பொருட்களின் செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __What was produced is not what was sold. A month of building stock looks__
+// __profitable and is not.__
+// உற்பத்தி செய்தது விற்றது அல்ல
+அச்சு விற்ற_பொருட்களின்_செலவு(900000, 80000, 120000);
+அச்சு விற்ற_பொருட்களின்_செலவு(900000, 0, 0);

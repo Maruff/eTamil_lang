@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறை_மைல்கற்கள்(அடைந்த_எடைகள்) — progress by weighted milestones__
+// எடையிட்ட மைல்கற்களால் முன்னேற்றம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The weights are agreed before the work starts, which is what stops progress__
+// __being renegotiated every month.__
+// எடைகள் வேலை தொடங்குமுன்பே ஒப்புக்கொள்ளப்படுகின்றன
+அச்சு முறை_மைல்கற்கள்([0.2, 0.3]);
+அச்சு முறை_மைல்கற்கள்([0.2, 0.3, 0.5]);
+அச்சு முறை_மைல்கற்கள்([]);
+
+// __It is capped at one, so a milestone list that adds to more than a hundred__
+// __per cent does not report a package as more than finished.__
+// இது ஒன்றுக்குள்ளேயே நிற்கும்
+அச்சு முறை_மைல்கற்கள்([0.6, 0.6]);

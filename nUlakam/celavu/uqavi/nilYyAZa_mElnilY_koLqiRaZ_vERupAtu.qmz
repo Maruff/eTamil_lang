@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — the volume variance: an absorption effect, not a cost__
+// அளவு வேறுபட்டதால் வந்த வேறுபாடு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Making fewer units than planned absorbs less fixed overhead, and the__
+// __overhead does not get smaller for it. This is not money saved or wasted —__
+// __it is the absorption rate being wrong, and reporting it as a cost__
+// __variance is how a factory is blamed for a sales forecast.__
+// இது பணம் சேமித்ததோ இழந்ததோ அல்ல; உள்வாங்கல் விகிதத்தின் விளைவே
+அச்சு நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(60, 10000, 9000);
+அச்சு நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(60, 10000, 11000);
+அச்சு நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(60, 10000, 10000);

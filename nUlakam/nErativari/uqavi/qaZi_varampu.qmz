@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தனி_வரம்பு(ஒரு_கழிவு) — the section's own ceiling applied to one claim__
+// அப்பிரிவுக்கே உரிய உச்ச வரம்பைப் பயன்படுத்தும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Each section is capped on its own before anything combined is considered.__
+// முதலில் ஒவ்வொரு பிரிவும் தனித்தனியே வரம்பிடப்படுகிறது
+அச்சு தனி_வரம்பு(கழிவு_ஆக்கு("80C", 200000, 150000, மெய்));
+அச்சு தனி_வரம்பு(கழிவு_ஆக்கு("80C", 90000, 150000, மெய்));
+
+// __A ceiling of nothing means no ceiling, not a deduction of nothing.__
+// உச்ச வரம்பு பூஜ்ஜியம் என்றால் வரம்பே இல்லை
+அச்சு தனி_வரம்பு(கழிவு_ஆக்கு("80G", 90000, 0, பொய்));

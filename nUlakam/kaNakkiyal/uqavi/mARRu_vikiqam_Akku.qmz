@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாற்று_விகிதம்_ஆக்கு(நாணயக்_குறி, நாள், விகிதம்) — one day's exchange rate__
+// ஒரு நாளுக்கான மாற்று விகிதம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A rate belongs to a day, because a transaction is translated at the rate on__
+// __the day it happened and not at today's.__
+// விகிதம் ஒரு நாளுக்கு உரியது; இன்றையது அல்ல
+விகிதங்கள் = [மாற்று_விகிதம்_ஆக்கு("USD", "2026-04-01", 83.20),
+               மாற்று_விகிதம்_ஆக்கு("USD", "2027-03-31", 86.50)];
+
+அச்சு விகிதங்கள்[0]["விகிதம்"];
+அச்சு விகிதங்கள்[1]["நாள்"];

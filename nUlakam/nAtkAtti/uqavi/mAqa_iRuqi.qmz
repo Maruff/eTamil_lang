@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாத_இறுதி(ஒரு_நாள்) — the last day of that month__
+// அம்மாதத்தின் இறுதி நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Whatever that month's last day is: 28, 29, 30 or 31.__
+// அம்மாதத்தின் கடைசி நாள் எதுவோ அதுவே
+அச்சு மாத_இறுதி("2026-03-17");
+அச்சு மாத_இறுதி("2026-04-17");
+அச்சு மாத_இறுதி("2026-02-17");
+அச்சு மாத_இறுதி("2024-02-17");

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தத்_தேய்வு(அட்டவணை) — everything depreciated over the schedule__
+// அட்டவணை முழுவதிலும் தேய்ந்தது
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Which must be cost less residual, however the schedule got there. The check__
+// __worth making on any depreciation method.__
+// எந்த முறையானாலும் இது கொள்முதல் போக எஞ்சிய மதிப்பே
+அச்சு மொத்தத்_தேய்வு(நேர்கோட்டு_அட்டவணை(500000, 50000, 5));
+அச்சு மொத்தத்_தேய்வு(குறையும்_அட்டவணை(500000, 20, 50000, 5));
+அச்சு மொத்தத்_தேய்வு([]);

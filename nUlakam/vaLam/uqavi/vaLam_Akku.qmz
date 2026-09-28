@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வளம்_ஆக்கு(வளக்_குறி, பெயர், வள_வகை, நாள்_மணிகள்) — put a person or a machine on the resource list__
+// ஒரு வளத்தை உருவாக்கும்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __The working day is part of the resource, not a constant. A contractor on__
+// __six hours and an engineer on eight are not utilised differently because__
+// __one of them booked less time.__
+// நாளின் மணிகள் வளத்தின் பகுதியே; எல்லோருக்கும் ஒரே எண் அல்ல
+பொறியாளர் = வளம்_ஆக்கு("E1", "பாலமுரளி", "பணியாளர்", 8);
+ஒப்பந்தக்காரர் = வளம்_ஆக்கு("E2", "நிரஞ்சனா", "ஒப்பந்தம்", 6);
+
+அச்சு பொறியாளர்["பெயர்"];
+அச்சு பொறியாளர்["நாள்_மணிகள்"];
+அச்சு ஒப்பந்தக்காரர்["நாள்_மணிகள்"];
+
+// __The kind is carried too, because a subcontractor's time is posted to a__
+// __different account from an employee's.__
+// வகையும் சுமக்கப்படுகிறது; பதிவிடும் கணக்கு வேறு
+அச்சு ஒப்பந்தக்காரர்["வகை"];

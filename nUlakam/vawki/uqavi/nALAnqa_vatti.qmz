@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாளாந்த_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டு_நாட்கள்) — what one day of this loan costs__
+// இந்தக் கடனின் ஒரு நாள் எவ்வளவு
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Not rounded, deliberately. This is a rate to accrue with, and rounding it__
+// __to paise before multiplying by 365 loses rupees over a year.__
+// இது வட்டமிடப்படவில்லை; இது சேர்த்துக்கொண்டே போகும் விகிதம்
+அச்சு நாளாந்த_வட்டி(100000, 12, உண்மை_365);
+
+// __Ninety days of it comes to what எளிய_வட்டி says, which is the check worth__
+// __making whenever a daily accrual and a period figure sit in the same report.__
+// தொண்ணூறு நாட்கள் எளிய_வட்டி சொல்வதற்கே வரும்
+அச்சு வட்டமிடு(நாளாந்த_வட்டி(100000, 12, உண்மை_365) * 90, 2);
+அச்சு எளிய_வட்டி(100000, 12, 90, உண்மை_365);

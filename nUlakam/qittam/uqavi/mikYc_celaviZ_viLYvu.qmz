@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மிகைச்_செலவின்_விளைவு(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, விற்பவர்_பகிர்வு, உண்மைச்_செலவு) — the same overrun, priced under three contract types__
+// அதே மிகைச் செலவு, மூன்று ஒப்பந்த வகைகளில்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __One overrun, three answers. This is the argument for choosing a contract__
+// __type deliberately, made in numbers rather than in principle.__
+// ஒரே மிகை, மூன்று விடைகள்; ஒப்பந்த வகையைத் தேர்ந்தெடுப்பதன் காரணம் இதுவே
+விளைவு = மிகைச்_செலவின்_விளைவு(1000000, 100000, 1250000, 0.5, 1300000);
+
+// __Fixed price: the seller bears all of it.__
+// உறுதி விலை: முழுவதும் விற்பவர்மீது
+அச்சு விளைவு["உறுதி_நிலை_விலை"];
+
+// __Fixed-price incentive: shared up to the ceiling, then the seller's.__
+// நிலை விலை ஊக்கம்: உச்சம் வரை பகிர்வு, பின் விற்பவர்மீது
+அச்சு விளைவு["நிலை_விலை_ஊக்கம்"];
+
+// __Cost plus fixed fee: the seller's fee is untouched and the buyer pays the__
+// __whole overrun.__
+// செலவுடன் நிலைக் கட்டணம்: கட்டணம் மாறாது; மிகை முழுவதும் வாங்குபவர்மீது
+அச்சு விளைவு["செலவுடன்_நிலைக்_கட்டணம்"];
+அச்சு விளைவு["உண்மைச்_செலவு"];

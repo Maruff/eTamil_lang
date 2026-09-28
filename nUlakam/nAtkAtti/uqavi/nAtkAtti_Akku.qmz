@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாட்காட்டி_ஆக்கு(வார_ஓய்வு_நாட்கள், விடுமுறை_நாட்கள்) — a working calendar: which weekdays are off, and which dates__
+// வேலை நாட்காட்டியை உருவாக்கும்: எந்த வாரநாட்கள் ஓய்வு, எந்த நாட்கள் விடுமுறை
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Weekends as weekday numbers and holidays as dates, because the two are__
+// __different kinds of thing: one repeats and the other does not.__
+// வார ஓய்வு வாரநாள் எண்களாக; விடுமுறைகள் நாட்களாக
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05", "2026-08-15"]);
+அச்சு நீளம்(நாட்காட்டி["விடுமுறைகள்"]);
+
+// __A six-day week is a calendar with one weekend day, and needs no other__
+// __change anywhere.__
+// ஆறு நாள் வாரம் என்பது ஒரே ஓய்வு நாள் கொண்ட நாட்காட்டியே
+ஆறு_நாள் = நாட்காட்டி_ஆக்கு([0], []);
+அச்சு வேலை_நாளா("2026-03-07", ஆறு_நாள்);
+அச்சு வேலை_நாளா("2026-03-07", நாட்காட்டி);

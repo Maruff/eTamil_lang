@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_பங்கு() — the equity element__
+// பங்கு மூலம்: உரிமையாளர்களுக்கு எஞ்சும் உரிமை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __What is left of the assets once the liabilities are met. It behaves like a__
+// __liability because it is one: what the business owes its owners.__
+// சொத்திலிருந்து பொறுப்பு போக எஞ்சுவது; அதுவும் ஒரு பொறுப்பே
+அச்சு வகை_பங்கு();
+அச்சு பற்று_இயல்பா(வகை_பங்கு());
+அச்சு இருப்புநிலைக்கானதா(வகை_பங்கு());

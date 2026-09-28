@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவிர்க்க_முடியாத_செலவு(நிறைவேற்றும்_செலவு, வெளியேறும்_அபராதம்) — the lower of finishing the job and walking away__
+// நிறைவேற்றுவதும் வெளியேறுவதும், எது குறைவோ அது
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The unavoidable cost is the lesser of the two, because a rational party__
+// __would take whichever is cheaper.__
+// இரண்டில் குறைவானதே தவிர்க்க முடியாதது
+அச்சு தவிர்க்க_முடியாத_செலவு(900000, 300000);
+அச்சு தவிர்க்க_முடியாத_செலவு(900000, 1500000);
+
+// __Which is why a contract with a large exit penalty is a worse contract than__
+// __the same job with a small one: the penalty is the floor under the loss.__
+// பெரிய வெளியேறும் அபராதம் என்பது நட்டத்தின் தரையே

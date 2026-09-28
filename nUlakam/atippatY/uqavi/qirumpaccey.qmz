@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திரும்பச்செய்(சரம், எண்ணிக்கை) — repeat__
+// சரத்தைச் சொன்ன முறை திரும்பத் தரும்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு திரும்பச்செய்("-", 5);
+அச்சு நீளம்(திரும்பச்செய்("அ", 3));
+அச்சு நீளம்(திரும்பச்செய்("அ", 0));

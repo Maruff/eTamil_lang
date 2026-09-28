@@ -24,3 +24,16 @@ Standard costing decomposes the difference between plan and outcome into rate, u
 | `poruL_vERupAtu.qmz` | பொருள் வேறுபாடு: material price and usage | `பொருள்_மொத்த_வேறுபாடு` `பொருள்_வீத_வேறுபாடு` `பொருள்_பயன்பாட்டு_வேறுபாடு` `பொருள்_வேறுபாட்டுத்_தொகுதி` |
 | `vERupAtu.qmz` | வேறுபாடு: reading a variance, whichever one it is | `சாதகமா` `பாதகமா` `வேறுபாட்டு_உரை` |
 | `viRpaZY_vERupAtu.qmz` | விற்பனை வேறுபாடு: selling price and sales volume | `விற்பனை_வீத_வேறுபாடு` `விற்பனை_அளவு_வேறுபாடு` |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 104 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh celavu
+```

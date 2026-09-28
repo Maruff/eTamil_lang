@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரையிலா(நாள், வரம்பு_நாள்) — on or before that date__
+// அந்நாளிலோ அதற்கு முன்போ
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __What a balance sheet filters on. \"On or before\", not \"before\": a balance__
+// __sheet at 31 March includes 31 March.__
+// அந்நாளும் சேர்த்து; மார்ச் 31 இருப்புநிலை மார்ச் 31-ஐயும் சேர்க்கும்
+அச்சு வரையிலா("2026-03-31", "2026-03-31");
+அச்சு வரையிலா("2026-03-30", "2026-03-31");
+அச்சு வரையிலா("2026-04-01", "2026-03-31");

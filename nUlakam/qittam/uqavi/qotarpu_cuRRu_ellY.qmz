@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்பு_சுற்று_எல்லை() — how many passes the dependency solver will make__
+// வலையைக் கணக்கிடும்போது எத்தனை சுற்று வரை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __A bound rather than a loop that runs until nothing changes. Start-to-finish__
+// __links with leads can be written so that they never settle, and a planning__
+// __tool that hangs on a bad network is worse than one that refuses it.__
+// நிலைக்காத வலைகள் உண்டு; தொங்குவதைவிட மறுப்பதே மேல்
+அச்சு தொடர்பு_சுற்று_எல்லை();

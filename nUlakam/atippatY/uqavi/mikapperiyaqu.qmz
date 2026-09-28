@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மிகப்பெரியது(அணி) — the largest element of an array__
+// அணியின் மிகப் பெரிய உறுப்பு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு மதிப்பு(மிகப்பெரியது([5, 2, 9]));
+அச்சு தவறா(மிகப்பெரியது([]));

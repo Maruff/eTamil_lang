@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேலாண்மை_இருப்பைக்_கணக்கிடு(அடிப்படை_நிதி, கொள்கை_விகிதம்) — the management reserve, for what nobody listed__
+// அறியப்படாதவற்றுக்கான மேலாண்மை இருப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __A policy percentage of the baseline, and it cannot be otherwise: this is__
+// __money set aside for the risks that are not on the register, and there is__
+// __nothing to compute it from.__
+// இது அடிப்படை நிதியின் கொள்கை விழுக்காடே; கணக்கிட வேறு ஒன்றுமில்லை
+அச்சு மேலாண்மை_இருப்பைக்_கணக்கிடு(10000000, 5);
+அச்சு மேலாண்மை_இருப்பைக்_கணக்கிடு(10000000, 10);
+
+// __Held by the sponsor rather than the project manager, which is the point of__
+// __keeping it separate from the contingency.__
+// இதைத் திட்ட மேலாளர் அல்ல, ஆதரவாளரே வைத்திருப்பார்
+அச்சு மேலாண்மை_இருப்பைக்_கணக்கிடு(10000000, 0);

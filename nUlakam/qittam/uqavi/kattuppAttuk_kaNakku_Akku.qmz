@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு(கணக்குக்_குறி, கணு_குறி, உரிமையாளர்) — a control account: a point in the tree where cost is managed__
+// செலவு நிர்வகிக்கப்படும் ஒரு புள்ளி
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __An owner, because a control account nobody owns is a budget nobody is__
+// __answerable for.__
+// உரிமையாளர் இல்லாத கணக்கு, யாரும் பொறுப்பேற்காத நிதி
+கணக்குகள் = [கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு("CA-1", "1.1", "பாலமுரளி"),
+              கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு("CA-2", "1.2", "நிரஞ்சனா")];
+
+அச்சு கணக்குகள்[0]["கணக்குக்_குறி"];
+அச்சு கணக்குகள்[0]["கணு_குறி"];
+அச்சு கணக்குகள்[1]["உரிமையாளர்"];

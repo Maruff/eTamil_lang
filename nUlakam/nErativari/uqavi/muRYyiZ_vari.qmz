@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறையின்_வரி(ஒரு_முறை) — run the whole computation for one regime__
+// ஒரு முறைக்கான முழுக் கணக்கு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+பழைய_படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+                 {"முதல்": 250000, "விகிதம்": 5},
+                 {"முதல்": 500000, "விகிதம்": 20},
+                 {"முதல்": 1000000, "விகிதம்": 30}];
+
+// __Everything the regime carries goes in, so nothing has to be passed twice.__
+// முறை சுமக்கும் அனைத்தும் உள்ளே செல்கின்றன
+பழையது = முறையை_ஆக்கு("பழைய முறை", பழைய_படிகள், [], 500000, 12500, 4, 1050000);
+அச்சு முறையின்_வரி(பழையது)["வட்டமிட்ட_வரி"];

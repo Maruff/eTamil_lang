@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலத்துடன்_சேமி(சாவி, மதிப்புரு, வினாடிகள்) — store a value that expires by itself__
+// சொன்ன வினாடிகளில் காலாவதியாகும்படிச் சேமிக்கும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+// __The expiry is set in the same command as the write rather than in a second__
+// __one. A key written now and given its expiry a moment later is a key that__
+// __lives for ever if anything goes wrong in between.__
+// காலாவதி எழுதும் அதே கட்டளையிலேயே அமைக்கப்படுகிறது; இரண்டாவது கட்டளையில் அல்ல
+விளைவு = காலத்துடன்_சேமி("மாதிரி:அமர்வு:abc", "குமார்", 300);
+
+(சரியா(விளைவு)) எனில் { அச்சு "ஐந்து நிமிடங்களுக்குச் சேமிக்கப்பட்டது"; }
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

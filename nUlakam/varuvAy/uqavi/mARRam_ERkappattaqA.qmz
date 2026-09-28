@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாற்றம்_ஏற்கப்பட்டதா(ஒரு_மாற்றம்) — has both sides approved this?__
+// இம்மாற்றம் இரு தரப்பாலும் ஏற்கப்பட்டதா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+அச்சு மாற்றம்_ஏற்கப்பட்டதா(மாற்றம்_ஆக்கு("M1", 200000, 200000, மெய், மெய்));
+அச்சு மாற்றம்_ஏற்கப்பட்டதா(மாற்றம்_ஆக்கு("M2", 200000, 200000, மெய், பொய்));
+
+// __Unapproved work is not a modification. Where there is an enforceable right__
+// __to be paid for it, it is a claim — and a claim is variable consideration__
+// __in the original contract, subject to the constraint.__
+// ஒப்புக்கொள்ளப்படாத பணி மாற்றம் அல்ல; அது கோரலே

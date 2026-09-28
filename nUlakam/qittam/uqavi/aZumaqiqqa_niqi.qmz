@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுமதித்த_நிதி(தொகுதி) — everything that has been authorised__
+// அடிப்படையுடன் மேலாண்மை இருப்பும் சேர்த்தது
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொகுதி = நிதித்_தொகுதி_ஆக்கு(1000000, 150000, 100000);
+
+// __The number the sponsor knows, and the one the project manager does not__
+// __measure against — which is why the two of them so often disagree about how__
+// __much money a project has.__
+// ஆதரவாளர் அறிந்த எண்; திட்ட மேலாளர் அளக்கும் எண் அல்ல
+அச்சு அனுமதித்த_நிதி(தொகுதி);
+அச்சு அளவீட்டு_அடிப்படை(தொகுதி);

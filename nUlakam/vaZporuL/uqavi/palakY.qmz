@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பலகை() — which board is underneath__
+// அடியில் இருப்பது எந்தப் பலகை
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __The same program drives a Raspberry Pi, a simulated board and an Arduino.__
+// __This is how it can tell which, and it is the only thing in the module that__
+// __differs between them.__
+// ஒரே நிரல் மூன்று பலகைகளையும் இயக்கும்; எது என்பதை இது சொல்லும்
+அச்சு பலகை();
+
+// __\"sim\" here because the sample runs on the simulated board: ETAMIL_BOARD=sim__
+// __selects it, and on a Pi with nothing set it answers \"pi\" instead.__
+// இங்கே போலிப் பலகை; ராஸ்பெர்ரி பையில் அதன் பெயர் வேறு
+(பலகை() == "sim") எனில் { அச்சு "சோதனைக்கான போலிப் பலகை"; }
+இன்றேல் { அச்சு "உண்மையான பலகை"; }

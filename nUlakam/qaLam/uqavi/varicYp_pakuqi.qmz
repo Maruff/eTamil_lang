@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரிசைப்_பகுதி(சாவி, தொடக்கம், முடிவு) — a slice of a list; -1 as the end means to the end__
+// பட்டியலின் ஒரு பகுதி; முடிவாக ஒன்று குறை என்றால் இறுதி வரை
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+நீக்கு("மாதிரி:வேலைகள்");
+முன்_சேர்("மாதிரி:வேலைகள்", "மூன்று");
+முன்_சேர்("மாதிரி:வேலைகள்", "இரண்டு");
+முன்_சேர்("மாதிரி:வேலைகள்", "ஒன்று");
+
+// __Both ends are inclusive, unlike almost every other slice: 0 to 1 gives two__
+// __items, not one. That is Redis's convention and it is kept rather than__
+// __translated, so a reader comparing this with the Redis manual sees the same__
+// __numbers.__
+// இரு முனைகளும் உள்ளடங்கும்; 0 முதல் 1 வரை என்பது இரண்டு உறுப்புகள்
+இரண்டு_மட்டும் = வரிசைப்_பகுதி("மாதிரி:வேலைகள்", 0, 1);
+
+// __And -1 as the end means to the end of the list, whatever its length.__
+// முடிவாக -1 என்றால் பட்டியலின் இறுதி வரை
+முழுவதும் = வரிசைப்_பகுதி("மாதிரி:வேலைகள்", 0, -1);
+
+(சரியா(முழுவதும்)) எனில் {
+    அச்சு நீளம்(மதிப்பு(இரண்டு_மட்டும்));
+    அச்சு நீளம்(மதிப்பு(முழுவதும்));
+}
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

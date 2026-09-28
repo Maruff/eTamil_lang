@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்டிக்குரிய_அடிப்படை(தொகை_மதிப்பு) — round down to a multiple of a hundred for interest__
+// வட்டி கணக்கிட நூறின் மடங்காக வட்டமிடும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Interest under the Act is computed on the shortfall rounded down to a__
+// __hundred, which is worth a few rupees and is the difference between a__
+// __computation that matches the department's and one that does not.__
+// குறையை நூறின் மடங்காகக் கீழ்நோக்கி வட்டமிட்டே வட்டி
+அச்சு வட்டிக்குரிய_அடிப்படை(45678);
+அச்சு வட்டிக்குரிய_அடிப்படை(45600);
+அச்சு வட்டிக்குரிய_அடிப்படை(99);
+அச்சு வட்டிக்குரிய_அடிப்படை(0);

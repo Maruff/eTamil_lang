@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சம்பள_பிடித்தம்(ஆண்டு_வரி, மீதி_மாதங்கள், ஏற்கனவே_பிடித்தது) — how much to withhold from salary each remaining month__
+// மீதி மாதங்களுக்குச் சம்பளத்தில் பிடிக்க வேண்டியது
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Salary withholding is spread evenly over the year rather than charged on__
+// __each payment, so a declaration made in December is caught up over the__
+// __months that are left.__
+// ஆண்டு முழுவதும் சமமாகப் பரப்பப்படுகிறது
+அச்சு சம்பள_பிடித்தம்(144000, 12, 0);
+அச்சு சம்பள_பிடித்தம்(144000, 3, 108000);
+
+// __Already over-withheld, or no months left: nothing more.__
+// ஏற்கெனவே அதிகம் பிடித்திருந்தால், அல்லது மாதங்களே இல்லையெனில், ஒன்றுமில்லை
+அச்சு சம்பள_பிடித்தம்(144000, 3, 150000);
+அச்சு சம்பள_பிடித்தம்(144000, 0, 0);

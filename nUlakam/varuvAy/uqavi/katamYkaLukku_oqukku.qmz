@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கடமைகளுக்கு_ஒதுக்கு(பரிமாற்றத்_தொகை, கடமைகள்) — step four: split the price over the obligations by standalone price__
+// நான்காம் படி: தனி விற்பனை மதிப்பின் விகிதத்தில் ஒதுக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+கடமைகள் = [கடமை_ஆக்கு("P1", "கருவி", 800000, பொய்),
+            கடமை_ஆக்கு("P2", "இரண்டாண்டு பராமரிப்பு", 200000, மெய்)];
+
+// __A contract sold for 9,00,000 against standalone prices totalling 10,00,000__
+// __carries a discount, and the discount is shared in proportion rather than__
+// __taken out of whichever line is convenient.__
+// தள்ளுபடி விகிதப்படியே பகிரப்படுகிறது
+ஒதுக்கியவை = மதிப்பு(கடமைகளுக்கு_ஒதுக்கு(900000, கடமைகள்));
+ஒவ்வொரு ஒரு_கடமை இல் ஒதுக்கியவை { அச்சு ஒரு_கடமை["ஒதுக்கிய_மதிப்பு"]; }
+
+// __With no standalone prices there is no basis to allocate on, and that is a__
+// __தவறு rather than an even split.__
+// அடிப்படையே இல்லாவிட்டால் தவறே; சமமாகப் பிரிப்பதில்லை
+அச்சு தவறா(கடமைகளுக்கு_ஒதுக்கு(900000, []));
+அச்சு தவறா(கடமைகளுக்கு_ஒதுக்கு(900000, [கடமை_ஆக்கு("P9", "x", 0, பொய்)]));

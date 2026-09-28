@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விலக்கிய_ஆதாயம்(ஆதாயத்_தொகை, விலக்கு_எல்லை) — the gain left after the exemption__
+// விலக்குக்குப் பின் வரிக்குரிய ஆதாயம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The first slice of a long-term gain is exempt, and only the excess is__
+// __taxed.__
+// ஆதாயத்தின் முதல் பகுதி விலக்கப்படுகிறது
+அச்சு விலக்கிய_ஆதாயம்(250000, 125000);
+
+// __A gain inside the exemption is taxed at nothing, not at a negative.__
+// விலக்குக்குள் உள்ள ஆதாயத்திற்கு வரி இல்லை
+அச்சு விலக்கிய_ஆதாயம்(100000, 125000);

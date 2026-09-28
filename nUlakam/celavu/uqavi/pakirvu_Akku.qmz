@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பகிர்வு_ஆக்கு(க்கு_குறி, விகித_மதிப்பு) — one share of a service centre's cost__
+// சேவை நிலையச் செலவின் ஒரு பங்கு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+பகிர்வு = பகிர்வு_ஆக்கு("P1", 40);
+அச்சு பகிர்வு["க்கு"];
+அச்சு பகிர்வு["விகிதம்"];

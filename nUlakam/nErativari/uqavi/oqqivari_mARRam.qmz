@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒத்திவரி_மாற்றம்(தொடக்கத்_தொகை, இறுதித்_தொகை) — the movement in deferred tax over a period__
+// காலத்தில் ஏற்பட்ட ஒத்திவரி மாற்றம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The movement is what goes to the profit and loss account; the balance is__
+// __what sits on the balance sheet. Charging the balance instead of the__
+// __movement double-counts every prior year.__
+// இயக்கமே இலாப நட்டக் கணக்குக்குச் செல்கிறது; இருப்பு அல்ல
+அச்சு ஒத்திவரி_மாற்றம்(50000, 80000);
+அச்சு ஒத்திவரி_மாற்றம்(80000, 50000);
+அச்சு ஒத்திவரி_மாற்றம்(50000, 50000);

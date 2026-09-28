@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எதிர்பார்க்கும்_காலம்(அசல்_காலம், காலத்_திறன்) — how long the project will take at this rate__
+// இந்த வேகம் குறிக்கும் கால அளவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Twenty-four months of plan at five-sixths of the rate is twenty-eight and a__
+// __bit. A crude forecast and a useful one, because it is arithmetic nobody can__
+// __argue with.__
+// கச்சாவான ஆனால் பயனுள்ள கணிப்பு; வாதிட முடியாத கணக்கு
+அச்சு வட்டமிடு(மதிப்பு(எதிர்பார்க்கும்_காலம்(24, 0.8333)), 2);
+அச்சு மதிப்பு(எதிர்பார்க்கும்_காலம்(24, 1));
+
+// __At a rate of nothing the project never finishes, which is a தவறு rather__
+// __than a very large number.__
+// வேகமே இல்லையெனில் திட்டம் முடியாது; அது தவறே
+அச்சு தவறா(எதிர்பார்க்கும்_காலம்(24, 0));

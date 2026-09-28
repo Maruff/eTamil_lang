@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவணை_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்தியவை, அட்டவணை, மாத_வீதம்) — interest for each instalment that fell short__
+// ஒவ்வொரு தவணையும் குறைந்ததற்கான வட்டி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+அட்டவணை = முன்வரித்_தவணைகள்();
+
+// __Paid nothing all year: interest on each of the first three instalments for__
+// __three months, and on the fourth for one.__
+// ஆண்டு முழுவதும் ஒன்றும் செலுத்தவில்லை
+எதுவும்_இல்லை = தவணை_வட்டி(100000, [0, 0, 0, 0], அட்டவணை, 1);
+அச்சு எதுவும்_இல்லை["மொத்த_வட்டி"];
+
+// __Paid 12% by the first date: short of the 15% required, but inside the 12%__
+// __tolerance, so no interest on that instalment.__
+// முதல் நாளில் 12% செலுத்தியது; நிவாரண எல்லைக்குள் வருவதால் வட்டி இல்லை
+சகிப்பு = தவணை_வட்டி(100000, [12000, 0, 0, 0], அட்டவணை, 1);
+அச்சு சகிப்பு["வரிசைகள்"][0]["வட்டி"];
+அச்சு சகிப்பு["வரிசைகள்"][0]["குறை"];
+
+// __Paid in full and on time: nothing.__
+// முழுவதும் நேரத்தில் செலுத்தினால் ஒன்றுமில்லை
+அச்சு தவணை_வட்டி(100000, [15000, 45000, 75000, 100000], அட்டவணை, 1)["மொத்த_வட்டி"];

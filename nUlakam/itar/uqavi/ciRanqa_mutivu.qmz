@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சிறந்த_முடிவு(வாய்ப்புகள்) — pick the option worth most, net of what it costs to take__
+// நுழைவுச் செலவையும் கழித்த பின் சிறந்த வாய்ப்பைத் தேர்ந்தெடுக்கும்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+தேர்வு = மதிப்பு(சிறந்த_முடிவு([
+    {"பெயர்": "கட்டு", "எதிர்பார்ப்பு": 520000, "செலவு": 300000},
+    {"பெயர்": "வாங்கு", "எதிர்பார்ப்பு": 400000, "செலவு": 100000}
+]));
+
+// __The option with the lower expected value wins once the price of entry is__
+// __counted. Comparing expected values alone picks the other one.__
+// நுழைவுச் செலவைச் சேர்த்ததும் குறைந்த எதிர்பார்ப்புள்ளதே வெல்கிறது
+அச்சு தேர்வு["சிறந்தது"];
+அச்சு தேர்வு["நிகரம்"];
+
+// __The whole ranking comes back, so a close call is visible rather than being__
+// __presented as a decision.__
+// முழுத் தரவரிசையும் திரும்பும்; நெருக்கமான தேர்வு மறைக்கப்படுவதில்லை
+அச்சு நீளம்(தேர்வு["தரவரிசை"]);
+
+// __With no options there is no decision.__
+// வாய்ப்புகளே இல்லையெனில் முடிவும் இல்லை
+அச்சு தவறா(சிறந்த_முடிவு([]));

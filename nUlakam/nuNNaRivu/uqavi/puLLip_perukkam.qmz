@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __புள்ளிப்_பெருக்கம்(அ, ஆ) — the dot product of two vectors__
+// இரு திசையன்களின் புள்ளிப் பெருக்கம்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு மதிப்பு(புள்ளிப்_பெருக்கம்([1, 0, 0], [1, 0, 0]));
+அச்சு மதிப்பு(புள்ளிப்_பெருக்கம்([1, 0, 0], [0, 1, 0]));
+
+// __Vectors of different widths are a தவறு rather than a silent shorter answer:__
+// __two embeddings of different widths came from two different models, and__
+// __comparing them is meaningless however well the arithmetic goes.__
+// அகலம் வேறுபட்டால் தவறே; அவை வெவ்வேறு மாதிரிகளிலிருந்து வந்தவை
+அச்சு தவறா(புள்ளிப்_பெருக்கம்([1, 0], [1, 0, 0]));

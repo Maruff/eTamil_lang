@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __படிநிலைப்_பகிர்வு(வரிசைப்படுத்திய_நிலையங்கள், உற்பத்திக்_குறிகள்) — apportion once each, in a chosen order__
+// ஒரு வரிசையில் ஒருமுறை மட்டும் பகிரும் முறை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+சேவைகள் = [சேவை_நிலையம்_ஆக்கு("S1", 100000,
+               [பகிர்வு_ஆக்கு("P1", 50), பகிர்வு_ஆக்கு("P2", 30),
+                பகிர்வு_ஆக்கு("S2", 20)]),
+            சேவை_நிலையம்_ஆக்கு("S2", 60000,
+               [பகிர்வு_ஆக்கு("P1", 40), பகிர்வு_ஆக்கு("P2", 60)])];
+
+// __Simpler than the repeated method and it answers a slightly different__
+// __question, because a centre already apportioned receives nothing back.__
+// ஏற்கெனவே பகிர்ந்த நிலையத்திற்கு மீண்டும் ஒன்றும் வருவதில்லை
+விடை = படிநிலைப்_பகிர்வு(சேவைகள், ["P1", "P2"]);
+அச்சு உற்பத்திக்கு_மொத்தம்(விடை);

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சேமி(சாவி, மதிப்புரு) — store a value under a key__
+// சாவிக்கு ஒரு மதிப்பைச் சேமிக்கும்
+
+இறக்கு "../retis.qmz";
+
+// __With ETAMIL_REDIS set this runs against that server; without it, it shows__
+// __what every command does with no connection. Either way it runs, because a__
+// __machine with no Redis on it is not a failing machine.__
+// சூழல் மாறி அமைக்கப்பட்டிருந்தால் அந்த வழங்கிக்கு எதிராக; இல்லையேல் இணைப்பில்லா நிலை
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+// __Any value at all: it is turned into a string on the way in, so a record__
+// __and a number are stored the same way and the caller does not choose.__
+// எந்த மதிப்பையும் சேமிக்கலாம்; உள்ளே செல்லும்போது சரமாக மாற்றப்படுகிறது
+விளைவு = சேமி("மாதிரி:வாடிக்கையாளர்:1", "குமார்");
+
+// __A command with no connection is a தவறு that comes back, not a crash and__
+// __not a silent success. Cache code that cannot tell those apart writes__
+// __nothing and believes it wrote something.__
+// இணைப்பு இல்லாத கட்டளை தவறாகத் திரும்பும்; விழுவதும் இல்லை, மௌனமாகத் தேறுவதும் இல்லை
+(சரியா(விளைவு)) எனில் { அச்சு "சேமிக்கப்பட்டது"; }
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

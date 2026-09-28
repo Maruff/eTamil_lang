@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்னோடிகள்_உள்ளனவா(செயல்கள்) — does every named predecessor actually exist?__
+// பெயரிடப்பட்ட ஒவ்வொரு முன்னோடியும் உண்மையில் உள்ளதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+நல்லது = [செயல்_ஆக்கு("A", 3, []), செயல்_ஆக்கு("B", 4, ["A"])];
+அச்சு சரியா(முன்னோடிகள்_உள்ளனவா(நல்லது));
+
+// __A predecessor that does not exist would otherwise be silently ignored, and__
+// __the activity would start at the beginning of the project — a schedule that__
+// __is wrong and looks right.__
+// இல்லாத முன்னோடி அமைதியாகப் புறக்கணிக்கப்பட்டால், செயல் தொடக்கத்திலேயே ஆரம்பிக்கும்
+தவறானது = [செயல்_ஆக்கு("A", 3, []), செயல்_ஆக்கு("B", 4, ["Z"])];
+அச்சு தவறு_மதிப்பு(முன்னோடிகள்_உள்ளனவா(தவறானது));

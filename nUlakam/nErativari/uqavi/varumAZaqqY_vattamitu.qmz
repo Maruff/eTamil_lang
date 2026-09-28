@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வருமானத்தை_வட்டமிடு(வருமானத்_தொகை) — round the income down as the statute requires__
+// சட்டம் சொல்லும்படி வருமானத்தை வட்டமிடும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Down to a multiple of ten, always. Rounding to nearest would be a rupee or__
+// __two either way and would not match the department's computation — and a__
+// __return that differs by two rupees is a return that gets a notice.__
+// எப்போதும் கீழ்நோக்கி, பத்தின் மடங்காக
+அச்சு வருமானத்தை_வட்டமிடு(856437);
+அச்சு வருமானத்தை_வட்டமிடு(856430);
+அச்சு வருமானத்தை_வட்டமிடு(0);

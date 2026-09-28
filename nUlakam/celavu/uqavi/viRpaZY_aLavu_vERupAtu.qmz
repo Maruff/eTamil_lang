@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — the part caused by selling a different quantity__
+// விற்ற அளவு வேறுபட்டதால்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Measured on standard contribution rather than on price, so a unit sold does__
+// __not look more profitable merely because it was sold dear — the price effect__
+// __is already in the rate variance and counting it twice overstates the month.__
+// நியம பங்களிப்பின்மீதே; விலை விளைவு ஏற்கெனவே வீத வேறுபாட்டில் உள்ளது
+அச்சு விற்பனை_அளவு_வேறுபாடு(200, 10000, 9000);
+அச்சு விற்பனை_அளவு_வேறுபாடு(200, 10000, 11000);
+அச்சு விற்பனை_அளவு_வேறுபாடு(200, 10000, 10000);

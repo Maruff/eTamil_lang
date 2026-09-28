@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மிகைப்_பதிவா(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள், நாள்_உச்ச_மணிகள்) — has more been booked in a day than there was day?__
+// ஒரு நாளுக்கு உரியதை மீறிப் பதிவாகியுள்ளதா
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+இரட்டைப்_பதிவு = [நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 6, மெய்),
+                   நேர_உள்ளீடு("E1", "2026-03-02", "S2b", 6, மெய்)];
+
+// __Each line on its own is unremarkable; together they are a double booking.__
+// __This is the check that has to look at the day rather than at the entry.__
+// தனித்தனியே இரண்டும் சாதாரணம்; சேர்ந்தால் இரட்டைப் பதிவு
+அச்சு சரியா(உள்ளீட்டைச்_சரிபார்(இரட்டைப்_பதிவு[0], 8));
+அச்சு மிகைப்_பதிவா(இரட்டைப்_பதிவு, "E1", "2026-03-02", 8);
+
+// __A different day and a different person are unaffected.__
+// வேறு நாளும் வேறு நபரும் பாதிக்கப்படுவதில்லை
+அச்சு மிகைப்_பதிவா(இரட்டைப்_பதிவு, "E1", "2026-03-03", 8);
+அச்சு மிகைப்_பதிவா(இரட்டைப்_பதிவு, "E2", "2026-03-02", 8);

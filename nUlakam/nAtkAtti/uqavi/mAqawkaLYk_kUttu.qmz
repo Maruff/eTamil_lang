@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாதங்களைக்_கூட்டு(ஒரு_நாள், மாத_எண்ணிக்கை) — add months, clamping to the month's own last day__
+// நாளுடன் மாதங்களைக் கூட்டும்; அம்மாதத்தின் கடைசி நாளுக்குள் நிற்கும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு மாதங்களைக்_கூட்டு("2026-03-15", 2);
+
+// __Adding a month to the 31st is the question this exists to answer. It clamps__
+// __to the month's own last day rather than spilling into the next one: a__
+// __tenancy that starts on 31 January has its next due date in February.__
+// 31-உடன் ஒரு மாதம் கூட்டுவதே இதன் காரணம்; அடுத்த மாதத்துள் வழிவதில்லை
+அச்சு மாதங்களைக்_கூட்டு("2026-01-31", 1);
+அச்சு மாதங்களைக்_கூட்டு("2026-01-31", 3);
+
+// __Which means it does not undo itself. Forward a month and back a month from__
+// __the 31st is the 28th, and that is the arithmetic, not a bug.__
+// இது தன்னைத்தானே திரும்பப் பெறுவதில்லை
+அச்சு மாதங்களைக்_கூட்டு(மாதங்களைக்_கூட்டு("2026-01-31", 1), 0 - 1);

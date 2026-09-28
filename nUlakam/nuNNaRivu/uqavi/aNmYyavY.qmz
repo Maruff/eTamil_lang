@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அண்மையவை(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன், எண்ணிக்கை) — the documents closest in meaning__
+// பொருளால் மிக அண்மையான ஆவணங்கள்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [பொதிந்த_ஆவணம்("vari.md", [1, 0, 0]),
+              பொதிந்த_ஆவணம்("paNam.md", [0, 1, 0]),
+              பொதிந்த_ஆவணம்("vatti.md", [0.7, 0.7, 0])];
+
+// __Meaning, not words: a document that says the same thing in other words__
+// __still scores, which is what word search cannot do.__
+// பொருளே; சொற்கள் அல்ல
+ஒவ்வொரு ஒன்று இல் அண்மையவை(ஆவணங்கள், [1, 0, 0], 2) { அச்சு ஒன்று["குறி"]; }
+
+// __A document whose vector is a different width is skipped rather than__
+// __scored: it came from another model.__
+// அகலம் வேறுபட்ட ஆவணம் தவிர்க்கப்படுகிறது
+கலவை = [பொதிந்த_ஆவணம்("a", [1, 0, 0]), பொதிந்த_ஆவணம்("b", [1, 0])];
+அச்சு நீளம்(அண்மையவை(கலவை, [1, 0, 0], 10));

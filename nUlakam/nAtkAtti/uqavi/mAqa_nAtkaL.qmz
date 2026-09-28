@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாத_நாட்கள்(ஆண்டு_மதிப்பு, மாத_மதிப்பு) — how many days that month holds__
+// அம்மாதத்தில் எத்தனை நாட்கள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு மாத_நாட்கள்(2026, 1);
+அச்சு மாத_நாட்கள்(2026, 4);
+
+// __February needs the year, which is why this takes both.__
+// பிப்ரவரிக்கு ஆண்டு தேவை; அதனாலேயே இரண்டையும் ஏற்கிறது
+அச்சு மாத_நாட்கள்(2026, 2);
+அச்சு மாத_நாட்கள்(2024, 2);

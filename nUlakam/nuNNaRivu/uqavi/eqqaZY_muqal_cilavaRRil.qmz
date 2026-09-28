@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) — how many answers came within the first few__
+// முதல் சிலவற்றுக்குள் எத்தனை விடைகள் வந்தன
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+இடநிலைகள் = [1, 1, 2, 5, 0 - 1];
+
+// __The depth should be the number of passages the prompt actually quotes: a__
+// __result at rank five is a miss if only three are used, however well it__
+// __scores in a report that counts ten.__
+// ஆழம் என்பது தூண்டுதலில் உண்மையில் பயன்படும் மேற்கோள்களின் எண்ணிக்கையே
+அச்சு எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 1);
+அச்சு எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 3);
+அச்சு எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், 10);

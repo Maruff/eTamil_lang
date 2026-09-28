@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பரவல்(ஒரு_மதிப்பீடு) — the square of the deviation__
+// விலகலின் வர்க்கம்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+அ = மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6));
+அச்சு பரவல்(அ);
+
+// __This is the form that adds. Variances of independent tasks can be summed;__
+// __deviations cannot, and the whole of பாதை_பரவல் exists because of it.__
+// கூட்டத் தகுந்த வடிவம் இதுவே; விலகல்களைக் கூட்ட முடியாது
+அச்சு நியம_விலகல்(அ) * நியம_விலகல்(அ);

@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அன்னிய_வேறுபாடு(பரிவர்த்தனை_எண், நாள், விவரம், வாடிக்கையாளர்_கணக்கு, லாப_கணக்கு, இழப்பு_கணக்கு, வேறுபாடு) — the entry that records an exchange difference__
+// வேறுபாட்டைப் பதியும் பரிவர்த்தனை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A gain debits the asset and credits the gain account; a loss debits the__
+// __loss account instead. Both accounts are named, because a single__
+// __difference account nets two things that a reader wants to see apart.__
+// ஆதாயமும் இழப்பும் தனித்தனி கணக்குகள்
+ஆதாயம் = மதிப்பு(அன்னிய_வேறுபாடு(1, "2027-03-31", "மாற்று ஆதாயம்",
+                           "1100", "4900", "5900", 3300));
+அச்சு சமநிலையா(ஆதாயம்);
+
+இழப்பு = மதிப்பு(அன்னிய_வேறுபாடு(2, "2027-03-31", "மாற்று இழப்பு",
+                           "1100", "4900", "5900", 0 - 3300));
+அச்சு சமநிலையா(இழப்பு);
+
+// __A rate that did not move produces nothing to post, and that is a தவறு__
+// __rather than an entry of zero.__
+// விகிதம் நகரவில்லையெனில் பதிய ஒன்றுமில்லை
+அச்சு தவறா(அன்னிய_வேறுபாடு(3, "2027-03-31", "மாற்றம் இல்லை",
+    "1100", "4900", "5900", 0));

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறுவனம்_ஆக்கு(குறி, பெயர், அறிக்கை_நாணயம்) — one company in a shared ledger__
+// பேரேட்டில் ஒரு நிறுவனம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The reporting currency belongs to the company, so a group can hold__
+// __subsidiaries reporting in different ones.__
+// அறிக்கை நாணயம் நிறுவனத்தினுடையது
+நிறுவனங்கள் = [நிறுவனம்_ஆக்கு("IN", "தமிழ் இயந்திரங்கள்", "INR"),
+                நிறுவனம்_ஆக்கு("SG", "Tamil Machines Pte", "SGD")];
+
+அச்சு நிறுவனங்கள்[0]["பெயர்"];
+அச்சு நிறுவனங்கள்[1]["அறிக்கை_நாணயம்"];

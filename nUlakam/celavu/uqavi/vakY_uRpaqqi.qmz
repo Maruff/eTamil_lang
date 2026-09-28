@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_உற்பத்தி() — a production cost centre__
+// உற்பத்தி நிலைய வகை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The only kind where cost is finally absorbed into units. Everything else__
+// __has to be re-apportioned into one of these before a product can be costed.__
+// செலவு அலகுகளில் உள்வாங்கப்படும் ஒரே வகை இதுவே
+அச்சு வகை_உற்பத்தி();
+அச்சு உற்பத்தி_நிலையமா(மதிப்பு(நிலையம்_ஆக்கு("P1", "இயந்திரப் பட்டறை", வகை_உற்பத்தி())));

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தள்ளுபடியை_ஒதுக்கு(தள்ளுபடித்_தொகை, கடமைகள், குறிப்பிட்ட_குறிகள்) — put a discount where the evidence says it belongs__
+// சான்று சொல்லும் இடத்திலேயே தள்ளுபடியை வைக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+கடமைகள் = [கடமை_ஆக்கு("P1", "கருவி", 800000, பொய்),
+            கடமை_ஆக்கு("P2", "பராமரிப்பு", 200000, மெய்)];
+
+// __With no evidence, a discount belongs to every obligation in proportion.__
+// சான்று இல்லையெனில் தள்ளுபடி அனைத்துக்கும் விகிதப்படி
+எல்லாம் = மதிப்பு(தள்ளுபடியை_ஒதுக்கு(100000, கடமைகள், []));
+ஒவ்வொரு ஒரு_கடமை இல் எல்லாம் { அச்சு ஒரு_கடமை["ஒதுக்கிய_மதிப்பு"]; }
+
+// __With evidence that it relates to one of them — the maintenance is__
+// __regularly sold at that discount and the equipment never is — it goes there__
+// __alone.__
+// சான்று ஒன்றைச் சுட்டினால், அதற்கே முழுவதும்
+ஒன்றுக்கு = மதிப்பு(தள்ளுபடியை_ஒதுக்கு(100000, கடமைகள், ["P2"]));
+அச்சு நீளம்(ஒன்றுக்கு);
+அச்சு ஒன்றுக்கு[0]["ஒதுக்கிய_மதிப்பு"];
+
+// __Evidence pointing at an obligation the contract does not have is refused.__
+// இல்லாத கடமையைச் சுட்டும் சான்று மறுக்கப்படும்
+அச்சு தவறா(தள்ளுபடியை_ஒதுக்கு(100000, கடமைகள், ["P9"]));

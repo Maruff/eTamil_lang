@@ -11,3 +11,16 @@ Every `*_cOqaZY.qmz` file elsewhere in nUlakam imports this one.
 | File | What it holds | Functions |
 |---|---|---|
 | `cOqaZY.qmz` | சோதனை (tests), written in eTamil | `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 6 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh cOqaZY
+```

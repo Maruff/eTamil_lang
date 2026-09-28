@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதுகாப்பு_விகிதம்(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — the margin of safety as a percentage__
+// பாதுகாப்பு வரம்பு, சதவீதமாக
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு மதிப்பு(பாதுகாப்பு_விகிதம்(1000, 150000, 500, 300));
+
+// __Twenty-five per cent means sales can fall by a quarter before the business__
+// __starts losing money, and a business at five per cent is one bad quarter__
+// __from trouble.__
+// இருபத்தைந்து சதவீதம் என்றால் கால் பங்கு வீழ்ச்சியைத் தாங்கும்
+அச்சு தவறா(பாதுகாப்பு_விகிதம்(0, 150000, 500, 300));

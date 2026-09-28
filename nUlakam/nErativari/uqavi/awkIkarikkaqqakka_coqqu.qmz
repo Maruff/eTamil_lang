@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அங்கீகரிக்கத்தக்க_சொத்து(கணக்கிட்ட_சொத்து, எதிர்பார்க்கும்_வரி_லாபம், எதிர்பார்க்கும்_வீதம்) — how much of a deferred tax asset may be recognised__
+// அங்கீகரிக்கக்கூடிய ஒத்திவரிச் சொத்து எவ்வளவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A deferred tax asset is only worth anything if there will be taxable profit__
+// __to use it against. It is capped at the tax on the profit expected.__
+// எதிர்கால வரி லாபம் இருந்தால்தான் இதற்கு மதிப்பு
+போதுமானது = அங்கீகரிக்கத்தக்க_சொத்து(125000, 800000, 25);
+அச்சு போதுமானது["அங்கீகரித்தது"];
+அச்சு போதுமானது["அங்கீகரிக்காதது"];
+
+// __With no profit expected, none of it is recognised — and the unrecognised__
+// __part is reported rather than dropped, because it comes back if the outlook__
+// __improves.__
+// லாபமே எதிர்பார்க்கப்படவில்லையெனில் ஒன்றும் அங்கீகரிக்கப்படாது
+எதுவும்_இல்லை = அங்கீகரிக்கத்தக்க_சொத்து(125000, 0, 25);
+அச்சு எதுவும்_இல்லை["அங்கீகரித்தது"];
+அச்சு எதுவும்_இல்லை["அங்கீகரிக்காதது"];

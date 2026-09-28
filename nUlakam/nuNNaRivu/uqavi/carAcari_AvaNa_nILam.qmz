@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சராசரி_ஆவண_நீளம்(ஆவணங்கள்) — the corpus's average document length__
+// தொகுப்பின் சராசரிப் பத எண்ணிக்கை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [ஆவணம்_ஆக்கு("a", ["வரி", "வீதம்"]),
+              ஆவணம்_ஆக்கு("b", ["tax", "slab", "rate", "year"])];
+
+// __What length normalisation is measured against: a long document is not more__
+// __relevant merely for containing a word more often.__
+// நீளமான ஆவணம் ஒரு பதத்தை அதிகம் கொண்டிருப்பதால் மட்டும் பொருத்தமாகாது
+அச்சு சராசரி_ஆவண_நீளம்(ஆவணங்கள்);
+அச்சு சராசரி_ஆவண_நீளம்([]);

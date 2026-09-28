@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீண்டும்_பகிர்(சேவை_நிலையங்கள், உற்பத்திக்_குறிகள், சுற்று_எல்லை, துல்லியம்) — apportion repeatedly until it converges__
+// திரும்பத் திரும்பப் பகிர்ந்து ஒன்றுசேரச் செய்யும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+சேவைகள் = [சேவை_நிலையம்_ஆக்கு("S1", 100000,
+               [பகிர்வு_ஆக்கு("P1", 50), பகிர்வு_ஆக்கு("P2", 30),
+                பகிர்வு_ஆக்கு("S2", 20)]),
+            சேவை_நிலையம்_ஆக்கு("S2", 60000,
+               [பகிர்வு_ஆக்கு("P1", 40), பகிர்வு_ஆக்கு("P2", 50),
+                பகிர்வு_ஆக்கு("S1", 10)])];
+
+// __The repeated method: each round pushes what is left in the service centres__
+// __out again, and the amounts get small enough to stop.__
+// ஒவ்வொரு சுற்றும் மிச்சத்தை மீண்டும் வெளியே தள்ளும்
+விடை = மதிப்பு(மீண்டும்_பகிர்(சேவைகள், ["P1", "P2"], 200, 0.01));
+அச்சு விடை["சுற்றுகள்"] > 0;
+அச்சு உற்பத்திக்கு_மொத்தம்(விடை["உற்பத்திக்கு"]);
+
+// __And the total that reached production is the total that started in the__
+// __service centres, which is the only test that matters.__
+// உற்பத்திக்குச் சேர்ந்தது, தொடங்கியதற்கே சமம்
+அச்சு நேரடிச்_செலவின்_மொத்தம்(சேவைகள்);

@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறையாக்_கழி(அ, ஆ) — a difference, floored at zero__
+// அ இல் ஆ கழித்து, பூஜ்ஜியத்திற்குக் கீழே இறங்காமல்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு குறையாக்_கழி(100, 30);
+
+// __Where a negative would be meaningless: tax due after credit.__
+// எதிர்மறைக்குப் பொருளில்லாத இடத்தில்; வரவுக்குப் பின் செலுத்த வேண்டிய வரி
+அச்சு குறையாக்_கழி(50, 80);

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படைக்கு_மாற்று(தொகை_மதிப்பு, விகிதம்) — a foreign amount in the reporting currency__
+// அன்னியத் தொகையை அறிக்கை நாணயமாக்கும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Multiply and round to paise. Everything in the ledger is in the reporting__
+// __currency, so this happens once at the point of posting.__
+// பேரேட்டில் உள்ளதெல்லாம் அறிக்கை நாணயத்திலேயே
+அச்சு அடிப்படைக்கு_மாற்று(1000, 83.20);
+அச்சு அடிப்படைக்கு_மாற்று(1000, 86.50);

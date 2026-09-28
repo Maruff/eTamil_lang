@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பிடத்தக்க_மதிப்பு(பொருள்_விலை, கப்பற்_கட்டணம், காப்பீட்டுக்_கட்டணம்) — the value customs charges duty on__
+// சுங்கம் கணக்கிடும் அடிப்படை மதிப்பு
+
+இறக்கு "../cuwkam.qmz";
+
+// __Cost, insurance and freight. Duty is charged on what it cost to land the__
+// __goods, not on what the invoice says the goods cost.__
+// பொருளின் விலை, கப்பல், காப்பீடு — மூன்றும் சேர்ந்ததே சுங்க அடிப்படை
+அச்சு மதிப்பிடத்தக்க_மதிப்பு(100000, 12000, 1500);
+
+// __Which is not the invoice value, and using the invoice value understates__
+// __every duty computed from it.__
+// இது விலைப்பட்டிய மதிப்பு அல்ல
+அச்சு மதிப்பிடத்தக்க_மதிப்பு(100000, 0, 0);

@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வழிச்சீட்டு_சரிபார்(விவரங்கள்) — are there enough details to raise an e-way bill?__
+// வழிச்சீட்டு உருவாக்கப் போதுமான விவரங்கள் உள்ளனவா
+
+இறக்கு "../cuwkam.qmz";
+
+// __A complete consignment passes, and it has a vehicle, so Part B can be__
+// __filled in as well.__
+// முழுமையான சரக்கு தேறும்; வாகனம் இருப்பதால் பகுதி பி-யும் நிரப்பலாம்
+நல்லது = வழிச்சீட்டு_சரிபார்({"அனுப்புநர்_ஜிஎஸ்டி": "33ABCDE1234F1Z5",
+                              "பெறுநர்_ஜிஎஸ்டி": "27ABCDE1234F1Z5",
+                              "தலைப்பு": "84713010", "மதிப்பு": 250000,
+                              "தூரம்": 350, "வாகனம்": "TN01AB1234"});
+அச்சு நல்லது["சரியா"];
+அச்சு நல்லது["பகுதி_பி_உள்ளதா"];
+
+// __An incomplete one does not, and it names every fault rather than the first.__
+// __A portal that rejects one field at a time costs a clerk five round trips.__
+// குறையுள்ளது தேறாது; முதல் குறையை மட்டுமல்ல, அனைத்தையும் சொல்லும்
+குறையுள்ளது = வழிச்சீட்டு_சரிபார்({"அனுப்புநர்_ஜிஎஸ்டி": "33ABCDE1234F1Z5",
+                                   "தலைப்பு": "847", "மதிப்பு": 0});
+அச்சு குறையுள்ளது["சரியா"];
+அச்சு நீளம்(குறையுள்ளது["குறைகள்"]);
+ஒவ்வொரு ஒரு_குறை இல் குறையுள்ளது["குறைகள்"] { அச்சு "  " & ஒரு_குறை; }
+
+// __No vehicle is its own state, not an error: Part B is filled in later, when__
+// __the lorry is known.__
+// வாகனம் இல்லாதது பிழை அல்ல; பகுதி பி பின்னர் நிரப்பப்படும்
+அச்சு குறையுள்ளது["பகுதி_பி_உள்ளதா"];

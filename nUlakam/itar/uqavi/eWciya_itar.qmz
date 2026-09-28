@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எஞ்சிய_இடர்(ஒரு_இடர், புதிய_நிகழ்தகவு, புதிய_தாக்கம்) — what is left after the response, and what it bought__
+// பதிலளித்த பிறகும் எஞ்சும் இடர், அதனால் கிடைத்த நன்மை
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+ஒரு_இடர் = இடர்_ஆக்கு("R1", "தாமதம்", 30, 500000, "அச்சுறுத்தல்", "");
+
+// __A response that takes the probability from 30% to 10% and leaves the__
+// __impact alone.__
+// நிகழ்தகவை 30-லிருந்து 10 ஆகக் குறைக்கும் பதிலளிப்பு
+மீதி = எஞ்சிய_இடர்(ஒரு_இடர், 10, 500000);
+அச்சு மீதி["முன்பு"];
+அச்சு மீதி["பின்பு"];
+அச்சு மீதி["நன்மை"];
+
+// __The residual comes back as a risk in its own right, so it goes onto the__
+// __register rather than being crossed off it. A mitigated risk is a smaller__
+// __risk, not an absent one.__
+// எஞ்சியது தனி இடராகவே திரும்புகிறது; பதிவேட்டிலிருந்து நீக்கப்படுவதில்லை
+அச்சு மீதி["எஞ்சிய_இடர்"]["நிகழ்தகவு"];
+
+// __Avoidance takes the probability to nothing, and is worth the whole__
+// __exposure.__
+// தவிர்த்தல் நிகழ்தகவைப் பூஜ்ஜியமாக்கும்
+முற்றிலும் = எஞ்சிய_இடர்(ஒரு_இடர், 0, 500000);
+அச்சு முற்றிலும்["பின்பு"];
+அச்சு முற்றிலும்["நன்மை"];

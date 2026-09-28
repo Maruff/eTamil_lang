@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணம்_வந்ததா(நிலைமை) — has the money actually arrived?__
+// பணம் உண்மையில் வந்துவிட்டதா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __Success means the money moved. Only success.__
+// வெற்றி என்றால் பணம் நகர்ந்தது; அது மட்டுமே
+அச்சு பணம்_வந்ததா(வெற்றியானது);
+
+// __PENDING DOES NOT MEAN PAID. It is the state that costs shopkeepers money:__
+// __the app shows something encouraging, the goods go out, and the payment__
+// __settles as a failure an hour later. Do not ship on it.__
+// நிலுவை என்பது பணம் வந்ததல்ல; இதன்மீது பொருளை அனுப்பக் கூடாது
+அச்சு பணம்_வந்ததா(நிலுவையில்);
+அச்சு பணம்_வந்ததா(தொடங்கியது);
+
+// __A reversal arrived and left again, so it is not money you have.__
+// திருப்பியது வந்து திரும்பிப் போனது; அது கையிலுள்ள பணம் அல்ல
+அச்சு பணம்_வந்ததா(திருப்பியது);
+அச்சு பணம்_வந்ததா(தோல்வியானது);
+
+// __And a state nobody recognises is least of all a success.__
+// யாருக்கும் தெரியாத நிலைமை வெற்றியாக ஒருபோதும் எண்ணப்படாது
+அச்சு பணம்_வந்ததா("SOMETHING_ELSE");

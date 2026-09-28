@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இயல்பு_முகவரி() — where the embedding service listens__
+// உட்பொதிப்புச் சேவை இயல்பாகக் கேட்கும் முகவரி
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __The same machine again. Embedding a whole corpus sends every document__
+// __somewhere, and that somewhere should be the machine it is already on.__
+// தொகுப்பு முழுவதையும் எங்கோ அனுப்புவதைவிட, இருக்கும் இயந்திரமே சிறந்தது
+அச்சு இயல்பு_முகவரி();

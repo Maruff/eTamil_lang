@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஊக்கக்_கட்டணம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உண்மைச்_செலவு, விற்பவர்_பகிர்வு) — the fee after sharing the saving or the overrun__
+// சேமிப்பையோ மிகையையோ பகிர்ந்த பின் கட்டணம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Coming in under the target raises the fee by the seller's share of the__
+// __saving; going over lowers it by their share of the overrun.__
+// இலக்குக்குக் கீழே முடித்தால் கட்டணம் கூடும்; மேலே சென்றால் குறையும்
+அச்சு ஊக்கக்_கட்டணம்(1000000, 100000, 900000, 0.5);
+அச்சு ஊக்கக்_கட்டணம்(1000000, 100000, 1100000, 0.5);
+அச்சு ஊக்கக்_கட்டணம்(1000000, 100000, 1000000, 0.5);
+
+// __A share of one is a fixed price in disguise, and a share of nothing is cost__
+// __plus fixed fee.__
+// பகிர்வு ஒன்று என்றால் அது உறுதி விலையே; பூஜ்ஜியம் என்றால் செலவுக்கூடு
+அச்சு ஊக்கக்_கட்டணம்(1000000, 100000, 900000, 0);

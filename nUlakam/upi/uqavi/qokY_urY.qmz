@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகை_உரை(தொகை_மதிப்பு) — the amount as UPI wants it written__
+// பணப்பரிமாற்றம் எதிர்பார்க்கும் வடிவத்தில் தொகை
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __Always two decimal places. A trailing zero is written back on, and a whole__
+// __number gets both — some PSPs reject 249.5 and accept 249.50.__
+// எப்போதும் இரண்டு தசம இடங்கள்; சில செயலிகள் 249.5-ஐ ஏற்பதில்லை
+அச்சு தொகை_உரை(249.5);
+அச்சு தொகை_உரை(100);
+
+// __An amount already in paise is left alone.__
+// ஏற்கெனவே பைசாவில் உள்ள தொகை அப்படியே இருக்கும்
+அச்சு தொகை_உரை(99.99);

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கிடைக்கும்_மணிகள்(மொத்தத்_திறன், விடுப்பு_மணிகள்) — capacity less leave__
+// விடுப்பைக் கழித்தபின் கிடைக்கும் மணிகள்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __A day's leave comes out of capacity. Somebody on leave has not failed to__
+// __be utilised, and a utilisation figure that says otherwise punishes people__
+// __for taking the holiday they are owed.__
+// விடுப்பில் உள்ளவர் பயன்படுத்தப்படாதவர் அல்ல
+அச்சு கிடைக்கும்_மணிகள்(32, 8);
+
+// __And availability does not go negative, however much leave is recorded.__
+// கிடைக்கும் மணிகள் எதிர்மறையாவதில்லை
+அச்சு கிடைக்கும்_மணிகள்(32, 40);
+அச்சு கிடைக்கும்_மணிகள்(32, 0);

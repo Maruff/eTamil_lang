@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சேவையை_மறுபகிர்(சேவை_மேல்நிலை_பைசா, உற்பத்தி_எடைகள்) — push a service centre's cost onto production centres__
+// சேவை நிலையச் செலவை உற்பத்தி நிலையங்களுக்கு மறுபகிரும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The simple case: one service centre serving production only, with no__
+// __service centre serving another. mILpakirvu is for when that is not true.__
+// எளிய நிலை; சேவை நிலையங்கள் ஒன்றுக்கொன்று சேவை செய்யாதபோது
+பங்குகள் = சேவையை_மறுபகிர்(20000000, [60, 40]);
+ஒவ்வொரு ஒரு_பங்கு இல் பங்குகள் { அச்சு ஒரு_பங்கு; }

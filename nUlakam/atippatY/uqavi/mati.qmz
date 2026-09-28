@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மடி(அணி, தொடக்கம், செயல்) — fold: combine every item into one value__
+// எல்லா உறுப்புகளையும் ஒரே மதிப்பாகச் சுருக்கும்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+செயல் சேர்ப்பு(திரட்டல், உறுப்பு) { திரும்பு திரட்டல் + உறுப்பு; }
+
+அச்சு மடி([1, 2, 3, 4], 0, சேர்ப்பு);
+
+// __The starting value decides the answer for an empty array.__
+// காலி அணிக்கான விடையைத் தொடக்க மதிப்பே தீர்மானிக்கிறது
+அச்சு மடி([], 100, சேர்ப்பு);

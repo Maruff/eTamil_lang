@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வெளியீட்டு_முன்னேற்றம்(முடித்த_அளவு, மொத்த_அளவு) — progress measured by what has been produced__
+// வெளியீட்டை வைத்து அளக்கும் முன்னேற்றம்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __An output method: kilometres laid, units delivered, floors completed. It__
+// __measures the thing the customer is buying rather than the effort spent.__
+// வாடிக்கையாளர் வாங்குவதையே அளக்கிறது; செலவழித்த முயற்சியை அல்ல
+அச்சு மதிப்பு(வெளியீட்டு_முன்னேற்றம்(3, 12));
+
+// __Which is why it disagrees with the cost method wherever the work is not__
+// __evenly costly — the foundations of a building are most of the cost and__
+// __none of the floors.__
+// செலவு சீராக இல்லாத இடத்தில் இரு முறைகளும் வேறுபடும்
+அச்சு மதிப்பு(செலவு_முன்னேற்றம்(600000, 1200000));
+அச்சு தவறா(வெளியீட்டு_முன்னேற்றம்(3, 0));

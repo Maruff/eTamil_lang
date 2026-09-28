@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேலை_நாட்களைக்_கூட்டு(ஒரு_நாள், எண்ணிக்கை, ஒரு_நாட்காட்டி) — add that many working days__
+// சொன்ன வேலை நாட்களைக் கூட்டும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __Five working days from a Monday is the next Monday, not the Saturday.__
+// திங்களிலிருந்து ஐந்து வேலை நாட்கள் என்பது அடுத்த திங்கள்
+அச்சு மதிப்பு(வேலை_நாட்களைக்_கூட்டு("2026-03-02", 5, நாட்காட்டி));
+
+// __The holiday on the Thursday pushes everything after it by a day.__
+// வியாழன் விடுமுறை, அதற்குப் பின் அனைத்தையும் ஒரு நாள் தள்ளுகிறது
+அச்சு மதிப்பு(வேலை_நாட்களைக்_கூட்டு("2026-03-02", 3, நாட்காட்டி));
+
+// __Adding nothing leaves the day where it is, provided it works.__
+// ஒன்றும் கூட்டாவிட்டால் நாள் அப்படியே
+அச்சு மதிப்பு(வேலை_நாட்களைக்_கூட்டு("2026-03-02", 0, நாட்காட்டி));

@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறைவேற்றல்_செலவின்_வகை(நேரடியானதா, வளத்தை_உருவாக்குமா, மீட்கக்கூடியதா, கடந்த_செயலுக்கானதா, வீணானதா) — may the cost of getting ready to perform be capitalised?__
+// நிறைவேற்றல் செலவை முதலீடாக்கலாமா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Three conditions, and two disqualifiers checked first.__
+// மூன்று நிபந்தனைகள்; அதற்கு முன் இரண்டு தடைகள்
+அச்சு நிறைவேற்றல்_செலவின்_வகை(மெய், மெய், மெய், பொய், பொய்)["முதலீடா"];
+
+// __Wasted material is an expense however directly it relates to the contract:__
+// __scrap creates no resource for future performance.__
+// வீணான பொருள் செலவே; எதிர்காலத்துக்கு அது ஒன்றும் உருவாக்குவதில்லை
+அச்சு நிறைவேற்றல்_செலவின்_வகை(மெய், மெய், மெய், பொய், மெய்)["காரணம்"];
+
+// __And so is anything relating to work already done — capitalising it would__
+// __be deferring a cost against revenue already taken.__
+// முடிந்த பணிக்கானதும் செலவே
+அச்சு நிறைவேற்றல்_செலவின்_வகை(மெய், மெய், மெய், மெய், பொய்)["முதலீடா"];
+அச்சு நிறைவேற்றல்_செலவின்_வகை(மெய், பொய், மெய், பொய், பொய்)["காரணம்"];
