@@ -1258,8 +1258,8 @@ fn an_import_from_before_the_library_grew_folders_still_resolves() {
 // ..and a path that climbs out of the library is not a name to look harder for.
 #[test]
 fn the_deeper_search_does_not_follow_a_path_out_of_the_library() {
-    let err = run_with_stdlib(r#"இறக்கு "../../col.qmz";"#)
-        .expect_err("a climbing path must not resolve");
+    let err =
+        run_with_stdlib(r#"இறக்கு "../../col.qmz";"#).expect_err("a climbing path must not resolve");
 
     assert!(
         !err.is_empty(),
