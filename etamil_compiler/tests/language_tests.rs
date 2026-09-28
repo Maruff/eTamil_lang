@@ -1241,6 +1241,33 @@ fn stdlib_trim_handles_empty_and_all_space_strings() {
     assert_eq!(text(&vm, "விளிம்பில்லை"), "வரவு");
 }
 
+// The library was one flat directory until its files were grouped by subject.
+// Every program written before that move imports `col.qmz`, not
+// `atippatY/col.qmz`, and those programs have to keep working.
+#[test]
+fn an_import_from_before_the_library_grew_folders_still_resolves() {
+    let vm = run_with_stdlib(
+        r#"இறக்கு "col.qmz";
+           ஒன்று = ஒழுங்கு("  வரி  ");"#,
+    )
+    .expect("the flat name should still find the file");
+
+    assert_eq!(text(&vm, "ஒன்று"), "வரி");
+}
+
+// ..and a path that climbs out of the library is not a name to look harder for.
+#[test]
+fn the_deeper_search_does_not_follow_a_path_out_of_the_library() {
+    let err = run_with_stdlib(r#"இறக்கு "../../col.qmz";"#)
+        .expect_err("a climbing path must not resolve");
+
+    assert!(
+        !err.is_empty(),
+        "expected the import to be refused, got: {}",
+        err
+    );
+}
+
 #[test]
 fn stdlib_character_access_is_bounds_safe() {
     let vm = run_with_stdlib(
