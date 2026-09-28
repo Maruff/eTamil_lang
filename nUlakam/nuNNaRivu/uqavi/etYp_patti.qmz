@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __etYp_patti — the per-column weights bm25() takes after the table__
+// எடைப்_பட்டி — ஒவ்வொரு நெடுவரிசைக்கும் தரும் எடைகளின் பட்டியல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __A word in a title says more about a document than the same word in the__
+// __body. This is the fragment that says so.__
+// தலைப்பில் வரும் சொல் உடலில் வருவதைவிட அதிகம் சொல்கிறது
+அச்சு எடைப்_பட்டி([10.0, 1.0]);
+
+// __No weights at all is equal weighting, which is what bm25() does on its own.__
+// எடை ஏதுமில்லையெனில் அனைத்து நெடுவரிசைகளும் சமம்
+அச்சு எடைப்_பட்டி([]);

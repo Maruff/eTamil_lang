@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __viZaval_Akku — a MATCH expression from a plain question__
+// வினவல்_ஆக்கு — சாதாரணக் கேள்வியிலிருந்து பொருத்த வினவலைக் கட்டுதல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __The question is never passed through as written: coRpiri.qmz picks the__
+// __words worth searching for and each is quoted.__
+// கேள்வி அப்படியே செல்வதில்லை; தேடத்தக்க சொற்கள் எடுக்கப்பட்டு மேற்கோளிடப்படும்
+அச்சு வினவல்_ஆக்கு("வரி விகிதம் என்ன", பொய்);
+
+// __Joined with OR, so a document matching some of the words still answers.__
+// __AND is how a search comes back empty for a question that was merely wordier__
+// __than the document it wanted.__
+// ஓரிரு சொற்கள் பொருந்தினாலும் ஆவணம் பதிலளிக்கும்
+அச்சு வினவல்_ஆக்கு("நிலம் கட்டிடம்", பொய்);
+
+// __With the prefix flag, each word matches on its beginning.__
+// முன்னொட்டுக் கொடியுடன் ஒவ்வொரு சொல்லும் தொடக்கத்தால் பொருந்தும்
+அச்சு வினவல்_ஆக்கு("கணக்கு", மெய்);
+
+// __A question with nothing worth searching for gives an empty expression,__
+// __which முழுப்_பொருத்தம் then treats as "no results" rather than "all".__
+// தேடத்தக்கது ஏதுமில்லையெனில் வெற்று வினவல்
+அச்சு வினவல்_ஆக்கு("", பொய்);

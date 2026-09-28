@@ -36,6 +36,7 @@ slow part and must never be required for the library to be of use.
 | `coRpiri.qmz` | text into terms — `பிரிப்பான்கள்` `பிரிப்பானா` `இயல்பாக்கு` `பதங்கள்` `நிறுத்துப்_பதமா` `பொருளுள்ளவை` `தனிப்பதங்கள்` `தேடல்_பதங்கள்` |
 | `eNNikkY.qmz` | counting terms — `ஆவணம்_ஆக்கு` `பத_அதிர்வெண்` `எத்தனை_முறை` `ஆவண_அதிர்வெண்` `தனித்தவை_உள்ளூர்` `சராசரி_ஆவண_நீளம்` `குறியீட்டு_ஆக்கு` |
 | `coRqEtal.qmz` | relevance by shared words, BM25 — `கே1` `பி` `தலைகீழ்_அதிர்வெண்` `ஆவண_மதிப்பெண்` `பொருத்தங்கள்` `சிறந்தவை` |
+| `muzuqqEtal.qmz` | full-text search on an index, BM25 through FTS5 — `பெயர்_சரியா` `சொல்_தப்பி` `முன்னொட்டாக்கு` `வினவல்_ஆக்கு` `அட்டவணை_ஆக்கு` `ஆவணம்_இடு` `எடைப்_பட்டி` `முழுப்_பொருத்தம்` `ஆவண_எண்ணிக்கை` |
 | `qicYyaZ.qmz` | vector arithmetic — `புள்ளிப்_பெருக்கம்` `திசை_அளவு` `ஒருமைப்படுத்து` `கோசைன்_ஒற்றுமை` `கூட்டுத்_திசையன்` `மடங்காக்கு` `சராசரித்_திசையன்` |
 | `oRRumY.qmz` | finding by meaning — `பொதிந்த_ஆவணம்` `அண்மையவை` `அகலம்_ஒத்ததா` `வரம்புக்குள்_அண்மையவை` |
 | `iNYppu.qmz` | merging rankings — `கே_மாறிலி` `பங்களிப்பு` `இணை_தரவரிசைகள்` `இரண்டை_இணை` `வகை_எடை_பயன்படுத்து` |
@@ -150,9 +151,16 @@ not `5.000000000000000000000288615`, and `log10(1000)` is `3`, not
 What is left in `matakkY.qmz` is the base-2 wrapper and the `ln 2` constant it
 divides by, neither of which was ever the expensive part.
 
+`coRqEtal.qmz` and `muzuqqEtal.qmz` compute the same BM25 and differ in where
+the work happens. `coRqEtal.qmz` scores documents it is handed, which is right
+when they are already in hand and few. `muzuqqEtal.qmz` keeps them in an FTS5
+table and lets SQLite hold the inverted index, so a query touches the postings
+for its own words rather than every document — which is what keeps a search
+fast as a collection grows.
+
 ## uqavi — உதவி (worked examples)
 
-`uqavi/` holds 86 runnable programs, one for each function above, named
+`uqavi/` holds 95 runnable programs, one for each function above, named
 after the function they demonstrate. Each shows the ordinary use and the
 cases that are easy to get wrong, with the reasoning in English and Tamil.
 

@@ -1,0 +1,41 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __muzup_poruqqam — search the index, best first__
+// முழுப்_பொருத்தம் — அட்டவணையில் தேடி, சிறந்தது முதலாகத் தருதல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணை_ஆக்கு("aaviZ", ["qalYppu", "utal"]);
+ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"], ["வரி விகிதம்", "சரக்கு சேவை வரி விகிதம் மாநிலவாரியாக"]);
+ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"], ["நிலம்", "நிலமும் கட்டிடமும் சொத்து மதிப்பீடு"]);
+ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"], ["கணக்கு", "பேரேடு கணக்குப் பதிவு முறை"]);
+
+// __The score is bm25 negated, so higher is better. SQLite returns it the__
+// __other way round; every other file in nuNNaRivu takes higher to mean__
+// __better, and a score that silently reversed that would combine into__
+// __nonsense in iNYppu.qmz.__
+// மதிப்பு நேர்மறை: பெரியது சிறந்தது
+ப = முழுப்_பொருத்தம்("aaviZ", "வரி விகிதம் என்ன", [], 5);
+ஒவ்வொரு ஒன்று இல் மதிப்பு(ப) { அச்சு ஒன்று["qalYppu"]; }
+
+// __Weighting the title ten to one changes which document wins: the same word__
+// __in a title says more about a document than in the body.__
+// தலைப்புக்குப் பத்து மடங்கு எடை தந்தால் வெல்லும் ஆவணம் மாறும்
+எ = முழுப்_பொருத்தம்("aaviZ", "நிலம்", [10.0, 1.0], 5);
+ஒவ்வொரு ஒன்று இல் மதிப்பு(எ) { அச்சு ஒன்று["qalYppu"]; }
+
+// __An empty question answers nothing, not everything. A search for nothing is__
+// __not a search for all of it, and returning the collection is how a blank__
+// __input becomes a page of noise.__
+// வெற்றுக் கேள்விக்கு ஒன்றுமில்லை; அனைத்தும் அல்ல
+வெ = முழுப்_பொருத்தம்("aaviZ", "", [], 5);
+அச்சு நீளம்(மதிப்பு(வெ));
+
+// __A word no document holds is an empty answer, not a failure.__
+// எந்த ஆவணத்திலும் இல்லாத சொல்லுக்கு வெற்று விடை
+அச்சு நீளம்(மதிப்பு(முழுப்_பொருத்தம்("aaviZ", "நீர்மூழ்கி", [], 5)));
+
+// __The limit is honoured.__
+// வரம்பு மதிக்கப்படும்
+அச்சு நீளம்(மதிப்பு(முழுப்_பொருத்தம்("aaviZ", "வரி நிலம் கணக்கு", [], 2)));

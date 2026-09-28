@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __peyar_cariyA — is a name safe to write into SQL as an identifier?__
+// பெயர்_சரியா — ஒரு பெயரை அடையாளமாக வினவலில் எழுதலாமா
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __A plain name is fine.__
+// எளிய பெயர் ஏற்கப்படும்
+அச்சு பெயர்_சரியா("aaviZ");
+அச்சு பெயர்_சரியா("qalYppu_2");
+
+// __A digit cannot start one — that is not a valid SQL identifier.__
+// இலக்கத்தில் தொடங்க முடியாது
+அச்சு பெயர்_சரியா("2qalYppu");
+
+// __And this is the case the check exists for. Everything carrying data is__
+// __bound with ?, but a table name cannot be, so it is refused instead.__
+// தரவு சுமக்கும் அனைத்தும் கட்டப்படும்; அட்டவணைப் பெயரை மட்டும் எழுத வேண்டியுள்ளதால் இது மறுக்கப்படும்
+அச்சு பெயர்_சரியா("a; DROP TABLE b");
+அச்சு பெயர்_சரியா("");

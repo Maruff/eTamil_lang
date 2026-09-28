@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __AvaNa_eNNikkY — how many documents the index holds__
+// ஆவண_எண்ணிக்கை — அட்டவணையில் எத்தனை ஆவணங்கள் உள்ளன
+
+இறக்கு "../muzuqqEtal.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணை_ஆக்கு("aaviZ", ["utal"]);
+
+// __An index with nothing in it counts zero rather than failing.__
+// ஒன்றுமில்லாத அட்டவணை பூஜ்யம் என்று சொல்லும்
+அச்சு மதிப்பு(ஆவண_எண்ணிக்கை("aaviZ"));
+
+ஆவணம்_இடு("aaviZ", ["utal"], ["வரி விகிதம்"]);
+ஆவணம்_இடு("aaviZ", ["utal"], ["நிலம் கட்டிடம்"]);
+அச்சு மதிப்பு(ஆவண_எண்ணிக்கை("aaviZ"));
+
+// __A name that could not be written safely answers தவறு, not a number.__
+// பாதுகாப்பாக எழுத முடியாத பெயருக்குத் தவறு
+அச்சு தவறா(ஆவண_எண்ணிக்கை("a; DROP TABLE b"));

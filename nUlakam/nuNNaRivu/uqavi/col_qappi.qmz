@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __col_qappi — one word as an FTS5 string literal__
+// சொல்_தப்பி — ஒரு சொல்லை முழுத்தேடல் சரமாக மாற்றுதல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+// __An ordinary word simply gets its quotes.__
+// சாதாரணச் சொல்லுக்கு மேற்கோள் மட்டும்
+அச்சு சொல்_தப்பி("வரி");
+
+// __Doubling the quote is the whole escape. There is no backslash in FTS5.__
+// மேற்கோளை இரட்டிப்பதே தப்பிக்கும் ஒரே வழி
+அச்சு சொல்_தப்பி("he said \"no\"");
+
+// __Quoting is also what stops an operator word being obeyed: NOT inside__
+// __quotes is a word to look for, not an instruction.__
+// மேற்கோள் இடுவதே செயற்குறி சொல்லைச் செயலாக்காமல் தடுக்கிறது
+அச்சு சொல்_தப்பி("NOT");
+அச்சு சொல்_தப்பி("");

@@ -11467,6 +11467,139 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 52
   },
   {
+    "name": "பெயர்_சரியா",
+    "forms": [
+      "பெயர்_சரியா"
+    ],
+    "params": [
+      "பெயர்"
+    ],
+    "arity": 1,
+    "doc": "பெயர்_சரியா(பெயர்) — is this safe to write into SQL as an identifier?",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 36
+  },
+  {
+    "name": "சொல்_தப்பி",
+    "forms": [
+      "சொல்_தப்பி"
+    ],
+    "params": [
+      "சொல்_ஒன்று"
+    ],
+    "arity": 1,
+    "doc": "சொல்_தப்பி(சொல்) — one word as an FTS5 string literal",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 59
+  },
+  {
+    "name": "முன்னொட்டாக்கு",
+    "forms": [
+      "முன்னொட்டாக்கு"
+    ],
+    "params": [
+      "சொல்_ஒன்று"
+    ],
+    "arity": 1,
+    "doc": "முன்னொட்டாக்கு(சொல்) — the prefix form, so a half-typed word still matches",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 76
+  },
+  {
+    "name": "வினவல்_ஆக்கு",
+    "forms": [
+      "வினவல்_ஆக்கு"
+    ],
+    "params": [
+      "கேள்வி",
+      "முன்னொட்டா"
+    ],
+    "arity": 2,
+    "doc": "வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — a MATCH expression from a plain question",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 88
+  },
+  {
+    "name": "அட்டவணை_ஆக்கு",
+    "forms": [
+      "அட்டவணை_ஆக்கு"
+    ],
+    "params": [
+      "அட்டவணை",
+      "நெடுவரிசைகள்"
+    ],
+    "arity": 2,
+    "doc": "அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — make the index",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 108
+  },
+  {
+    "name": "ஆவணம்_இடு",
+    "forms": [
+      "ஆவணம்_இடு"
+    ],
+    "params": [
+      "அட்டவணை",
+      "நெடுவரிசைகள்",
+      "மதிப்புகள்"
+    ],
+    "arity": 3,
+    "doc": "ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) — put one document in",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 135
+  },
+  {
+    "name": "எடைப்_பட்டி",
+    "forms": [
+      "எடைப்_பட்டி"
+    ],
+    "params": [
+      "எடைகள்"
+    ],
+    "arity": 1,
+    "doc": "எடைப்_பட்டி(எடைகள்) — the per-column weights bm25() takes after the table",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 164
+  },
+  {
+    "name": "முழுப்_பொருத்தம்",
+    "forms": [
+      "முழுப்_பொருத்தம்"
+    ],
+    "params": [
+      "அட்டவணை",
+      "கேள்வி",
+      "எடைகள்",
+      "எண்ணிக்கை"
+    ],
+    "arity": 4,
+    "doc": "முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) — search, best first",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 183
+  },
+  {
+    "name": "ஆவண_எண்ணிக்கை",
+    "forms": [
+      "ஆவண_எண்ணிக்கை"
+    ],
+    "params": [
+      "அட்டவணை"
+    ],
+    "arity": 1,
+    "doc": "ஆவண_எண்ணிக்கை(அட்டவணை) — how many documents the index holds",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/muzuqqEtal.qmz",
+    "line": 206
+  },
+  {
     "name": "பொதிந்த_ஆவணம்",
     "forms": [
       "பொதிந்த_ஆவணம்"

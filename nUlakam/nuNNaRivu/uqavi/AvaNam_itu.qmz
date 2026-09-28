@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __AvaNam_itu — put one document in the index__
+// ஆவணம்_இடு — ஒரு ஆவணத்தை அட்டவணையில் சேர்த்தல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணை_ஆக்கு("aaviZ", ["qalYppu", "utal"]);
+
+// __The values are bound, never written into the statement. A document whose__
+// __text contains a quote, a semicolon or an SQL keyword is just text.__
+// மதிப்புகள் கட்டப்படுகின்றன, வினவலில் எழுதப்படுவதில்லை
+அச்சு சரியா(ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"],
+                       ["வரி விகிதம்", "சரக்கு சேவை வரி விகிதங்கள்"]));
+அச்சு சரியா(ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"],
+                       ["ஒரு'; DROP TABLE aaviZ; --", "இது வெறும் உரை"]));
+
+// __The table survived, because that was data and not a statement.__
+// அது தரவாக இருந்ததால் அட்டவணை அப்படியே உள்ளது
+அச்சு மதிப்பு(ஆவண_எண்ணிக்கை("aaviZ"));
+
+// __As many values as there are columns, or it is refused.__
+// நெடுவரிசைகளும் மதிப்புகளும் எண்ணிக்கையில் ஒத்திருக்க வேண்டும்
+அச்சு தவறா(ஆவணம்_இடு("aaviZ", ["qalYppu", "utal"], ["ஒன்று மட்டும்"]));
