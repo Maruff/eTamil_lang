@@ -1,0 +1,107 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/nilYmARRam.qmz — நிலை மாற்றம் (a state machine as data)__
+// நிலை மாற்ற வரைவு
+//
+// __Every register a project keeps has a lifecycle: a change request is__
+// __requested, reviewed, acknowledged and approved; a product request is__
+// __captured, classified and sent to council; an outbox row is pending, sent or__
+// __dead. Written by hand, each one is a ladder of if-statements that checks the__
+// __current state, checks the new one, stamps who did it and appends an audit__
+// __row, and each ladder gets one of those four steps subtly wrong.__
+//
+// __Here the lifecycle is data. A வரைவு (the machine) is a list of rows, each__
+// __naming a state and the states it may move to, plus an optional record from__
+// __state to the field that remembers who moved it there. One function then does__
+// __the four steps for every lifecycle at once, and the list of allowed next__
+// __states is the same data the screen uses to decide which buttons to draw.__
+//
+// __A state with no outgoing row, or with an empty one, is terminal. Moving into__
+// __a terminal state also stamps முடிவு_நாள், because "when was this decided" is__
+// __the question every register is asked and it should not need its own column__
+// __logic per lifecycle.__
+//
+// __The record being moved keeps its state in நடப்பு_நிலை. The name is fixed so__
+// __that the machine can read any record without being told where to look.__
+
+// __நிலை_மாற்றம்_ஆக்கு(இருந்து, செல்லக்கூடியவை) — one row of a machine__
+// நிலை_மாற்றம்_ஆக்கு(இருந்து, செல்லக்கூடியவை) — ஒரு நிலையும் அது செல்லக்கூடிய நிலைகளும்
+//
+// __An empty செல்லக்கூடியவை makes the state terminal and says so explicitly,__
+// __which reads better than leaving the state out and relying on its absence.__
+செயல் நிலை_மாற்றம்_ஆக்கு(இருந்து, செல்லக்கூடியவை) {
+    திரும்பு { இருந்து: இருந்து, செல்லக்கூடியவை: செல்லக்கூடியவை };
+}
+
+// __நிலை_வரைவு_ஆக்கு(மாற்றங்கள், செய்தவர்_புலங்கள்) — a whole machine__
+// நிலை_வரைவு_ஆக்கு(மாற்றங்கள், செய்தவர்_புலங்கள்) — முழு நிலை வரைவை உருவாக்கும்
+//
+// __செய்தவர்_புலங்கள் maps a state to the field that records who moved the__
+// __record into it — {"மதிப்பாய்ந்தது": "மதிப்பாய்ந்தவர்"}. Pass {} when no state__
+// __needs an actor stamp; the audit event still names the actor either way.__
+செயல் நிலை_வரைவு_ஆக்கு(மாற்றங்கள், செய்தவர்_புலங்கள்) {
+    திரும்பு { மாற்றங்கள்: மாற்றங்கள், செய்தவர்_புலங்கள்: செய்தவர்_புலங்கள் };
+}
+
+// __அடுத்த_நிலைகள்(வரைவு, இப்போதைய_நிலை) — where this state may go next__
+// அடுத்த_நிலைகள்(வரைவு, இப்போதைய_நிலை) — இந்நிலையிலிருந்து செல்லக்கூடியவை
+//
+// __An unknown state has no next states rather than being an error. The screen__
+// __that asks is drawing buttons, and no buttons is the right drawing for a__
+// __record whose state the machine does not recognise.__
+செயல் அடுத்த_நிலைகள்(வரைவு, இப்போதைய_நிலை) {
+    ஒவ்வொரு ஒரு_மாற்றம் இல் வரைவு.மாற்றங்கள் {
+        (ஒரு_மாற்றம்.இருந்து == இப்போதைய_நிலை) எனில் {
+            திரும்பு ஒரு_மாற்றம்.செல்லக்கூடியவை;
+        }
+    }
+    திரும்பு [];
+}
+
+// __மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை) — is this one move allowed?__
+// மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை) — இந்த மாற்றம் அனுமதிக்கப்பட்டதா
+செயல் மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை) {
+    ஒவ்வொரு அடுத்தது இல் அடுத்த_நிலைகள்(வரைவு, இருந்து) {
+        (அடுத்தது == புதிய_நிலை) எனில் { திரும்பு மெய்; }
+    }
+    திரும்பு பொய்;
+}
+
+// __இறுதி_நிலையா(வரைவு, ஒரு_நிலை) — has this state nowhere left to go?__
+// இறுதி_நிலையா(வரைவு, ஒரு_நிலை) — இது இறுதி நிலையா
+செயல் இறுதி_நிலையா(வரைவு, ஒரு_நிலை) {
+    திரும்பு நீளம்(அடுத்த_நிலைகள்(வரைவு, ஒரு_நிலை)) == 0;
+}
+
+// __நிலையை_நகர்த்து(ஒரு_பதிவு, வரைவு, புதிய_நிலை, செய்தவர், நாள்) — make one move__
+// நிலையை_நகர்த்து(ஒரு_பதிவு, வரைவு, புதிய_நிலை, செய்தவர், நாள்) — ஒரு நிலை மாற்றத்தைச் செய்யும்
+//
+// __சரி with {புதிய_பதிவு, நிகழ்வு}: the record in its new state, and the audit event__
+// __{இருந்து, சென்றது, செய்தவர், நாள்} for the caller to append to its log. The__
+// __record is returned rather than changed, like everything else in nUlakam, so__
+// __a refused move leaves the caller holding exactly what it had.__
+//
+// __Refused with தவறு naming both states, because "not allowed" alone does not__
+// __tell the person at the screen whether they or the record is in the wrong__
+// __place.__
+செயல் நிலையை_நகர்த்து(ஒரு_பதிவு, வரைவு, புதிய_நிலை, செய்தவர், நாள்) {
+    இருந்து = ஒரு_பதிவு.நடப்பு_நிலை;
+    (இல்லை மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை)) எனில் {
+        திரும்பு தவறு(இருந்து & " நிலையிலிருந்து " & புதிய_நிலை
+                       & " நிலைக்குச் செல்ல முடியாது  (cannot move from "
+                       & இருந்து & " to " & புதிய_நிலை & ")");
+    }
+    புதிய_பதிவு = ஒரு_பதிவு;
+    புதிய_பதிவு["நடப்பு_நிலை"] = புதிய_நிலை;
+    (புலம்_உள்ளதா(வரைவு.செய்தவர்_புலங்கள், புதிய_நிலை)) எனில் {
+        புதிய_பதிவு[வரைவு.செய்தவர்_புலங்கள்[புதிய_நிலை]] = செய்தவர்;
+    }
+    (இறுதி_நிலையா(வரைவு, புதிய_நிலை)) எனில் {
+        புதிய_பதிவு["முடிவு_நாள்"] = நாள்;
+    }
+    திரும்பு சரி({
+        புதிய_பதிவு: புதிய_பதிவு,
+        நிகழ்வு: { இருந்து: இருந்து, சென்றது: புதிய_நிலை,
+                   செய்தவர்: செய்தவர், நாள்: நாள் }
+    });
+}

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/kYrEkY.qmz — கைரேகை (fingerprints and idempotency keys)__
+// கைரேகையும் ஒருமுறைக் குறியும்
+//
+// __Sync has to answer "is this the same as before?" constantly: has this task__
+// __changed since we last sent it, is this incoming item what we already hold,__
+// __is this the job that is already queued. Comparing whole records field by__
+// __field answers it slowly and in a dozen places. A fingerprint answers it once:__
+// __two values with the same fingerprint are the same, and a fingerprint fits in__
+// __one column.__
+//
+// __The fingerprint is HMAC-SHA256 over the value's JSON. ஜேசான்_ஆக்கு already__
+// __writes record keys in sorted order, so {a, b} and {b, a} give the same text.__
+// __It does not normalise numbers — 5 and 5.0 are written as typed — and a__
+// __value read back from a database often carries a scale the original did not,__
+// __so நிலையான_வடிவம் rewrites every number in its shortest form first. The key__
+// __keeps fingerprints from being computed by anyone who can see the data but__
+// __not the secret.__
+
+// __நிலையான_வடிவம்(மதிப்பு_தரவு) — a value with every number in its shortest form__
+// நிலையான_வடிவம்(மதிப்பு_தரவு) — எண்களைச் சுருக்கிய நிலையான வடிவம்
+//
+// __Walks records and arrays; 5.0 becomes 5 and 3.10 becomes 3.1. Everything__
+// __else is returned as it is. Two values that are equal as numbers therefore__
+// __have the same JSON, which is what a fingerprint needs.__
+செயல் நிலையான_வடிவம்(மதிப்பு_தரவு) {
+    இனம் = வகை(மதிப்பு_தரவு);
+    (இனம் == "a number") எனில் { திரும்பு மதிப்பு(எண்ணாக்கு(சொல்லாக்கு(மதிப்பு_தரவு))); }
+    (இனம் == "an array") எனில் {
+        விடை = [];
+        ஒவ்வொரு ஒன்று இல் மதிப்பு_தரவு { விடை = இணை(விடை, நிலையான_வடிவம்(ஒன்று)); }
+        திரும்பு விடை;
+    }
+    (இனம் == "a string" அல்லது இனம் == "a boolean" அல்லது இனம் == "nil"
+        அல்லது இனம் == "a result" அல்லது இனம் == "a function") எனில் {
+        திரும்பு மதிப்பு_தரவு;
+    }
+    விடை = {};
+    ஒவ்வொரு புலப்_பெயர் இல் மதிப்பு_தரவு {
+        விடை[புலப்_பெயர்] = நிலையான_வடிவம்(மதிப்பு_தரவு[புலப்_பெயர்]);
+    }
+    திரும்பு விடை;
+}
+
+// __கைரேகை(மதிப்பு_தரவு, ரகசிய_விசை) — the fingerprint of any value__
+// கைரேகை(மதிப்பு_தரவு, ரகசிய_விசை) — எந்த மதிப்புக்கும் கைரேகை
+//
+// __Sixty-four hex characters. Records, arrays, text and numbers all work;__
+// __field order and trailing zeros do not matter, field values do.__
+செயல் கைரேகை(மதிப்பு_தரவு, ரகசிய_விசை) {
+    திரும்பு கையொப்பம்(ரகசிய_விசை, ஜேசான்_ஆக்கு(நிலையான_வடிவம்(மதிப்பு_தரவு)));
+}
+
+// __ஒருமுறைக்_குறி(இணைப்புக்_குறி, பொருள்_வகை, செயல்பாடு, புலத்_தொகுப்பு, ரகசிய_விசை) — the key that stops one job being queued twice__
+// ஒருமுறைக்_குறி(இணைப்புக்_குறி, பொருள்_வகை, செயல்பாடு, புலத்_தொகுப்பு, ரகசிய_விசை) — ஒரே வேலை இருமுறை வரிசைப்படாமல் தடுக்கும் குறி
+//
+// __The same connection, the same kind of thing, the same operation on the same__
+// __field bundle is the same job, however many times a trigger fires for it.__
+// __Store the key with a unique constraint and the second enqueue is a no-op.__
+செயல் ஒருமுறைக்_குறி(இணைப்புக்_குறி, பொருள்_வகை, செயல்பாடு, புலத்_தொகுப்பு, ரகசிய_விசை) {
+    திரும்பு கைரேகை({ இணைப்பு: இணைப்புக்_குறி, பொருள்_வகை: பொருள்_வகை,
+                      செயல்பாடு: செயல்பாடு, புலத்_தொகுப்பு: புலத்_தொகுப்பு }, ரகசிய_விசை);
+}
+
+// __கைரேகை_ஒன்றா(அ, ஆ) — are two fingerprints the same?__
+// கைரேகை_ஒன்றா(அ, ஆ) — இரு கைரேகைகளும் ஒன்றா
+//
+// __Compared in constant time. A plain == stops at the first differing__
+// __character, and for a fingerprint used to authenticate a webhook that timing__
+// __tells an attacker how much of a forgery was right.__
+செயல் கைரேகை_ஒன்றா(அ, ஆ) {
+    (நீளம்(அ) != நீளம்(ஆ)) எனில் { திரும்பு பொய்; }
+    திரும்பு கையொப்பம்_சரியா("கைரேகை", அ, கையொப்பம்("கைரேகை", ஆ));
+}

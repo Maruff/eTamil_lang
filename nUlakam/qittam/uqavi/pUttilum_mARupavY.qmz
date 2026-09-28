@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பூட்டிலும்_மாறுபவை() — the fields a baselined task still accepts__
+// பூட்டிய பணியிலும் மாற்றக்கூடிய புலங்கள்
+
+இறக்கு "../paNi.qmz";
+
+// __Progress fields only: status, percentage, actuals, priority, milestone.__
+// முன்னேற்றப் புலங்கள் மட்டும்
+ஒவ்வொரு ஒன்று இல் பூட்டிலும்_மாறுபவை() {
+    அச்சு ஒன்று;
+}
+
+// __The due date and the estimate are not on the list. Moving either after the__
+// __baseline is exactly what a change request is for.__
+// இறுதி நாளும் மதிப்பீடும் பட்டியலில் இல்லை; அவற்றுக்கு மாற்றக் கோரிக்கை தேவை
+உண்டு = பொய்;
+ஒவ்வொரு ஒன்று இல் பூட்டிலும்_மாறுபவை() {
+    (ஒன்று == "இறுதி_நாள்" அல்லது ஒன்று == "மதிப்பீட்டு_மணி") எனில் { உண்டு = மெய்; }
+}
+அச்சு உண்டு;

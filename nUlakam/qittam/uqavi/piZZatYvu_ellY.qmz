@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பின்னடைவு_எல்லை() — how far progress may trail the calendar before it is amber__
+// மஞ்சள் ஆவதற்கு முன் அனுமதிக்கும் பின்னடைவு
+
+இறக்கு "../paNi.qmz";
+இறக்கு "../nalam.qmz";
+
+அச்சு பின்னடைவு_எல்லை();
+
+// __Half the calendar gone. Forty percent done trails by exactly ten points, and__
+// __that is still green: amber needs more than the threshold, not equal to it.__
+// காலம் பாதி; நிறைவு 40 என்றால் சரியாகப் பத்துப் புள்ளி பின்னடைவு, இன்னும் பச்சை
+நாற்பது = [பணி_ஆக்கு("T-1", "", "நடப்பில்", 40, 10, "")];
+அச்சு திட்ட_நலம்("2026-10-01", "2026-10-31", பொய், [], நாற்பது, "2026-10-16").நிறம்;
+
+// __One point further behind and it turns amber, with the gap in the reason.__
+// ஒரு புள்ளி மேலும் பின்தங்கினால் மஞ்சள்
+முப்பத்தொன்பது = [பணி_ஆக்கு("T-1", "", "நடப்பில்", 39, 10, "")];
+விடை = திட்ட_நலம்("2026-10-01", "2026-10-31", பொய், [], முப்பத்தொன்பது, "2026-10-16");
+அச்சு விடை.நிறம்;
+அச்சு விடை.காரணங்கள்[0];

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கொக்கி_நிகழ்வைப்_படி(உடலுரை) — which item, and which revision, a service hook is about__
+// சேவைக் கொக்கி எந்த உருப்படியைப் பற்றியது
+
+இறக்கு "../varavu.qmz";
+
+// __An update hook, cut down to the fields read. resource.id is the update's__
+// __own number, 7; the work item is resource.workItemId, 1234.__
+// திருத்தக் கொக்கி: வளத்தின் குறி திருத்தத்தின் எண்; பணியுருப்படி தனிப் புலத்தில்
+திருத்தக்_கொக்கி = "{\"id\": \"evt-51\", \"eventType\": \"workitem.updated\", \"resource\": {\"id\": 7, \"workItemId\": 1234, \"rev\": 9}}";
+அச்சு கொக்கி_நிகழ்வைப்_படி(திருத்தக்_கொக்கி);
+
+// __A create hook has no workItemId, and there resource.id is the item.__
+// உருவாக்கக் கொக்கியில் அத்தனிப் புலம் இல்லை; அங்கே வளத்தின் குறியே உருப்படி
+உருவாக்கக்_கொக்கி = "{\"id\": \"evt-52\", \"eventType\": \"workitem.created\", \"resource\": {\"id\": 1235, \"rev\": 1}}";
+அச்சு மதிப்பு(கொக்கி_நிகழ்வைப்_படி(உருவாக்கக்_கொக்கி)).பணியுருப்படி_எண்;
+
+// __Only the item and revision are taken; the item is then fetched from the__
+// __API, so a forged hook can at worst make us read something again.__
+// உருப்படியும் திருத்தமும் மட்டுமே; உள்ளடக்கம் இடைமுகத்திலிருந்து மீண்டும் படிக்கப்படும்
+
+// __A body that is not JSON, or has no resource, is an error.__
+// ஜேசான் அல்லாத அல்லது வளம் இல்லாத உடல் தவறு
+அச்சு தவறா(கொக்கி_நிகழ்வைப்_படி("<html>502 Bad Gateway</html>"));
+அச்சு கொக்கி_நிகழ்வைப்_படி("{\"id\": \"evt-53\", \"eventType\": \"workitem.deleted\"}");
+
+// __So is a resource that names no item at all: there is nothing to fetch, and__
+// __reading it as work item 0 would send the caller looking for one.__
+// எந்த உருப்படியையும் குறிக்காத வளமும் தவறு; அதை உருப்படி 0 எனப் படிப்பதில்லை
+அச்சு கொக்கி_நிகழ்வைப்_படி("{\"id\": \"evt-54\", \"resource\": {}}");

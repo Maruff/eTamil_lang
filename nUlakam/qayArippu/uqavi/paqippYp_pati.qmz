@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிப்பைப்_படி(பதிப்பு_உரை) — "6.2.1" or "V6.2.1" as a version record__
+// பதிப்பு உரையைப் பதிவாக்கும்
+
+இறக்கு "../paqippu.qmz";
+
+அச்சு பதிப்பைப்_படி("6.2.1");
+
+// __A leading V is dropped, and so is surrounding space, because branch names__
+// __and release titles are written that way.__
+// முன்னுள்ள வி எழுத்தும் சுற்றியுள்ள இடைவெளியும் நீக்கப்படும்
+அச்சு பதிப்பைப்_படி(" V6.0.0 ");
+
+// __Short versions are refused, not padded: "6.2" is not read as 6.2.0.__
+// சுருக்கிய பதிப்பு நிரப்பப்படாமல் மறுக்கப்படும்
+அச்சு பதிப்பைப்_படி("6.2");
+
+// __So are extra parts, negative parts and parts that are not numbers.__
+// கூடுதல் பகுதி, எதிர்மறை, எண்ணல்லாதவை — அனைத்தும் மறுக்கப்படும்
+அச்சு தவறா(பதிப்பைப்_படி("6.2.1.0"));
+அச்சு தவறா(பதிப்பைப்_படி("6.-1.0"));
+அச்சு தவறா(பதிப்பைப்_படி("6.2.x"));
+
+// __Each part is plain digits. A leading zero is refused, because 06.2.1 would be__
+// __written back as 6.2.1 — a different string for the same version — and so is__
+// __anything else a number parser would forgive, such as an exponent.__
+// ஒவ்வொரு பகுதியும் வெறும் இலக்கங்கள்; முன் பூச்சியமும் அடுக்குக் குறியும் மறுக்கப்படும்
+அச்சு தவறா(பதிப்பைப்_படி("06.2.1"));
+அச்சு தவறா(பதிப்பைப்_படி("6.2.5e0"));
+
+// __The result is wrapped; take the record out with மதிப்பு before using it.__
+// விடை சுற்றப்பட்டது; பயன்படுத்தும் முன் மதிப்பு கொண்டு பதிவை எடுக்கவும்
+படித்த_பதிப்பு = மதிப்பு(பதிப்பைப்_படி("V6.4.2"));
+அச்சு படித்த_பதிப்பு.சிறு_எண்;

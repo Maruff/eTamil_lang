@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீள்_முயலத்தக்கதா(நிலைக்_குறி) — is a failure with this status worth retrying?__
+// இந்நிலைக் குறியுடன் தோல்வியை மீண்டும் முயலலாமா
+
+இறக்கு "../mItci.qmz";
+
+// __Throttled, a server error, a gateway that timed out: all pass on their own.__
+// கட்டுப்படுத்தல், சேவையகப் பிழை, நுழைவாயில் நேரமுடிவு: தாமாகவே தீரும்
+அச்சு மீள்_முயலத்தக்கதா(429);
+அச்சு மீள்_முயலத்தக்கதா(503);
+
+// __0 means no response at all: the network, not the request.__
+// 0 என்றால் பதிலே இல்லை; பிழை வலையில், கோரிக்கையில் அல்ல
+அச்சு மீள்_முயலத்தக்கதா(0);
+
+// __An expired token or a bad field does not get better, and neither does a__
+// __412 from the /rev test: that needs a fresh read, not the same patch again.__
+// காலாவதியான சீட்டோ தவறான புலமோ தானாகச் சரியாகாது; 412-க்கு மீண்டும் படிக்க வேண்டும்
+அச்சு மீள்_முயலத்தக்கதா(401);
+அச்சு மீள்_முயலத்தக்கதா(400);
+அச்சு மீள்_முயலத்தக்கதா(412);
+
+// __Nor is every 5xx: 501 says the server cannot do this at all.__
+// எல்லா 500-வரிசைக் குறிகளும் அல்ல; 501 என்றால் சேவையகத்தால் இதைச் செய்யவே முடியாது
+அச்சு மீள்_முயலத்தக்கதா(501);

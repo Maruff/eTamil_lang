@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உரிமையாளர்(உரிமைகள், புலப்_பெயர்) — who owns one field__
+// ஒரு புலத்தின் உரிமையாளர்
+
+இறக்கு "../pula_urimY.qmz";
+
+உரிமைகள் = இயல்பு_உரிமைகள்();
+அச்சு உரிமையாளர்(உரிமைகள், "தலைப்பு");
+அச்சு உரிமையாளர்(உரிமைகள், "நிறைவு");
+
+// __A field with no entry belongs to nobody. A tags field nobody thought__
+// __about therefore stays put instead of overwriting the other side.__
+// பதிவில்லாத புலம் யாருக்கும் உரியதல்ல; அது எத்திசையிலும் நகராது
+அச்சு உரிமையாளர்(உரிமைகள், "குறிச்சொற்கள்");
+
+// __Names are matched exactly. The status field is நடப்பு_நிலை; a payload that__
+// __calls it நிலை_பெயர் has a field nobody owns.__
+// பெயர்கள் சரியாகப் பொருந்த வேண்டும்; நடப்பு_நிலை என்பதே நிலைப் புலம்
+அச்சு உரிமையாளர்(உரிமைகள், "நிலை_பெயர்");
+
+// __And an empty list owns nothing at all.__
+// வெற்றுப் பட்டியல் எதற்கும் உரிமையாளர் இல்லை
+அச்சு உரிமையாளர்([], "தலைப்பு");

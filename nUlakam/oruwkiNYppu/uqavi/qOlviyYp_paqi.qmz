@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தோல்வியைப்_பதி(உருப்படி, நிலைக்_குறி, பிழைச்_செய்தி, இப்போது, நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — record a failed send__
+// தோல்வியுற்ற அனுப்புதலைப் பதியும்
+
+இறக்கு "../aZuppu_varicY.qmz";
+
+புதிய_வரிசை = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "திருத்து", 1, "fake-key-118");
+
+// __A 503 at time 1000: still waiting, one attempt made, next try at 1002.__
+// நேரம் 1000-இல் 503: காத்திருப்பில், ஒரு முயற்சி, அடுத்தது 1002-இல்
+தோற்றது = தோல்வியைப்_பதி(புதிய_வரிசை, 503, "Service Unavailable", 1000, 1, 0);
+அச்சு தோற்றது.நடப்பு_நிலை;
+அச்சு தோற்றது.அடுத்த_முயற்சி;
+
+// __A 429 that said Retry-After: 60 waits the full minute, backoff or not.__
+// 60 நொடி காத்திருக்கச் சொன்ன 429 முழு நிமிடமும் காத்திருக்கும்
+அச்சு தோல்வியைப்_பதி(புதிய_வரிசை, 429, "Too Many Requests", 1000, 1, 60).அடுத்த_முயற்சி;
+
+// __A 400 is parked at once, the error kept, so whoever looks at it does not__
+// __have to reproduce it first.__
+// 400 உடனே தேக்கப்படும், பிழையுடன்
+மறுத்தது = தோல்வியைப்_பதி(புதிய_வரிசை, 400, "TF401320: Rule Error for field Title", 1000, 1, 0);
+அச்சு மறுத்தது.நடப்பு_நிலை;
+அச்சு மறுத்தது.கடைசிப்_பிழை;
+
+// __And a failure worth retrying is parked too once it is the eighth.__
+// மீண்டும் முயலத்தக்கதும் எட்டாவது தோல்வியில் தேக்கப்படும்
+ஏழு_முறை = புதிய_வரிசை;
+ஏழு_முறை["முயற்சிகள்"] = 7;
+அச்சு தோல்வியைப்_பதி(ஏழு_முறை, 503, "Service Unavailable", 1000, 1, 0).நடப்பு_நிலை;

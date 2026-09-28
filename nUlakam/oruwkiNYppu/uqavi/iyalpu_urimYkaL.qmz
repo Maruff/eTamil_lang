@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இயல்பு_உரிமைகள்() — the ownership a PMO normally wants__
+// வழக்கமான புல உரிமைகள்
+
+இறக்கு "../pula_urimY.qmz";
+
+// __Ten fields: six planned by the PMO, three done by the team, one shared.__
+// பத்துப் புலங்கள்: ஆறு திட்ட அலுவலகத்துடையவை, மூன்று அணியுடையவை, ஒன்று இருவருடையது
+உரிமைகள் = இயல்பு_உரிமைகள்();
+அச்சு நீளம்(உரிமைகள்);
+
+// __The plan is ours: a developer moving a card cannot change the due date.__
+// திட்டம் நம்முடையது; அட்டையை நகர்த்தும் உருவாக்குநர் இறுதி நாளை மாற்ற முடியாது
+அச்சு உரிமையாளர்(உரிமைகள், "இறுதி_நாள்");
+
+// __The doing is theirs: hours worked and who has the task.__
+// செயல் அவர்களுடையது: உழைத்த மணிகளும் பொறுப்பாளரும்
+அச்சு உரிமையாளர்(உரிமைகள், "உண்மை_மணி");
+அச்சு உரிமையாளர்(உரிமைகள், "பொறுப்பாளர்");
+
+// __Status is the one field both sides legitimately move.__
+// நிலை மட்டும் இருவரும் நகர்த்தும் புலம்
+அச்சு உரிமையாளர்(உரிமைகள், "நடப்பு_நிலை");

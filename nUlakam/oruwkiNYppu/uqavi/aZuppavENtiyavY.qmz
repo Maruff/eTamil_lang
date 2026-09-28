@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுப்பவேண்டியவை(உரிமைகள், ஒரு_பதிவு) — the fields of a record this side may send__
+// இப்பக்கம் அனுப்பக்கூடிய புலங்கள்
+
+இறக்கு "../pula_urimY.qmz";
+
+// __The PMO's copy of a task, including what it last heard from the team.__
+// திட்ட அலுவலகத்தில் உள்ள பணியின் நகல், அணியிடமிருந்து கடைசியாக வந்தவையும் சேர்த்து
+பணி_நகல் = {
+    "தலைப்பு": "கட்டண நுழைவாயில் இணைப்பு",
+    "இறுதி_நாள்": "2026-10-30",
+    "நடப்பு_நிலை": "நடப்பில்",
+    "உண்மை_மணி": 12,
+    "பொறுப்பாளர்": "கலா"
+};
+
+// __Ours and shared go out. Hours and assignee are the team's; sending them back__
+// __would echo their own edits at them, and overwrite any newer ones.__
+// நம்முடையவையும் இருவருடையவையும் மட்டும்; அணியுடையவற்றைத் திருப்பி அனுப்புவதில்லை
+அச்சு அனுப்பவேண்டியவை(இயல்பு_உரிமைகள்(), பணி_நகல்);
+
+// __A record holding only the team's fields has nothing to send.__
+// அணியுடைய புலங்கள் மட்டும் உள்ள பதிவில் அனுப்ப ஒன்றுமில்லை
+அச்சு அனுப்பவேண்டியவை(இயல்பு_உரிமைகள்(), { "உண்மை_மணி": 12 });

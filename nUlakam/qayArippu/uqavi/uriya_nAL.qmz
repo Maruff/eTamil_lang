@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உரிய_நாள்(வாக்குறுதி) — the date the commitment is now due__
+// வாக்குறுதி இப்போது நிறைவேற வேண்டிய நாள்
+
+இறக்கு "../vAkkuRuqi.qmz";
+
+// __Unrevised, it is due on its target.__
+// திருத்தாதபோது இலக்கு நாளே உரிய நாள்
+அறிக்கை_ஏற்றுமதி = வாக்குறுதி_ஆக்கு("வா-201", "2026-10-15", "", "கட்டுமானத்தில்", "");
+அச்சு உரிய_நாள்(அறிக்கை_ஏற்றுமதி);
+
+// __Revised, the new date wins, but the target is kept: it is what the__
+// __customer was promised, and the notice rules still measure against it.__
+// திருத்தினால் புதிய நாள்; ஆனால் இலக்கு நாள் அழியாது
+நழுவிய_ஏற்றுமதி = வாக்குறுதி_ஆக்கு("வா-202", "2026-10-15", "2026-11-30", "நழுவியது", "");
+அச்சு உரிய_நாள்(நழுவிய_ஏற்றுமதி);
+அச்சு நழுவிய_ஏற்றுமதி.இலக்கு_நாள்;
+
+// __With neither date there is nothing to be due on.__
+// இரு நாளும் இல்லையெனில் உரிய நாளும் இல்லை
+அச்சு உரிய_நாள்(வாக்குறுதி_ஆக்கு("வா-203", "", "", "ஏற்றது", "")) == "";

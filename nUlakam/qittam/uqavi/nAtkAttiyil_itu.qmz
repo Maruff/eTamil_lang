@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாட்காட்டியில்_இடு(கணக்கிட்டவை, திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி) — dates for every activity__
+// ஒவ்வொரு செயலுக்கும் நாட்களை இடும்
+
+இறக்கு "../../nAtkAtti/vElYnAL.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../attavaNY.qmz";
+
+// __Design, build, then a go-live milestone, on a five-day week with Gandhi__
+// __Jayanti, Friday 2 October, off.__
+// வடிவமைப்பு, உருவாக்கம், பின் நேரலை மைல்கல்; ஐந்து நாள் வாரம், அக்டோபர் 2 விடுமுறை
+வலை = மதிப்பு(வலையைக்_கணக்கிடு([செயல்_ஆக்கு("D", 3, []),
+                                  செயல்_ஆக்கு("B", 4, ["D"]),
+                                  செயல்_ஆக்கு("G", 0, ["B"])]));
+அலுவலகம் = நாட்காட்டி_ஆக்கு([0, 6], ["2026-10-02"]);
+
+// __The project is due to start Wednesday 30 September. Design takes three days,__
+// __both ends counted, and skips the holiday and the weekend.__
+// மூன்று நாள் வடிவமைப்பு விடுமுறையையும் வார இறுதியையும் தாண்டும்
+விடை = மதிப்பு(நாட்காட்டியில்_இடு(வலை, "2026-09-30", அலுவலகம்));
+ஒவ்வொரு ஒரு_செயல் இல் விடை.செயல்கள் {
+    அச்சு ஒரு_செயல்["செயல்_குறி"] & " " & ஒரு_செயல்["தொடக்க_நாள்"] & " .. " & ஒரு_செயல்["முடிவு_நாள்"];
+}
+
+// __The zero-day go-live happens at the end of the day build finishes, so it is__
+// __dated that Friday — the same day as the project finish, not the Monday after.__
+// சுழிய நாள் மைல்கல் உருவாக்கம் முடியும் நாளிலேயே; திட்ட முடிவு நாளும் அதுவே
+அச்சு விடை.திட்ட_முடிவு_நாள்;
+
+// __A start that falls on Saturday moves to Monday before anything is counted.__
+// சனிக்கிழமைத் தொடக்கம் திங்களுக்கு நகரும்
+அச்சு மதிப்பு(நாட்காட்டியில்_இடு(வலை, "2026-10-03", அலுவலகம்)).திட்டத்_தொடக்க_நாள்;

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) — update a work item__
+// ஒரு பணியுருப்படியைத் திருத்தும்
+
+இறக்கு "../ajUr.qmz";
+இறக்கு "../ottu.qmz";
+இறக்கு "../mItci.qmz";
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+
+// __We read item 118 at revision 7, so the patch opens with the /rev test.__
+// உருப்படி 118-ஐத் திருத்தம் 7-இல் படித்தோம்; ஒட்டு திருத்தச் சோதனையுடன் தொடங்கும்
+ஒட்டுகள் = பணி_ஒட்டுகள்({ "இறுதி_நாள்": "2026-10-30" },
+    { "இறுதி_நாள்": "Microsoft.VSTS.Scheduling.DueDate" }, 7);
+விடை = பணியுருப்படியைத்_திருத்து(இணைப்பு, 118, ஒட்டுகள்);
+
+// __Offline this is the network failure, status 0, and worth retrying.__
+// இணைப்பில்லாமல் இது வலைத் தோல்வி, 0, மீண்டும் முயலத்தக்கது
+குறி = தவறு_மதிப்பு(விடை).நிலைக்_குறி;
+அச்சு குறி;
+
+// __A real organisation answers 200 with the item at revision 8, or 412 if__
+// __someone saved it since revision 7. A 412 is never retried as it is: read__
+// __the item again, rebuild the patch at its new revision, and send that.__
+// உண்மையில் 200, அல்லது இடையில் யாராவது சேமித்திருந்தால் 412; அப்போது மீண்டும் படித்து ஒட்டை உருவாக்குக
+(குறி == 412) எனில் {
+    அச்சு "மீண்டும் படித்து ஒட்டை உருவாக்கு";
+} இன்றேல் {
+    அச்சு மீள்_முயலத்தக்கதா(குறி);
+}

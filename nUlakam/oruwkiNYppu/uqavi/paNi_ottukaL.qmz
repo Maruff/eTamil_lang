@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) — the whole patch for one record__
+// ஒரு பதிவுக்கான முழு ஒட்டு
+
+இறக்கு "../ottu.qmz";
+
+புல_வரைபடம் = {
+    "தலைப்பு": "System.Title",
+    "விவரம்": "System.Description",
+    "இறுதி_நாள்": "Microsoft.VSTS.Scheduling.DueDate",
+    "மதிப்பீட்டு_மணி": "Microsoft.VSTS.Scheduling.OriginalEstimate"
+};
+
+// __A task with no description and no due date yet.__
+// விவரமும் இறுதி நாளும் இல்லாத பணி
+பணி_ஒன்று = { "தலைப்பு": "தரவு இடமாற்றம்", "விவரம்": "", "மதிப்பீட்டு_மணி": 16 };
+
+// __Creating it: revision 0, so there is no /rev test. The blank description is__
+// __sent as the title, and the missing due date is left out altogether, since__
+// __sending "" would clear a date someone set on the board.__
+// உருவாக்கும்போது திருத்தச் சோதனை இல்லை; வெற்று விவரத்துக்குத் தலைப்பு; இல்லாத நாள் விடப்படும்
+உருவாக்க_ஒட்டு = பணி_ஒட்டுகள்(பணி_ஒன்று, புல_வரைபடம், 0);
+அச்சு நீளம்(உருவாக்க_ஒட்டு);
+அச்சு ஜேசான்_ஆக்கு(உருவாக்க_ஒட்டு);
+
+// __Updating it at revision 12 puts the /rev test in front of the same three.__
+// திருத்தம் 12-இல் திருத்தும்போது அதே மூன்றுக்கும் முன் திருத்தச் சோதனை
+திருத்த_ஒட்டு = பணி_ஒட்டுகள்(பணி_ஒன்று, புல_வரைபடம், 12);
+அச்சு நீளம்(திருத்த_ஒட்டு);
+அச்சு ஜேசான்_ஆக்கு(திருத்த_ஒட்டு[0]);
+
+// __Fields not in the map are never sent, whatever the record holds.__
+// வரைபடத்தில் இல்லாத புலங்கள் அனுப்பப்படுவதே இல்லை
+அச்சு நீளம்(பணி_ஒட்டுகள்({ "பொறுப்பாளர்": "கலா" }, புல_வரைபடம், 0));

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்னுரிமை_எண்(முன்னுரிமை) — a task priority as Microsoft.VSTS.Common.Priority__
+// முன்னுரிமையை அஜூர் எண்ணாக்கும்
+
+இறக்கு "../varYpatam.qmz";
+
+// __Azure DevOps priorities run 1 to 4, and 1 is the most urgent.__
+// அஜூர் முன்னுரிமை 1 முதல் 4; 1 மிக அவசரம்
+அச்சு முன்னுரிமை_எண்("மிக_உயர்");
+அச்சு முன்னுரிமை_எண்("உயர்");
+அச்சு முன்னுரிமை_எண்("குறைவு");
+
+// __An unset or unknown priority is sent as 3, the middle. Sending 1 for a__
+// __priority nobody chose would put the task on top of somebody's board.__
+// அமைக்காத அல்லது அறியாத முன்னுரிமை 3 ஆக அனுப்பப்படும்
+அச்சு முன்னுரிமை_எண்("");
+அச்சு முன்னுரிமை_எண்("அவசரம்");

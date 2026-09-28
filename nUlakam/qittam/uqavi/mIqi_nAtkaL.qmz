@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீதி_நாட்கள்(கால_அளவு, நிறைவு) — the working days an in-flight task still needs__
+// நடப்பிலுள்ள பணிக்கு இன்னும் தேவையான நாட்கள்
+
+இறக்கு "../attavaNY.qmz";
+
+// __A ten-day build at 40% has six days left.__
+// நாற்பது சதவீதம் முடிந்த பத்து நாள் பணிக்கு ஆறு நாள் மீதி
+அச்சு மீதி_நாட்கள்(10, 40);
+
+// __Rounded up: 90% of ten days still needs a day, and half of five is three.__
+// மேல்நோக்கி முழுமையாக்கும்: 90% இன்னும் ஒரு நாள்
+அச்சு மீதி_நாட்கள்(10, 90);
+அச்சு மீதி_நாட்கள்(5, 50);
+
+// __Only 100% needs nothing, and 0% needs the whole plan.__
+// நூறு சதவீதத்திற்கே சுழியம்
+அச்சு மீதி_நாட்கள்(10, 100);
+அச்சு மீதி_நாட்கள்(10, 0);

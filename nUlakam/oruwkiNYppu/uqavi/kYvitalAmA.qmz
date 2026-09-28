@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கைவிடலாமா(முயற்சிகள்) — has this item had its last attempt?__
+// இதைக் கைவிடலாமா
+
+இறக்கு "../mItci.qmz";
+
+// __Pass the attempts made so far, counting the one that just failed.__
+// இப்போது தோல்வியுற்றதையும் சேர்த்து, இதுவரை செய்த முயற்சிகளைத் தருக
+அச்சு கைவிடலாமா(1);
+அச்சு கைவிடலாமா(7);
+அச்சு கைவிடலாமா(8);
+
+// __More than the limit is given up on too, so a row whose count was raised by__
+// __hand, or by a bug, is not retried for ever.__
+// வரம்புக்கு மேலும் கைவிடப்படும்; முடிவில்லா முயற்சி இல்லை
+அச்சு கைவிடலாமா(12);
+
+// __Giving up is only half the decision to retry. The other half is the status,__
+// __so a 400 is not retried even on its first attempt: this is false.__
+// கைவிடுவது பாதி முடிவே; 400 முதல் முயற்சியிலேயே மீண்டும் முயலப்படாது
+அச்சு மீள்_முயலத்தக்கதா(400) மற்றும் இல்லை கைவிடலாமா(1);

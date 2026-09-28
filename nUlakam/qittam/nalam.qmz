@@ -1,0 +1,125 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/nalam.qmz — நலம் (project health: milestones and the RAG status)__
+// திட்ட நலம்: மைல்கற்களும் நிறக் குறியும்
+//
+// __A portfolio screen shows one colour per project, and the colour is only__
+// __useful if everyone derives it the same way. Typed by hand it drifts towards__
+// __green; derived from the data it cannot. The rule here is the one a PMO uses:__
+//
+//   __மூடியது   the project is closed__
+//   __சிவப்பு   a milestone is late, or the end date has passed with work left__
+//   __மஞ்சள்   a milestone is at risk, a task is overdue, or progress trails__
+//            __the calendar by more than பின்னடைவு_எல்லை() points__
+//   __பச்சை    none of those__
+//
+// __The colour comes back with its reasons. A red square nobody can explain is__
+// __argued about; a red square that says "M3 is late" is acted on.__
+//
+// __Milestone statuses are சரியாக (on track), இடரில் (at risk), தாமதம்__
+// __(delayed) and எட்டியது (met), held in நடப்பு_நிலை like every other lifecycle.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "paNi.qmz";
+
+// __மைல்கல்_ஆக்கு(மைல்கல்_குறி, அடிப்படை_நாள், முன்கணிப்பு_நாள், உண்மை_நாள், மைல்கல்_நிலை) — one milestone__
+// மைல்கல்_ஆக்கு(மைல்கல்_குறி, அடிப்படை_நாள், முன்கணிப்பு_நாள், உண்மை_நாள், மைல்கல்_நிலை) — ஒரு மைல்கல்லை உருவாக்கும்
+//
+// __அடிப்படை_நாள் is the date promised at baseline and never moves. The forecast__
+// __is today's best guess; the actual is "" until the milestone is met.__
+செயல் மைல்கல்_ஆக்கு(மைல்கல்_குறி, அடிப்படை_நாள், முன்கணிப்பு_நாள், உண்மை_நாள், மைல்கல்_நிலை) {
+    திரும்பு {
+        மைல்கல்_குறி: மைல்கல்_குறி,
+        அடிப்படை_நாள்: அடிப்படை_நாள்,
+        முன்கணிப்பு_நாள்: முன்கணிப்பு_நாள்,
+        உண்மை_நாள்: உண்மை_நாள்,
+        நடப்பு_நிலை: மைல்கல்_நிலை
+    };
+}
+
+// __மைல்கல்_வேறுபாடு(ஒரு_மைல்கல்) — days late (positive) or early (negative) against baseline__
+// மைல்கல்_வேறுபாடு(ஒரு_மைல்கல்) — அடிப்படை நாளிலிருந்து தாமதமான நாட்கள்
+//
+// __Measured from the actual date once there is one, and from the forecast__
+// __until then, so the figure is live while the milestone is open and frozen__
+// __once it is met. Calendar days, not working days: a customer promised the__
+// __first of the month counts the weekend too.__
+செயல் மைல்கல்_வேறுபாடு(ஒரு_மைல்கல்) {
+    ஒப்பிடும்_நாள் = ஒரு_மைல்கல்.முன்கணிப்பு_நாள்;
+    (ஒரு_மைல்கல்.உண்மை_நாள் != "") எனில் { ஒப்பிடும்_நாள் = ஒரு_மைல்கல்.உண்மை_நாள்; }
+    திரும்பு நாள்_வேறுபாடு(ஒரு_மைல்கல்.அடிப்படை_நாள், ஒப்பிடும்_நாள்);
+}
+
+// __கழிந்த_சதவீதம்(தொடக்க_நாள், முடிவு_நாள், இன்றைய_நாள்) — how much of the calendar has gone__
+// கழிந்த_சதவீதம்(தொடக்க_நாள், முடிவு_நாள், இன்றைய_நாள்) — திட்டக் காலத்தில் கழிந்த பங்கு
+//
+// __A whole percentage held to 0–100: before the start it is 0, after the end__
+// __100. A project whose end is not after its start has no span to divide, so it__
+// __is 0 until the end date and 100 from it.__
+செயல் கழிந்த_சதவீதம்(தொடக்க_நாள், முடிவு_நாள், இன்றைய_நாள்) {
+    மொத்தம் = நாள்_வேறுபாடு(தொடக்க_நாள், முடிவு_நாள்);
+    (மொத்தம் <= 0) எனில் {
+        (இன்றைய_நாள் >= முடிவு_நாள்) எனில் { திரும்பு 100; }
+        திரும்பு 0;
+    }
+    கழிந்தது = நாள்_வேறுபாடு(தொடக்க_நாள், இன்றைய_நாள்) * 100 / மொத்தம்;
+    திரும்பு வட்டமிடு(பெரியது(0, சிறியது(100, கழிந்தது)), 0);
+}
+
+// __பின்னடைவு_எல்லை() — how far progress may trail the calendar before it is amber__
+// பின்னடைவு_எல்லை() — மஞ்சள் ஆவதற்கு முன் அனுமதிக்கும் பின்னடைவு
+//
+// __Ten percentage points. Progress never tracks the calendar exactly — work is__
+// __lumpy — and a threshold of zero would turn every project amber on the day__
+// __after a big task starts.__
+செயல் பின்னடைவு_எல்லை() { திரும்பு 10; }
+
+// __திட்ட_நலம்(தொடக்க_நாள், முடிவு_நாள், மூடியதா, மைல்கற்கள், பணிகள், இன்றைய_நாள்) — the RAG status, with its reasons__
+// திட்ட_நலம்(தொடக்க_நாள், முடிவு_நாள், மூடியதா, மைல்கற்கள், பணிகள், இன்றைய_நாள்) — திட்டத்தின் நிறக் குறியும் காரணங்களும்
+//
+// __Returns {நிறம், காரணங்கள், நிறைவு, கழிந்தது, நிலுவைப்_பணிகள்}. நிறைவு is the__
+// __effort-weighted percentage over பணிகள், so pass the tasks the project__
+// __reports on — usually the top-level ones. காரணங்கள் lists every condition__
+// __that fired, red ones first, so an amber project with a red cause cannot__
+// __happen and a red project shows all of what is wrong, not only the first.__
+செயல் திட்ட_நலம்(தொடக்க_நாள், முடிவு_நாள், மூடியதா, மைல்கற்கள், பணிகள், இன்றைய_நாள்) {
+    நிறைவு = எடையிட்ட_நிறைவு(பணிகள்);
+    கழிந்தது = கழிந்த_சதவீதம்(தொடக்க_நாள், முடிவு_நாள், இன்றைய_நாள்);
+    நிலுவை_எண்ணிக்கை = 0;
+    ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+        (பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்)) எனில் { நிலுவை_எண்ணிக்கை = நிலுவை_எண்ணிக்கை + 1; }
+    }
+    (மூடியதா) எனில் {
+        திரும்பு { நிறம்: "மூடியது", காரணங்கள்: [], நிறைவு: நிறைவு,
+                  கழிந்தது: கழிந்தது, நிலுவைப்_பணிகள்: நிலுவை_எண்ணிக்கை };
+    }
+
+    சிவப்புகள் = [];
+    மஞ்சள்கள் = [];
+    ஒவ்வொரு ஒரு_மைல்கல் இல் மைல்கற்கள் {
+        (ஒரு_மைல்கல்.நடப்பு_நிலை == "தாமதம்") எனில் {
+            சிவப்புகள் = இணை(சிவப்புகள், ஒரு_மைல்கல்.மைல்கல்_குறி & " மைல்கல் தாமதம்  (milestone delayed)");
+        }
+        (ஒரு_மைல்கல்.நடப்பு_நிலை == "இடரில்") எனில் {
+            மஞ்சள்கள் = இணை(மஞ்சள்கள், ஒரு_மைல்கல்.மைல்கல்_குறி & " மைல்கல் இடரில்  (milestone at risk)");
+        }
+    }
+    (முடிவு_நாள் < இன்றைய_நாள் மற்றும் நிறைவு < 100) எனில் {
+        சிவப்புகள் = இணை(சிவப்புகள், "முடிவு நாள் கடந்தும் வேலை மீதியுள்ளது  (past the end date with work left)");
+    }
+    (நிலுவை_எண்ணிக்கை > 0) எனில் {
+        மஞ்சள்கள் = இணை(மஞ்சள்கள், சொல்லாக்கு(நிலுவை_எண்ணிக்கை) & " பணிகள் காலம் கடந்தன  (tasks overdue)");
+    }
+    (நிறைவு < கழிந்தது - பின்னடைவு_எல்லை()) எனில் {
+        மஞ்சள்கள் = இணை(மஞ்சள்கள், "நிறைவு " & சொல்லாக்கு(நிறைவு) & "%, காலம் "
+                          & சொல்லாக்கு(கழிந்தது) & "%  (progress trails the calendar)");
+    }
+
+    நிறம் = "பச்சை";
+    (நீளம்(மஞ்சள்கள்) > 0) எனில் { நிறம் = "மஞ்சள்"; }
+    (நீளம்(சிவப்புகள்) > 0) எனில் { நிறம் = "சிவப்பு"; }
+    காரணங்கள் = சிவப்புகள்;
+    ஒவ்வொரு ஒன்று இல் மஞ்சள்கள் { காரணங்கள் = இணை(காரணங்கள், ஒன்று); }
+    திரும்பு { நிறம்: நிறம், காரணங்கள்: காரணங்கள், நிறைவு: நிறைவு,
+              கழிந்தது: கழிந்தது, நிலுவைப்_பணிகள்: நிலுவை_எண்ணிக்கை };
+}

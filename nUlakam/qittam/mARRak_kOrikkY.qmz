@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/mARRak_kOrikkY.qmz — மாற்றக் கோரிக்கை (change control)__
+// மாற்றக் கோரிக்கையும் நோக்க வாயிலும்
+//
+// __Once scope is signed, the plan changes only through a change request, and__
+// __the request itself goes through four hands before it binds anyone:__
+//
+//   __கோரியது → மதிப்பாய்ந்தது → ஒப்புக்கொண்டது → ஏற்றது → (திரும்பப்பெற்றது)__
+//
+// __and at any step before approval it may be மறுத்தது (rejected) or__
+// __கைவிட்டது (cancelled). Approval is not terminal: an approved change can be__
+// __revoked, which is why ஏற்றது does not stamp a decision date and__
+// __திரும்பப்பெற்றது does.__
+//
+// __The lifecycle is a nilYmARRam.qmz machine, so moving a request is__
+// __நிலையை_நகர்த்து with the machine below, and the screen's buttons are__
+// __அடுத்த_நிலைகள் of the same machine.__
+
+இறக்கு "nilYmARRam.qmz";
+
+// __மாற்றக்_கோரிக்கை_வரைவு() — the change-request lifecycle as a machine__
+// மாற்றக்_கோரிக்கை_வரைவு() — மாற்றக் கோரிக்கையின் நிலை வரைவு
+//
+// __Each forward step records who took it: மதிப்பாய்ந்தவர், ஒப்புக்கொண்டவர்,__
+// __ஏற்றவர். Rejection and cancellation are recorded by the audit event rather__
+// __than a field, since they can happen at any of three steps.__
+செயல் மாற்றக்_கோரிக்கை_வரைவு() {
+    திரும்பு நிலை_வரைவு_ஆக்கு([
+        நிலை_மாற்றம்_ஆக்கு("கோரியது", ["மதிப்பாய்ந்தது", "மறுத்தது", "கைவிட்டது"]),
+        நிலை_மாற்றம்_ஆக்கு("மதிப்பாய்ந்தது", ["ஒப்புக்கொண்டது", "மறுத்தது", "கைவிட்டது"]),
+        நிலை_மாற்றம்_ஆக்கு("ஒப்புக்கொண்டது", ["ஏற்றது", "மறுத்தது", "கைவிட்டது"]),
+        நிலை_மாற்றம்_ஆக்கு("ஏற்றது", ["திரும்பப்பெற்றது"]),
+        நிலை_மாற்றம்_ஆக்கு("மறுத்தது", []),
+        நிலை_மாற்றம்_ஆக்கு("கைவிட்டது", []),
+        நிலை_மாற்றம்_ஆக்கு("திரும்பப்பெற்றது", [])
+    ], {
+        "மதிப்பாய்ந்தது": "மதிப்பாய்ந்தவர்",
+        "ஒப்புக்கொண்டது": "ஒப்புக்கொண்டவர்",
+        "ஏற்றது": "ஏற்றவர்"
+    });
+}
+
+// __புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) — may this task be added?__
+// புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) — இப்புதிய பணியைச் சேர்க்கலாமா
+//
+// __The scope gate. Before scope is signed anything may be added. After, a new__
+// __top-level task is new scope and needs the change request that approved it;__
+// __a sub-task under an existing task is how the team breaks down work it__
+// __already owns and is always allowed. சரி or தவறு with the reason.__
+செயல் புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) {
+    (இல்லை நோக்கம்_கையொப்பமா) எனில் { திரும்பு சரி(மெய்); }
+    (பெற்றோர்_குறி != "") எனில் { திரும்பு சரி(மெய்); }
+    (மாற்றக்_குறி != "") எனில் { திரும்பு சரி(மெய்); }
+    திரும்பு தவறு("நோக்கம் கையொப்பமாகியுள்ளது; புதிய மேல்மட்டப் பணிக்கு மாற்றக் கோரிக்கை தேவை  "
+                   & "(scope is signed; a new top-level task needs a change request)");
+}

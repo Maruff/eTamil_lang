@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை) — is this one move allowed?__
+// இந்த மாற்றம் அனுமதிக்கப்பட்டதா
+
+இறக்கு "../nilYmARRam.qmz";
+இறக்கு "../mARRak_kOrikkY.qmz";
+
+வரைவு = மாற்றக்_கோரிக்கை_வரைவு();
+
+// __The ordinary step: a raised change request goes to review.__
+// வழக்கமான படி: கோரியது மதிப்பாய்வுக்குச் செல்லும்
+அச்சு மாற்றம்_அனுமதியா(வரைவு, "கோரியது", "மதிப்பாய்ந்தது");
+
+// __Skipping review and acknowledgement straight to approval is refused, however__
+// __senior the person pressing the button.__
+// மதிப்பாய்வையும் ஒப்புதலையும் தாண்டி நேரே ஏற்க முடியாது
+அச்சு மாற்றம்_அனுமதியா(வரைவு, "கோரியது", "ஏற்றது");
+
+// __Once approved, a change cannot be rejected; it can only be revoked.__
+// ஏற்ற மாற்றத்தை மறுக்க முடியாது; திரும்பப்பெறவே முடியும்
+அச்சு மாற்றம்_அனுமதியா(வரைவு, "ஏற்றது", "மறுத்தது");
+அச்சு மாற்றம்_அனுமதியா(வரைவு, "ஏற்றது", "திரும்பப்பெற்றது");
+
+// __Staying put is not a move either: no state lists itself.__
+// அதே நிலைக்குச் செல்வதும் மாற்றமல்ல
+அச்சு மாற்றம்_அனுமதியா(வரைவு, "கோரியது", "கோரியது");

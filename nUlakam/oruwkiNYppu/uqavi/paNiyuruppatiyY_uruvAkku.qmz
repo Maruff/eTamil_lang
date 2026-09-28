@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்) — create a work item__
+// ஒரு பணியுருப்படியை உருவாக்கும்
+
+இறக்கு "../ajUr.qmz";
+இறக்கு "../ottu.qmz";
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+
+// __Revision 0 because the item does not exist yet, so the patch has no /rev__
+// __test; with one, Azure DevOps would refuse the create.__
+// இன்னும் உருப்படி இல்லை; ஆகவே திருத்தச் சோதனை இல்லை
+ஒட்டுகள் = இணை(
+    பணி_ஒட்டுகள்({ "தலைப்பு": "அறிக்கைப் பக்கம்" }, { "தலைப்பு": "System.Title" }, 0),
+    பெற்றோர்_ஒட்டு(பணியுருப்படி_உரலி(இணைப்பு, 1201)));
+அச்சு நீளம்(ஒட்டுகள்);
+
+// __The type's space is escaped into the url: …/wit/workitems/$User%20Story.__
+// __A real organisation answers 200 with the new item, whose id the PMO keeps.__
+// வகையின் இடைவெளி உரலியில் குறியாக்கப்படும்; உண்மையில் புதிய உருப்படியின் எண் வரும்
+விடை = பணியுருப்படியை_உருவாக்கு(இணைப்பு, "User Story", ஒட்டுகள்);
+அச்சு தவறா(விடை);
+அச்சு தவறு_மதிப்பு(விடை).நிலைக்_குறி;
+அச்சு கொண்டுள்ளதா(தவறு_மதிப்பு(விடை).செய்தி, "$User%20Story");
+
+// __A create that failed with 0 may still have reached the server. Before__
+// __retrying, look for the item by a tag you set, or the retry makes a twin.__
+// 0 உடன் தோற்ற உருவாக்கம் சேவையகத்தை அடைந்திருக்கலாம்; மீண்டும் முயலும் முன் தேடுக

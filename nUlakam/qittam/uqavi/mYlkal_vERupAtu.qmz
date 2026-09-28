@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மைல்கல்_வேறுபாடு(ஒரு_மைல்கல்) — days late (positive) or early (negative) against baseline__
+// அடிப்படை நாளிலிருந்து தாமதமான நாட்கள்
+
+இறக்கு "../nalam.qmz";
+
+// __Open milestone: measured from the forecast. Friday 2 October to Monday 5th__
+// __is three days, weekend included, because the customer counts it.__
+// திறந்த மைல்கல்: முன்கணிப்பிலிருந்து; வார இறுதியும் சேரும்
+அச்சு மைல்கல்_வேறுபாடு(மைல்கல்_ஆக்கு("M1", "2026-10-02", "2026-10-05", "", "இடரில்"));
+
+// __Met early gives a negative number.__
+// முன்னதாக எட்டியது எதிர்மறை எண்
+அச்சு மைல்கல்_வேறுபாடு(மைல்கல்_ஆக்கு("M2", "2026-10-15", "2026-10-15", "2026-10-13", "எட்டியது"));
+
+// __Once met, the actual wins and a stale forecast left behind no longer matters.__
+// எட்டியபின் உண்மை நாளே கணக்கு; பழைய முன்கணிப்பு பொருட்டல்ல
+அச்சு மைல்கல்_வேறுபாடு(மைல்கல்_ஆக்கு("M3", "2026-10-15", "2026-11-30", "2026-10-16", "எட்டியது"));

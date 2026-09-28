@@ -1,0 +1,66 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/mItci.qmz — மீட்சி (retrying a call that failed)__
+// தோல்வியுற்ற அழைப்பை மீண்டும் முயலுதல்
+//
+// __A remote service fails in two ways that look alike and need opposite__
+// __handling. Some failures pass — the service was busy, the network blinked —__
+// __and the same request will work later. Others do not — the request is wrong,__
+// __or the credential is — and retrying only repeats the failure faster. The__
+// __status code says which: 429 and the 5xx gateway codes are worth another__
+// __attempt; everything else is not.__
+//
+// __Retries back off exponentially, 2, 4, 8 … seconds, and the wait after jitter__
+// __never exceeds மேல்_காத்திருப்பு(). A jitter factor spreads the retries of many clients so__
+// __that they do not all return at the same instant and knock the service over__
+// __again. eTamil has no random numbers, so the caller supplies the factor —__
+// __anything from 0.7 to 1.3 — which also makes every retry reproducible in a__
+// __test. A Retry-After header always wins and is not capped: the service has__
+// __said when, and retrying sooner only earns another 429 and spends an attempt.__
+//
+// __After அதிக_முயற்சிகள்() attempts the item is given up on and parked for a__
+// __person to look at.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+
+// __அதிக_முயற்சிகள்() — attempts before an item is given up on__
+// அதிக_முயற்சிகள்() — கைவிடுவதற்கு முன் அதிகபட்ச முயற்சிகள்
+செயல் அதிக_முயற்சிகள்() { திரும்பு 8; }
+
+// __மேல்_காத்திருப்பு() — the longest backoff, in seconds__
+// மேல்_காத்திருப்பு() — அதிகபட்சக் காத்திருப்பு நொடிகள்
+செயல் மேல்_காத்திருப்பு() { திரும்பு 300; }
+
+// __மீள்_முயலத்தக்கதா(நிலைக்_குறி) — is a failure with this status worth retrying?__
+// மீள்_முயலத்தக்கதா(நிலைக்_குறி) — இந்நிலைக் குறியுடன் தோல்வியை மீண்டும் முயலலாமா
+//
+// __429, 500, 502, 503 and 504, and 0 — no response at all, which is the__
+// __network, not the request.__
+செயல் மீள்_முயலத்தக்கதா(நிலைக்_குறி) {
+    ஒவ்வொரு குறி இல் [0, 429, 500, 502, 503, 504] {
+        (குறி == நிலைக்_குறி) எனில் { திரும்பு மெய்; }
+    }
+    திரும்பு பொய்;
+}
+
+// __காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — how long to wait before the next attempt__
+// காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — அடுத்த முயற்சிக்கு முன் காத்திருக்கும் நொடிகள்
+//
+// __முயற்சிகள் is the number already made. மீண்டும்_முயல்_நொடிகள் is the__
+// __Retry-After header in seconds, or 0 when there was none. நடுக்கம் is held to__
+// __0.7–1.3 so a caller's mistake cannot turn a backoff into a hammer.__
+செயல் காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்) {
+    (மீண்டும்_முயல்_நொடிகள் > 0) எனில் { திரும்பு மீண்டும்_முயல்_நொடிகள்; }
+    அடிப்படை = மேல்_காத்திருப்பு();
+    (முயற்சிகள் < 9) எனில் {
+        அடிப்படை = சிறியது(மதிப்பு(அடுக்கேற்று(2, முயற்சிகள்)), மேல்_காத்திருப்பு());
+    }
+    திருத்திய_நடுக்கம் = பெரியது(0.7, சிறியது(1.3, நடுக்கம்));
+    திரும்பு சிறியது(வட்டமிடு(அடிப்படை * திருத்திய_நடுக்கம், 0), மேல்_காத்திருப்பு());
+}
+
+// __கைவிடலாமா(முயற்சிகள்) — has this item had its last attempt?__
+// கைவிடலாமா(முயற்சிகள்) — இதைக் கைவிடலாமா
+செயல் கைவிடலாமா(முயற்சிகள்) {
+    திரும்பு முயற்சிகள் >= அதிக_முயற்சிகள்();
+}

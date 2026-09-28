@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேடல்_தொடக்க_நாள்(நீர்க்குறி, இன்றைய_நாள்) — where this sweep starts__
+// இத்தேடல் தொடங்கும் நாள்
+
+இறக்கு "../viZA.qmz";
+
+// __Today is passed in, since eTamil has no clock; that also lets a test__
+// __replay any day it likes.__
+// கடிகாரம் இல்லை; இன்றைய நாளை அழைப்பவரே தருகிறார்
+இன்று = "2026-09-28";
+
+// __No watermark: the first sweep, thirty days back.__
+// நீர்க்குறி இல்லை: முதல் தேடல், முப்பது நாள் பின்னோக்கி
+அச்சு தேடல்_தொடக்க_நாள்("", இன்று);
+
+// __With a watermark the sweep starts a day before it. An item saved in the__
+// __second the last sweep ran may have been missed; applying it twice is__
+// __harmless, missing it is not.__
+// நீர்க்குறிக்கு ஒரு நாள் முன்பிருந்து; இருமுறை ஏற்பது தீங்கில்லை, தவறவிடுவது தீங்கு
+அச்சு தேடல்_தொடக்க_நாள்("2026-09-27", இன்று);
+
+// __The day before is calendar arithmetic, across months and years.__
+// மாத, ஆண்டு எல்லைகளையும் கடக்கும்
+அச்சு தேடல்_தொடக்க_நாள்("2026-03-01", இன்று);
+அச்சு தேடல்_தொடக்க_நாள்("2027-01-01", இன்று);

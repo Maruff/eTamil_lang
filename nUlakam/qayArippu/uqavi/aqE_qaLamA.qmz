@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அதே_தளமா(ஒரு_பதிப்பு, தள_எண்) — does this version belong to this platform?__
+// இப்பதிப்பு இத்தளத்தைச் சேர்ந்ததா
+
+இறக்கு "../paqippu.qmz";
+
+அச்சு அதே_தளமா(மதிப்பு(பதிப்பைப்_படி("6.4.0")), 6);
+
+// __A 7.0.0 milestone cannot be planned on platform 6.__
+// ஏழாம் தளப் பதிப்பை ஆறாம் தளத்தில் திட்டமிட முடியாது
+அச்சு அதே_தளமா(மதிப்பு(பதிப்பைப்_படி("7.0.0")), 6);
+
+// __The platform is a number. Passed as the text "6" it matches nothing.__
+// தள எண் எண்ணாகவே வேண்டும்; உரையாகத் தந்தால் பொருந்தாது
+அச்சு அதே_தளமா(மதிப்பு(பதிப்பைப்_படி("6.4.0")), "6");

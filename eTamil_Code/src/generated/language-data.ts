@@ -12301,6 +12301,772 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 134
   },
   {
+    "name": "அனுப்பு_உருப்படி_ஆக்கு",
+    "forms": [
+      "அனுப்பு_உருப்படி_ஆக்கு"
+    ],
+    "params": [
+      "பொருள்_குறி",
+      "பொருள்_வகை",
+      "செயல்பாடு",
+      "ஆழம்",
+      "ஒருமுறைக்_குறி"
+    ],
+    "arity": 5,
+    "doc": "அனுப்பு_உருப்படி_ஆக்கு(பொருள்_குறி, பொருள்_வகை, செயல்பாடு, ஆழம், ஒருமுறைக்_குறி) — one outbox row",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/aZuppu_varicY.qmz",
+    "line": 33
+  },
+  {
+    "name": "வரிசையில்_உள்ளதா",
+    "forms": [
+      "வரிசையில்_உள்ளதா"
+    ],
+    "params": [
+      "உருப்படிகள்",
+      "ஒருமுறைக்_குறி"
+    ],
+    "arity": 2,
+    "doc": "வரிசையில்_உள்ளதா(உருப்படிகள், ஒருமுறைக்_குறி) — is this job already waiting?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/aZuppu_varicY.qmz",
+    "line": 46
+  },
+  {
+    "name": "அனுப்பத்_தயாரானவை",
+    "forms": [
+      "அனுப்பத்_தயாரானவை"
+    ],
+    "params": [
+      "உருப்படிகள்",
+      "இப்போது"
+    ],
+    "arity": 2,
+    "doc": "அனுப்பத்_தயாரானவை(உருப்படிகள், இப்போது) — the rows to send now, in the order to send them",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/aZuppu_varicY.qmz",
+    "line": 57
+  },
+  {
+    "name": "அனுப்பியதாகப்_பதி",
+    "forms": [
+      "அனுப்பியதாகப்_பதி"
+    ],
+    "params": [
+      "உருப்படி"
+    ],
+    "arity": 1,
+    "doc": "அனுப்பியதாகப்_பதி(உருப்படி) — record a successful send",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/aZuppu_varicY.qmz",
+    "line": 69
+  },
+  {
+    "name": "தோல்வியைப்_பதி",
+    "forms": [
+      "தோல்வியைப்_பதி"
+    ],
+    "params": [
+      "உருப்படி",
+      "நிலைக்_குறி",
+      "பிழைச்_செய்தி",
+      "இப்போது",
+      "நடுக்கம்",
+      "மீண்டும்_முயல்_நொடிகள்"
+    ],
+    "arity": 6,
+    "doc": "தோல்வியைப்_பதி(உருப்படி, நிலைக்_குறி, பிழைச்_செய்தி, இப்போது, நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — record a failed send",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/aZuppu_varicY.qmz",
+    "line": 83
+  },
+  {
+    "name": "அஜூர்_பதிப்பு",
+    "forms": [
+      "அஜூர்_பதிப்பு"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "அஜூர்_பதிப்பு() — the REST api-version every call sends",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 28
+  },
+  {
+    "name": "அஜூர்_இணைப்பு_ஆக்கு",
+    "forms": [
+      "அஜூர்_இணைப்பு_ஆக்கு"
+    ],
+    "params": [
+      "நிறுவன_உரலி",
+      "திட்டப்_பெயர்",
+      "சீட்டு_வகை",
+      "அணுகல்_சீட்டு"
+    ],
+    "arity": 4,
+    "doc": "அஜூர்_இணைப்பு_ஆக்கு(நிறுவன_உரலி, திட்டப்_பெயர், சீட்டு_வகை, அணுகல்_சீட்டு) — one connection",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 35
+  },
+  {
+    "name": "அஜூர்_தலைப்புகள்",
+    "forms": [
+      "அஜூர்_தலைப்புகள்"
+    ],
+    "params": [
+      "இணைப்பு",
+      "உள்ளடக்க_வகை"
+    ],
+    "arity": 2,
+    "doc": "அஜூர்_தலைப்புகள்(இணைப்பு, உள்ளடக்க_வகை) — the request headers for a connection",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 47
+  },
+  {
+    "name": "திட்ட_உரலி",
+    "forms": [
+      "திட்ட_உரலி"
+    ],
+    "params": [
+      "இணைப்பு",
+      "பாதை"
+    ],
+    "arity": 2,
+    "doc": "திட்ட_உரலி(இணைப்பு, பாதை) — a project-scoped API url",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 63
+  },
+  {
+    "name": "பணியுருப்படி_உரலி",
+    "forms": [
+      "பணியுருப்படி_உரலி"
+    ],
+    "params": [
+      "இணைப்பு",
+      "பணியுருப்படி_எண்"
+    ],
+    "arity": 2,
+    "doc": "பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — the url of one work item",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 73
+  },
+  {
+    "name": "அஜூர்_அனுப்பு",
+    "forms": [
+      "அஜூர்_அனுப்பு"
+    ],
+    "params": [
+      "கோரிக்கை_முறை",
+      "இலக்கு_உரலி",
+      "உடலுரை",
+      "தலைப்புகள்"
+    ],
+    "arity": 4,
+    "doc": "அஜூர்_அனுப்பு(கோரிக்கை_முறை, இலக்கு_உரலி, உடலுரை, தலைப்புகள்) — send one request, and give every failure one shape",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 83
+  },
+  {
+    "name": "பணியுருப்படியைப்_பெறு",
+    "forms": [
+      "பணியுருப்படியைப்_பெறு"
+    ],
+    "params": [
+      "இணைப்பு",
+      "பணியுருப்படி_எண்"
+    ],
+    "arity": 2,
+    "doc": "பணியுருப்படியைப்_பெறு(இணைப்பு, பணியுருப்படி_எண்) — read one work item, with its relations",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 103
+  },
+  {
+    "name": "பணியுருப்படியை_உருவாக்கு",
+    "forms": [
+      "பணியுருப்படியை_உருவாக்கு"
+    ],
+    "params": [
+      "இணைப்பு",
+      "பணியுருப்படி_வகை",
+      "ஒட்டுகள்"
+    ],
+    "arity": 3,
+    "doc": "பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்) — create a work item",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 113
+  },
+  {
+    "name": "பணியுருப்படியைத்_திருத்து",
+    "forms": [
+      "பணியுருப்படியைத்_திருத்து"
+    ],
+    "params": [
+      "இணைப்பு",
+      "பணியுருப்படி_எண்",
+      "ஒட்டுகள்"
+    ],
+    "arity": 3,
+    "doc": "பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) — update a work item",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 121
+  },
+  {
+    "name": "வினாவை_ஓட்டு",
+    "forms": [
+      "வினாவை_ஓட்டு"
+    ],
+    "params": [
+      "இணைப்பு",
+      "வினா_உரை"
+    ],
+    "arity": 2,
+    "doc": "வினாவை_ஓட்டு(இணைப்பு, வினா_உரை) — run a WIQL query and return the ids",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
+    "line": 131
+  },
+  {
+    "name": "நிலையான_வடிவம்",
+    "forms": [
+      "நிலையான_வடிவம்"
+    ],
+    "params": [
+      "மதிப்பு_தரவு"
+    ],
+    "arity": 1,
+    "doc": "நிலையான_வடிவம்(மதிப்பு_தரவு) — a value with every number in its shortest form",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/kYrEkY.qmz",
+    "line": 27
+  },
+  {
+    "name": "கைரேகை",
+    "forms": [
+      "கைரேகை"
+    ],
+    "params": [
+      "மதிப்பு_தரவு",
+      "ரகசிய_விசை"
+    ],
+    "arity": 2,
+    "doc": "கைரேகை(மதிப்பு_தரவு, ரகசிய_விசை) — the fingerprint of any value",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/kYrEkY.qmz",
+    "line": 51
+  },
+  {
+    "name": "ஒருமுறைக்_குறி",
+    "forms": [
+      "ஒருமுறைக்_குறி"
+    ],
+    "params": [
+      "இணைப்புக்_குறி",
+      "பொருள்_வகை",
+      "செயல்பாடு",
+      "புலத்_தொகுப்பு",
+      "ரகசிய_விசை"
+    ],
+    "arity": 5,
+    "doc": "ஒருமுறைக்_குறி(இணைப்புக்_குறி, பொருள்_வகை, செயல்பாடு, புலத்_தொகுப்பு, ரகசிய_விசை) — the key that stops one job being queued twice",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/kYrEkY.qmz",
+    "line": 61
+  },
+  {
+    "name": "கைரேகை_ஒன்றா",
+    "forms": [
+      "கைரேகை_ஒன்றா"
+    ],
+    "params": [
+      "அ",
+      "ஆ"
+    ],
+    "arity": 2,
+    "doc": "கைரேகை_ஒன்றா(அ, ஆ) — are two fingerprints the same?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/kYrEkY.qmz",
+    "line": 72
+  },
+  {
+    "name": "அதிக_முயற்சிகள்",
+    "forms": [
+      "அதிக_முயற்சிகள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "அதிக_முயற்சிகள்() — attempts before an item is given up on",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/mItci.qmz",
+    "line": 28
+  },
+  {
+    "name": "மேல்_காத்திருப்பு",
+    "forms": [
+      "மேல்_காத்திருப்பு"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "மேல்_காத்திருப்பு() — the longest backoff, in seconds",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/mItci.qmz",
+    "line": 32
+  },
+  {
+    "name": "மீள்_முயலத்தக்கதா",
+    "forms": [
+      "மீள்_முயலத்தக்கதா"
+    ],
+    "params": [
+      "நிலைக்_குறி"
+    ],
+    "arity": 1,
+    "doc": "மீள்_முயலத்தக்கதா(நிலைக்_குறி) — is a failure with this status worth retrying?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/mItci.qmz",
+    "line": 39
+  },
+  {
+    "name": "காத்திருப்பு_நொடிகள்",
+    "forms": [
+      "காத்திருப்பு_நொடிகள்"
+    ],
+    "params": [
+      "முயற்சிகள்",
+      "நடுக்கம்",
+      "மீண்டும்_முயல்_நொடிகள்"
+    ],
+    "arity": 3,
+    "doc": "காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — how long to wait before the next attempt",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/mItci.qmz",
+    "line": 52
+  },
+  {
+    "name": "கைவிடலாமா",
+    "forms": [
+      "கைவிடலாமா"
+    ],
+    "params": [
+      "முயற்சிகள்"
+    ],
+    "arity": 1,
+    "doc": "கைவிடலாமா(முயற்சிகள்) — has this item had its last attempt?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/mItci.qmz",
+    "line": 64
+  },
+  {
+    "name": "ஒட்டுச்_செயல்",
+    "forms": [
+      "ஒட்டுச்_செயல்"
+    ],
+    "params": [
+      "செயல்பாடு",
+      "பாதை",
+      "மதிப்பு_தரவு"
+    ],
+    "arity": 3,
+    "doc": "ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — one patch operation",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 23
+  },
+  {
+    "name": "புல_ஒட்டு",
+    "forms": [
+      "புல_ஒட்டு"
+    ],
+    "params": [
+      "புலக்_குறிப்பு",
+      "மதிப்பு_தரவு"
+    ],
+    "arity": 2,
+    "doc": "புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — set one field",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 33
+  },
+  {
+    "name": "திருத்தச்_சோதனை",
+    "forms": [
+      "திருத்தச்_சோதனை"
+    ],
+    "params": [
+      "திருத்த_எண்"
+    ],
+    "arity": 1,
+    "doc": "திருத்தச்_சோதனை(திருத்த_எண்) — refuse the update if the item has moved on",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 39
+  },
+  {
+    "name": "பெற்றோர்_ஒட்டு",
+    "forms": [
+      "பெற்றோர்_ஒட்டு"
+    ],
+    "params": [
+      "பெற்றோர்_உரலி"
+    ],
+    "arity": 1,
+    "doc": "பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) — link a work item under its parent",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 47
+  },
+  {
+    "name": "குறிச்சொற்களை_இணை",
+    "forms": [
+      "குறிச்சொற்களை_இணை"
+    ],
+    "params": [
+      "இருக்கும்_குறிகள்",
+      "எங்கள்_குறிகள்",
+      "எங்கள்_முன்னொட்டுகள்"
+    ],
+    "arity": 3,
+    "doc": "குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) — merge tags without deleting the team's",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 59
+  },
+  {
+    "name": "பணி_ஒட்டுகள்",
+    "forms": [
+      "பணி_ஒட்டுகள்"
+    ],
+    "params": [
+      "ஒரு_பதிவு",
+      "புல_வரைபடம்",
+      "திருத்த_எண்"
+    ],
+    "arity": 3,
+    "doc": "பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) — the whole patch for one record",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 83
+  },
+  {
+    "name": "புல_உரிமை_ஆக்கு",
+    "forms": [
+      "புல_உரிமை_ஆக்கு"
+    ],
+    "params": [
+      "புலப்_பெயர்",
+      "உரிமையாளர்"
+    ],
+    "arity": 2,
+    "doc": "புல_உரிமை_ஆக்கு(புலப்_பெயர், உரிமையாளர்) — one ownership entry",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/pula_urimY.qmz",
+    "line": 24
+  },
+  {
+    "name": "இயல்பு_உரிமைகள்",
+    "forms": [
+      "இயல்பு_உரிமைகள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "இயல்பு_உரிமைகள்() — the ownership a PMO normally wants",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/pula_urimY.qmz",
+    "line": 30
+  },
+  {
+    "name": "உரிமையாளர்",
+    "forms": [
+      "உரிமையாளர்"
+    ],
+    "params": [
+      "உரிமைகள்",
+      "புலப்_பெயர்"
+    ],
+    "arity": 2,
+    "doc": "உரிமையாளர்(உரிமைகள், புலப்_பெயர்) — who owns one field",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/pula_urimY.qmz",
+    "line": 49
+  },
+  {
+    "name": "வரவைப்_பிரி",
+    "forms": [
+      "வரவைப்_பிரி"
+    ],
+    "params": [
+      "உரிமைகள்",
+      "மாற்றங்கள்"
+    ],
+    "arity": 2,
+    "doc": "வரவைப்_பிரி(உரிமைகள், மாற்றங்கள்) — split an incoming change into what to apply and what to refuse",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/pula_urimY.qmz",
+    "line": 62
+  },
+  {
+    "name": "அனுப்பவேண்டியவை",
+    "forms": [
+      "அனுப்பவேண்டியவை"
+    ],
+    "params": [
+      "உரிமைகள்",
+      "ஒரு_பதிவு"
+    ],
+    "arity": 2,
+    "doc": "அனுப்பவேண்டியவை(உரிமைகள், ஒரு_பதிவு) — the fields of a record this side may send",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/pula_urimY.qmz",
+    "line": 81
+  },
+  {
+    "name": "வெளி_நிலை_வேட்பாளர்கள்",
+    "forms": [
+      "வெளி_நிலை_வேட்பாளர்கள்"
+    ],
+    "params": [
+      "பணி_நிலை"
+    ],
+    "arity": 1,
+    "doc": "வெளி_நிலை_வேட்பாளர்கள்(பணி_நிலை) — the state names to try, in order, for a task status",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 32
+  },
+  {
+    "name": "நிலையின்_வகைமை",
+    "forms": [
+      "நிலையின்_வகைமை"
+    ],
+    "params": [
+      "பணி_நிலை"
+    ],
+    "arity": 1,
+    "doc": "நிலையின்_வகைமை(பணி_நிலை) — the Azure DevOps state category a task status belongs to",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 43
+  },
+  {
+    "name": "வெளி_நிலை",
+    "forms": [
+      "வெளி_நிலை"
+    ],
+    "params": [
+      "பணி_நிலை",
+      "வகையின்_நிலைகள்"
+    ],
+    "arity": 2,
+    "doc": "வெளி_நிலை(பணி_நிலை, வகையின்_நிலைகள்) — the state to send for a task status",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 58
+  },
+  {
+    "name": "உள்_நிலை",
+    "forms": [
+      "உள்_நிலை"
+    ],
+    "params": [
+      "வெளி_நிலைப்_பெயர்",
+      "வகைமை"
+    ],
+    "arity": 2,
+    "doc": "உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) — the task status for a state that came in",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 81
+  },
+  {
+    "name": "முன்னுரிமை_எண்",
+    "forms": [
+      "முன்னுரிமை_எண்"
+    ],
+    "params": [
+      "முன்னுரிமை"
+    ],
+    "arity": 1,
+    "doc": "முன்னுரிமை_எண்(முன்னுரிமை) — a task priority as Microsoft.VSTS.Common.Priority",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 97
+  },
+  {
+    "name": "எண்ணிலிருந்து_முன்னுரிமை",
+    "forms": [
+      "எண்ணிலிருந்து_முன்னுரிமை"
+    ],
+    "params": [
+      "அஜூர்_எண்"
+    ],
+    "arity": 1,
+    "doc": "எண்ணிலிருந்து_முன்னுரிமை(அஜூர்_எண்) — Microsoft.VSTS.Common.Priority as a task priority",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 106
+  },
+  {
+    "name": "வகை_விதி_ஆக்கு",
+    "forms": [
+      "வகை_விதி_ஆக்கு"
+    ],
+    "params": [
+      "பொருத்தப்_புலம்",
+      "பொருத்த_மதிப்பு",
+      "பணியுருப்படி_வகை",
+      "வரிசை_எண்"
+    ],
+    "arity": 4,
+    "doc": "வகை_விதி_ஆக்கு(பொருத்தப்_புலம், பொருத்த_மதிப்பு, பணியுருப்படி_வகை, வரிசை_எண்) — one work-item type rule",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 119
+  },
+  {
+    "name": "பணியுருப்படி_வகை",
+    "forms": [
+      "பணியுருப்படி_வகை"
+    ],
+    "params": [
+      "விதிகள்",
+      "ஒரு_பதிவு"
+    ],
+    "arity": 2,
+    "doc": "பணியுருப்படி_வகை(விதிகள், ஒரு_பதிவு) — the work-item type a record becomes",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 130
+  },
+  {
+    "name": "மணியிலிருந்து_நிறைவு",
+    "forms": [
+      "மணியிலிருந்து_நிறைவு"
+    ],
+    "params": [
+      "முடிந்த_மணி",
+      "மீதி_மணி"
+    ],
+    "arity": 2,
+    "doc": "மணியிலிருந்து_நிறைவு(முடிந்த_மணி, மீதி_மணி) — percentage complete from CompletedWork and RemainingWork",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varYpatam.qmz",
+    "line": 148
+  },
+  {
+    "name": "வரவு_முடிவு",
+    "forms": [
+      "வரவு_முடிவு"
+    ],
+    "params": [
+      "வரவுத்_திருத்தம்",
+      "அனுப்பிய_திருத்தம்",
+      "மாற்றியவர்",
+      "எங்கள்_அடையாளம்",
+      "வரவுக்_கைரேகை",
+      "பதிந்த_கைரேகை"
+    ],
+    "arity": 6,
+    "doc": "வரவு_முடிவு(வரவுத்_திருத்தம், அனுப்பிய_திருத்தம், மாற்றியவர், எங்கள்_அடையாளம், வரவுக்_கைரேகை, பதிந்த_கைரேகை) — apply, or skip and why",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varavu.qmz",
+    "line": 32
+  },
+  {
+    "name": "கொக்கிச்_சீட்டு_சரியா",
+    "forms": [
+      "கொக்கிச்_சீட்டு_சரியா"
+    ],
+    "params": [
+      "வந்த_சீட்டு",
+      "பதிந்த_கைரேகை",
+      "ரகசிய_விசை"
+    ],
+    "arity": 3,
+    "doc": "கொக்கிச்_சீட்டு_சரியா(வந்த_சீட்டு, பதிந்த_கைரேகை, ரகசிய_விசை) — is this service hook ours?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varavu.qmz",
+    "line": 47
+  },
+  {
+    "name": "கொக்கி_நிகழ்வைப்_படி",
+    "forms": [
+      "கொக்கி_நிகழ்வைப்_படி"
+    ],
+    "params": [
+      "உடலுரை"
+    ],
+    "arity": 1,
+    "doc": "கொக்கி_நிகழ்வைப்_படி(உடலுரை) — which item, and which revision, a service hook is about",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/varavu.qmz",
+    "line": 61
+  },
+  {
+    "name": "தொடக்கத்_தேடல்_நாட்கள்",
+    "forms": [
+      "தொடக்கத்_தேடல்_நாட்கள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "தொடக்கத்_தேடல்_நாட்கள்() — how far the first sweep looks back",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/viZA.qmz",
+    "line": 23
+  },
+  {
+    "name": "வினா_மேற்கோள்",
+    "forms": [
+      "வினா_மேற்கோள்"
+    ],
+    "params": [
+      "மூல_உரை"
+    ],
+    "arity": 1,
+    "doc": "வினா_மேற்கோள்(மூல_உரை) — a WIQL string literal",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/viZA.qmz",
+    "line": 31
+  },
+  {
+    "name": "தேடல்_தொடக்க_நாள்",
+    "forms": [
+      "தேடல்_தொடக்க_நாள்"
+    ],
+    "params": [
+      "நீர்க்குறி",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "தேடல்_தொடக்க_நாள்(நீர்க்குறி, இன்றைய_நாள்) — where this sweep starts",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/viZA.qmz",
+    "line": 39
+  },
+  {
+    "name": "மாறியவை_வினா",
+    "forms": [
+      "மாறியவை_வினா"
+    ],
+    "params": [
+      "திட்டப்_பெயர்",
+      "முதல்_நாள்",
+      "பகுதிப்_பாதை"
+    ],
+    "arity": 3,
+    "doc": "மாறியவை_வினா(திட்டப்_பெயர், முதல்_நாள், பகுதிப்_பாதை) — the WIQL for \"changed since\"",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/viZA.qmz",
+    "line": 52
+  },
+  {
     "name": "ரூபாயும்_பைசாவும்",
     "forms": [
       "ரூபாயும்_பைசாவும்"
@@ -12693,6 +13459,228 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 124
   },
   {
+    "name": "இயல்பு_ஆதரவு_மாதங்கள்",
+    "forms": [
+      "இயல்பு_ஆதரவு_மாதங்கள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "இயல்பு_ஆதரவு_மாதங்கள்() — how long a superseded version stays supported",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 27
+  },
+  {
+    "name": "பதிப்பைப்_படி",
+    "forms": [
+      "பதிப்பைப்_படி"
+    ],
+    "params": [
+      "பதிப்பு_உரை"
+    ],
+    "arity": 1,
+    "doc": "பதிப்பைப்_படி(பதிப்பு_உரை) — \"6.2.1\" or \"V6.2.1\" as a version record",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 37
+  },
+  {
+    "name": "பதிப்பை_எழுது",
+    "forms": [
+      "பதிப்பை_எழுது"
+    ],
+    "params": [
+      "ஒரு_பதிப்பு"
+    ],
+    "arity": 1,
+    "doc": "பதிப்பை_எழுது(ஒரு_பதிப்பு) — a version record as text",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 60
+  },
+  {
+    "name": "பதிப்புகளை_ஒப்பிடு",
+    "forms": [
+      "பதிப்புகளை_ஒப்பிடு"
+    ],
+    "params": [
+      "அ",
+      "ஆ"
+    ],
+    "arity": 2,
+    "doc": "பதிப்புகளை_ஒப்பிடு(அ, ஆ) — −1, 0 or 1 as அ is before, equal to or after ஆ",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 67
+  },
+  {
+    "name": "பதிப்பை_உயர்த்து",
+    "forms": [
+      "பதிப்பை_உயர்த்து"
+    ],
+    "params": [
+      "ஒரு_பதிப்பு",
+      "பகுதி"
+    ],
+    "arity": 2,
+    "doc": "பதிப்பை_உயர்த்து(ஒரு_பதிப்பு, பகுதி) — the next version",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 80
+  },
+  {
+    "name": "அதே_தளமா",
+    "forms": [
+      "அதே_தளமா"
+    ],
+    "params": [
+      "ஒரு_பதிப்பு",
+      "தள_எண்"
+    ],
+    "arity": 2,
+    "doc": "அதே_தளமா(ஒரு_பதிப்பு, தள_எண்) — does this version belong to this platform?",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 101
+  },
+  {
+    "name": "ஆதரவு_நிலை",
+    "forms": [
+      "ஆதரவு_நிலை"
+    ],
+    "params": [
+      "மாற்றிய_நாள்",
+      "இன்றைய_நாள்",
+      "ஆதரவு_மாதங்கள்"
+    ],
+    "arity": 3,
+    "doc": "ஆதரவு_நிலை(மாற்றிய_நாள், இன்றைய_நாள், ஆதரவு_மாதங்கள்) — where a version is in its support life",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/paqippu.qmz",
+    "line": 111
+  },
+  {
+    "name": "வாக்குறுதி_ஆக்கு",
+    "forms": [
+      "வாக்குறுதி_ஆக்கு"
+    ],
+    "params": [
+      "வாக்குறுதிக்_குறி",
+      "இலக்கு_நாள்",
+      "திருத்திய_நாள்",
+      "வாக்குறுதி_நிலை",
+      "தெரிவித்த_நாள்"
+    ],
+    "arity": 5,
+    "doc": "வாக்குறுதி_ஆக்கு(வாக்குறுதிக்_குறி, இலக்கு_நாள், திருத்திய_நாள், வாக்குறுதி_நிலை, தெரிவித்த_நாள்) — one commitment",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 31
+  },
+  {
+    "name": "உரிய_நாள்",
+    "forms": [
+      "உரிய_நாள்"
+    ],
+    "params": [
+      "வாக்குறுதி"
+    ],
+    "arity": 1,
+    "doc": "உரிய_நாள்(வாக்குறுதி) — the date the commitment is now due",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 43
+  },
+  {
+    "name": "வாக்குறுதி_திறந்ததா",
+    "forms": [
+      "வாக்குறுதி_திறந்ததா"
+    ],
+    "params": [
+      "வாக்குறுதி"
+    ],
+    "arity": 1,
+    "doc": "வாக்குறுதி_திறந்ததா(வாக்குறுதி) — is it still to be delivered?",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 50
+  },
+  {
+    "name": "வாக்குறுதி_கடந்ததா",
+    "forms": [
+      "வாக்குறுதி_கடந்ததா"
+    ],
+    "params": [
+      "வாக்குறுதி",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "வாக்குறுதி_கடந்ததா(வாக்குறுதி, இன்றைய_நாள்) — open and past its due date?",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 56
+  },
+  {
+    "name": "அறிவிப்பு_தேவையா",
+    "forms": [
+      "அறிவிப்பு_தேவையா"
+    ],
+    "params": [
+      "வாக்குறுதி",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "அறிவிப்பு_தேவையா(வாக்குறுதி, இன்றைய_நாள்) — must the customer be told now?",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 69
+  },
+  {
+    "name": "அறிவிப்பு_தாமதமா",
+    "forms": [
+      "அறிவிப்பு_தாமதமா"
+    ],
+    "params": [
+      "வாக்குறுதி",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "அறிவிப்பு_தாமதமா(வாக்குறுதி, இன்றைய_நாள்) — was, or is, the customer told too late?",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 80
+  },
+  {
+    "name": "தெரிவித்ததாகப்_பதி",
+    "forms": [
+      "தெரிவித்ததாகப்_பதி"
+    ],
+    "params": [
+      "வாக்குறுதி",
+      "நாள்"
+    ],
+    "arity": 2,
+    "doc": "தெரிவித்ததாகப்_பதி(வாக்குறுதி, நாள்) — record that the customer has been told",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 91
+  },
+  {
+    "name": "வாக்குறுதி_எண்ணிக்கைகள்",
+    "forms": [
+      "வாக்குறுதி_எண்ணிக்கைகள்"
+    ],
+    "params": [
+      "வாக்குறுதிகள்",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "வாக்குறுதி_எண்ணிக்கைகள்(வாக்குறுதிகள், இன்றைய_நாள்) — the register's dashboard figures",
+    "kind": "stdlib",
+    "module": "nUlakam/qayArippu/vAkkuRuqi.qmz",
+    "line": 102
+  },
+  {
     "name": "செலவு_வேறுபாடு",
     "forms": [
       "செலவு_வேறுபாடு"
@@ -12781,6 +13769,52 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/qittam/Ittu_vERupAtu.qmz",
     "line": 67
+  },
+  {
+    "name": "மணியிலிருந்து_நாட்கள்",
+    "forms": [
+      "மணியிலிருந்து_நாட்கள்"
+    ],
+    "params": [
+      "மணிகள்",
+      "நாள்_மணிகள்"
+    ],
+    "arity": 2,
+    "doc": "மணியிலிருந்து_நாட்கள்(மணிகள், நாள்_மணிகள்) — an effort estimate as a duration",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/attavaNY.qmz",
+    "line": 36
+  },
+  {
+    "name": "மீதி_நாட்கள்",
+    "forms": [
+      "மீதி_நாட்கள்"
+    ],
+    "params": [
+      "கால_அளவு",
+      "நிறைவு"
+    ],
+    "arity": 2,
+    "doc": "மீதி_நாட்கள்(கால_அளவு, நிறைவு) — the working days an in-flight task still needs",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/attavaNY.qmz",
+    "line": 46
+  },
+  {
+    "name": "நாட்காட்டியில்_இடு",
+    "forms": [
+      "நாட்காட்டியில்_இடு"
+    ],
+    "params": [
+      "கணக்கிட்டவை",
+      "திட்டத்_தொடக்கம்",
+      "ஒரு_நாட்காட்டி"
+    ],
+    "arity": 3,
+    "doc": "நாட்காட்டியில்_இடு(கணக்கிட்டவை, திட்டத்_தொடக்கம், ஒரு_நாட்காட்டி) — dates for every activity",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/attavaNY.qmz",
+    "line": 59
   },
   {
     "name": "செயல்_நேர_செலவு",
@@ -13087,6 +14121,34 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 161
   },
   {
+    "name": "மாற்றக்_கோரிக்கை_வரைவு",
+    "forms": [
+      "மாற்றக்_கோரிக்கை_வரைவு"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "மாற்றக்_கோரிக்கை_வரைவு() — the change-request lifecycle as a machine",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
+    "line": 28
+  },
+  {
+    "name": "புதிய_பணிக்கு_அனுமதியா",
+    "forms": [
+      "புதிய_பணிக்கு_அனுமதியா"
+    ],
+    "params": [
+      "நோக்கம்_கையொப்பமா",
+      "பெற்றோர்_குறி",
+      "மாற்றக்_குறி"
+    ],
+    "arity": 3,
+    "doc": "புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) — may this task be added?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
+    "line": 51
+  },
+  {
     "name": "முறை_0_100",
     "forms": [
       "முறை_0_100"
@@ -13253,6 +14315,222 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/qittam/muZZurYppu.qmz",
     "line": 67
+  },
+  {
+    "name": "மைல்கல்_ஆக்கு",
+    "forms": [
+      "மைல்கல்_ஆக்கு"
+    ],
+    "params": [
+      "மைல்கல்_குறி",
+      "அடிப்படை_நாள்",
+      "முன்கணிப்பு_நாள்",
+      "உண்மை_நாள்",
+      "மைல்கல்_நிலை"
+    ],
+    "arity": 5,
+    "doc": "மைல்கல்_ஆக்கு(மைல்கல்_குறி, அடிப்படை_நாள், முன்கணிப்பு_நாள், உண்மை_நாள், மைல்கல்_நிலை) — one milestone",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nalam.qmz",
+    "line": 30
+  },
+  {
+    "name": "மைல்கல்_வேறுபாடு",
+    "forms": [
+      "மைல்கல்_வேறுபாடு"
+    ],
+    "params": [
+      "ஒரு_மைல்கல்"
+    ],
+    "arity": 1,
+    "doc": "மைல்கல்_வேறுபாடு(ஒரு_மைல்கல்) — days late (positive) or early (negative) against baseline",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nalam.qmz",
+    "line": 47
+  },
+  {
+    "name": "கழிந்த_சதவீதம்",
+    "forms": [
+      "கழிந்த_சதவீதம்"
+    ],
+    "params": [
+      "தொடக்க_நாள்",
+      "முடிவு_நாள்",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 3,
+    "doc": "கழிந்த_சதவீதம்(தொடக்க_நாள், முடிவு_நாள், இன்றைய_நாள்) — how much of the calendar has gone",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nalam.qmz",
+    "line": 59
+  },
+  {
+    "name": "பின்னடைவு_எல்லை",
+    "forms": [
+      "பின்னடைவு_எல்லை"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "பின்னடைவு_எல்லை() — how far progress may trail the calendar before it is amber",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nalam.qmz",
+    "line": 75
+  },
+  {
+    "name": "திட்ட_நலம்",
+    "forms": [
+      "திட்ட_நலம்"
+    ],
+    "params": [
+      "தொடக்க_நாள்",
+      "முடிவு_நாள்",
+      "மூடியதா",
+      "மைல்கற்கள்",
+      "பணிகள்",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 6,
+    "doc": "திட்ட_நலம்(தொடக்க_நாள், முடிவு_நாள், மூடியதா, மைல்கற்கள், பணிகள், இன்றைய_நாள்) — the RAG status, with its reasons",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nalam.qmz",
+    "line": 85
+  },
+  {
+    "name": "அடுத்தவைக்_காலம்",
+    "forms": [
+      "அடுத்தவைக்_காலம்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "அடுத்தவைக்_காலம்() — how far ahead \"next steps\" looks, in days",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilY_aRikkY.qmz",
+    "line": 22
+  },
+  {
+    "name": "அறிக்கைக்_காலம்",
+    "forms": [
+      "அறிக்கைக்_காலம்"
+    ],
+    "params": [
+      "முந்தைய_அறிக்கை_நாள்",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "அறிக்கைக்_காலம்(முந்தைய_அறிக்கை_நாள், இன்றைய_நாள்) — the period this report covers",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilY_aRikkY.qmz",
+    "line": 29
+  },
+  {
+    "name": "அறிக்கை_வேட்பாளர்கள்",
+    "forms": [
+      "அறிக்கை_வேட்பாளர்கள்"
+    ],
+    "params": [
+      "பணிகள்",
+      "காலம்",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 3,
+    "doc": "அறிக்கை_வேட்பாளர்கள்(பணிகள், காலம், இன்றைய_நாள்) — the proposed achievements, blockers and next steps",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilY_aRikkY.qmz",
+    "line": 49
+  },
+  {
+    "name": "நிலை_மாற்றம்_ஆக்கு",
+    "forms": [
+      "நிலை_மாற்றம்_ஆக்கு"
+    ],
+    "params": [
+      "இருந்து",
+      "செல்லக்கூடியவை"
+    ],
+    "arity": 2,
+    "doc": "நிலை_மாற்றம்_ஆக்கு(இருந்து, செல்லக்கூடியவை) — one row of a machine",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 32
+  },
+  {
+    "name": "நிலை_வரைவு_ஆக்கு",
+    "forms": [
+      "நிலை_வரைவு_ஆக்கு"
+    ],
+    "params": [
+      "மாற்றங்கள்",
+      "செய்தவர்_புலங்கள்"
+    ],
+    "arity": 2,
+    "doc": "நிலை_வரைவு_ஆக்கு(மாற்றங்கள், செய்தவர்_புலங்கள்) — a whole machine",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 42
+  },
+  {
+    "name": "அடுத்த_நிலைகள்",
+    "forms": [
+      "அடுத்த_நிலைகள்"
+    ],
+    "params": [
+      "வரைவு",
+      "இப்போதைய_நிலை"
+    ],
+    "arity": 2,
+    "doc": "அடுத்த_நிலைகள்(வரைவு, இப்போதைய_நிலை) — where this state may go next",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 52
+  },
+  {
+    "name": "மாற்றம்_அனுமதியா",
+    "forms": [
+      "மாற்றம்_அனுமதியா"
+    ],
+    "params": [
+      "வரைவு",
+      "இருந்து",
+      "புதிய_நிலை"
+    ],
+    "arity": 3,
+    "doc": "மாற்றம்_அனுமதியா(வரைவு, இருந்து, புதிய_நிலை) — is this one move allowed?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 63
+  },
+  {
+    "name": "இறுதி_நிலையா",
+    "forms": [
+      "இறுதி_நிலையா"
+    ],
+    "params": [
+      "வரைவு",
+      "ஒரு_நிலை"
+    ],
+    "arity": 2,
+    "doc": "இறுதி_நிலையா(வரைவு, ஒரு_நிலை) — has this state nowhere left to go?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 72
+  },
+  {
+    "name": "நிலையை_நகர்த்து",
+    "forms": [
+      "நிலையை_நகர்த்து"
+    ],
+    "params": [
+      "ஒரு_பதிவு",
+      "வரைவு",
+      "புதிய_நிலை",
+      "செய்தவர்",
+      "நாள்"
+    ],
+    "arity": 5,
+    "doc": "நிலையை_நகர்த்து(ஒரு_பதிவு, வரைவு, புதிய_நிலை, செய்தவர், நாள்) — make one move",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nilYmARRam.qmz",
+    "line": 87
   },
   {
     "name": "நிலவரம்",
@@ -13645,6 +14923,166 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/qittam/pAqY.qmz",
     "line": 307
+  },
+  {
+    "name": "பணி_ஆக்கு",
+    "forms": [
+      "பணி_ஆக்கு"
+    ],
+    "params": [
+      "பணி_குறி",
+      "பெற்றோர்_குறி",
+      "பணி_நிலை",
+      "நிறைவு",
+      "மதிப்பீட்டு_மணி",
+      "இறுதி_நாள்"
+    ],
+    "arity": 6,
+    "doc": "பணி_ஆக்கு(பணி_குறி, பெற்றோர்_குறி, பணி_நிலை, நிறைவு, மதிப்பீட்டு_மணி, இறுதி_நாள்) — one task",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 40
+  },
+  {
+    "name": "பணி_நிலைகள்",
+    "forms": [
+      "பணி_நிலைகள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "பணி_நிலைகள்() — the five statuses, in working order",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 53
+  },
+  {
+    "name": "பணி_முடிந்ததா",
+    "forms": [
+      "பணி_முடிந்ததா"
+    ],
+    "params": [
+      "பணி_நிலை"
+    ],
+    "arity": 1,
+    "doc": "பணி_முடிந்ததா(பணி_நிலை) — does this status count as done?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 61
+  },
+  {
+    "name": "பணி_நிலுவையா",
+    "forms": [
+      "பணி_நிலுவையா"
+    ],
+    "params": [
+      "ஒரு_பணி",
+      "இன்றைய_நாள்"
+    ],
+    "arity": 2,
+    "doc": "பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்) — is this task overdue?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 71
+  },
+  {
+    "name": "முன்னுரிமை_தரம்",
+    "forms": [
+      "முன்னுரிமை_தரம்"
+    ],
+    "params": [
+      "முன்னுரிமை"
+    ],
+    "arity": 1,
+    "doc": "முன்னுரிமை_தரம்(முன்னுரிமை) — a priority as a sortable rank",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 84
+  },
+  {
+    "name": "நிலைக்கான_நிறைவு",
+    "forms": [
+      "நிலைக்கான_நிறைவு"
+    ],
+    "params": [
+      "புதிய_நிலை",
+      "இப்போதைய_நிறைவு"
+    ],
+    "arity": 2,
+    "doc": "நிலைக்கான_நிறைவு(புதிய_நிலை, இப்போதைய_நிறைவு) — the percentage a status change implies",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 99
+  },
+  {
+    "name": "பூட்டிலும்_மாறுபவை",
+    "forms": [
+      "பூட்டிலும்_மாறுபவை"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "பூட்டிலும்_மாறுபவை() — the fields a baselined task still accepts",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 112
+  },
+  {
+    "name": "பூட்டிய_மாற்றம்_சரியா",
+    "forms": [
+      "பூட்டிய_மாற்றம்_சரியா"
+    ],
+    "params": [
+      "மாற்றங்கள்"
+    ],
+    "arity": 1,
+    "doc": "பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) — may these changes touch a baselined task?",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 123
+  },
+  {
+    "name": "திரட்டிய_நிறைவு",
+    "forms": [
+      "திரட்டிய_நிறைவு"
+    ],
+    "params": [
+      "பணிகள்",
+      "பணி_குறி"
+    ],
+    "arity": 2,
+    "doc": "திரட்டிய_நிறைவு(பணிகள், பணி_குறி) — a task's percentage, rolled up from its sub-tasks",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 147
+  },
+  {
+    "name": "எடையிட்ட_நிறைவு",
+    "forms": [
+      "எடையிட்ட_நிறைவு"
+    ],
+    "params": [
+      "பணிகள்"
+    ],
+    "arity": 1,
+    "doc": "எடையிட்ட_நிறைவு(பணிகள்) — percentage complete, weighted by estimated effort",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 173
+  },
+  {
+    "name": "பெற்றோர்_முன்_வரிசை",
+    "forms": [
+      "பெற்றோர்_முன்_வரிசை"
+    ],
+    "params": [
+      "பதிவுகள்",
+      "குறிப்_புலம்",
+      "பெற்றோர்_புலம்"
+    ],
+    "arity": 3,
+    "doc": "பெற்றோர்_முன்_வரிசை(பதிவுகள், குறிப்_புலம், பெற்றோர்_புலம்) — order a flat tree parents first",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/paNi.qmz",
+    "line": 207
   },
   {
     "name": "கணு_ஆக்கு",

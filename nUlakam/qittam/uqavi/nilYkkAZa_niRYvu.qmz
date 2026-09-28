@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலைக்கான_நிறைவு(புதிய_நிலை, இப்போதைய_நிறைவு) — the percentage a status change implies__
+// நிலை மாறும்போது நிறைவு சதவீதம்
+
+இறக்கு "../paNi.qmz";
+
+// __Resolving or closing sets 100; moving back to to-do resets to 0.__
+// தீர்த்தல் அல்லது மூடுதல் 100; செய்யவேண்டியதுக்குத் திரும்புதல் 0
+அச்சு நிலைக்கான_நிறைவு("தீர்ந்தது", 60);
+அச்சு நிலைக்கான_நிறைவு("செய்யவேண்டியது", 60);
+
+// __In progress keeps the figure: only the developer knows how far through it is.__
+// நடப்பில் என்பது இருந்த நிறைவையே வைத்திருக்கும்
+அச்சு நிலைக்கான_நிறைவு("நடப்பில்", 60);
+
+// __Cancelled keeps it too, as a record of what was done before it stopped.__
+// கைவிட்டதும் இருந்ததை வைத்திருக்கும்; நின்றதற்கு முன் செய்த வேலையின் பதிவு அது
+அச்சு நிலைக்கான_நிறைவு("கைவிட்டது", 60);
+
+// __The one to watch: reopening a closed bug to in progress leaves it at 100.__
+// __Set the percentage by hand when a task is reopened.__
+// மூடிய பணியை மீண்டும் திறந்தால் 100 அப்படியே இருக்கும்; கையால் திருத்த வேண்டும்
+அச்சு நிலைக்கான_நிறைவு("நடப்பில்", 100);
