@@ -11159,6 +11159,72 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 108
   },
   {
+    "name": "அட்டவணையை_நிரப்பு",
+    "forms": [
+      "அட்டவணையை_நிரப்பு"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "அட்டவணையை_நிரப்பு() — build the lookup table in the open database",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 31
+  },
+  {
+    "name": "வேறு_வடிவங்கள்",
+    "forms": [
+      "வேறு_வடிவங்கள்"
+    ],
+    "params": [
+      "ஒரு_சொல்"
+    ],
+    "arity": 1,
+    "doc": "வேறு_வடிவங்கள்(சொல்) — every spelling of the name this word is",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 54
+  },
+  {
+    "name": "விரிந்த_பதங்கள்",
+    "forms": [
+      "விரிந்த_பதங்கள்"
+    ],
+    "params": [
+      "பதங்கள்"
+    ],
+    "arity": 1,
+    "doc": "விரிந்த_பதங்கள்(பதங்கள்) — the words asked for, plus the other spellings",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 79
+  },
+  {
+    "name": "பெயரா",
+    "forms": [
+      "பெயரா"
+    ],
+    "params": [
+      "ஒரு_சொல்"
+    ],
+    "arity": 1,
+    "doc": "பெயரா(சொல்) — is this word a name the language knows under another spelling?",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam.qmz",
+    "line": 93
+  },
+  {
+    "name": "வடிவக்_குழுக்கள்",
+    "forms": [
+      "வடிவக்_குழுக்கள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "வடிவக்_குழுக்கள்() — one array per name, holding its spellings",
+    "kind": "stdlib",
+    "module": "nUlakam/nuNNaRivu/colvativam_qaravu.qmz",
+    "line": 15
+  },
+  {
     "name": "ஆவணம்_ஆக்கு",
     "forms": [
       "ஆவணம்_ஆக்கு"

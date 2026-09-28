@@ -1,0 +1,97 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/colvativam.qmz — சொல்வடிவம், the other spellings of a name__
+// சொல்வடிவம்: ஒரு பெயரின் மற்ற எழுத்து வடிவங்கள்
+//
+// __eTamil accepts a name under up to three spellings — Tamil script,__
+// __romanized, and an English alias — and `அச்சு`, `accu` and `_print` are one__
+// __word. A search that does not know this answers a romanized question out of__
+// __romanized documents only, and the Tamil-script half of a corpus is__
+// __invisible to it. That is not a ranking problem; the document is never a__
+// __candidate at all.__
+//
+// __The spellings come from colvativam_qaravu.qmz, which is generated from the__
+// __compiler's own tables by scripts/generate_editor_support.py. Nothing here__
+// __transliterates anything, so this cannot drift from what the language__
+// __actually accepts — and the generator's --check gate fails if it tries.__
+//
+// __The table is built in SQLite rather than searched in eTamil. A lookup then__
+// __costs a join rather than a walk over 299 groups, and it sits beside the__
+// __index muzuqqEtal.qmz already uses.__
+
+இறக்கு "colvativam_qaravu.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+
+// __அட்டவணையை_நிரப்பு() — build the lookup table in the open database__
+//
+// __Idempotent: the table is dropped and rebuilt, so calling it twice leaves__
+// __one copy rather than two of everything. An index on the spelling is what__
+// __makes the lookup a lookup instead of a scan.__
+// அட்டவணையை_நிரப்பு() — திறந்துள்ள தரவுத்தளத்தில் தேடல் அட்டவணையைக் கட்டும்
+செயல் அட்டவணையை_நிரப்பு() {
+    தளம்_செய் "DROP TABLE IF EXISTS colvativam", [];
+    தளம்_செய் "CREATE TABLE colvativam (vativam TEXT NOT NULL, kuzu INTEGER NOT NULL)", [];
+
+    குழு_எண் = 0;
+    ஒவ்வொரு ஒரு_குழு இல் வடிவக்_குழுக்கள்() {
+        ஒவ்வொரு ஒரு_வடிவம் இல் ஒரு_குழு {
+            தளம்_செய் "INSERT INTO colvativam (vativam, kuzu) VALUES (?, ?)",
+                      [ஒரு_வடிவம், குழு_எண்];
+        }
+        குழு_எண் = குழு_எண் + 1;
+    }
+
+    தளம்_செய் "CREATE INDEX colvativam_vativam ON colvativam (vativam)", [];
+    திரும்பு சரி(குழு_எண்);
+}
+
+// __வேறு_வடிவங்கள்(சொல்) — every spelling of the name this word is__
+//
+// __Answers the word itself and nothing else when it is not a name, so a__
+// __caller can expand every word of a question without first asking which of__
+// __them are names.__
+// வேறு_வடிவங்கள்(சொல்) — இச்சொல் குறிக்கும் பெயரின் எல்லா வடிவங்களும்
+செயல் வேறு_வடிவங்கள்(ஒரு_சொல்) {
+    தளம்_வினா "SELECT ஆ.vativam AS வ
+                 FROM colvativam அ JOIN colvativam ஆ ON அ.kuzu = ஆ.kuzu
+                WHERE அ.vativam = ?", [ஒரு_சொல்], கிடைத்தவை;
+
+    (நீளம்(கிடைத்தவை) == 0) எனில் { திரும்பு [ஒரு_சொல்]; }
+
+    // __The word as typed leads, so a ranking that favours earlier terms__
+    // __favours what was actually asked rather than whichever spelling the__
+    // __table happened to hold first.__
+    // கேட்ட சொல்லே முதலில்
+    விடை = [ஒரு_சொல்];
+    ஒவ்வொரு ஒன்று இல் கிடைத்தவை {
+        (ஒன்று["வ"] != ஒரு_சொல்) எனில் { விடை = இணை(விடை, ஒன்று["வ"]); }
+    }
+    திரும்பு விடை;
+}
+
+// __விரிந்த_பதங்கள்(பதங்கள்) — the words asked for, plus the other spellings__
+//
+// __Order matters: what was actually typed comes first in its group, so a__
+// __ranking that favours earlier terms still favours the user's own words.__
+// __Nothing appears twice, because two words of a question can be spellings of__
+// __the same name and searching for it twice would weight it double.__
+// விரிந்த_பதங்கள்(பதங்கள்) — கேட்ட சொற்களும், அவற்றின் மற்ற வடிவங்களும்
+செயல் விரிந்த_பதங்கள்(பதங்கள்) {
+    விடை = [];
+    ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+        ஒவ்வொரு ஒரு_வடிவம் இல் வேறு_வடிவங்கள்(ஒரு_பதம்) {
+            (உள்ளதா(விடை, ஒரு_வடிவம்) == பொய்) எனில் {
+                விடை = இணை(விடை, ஒரு_வடிவம்);
+            }
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __பெயரா(சொல்) — is this word a name the language knows under another spelling?__
+// பெயரா(சொல்) — இச்சொல் மொழி அறிந்த, வேறு வடிவமும் உள்ள பெயரா
+செயல் பெயரா(ஒரு_சொல்) {
+    தளம்_வினா "SELECT 1 AS உ FROM colvativam WHERE vativam = ? LIMIT 1",
+              [ஒரு_சொல்], கிடைத்தவை;
+    திரும்பு நீளம்(கிடைத்தவை) > 0;
+}
