@@ -11168,7 +11168,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அட்டவணையை_நிரப்பு() — build the lookup table in the open database",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/colvativam.qmz",
-    "line": 31
+    "line": 37
   },
   {
     "name": "வேறு_வடிவங்கள்",
@@ -11182,7 +11182,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வேறு_வடிவங்கள்(சொல்) — every spelling of the name this word is",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/colvativam.qmz",
-    "line": 54
+    "line": 63
   },
   {
     "name": "விரிந்த_பதங்கள்",
@@ -11196,7 +11196,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "விரிந்த_பதங்கள்(பதங்கள்) — the words asked for, plus the other spellings",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/colvativam.qmz",
-    "line": 79
+    "line": 88
   },
   {
     "name": "பெயரா",
@@ -11210,7 +11210,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பெயரா(சொல்) — is this word a name the language knows under another spelling?",
     "kind": "stdlib",
     "module": "nUlakam/nuNNaRivu/colvativam.qmz",
-    "line": 93
+    "line": 102
   },
   {
     "name": "வடிவக்_குழுக்கள்",

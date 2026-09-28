@@ -18,6 +18,12 @@
 // __The table is built in SQLite rather than searched in eTamil. A lookup then__
 // __costs a join rather than a walk over 299 groups, and it sits beside the__
 // __index muzuqqEtal.qmz already uses.__
+//
+// __Looked up case-folded, because coRpiri.qmz lowercases what it tokenizes__
+// __and the romanized spellings do not: a question mentioning vaZ_palakY__
+// __arrives here as vaz_palaky, and matching exactly would find nothing. The__
+// __folded form is a stored column with its own index rather than LOWER() over__
+// __the table, so it stays a lookup.__
 
 இறக்கு "colvativam_qaravu.qmz";
 இறக்கு "../atippatY/aNi.qmz";
@@ -30,18 +36,21 @@
 // அட்டவணையை_நிரப்பு() — திறந்துள்ள தரவுத்தளத்தில் தேடல் அட்டவணையைக் கட்டும்
 செயல் அட்டவணையை_நிரப்பு() {
     தளம்_செய் "DROP TABLE IF EXISTS colvativam", [];
-    தளம்_செய் "CREATE TABLE colvativam (vativam TEXT NOT NULL, kuzu INTEGER NOT NULL)", [];
+    தளம்_செய் "CREATE TABLE colvativam (vativam TEXT NOT NULL,
+                                        kIz TEXT NOT NULL,
+                                        kuzu INTEGER NOT NULL)", [];
 
     குழு_எண் = 0;
     ஒவ்வொரு ஒரு_குழு இல் வடிவக்_குழுக்கள்() {
         ஒவ்வொரு ஒரு_வடிவம் இல் ஒரு_குழு {
-            தளம்_செய் "INSERT INTO colvativam (vativam, kuzu) VALUES (?, ?)",
-                      [ஒரு_வடிவம், குழு_எண்];
+            தளம்_செய் "INSERT INTO colvativam (vativam, kIz, kuzu)
+                       VALUES (?, LOWER(?), ?)",
+                      [ஒரு_வடிவம், ஒரு_வடிவம், குழு_எண்];
         }
         குழு_எண் = குழு_எண் + 1;
     }
 
-    தளம்_செய் "CREATE INDEX colvativam_vativam ON colvativam (vativam)", [];
+    தளம்_செய் "CREATE INDEX colvativam_kIz ON colvativam (kIz)", [];
     திரும்பு சரி(குழு_எண்);
 }
 
@@ -54,7 +63,7 @@
 செயல் வேறு_வடிவங்கள்(ஒரு_சொல்) {
     தளம்_வினா "SELECT ஆ.vativam AS வ
                  FROM colvativam அ JOIN colvativam ஆ ON அ.kuzu = ஆ.kuzu
-                WHERE அ.vativam = ?", [ஒரு_சொல்], கிடைத்தவை;
+                WHERE அ.kIz = LOWER(?)", [ஒரு_சொல்], கிடைத்தவை;
 
     (நீளம்(கிடைத்தவை) == 0) எனில் { திரும்பு [ஒரு_சொல்]; }
 
@@ -91,7 +100,7 @@
 // __பெயரா(சொல்) — is this word a name the language knows under another spelling?__
 // பெயரா(சொல்) — இச்சொல் மொழி அறிந்த, வேறு வடிவமும் உள்ள பெயரா
 செயல் பெயரா(ஒரு_சொல்) {
-    தளம்_வினா "SELECT 1 AS உ FROM colvativam WHERE vativam = ? LIMIT 1",
+    தளம்_வினா "SELECT 1 AS உ FROM colvativam WHERE kIz = LOWER(?) LIMIT 1",
               [ஒரு_சொல்], கிடைத்தவை;
     திரும்பு நீளம்(கிடைத்தவை) > 0;
 }
