@@ -235,7 +235,7 @@ describe('the library it was written for', { skip: available ? false : 'run npm 
     // spellings — of which the library uses none, being written in Tamil.
     // A regression in the scanner shows up here as a span that should not
     // exist, on real code rather than on an example written to pass.
-    const module = path.join(__dirname, '..', '..', 'nUlakam', 'kaNiqam.qmz');
+    const module = path.join(__dirname, '..', '..', 'nUlakam', 'atippatY', 'kaNiqam.qmz');
     const source = fs.readFileSync(module, 'utf8');
     const spans = painted(source);
     assert.deepEqual(spans, [], `unexpected eTamil-script spans: ${spans.join(', ')}`);

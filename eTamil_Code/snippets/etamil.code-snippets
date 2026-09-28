@@ -113,7 +113,7 @@
     "prefix": ["iRakku", "இறக்கு", "import"],
     "description": "Import a module — resolved beside the file, then ETAMIL_PATH",
     "body": [
-      "இறக்கு \"${1|nUlakam/col.qmz,nUlakam/kaNiqam.qmz,nUlakam/aNi.qmz,nUlakam/paNam.qmz,nUlakam/jEcAZ.qmz|}\";"
+      "இறக்கு \"${1|nUlakam/atippatY/col.qmz,nUlakam/atippatY/kaNiqam.qmz,nUlakam/atippatY/aNi.qmz,nUlakam/paNam/paNam.qmz,nUlakam/vativam/jEcAZ.qmz|}\";"
     ]
   },
 
@@ -291,7 +291,7 @@
   "Format money": {
     "prefix": ["rUpAy", "ரூபாய்", "money"],
     "description": "Indian digit grouping — ₹1,23,45,678.50",
-    "body": ["இறக்கு \"${1:nUlakam}/paNam.qmz\";", "அச்சு ரூபாய்(${2:12345678.5});"]
+    "body": ["இறக்கு \"${1:nUlakam}/paNam/paNam.qmz\";", "அச்சு ரூபாய்(${2:12345678.5});"]
   },
 
   "Income tax calculator": {

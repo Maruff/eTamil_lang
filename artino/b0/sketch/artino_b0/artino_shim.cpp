@@ -4,7 +4,7 @@
 // Every function here is extern "C" and uses fixed-width types only: `int` is
 // 16 bits on AVR and 32 on ARM, and a boundary whose meaning changed with the
 // chip would be a boundary that lies. In B1 this file is generated from
-// nUlakam/vaZporuL.qmz; in B0 it is written by hand.
+// nUlakam/vaZporuL/vaZporuL.qmz; in B0 it is written by hand.
 
 #include <Arduino.h>
 #include <stdint.h>

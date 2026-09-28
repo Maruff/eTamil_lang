@@ -179,7 +179,7 @@ SNIPPETS = {
         "{kw} ${1:உறுப்பு} இல் ${2:வரிசை} {\n\t$0\n}",
         "{kw} ${1:item} il ${2:items} {\n\t$0\n}",
     ),
-    "Import": ('{kw} "${1:nUlakam/col.qmz}";', '{kw} "${1:nUlakam/col.qmz}";'),
+    "Import": ('{kw} "${1:nUlakam/atippatY/col.qmz}";', '{kw} "${1:nUlakam/atippatY/col.qmz}";'),
     "IntegerType": ("{kw} ${1:பெயர்} = ${2:0};", "{kw} ${1:name} = ${2:0};"),
     "FloatType": ("{kw} ${1:பெயர்} = ${2:0.0};", "{kw} ${1:name} = ${2:0.0};"),
     "StringType": ('{kw} ${1:பெயர்} = "${2:உரை}";', '{kw} ${1:name} = "${2:text}";'),

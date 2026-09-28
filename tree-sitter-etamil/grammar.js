@@ -132,7 +132,7 @@ module.exports = grammar({
         $.expression_statement,
       ),
 
-    // இறக்கு "nUlakam/paNam.qmz";
+    // இறக்கு "nUlakam/paNam/paNam.qmz";
     import_statement: ($) => seq(kw('Import'), field('path', $.string), ';'),
 
     // செயல் பெயர்(அளவுரு) { … }, with optional declared parameter and

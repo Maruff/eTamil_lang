@@ -106,7 +106,7 @@ benchmarks, and what is still open: namespaced imports and private helpers.
 
 ### The file system, from eTamil
 
-`nUlakam/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
+`nUlakam/kOppumuRY/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
 join and split paths, and read a name's extension. It can list a directory,
 walk everything under one, or collect the files with one extension:
 `நீட்சியால்_கோப்புகள்("nUlakam", "qmz")`. It can also turn a modification time

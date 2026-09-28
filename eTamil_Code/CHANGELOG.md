@@ -22,7 +22,7 @@ for nuNNaRivu, kOppumuRY and the rest of 1.4.0.
 ### Added
 
 - Completions and highlighting for the 14 new builtins, the
-  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY.qmz`: 96 builtins and 806
+  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY/kOppumuRY.qmz`: 96 builtins and 806
   library functions.
 
 ### Changed

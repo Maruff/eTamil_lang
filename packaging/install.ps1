@@ -36,7 +36,7 @@ if ($raw -split ';' -notcontains $target) {
     Write-Host "Already on PATH"
 }
 
-# ETAMIL_PATH lets  இறக்கு "nUlakam/paNam.qmz"  resolve from anywhere.
+# ETAMIL_PATH lets  இறக்கு "nUlakam/paNam/paNam.qmz"  resolve from anywhere.
 Set-ItemProperty 'HKCU:\Environment' -Name ETAMIL_PATH -Value $target -Type String
 Write-Host "ETAMIL_PATH set to $target"
 

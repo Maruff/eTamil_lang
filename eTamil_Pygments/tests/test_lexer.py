@@ -43,7 +43,7 @@ class TestKeywords(unittest.TestCase):
 
     def test_import_and_logical_operator(self):
         self.assertEqual(
-            token_of('இறக்கு "nUlakam/col.qmz";', "இறக்கு"), "Token.Keyword.Namespace"
+            token_of('இறக்கு "nUlakam/atippatY/col.qmz";', "இறக்கு"), "Token.Keyword.Namespace"
         )
         self.assertEqual(
             token_of("(a மற்றும் b) எனில் {", "மற்றும்"), "Token.Operator.Word"

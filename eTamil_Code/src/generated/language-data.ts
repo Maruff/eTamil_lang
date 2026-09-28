@@ -1520,8 +1520,8 @@ export const KEYWORDS: readonly KeywordEntry[] = [
     "scope": "keyword.control.import.etamil",
     "reserved": true,
     "noSyntax": false,
-    "snippetTamil": "{kw} \"${1:nUlakam/col.qmz}\";",
-    "snippetLatin": "{kw} \"${1:nUlakam/col.qmz}\";"
+    "snippetTamil": "{kw} \"${1:nUlakam/atippatY/col.qmz}\";",
+    "snippetLatin": "{kw} \"${1:nUlakam/atippatY/col.qmz}\";"
   },
   {
     "token": "File",

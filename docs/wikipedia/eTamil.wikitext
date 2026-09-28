@@ -205,7 +205,7 @@ A record shape with a method computing a loan's [[equated monthly installment]]:
 Iteration over an array of records, using the standard library's rupee formatting with [[Indian numbering system|Indian digit grouping]]:
 
 <syntaxhighlight lang="text">
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 
 செலவுகள் = [
     {"பெயர்": "வாடகை", "தொகை": 18000},
