@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பெயர்_மட்டும்(பாதை) — the base name with its extension removed__
+// நீட்சி நீக்கிய அடிப்பெயர்
+
+இறக்கு "../kOppumuRY.qmz";
+
+அச்சு பெயர்_மட்டும்("nUlakam/atippatY/col.qmz");
+அச்சு பெயர்_மட்டும்("archive.tar.gz");
+
+// __With no extension there is nothing to remove.__
+// நீட்சி இல்லையெனில் நீக்க ஒன்றுமில்லை
+அச்சு பெயர்_மட்டும்("README");
+அச்சு பெயர்_மட்டும்(".gitignore");

@@ -740,4 +740,4 @@ carries the metadata and GitHub turns it into a **Cite this repository** button.
 
 ---
 
-**Version**: 1.3.0 · **Author**: Esan Maruff
+**Version**: 1.4.2 · **Author**: Esan Maruff

@@ -3595,6 +3595,48 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": null
   },
   {
+    "name": "கோப்பகம்_படி",
+    "forms": [
+      "கோப்பகம்_படி",
+      "kOppakam_pati",
+      "_readDir"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "கோப்பகம்_படி(பாதை) — the entries of a directory, sorted, as bare",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "கோப்பு_உள்ளதா",
+    "forms": [
+      "கோப்பு_உள்ளதா",
+      "kOppu_uLLaqA",
+      "_fileExists"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "கோப்பு_உள்ளதா(பாதை) — a plain ஈர்மம், not a முடிவு. \"No\" is an",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
+    "name": "கோப்பு_விவரம்",
+    "forms": [
+      "கோப்பு_விவரம்",
+      "kOppu_vivaram",
+      "_fileInfo"
+    ],
+    "params": null,
+    "arity": 1,
+    "doc": "கோப்பு_விவரம்(பாதை) — what a path is:",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
     "name": "பொதி_படி",
     "forms": [
       "பொதி_படி",
@@ -7304,6 +7346,178 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/kAppItu/kAppItu.qmz",
     "line": 175
+  },
+  {
+    "name": "பாதை_இணை",
+    "forms": [
+      "பாதை_இணை"
+    ],
+    "params": [
+      "முதல்",
+      "இரண்டாவது"
+    ],
+    "arity": 2,
+    "doc": "பாதை_இணை(முதல், இரண்டாவது) — join two path pieces with a single `/`.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 21
+  },
+  {
+    "name": "அடிப்பெயர்",
+    "forms": [
+      "அடிப்பெயர்"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "அடிப்பெயர்(பாதை) — the last segment. \"a/b/c.qmz\" gives \"c.qmz\".",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 39
+  },
+  {
+    "name": "கோப்பக_பெயர்",
+    "forms": [
+      "கோப்பக_பெயர்"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "கோப்பக_பெயர்(பாதை) — everything before the last segment, or \"\" at the top.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 46
+  },
+  {
+    "name": "நீட்சி",
+    "forms": [
+      "நீட்சி"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "நீட்சி(பாதை) — the extension without its dot, or \"\" if there is none.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 66
+  },
+  {
+    "name": "பெயர்_மட்டும்",
+    "forms": [
+      "பெயர்_மட்டும்"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "பெயர்_மட்டும்(பாதை) — the base name with its extension removed.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 79
+  },
+  {
+    "name": "பாதை_இயல்பாக்கு",
+    "forms": [
+      "பாதை_இயல்பாக்கு"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "பாதை_இயல்பாக்கு(பாதை) — one spelling of a path: backslashes become slashes and",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 92
+  },
+  {
+    "name": "கோப்பகமா",
+    "forms": [
+      "கோப்பகமா"
+    ],
+    "params": [
+      "பாதை"
+    ],
+    "arity": 1,
+    "doc": "கோப்பகமா(பாதை) — is this a directory? பொய் if it does not exist.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 101
+  },
+  {
+    "name": "வினாடியை_நாளாக",
+    "forms": [
+      "வினாடியை_நாளாக"
+    ],
+    "params": [
+      "வினாடிகள்"
+    ],
+    "arity": 1,
+    "doc": "வினாடியை_நாளாக(வினாடிகள்) — a மாற்றம் time as an ISO date.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 113
+  },
+  {
+    "name": "கோப்பக_பட்டியல்",
+    "forms": [
+      "கோப்பக_பட்டியல்"
+    ],
+    "params": [
+      "கோப்பகம்"
+    ],
+    "arity": 1,
+    "doc": "கோப்பக_பட்டியல்(கோப்பகம்) — the entries of one directory as full paths.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 122
+  },
+  {
+    "name": "கோப்பக_நட",
+    "forms": [
+      "கோப்பக_நட"
+    ],
+    "params": [
+      "கோப்பகம்"
+    ],
+    "arity": 1,
+    "doc": "கோப்பக_நட(கோப்பகம்) — every file under a directory, at any depth, as full paths.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 144
+  },
+  {
+    "name": "நீட்சியால்_கோப்புகள்",
+    "forms": [
+      "நீட்சியால்_கோப்புகள்"
+    ],
+    "params": [
+      "கோப்பகம்",
+      "நீ"
+    ],
+    "arity": 2,
+    "doc": "நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — every file under a directory with one extension.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 171
+  },
+  {
+    "name": "துண்டு_அணி",
+    "forms": [
+      "துண்டு_அணி"
+    ],
+    "params": [
+      "பட்டியல்",
+      "தொடக்கம்",
+      "அளவு"
+    ],
+    "arity": 3,
+    "doc": "துண்டு_அணி(அணி, தொடக்கம், அளவு) — a slice of an array.",
+    "kind": "stdlib",
+    "module": "nUlakam/kOppumuRY/kOppumuRY.qmz",
+    "line": 185
   },
   {
     "name": "மொத்தச்_சம்பளம்",

@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.4.2
+
+### Changed
+
+- The carried compiler is 1.4.2, with the security updates to rustls and
+  rust_decimal. See the repository's CHANGELOG.
+
+## 1.4.1
+
+### Changed
+
+- The carried compiler is 1.4.1, whose `ஜேசான்_படி` reads a number exactly.
+  See the repository's CHANGELOG.
+
+## 1.4.0
+
+The extension moves to 1.4.0 with the language. See the repository's CHANGELOG
+for nuNNaRivu, kOppumuRY and the rest of 1.4.0.
+
+### Added
+
+- Completions and highlighting for the 14 new builtins, the
+  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY.qmz`: 96 builtins and 806
+  library functions.
+
+### Changed
+
+- The carried compiler is 1.4.0.
+
 ## 1.3.0
 
 The extension moves to 1.3.0 with the language. See the repository's CHANGELOG

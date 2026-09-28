@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதை_இயல்பாக்கு(பாதை) — one spelling of a path__
+// ஒரு பாதைக்கு ஒரே எழுத்துமுறை
+
+இறக்கு "../kOppumuRY.qmz";
+
+// __Backslashes become slashes, so a path from a Windows shell and the same__
+// __path from an இறக்கு compare equal.__
+// பின்சாய்வுகள் சாய்வுகளாகும்
+அச்சு பாதை_இயல்பாக்கு("nUlakam\\col.qmz");
+
+// __And a trailing separator is dropped, so a directory named with one and__
+// __without one is the same directory.__
+// தொடர்ச் சாய்வு நீக்கப்படும்
+அச்சு பாதை_இயல்பாக்கு("nUlakam/");
+
+// __A bare \"/\" keeps its slash: the root is not the empty string.__
+// வெறும் \"/\" தன் சாய்வைத் தக்கவைக்கும்; மூலம் வெற்றுச் சரம் அல்ல
+அச்சு பாதை_இயல்பாக்கு("/");

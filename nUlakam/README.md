@@ -19,6 +19,7 @@ frameworks built on top of it.
 | `atippatY/aNi.qmz` | arrays — `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` |
 | `atippatY/poruL.qmz` | records — `புலம்_உள்ளதா` `புலம்_அல்லது` `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
 | `cOqaZY/cOqaZY.qmz` | tests — `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
+| `kOppumuRY/kOppumuRY.qmz` | the file system — `பாதை_இணை` `அடிப்பெயர்` `கோப்பக_பெயர்` `நீட்சி` `பெயர்_மட்டும்` `பாதை_இயல்பாக்கு` `கோப்பகமா` `கோப்பக_பட்டியல்` `கோப்பக_நட` `நீட்சியால்_கோப்புகள்` `வினாடியை_நாளாக` |
 | `vaZporuL/vaZporuL.qmz` | hardware, one API for Raspberry Pi, the simulated board and (through artino) Arduino — `பலகை` `முனை_வெளியீடு` `முனை_எழுது` `முனை_படி` `முனை_மாற்று` `ஒப்புமை_படி` `மில்லி_நொடி` `காத்திரு` `தொடர்_திற` `தொடர்_வரி_படி` `தொடர்_வரி_எழுது` `தொடர்_மூடு` `ஒலி_எழுப்பு` `ஒலி_நிறுத்து` `காவல்_தொடங்கு` `காவல்_புதுப்பி`, and `போலி_*` for tests. On the VM: `ETAMIL_BOARD=sim` anywhere, a Raspberry Pi's GPIO, serial ports on Linux and macOS |
 | `vaZporuL/yUnO.qmz` `nAnO.qmz` `mekA.qmz` `pIkO.qmz` `rAspY.qmz` | one board each — Uno, Nano, Mega, Pico and Pico 2, Raspberry Pi: the hardware API plus the board's pin names under the same names everywhere, `விளக்கு_முனை` `ஒப்புமை_0`… `ஒப்புமை_மில்லிவோல்ட்` `USB_துறை` `தொடர்1_துறை`…; the Pi's `தலைப்பு_முனை` maps header pins to BCM. artino refuses a board file that does not match `--board` |
 | `vawki/vatti.qmz` | interest — `எளிய_வட்டி` `நாளாந்த_வட்டி` `கூட்டு_வட்டி` `முதிர்வுத்_தொகை` `அடுக்கு` `நாட்கள்` |

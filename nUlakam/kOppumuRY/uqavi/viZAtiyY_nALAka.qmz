@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வினாடியை_நாளாக(வினாடிகள்) — a modification time as an ISO date__
+// மாற்ற நேரத்தை ஐஎஸ்ஓ நாளாக
+
+இறக்கு "../kOppumuRY.qmz";
+
+// __Seconds since the epoch, as the date they fall on. A file listing sorted__
+// __or grouped by date wants this rather than the raw number.__
+// சகாப்தத்திலிருந்து வினாடிகள், அவை விழும் நாளாக
+அச்சு வினாடியை_நாளாக(0);
+அச்சு வினாடியை_நாளாக(86400);
+
+// __The time of day is dropped, not rounded — everything on a day is that day.__
+// நாளின் நேரம் விடப்படுகிறது; வட்டமிடப்படுவதில்லை
+அச்சு வினாடியை_நாளாக(86400 + 86399);
+
+// __And a file whose time the host could not read stays இன்மை rather than__
+// __becoming 1970, which would sort to the top of every listing.__
+// நேரம் படிக்க முடியாத கோப்பு இன்மையாகவே இருக்கும்; 1970 ஆவதில்லை
+அச்சு வகை(வினாடியை_நாளாக(இன்மை));

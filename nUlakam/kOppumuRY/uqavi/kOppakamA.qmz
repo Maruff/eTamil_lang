@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோப்பகமா(பாதை) — is this a directory?__
+// இது கோப்பகமா
+
+இறக்கு "../kOppumuRY.qmz";
+
+மூலம் = சூழல்("ETAMIL_PATH", ".");
+நூலகம் = பாதை_இணை(மூலம், "nUlakam");
+
+அச்சு கோப்பகமா(நூலகம்);
+அச்சு கோப்பகமா(பாதை_இணை(நூலகம், "atippatY/col.qmz"));
+
+// __Something that is not there is not a directory — பொய் rather than a__
+// __தவறு, because \"is this a directory\" has an answer for a path that does__
+// __not exist and the answer is no.__
+// இல்லாத பாதையும் கோப்பகம் அல்ல; இது தவறு அல்ல, பொய்
+அச்சு கோப்பகமா(பாதை_இணை(மூலம், "illY_kOppakam"));

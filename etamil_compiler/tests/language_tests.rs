@@ -1340,6 +1340,31 @@ fn json_survives_a_round_trip() {
     );
 }
 
+// A number is read from its decimal text, never through f64. Through a float,
+// 12345678901234567.891 came back as 12345678901234568 and 1.0000000000000000001
+// as 1 — an amount quietly changed on the way in.
+#[test]
+fn json_reads_numbers_exactly() {
+    let vm = run_with_stdlib(
+        r#"இறக்கு "jEcAZ.qmz";
+           ப = மதிப்பு(ஜேசான்_படி("{\"a\": 12345678901234567.891, \"b\": 1.0000000000000000001, \"c\": 0.1, \"d\": 1e3, \"e\": -2.5E-2}"));
+           அ = ப["a"];
+           ஆ = ப["b"];
+           இ = ப["c"];
+           ஈ = ப["d"];
+           உ = ப["e"];
+           மறுபடி = ஜேசான்_ஆக்கு(மதிப்பு(ஜேசான்_படி("[12345678901234567.891]")));"#,
+    )
+    .unwrap();
+
+    assert_eq!(num(&vm, "அ"), "12345678901234567.891".parse().unwrap());
+    assert_eq!(num(&vm, "ஆ"), "1.0000000000000000001".parse().unwrap());
+    assert_eq!(num(&vm, "இ"), "0.1".parse().unwrap());
+    assert_eq!(num(&vm, "ஈ"), dec(1000));
+    assert_eq!(num(&vm, "உ"), "-0.025".parse().unwrap());
+    assert_eq!(text(&vm, "மறுபடி"), "[12345678901234567.891]");
+}
+
 // Malformed input is a தவறு, never a half-read value: accepting trailing text
 // would quietly treat half a request body as the whole of it.
 #[test]
