@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — set one field__
+// ஒரு புலத்தை அமைக்கும்
+
+இறக்கு "../ottu.qmz";
+
+// __"add", not "replace": add creates or overwrites, while replace fails on a__
+// __field the item does not have yet, such as a due date never set.__
+// சேர்த்தல் உருவாக்கும் அல்லது மேலெழுதும்; மாற்றுதல் இல்லாத புலத்தில் தோல்வியுறும்
+அச்சு ஜேசான்_ஆக்கு(புல_ஒட்டு("Microsoft.VSTS.Scheduling.DueDate", "2026-10-30"));
+
+// __Numbers stay numbers, and 0 is a real value: no hours left is sent as 0.__
+// எண்கள் எண்களாகவே; 0 என்பதும் உண்மையான மதிப்பு
+அச்சு ஜேசான்_ஆக்கு(புல_ஒட்டு("Microsoft.VSTS.Scheduling.RemainingWork", 0));
+
+// __It takes the reference name. The display name makes a path that Azure__
+// __DevOps rejects, and nothing here can tell the two apart.__
+// குறிப்புப் பெயரே வேண்டும்; காட்சிப் பெயர் தரும் பாதையை அஜூர் மறுக்கும்
+அச்சு புலம்_அல்லது(புல_ஒட்டு("Remaining Work", 0), "path", "");

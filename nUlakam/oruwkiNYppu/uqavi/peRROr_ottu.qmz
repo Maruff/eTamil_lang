@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) — link a work item under its parent__
+// பணியுருப்படியை அதன் பெற்றோருடன் இணைக்கும்
+
+இறக்கு "../ottu.qmz";
+இறக்கு "../ajUr.qmz";
+
+// __A task under Feature 1201. The parent is named by its API url, not its__
+// __number; a real organisation gives https://dev.azure.com/<org>/… here.__
+// பெற்றோர் அதன் இடைமுக உரலியால் குறிக்கப்படுகிறது, எண்ணால் அல்ல
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+இணைப்பு_ஒட்டு = பெற்றோர்_ஒட்டு(பணியுருப்படி_உரலி(இணைப்பு, 1201));
+அச்சு ஜேசான்_ஆக்கு(இணைப்பு_ஒட்டு);
+
+// __Hierarchy-Reverse points from child to parent, so the patch goes on the__
+// __child. The /- path appends; it never replaces the item's other links.__
+// இணைப்பு குழந்தையிலிருந்து பெற்றோருக்கு; மற்ற இணைப்புகளை மாற்றாமல் சேர்க்கும்
+அச்சு புலம்_அல்லது(இணைப்பு_ஒட்டு, "value", {})["rel"];
+
+// __The parent must exist on the other side first, which is why the outbox__
+// __sends depth 0 before depth 1.__
+// பெற்றோர் முதலில் அங்கே இருக்க வேண்டும்; அதனால் ஆழம் 0 முதலில் அனுப்பப்படுகிறது

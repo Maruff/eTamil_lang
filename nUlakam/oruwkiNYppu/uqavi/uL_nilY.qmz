@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்_நிலை(வெளி_நிலைப்_பெயர், வகைமை) — the task status for a state that came in__
+// வந்த வெளி நிலைக்குரிய பணி நிலை
+
+இறக்கு "../varYpatam.qmz";
+
+// __The category decides and the name is ignored: Doing and Active are both__
+// __in progress, Done and Closed both closed.__
+// வகைமையே முடிவு செய்கிறது; பெயர் புறக்கணிக்கப்படுகிறது
+அச்சு உள்_நிலை("Doing", "InProgress");
+அச்சு உள்_நிலை("Done", "Completed");
+அச்சு உள்_நிலை("Removed", "Removed");
+
+// __A Ready state is a test gate, kept under InProgress so the board shows it__
+// __as work in hand; it still comes in as resolved.__
+// "தயார்" எனத் தொடங்கும் நிலை சோதனை வாயில்; அது தீர்ந்ததாகவே வரும்
+அச்சு உள்_நிலை("Ready for UAT", "InProgress");
+
+// __The prefix is read before the category, so a backlog state a team calls__
+// __just Ready, under Proposed, also comes in as resolved. Watch for it.__
+// முன்னொட்டு வகைமைக்கு முன்பே பார்க்கப்படுகிறது; முன்மொழிவு வகைமையில் உள்ள "தயார்" நிலையும் தீர்ந்தது ஆகும்
+அச்சு உள்_நிலை("Ready", "Proposed");
+
+// __An unknown category is taken as in progress, the least wrong guess.__
+// அறியாத வகைமை நடப்பில் எனக் கொள்ளப்படும்
+அச்சு உள்_நிலை("Parked", "");

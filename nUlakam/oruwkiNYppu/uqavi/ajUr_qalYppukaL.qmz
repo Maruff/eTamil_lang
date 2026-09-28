@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அஜூர்_தலைப்புகள்(இணைப்பு, உள்ளடக்க_வகை) — the request headers for a connection__
+// ஓர் இணைப்புக்கான கோரிக்கைத் தலைப்புகள்
+
+இறக்கு "../ajUr.qmz";
+
+// __A personal access token goes as Basic, with an empty user name: the base64__
+// __of ":" and the token. Forgetting the colon is the usual 401.__
+// தனிப்பட்ட அணுகல் சீட்டு அடிப்படை அனுமதியாக; முக்காற்புள்ளியுடன் சேர்த்துக் குறியாக்கம்
+பாட்_இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+பாட்_தலைப்புகள் = அஜூர்_தலைப்புகள்(பாட்_இணைப்பு, "application/json-patch+json");
+அச்சு புலம்_அல்லது(பாட்_தலைப்புகள், "Authorization", "");
+அச்சு புலம்_அல்லது(பாட்_தலைப்புகள், "Content-Type", "");
+
+// __An Entra ID token goes as Bearer, as it is.__
+// என்ட்ரா சீட்டு அப்படியே அனுப்பப்படும்
+அஜூர்_இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "Bearer", "fake-entra-token");
+அச்சு புலம்_அல்லது(அஜூர்_தலைப்புகள்(அஜூர்_இணைப்பு, ""), "Authorization", "");
+
+// __A read has no body, so "" leaves Content-Type out altogether. Sending a__
+// __patch as plain application/json is refused with 415, so the create and__
+// __update calls pass application/json-patch+json.__
+// படிப்புக்கு உடல் இல்லை; "" எனில் உள்ளடக்க வகைத் தலைப்பு இல்லை; ஒட்டுக்குத் தனி வகை வேண்டும்
+அச்சு புலம்_உள்ளதா(அஜூர்_தலைப்புகள்(பாட்_இணைப்பு, ""), "Content-Type");

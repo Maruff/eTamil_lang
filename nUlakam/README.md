@@ -182,7 +182,7 @@ current second are arguments, which is what makes every rule testable.
 ## Worked examples, one per function
 
 Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
-each function in it, named after the function it demonstrates. 886 of them, and
+each function in it, named after the function it demonstrates. 914 of them, and
 each one shows the ordinary use together with the cases that are easy to get
 wrong: the boundary, the empty input, the failure that is a தவறு rather than a
 crash. The reasoning is in English and Tamil, like the library itself.

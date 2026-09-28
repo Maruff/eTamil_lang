@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரிசையில்_உள்ளதா(உருப்படிகள், ஒருமுறைக்_குறி) — is this job already waiting?__
+// இவ்வேலை ஏற்கனவே காத்திருக்கிறதா
+
+இறக்கு "../aZuppu_varicY.qmz";
+
+காத்திருப்பது = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "திருத்து", 1, "fake-key-118");
+அனுப்பியது = அனுப்பியதாகப்_பதி(அனுப்பு_உருப்படி_ஆக்கு("PMO-120", "பணி", "திருத்து", 1, "fake-key-120"));
+அனுப்பு_வரிசை = [காத்திருப்பது, அனுப்பியது];
+
+// __The trigger fires again for PMO-118 before the worker has run: the job is__
+// __already waiting, so no second row is added.__
+// பணியாளர் இயங்கும் முன் மீண்டும் தூண்டல்; வேலை ஏற்கனவே காத்திருக்கிறது
+அச்சு வரிசையில்_உள்ளதா(அனுப்பு_வரிசை, "fake-key-118");
+
+// __PMO-120's row with that key was sent yesterday. That is history: the same__
+// __change made again today is a new job, and is queued.__
+// பணி 120-இன் வரிசை ஏற்கனவே அனுப்பப்பட்டது; அது வரலாறு, புதிய வேலை வரிசைப்படும்
+அச்சு வரிசையில்_உள்ளதா(அனுப்பு_வரிசை, "fake-key-120");
+
+// __And a key nobody has seen is not waiting, of course.__
+// யாரும் காணாத குறி காத்திருப்பதில்லை
+அச்சு வரிசையில்_உள்ளதா(அனுப்பு_வரிசை, "fake-key-999");

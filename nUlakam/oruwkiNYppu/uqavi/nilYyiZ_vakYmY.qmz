@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையின்_வகைமை(பணி_நிலை) — the Azure DevOps state category a task status belongs to__
+// பணி நிலைக்குரிய அஜூர் நிலை வகைமை
+
+இறக்கு "../varYpatam.qmz";
+
+// __The five categories are the same in every process, which is why the map__
+// __leans on them rather than on state names a team can rename.__
+// ஐந்து வகைமைகளும் எல்லாச் செயல்முறைகளிலும் ஒன்றே
+அச்சு நிலையின்_வகைமை("செய்யவேண்டியது");
+அச்சு நிலையின்_வகைமை("தீர்ந்தது");
+அச்சு நிலையின்_வகைமை("மூடியது");
+அச்சு நிலையின்_வகைமை("கைவிட்டது");
+
+// __In progress is the fall-through, so a misspelt status is InProgress too,__
+// __not an error. Check a status against qittam/paNi.qmz before mapping it.__
+// நடப்பில் என்பதே இயல்பு; எழுத்துப் பிழையுள்ள நிலையும் நடப்பு வகைமை ஆகிவிடும்
+அச்சு நிலையின்_வகைமை("நடப்பில்");
+அச்சு நிலையின்_வகைமை("நடப்பல்");

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேல்_காத்திருப்பு() — the longest backoff, in seconds__
+// அதிகபட்சக் காத்திருப்பு நொடிகள்
+
+இறக்கு "../mItci.qmz";
+
+// __Five minutes. Doubling would pass it after the eighth attempt.__
+// ஐந்து நிமிடம்; எட்டாவது முயற்சிக்குப் பின் இரட்டிப்பு இதைத் தாண்டும்
+அச்சு மேல்_காத்திருப்பு();
+அச்சு காத்திருப்பு_நொடிகள்(8, 1, 0);
+அச்சு காத்திருப்பு_நொடிகள்(9, 1, 0);
+
+// __The cap is on the backoff before jitter, so the wait itself can reach__
+// __1.3 times it: 390 seconds, not 300.__
+// வரம்பு நடுக்கத்துக்கு முன்பே; காத்திருப்பு அதன் 1.3 மடங்கு வரை போகலாம்
+அச்சு காத்திருப்பு_நொடிகள்(20, 1.3, 0);
+
+// __And a Retry-After header is obeyed as sent, cap or no cap.__
+// சேவை சொன்ன காத்திருப்பு வரம்பைக் கடந்தாலும் அப்படியே ஏற்கப்படும்
+அச்சு காத்திருப்பு_நொடிகள்(2, 1, 3600);

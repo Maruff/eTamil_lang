@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) — merge tags without deleting the team's__
+// அணியின் குறிச்சொற்களை அழிக்காமல் இணைக்கும்
+
+இறக்கு "../ottu.qmz";
+
+// __System.Tags as it is now: two tags the PMO set last sprint and one the__
+// __team added by hand.__
+// இப்போதுள்ள குறிச்சொற்கள்: திட்ட அலுவலகத்தின் இரண்டு, அணியின் ஒன்று
+இருப்பவை = "pmo:sprint-3; customer-facing; pmo:late";
+
+// __Ours are the ones starting pmo:, and only those are replaced.__
+// நம் முன்னொட்டுடன் தொடங்குபவை மட்டும் நம்முடையவை; அவை மட்டும் மாற்றப்படும்
+அச்சு குறிச்சொற்களை_இணை(இருப்பவை, ["pmo:sprint-4"], ["pmo:"]);
+
+// __An item with no tags yet takes ours as they are.__
+// குறிச்சொல் இல்லாத உருப்படிக்கு நம்முடையவை அப்படியே
+அச்சு குறிச்சொற்களை_இணை("", ["pmo:sprint-4"], ["pmo:"]);
+
+// __Prefixes match case exactly: a team tag written PMO:urgent is theirs, and__
+// __stays. Pick a prefix no one on the team would type.__
+// முன்னொட்டு எழுத்து வடிவம் சரியாகப் பொருந்த வேண்டும்; பெரிய எழுத்தில் உள்ளது அணியுடையது
+அச்சு குறிச்சொற்களை_இணை("PMO:urgent; pmo:sprint-3", ["pmo:sprint-4"], ["pmo:"]);
+
+// __Replacing System.Tags wholesale would have deleted customer-facing.__
+// முழுவதும் மாற்றியிருந்தால் அணியின் குறிச்சொல் அழிந்திருக்கும்

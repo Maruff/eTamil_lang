@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அஜூர்_இணைப்பு_ஆக்கு(நிறுவன_உரலி, திட்டப்_பெயர், சீட்டு_வகை, அணுகல்_சீட்டு) — one connection__
+// ஓர் இணைப்பை உருவாக்கும்
+
+இறக்கு "../ajUr.qmz";
+
+// __A real organisation url is https://dev.azure.com/<organisation>. These__
+// __samples use a closed local port and a fake token, so nothing leaves the__
+// __machine.__
+// உண்மையில் நிறுவனத்தின் அஜூர் உரலி; இங்கே மூடிய உள்ளூர்த் துறையும் போலிச் சீட்டும்
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+அச்சு இணைப்பு.அடி_உரலி;
+அச்சு இணைப்பு.சீட்டு_வகை;
+
+// __A trailing slash, as a url copied from the browser has, is dropped, so__
+// __urls built from either never have a double slash.__
+// உலாவியிலிருந்து நகலெடுத்த உரலியின் இறுதிச் சாய்வு நீக்கப்படும்
+சாய்வுடன் = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9/", "PMO Portal", "PAT", "fake-pat-000");
+அச்சு சாய்வுடன்.அடி_உரலி == இணைப்பு.அடி_உரலி;
+
+// __An Entra ID token is the same call with Bearer. Either way the record__
+// __holds the token itself: never print or log a connection whole.__
+// என்ட்ரா சீட்டுக்கும் இதே அழைப்பு; பதிவில் சீட்டே இருப்பதால் இணைப்பை முழுதாக அச்சிடாதீர்
+அஜூர்_இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "Bearer", "fake-entra-token");
+அச்சு அஜூர்_இணைப்பு.சீட்டு_வகை;

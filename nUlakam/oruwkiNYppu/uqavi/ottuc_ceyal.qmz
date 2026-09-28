@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — one patch operation__
+// ஒரு ஒட்டுச் செயல்பாடு
+
+இறக்கு "../ottu.qmz";
+
+// __The three keys are Azure DevOps's and stay English: op, path, value.__
+// மூன்று விசைகளும் அஜூருடையவை; ஆங்கிலத்திலேயே இருக்கும்
+அச்சு ஜேசான்_ஆக்கு(ஒட்டுச்_செயல்("add", "/fields/System.Title", "வெளியீட்டுத் திட்டம்"));
+
+// __Clearing a field is a remove, which carries no value. Pass இன்மை; it is__
+// __written as null, and Azure DevOps ignores a remove's value.__
+// புலத்தை அழிக்க நீக்கும் செயல்; மதிப்பாக இன்மை தருக, அது வெற்றாக எழுதப்படும்
+அச்சு ஜேசான்_ஆக்கு(ஒட்டுச்_செயல்("remove", "/fields/Microsoft.VSTS.Scheduling.DueDate", இன்மை));
+
+// __Nothing here checks the operation or the path. A typo is caught only when__
+// __Azure DevOps answers 400, so build patches with புல_ஒட்டு where possible.__
+// செயல்பாடும் பாதையும் இங்கு சரிபார்க்கப்படுவதில்லை; பிழை 400 ஆகவே தெரியும்
+அச்சு ஒட்டுச்_செயல்("ad", "/field/System.Title", "x")["op"];
