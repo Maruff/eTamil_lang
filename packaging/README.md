@@ -25,7 +25,7 @@ should not need Rust, MSVC or LLVM to run eTamil.**
 Neither installer needs administrator rights. Windows installs to
 `%LOCALAPPDATA%\Programs\eTamil`, Linux to `$PREFIX` (`~/.local` by default).
 Both put `etamil` on `PATH` and set `ETAMIL_PATH`, which is what lets
-`இறக்கு "nUlakam/paNam.qmz"` resolve from any directory. Uninstalling is
+`இறக்கு "nUlakam/paNam/paNam.qmz"` resolve from any directory. Uninstalling is
 deleting the directory and undoing those two variables.
 
 ## Building
@@ -60,7 +60,7 @@ build tree has `nUlakam/` sitting next to it and will mask a packaging mistake:
 ```bash
 cd /tmp && tar -xzf .../dist/etamil-linux-x64.tar.gz && cd etamil-linux-x64
 ./etamil --version
-printf 'இறக்கு "nUlakam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.50);\n' > /tmp/t.qmz
+printf 'இறக்கு "nUlakam/paNam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.50);\n' > /tmp/t.qmz
 ./etamil --vm /tmp/t.qmz          # expect ₹1,23,45,678.50
 ```
 

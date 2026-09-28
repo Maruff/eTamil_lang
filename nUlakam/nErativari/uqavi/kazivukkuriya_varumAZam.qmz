@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கழிவுக்குரிய_வருமானம்(மொத்த_வருமானத்_தொகை, சிறப்பு_வீத_வருமானம்) — the income deductions can actually be used against__
+// கழிவுகளைப் பயன்படுத்தக்கூடிய வருமானம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Income taxed at a special rate — long-term capital gains, lottery winnings__
+// __— is not available for deductions. A year whose income is all capital gain__
+// __gets no benefit from an insurance premium.__
+// சிறப்பு வீத வருமானத்திற்கு எதிராகக் கழிவுகள் பயன்படாது
+அச்சு கழிவுக்குரிய_வருமானம்(1000000, 400000);
+அச்சு கழிவுக்குரிய_வருமானம்(1000000, 0);
+
+// __And it does not go below nothing.__
+// இது பூஜ்ஜியத்திற்குக் கீழ் செல்வதில்லை
+அச்சு கழிவுக்குரிய_வருமானம்(400000, 500000);

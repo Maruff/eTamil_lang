@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீட்பளவு_வருவாய்(ஏற்பட்ட_செலவு, மீட்கக்கூடியதா) — revenue equal to cost, when progress cannot be measured__
+// முன்னேற்றத்தை அளக்க முடியாதபோது செலவளவு வருவாய்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Early in a contract, where the outcome is genuinely unknown: revenue equal__
+// __to cost, so no profit is taken and no loss is invented.__
+// லாபமும் இல்லை, நட்டமும் இல்லை — செலவளவே வருவாய்
+அச்சு மீட்பளவு_வருவாய்(300000, மெய்);
+
+// __And where the cost is not expected to be recovered at all, no revenue.__
+// __That is the difference between not knowing and knowing it is bad.__
+// மீட்க முடியாதெனில் வருவாயே இல்லை
+அச்சு மீட்பளவு_வருவாய்(300000, பொய்);
+அச்சு மீட்பளவு_வருவாய்(0, மெய்);

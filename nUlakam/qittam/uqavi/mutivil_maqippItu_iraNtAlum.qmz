@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவில்_மதிப்பீடு_இரண்டாலும்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது, செலவுத்_திறன், காலத்_திறன்) — the forecast if cost and schedule both bite__
+// செலவும் காலமும் சேர்ந்து பாதிக்கும் என்ற அனுமானத்தில்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The pessimistic one, for a project that has to meet a date: recovering the__
+// __schedule costs money, so falling behind makes the overrun worse.__
+// அவநம்பிக்கையானது; காலத்தை மீட்பதற்கே பணம் தேவை
+அச்சு மதிப்பு(முடிவில்_மதிப்பீடு_இரண்டாலும்(300000, 1000000, 250000, 0.8333, 0.8333));
+
+// __Compare the three: they disagree, and the disagreement is what a sponsor__
+// __needs to see rather than one number presented as the answer.__
+// மூன்றும் வேறுபடுகின்றன; அந்த வேறுபாடே ஆதரவாளர் காண வேண்டியது
+அச்சு முடிவில்_மதிப்பீடு_மீதியால்(300000, 1000000, 250000);
+அச்சு மதிப்பு(முடிவில்_மதிப்பீடு_திறனால்(1000000, 0.8333));

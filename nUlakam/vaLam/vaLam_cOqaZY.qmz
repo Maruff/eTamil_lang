@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வளம்_சோதனை — tests for resources, timesheets and posting__
+// வளம், நேரத்தாள், பதிவுக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/vaLam/vaLam_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__
@@ -13,8 +14,8 @@
 // __2 March 2026 is a Monday and 5 March is treated as a holiday, the same__
 // __specimen calendar the nAtkAtti tests use.__
 
-இறக்கு "../cOqaZY.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "vaLam.qmz";
 இறக்கு "nEraqqAL.qmz";
 இறக்கு "paqivu.qmz";

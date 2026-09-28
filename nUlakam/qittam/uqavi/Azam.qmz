@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆழம்(கணுக்கள், கணு_குறி) — how deep a node sits, the root being zero__
+// கணுவின் ஆழம்; மூலம் பூஜ்ஜியம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+             கணு_ஆக்கு("1.1.1", "1.1", "வரைபடம்", 400000)];
+
+// __For printing an indented tree, and for noticing a structure that has grown__
+// __six levels deep in one branch and two in another.__
+// அச்சிடவும், சமமற்ற ஆழத்தைக் கவனிக்கவும்
+அச்சு ஆழம்(கணுக்கள், "1");
+அச்சு ஆழம்(கணுக்கள், "1.1.1");

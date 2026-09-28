@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஜிஎஸ்டி_மாநிலம்(எண்_மதிப்பு) — the state code a GST number opens with__
+// ஜிஎஸ்டி எண் தொடங்கும் மாநிலக் குறி
+
+இறக்கு "../cuwkam.qmz";
+
+// __Which is where the supply is from, and therefore whether a sale is within__
+// __the state or across it — and so whether it carries CGST and SGST or IGST.__
+// விநியோகம் எங்கிருந்து; அதுவே மாநிலத்துக்குள்ளா வெளியேவா என்பதைத் தீர்மானிக்கும்
+அச்சு ஜிஎஸ்டி_மாநிலம்("33ABCDE1234F1Z5");
+அச்சு ஜிஎஸ்டி_மாநிலம்("27ABCDE1234F1Z5");
+
+// __Comparing the two is the whole of the within-or-across question.__
+// இரண்டையும் ஒப்பிடுவதே அந்த வினாவின் முழு விடை
+அச்சு ஜிஎஸ்டி_மாநிலம்("33ABCDE1234F1Z5") == ஜிஎஸ்டி_மாநிலம்("33ZZZZZ9999Z9Z9");

@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்ளூர்_வழங்குநர்_ஆக்கு() — the local provider, with nothing to configure__
+// அமைப்பே தேவையில்லாத உள்ளூர் வழங்குநர்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __The path of least resistance, on purpose: the easiest thing to reach for__
+// __should be the one that costs nothing and sends nothing anywhere.__
+// எளிதில் கிடைப்பது, பணம் கேட்காததும் வெளியே ஒன்றும் அனுப்பாததுமாக இருக்க வேண்டும்
+வழங்குநர் = உள்ளூர்_வழங்குநர்_ஆக்கு();
+அச்சு வழங்குநர்["பெயர்"];
+அச்சு வழங்குநர்["இணையவழி"];
+அச்சு வழங்குநர்["மாதிரி"];

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qittam/oppanqa_vakY.qmz — ஒப்பந்த வகை, and who carries the cost risk__
+// ஒப்பந்த வகையும், செலவு இடரை யார் சுமப்பது என்பதும்
 //
 // __Everything else in this directory costs a project as though the money simply__
 // __arrives. What arrives depends on the **shape of the contract**, and the__
@@ -24,8 +25,8 @@
 // __version of that confusion is treating a not-to-exceed time-and-materials__
 // __contract as though the ceiling were a target.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __வகைகள் — who carries the risk__
@@ -41,6 +42,7 @@
 // __"பகிர்வு" — shared to a ceiling, then all the seller's.__
 // __"கட்டணம்_மட்டும்" — the seller's fee is at risk, the cost is not.__
 // __"இல்லை" — the seller recovers whatever it spends.__
+// விற்பவர்_இடர்(ஒப்பந்த_வகை) — இவ்வகை ஒப்பந்தத்தில் விற்பவர் சுமக்கும் இடர்
 செயல் விற்பவர்_இடர்(ஒப்பந்த_வகை) {
     (ஒப்பந்த_வகை == "உறுதி_நிலை_விலை") எனில் { திரும்பு "முழு"; }
     (ஒப்பந்த_வகை == "நிலை_விலை_ஊக்கம்") எனில் { திரும்பு "பகிர்வு"; }
@@ -64,6 +66,7 @@
 // __for, and is paid for in the margin the seller prices in for bearing the__
 // __whole risk. A buyer who believes a fixed price contains no contingency has__
 // __not thought about who else would carry it.__
+// உறுதி_நிலை_லாபம்(ஒப்பந்த_மதிப்பு, உண்மைச்_செலவு) — உறுதி விலை ஒப்பந்தத்தில் லாபம்
 செயல் உறுதி_நிலை_லாபம்(ஒப்பந்த_மதிப்பு, உண்மைச்_செலவு) {
     திரும்பு வட்டக்_கழி(ஒப்பந்த_மதிப்பு, உண்மைச்_செலவு);
 }
@@ -88,6 +91,7 @@
 // __The sign works itself out. An underrun makes the bracket positive and the__
 // __fee rises; an overrun makes it negative and the fee falls, which is the__
 // __whole mechanism.__
+// ஊக்கக்_கட்டணம்(இலக்குச்_செலவு, உண்மைச்_செலவு, இலக்குக்_கட்டணம், பகிர்வு_விகிதம்) — சேமிப்பையோ மிகையையோ பகிர்ந்த பின் கட்டணம்
 செயல் ஊக்கக்_கட்டணம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உண்மைச்_செலவு,
                       விற்பவர்_பகிர்வு) {
     திரும்பு வட்டமிடு(இலக்குக்_கட்டணம்
@@ -103,6 +107,7 @@
 // __Pass 0 as the maximum for no upper bound. The minimum is taken as given,__
 // __including zero — a floor of zero is a real term and means the fee can be__
 // __wiped out but not go negative.__
+// கட்டணத்தை_வரம்பிடு(கட்டணத்_தொகை, குறைந்த_கட்டணம், உச்சக்_கட்டணம்) — கட்டணத்தை இரு எல்லைகளுக்குள் வைக்கும்
 செயல் கட்டணத்தை_வரம்பிடு(கட்டணத்_தொகை, குறைந்த_கட்டணம், உச்சக்_கட்டணம்) {
     விடை = கட்டணத்_தொகை;
     (விடை < குறைந்த_கட்டணம்) எனில் { விடை = குறைந்த_கட்டணம்; }
@@ -137,6 +142,7 @@
 // __A buyer share of nothing is a தவறு rather than an infinity: with no sharing__
 // __there is no incentive arrangement and the contract is a fixed price one,__
 // __which has no such point.__
+// முழுப்_பொறுப்புப்_புள்ளி(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, பகிர்வு_விகிதம்) — இதற்கு மேல் மிகையை விற்பவரே முழுவதும் சுமப்பார்
 செயல் முழுப்_பொறுப்புப்_புள்ளி(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை,
                                 வாங்குபவர்_பகிர்வு) {
     (வாங்குபவர்_பகிர்வு <= 0) எனில் {
@@ -156,6 +162,7 @@
 
 // புள்ளியைத்_தாண்டியதா(உண்மைச்_செலவு, புள்ளி)
 // __புள்ளியைத்_தாண்டியதா(உண்மைச்_செலவு, புள்ளி) — has cost passed the point of total assumption?__
+// புள்ளியைத்_தாண்டியதா(உண்மைச்_செலவு, புள்ளி) — செலவு முழுப் பொறுப்புப் புள்ளியைத் தாண்டிவிட்டதா
 //
 // __Beyond it the contractor bears every further rupee, so the incentive stops working: there is nothing left to share and the only remaining question is who absorbs the overrun. The point where a cost-plus-incentive contract turns into a fixed price in all but name.__
 செயல் புள்ளியைத்_தாண்டியதா(உண்மைச்_செலவு, புள்ளி) {
@@ -173,6 +180,7 @@
 // __negative, and why a seller far past the point of total assumption is paying__
 // __to finish the work. Capping the fee at zero instead would hide that, and a__
 // __contract that can produce it should say so.__
+// நிலை_விலை_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, பகிர்வு_விகிதம், உண்மைச்_செலவு) — நிலை விலை ஊக்க ஒப்பந்தத்தின் முடிவு
 செயல் நிலை_விலை_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை,
                         விற்பவர்_பகிர்வு, உண்மைச்_செலவு) {
     கச்சாக்_கட்டணம் = ஊக்கக்_கட்டணம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம்,
@@ -205,6 +213,7 @@
 // __The fee not moving is the point. A fee fixed as a *percentage* of cost would__
 // __rise with the overrun, which is why that arrangement is prohibited in public__
 // __procurement almost everywhere.__
+// செலவுடன்_நிலைக்_கட்டணம்(உண்மைச்_செலவு, நிலையான_கட்டணம்) — செலவுடன் நிலையான கட்டணம்
 செயல் செலவுடன்_நிலைக்_கட்டணம்(உண்மைச்_செலவு, நிலையான_கட்டணம்) {
     திரும்பு {"விற்பவர்_கட்டணம்": வட்டமிடு(நிலையான_கட்டணம், 2),
               "வாங்குபவர்_செலவு": வட்டமிடு(உண்மைச்_செலவு + நிலையான_கட்டணம், 2)};
@@ -220,6 +229,7 @@
 // __seller's exposure is bounded by the fee floor, which is the structural__
 // __difference from the fixed price incentive form and the reason a buyer pays__
 // __more for this one.__
+// செலவுடன்_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உண்மைச்_செலவு, பகிர்வு_விகிதம்) — செலவுடன் ஊக்கக் கட்டணம்
 செயல் செலவுடன்_ஊக்கம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உண்மைச்_செலவு,
                        விற்பவர்_பகிர்வு, குறைந்த_கட்டணம், உச்சக்_கட்டணம்) {
     கச்சாக்_கட்டணம் = ஊக்கக்_கட்டணம்(இலக்குச்_செலவு, இலக்குக்_கட்டணம்,
@@ -249,6 +259,7 @@
 //
 // __The record says whether the ceiling bit and how many hours went unpaid,__
 // __because that is the number a dispute is actually about.__
+// நேரமும்_பொருளும்(மணிகள், மணி_விகிதம், பொருள்_செலவு) — நேரமும் பொருளும் அடிப்படையிலான ஒப்பந்தம்
 செயல் நேரமும்_பொருளும்(மணிகள், மணி_விகிதம், பொருள்_செலவு, மீற_இயலா_எல்லை) {
     ஈட்டியது = வட்டமிடு(மணிகள் * மணி_விகிதம் + பொருள்_செலவு, 2);
 
@@ -278,6 +289,7 @@
 // __identical at target cost under all of them and diverges immediately, and a__
 // __project manager reporting a cost variance without saying which contract it__
 // __arises under has reported half a fact.__
+// மிகைச்_செலவின்_விளைவு(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, பகிர்வு_விகிதம், மிகைச்_செலவு) — மிகைச் செலவு யாரைப் பாதிக்கிறது என்பதைக் காட்டும்
 செயல் மிகைச்_செலவின்_விளைவு(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை,
                              விற்பவர்_பகிர்வு, உண்மைச்_செலவு) {
     இலக்கு_விலை = இலக்குச்_செலவு + இலக்குக்_கட்டணம்;

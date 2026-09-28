@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — how many units cover the fixed cost__
+// நட்டமும் லாபமும் இல்லாத அலகுகள்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு மதிப்பு(சமநிலை_அலகுகள்(150000, 500, 300));
+
+// __A product whose price does not cover its variable cost never breaks even,__
+// __however many are sold — which is a தவறு rather than a very large number.__
+// மாறும் செலவையே ஈடுசெய்யாத விலை, எத்தனை விற்றாலும் சமநிலையை எட்டாது
+அச்சு தவறா(சமநிலை_அலகுகள்(150000, 300, 300));
+அச்சு தவறா(சமநிலை_அலகுகள்(150000, 250, 300));

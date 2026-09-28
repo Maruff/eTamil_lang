@@ -332,7 +332,7 @@ pub enum Builtin {
     Length,
     /// சொல்லாக்கு — a value as text, formatted as அச்சு prints it.
     ToText,
-    /// அணி_நிரப்பு(value, count) — `nUlakam/aNi.qmz` on the VM; here the
+    /// அணி_நிரப்பு(value, count) — `nUlakam/atippatY/aNi.qmz` on the VM; here the
     /// count must be written in the source, because it is the array's length.
     Fill,
     Ok,
@@ -712,7 +712,7 @@ fn refuse_expr(expr: &Expr, found: &mut Vec<String>) {
 /// The user's functions that the top level, an இடைவெளி block or சுழற்சி can
 /// reach. An imported module's other functions are not firmware and are not
 /// judged — `nUlakam/vaZporuL/vaZporuL.qmz` itself defines போலி_* over builtins no
-/// board has, and `nUlakam/aNi.qmz` is full of functions as values.
+/// board has, and `nUlakam/atippatY/aNi.qmz` is full of functions as values.
 fn reachable_functions(statements: &[Stmt]) -> HashSet<String> {
     let mut defined: HashMap<String, &Vec<Stmt>> = statements
         .iter()
@@ -890,7 +890,7 @@ pub(crate) fn mentions(expr: &Expr, name: &str) -> bool {
 // --- types ------------------------------------------------------------------------------
 
 /// A parameter's type, from its declaration; `None` when undeclared, and then
-/// the type its callers pass decides — `nUlakam/col.qmz` declares none.
+/// the type its callers pass decides — `nUlakam/atippatY/col.qmz` declares none.
 fn param_type(
     declared: &Option<DeclaredType>,
     name: &str,
@@ -2471,7 +2471,7 @@ mod tests {
     #[test]
     fn arrays_take_their_length_from_the_source() {
         let program = analyse(&load(
-            "இறக்கு \"nUlakam/aNi.qmz\";\n\
+            "இறக்கு \"nUlakam/atippatY/aNi.qmz\";\n\
              அ = [1, 2, 3];\nஆ = அணி_நிரப்பு(பொய், 5);\nஇ = அ[0] + நீளம்(ஆ);\n\
              ஒவ்வொரு உ இல் அ { ஊ = உ; }\nஅ[1] = 9;",
         ))
@@ -2499,7 +2499,7 @@ mod tests {
             "{:?}",
             found
         );
-        let found = errors("இறக்கு \"nUlakam/aNi.qmz\";\nந = 3;\nஅ = அணி_நிரப்பு(0, ந);");
+        let found = errors("இறக்கு \"nUlakam/atippatY/aNi.qmz\";\nந = 3;\nஅ = அணி_நிரப்பு(0, ந);");
         assert!(
             found.iter().any(|e| e.contains("written in the source")),
             "{:?}",

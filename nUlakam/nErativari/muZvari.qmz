@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/muZvari.qmz — முன்வரி, advance tax and the interest for__
+// முன்வரியும், குறைபாட்டுக்கான வட்டியும்
 // __getting it wrong__
 //
 // __Tax is due before the year it is charged on has finished. Four instalments,__
@@ -32,8 +33,8 @@
 //   __Rule 119A rounds the amount interest is computed on **down** to the__
 //     __nearest hundred rupees. Not to the nearest — down.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __கடமை — who has to pay, and on what__
@@ -49,6 +50,7 @@
 // __it. The payee's liability is reduced by what was deducted, and recovering an__
 // __undeposited deduction is the department's problem with the deductor, not the__
 // __payee's with the department.__
+// மதிப்பிட்ட_வரி(மொத்த_வரி, மூலப்_பிடித்தம், நிவாரணங்கள்) — முன்வரிக்கு அடிப்படையான மதிப்பிட்ட வரி
 செயல் மதிப்பிட்ட_வரி(மொத்த_வரி, மூலப்_பிடித்தம், நிவாரணங்கள்) {
     விடை = மொத்த_வரி - மூலப்_பிடித்தம் - நிவாரணங்கள்;
     (விடை < 0) எனில் { திரும்பு 0; }
@@ -60,6 +62,7 @@
 // __Advance tax is payable only where the assessed tax reaches a threshold.__
 // __Below it there is no liability and therefore no interest under 234B or 234C__
 // __— which makes this the first question to ask, not the last.__
+// கடமை_உள்ளதா(மதிப்பிட்ட_வரித்_தொகை, குறைந்த_எல்லை) — முன்வரி செலுத்தும் கடமை உண்டா
 செயல் கடமை_உள்ளதா(மதிப்பிட்ட_வரித்_தொகை, குறைந்த_எல்லை) {
     திரும்பு மதிப்பிட்ட_வரித்_தொகை >= குறைந்த_எல்லை;
 }
@@ -73,6 +76,7 @@
 //
 // __The exemption is from advance tax, which means from 234B and 234C. It is not__
 // __an exemption from the tax itself, and it is not an exemption from 234A.__
+// மூத்தவர்_விலக்கு(வயது, வயது_எல்லை, தொழில்_வருமானம்_உள்ளதா, குடியிருப்பாளரா) — மூத்த குடிமகனுக்கு முன்வரி விலக்கு உண்டா
 செயல் மூத்தவர்_விலக்கு(வயது, வயது_எல்லை, தொழில்_வருமானம்_உள்ளதா,
                          குடியிருப்பாளரா) {
     (இல்லை குடியிருப்பாளரா) எனில் { திரும்பு பொய்; }
@@ -85,6 +89,7 @@
 // =========================================================================
 //
 // __முன்வரித்_தவணைகள்() — the schedule for a non-corporate assessee__
+// முன்வரித்_தவணைகள்() — வழக்கமான நான்கு தவணை அட்டவணை
 //
 // __Each record holds:__
 //   __"தவணை_எண்"        which instalment__
@@ -121,6 +126,7 @@
 }
 
 // __ஒற்றைத்_தவணை_அட்டவணை() — the presumptive-income schedule__
+// ஒற்றைத்_தவணை_அட்டவணை() — கருதுகோள் வருமானத்துக்கான ஒற்றைத் தவணை அட்டவணை
 //
 // __The whole liability on the last date, and nothing before it. Kept here__
 // __because it is the other schedule that actually exists, and because writing__
@@ -135,6 +141,7 @@
 // தவணை_வரை_தேவை(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை, தவணை_எண்)
 //
 // __The cumulative amount that should have been paid by one instalment date.__
+// தவணை_வரை_தேவை(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை, தவணை_எண்) — அத்தவணை வரை செலுத்தியிருக்க வேண்டியது
 செயல் தவணை_வரை_தேவை(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை, தவணை_எண்) {
     ஒவ்வொரு ஒரு_தவணை இல் அட்டவணை {
         (ஒரு_தவணை["தவணை_எண்"] == தவணை_எண்) எனில் {
@@ -154,6 +161,7 @@
 // __The two are different numbers and both are wanted. The cumulative figure is__
 // __what the interest is measured against; the difference is what leaves the__
 // __bank account.__
+// தவணை_அட்டவணையை_ஆக்கு(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை) — தவணை வாரியான செலுத்தல் அட்டவணை
 செயல் தவணை_அட்டவணையை_ஆக்கு(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை) {
     விடை = [];
     முந்தையது = 0;
@@ -183,6 +191,7 @@
 // __between a computation that agrees with the department's and one that does__
 // __not. Note that it rounds the *base*, not the interest: the interest itself__
 // __is not rounded by this rule.__
+// வட்டிக்குரிய_அடிப்படை(தொகை_மதிப்பு) — வட்டி கணக்கிட நூறின் மடங்காக வட்டமிடும்
 செயல் வட்டிக்குரிய_அடிப்படை(தொகை_மதிப்பு) {
     (தொகை_மதிப்பு <= 0) எனில் { திரும்பு 0; }
     திரும்பு தரை(தொகை_மதிப்பு / 100) * 100;
@@ -192,6 +201,7 @@
 //
 // __Part of a month is a whole month. Same rule as in mUlavari.qmz, and the same__
 // __caveat: a caller with real dates should count calendar months itself.__
+// மாதங்களாக(நாட்களின்_எண்ணிக்கை) — நாட்களை மாதங்களாக்கும்
 செயல் மாதங்களாக(நாட்களின்_எண்ணிக்கை) {
     திரும்பு வட்ட_மாதங்கள்(நாட்களின்_எண்ணிக்கை);
 }
@@ -216,6 +226,7 @@
 //
 // __Answers each instalment's working and the total, because 234C is the__
 // __computation most often disputed and a bare total cannot be argued with.__
+// தவணை_வட்டி(தேவை, செலுத்தியது, மாத_வீதம், மாதங்கள்) — ஒரு தவணை குறைந்ததற்கான வட்டி
 செயல் தவணை_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்தியவை, அட்டவணை, மாத_வீதம்) {
     வரிசைகள் = [];
     மொத்த_வட்டி = 0;
@@ -275,6 +286,7 @@
 // __on the full eleven per cent shortfall, not on the one per cent by which the__
 // __gate was missed. Pay ninety and it is nothing. There is no proportioning__
 // __anywhere in this section.__
+// குறைபாட்டு_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்திய_முன்வரி, மாத_வீதம், மாதங்கள்) — முன்வரிக் குறைபாட்டுக்கான வட்டி
 செயல் குறைபாட்டு_வட்டி(மதிப்பிட்ட_வரித்_தொகை, செலுத்திய_முன்வரி,
                           குறைந்த_விகிதம், மாத_வீதம், மாதங்கள்) {
     எல்லை = சதவீதம்(மதிப்பிட்ட_வரித்_தொகை, குறைந்த_விகிதம்);
@@ -310,6 +322,7 @@
 // __section charges interest on an amount and not a penalty for a date. A late__
 // __return with tax outstanding is expensive; a late return with tax paid costs__
 // __nothing under this section.__
+// தாமதத்_தாக்கல்_வட்டி(மொத்த_வரி, செலுத்தியவை, மாத_வீதம், மாதங்கள்) — தாமதமாகத் தாக்கல் செய்ததற்கான வட்டி
 செயல் தாமதத்_தாக்கல்_வட்டி(மொத்த_வரி, செலுத்தியவை, மாத_வீதம், மாதங்கள்) {
     நிலுவைத்_தொகை = மொத்த_வரி - செலுத்தியவை;
     (நிலுவைத்_தொகை <= 0 அல்லது மாதங்கள் <= 0) எனில் {
@@ -334,6 +347,7 @@
 // __signed rather than as a separate field, because a computation that reports__
 // __"amount payable: 0" for a refund of forty thousand rupees is worse than__
 // __useless.__
+// செலுத்த_வேண்டியது(மொத்த_வரி, மூலப்_பிடித்தம், செலுத்திய_முன்வரி, வட்டிகள்) — இறுதியில் செலுத்த வேண்டிய தொகை
 செயல் செலுத்த_வேண்டியது(மொத்த_வரி, மூலப்_பிடித்தம், செலுத்திய_முன்வரி,
                            சுய_மதிப்பீட்டு_வரி, வட்டிகள்) {
     செலுத்தியவை = மூலப்_பிடித்தம் + செலுத்திய_முன்வரி + சுய_மதிப்பீட்டு_வரி;

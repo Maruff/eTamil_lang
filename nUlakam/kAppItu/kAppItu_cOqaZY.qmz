@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __காப்பீடு சோதனை — policy, premium and claim__
+// காப்பீட்டுச் செயல்களுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/kAppItu/kAppItu_cOqaZY.qmz__
 //
 // __No rate or limit here is a claim about any real policy. They are arguments,__
 // __chosen so the arithmetic can be checked by hand.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "kAppItu.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("காப்பீடு");

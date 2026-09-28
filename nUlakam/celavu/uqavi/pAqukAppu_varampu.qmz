@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதுகாப்பு_வரம்பு(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — how far sales can fall before the loss starts__
+// சமநிலைக்கு மேல் உள்ள இடைவெளி
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The number worth knowing before a downturn rather than during one.__
+// வீழ்ச்சிக்கு முன்பே தெரிய வேண்டிய எண்
+அச்சு மதிப்பு(பாதுகாப்பு_வரம்பு(1000, 150000, 500, 300));
+
+// __A business below break-even has a negative margin of safety, and saying so__
+// __is more useful than reporting nothing.__
+// சமநிலைக்குக் கீழே இது எதிர்மறை
+அச்சு மதிப்பு(பாதுகாப்பு_வரம்பு(500, 150000, 500, 300));

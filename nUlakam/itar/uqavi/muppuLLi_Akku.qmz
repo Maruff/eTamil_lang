@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முப்புள்ளி_ஆக்கு(நம்பிக்கை, வாய்ப்பானது, அவநம்பிக்கை) — a three-point estimate: optimistic, likely, pessimistic__
+// மூன்று புள்ளி மதிப்பீடு: நம்பிக்கை, வாய்ப்பானது, அவநம்பிக்கை
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+அ = மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6));
+அச்சு அ["நம்பிக்கை"];
+அச்சு அ["அவநம்பிக்கை"];
+
+// __Points out of order are refused here rather than at the square root. A__
+// __reversed range gives a negative variance, and a negative variance fails__
+// __several functions away from the estimate that caused it.__
+// வரிசை மாறினால் இங்கேயே மறுக்கப்படும்; வர்க்கமூலத்தில் அல்ல
+அச்சு தவறா(முப்புள்ளி_ஆக்கு(6, 4, 2));
+
+// __But an estimate with no spread at all is allowed: some tasks really are__
+// __known, and forcing a fake range onto them is worse than saying so.__
+// பரவலே இல்லாத மதிப்பீடும் அனுமதிக்கப்படுகிறது
+அச்சு சரியா(முப்புள்ளி_ஆக்கு(4, 4, 4));

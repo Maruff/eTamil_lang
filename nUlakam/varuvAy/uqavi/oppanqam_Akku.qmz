@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்பந்தம்_ஆக்கு(ஒப்பந்தக்_குறி, வாடிக்கையாளர், தொடக்க_நாள்) — a contract record__
+// ஒரு ஒப்பந்தப் பதிவை உருவாக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The identity of the thing everything else here is about: who, and from__
+// __when. The money is not in it, because the money is the answer to the five__
+// __steps rather than an input to them.__
+// யார், எப்போதிருந்து; பணம் இதில் இல்லை — பணம் ஐந்து படிகளின் விடை
+ஒப்பந்தம் = ஒப்பந்தம்_ஆக்கு("C-1", "தமிழ்நாடு மின்வாரியம்", "2026-04-01");
+அச்சு ஒப்பந்தம்["குறி"];
+அச்சு ஒப்பந்தம்["வாடிக்கையாளர்"];
+அச்சு ஒப்பந்தம்["தொடக்க_நாள்"];

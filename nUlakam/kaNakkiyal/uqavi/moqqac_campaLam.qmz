@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தச்_சம்பளம்(கூறுகள்) — the gross, from its components__
+// கூறுகள் அனைத்தும் கூட்டியது
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A salary is a list of components rather than one number, because almost__
+// __every deduction is computed on a different subset of them.__
+// சம்பளம் ஒரே எண் அல்ல; ஒவ்வொரு பிடித்தமும் வெவ்வேறு கூறுகளின்மீது
+கூறுகள் = [{"பெயர்": "அடிப்படை", "தொகை": 40000},
+            {"பெயர்": "அகவிலைப்படி", "தொகை": 8000},
+            {"பெயர்": "வீட்டுப்படி", "தொகை": 16000}];
+அச்சு மொத்தச்_சம்பளம்(கூறுகள்);
+அச்சு மொத்தச்_சம்பளம்([]);

@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நல்ல_வெளியீடு(உள்ளீட்டு_அலகுகள், உண்மை_இழப்பு) — what came out good__
+// உள்ளீட்டில் உண்மை இழப்பு போக மிஞ்சுவது
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு நல்ல_வெளியீடு(10000, 700);
+அச்சு நல்ல_வெளியீடு(10000, 0);

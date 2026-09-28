@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேவையா(மதிப்பு, வரம்புத்_தொகை) — does this consignment need an e-way bill?__
+// இந்தச் சரக்குக்கு வழிச்சீட்டு தேவையா
+
+இறக்கு "../cuwkam.qmz";
+
+// __Above the threshold, one is needed.__
+// வரம்புக்கு மேல் இருந்தால் தேவை
+அச்சு தேவையா(60000, 50000);
+
+// __At it, none is: the rule is "exceeds", not "reaches". A consignment of__
+// __exactly fifty thousand is the case this gets right and a > read as >= does__
+// __not.__
+// வரம்பிற்குச் சமமானால் தேவையில்லை; விதி "மிஞ்சினால்" என்பதே
+அச்சு தேவையா(50000, 50000);
+
+// __The threshold is an argument because states set their own.__
+// வரம்பு அளபுருவாக வருகிறது; ஒவ்வொரு மாநிலமும் தனித் தனியே நிர்ணயிக்கிறது
+அச்சு தேவையா(60000, 100000);

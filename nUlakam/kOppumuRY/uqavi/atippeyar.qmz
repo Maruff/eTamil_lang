@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்பெயர்(பாதை) — the last segment of a path__
+// பாதையின் கடைசித் துண்டு
+
+இறக்கு "../kOppumuRY.qmz";
+
+அச்சு அடிப்பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz");
+
+// __A bare name is its own base name, so this is safe on something that may__
+// __or may not have a directory in front of it.__
+// பெயர் மட்டும் இருந்தால் அதுவே அடிப்பெயர்
+அச்சு அடிப்பெயர்("pErEtu.qmz");
+
+// __Backslashes are normalised first, so a path that came from Windows reads__
+// __the same as one that did not.__
+// விண்டோசிலிருந்து வந்த பாதையும் ஒரே மாதிரியே படிக்கப்படும்
+அச்சு அடிப்பெயர்("nUlakam\\kaNakkiyal\\pErEtu.qmz");

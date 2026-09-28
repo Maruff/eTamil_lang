@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சதவீத_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை) — the absorption rate as a percentage__
+// உள்வாங்கல் விகிதம், சதவீதமாக
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __For the two money bases, where a rate per rupee reads better as a__
+// __percentage: 200% of direct wages rather than 2 per rupee.__
+// பணத்தை அடிப்படையாகக் கொண்ட வகைகளுக்கு இது படிக்க எளிது
+அச்சு மதிப்பு(சதவீத_விகிதம்(600000, 300000));
+அச்சு தவறா(சதவீத_விகிதம்(600000, 0));

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதல்_சில(பட்டியல், எண்ணிக்கை) — the best few, sorted first__
+// வரிசைப்படுத்திய பின் முதல் சில
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+பட்டியல் = [{"குறி": "a", "மதிப்பெண்": 1.0},
+             {"குறி": "b", "மதிப்பெண்": 4.5},
+             {"குறி": "c", "மதிப்பெண்": 2.2}];
+
+// __It sorts first, so a caller cannot take the top of an unsorted list by__
+// __accident — which is the mistake that makes a search look random.__
+// முதலில் வரிசைப்படுத்துகிறது; வரிசையிடாத பட்டியலின் தலைப்பகுதி எடுக்கப்படுவதில்லை
+ஒவ்வொரு ஒன்று இல் முதல்_சில(பட்டியல், 2) { அச்சு ஒன்று["குறி"]; }
+
+// __Asking for more than there are gives what there is.__
+// உள்ளதைவிட அதிகம் கேட்டால் உள்ளதே கிடைக்கும்
+அச்சு நீளம்(முதல்_சில(பட்டியல், 10));

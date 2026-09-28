@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சுருக்கு(சரம், எல்லை) — cut to length, and say that something was left out__
+// நீளத்துக்கு வெட்டி, ஏதோ விடப்பட்டதைக் குறிக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __The ellipsis matters: a model given a passage that stops mid-sentence with__
+// __no sign of it will answer as though the sentence ended there.__
+// முக்குறி முக்கியம்; இல்லையெனில் வாக்கியம் அங்கேயே முடிந்ததாக மாதிரி எண்ணும்
+அச்சு சுருக்கு("வணக்கம் உலகம்", 7);
+
+// __Something already short enough is left exactly as it is.__
+// ஏற்கெனவே குறுகியது அப்படியே
+அச்சு சுருக்கு("வணக்கம்", 50);

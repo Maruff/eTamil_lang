@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — fixed-size chunks that overlap a little__
+// நிலையான அளவில், சிறிது மேற்பொருந்தும்படித் துண்டாக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+பாடம் = "0123456789abcdefghij";
+
+// __The overlap is what stops an answer being cut in half at a chunk boundary:__
+// __a sentence spanning two chunks appears whole in at least one of them.__
+// மேற்பொருந்தல், விடை இரு துண்டுகளுக்கு நடுவே வெட்டுப்படுவதைத் தடுக்கிறது
+துண்டுகள் = அளவுக்கேற்பத்_துண்டாக்கு(பாடம், 8, 3);
+ஒவ்வொரு ஒரு_துண்டு இல் துண்டுகள் { அச்சு ஒரு_துண்டு; }
+
+// __An overlap as large as the chunk would never advance, so it is capped one__
+// __short — otherwise this loops for ever.__
+// மேற்பொருந்தல் துண்டின் அளவுக்குச் சமமானால் முன்னேற்றமே இருக்காது
+அச்சு நீளம்(அளவுக்கேற்பத்_துண்டாக்கு(பாடம், 8, 20));
+அச்சு நீளம்(அளவுக்கேற்பத்_துண்டாக்கு(பாடம், 0, 0));

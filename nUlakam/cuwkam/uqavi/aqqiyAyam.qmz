@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அத்தியாயம்(குறியீட்டெண்) — the chapter this heading belongs to__
+// இந்தத் தலைப்பு சேரும் அத்தியாயம்
+
+இறக்கு "../cuwkam.qmz";
+
+// __The first two digits, which is how the tariff is organised: everything__
+// __under 84 is machinery, whatever the remaining six digits say.__
+// முதல் இரண்டு இலக்கங்கள்; 84-ன் கீழ் வருவதெல்லாம் இயந்திரங்கள்
+அச்சு அத்தியாயம்("84713010");
+அச்சு அத்தியாயம்("8528");
+
+// __Something too short has no chapter, and answers with nothing rather than__
+// __with whatever happened to be there.__
+// மிகக் குறுகியதற்கு அத்தியாயம் இல்லை
+அச்சு "[" & அத்தியாயம்("8") & "]";

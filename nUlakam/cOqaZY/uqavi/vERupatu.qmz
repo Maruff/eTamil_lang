@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேறுபடு(ஓட்டம், கிடைத்தது, தவிர்க்கப்பட்டது, விவரம்) — these two must differ__
+// இவ்விரண்டும் வேறுபட வேண்டும்
+
+இறக்கு "../cOqaZY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("வேறுபடு");
+
+// __For the checks where the interesting thing is that a value changed, or__
+// __that two ids are not the same one twice.__
+// மதிப்பு மாறியிருக்க வேண்டும் என்பதைச் சோதிக்க
+ஓட்டம் = வேறுபடு(ஓட்டம், "கடன்", "வரவு", "a debit is not a credit");
+ஓட்டம் = வேறுபடு(ஓட்டம், வட்டமிடு(2.5, 0), வட்டமிடு(2.4, 0), "and these round apart");
+
+அச்சு ஓட்டம்["வெற்றி"];

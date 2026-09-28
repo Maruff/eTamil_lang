@@ -1,0 +1,73 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/muZZurYppu.qmz — முன்னுரைப்பு: what this will cost by the end__
+// முன்னுரைப்பு: முடிவில் இது எவ்வளவாகும்
+//
+// __Three forecasts, because they disagree and the disagreement is the__
+// __information: the rest goes to plan, the rest goes as badly as so far, or__
+// __the schedule drags the cost with it.__
+//
+// __Three estimates at completion, answering three different questions. Which__
+// __one to use is a governance decision, not a calculation preference, so the__
+// __module makes the caller choose rather than defaulting silently — the spread__
+// __between them is usually large enough to change what a steering committee__
+// __does.__
+
+// முடிவில்_மதிப்பீடு_மீதியால்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது)
+// __The overrun was a one-off; the rest goes to plan.__
+// முடிவில்_மதிப்பீடு_மீதியால்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது) — மீதி திட்டப்படியே போகும் என்ற அனுமானத்தில் முடிவு மதிப்பீடு
+செயல் முடிவில்_மதிப்பீடு_மீதியால்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது) {
+    திரும்பு உண்மைச்_செலவு + (மொத்த_நிதி - ஈட்டியது);
+}
+
+// முடிவில்_மதிப்பீடு_திறனால்(மொத்த_நிதி, செலவுத்_திறன்)
+// __Current cost efficiency persists. The default assumption, and usually right.__
+// முடிவில்_மதிப்பீடு_திறனால்(மொத்த_நிதி, செலவுத்_திறன்) — இதுவரையான செயல்திறன் தொடரும் என்ற அனுமானத்தில்
+செயல் முடிவில்_மதிப்பீடு_திறனால்(மொத்த_நிதி, செலவுத்_திறன்) {
+    (செலவுத்_திறன் == 0) எனில் { திரும்பு தவறு("செயல்திறன் பூஜ்யம்"); }
+    திரும்பு சரி(மொத்த_நிதி / செலவுத்_திறன்);
+}
+
+// முடிவில்_மதிப்பீடு_இரண்டாலும்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது,
+//                                செலவுத்_திறன், காலத்_திறன்)
+// __Both cost and schedule pressure persist — appropriate when a fixed end date__
+// __will force expediting.__
+// முடிவில்_மதிப்பீடு_இரண்டாலும்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது, செலவுத்_திறன், காலத்_திறன்) — செலவும் காலமும் சேர்ந்து பாதிக்கும் என்ற அனுமானத்தில்
+செயல் முடிவில்_மதிப்பீடு_இரண்டாலும்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது,
+                                    செலவுத்_திறன், காலத்_திறன்) {
+    கூட்டுத்_திறன் = செலவுத்_திறன் * காலத்_திறன்;
+    (கூட்டுத்_திறன் == 0) எனில் { திரும்பு தவறு("கூட்டுச் செயல்திறன் பூஜ்யம்"); }
+    திரும்பு சரி(உண்மைச்_செலவு + (மொத்த_நிதி - ஈட்டியது) / கூட்டுத்_திறன்);
+}
+
+// __முடிக்க_மீதி(முடிவில்_மதிப்பீடு, உண்மைச்_செலவு) — estimate to complete, ETC__
+// முடிக்க_மீதி(முடிவில்_மதிப்பீடு, உண்மைச்_செலவு) — முடிக்க இன்னும் தேவைப்படும் மதிப்பீடு
+//
+// __What the rest is now expected to cost: the forecast at completion less what has already gone. Derived from the forecast rather than from the remaining budget, so it inherits whatever efficiency assumption that forecast was built on.__
+செயல் முடிக்க_மீதி(முடிவில்_மதிப்பீடு, உண்மைச்_செலவு) {
+    திரும்பு முடிவில்_மதிப்பீடு - உண்மைச்_செலவு;
+}
+
+// __முடிவில்_வேறுபாடு(மொத்த_நிதி, முடிவில்_மதிப்பீடு) — variance at completion, VAC__
+// முடிவில்_வேறுபாடு(மொத்த_நிதி, முடிவில்_மதிப்பீடு) — முடிவில் எதிர்பார்க்கும் வேறுபாடு
+//
+// __The budget less the forecast: the overrun as it is expected to land, while there is still time to act on it. Negative is an overspend. This is the number a steering committee should be shown, because CV reports what has happened and VAC reports where it ends.__
+செயல் முடிவில்_வேறுபாடு(மொத்த_நிதி, முடிவில்_மதிப்பீடு) {
+    திரும்பு மொத்த_நிதி - முடிவில்_மதிப்பீடு;
+}
+
+// __முடிக்கத்_தேவையான_திறன்(மொத்த_நிதி, ஈட்டியது, உண்மைச்_செலவு) — TCPI__
+// முடிக்கத்_தேவையான_திறன்(மொத்த_நிதி, ஈட்டியது, உண்மைச்_செலவு) — நிதிக்குள் முடிக்கத் தேவையான செயல்திறன்
+//
+// __The sharpest number on a status report: the efficiency now required to__
+// __finish within budget. A project running at 0.91 that must run at 1.07 is__
+// __being asked to improve by 18% immediately and hold it. Teams routinely__
+// __promise this; it essentially never happens, and the gap between achieved and__
+// __required is the quantitative form of that judgement.__
+செயல் முடிக்கத்_தேவையான_திறன்(மொத்த_நிதி, ஈட்டியது, உண்மைச்_செலவு) {
+    மீதி_நிதி = மொத்த_நிதி - உண்மைச்_செலவு;
+    (மீதி_நிதி == 0) எனில் {
+        திரும்பு தவறு("நிதி தீர்ந்தது: எந்தச் செயல்திறனும் போதாது");
+    }
+    திரும்பு சரி((மொத்த_நிதி - ஈட்டியது) / மீதி_நிதி);
+}

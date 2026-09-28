@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வன்பொருள் சோதனை — pins, time and serial on the simulated board__
+// போலிப் பலகையில் முனை, நேரம், தொடர்த் துறைக்கான சோதனைகள்
 //
 //   __ETAMIL_BOARD=sim etamil --vm nUlakam/vaZporuL/vaZporuL_cOqaZY.qmz__
 //
@@ -8,7 +9,7 @@
 // __builtins that vaZporuL.qmz is written over; until they land it stops at the__
 // __first call.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vaZporuL.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("வன்பொருள் (pins, time, serial)");

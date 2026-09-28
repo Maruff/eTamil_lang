@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/utpoqippu.qmz — உட்பொதிப்பு, turning text into vectors__
+// உட்பொதிப்பு: உரையைத் திசையனாக்குதல்
 //
 // __oRRumY.qmz compares vectors; this is where they come from. A model reads a__
 // __piece of text and returns a list of numbers positioned so that texts about__
@@ -21,14 +22,16 @@
 // __embedded with a title prepended and questions are not, the two are being__
 // __placed in the space by different rules.__
 
-இறக்கு "../jEcAZ.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../vativam/jEcAZ.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __இயல்பு_முகவரி() — where Ollama listens by default__
+// இயல்பு_முகவரி() — உட்பொதிப்புச் சேவை இயல்பாகக் கேட்கும் முகவரி
 செயல் இயல்பு_முகவரி() { திரும்பு "http://127.0.0.1:11434"; }
 
 // __இயல்பு_மாதிரி() — a small embedding model that runs on modest hardware__
+// இயல்பு_மாதிரி() — சிறிய இயந்திரத்திலும் ஓடும் இயல்பு மாதிரி
 //
 // __all-minilm is 45 MB and 384 dimensions. Named here so that every caller__
 // __gets the same default, since a mismatch between two callers is exactly the__
@@ -36,6 +39,7 @@
 செயல் இயல்பு_மாதிரி() { திரும்பு "all-minilm"; }
 
 // __உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) — assemble the text to embed__
+// உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) — உட்பொதிக்க வேண்டிய உரையைத் தயாரிக்கும்
 //
 // __Several plain words are unavailable as names here. முகவரி, பதில் and__
 // __வரம்பு are all reserved — they are the address, response and constraint__
@@ -56,6 +60,7 @@
 }
 
 // __கோரிக்கை_உடல்(மாதிரி, உரைகள்) — the JSON body Ollama's embed endpoint wants__
+// கோரிக்கை_உடல்(மாதிரி, உரைகள்) — உட்பொதிப்புக் கோரிக்கையின் ஜேசான் உடல்
 //
 // __Built through ஜேசான்_ஆக்கு rather than by concatenating strings, so that a__
 // __quotation mark or a newline inside a document cannot produce a malformed__
@@ -65,6 +70,7 @@
 }
 
 // __பதிலைப்_பிரி(பதில்_உரை, எதிர்பார்த்த_எண்ணிக்கை) — read the vectors back__
+// பதிலைப்_பிரி(பதில்_உரை, எதிர்பார்த்த_எண்ணிக்கை) — திசையன்களைப் பதிலிலிருந்து படிக்கும்
 //
 // __Refuses a reply with the wrong number of vectors rather than returning the__
 // __ones that arrived. A short batch would silently misalign every vector with__
@@ -87,6 +93,7 @@
 }
 
 // __பொதி(இணையவழி, மாதிரி, உரைகள்) — embed a batch of texts__
+// பொதி(இணையவழி, மாதிரி, உரைகள்) — ஒரு தொகுதி உரைகளை உட்பொதிக்கும்
 //
 // __A batch rather than one call per text: the per-request overhead dominates__
 // __otherwise. Not an unlimited batch, though — a failure costs the whole batch,__
@@ -109,6 +116,7 @@
 }
 
 // __ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) — embed a single text, for a question__
+// ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) — ஒரே உரையை உட்பொதிக்கும்; கேள்விக்கு உதவும்
 செயல் ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) {
     பல = பொதி(இணையவழி, மாதிரி, [ஒரு_உரை]);
     (தவறா(பல)) எனில் { திரும்பு பல; }
@@ -116,6 +124,7 @@
 }
 
 // __சேவை_இயங்குகிறதா(இணையவழி) — is there an embedder to talk to at all?__
+// சேவை_இயங்குகிறதா(இணையவழி) — பேசுவதற்கு உட்பொதிப்புச் சேவை உள்ளதா
 //
 // __Worth asking before a long indexing run, and worth asking separately from__
 // __embedding: "the service is down" and "the text produced no vector" need__

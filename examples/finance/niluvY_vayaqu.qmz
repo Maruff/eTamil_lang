@@ -7,7 +7,7 @@
 இறக்கு "../../nUlakam/kaNakkiyal/vari.qmz";
 இறக்கு "../../nUlakam/kaNakkiyal/oqukkItu.qmz";
 இறக்கு "../../nUlakam/kaNakkiyal/aRikkYkaL.qmz";
-இறக்கு "../../nUlakam/paNam.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
 
 கணக்குகள் = [
     மதிப்பு(கணக்கு_ஆக்கு("1000", "வங்கி",       வகை_சொத்து(),   "நடப்பு")),

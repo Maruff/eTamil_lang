@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குழுக்கள்(இலக்கங்கள்) — group digits the Indian way: last three, then twos__
+// இந்திய முறையில் இலக்கங்களைப் பிரிக்கும்: கடைசி மூன்று, பின் இரண்டிரண்டாக
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __Not thousands all the way up. 10,00,000 is ten lakh, and writing it__
+// __1,000,000 reads as a million to a reader who has been told it is rupees.__
+// ஆயிரம் ஆயிரமாக அல்ல; 10,00,000 என்பது பத்து லட்சம்
+அச்சு குழுக்கள்("1000000");
+அச்சு குழுக்கள்("10000000");
+
+// __Three digits or fewer are left alone.__
+// மூன்று இலக்கங்களுக்குக் குறைவானவை அப்படியே
+அச்சு குழுக்கள்("999");
+அச்சு குழுக்கள்("1000");

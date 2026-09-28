@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவு_வேறுபாடு(ஈட்டியது, உண்மைச்_செலவு) — earned less spent: are we getting our money's worth?__
+// ஈட்டியதும் செலவழித்ததும்: செலவு வேறுபாடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Negative is over budget. Earned 2,50,000 of value for 3,00,000 of cost.__
+// எதிர்மறை என்றால் நிதியை மீறியது
+அச்சு செலவு_வேறுபாடு(250000, 300000);
+அச்சு செலவு_வேறுபாடு(300000, 250000);
+அச்சு செலவு_வேறுபாடு(250000, 250000);

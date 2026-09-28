@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேர்கோட்டு_அட்டவணை(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — the whole straight-line schedule__
+// நேர்கோட்டுத் தேய்வு அட்டவணை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அட்டவணை = நேர்கோட்டு_அட்டவணை(500000, 50000, 5);
+
+ஒவ்வொரு ஒரு_ஆண்டு இல் அட்டவணை {
+    அச்சு சொல்லாக்கு(ஒரு_ஆண்டு["ஆண்டெண்"]) & ": "
+          & சொல்லாக்கு(ஒரு_ஆண்டு["தேய்வு"]) & " → "
+          & சொல்லாக்கு(ஒரு_ஆண்டு["முடிவு"]);
+}
+
+// __The last year absorbs the rounding, so the closing value is exactly the__
+// __residual — an asset register that ends at 49,999.98 cannot be disposed of__
+// __cleanly.__
+// கடைசி ஆண்டு வட்டமிடலின் மிச்சத்தை ஏற்கும்; முடிவு சரியாக எஞ்சிய மதிப்பே
+அச்சு அட்டவணை[4]["முடிவு"];

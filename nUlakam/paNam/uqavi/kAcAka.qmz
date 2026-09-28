@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசாக(தொகை) — round a rupee figure to whole paise__
+// ரூபாய்த் தொகையை முழுப் பைசாவாக வட்டமிடும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __What a computed share has to pass through before it can be charged. Two__
+// __decimal places is as fine as money gets.__
+// கணக்கிட்ட பங்கு வசூலிக்கப்படுமுன் இதைக் கடக்க வேண்டும்
+அச்சு காசாக(100 / 3);
+அச்சு காசாக(249.999);
+அச்சு காசாக(249.5);

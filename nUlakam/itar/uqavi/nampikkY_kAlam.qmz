@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நம்பிக்கை_காலம்(நிகழ்தகவு_சதவீதம், மதிப்பீடுகள்) — the duration that carries that confidence__
+// சொன்ன நிகழ்தகவுக்கு உரிய காலம்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __The question a sponsor actually asks, which is இலக்கு_நிகழ்தகவு turned__
+// __round: not \"what are the odds on this date\" but \"what date can I have at__
+// __these odds\".__
+// ஆதரவாளர் உண்மையில் கேட்கும் வினா இதுவே
+அச்சு நம்பிக்கை_காலம்(50, பாதை);
+அச்சு நம்பிக்கை_காலம்(85, பாதை);
+அச்சு நம்பிக்கை_காலம்(95, பாதை);
+
+// __The gap between the 50% date and the 85% date is the contingency the__
+// __schedule needs. Quoting the first and being measured against it is how a__
+// __plan is late before it starts.__
+// ஐம்பதுக்கும் எண்பத்தைந்துக்கும் இடையிலுள்ள இடைவெளியே தேவையான தற்செயல் காலம்
+அச்சு நம்பிக்கை_காலம்(85, பாதை) - நம்பிக்கை_காலம்(50, பாதை);

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_வருவாய்() — the revenue element__
+// வருவாய் மூலம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அச்சு வகை_வருவாய்();
+
+// __Revenue and expense do not go on the balance sheet: they are closed into__
+// __equity at the year end, and a report that showed them there would count__
+// __the same profit twice.__
+// வருவாயும் செலவும் இருப்புநிலையில் வருவதில்லை; ஆண்டிறுதியில் பங்குக்குள் மூடப்படுகின்றன
+அச்சு இருப்புநிலைக்கானதா(வகை_வருவாய்());
+அச்சு பற்று_இயல்பா(வகை_வருவாய்());

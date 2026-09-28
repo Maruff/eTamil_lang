@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காத்திரு(மில்லி) — pause for this many milliseconds__
+// இத்தனை மில்லி நொடிகள் நிற்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+தொடக்கம் = மில்லி_நொடி();
+
+// __On the simulated board a pause advances simulated time instead of actually__
+// __waiting, so a program that blinks once a second can be tested in full__
+// __without taking a second per blink.__
+// போலிப் பலகையில் இது காத்திருப்பதில்லை; நேரத்தை நகர்த்துகிறது
+காத்திரு(1000);
+அச்சு மில்லி_நொடி() - தொடக்கம்;
+
+// __On a real board it stops the program. Anything that has to keep responding__
+// __while it waits should compare மில்லி_நொடி readings instead.__
+// உண்மையான பலகையில் இது நிரலையே நிறுத்தும்

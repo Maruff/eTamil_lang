@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையை_மாற்று(ஒரு_உள்ளீடு, புதிய_நிலைமை) — move an entry to a new state, or refuse__
+// நேரத்தாள் பதிவைப் புதிய நிலைக்கு நகர்த்தும், அல்லது மறுக்கும்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+உள்ளீடு = நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 8, மெய்);
+
+சமர்ப்பித்தது = மதிப்பு(நிலையை_மாற்று(உள்ளீடு, "சமர்ப்பித்தது"));
+ஏற்றது = மதிப்பு(நிலையை_மாற்று(சமர்ப்பித்தது, "ஏற்றது"));
+அச்சு ஏற்றது["நிலைமை"];
+
+// __The hours survive the move: approving a sheet must not change what it says.__
+// மணிகள் மாற்றத்தைத் தாண்டி அப்படியே இருக்கும்
+அச்சு ஏற்றது["மணிகள்"];
+
+// __An illegal transition is refused rather than silently allowed.__
+// முறையற்ற மாற்றம் மறுக்கப்படும்
+அச்சு தவறா(நிலையை_மாற்று(ஏற்றது, "வரைவு"));

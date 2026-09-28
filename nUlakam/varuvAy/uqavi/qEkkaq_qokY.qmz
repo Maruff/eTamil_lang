@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேக்கத்_தொகை(விலைப்பட்டியல்_தொகை, தேக்க_விகிதம்) — the retention held back from an invoice__
+// விலைப்பட்டியலில் தேக்கி வைக்கப்படும் தொகை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Five or ten per cent of every certified invoice, held until the defects__
+// __period ends. It is earned revenue that has been invoiced and will not be__
+// __paid for a year.__
+// ஒவ்வொரு பில்லிலும் பிடித்து வைக்கப்படுவது; ஓராண்டு கழித்தே கிடைக்கும்
+அச்சு தேக்கத்_தொகை(1000000, 5);
+அச்சு தேக்கத்_தொகை(1000000, 10);
+
+// __No retention is nothing held back.__
+// தேக்கம் இல்லையெனில் ஒன்றும் பிடிக்கப்படுவதில்லை
+அச்சு தேக்கத்_தொகை(1000000, 0);

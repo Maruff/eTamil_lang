@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முழு_எண்ணா(மதிப்பு) — is this a whole number?__
+// இது முழு எண்ணா
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு முழு_எண்ணா(12);
+அச்சு முழு_எண்ணா(12.5);
+அச்சு முழு_எண்ணா(0 - 3);

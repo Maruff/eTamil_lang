@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_வடிவம்(தொகை) — a rupee figure grouped and given two decimals__
+// குழுக்களுடனும் இரு தசம இடங்களுடனும் ரூபாய்த் தொகை
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __This one takes rupees, not paise — it is the printing end of the module,__
+// __where an amount has already been turned back into rupees for a reader.__
+// இது ரூபாயையே ஏற்கிறது, பைசாவை அல்ல; இது படிப்பதற்கான முனை
+அச்சு காசு_வடிவம்(1234567.5);
+அச்சு காசு_வடிவம்(1000);
+
+// __The paise are padded, so a column of figures lines up at the point.__
+// பைசா நிரப்பப்படுகிறது; எனவே எண்கள் புள்ளியில் ஒழுங்காக நிற்கும்
+அச்சு காசு_வடிவம்(0.5);
+
+// __A negative keeps its sign outside the grouping.__
+// எதிர்மறைக் குறி குழுக்களுக்கு வெளியே
+அச்சு காசு_வடிவம்(0 - 1234567.5);

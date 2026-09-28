@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முழுமதிப்பு(எண்) — absolute value__
+// குறியின்றி எண்ணின் அளவு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு முழுமதிப்பு(0 - 7);
+அச்சு முழுமதிப்பு(7);
+அச்சு முழுமதிப்பு(0);

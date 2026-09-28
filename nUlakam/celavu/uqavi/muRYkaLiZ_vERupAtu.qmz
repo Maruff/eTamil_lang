@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறைகளின்_வேறுபாடு(தொடக்க_நிலை_அலகுகள், தொடக்க_நிறைவு, முடிந்த_அலகுகள், இறுதி_நிலை_அலகுகள், இறுதி_நிறைவு) — how far the two methods disagree__
+// இரு முறைகளுக்கும் இடையிலான வேறுபாடு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The difference is exactly the work already done on the opening stock, which__
+// __is the whole of what separates the two methods.__
+// வேறுபாடு என்பது தொடக்க இருப்பில் ஏற்கெனவே செய்த வேலையே
+விடை = முறைகளின்_வேறுபாடு(500, 40, 9000, 400, 50);
+அச்சு விடை["சராசரி"];
+அச்சு விடை["fifo"];
+அச்சு விடை["வேறுபாடு"];
+அச்சு விடை["முந்தைய_கால_வேலை"];
+
+// __With no opening stock the two agree, which is why the choice only matters__
+// __in a process that never stops.__
+// தொடக்க இருப்பு இல்லையெனில் இரு முறைகளும் ஒன்றே
+அச்சு முறைகளின்_வேறுபாடு(0, 0, 9000, 400, 50)["வேறுபாடு"];

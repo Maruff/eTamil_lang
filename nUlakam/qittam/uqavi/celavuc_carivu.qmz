@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவுச்_சரிவு(நேரத்_தரவு) — what one day costs__
+// ஒரு கால அலகை வாங்கும் செலவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The slope of the line: thirty thousand over three days is ten thousand a__
+// __day. This is the number a crashing decision is made on, and comparing__
+// __total crash costs instead picks the wrong activity.__
+// கோட்டின் சரிவு; இதுவே முடிவெடுக்கும் எண்
+அச்சு செலவுச்_சரிவு(செயல்_நேர_செலவு("A", 10, 100000, 7, 130000));
+
+// __An activity that cannot be crashed has no slope, and is priced high enough__
+// __never to be chosen.__
+// சுருக்க முடியாத செயலுக்குச் சரிவு இல்லை
+அச்சு செலவுச்_சரிவு(செயல்_நேர_செலவு("B", 5, 50000, 5, 50000)) > 1000000;

@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆண்டுகளைக்_கூட்டு(ஒரு_நாள், ஆண்டு_எண்ணிக்கை) — add years, with the same clamping__
+// நாளுடன் ஆண்டுகளைக் கூட்டும், அதே நிறுத்தத்துடன்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு ஆண்டுகளைக்_கூட்டு("2026-03-15", 5);
+
+// __A leap day plus a year is the 28th, because the 29th is not there to go to.__
+// __An insurance policy incepted on 29 February renews on the 28th.__
+// நெட்டாண்டு நாளுடன் ஒரு ஆண்டு கூட்டினால் 28; 29 அங்கு இல்லை
+அச்சு ஆண்டுகளைக்_கூட்டு("2024-02-29", 1);
+அச்சு ஆண்டுகளைக்_கூட்டு("2024-02-29", 4);
+
+// __Backwards too.__
+// பின்னோக்கியும்
+அச்சு ஆண்டுகளைக்_கூட்டு("2026-03-15", 0 - 1);

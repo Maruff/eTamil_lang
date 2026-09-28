@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலப்_பகிர்வு(காலம்_எண், காலத்_தொகை) — one period's share of the budget__
+// ஒரு காலத்துக்கான நிதிப் பங்கு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __A budget spread over time rather than a single number, because a project__
+// __that is on budget overall and out of cash in March is still stopped.__
+// நிதி காலவாரியாகப் பரவுகிறது; மொத்தம் சரியாக இருந்தும் பணம் தீரலாம்
+பகிர்வுகள் = [காலப்_பகிர்வு(1, 100000),
+              காலப்_பகிர்வு(2, 250000),
+              காலப்_பகிர்வு(3, 400000)];
+
+அச்சு பகிர்வுகள்[1]["காலம்_எண்"];
+அச்சு பகிர்வுகள்[1]["காலத்_தொகை"];

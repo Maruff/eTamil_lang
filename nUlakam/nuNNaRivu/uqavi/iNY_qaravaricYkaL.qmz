@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இணை_தரவரிசைகள்(தரவரிசைகள், எடைகள்) — fuse several rankings into one__
+// பல தரவரிசைகளை ஒரே தரவரிசையாக இணைக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+சொல்_தேடல் = [{"குறி": "a", "மதிப்பெண்": 9.1},
+               {"குறி": "b", "மதிப்பெண்": 4.0}];
+பொருள்_தேடல் = [{"குறி": "b", "மதிப்பெண்": 0.82},
+                 {"குறி": "c", "மதிப்பெண்": 0.71}];
+
+// __A document both retrievers found rises above one that only a single__
+// __retriever ranked first — which is the whole point of fusing rather than__
+// __picking.__
+// இரு தேடிகளும் கண்டறிந்த ஆவணம் மேலே வரும்
+இணைந்தது = இணை_தரவரிசைகள்([சொல்_தேடல், பொருள்_தேடல்], [1, 1]);
+ஒவ்வொரு ஒன்று இல் இணைந்தது { அச்சு ஒன்று["குறி"]; }
+
+// __Everything either retriever found is in the result.__
+// ஏதேனும் ஒரு தேடி கண்டறிந்த அனைத்தும் விடையில் உள்ளன
+அச்சு நீளம்(இணைந்தது);

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அதிகபட்சச்_சொற்கள்() — how long an answer may be__
+// பதில் எவ்வளவு நீளமாக இருக்கலாம்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Short on purpose. A small model asked for a long answer fills the length__
+// __with invention once it has said what the material supports.__
+// வேண்டுமென்றே குறுகியது; நீளம் கேட்டால் சிறிய மாதிரி இட்டுக்கட்டும்
+அச்சு அதிகபட்சச்_சொற்கள்();

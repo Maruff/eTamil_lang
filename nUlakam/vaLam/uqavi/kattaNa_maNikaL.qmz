@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டண_மணிகள்(கணக்கிட்ட_உள்ளீடுகள்) — the hours that can be charged to a customer__
+// கட்டணத்துக்கு உரிய மணிகள்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+விகிதங்கள் = [விகிதப்_பதிவு("E1", 500, "2025-04-01", "")];
+தாள் = [நேர_உள்ளீடு("E1", "2026-03-30", "S2a", 8, மெய்),
+         நேர_உள்ளீடு("E1", "2026-03-31", "S2a", 8, மெய்),
+         நேர_உள்ளீடு("E1", "2026-04-02", "S2b", 8, பொய்)];
+வரிசைகள் = மதிப்பு(தாளைக்_கணக்கிடு(தாள், விகிதங்கள்))["உள்ளீடுகள்"];
+
+// __Sixteen of the twenty-four hours are chargeable. The rest is real work that__
+// __costs real money and earns none — which is a fact about the project, not a__
+// __fault in the sheet.__
+// இருபத்து நான்கில் பதினாறு மட்டுமே கட்டணத்துக்கு உரியவை
+அச்சு கட்டண_மணிகள்(வரிசைகள்);

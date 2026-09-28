@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்னோட்டங்கள்(தொடர்புகள்) — the links that overlap their predecessor__
+// முன்னோட்டம் கொண்ட தொடர்புகள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொடர்புகள் = [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7),
+               தொடர்பு_ஆக்கு("R", "S", "முடிவு_தொடக்கம்", 0 - 2)];
+
+// __Each of these is a decision to start something before the thing it depends__
+// __on has finished, and each is a risk somebody took on purpose and nobody__
+// __wrote down.__
+// ஒவ்வொன்றும் வேண்டுமென்றே எடுக்கப்பட்ட இடர்; எழுதப்படாதது
+ஒவ்வொரு ஒன்று இல் முன்னோட்டங்கள்(தொடர்புகள்) {
+    அச்சு ஒன்று["முன்னோடி"] & "→" & ஒன்று["பின்தொடர்"];
+}
+அச்சு நீளம்(முன்னோட்டங்கள்(தொடர்புகள்));

@@ -4,7 +4,7 @@
 //!
 //! `nUlakam/` is eTamil source, so it can travel as text. `build.rs` compiles
 //! it into the table below; this module addresses that table the way an author
-//! addresses the real directory, so `இறக்கு "nUlakam/paNam.qmz"` resolves with
+//! addresses the real directory, so `இறக்கு "nUlakam/paNam/paNam.qmz"` resolves with
 //! or without a filesystem copy.
 //!
 //! This is the *last* thing `module::locate` tries. Anything on disk wins, so
@@ -96,14 +96,14 @@ mod tests {
 
     #[test]
     fn a_module_resolves_the_way_an_author_writes_it() {
-        assert!(contains("nUlakam/paNam.qmz"));
-        assert!(contains("nUlakam/col.qmz"));
+        assert!(contains("nUlakam/paNam/paNam.qmz"));
+        assert!(contains("nUlakam/atippatY/col.qmz"));
         assert!(contains("nUlakam/kaNakkiyal/pErEtu.qmz"));
     }
 
     #[test]
     fn an_embedded_module_carries_its_source() {
-        let source = source("nUlakam/paNam.qmz").expect("paNam.qmz");
+        let source = source("nUlakam/paNam/paNam.qmz").expect("paNam.qmz");
         assert!(source.contains("ரூபாய்"), "paNam.qmz should define ரூபாய்");
     }
 
@@ -112,21 +112,33 @@ mod tests {
         // The shape that actually occurs: kaNakkiyal/ reaching one level up.
         let base = parent("nUlakam/kaNakkiyal/pErEtu.qmz");
         assert_eq!(base, "nUlakam/kaNakkiyal");
-        assert_eq!(join(&base, "../kaNiqam.qmz"), "nUlakam/kaNiqam.qmz");
+        assert_eq!(
+            join(&base, "../atippatY/kaNiqam.qmz"),
+            "nUlakam/atippatY/kaNiqam.qmz"
+        );
         assert_eq!(
             join(&base, "kaNakkukaL.qmz"),
             "nUlakam/kaNakkiyal/kaNakkukaL.qmz"
         );
-        assert!(contains(&join(&base, "../kaNiqam.qmz")));
+        assert!(contains(&join(&base, "../atippatY/kaNiqam.qmz")));
     }
 
     #[test]
     fn separators_and_dot_segments_are_folded() {
-        assert_eq!(normalise("nUlakam//col.qmz"), "nUlakam/col.qmz");
-        assert_eq!(normalise("nUlakam/./col.qmz"), "nUlakam/col.qmz");
-        assert_eq!(normalise("nUlakam\\col.qmz"), "nUlakam/col.qmz");
+        assert_eq!(
+            normalise("nUlakam//atippatY/col.qmz"),
+            "nUlakam/atippatY/col.qmz"
+        );
+        assert_eq!(
+            normalise("nUlakam/./atippatY/col.qmz"),
+            "nUlakam/atippatY/col.qmz"
+        );
+        assert_eq!(
+            normalise("nUlakam\\atippatY\\col.qmz"),
+            "nUlakam/atippatY/col.qmz"
+        );
         assert!(
-            contains("nUlakam\\col.qmz"),
+            contains("nUlakam\\atippatY\\col.qmz"),
             "a Windows separator should still resolve"
         );
     }

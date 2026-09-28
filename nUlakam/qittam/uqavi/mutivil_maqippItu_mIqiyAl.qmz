@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவில்_மதிப்பீடு_மீதியால்(உண்மைச்_செலவு, மொத்த_நிதி, ஈட்டியது) — the forecast if the rest goes to plan__
+// மீதி திட்டப்படியே போகும் என்ற அனுமானத்தில் முடிவு மதிப்பீடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The optimistic one: whatever went wrong is behind us. Right when the__
+// __overrun had a cause that has been dealt with, and wrong when it did not.__
+// நம்பிக்கையான கணிப்பு; காரணம் களையப்பட்டிருந்தால் மட்டுமே சரி
+அச்சு முடிவில்_மதிப்பீடு_மீதியால்(300000, 1000000, 250000);
+
+// __A project exactly on budget forecasts its budget.__
+// நிதிப்படியே செல்லும் திட்டம், நிதியையே கணிக்கும்
+அச்சு முடிவில்_மதிப்பீடு_மீதியால்(250000, 1000000, 250000);

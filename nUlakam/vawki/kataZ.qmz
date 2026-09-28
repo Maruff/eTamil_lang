@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vawki/kataZ.qmz — கடன் (loans): the instalment, and the schedule__
+// கடன்: மாதத் தவணையும் அட்டவணையும்
 //
 // __Rates are per annum and written as a number out of a hundred, as everywhere__
 // __else here: 9.25% is 9.25.__
@@ -13,14 +14,16 @@
 // __it is an account that will not close.__
 
 இறக்கு "vatti.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __மாத_விகிதம்(ஆண்டு_விகிதம்) — the monthly rate as a fraction__
+// மாத_விகிதம்(ஆண்டு_விகிதம்) — ஆண்டு வீதத்தை மாத வீதப் பின்னமாக்கும்
 செயல் மாத_விகிதம்(ஆண்டு_விகிதம்) {
     திரும்பு ஆண்டு_விகிதம் / 1200;
 }
 
 // __மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — the EMI__
+// மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — மாதந்தோறும் கட்ட வேண்டிய தவணை
 //
 //        __P · i · (1+i)^n__
 //   __E = ─────────────────__
@@ -49,6 +52,7 @@
 // __rounded to the paisa, because that is the figure posted to the account. What__
 // __is left of the instalment reduces the balance. The last row pays whatever__
 // __remains, which is why it is rarely equal to the others.__
+// தவணை_அட்டவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — மாதம்வாரியாக அசலும் வட்டியும்
 செயல் தவணை_அட்டவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) {
     தவணை = மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்);
     வட்டி_விகிதம் = மாத_விகிதம்(ஆண்டு_விகிதம்);
@@ -84,6 +88,7 @@
 }
 
 // __மொத்த_வட்டி(அட்டவணை) — what the borrowing cost, over the whole term__
+// மொத்த_வட்டி(அட்டவணை) — முழுக் காலத்திற்கும் கடனுக்கான செலவு
 செயல் மொத்த_வட்டி(அட்டவணை) {
     கூட்டல் = 0;
     ஒவ்வொரு வரிசைப்_பதிவு இல் அட்டவணை {
@@ -93,6 +98,7 @@
 }
 
 // __மொத்தத்_திருப்பி(அட்டவணை) — every instalment added up__
+// மொத்தத்_திருப்பி(அட்டவணை) — எல்லாத் தவணைகளின் கூட்டுத்தொகை
 செயல் மொத்தத்_திருப்பி(அட்டவணை) {
     கூட்டல் = 0;
     ஒவ்வொரு வரிசைப்_பதிவு இல் அட்டவணை {
@@ -102,6 +108,7 @@
 }
 
 // __முன்கூட்டியே_அடைத்தால்(அட்டவணை, எத்தனாவது_மாதம்) — what is owed to settle__
+// முன்கூட்டியே_அடைத்தால்(அட்டவணை, எத்தனாவது_மாதம்) — அம்மாதத்தில் முடிக்கக் கட்ட வேண்டியது
 // __after that instalment has been paid__
 //
 // __The balance in that row is what closing the loan then would cost, before any__

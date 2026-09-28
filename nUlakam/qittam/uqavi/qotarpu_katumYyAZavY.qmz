@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்பு_கடுமையானவை(வலை_விடை) — the critical nodes of a precedence network__
+// இளைப்பே இல்லாத முனைக் குறிகள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முனைகள் = [முனை_ஆக்கு("P", "தளம் தயார்", 4),
+            முனை_ஆக்கு("Q", "அடித்தளம்", 6),
+            முனை_ஆக்கு("R", "ஆய்வு", 1)];
+தொடர்புகள் = [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0),
+               தொடர்பு_ஆக்கு("P", "R", "முடிவு_தொடக்கம்", 0)];
+
+// __Codes rather than whole records, because this is usually asked in order to__
+// __test membership.__
+// முழுப் பதிவேடுகள் அல்ல, குறிகளே
+விடை = மதிப்பு(தொடர்பு_வலையைக்_கணக்கிடு(முனைகள், தொடர்புகள்));
+ஒவ்வொரு ஒரு_குறி இல் தொடர்பு_கடுமையானவை(விடை) { அச்சு ஒரு_குறி; }

@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விடையைப்_படி(வலைப்_பதில்) — read the answer out of the gateway's reply__
+// நுழைவாயிலின் பதிலிலிருந்து விடையைப் படிக்கும்
+
+இறக்கு "../fabric.qmz";
+
+// __A 2xx is the answer. Nothing else is inspected: the body is whatever the__
+// __chaincode returned.__
+// இருநூறு வரிசை நிலைக்குறி என்பது விடை; உடலுரை நிரல்பொருள் திருப்பியது
+நல்லது = விடையைப்_படி(சரி({"நிலைக்_குறி": 200, "உடலுரை": "asset1"}));
+அச்சு சரியா(நல்லது);
+அச்சு மதிப்பு(நல்லது);
+
+// __A chaincode that refused answers with a non-2xx and says why. That is an__
+// __answer, not a broken network, so it is unwrapped into something a program__
+// __can look at — வகைப்பாடு says which kind of failure this was.__
+// நிரல்பொருள் மறுத்தது ஒரு விடையே; வலை உடைந்ததல்ல
+மறுத்தது = விடையைப்_படி(சரி({"நிலைக்_குறி": 500, "உடலுரை": "no such asset"}));
+அச்சு தவறா(மறுத்தது);
+அச்சு தவறு_மதிப்பு(மறுத்தது)["வகைப்பாடு"];
+அச்சு தவறு_மதிப்பு(மறுத்தது)["நிலைக்_குறி"];
+
+// __And a request that never arrived is வலை, a different problem with a__
+// __different answer: that one may well work if it is tried again.__
+// சென்றே சேராத வேண்டுகோள் "வலை"; அது வேறு வகைப் பிரச்சினை
+வலையில்லை = விடையைப்_படி(தவறு("connection refused"));
+அச்சு தவறு_மதிப்பு(வலையில்லை)["வகைப்பாடு"];

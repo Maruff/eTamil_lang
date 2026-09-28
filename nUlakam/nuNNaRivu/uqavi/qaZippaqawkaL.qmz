@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தனிப்பதங்கள்(பதங்கள்_பட்டியல்) — the distinct words, in the order they first appeared__
+// வேறுபட்ட பதங்கள், முதல் முறை வந்த வரிசையில்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __First-seen order rather than sorted, so a query keeps the shape the person__
+// __typed and a log of it reads back the way it was asked.__
+// வரிசைப்படுத்தப்படவில்லை; கேட்ட வடிவமே தக்கவைக்கப்படுகிறது
+ஒவ்வொரு ஒரு_பதம் இல் தனிப்பதங்கள்(["tax", "rate", "tax", "slab"]) {
+    அச்சு ஒரு_பதம்;
+}
+அச்சு நீளம்(தனிப்பதங்கள்(["tax", "rate", "tax", "slab"]));

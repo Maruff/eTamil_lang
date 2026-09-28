@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒற்றைத்_தவணை_அட்டவணை() — the single-instalment schedule, for presumptive income__
+// கருதுகோள் வருமானத்துக்கான ஒற்றைத் தவணை அட்டவணை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A taxpayer on the presumptive scheme pays the whole of the advance tax by__
+// __the last date and nothing before, so the same functions work with a__
+// __one-row schedule instead of four.__
+// கருதுகோள் முறையில் ஒரே தவணை; அதே செயல்களே வேலை செய்யும்
+அச்சு நீளம்(ஒற்றைத்_தவணை_அட்டவணை());
+அச்சு ஒற்றைத்_தவணை_அட்டவணை()[0]["விகிதம்"];
+அச்சு ஒற்றைத்_தவணை_அட்டவணை()[0]["தவணை_எண்"];

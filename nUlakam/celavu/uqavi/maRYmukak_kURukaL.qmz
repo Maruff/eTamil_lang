@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மறைமுகக்_கூறுகள்(கூறுகள்) — the costs that cannot be traced — the overhead__
+// தொடர்புபடுத்த முடியாதவை, அதாவது மேல்நிலை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+கூறுகள் = [கூறு_ஆக்கு("நேரடிப் பொருள்", 400000, மெய், மெய்),
+            கூறு_ஆக்கு("தொழிற்சாலை வாடகை", 120000, பொய், பொய்),
+            கூறு_ஆக்கு("கண்காணிப்பு", 80000, பொய், பொய்)];
+
+// __Everything a cost system argues about is in here. Whatever cannot be__
+// __traced has to be apportioned, and every method of apportioning it gives a__
+// __different product cost.__
+// வாதம் அனைத்தும் இங்கேயே; பகிர்வு முறை மாறினால் தயாரிப்புச் செலவும் மாறும்
+அச்சு கூறுகளின்_கூட்டல்(மறைமுகக்_கூறுகள்(கூறுகள்));

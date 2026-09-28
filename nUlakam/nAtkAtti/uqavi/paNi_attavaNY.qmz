@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணி_அட்டவணை(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) — a task's real start and finish together__
+// பணியின் உண்மையான தொடக்கமும் முடிவும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __The start comes back as well as the finish, because a start on a Sunday is__
+// __not the start: reporting the requested date beside a computed finish makes__
+// __the duration look wrong by however far the start moved.__
+// கேட்ட தொடக்கம் அல்ல, நகர்த்தப்பட்ட தொடக்கமே திரும்புகிறது
+அட்டவணை = மதிப்பு(பணி_அட்டவணை("2026-03-07", 5, நாட்காட்டி));
+அச்சு அட்டவணை["தொடக்கம்"];
+அச்சு அட்டவணை["முடிவு"];
+
+// __A start that already works is left where it is.__
+// ஏற்கெனவே வேலை நாளாக உள்ள தொடக்கம் அப்படியே
+அச்சு மதிப்பு(பணி_அட்டவணை("2026-03-02", 5, நாட்காட்டி))["தொடக்கம்"];

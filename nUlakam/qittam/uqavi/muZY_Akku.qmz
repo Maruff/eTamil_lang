@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_ஆக்கு(முனைக்_குறி, விவரம், கால_அளவு) — one node of a precedence network__
+// வலையில் ஒரு முனை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Unlike செயல்_ஆக்கு this carries no predecessors: in a precedence network__
+// __the links are separate objects, because each one has a type and a lag.__
+// முன்னோடிகள் இங்கே இல்லை; தொடர்புகள் தனிப் பொருட்கள்
+முனைகள் = [முனை_ஆக்கு("P", "தளம் தயார்", 4),
+            முனை_ஆக்கு("Q", "அடித்தளம்", 6)];
+
+அச்சு முனைகள்[0]["விவரம்"];
+அச்சு முனைகள்[1]["கால_அளவு"];

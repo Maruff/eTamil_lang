@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்_எழுது(துறை, செய்தி) — write to the port, exactly as given__
+// கொடுத்ததை அப்படியே துறைக்கு எழுதும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+
+// __No newline is added, so a message can be built in pieces — a frame whose__
+// __checksum is computed as it goes, for instance.__
+// வரி முறிவு சேர்க்கப்படுவதில்லை; செய்தியைத் துண்டுகளாகக் கட்டலாம்
+தொடர்_எழுது(துறை, "புகை ");
+தொடர்_வரி_எழுது(துறை, "இயல்பு");
+
+// __And Tamil survives the port: it goes out as its bytes.__
+// தமிழ் துறையைக் கடந்து அப்படியே செல்கிறது
+அச்சு போலி_தொடர்_வெளியீடு("sim:bus");
+
+தொடர்_மூடு(துறை);

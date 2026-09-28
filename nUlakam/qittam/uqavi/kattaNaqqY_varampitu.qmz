@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டணத்தை_வரம்பிடு(கட்டணத்_தொகை, குறைந்த_கட்டணம், உச்சக்_கட்டணம்) — hold the fee between its two limits__
+// கட்டணத்தை இரு எல்லைகளுக்குள் வைக்கும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __A minimum fee so a bad month does not leave the seller working for nothing,__
+// __and a maximum so a windfall does not pay more than the work was worth.__
+// குறைந்த கட்டணம் விற்பவரைக் காக்கும்; உச்ச கட்டணம் வாங்குபவரைக் காக்கும்
+அச்சு கட்டணத்தை_வரம்பிடு(150000, 50000, 120000);
+அச்சு கட்டணத்தை_வரம்பிடு(20000, 50000, 120000);
+அச்சு கட்டணத்தை_வரம்பிடு(80000, 50000, 120000);

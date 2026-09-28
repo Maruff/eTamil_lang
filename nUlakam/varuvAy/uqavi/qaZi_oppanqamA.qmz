@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தனி_ஒப்பந்தமா(ஒரு_மாற்றம்) — is this modification a separate contract?__
+// இம்மாற்றத்தைத் தனி ஒப்பந்தமாகக் கொள்ள வேண்டுமா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Both conditions: the extra goods are distinct, AND they are priced at their__
+// __standalone value. Extra goods at a discount are not a separate contract.__
+// இரண்டும் வேண்டும்: தனிப் பொருட்கள், தனி விலையிலேயே
+அச்சு தனி_ஒப்பந்தமா(மாற்றம்_ஆக்கு("M1", 200000, 200000, மெய், மெய்));
+அச்சு தனி_ஒப்பந்தமா(மாற்றம்_ஆக்கு("M2", 150000, 200000, மெய், மெய்));
+அச்சு தனி_ஒப்பந்தமா(மாற்றம்_ஆக்கு("M3", 200000, 200000, பொய், மெய்));
+
+// __A separate contract is the easy case: the original is untouched and no__
+// __revenue already recognised has to be revisited.__
+// தனி ஒப்பந்தம் என்பது எளிய நிலை; மூல ஒப்பந்தம் தொடப்படுவதில்லை

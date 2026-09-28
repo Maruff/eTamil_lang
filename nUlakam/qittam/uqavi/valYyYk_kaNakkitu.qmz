@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வலையைக்_கணக்கிடு(செயல்கள்) — the forward and backward passes, and the float__
+// முன்னோக்கி, பின்னோக்கி இரு கடப்புகளையும் செய்யும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []),
+             செயல்_ஆக்கு("B", 4, ["A"]),
+             செயல்_ஆக்கு("C", 2, ["A"]),
+             செயல்_ஆக்கு("D", 5, ["B", "C"])];
+
+விடை = மதிப்பு(வலையைக்_கணக்கிடு(செயல்கள்));
+அச்சு விடை["திட்ட_காலம்"];
+
+// __Every activity comes back with four dates and its float. C can start two__
+// __days late without moving anything, and B cannot.__
+// ஒவ்வொரு செயலுக்கும் நான்கு நாள்களும் மிதப்பும்
+ஒவ்வொரு ஒரு_செயல் இல் விடை["செயல்கள்"] {
+    அச்சு ஒரு_செயல்["செயல்_குறி"] & " " & சொல்லாக்கு(ஒரு_செயல்["மிதப்பு"]);
+}
+
+// __A network that does not hold together is refused before either pass runs.__
+// பொருந்தாத வலை, கடப்புகள் தொடங்குமுன்பே மறுக்கப்படும்
+அச்சு தவறா(வலையைக்_கணக்கிடு([செயல்_ஆக்கு("A", 3, ["Z"])]));

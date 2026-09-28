@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காவல்_புதுப்பி() — tell the watchdog the program is still alive__
+// நிரல் இன்னும் உயிரோடு இருப்பதைக் காவலிடம் சொல்லும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+காவல்_தொடங்கு(8000);
+
+// __Called once per pass of the main loop, at the top. Not inside a helper and__
+// __not from a timer: a watchdog fed by something other than the work it is__
+// __watching will happily keep a stuck program running.__
+// முதன்மை வளையத்தின் தொடக்கத்தில், ஒரு முறை
+எண்ணி = 0;
+(எண்ணி < 3) சுற்று {
+    காவல்_புதுப்பி();
+    காத்திரு(1000);
+    எண்ணி = எண்ணி + 1;
+}
+அச்சு "மூன்று சுற்றுகள் முடிந்தன";

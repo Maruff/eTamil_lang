@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமநிலையா(பரிவர்த்தனை) — do the two sides agree?__
+// இரு பக்கமும் ஒத்துப்போகிறதா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அச்சு சமநிலையா(பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 5000)]));
+
+// __An entry that does not balance is not an entry. Catching it here is the__
+// __difference between a ledger that is always right and a trial balance that__
+// __has to be chased at the month end.__
+// சமநிலையற்ற பதிவு பதிவே அல்ல
+அச்சு சமநிலையா(பரிவர்த்தனை_ஆக்கு(2, "2026-04-01", "தவறு",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 4500)]));

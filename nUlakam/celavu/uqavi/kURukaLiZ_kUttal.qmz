@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூறுகளின்_கூட்டல்(கூறுகள்) — the total of a list of cost elements__
+// கூறுப் பட்டியலின் மொத்தம்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+கூறுகள் = [கூறு_ஆக்கு("நேரடிப் பொருள்", 400000, மெய், மெய்),
+            கூறு_ஆக்கு("நேரடி ஊதியம்", 250000, மெய், மெய்),
+            கூறு_ஆக்கு("தொழிற்சாலை வாடகை", 120000, பொய், பொய்)];
+
+அச்சு கூறுகளின்_கூட்டல்(கூறுகள்);
+அச்சு கூறுகளின்_கூட்டல்([]);

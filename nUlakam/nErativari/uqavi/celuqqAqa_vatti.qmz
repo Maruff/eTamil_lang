@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலுத்தாத_வட்டி(பிடித்த_தொகை, மாத_வீதம், மாதங்கள்) — interest for withholding and not paying it over__
+// பிடித்தும் செலுத்தாததற்கான வட்டி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Money withheld from someone else and kept. The higher rate reflects that.__
+// பிறரிடமிருந்து பிடித்து வைத்திருந்த பணம்; வீதம் அதிகம்
+அச்சு செலுத்தாத_வட்டி(50000, 1.5, 5);
+அச்சு செலுத்தாத_வட்டி(50000, 1.5, 1);
+அச்சு செலுத்தாத_வட்டி(0, 1.5, 5);

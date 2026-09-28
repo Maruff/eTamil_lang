@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈடுசெய்யலாமா(சட்ட_உரிமை_உள்ளதா, ஒரே_அதிகாரமா) — may the deferred tax asset and liability be shown net?__
+// ஒத்திவரிச் சொத்தையும் பொறுப்பையும் ஈடுசெய்யலாமா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Both conditions. A group with subsidiaries taxed by different authorities__
+// __cannot net them, however tempting a single line is.__
+// இரண்டும் வேண்டும்; வெவ்வேறு அதிகாரங்கள் என்றால் ஈடுசெய்ய முடியாது
+அச்சு ஈடுசெய்யலாமா(மெய், மெய்);
+அச்சு ஈடுசெய்யலாமா(மெய், பொய்);
+அச்சு ஈடுசெய்யலாமா(பொய், மெய்);

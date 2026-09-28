@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அசாதாரண_இழப்பின்_மதிப்பு(அசாதாரண_அலகுகள், அலகுச்_செலவு, அலகுக்_கழிவு_மதிப்பு) — what the abnormal loss cost, net of scrap__
+// அசாதாரண இழப்பின் மதிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Written off to the income statement rather than carried in the cost of the__
+// __good units, which is what makes it visible to somebody who can act on it.__
+// இது எழுதித் தள்ளப்படுகிறது; நல்ல அலகுகளின் செலவில் சுமக்கப்படுவதில்லை
+விடை = அசாதாரண_இழப்பின்_மதிப்பு(200, 51.58, 20);
+அச்சு விடை["மொத்த_மதிப்பு"];
+அச்சு விடை["கழிவு_மதிப்பு"];
+அச்சு விடை["எழுதித்_தள்ளுவது"];

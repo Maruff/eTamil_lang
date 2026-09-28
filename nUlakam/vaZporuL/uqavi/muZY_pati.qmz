@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_படி(முனை) — read a pin as true or false__
+// ஒரு முனையை மெய் அல்லது பொய்யாகப் படிக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+முனை_வெளியீடு(13);
+முனை_எழுது(13, மெய்);
+
+// __An output reads back what was written to it, which is what makes__
+// __முனை_மாற்று possible without the program remembering anything.__
+// வெளியீடு, எழுதியதையே திரும்பப் படிக்கும்
+அச்சு முனை_படி(13);
+
+// __An input reads the wire.__
+// உள்ளீடு, கம்பியைப் படிக்கும்
+முனை_மேலிழு_உள்ளீடு(3);
+போலி_முனை(3, பொய்);
+அச்சு முனை_படி(3);
+
+// __It answers மெய் or பொய் rather than 1 or 0, so a reading can go straight__
+// __into a condition.__
+// 1, 0 அல்ல; நேரடியாக நிபந்தனையில் வைக்கலாம்
+(முனை_படி(3) == பொய்) எனில் { அச்சு "பொத்தான் அழுத்தப்பட்டது"; }

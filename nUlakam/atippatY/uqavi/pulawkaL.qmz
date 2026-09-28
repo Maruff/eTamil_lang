@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __புலங்கள்(பதிவேடு) — the field names, as an array__
+// புலப் பெயர்கள் அணியாக
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+ஒருவர் = { பெயர்: "கமலா", வயது: 34 };
+அச்சு நீளம்(புலங்கள்(ஒருவர்));
+அச்சு நீளம்(புலங்கள்({}));

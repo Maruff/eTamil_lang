@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒன்று_கூட்டு(சாவி) — add one, and answer with the new value__
+// மதிப்பை ஒன்று கூட்டி, புதிய மதிப்பை எண்ணாகத் தரும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+நீக்கு("மாதிரி:எண்ணிக்கை");
+
+// __Counting happens on the server, in one round trip, so two processes__
+// __counting the same key cannot both read 7 and both write 8. Reading a value,__
+// __adding one and writing it back is the version of this that loses counts.__
+// எண்ணுதல் வழங்கியிலேயே நடக்கிறது; படித்து, கூட்டி, எழுதுவது எண்ணிக்கைகளை இழக்கும்
+ஒன்று_கூட்டு("மாதிரி:எண்ணிக்கை");
+விளைவு = ஒன்று_கூட்டு("மாதிரி:எண்ணிக்கை");
+
+// __A key that did not exist starts at zero, so nothing has to be seeded.__
+// இல்லாத சாவி பூஜ்ஜியத்திலிருந்தே தொடங்கும்
+(சரியா(விளைவு)) எனில் { அச்சு மதிப்பு(விளைவு); }
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

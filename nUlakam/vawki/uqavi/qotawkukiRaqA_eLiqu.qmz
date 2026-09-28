@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடங்குகிறதா_எளிது(பாடம், முன்னொட்டு) — does this text start with that?__
+// இந்தப் பாடம் அதில் தொடங்குகிறதா
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __What சரிபார்க்கப்படாதவை tests each rule's source with.__
+// சரிபார்க்கப்படாதவை ஒவ்வொரு மூலத்தையும் இதனால் சோதிக்கிறது
+அச்சு தொடங்குகிறதா_எளிது("PLACEHOLDER — invented", "PLACEHOLDER");
+அச்சு தொடங்குகிறதா_எளிது("சுற்றறிக்கை 2020/14", "PLACEHOLDER");
+
+// __At the start, not anywhere: a source that merely mentions the word is not__
+// __an unchecked rule.__
+// தொடக்கத்தில்தான்; எங்கோ ஒரு இடத்தில் இருப்பது போதாது
+அச்சு தொடங்குகிறதா_எளிது("see PLACEHOLDER above", "PLACEHOLDER");

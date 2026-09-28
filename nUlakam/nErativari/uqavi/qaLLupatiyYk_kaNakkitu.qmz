@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தள்ளுபடியைக்_கணக்கிடு(அடிப்படை_வரித்_தொகை, வரிக்குரிய_வருமானம், வருமான_எல்லை, தள்ளுபடி_உச்சம்) — the rebate for small incomes__
+// சிறு வருமானத்துக்கான வரித் தள்ளுபடி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+           {"முதல்": 250000, "விகிதம்": 5},
+           {"முதல்": 500000, "விகிதம்": 20}];
+
+// __A cliff, not a taper: at the threshold the whole tax is rebated, and a__
+// __rupee above it none of it is.__
+// இது படிப்படியான குறைவு அல்ல, ஒரே பாய்ச்சல்
+அச்சு தள்ளுபடியைக்_கணக்கிடு(அடிப்படை_வரி(500000, படிகள்), 500000, 500000, 12500);
+அச்சு தள்ளுபடியைக்_கணக்கிடு(அடிப்படை_வரி(500010, படிகள்), 500010, 500000, 12500);
+
+// __Which is why an increment of ten rupees can cost twelve thousand, and why__
+// __a bonus paid in March is sometimes worth refusing.__
+// அதனாலேயே பத்து ரூபாய் உயர்வு பன்னிரண்டாயிரம் செலவாகும்
+அச்சு தள்ளுபடியைக்_கணக்கிடு(0, 300000, 500000, 12500);

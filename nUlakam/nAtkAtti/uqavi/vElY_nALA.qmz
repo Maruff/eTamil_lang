@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேலை_நாளா(ஒரு_நாள், ஒரு_நாட்காட்டி) — neither a weekend nor a holiday__
+// வார ஓய்வும் அல்ல, விடுமுறையும் அல்ல
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+அச்சு வேலை_நாளா("2026-03-02", நாட்காட்டி);
+அச்சு வேலை_நாளா("2026-03-05", நாட்காட்டி);
+அச்சு வேலை_நாளா("2026-03-07", நாட்காட்டி);
+
+// __The one question everything else in this file asks.__
+// இக்கோப்பில் உள்ள மற்ற அனைத்தும் கேட்கும் ஒரே வினா இதுவே

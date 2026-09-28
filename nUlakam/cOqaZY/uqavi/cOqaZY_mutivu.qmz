@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சோதனை_முடிவு(ஓட்டம்) — the summary, and the exit status__
+// சுருக்கமும், வெளியேறும் நிலைக்குறியும்
+
+இறக்கு "../cOqaZY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("முடிவு");
+ஓட்டம் = சமம்(ஓட்டம், 100 - 18, 82, "a hundred less eighteen");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், 82 > 0, "and what is left is positive");
+
+// __Everything passed, so this prints the summary and answers 0. Had anything__
+// __failed it would exit non-zero instead: a suite that reports a failure and__
+// __then exits 0 tells the truth to a reader and a lie to whatever ran it.__
+// அனைத்தும் தேறின, எனவே 0; ஏதேனும் தோற்றால் வெளியேறும் நிலைக்குறி 0 அல்ல
+அச்சு சோதனை_முடிவு(ஓட்டம்);

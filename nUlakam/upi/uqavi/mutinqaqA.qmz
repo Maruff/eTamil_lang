@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிந்ததா(நிலைமை) — is this payment finished with?__
+// இந்தப் பரிமாற்றம் முடிந்துவிட்டதா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __The other side of சரிபார்க்கவா, written out because "finished" is what a__
+// __report wants to ask and a double negative at the call site reads badly.__
+// சரிபார்க்கவா-வின் மறுபக்கம்; அறிக்கைகள் கேட்பது இதையே
+அச்சு முடிந்ததா(வெற்றியானது);
+அச்சு முடிந்ததா(தோல்வியானது);
+அச்சு முடிந்ததா(திருப்பியது);
+
+// __Finished does not mean paid: a failure and a reversal are both finished.__
+// முடிந்தது என்பது பணம் வந்தது என்பதல்ல
+அச்சு முடிந்ததா(நிலுவையில்);
+அச்சு முடிந்ததா("SOMETHING_ELSE");

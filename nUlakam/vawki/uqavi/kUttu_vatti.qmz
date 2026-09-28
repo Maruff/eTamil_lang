@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூட்டு_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், ஆண்டுகள், ஆண்டுக்கு_எத்தனை) — interest that earns interest__
+// வட்டிக்கும் வட்டி
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __A lakh at eight per cent for five years, compounded quarterly — which is__
+// __how a bank deposit in India is normally written.__
+// ஒரு லட்சம், எட்டு சதவீதம், ஐந்தாண்டு, காலாண்டுக் கூட்டல்
+அச்சு கூட்டு_வட்டி(100000, 8, 5, 4);
+
+// __How often it compounds is not a detail. The same rate over the same years__
+// __pays more the more often it is added.__
+// எத்தனை முறை கூட்டப்படுகிறது என்பது சிறு விவரம் அல்ல
+அச்சு கூட்டு_வட்டி(100000, 8, 5, 1);
+அச்சு கூட்டு_வட்டி(100000, 8, 5, 12);
+
+// __And the answer is the interest alone, not the interest and the principal.__
+// விடை வட்டி மட்டுமே; அசல் அல்ல
+அச்சு கூட்டு_வட்டி(100000, 8, 0, 4);

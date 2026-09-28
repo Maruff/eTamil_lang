@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விளிம்பு_நிவாரணம்(வரிக்குரிய_வருமானம், படிகள், மேல்வரிப்_படிகள்) — relief so that crossing a surcharge threshold cannot cost more than the increase__
+// எல்லையைத் தாண்டியவுடன் வரி மிகையாகாமல் தடுக்கும் நிவாரணம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+           {"முதல்": 250000, "விகிதம்": 5},
+           {"முதல்": 500000, "விகிதம்": 20},
+           {"முதல்": 1000000, "விகிதம்": 30}];
+மேல்வரிப்_படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+                     {"முதல்": 5000000, "விகிதம்": 10}];
+
+// __A rupee over fifty lakh would otherwise attract about 1.3 lakh of__
+// __surcharge. Marginal relief caps the extra tax at the extra income.__
+// ஒரு ரூபாய் கூடுதலுக்கு லட்சக்கணக்கில் மேல்வரி வராமல் தடுக்கிறது
+அச்சு விளிம்பு_நிவாரணம்(5000100, படிகள், மேல்வரிப்_படிகள்);
+
+// __Well above the threshold there is nothing to relieve: the surcharge is__
+// __less than the income above the line.__
+// எல்லையிலிருந்து வெகு தொலைவில் நிவாரணம் தேவையில்லை
+அச்சு விளிம்பு_நிவாரணம்(8000000, படிகள், மேல்வரிப்_படிகள்);
+அச்சு விளிம்பு_நிவாரணம்(1000000, படிகள், மேல்வரிப்_படிகள்);

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எஞ்சிய_மதிப்பு(மூல_மதிப்பு, அங்கீகரித்த_வருவாய், கூடுதல்_மதிப்பு) — what is left to earn, after a modification__
+// மாற்றத்துக்குப் பின், இன்னும் ஈட்டப்படாத மதிப்பு
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The original price, less what has already been recognised, plus the__
+// __modification. This is the pool a terminate-and-replace spreads over what__
+// __remains to be done.__
+// முடித்து புதியது என்ற வழியில் இதுவே எஞ்சியவற்றுக்குப் பரவும் தொகை
+அச்சு எஞ்சிய_மதிப்பு(1000000, 400000, 200000);
+
+// __It does not go below nothing, so a contract already over-recognised does__
+// __not produce a negative pool to divide.__
+// இது பூஜ்ஜியத்துக்குக் கீழ் செல்வதில்லை
+அச்சு எஞ்சிய_மதிப்பு(1000000, 1400000, 0);

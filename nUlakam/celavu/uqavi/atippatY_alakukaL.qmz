@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படை_அலகுகள்() — absorb overhead on units produced__
+// உற்பத்தி அலகுகளின்மேல் உள்வாங்குதல்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Right only where every unit takes the same work. A factory making one__
+// __product has no reason to use anything else, and a factory making two has__
+// __every reason not to.__
+// ஒவ்வொரு அலகும் ஒரே உழைப்பை எடுத்தால் மட்டுமே இது சரி
+அச்சு அடிப்படை_அலகுகள்();
+அச்சு அடிப்படை_செல்லுபடியா(அடிப்படை_அலகுகள்());

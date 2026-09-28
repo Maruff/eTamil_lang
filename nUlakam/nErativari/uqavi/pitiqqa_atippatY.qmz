@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிடித்த_அடிப்படை(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது, முன்பு_பிடித்தது) — what the withholding is computed on__
+// மூலவரி கணக்கிடப்படும் அடிப்படைத் தொகை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+ஒப்பந்தம் = பிரிவு_ஆக்கு("194C", "ஒப்பந்தக்காரர்", 1, 30000, 100000);
+
+// __A single large payment is charged on itself.__
+// ஒரே பெரிய செலுத்தல் தன்மீதே
+அச்சு பிடித்த_அடிப்படை(ஒப்பந்தம், 35000, 0, 0)["அடிப்படை"];
+
+// __But crossing the annual threshold charges the whole year, not just this__
+// __payment — which is the rule that catches people out, and the reason the__
+// __result says so.__
+// ஆண்டு எல்லையைத் தாண்டினால் முழு ஆண்டுமே அடிப்படை
+விளைவு = பிடித்த_அடிப்படை(ஒப்பந்தம், 25000, 80000, 0);
+அச்சு விளைவு["அடிப்படை"];
+அச்சு விளைவு["முழு_ஆண்டா"];
+
+// __Below both thresholds there is nothing to charge on.__
+// இரு எல்லைகளுக்கும் கீழே இருந்தால் அடிப்படையே இல்லை
+அச்சு பிடித்த_அடிப்படை(ஒப்பந்தம், 25000, 0, 0)["அடிப்படை"];

@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தத்_தாமதம்(தொடர்புகள்) — all the positive lag in a network__
+// வலையில் உள்ள நேர்மறைத் தாமதங்கள் அனைத்தும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொடர்புகள் = [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7),
+               தொடர்பு_ஆக்கு("Q", "R", "முடிவு_தொடக்கம்", 3),
+               தொடர்பு_ஆக்கு("R", "S", "முடிவு_தொடக்கம்", 0 - 2)];
+
+// __Waiting, added up. Ten days of a project spent on nothing at all is worth__
+// __knowing, and it is invisible in a bar chart where every bar is work.__
+// காத்திருப்பு; கட்டப்படத்தில் இது தெரிவதில்லை
+அச்சு மொத்தத்_தாமதம்(தொடர்புகள்);
+
+// __Leads are not subtracted here: overlapping is a different thing from__
+// __waiting, and netting them would hide both.__
+// முன்னோட்டங்கள் கழிக்கப்படுவதில்லை; அவை வேறு விஷயம்
+அச்சு மொத்தத்_தாமதம்([]);

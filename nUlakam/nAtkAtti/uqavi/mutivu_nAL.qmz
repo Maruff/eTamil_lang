@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிவு_நாள்(தொடக்கம், கால_அளவு, ஒரு_நாட்காட்டி) — the finish date of a task of that many working days__
+// சொன்ன வேலை நாட்களுக்குப் பின் முடியும் நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __A duration of one finishes on the day it starts. A task of one day does not__
+// __run into tomorrow, and off-by-one here shifts every date in a plan.__
+// ஒரு நாள் பணி தொடங்கிய நாளிலேயே முடியும்
+அச்சு மதிப்பு(முடிவு_நாள்("2026-03-02", 1, நாட்காட்டி));
+அச்சு மதிப்பு(முடிவு_நாள்("2026-03-02", 5, நாட்காட்டி));
+
+// __A start on a non-working day is moved forward first, so the duration is__
+// __counted from when work could actually begin.__
+// வேலை நாள் அல்லாத தொடக்கம் முதலில் நகர்த்தப்படுகிறது
+அச்சு மதிப்பு(முடிவு_நாள்("2026-03-07", 1, நாட்காட்டி));

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஜேசான்_சரம்(சரம்) — a value as a quoted JSON string__
+// ஒரு மதிப்பை ஜேசான் மேற்கோள் சரமாக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+அச்சு ஜேசான்_சரம்("வணக்கம்");
+
+// __A quotation mark inside the value does not end the string, which is the__
+// __whole reason to build JSON through a function rather than with & and \".__
+// மதிப்புக்குள் உள்ள மேற்கோள்குறி சரத்தை முடிப்பதில்லை
+அச்சு ஜேசான்_சரம்("a \"quoted\" word");
+
+// __A newline becomes \\n rather than an actual line break, because a raw__
+// __newline inside a JSON string is not valid JSON.__
+// வரி முறிவு மறைப்புக் குறியாகும்; உண்மையான முறிவு ஜேசானில் செல்லாது
+அச்சு ஜேசான்_சரம்("இரண்டு\nவரிகள்");
+
+// __Anything that is not a string is written out first, so a number can be__
+// __quoted deliberately.__
+// சரம் அல்லாதது முதலில் சரமாக்கப்படுகிறது
+அச்சு ஜேசான்_சரம்(42);

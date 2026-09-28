@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_மேலிழு_உள்ளீடு(முனை) — an input held high until something pulls it down__
+// ஏதோ ஒன்று கீழிழுக்கும்வரை உயரமாகவே இருக்கும் உள்ளீடு
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __What almost every switch and button wants. The board holds the pin high__
+// __itself, so a switch only has to connect it to ground — no resistor, and no__
+// __floating pin reading random noise when nothing is pressed.__
+// பெரும்பாலான சுவிட்சுகளுக்கு இதுவே; தடையம் தேவையில்லை
+முனை_மேலிழு_உள்ளீடு(3);
+
+// __Nothing pressed reads high.__
+// அழுத்தவில்லை என்றால் உயரம்
+அச்சு முனை_படி(3);
+
+// __Which means the logic is upside down: pressed is low. Forgetting that is__
+// __how a button appears to be held down from the moment the board starts.__
+// அழுத்தினால் தாழ்வு; இந்தத் தலைகீழ் தர்க்கத்தை மறப்பது வழக்கமான தவறு
+போலி_முனை(3, பொய்);
+அச்சு முனை_படி(3);

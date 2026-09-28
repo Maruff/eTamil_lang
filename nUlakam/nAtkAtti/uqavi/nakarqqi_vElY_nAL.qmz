@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நகர்த்தி_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — this day if it works, otherwise the next one that does__
+// வேலை நாளாக இருந்தால் அதுவே; இல்லையெனில் அடுத்த வேலை நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __A working day is left alone. That is the difference from__
+// __அடுத்த_வேலை_நாள், and using the wrong one moves every task by a day.__
+// வேலை நாள் அப்படியே விடப்படும்; அதுவே வேறுபாடு
+அச்சு மதிப்பு(நகர்த்தி_வேலை_நாள்("2026-03-02", நாட்காட்டி));
+அச்சு மதிப்பு(அடுத்த_வேலை_நாள்("2026-03-02", நாட்காட்டி));
+
+// __A weekend start is moved to the Monday.__
+// வார ஓய்வில் தொடங்கினால் திங்களுக்கு நகரும்
+அச்சு மதிப்பு(நகர்த்தி_வேலை_நாள்("2026-03-07", நாட்காட்டி));

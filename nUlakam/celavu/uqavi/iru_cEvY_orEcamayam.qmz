@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இரு_சேவை_ஒரேசமயம்(அ_நேரடி, ஆ_நேரடி, அ_இலிருந்து_ஆ, ஆ_இலிருந்து_அ) — solve two mutually serving centres at once__
+// ஒன்றுக்கொன்று சேவை செய்யும் இரு நிலையங்களை ஒரேசமயம் தீர்க்கும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Maintenance serves stores and stores serves maintenance. Each one's total__
+// __depends on the other's, so the two are solved together rather than in some__
+// __order that would favour whichever went first.__
+// ஒவ்வொன்றின் மொத்தமும் மற்றொன்றைச் சார்ந்தது; எனவே இரண்டையும் ஒன்றாகத் தீர்க்க வேண்டும்
+விடை = மதிப்பு(இரு_சேவை_ஒரேசமயம்(100000, 60000, 0.2, 0.1));
+அச்சு விடை["அ_மொத்தம்"];
+அச்சு விடை["ஆ_மொத்தம்"];
+
+// __Two centres that send everything to each other have no solution.__
+// அனைத்தையும் ஒன்றுக்கொன்று அனுப்பினால் விடையே இல்லை
+அச்சு தவறா(இரு_சேவை_ஒரேசமயம்(100000, 60000, 1, 1));

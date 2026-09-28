@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலுவைக்_கோரல்கள்(கோரல்கள்) — reported and not yet settled__
+// தெரிவிக்கப்பட்டு இன்னும் தீர்க்கப்படாதவை
+
+இறக்கு "../kAppItu.qmz";
+
+கோரல்கள் = [{"மதிப்பிடப்பட்டது": 50000, "தீர்ந்ததா": பொய்},
+             {"மதிப்பிடப்பட்டது": 120000, "தீர்ந்ததா": பொய்},
+             {"மதிப்பிடப்பட்டது": 30000, "தீர்ந்ததா": மெய்}];
+
+// __Settled claims are not outstanding, so they are counted out of both the__
+// __number and the reserve.__
+// தீர்ந்த கோரல்கள் நிலுவை அல்ல
+நிலுவை = நிலுவைக்_கோரல்கள்(கோரல்கள்);
+அச்சு நிலுவை["எண்ணிக்கை"];
+
+// __What is left is the reserve: what the insurer must still expect to pay.__
+// மிஞ்சுவதே ஒதுக்கீடு — இன்னும் செலுத்த வேண்டியது
+அச்சு நிலுவை["மொத்தம்"];
+
+// __A claim with no தீர்ந்ததா field counts as outstanding, which is the safe__
+// __direction: an unknown claim is one that has not been paid.__
+// தீர்ந்ததா என்ற புலமே இல்லாதது நிலுவையாகவே எண்ணப்படும்
+அச்சு நிலுவைக்_கோரல்கள்([{"மதிப்பிடப்பட்டது": 7000}])["எண்ணிக்கை"];

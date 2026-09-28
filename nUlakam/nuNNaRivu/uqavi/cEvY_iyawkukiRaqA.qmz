@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சேவை_இயங்குகிறதா(இணையவழி) — is the embedding service there to talk to?__
+// பேசுவதற்கு உட்பொதிப்புச் சேவை உள்ளதா
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Asked before a corpus is embedded rather than after half of it has failed.__
+// __Embedding is the slow part, and finding out at the end is finding out__
+// __twenty minutes late.__
+// தொகுப்பைப் பொதிக்கத் தொடங்குமுன்; பாதியில் தோற்பதைவிட முன்பே அறிவது மேல்
+(சேவை_இயங்குகிறதா("http://127.0.0.1:1")) எனில் { அச்சு "சேவை உள்ளது"; }
+இன்றேல் { அச்சு "உட்பொதிப்புச் சேவை இல்லை"; }

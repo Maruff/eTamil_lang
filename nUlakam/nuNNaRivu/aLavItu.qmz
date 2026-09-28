@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/aLavItu.qmz — அளவீடு, measuring whether retrieval works__
+// அளவீடு: தேடல் வேலை செய்கிறதா என அளத்தல்
 //
 // __Without this file the rest of nuNNaRivu is guesswork. Every knob in it —__
 // __கே1, பி, the fusion constant, the kind weights — can be moved in either__
@@ -18,15 +19,17 @@
 // __independently and phrased differently, and believe that one.__
 
 இறக்கு "qaravaricY.qmz";
-இறக்கு "../aNi.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) — one question and its answer__
+// சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) — ஒரு கேள்வியும் அதன் விடையும்
 செயல் சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) {
     திரும்பு { கேள்வி: கேள்வி_உரை, எதிர்பார்ப்பு: எதிர்பார்த்த_குறி };
 }
 
 // __கண்டுபிடித்த_இடம்(தரவரிசை, எதிர்பார்த்த_குறி) — where the right answer landed__
+// கண்டுபிடித்த_இடம்(தரவரிசை, எதிர்பார்த்த_குறி) — சரியான விடை எந்த இடத்தில் வந்தது
 //
 // __1-based, or -1 when it is not in the list at all. The distinction matters:__
 // __an answer at rank 40 and an answer that was never retrieved need different__
@@ -36,6 +39,7 @@
 }
 
 // __தலைகீழ்_இடம்(இடநிலை) — 1/rank, or zero when the answer was not found__
+// தலைகீழ்_இடம்(இடநிலை) — இடத்தின் தலைகீழ்; கிடைக்கவில்லையெனில் பூஜ்ஜியம்
 //
 // __The per-question score behind MRR. Rank 1 scores 1, rank 2 scores a half,__
 // __rank 10 a tenth — the fall is steep on purpose, because the difference__
@@ -47,6 +51,7 @@
 }
 
 // __சராசரி_தலைகீழ்_இடம்(இடநிலைகள்) — MRR over a set of questions__
+// சராசரி_தலைகீழ்_இடம்(இடநிலைகள்) — கேள்விகள் அனைத்துக்கும் சராசரித் தலைகீழ் இடம்
 //
 // __Divided by the number of questions asked, not the number answered. A system__
 // __that finds three answers brilliantly and misses seventeen must not score__
@@ -62,6 +67,7 @@
 }
 
 // __எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) — how many answers fell within n__
+// எத்தனை_முதல்_சிலவற்றில்(இடநிலைகள், ஆழம்) — முதல் சிலவற்றுக்குள் எத்தனை விடைகள் வந்தன
 //
 // __recall@n as a count. Reported alongside MRR rather than instead of it: a__
 // __change that moves an answer from rank 11 to rank 9 leaves MRR almost__
@@ -77,6 +83,7 @@
 }
 
 // __கண்டுபிடிப்பு_விகிதம்(இடநிலைகள், ஆழம்) — recall@n as a fraction__
+// கண்டுபிடிப்பு_விகிதம்(இடநிலைகள், ஆழம்) — அதே கணக்கு, பின்னமாக
 செயல் கண்டுபிடிப்பு_விகிதம்(இடநிலைகள், ஆழம்) {
     மொத்தம் = நீளம்(இடநிலைகள்);
     (மொத்தம் == 0) எனில் { திரும்பு 0; }
@@ -84,6 +91,7 @@
 }
 
 // __முடிவுகளைத்_தொகு(இடநிலைகள்) — the whole report for one configuration__
+// முடிவுகளைத்_தொகு(இடநிலைகள்) — ஓர் அமைப்புக்கான முழு அறிக்கை
 //
 // __Everything at once, because these numbers are only meaningful beside each__
 // __other. A single figure quoted alone is how a change that helped one__

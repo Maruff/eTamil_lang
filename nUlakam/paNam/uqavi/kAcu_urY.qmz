@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_உரை(மொத்த_பைசா) — paise written out as rupees and paise__
+// பைசாவை ரூபாய்-பைசாவாக எழுதும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __The only place paise turn back into a decimal point, and it is for reading,__
+// __not for arithmetic.__
+// பைசா தசமப் புள்ளியாக மாறும் ஒரே இடம் இதுவே; அதுவும் படிப்பதற்கே
+அச்சு காசு_உரை(24950);
+அச்சு காசு_உரை(100);
+
+// __A single paisa keeps its leading zero, so 5 paise is 0.05 and not 0.5.__
+// ஒரு பைசாவும் தன் முன் பூஜ்ஜியத்தைத் தக்கவைக்கும்
+அச்சு காசு_உரை(5);
+
+// __And a negative is written with the sign in front of the whole figure.__
+// எதிர்மறைக் குறி முழுத் தொகைக்கும் முன்னே
+அச்சு காசு_உரை(0 - 24950);

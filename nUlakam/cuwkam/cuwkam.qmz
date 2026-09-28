@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/cuwkam/cuwkam.qmz — சுங்கம் (customs) and trade documents__
+// சுங்கமும் வணிக ஆவணங்களும்
 //
 // __The centre of this file is the duty cascade, because the order duties are__
 // __applied in is the thing implementations get wrong.__
@@ -18,9 +19,9 @@
 // __சரக்கு, கட்டணம் and விலக்கு are keywords, so the words this module wants are__
 // __unavailable alone.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __--- assessable value -----------------------------------------------------__
 //
@@ -29,6 +30,7 @@
 // __Duty is charged on the goods delivered to the border, not on the invoice__
 // __alone: cost, insurance and freight. An importer who computes duty on the__
 // __invoice value alone underpays on every consignment that had to be shipped.__
+// மதிப்பிடத்தக்க_மதிப்பு(பொருள்_விலை, கப்பற்_கட்டணம், காப்பீட்டுக்_கட்டணம்) — சுங்கம் கணக்கிடும் அடிப்படை மதிப்பு
 செயல் மதிப்பிடத்தக்க_மதிப்பு(பொருள்_விலை, கப்பற்_கட்டணம், காப்பீட்டுக்_கட்டணம்) {
     திரும்பு வட்டமிடு(பொருள்_விலை + கப்பற்_கட்டணம் + காப்பீட்டுக்_கட்டணம், 2);
 }
@@ -45,6 +47,7 @@
 //
 // __Answers every step, because a bill of entry has to show them separately and__
 // __because a total nobody can reconstruct is a total nobody can check.__
+// சுங்கக்_கணக்கு(மதிப்பு, அடிப்படை_விகிதம், மேலதிக_விகிதம், ஜிஎஸ்டி_விகிதம்) — வரிகள் ஒன்றன்மேல் ஒன்றாக ஏறும் வரிசைக் கணக்கு
 செயல் சுங்கக்_கணக்கு(மதிப்பு, அடிப்படை_விகிதம், மேலதிக_விகிதம், ஜிஎஸ்டி_விகிதம்) {
     அடிப்படைக்_கட்டணம் = வட்டமிடு(சதவீதம்(மதிப்பு, அடிப்படை_விகிதம்), 2);
 
@@ -71,6 +74,7 @@
 // __--- tariff headings ------------------------------------------------------__
 //
 // __தலைப்பு_சரியா(குறியீட்டெண்) — is this a well-formed tariff heading?__
+// தலைப்பு_சரியா(குறியீட்டெண்) — இது சரியான வடிவத்தில் உள்ள வரித் தலைப்பா
 //
 // __A heading is digits, and its length says how specific it is: two for the__
 // __chapter, four for the heading, six for the international subheading, eight__
@@ -89,6 +93,7 @@
 }
 
 // __எண்களே(பாடம்) — is every character of this string a digit?__
+// எண்களே(பாடம்) — இந்தச் சரத்தின் ஒவ்வொரு எழுத்தும் இலக்கமா
 //
 // __Used on tariff and HS codes, which are digit strings and not numbers: 0810 must keep its leading zero, so it is carried as text and validated here rather than parsed. An empty string answers பொய், because nothing is not a code.__
 செயல் எண்களே(பாடம்) {
@@ -102,11 +107,13 @@
 }
 
 // __அத்தியாயம்(குறியீட்டெண்) — the chapter a heading belongs to__
+// அத்தியாயம்(குறியீட்டெண்) — இந்தத் தலைப்பு சேரும் அத்தியாயம்
 செயல் அத்தியாயம்(குறியீட்டெண்) {
     திரும்பு முதல்_இரண்டு(குறியீட்டெண்);
 }
 
 // __பொருந்துமா(குறியீட்டெண், தலைப்புக்_குறி) — does a code fall under a heading?__
+// பொருந்துமா(குறியீட்டெண், தலைப்புக்_குறி) — இந்தக் குறியீடு அந்தத் தலைப்பின் கீழ் வருமா
 //
 // __An eight-digit item falls under its six-digit subheading, its four-digit__
 // __heading and its chapter. This is how a rate stated at chapter level is found__
@@ -119,6 +126,7 @@
 // __--- the e-way bill -------------------------------------------------------__
 //
 // __தேவையா(மதிப்பு, வரம்புத்_தொகை) — does this consignment need one at all?__
+// தேவையா(மதிப்பு, வரம்புத்_தொகை) — இந்தச் சரக்குக்கு வழிச்சீட்டு தேவையா
 //
 // __Below the threshold there is nothing to generate. The threshold is a state__
 // __rule and is passed rather than assumed.__
@@ -135,6 +143,7 @@
 //
 // __Rounding down is the failure that matters: a bill that expires while the__
 // __lorry is still moving means the goods are in transit without one.__
+// செல்லுபடி_நாட்கள்(தூரம், ஒரு_நாள்_தூரம்) — தூரத்திற்கு ஏற்ப வழிச்சீட்டு செல்லுபடியாகும் நாட்கள்
 செயல் செல்லுபடி_நாட்கள்(தூரம், ஒரு_நாள்_தூரம்) {
     (ஒரு_நாள்_தூரம் <= 0) எனில் { திரும்பு 1; }
     (தூரம் <= 0) எனில் { திரும்பு 1; }
@@ -144,6 +153,7 @@
 }
 
 // __வழிச்சீட்டு_சரிபார்(விவரங்கள்) — is this complete enough to generate?__
+// வழிச்சீட்டு_சரிபார்(விவரங்கள்) — வழிச்சீட்டு உருவாக்கப் போதுமான விவரங்கள் உள்ளனவா
 //
 // __An e-way bill is refused for a missing field, and finding out at the portal__
 // __with a lorry waiting is worse than finding out here. Answers the list of__
@@ -184,6 +194,7 @@
 // __--- GSTIN ----------------------------------------------------------------__
 //
 // __ஜிஎஸ்டி_எண்_சரியா(எண்) — the shape of a GSTIN__
+// ஜிஎஸ்டி_எண்_சரியா(எண்) — ஜிஎஸ்டி எண்ணின் வடிவம் சரியாக உள்ளதா
 //
 // __Fifteen characters: two digits of state code, ten of PAN, one entity digit,__
 // __a letter, and a check character. This checks the shape and the state code__
@@ -196,11 +207,13 @@
 }
 
 // __ஜிஎஸ்டி_மாநிலம்(எண்) — the state code a GSTIN begins with__
+// ஜிஎஸ்டி_மாநிலம்(எண்) — ஜிஎஸ்டி எண் தொடங்கும் மாநிலக் குறி
 செயல் ஜிஎஸ்டி_மாநிலம்(எண்_மதிப்பு) {
     திரும்பு முதல்_இரண்டு(எண்_மதிப்பு);
 }
 
 // __முதல்_இரண்டு(குறியீட்டு_உரை) — the leading two characters, or "" if there are not two__
+// முதல்_இரண்டு(குறியீட்டு_உரை) — முதல் இரண்டு எழுத்துகள்; இரண்டு இல்லையெனில் வெற்றுச் சரம்
 //
 // __Both codes this module reads are positional: the first two digits of an HS__
 // __code are its chapter, and the first two of a GSTIN are the state. Same slice,__

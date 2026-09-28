@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்) — the contribution of a whole volume__
+// மொத்தப் பங்களிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு மொத்த_பங்களிப்பு(500, 300, 1000);
+அச்சு மொத்த_பங்களிப்பு(500, 300, 0);

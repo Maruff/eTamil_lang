@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஏற்றவை_மட்டும்(உள்ளீடுகள்) — the approved entries, and only those__
+// ஏற்றுக்கொள்ளப்பட்ட பதிவுகள் மட்டும்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+உள்ளீடு = நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 8, மெய்);
+ஏற்றது = மதிப்பு(நிலையை_மாற்று(
+             மதிப்பு(நிலையை_மாற்று(உள்ளீடு, "சமர்ப்பித்தது")), "ஏற்றது"));
+
+// __Only approved time is cost. The rest is somebody's intention, and a__
+// __project's actual cost that includes it is a forecast wearing a different__
+// __name.__
+// ஏற்ற நேரமே செலவு; மற்றவை ஒருவரின் எண்ணம் மட்டுமே
+அச்சு நீளம்(ஏற்றவை_மட்டும்([உள்ளீடு, ஏற்றது]));
+அச்சு நீளம்(ஏற்றவை_மட்டும்([உள்ளீடு]));

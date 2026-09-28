@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்) — one person's hours on one day, across every task__
+// ஒருவரின் ஒரு நாள் மணிகள், எல்லாப் பணிகளிலும் சேர்த்து
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+தாள் = [நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 6, மெய்),
+         நேர_உள்ளீடு("E1", "2026-03-02", "S2b", 6, மெய்),
+         நேர_உள்ளீடு("E2", "2026-03-02", "S2a", 8, மெய்)];
+
+// __Six hours on one task and six on another is twelve hours in a day, and no__
+// __amount of checking either line on its own will say so.__
+// ஒரு பணியில் ஆறு, மற்றொன்றில் ஆறு — நாளில் பன்னிரண்டு
+அச்சு நாள்_மொத்த_மணிகள்(தாள், "E1", "2026-03-02");
+
+// __Only that person and only that day.__
+// அவரும், அந்த நாளும் மட்டுமே
+அச்சு நாள்_மொத்த_மணிகள்(தாள், "E2", "2026-03-02");
+அச்சு நாள்_மொத்த_மணிகள்(தாள், "E1", "2026-03-03");

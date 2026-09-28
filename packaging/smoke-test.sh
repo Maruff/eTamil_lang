@@ -42,7 +42,7 @@ if [ -f "$BIN.exe" ]; then
 fi
 [ -x "$BIN" ] || { echo "no runnable binary at $BIN" >&2; ls -la "$DIR" >&2; exit 1; }
 
-# ETAMIL_PATH is what makes  இறக்கு "nUlakam/paNam.qmz"  resolve from anywhere,
+# ETAMIL_PATH is what makes  இறக்கு "nUlakam/paNam/paNam.qmz"  resolve from anywhere,
 # so testing without it would miss the thing most likely to be packaged wrong.
 ETAMIL_PATH="$WORK/$DIR"
 export ETAMIL_PATH
@@ -102,7 +102,7 @@ expect "runs the accounting cycle" "சொத்து" "" \
 
 # The standard library, reached through ETAMIL_PATH from a directory that has
 # no nUlakam of its own.
-printf 'இறக்கு "nUlakam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.5);\n' > money.qmz
+printf 'இறக்கு "nUlakam/paNam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.5);\n' > money.qmz
 expect "resolves nUlakam through ETAMIL_PATH" "1,23,45,678.50" "" \
     "$BIN" --vm money.qmz
 

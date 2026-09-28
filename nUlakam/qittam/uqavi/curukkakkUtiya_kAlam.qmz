@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சுருக்கக்கூடிய_காலம்(முனைகள், தொடர்புகள், பாதைக்_குறிகள்) — how much of a path is work and how much is waiting__
+// பாதையில் எவ்வளவு வேலை, எவ்வளவு காத்திருப்பு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முனைகள் = [முனை_ஆக்கு("P", "தளம் தயார்", 4),
+            முனை_ஆக்கு("Q", "அடித்தளம்", 6)];
+தொடர்புகள் = [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7)];
+
+// __The waiting can be squeezed by resequencing and the work cannot be squeezed__
+// __without money. Knowing which is which is the difference between a plan that__
+// __can be shortened and one that has to be paid for.__
+// காத்திருப்பை வரிசை மாற்றி நீக்கலாம்; வேலையைப் பணத்தாலேயே சுருக்க முடியும்
+விடை = சுருக்கக்கூடிய_காலம்(முனைகள், தொடர்புகள், ["P", "Q"]);
+அச்சு விடை["வேலை"];
+அச்சு விடை["தாமதம்"];
+அச்சு விடை["சுருக்கக்கூடியது"];
+அச்சு விடை["சுருக்க_இயலாதது"];
+
+// __An empty path has nothing of either.__
+// காலிப் பாதையில் இரண்டுமே இல்லை
+அச்சு சுருக்கக்கூடிய_காலம்(முனைகள், தொடர்புகள், [])["வேலை"];

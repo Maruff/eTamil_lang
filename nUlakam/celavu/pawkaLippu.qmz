@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/pawkaLippu.qmz — பங்களிப்பு (marginal costing and CVP)__
+// பங்களிப்பும் விளிம்புச் செலவுக் கணக்கும்
 //
 // __Marginal costing asks one question the absorption cost sheet cannot: what__
 // __does the next unit add? Fixed cost is period cost here, never a per-unit__
@@ -14,17 +15,19 @@
 // __Break-even divides by contribution, so a product that contributes nothing__
 // __has no break-even point rather than an infinite one. Those return தவறு.__
 
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __--- Contribution -------------------------------------------------------__
 
 // __அலகு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு) — contribution per unit__
+// அலகு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு) — ஓர் அலகின் பங்களிப்பு
 செயல் அலகு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு) {
     திரும்பு விற்பனை_விலை - மாறும்_செலவு;
 }
 
 // மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்)
 // __மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்) — total contribution__
+// மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்) — மொத்தப் பங்களிப்பு
 //
 // __Unit contribution times volume: what is left to cover fixed cost and then to be profit. Not gross profit — fixed production overhead is excluded here and included there, which is exactly why marginal and absorption statements disagree when stock moves.__
 செயல் மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்) {
@@ -36,6 +39,7 @@
 // __Contribution less fixed cost. Stated as a function because the order is the__
 // __whole of marginal costing: fixed cost is deducted once, from the total, and__
 // __never spread across units.__
+// லாபம்(விற்பனை_விலை, மாறும்_செலவு, அலகுகள், நிலையான_செலவு) — நிலையான செலவு போக லாபம்
 செயல் லாபம்(விற்பனை_விலை, மாறும்_செலவு, அலகுகள், நிலையான_செலவு) {
     திரும்பு மொத்த_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, அலகுகள்) - நிலையான_செலவு;
 }
@@ -43,6 +47,7 @@
 // __--- The P/V ratio ------------------------------------------------------__
 
 // __பங்களிப்பு_விகிதம்(விற்பனை_விலை, மாறும்_செலவு) — contribution as % of price__
+// பங்களிப்பு_விகிதம்(விற்பனை_விலை, மாறும்_செலவு) — விலையில் பங்களிப்பின் சதவீதம்
 //
 // __The profit-volume ratio. Because it is a ratio of one unit's figures it is__
 // __also the ratio of any quantity of them, which is what lets break-even be__
@@ -58,6 +63,7 @@
 
 // சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு)
 // __சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — break-even, in units__
+// சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — நட்டமும் லாபமும் இல்லாத அலகுகள்
 //
 // __Fixed cost divided by unit contribution. தவறு when contribution is zero or negative, because there is then no volume at which the product pays for itself — selling more loses more, and a break-even figure would imply a target worth chasing.__
 செயல் சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) {
@@ -69,6 +75,7 @@
 }
 
 // __சமநிலை_மதிப்பு(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — break-even in rupees__
+// சமநிலை_மதிப்பு(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — சமநிலை விற்பனை மதிப்பு
 செயல் சமநிலை_மதிப்பு(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) {
     விடை = சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு);
     (தவறா(விடை)) எனில் { திரும்பு விடை; }
@@ -81,6 +88,7 @@
 //
 // __How far sales can fall before the profit goes. Negative when the plan is__
 // __already below break-even, which is information rather than an error.__
+// பாதுகாப்பு_வரம்பு(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — சமநிலைக்கு மேல் உள்ள இடைவெளி
 செயல் பாதுகாப்பு_வரம்பு(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) {
     சமநிலை = சமநிலை_அலகுகள்(நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு);
     (தவறா(சமநிலை)) எனில் { திரும்பு சமநிலை; }
@@ -89,6 +97,7 @@
 
 // பாதுகாப்பு_விகிதம்(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு)
 // __பாதுகாப்பு_விகிதம்(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — margin of safety, as a percentage__
+// பாதுகாப்பு_விகிதம்(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — பாதுகாப்பு வரம்பு, சதவீதமாக
 //
 // __How far sales can fall before break-even, relative to current volume. The percentage travels better than the absolute margin: 2,000 units of headroom means nothing until you know whether sales are 3,000 or 300,000.__
 செயல் பாதுகாப்பு_விகிதம்(அலகுகள், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) {
@@ -107,6 +116,7 @@
 // __The question a costing department is actually asked: how many must we sell__
 // __to earn this? Fixed cost and target profit are recovered from the same__
 // __contribution, so they add.__
+// இலக்கு_அலகுகள்(இலக்கு_லாபம், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) — இலக்கு லாபத்துக்குத் தேவையான அலகுகள்
 செயல் இலக்கு_அலகுகள்(இலக்கு_லாபம், நிலையான_செலவு, விற்பனை_விலை, மாறும்_செலவு) {
     பங்களிப்பு = அலகு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு);
     (பங்களிப்பு <= 0) எனில் {
@@ -124,6 +134,7 @@
 // __material, a licence. Ranking by contribution per *product* is the standard__
 // __mistake; it is right only when every product consumes the constraint__
 // __equally.__
+// அலகு_வளத்திற்கு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, வள_அலகுகள்) — அரிய வளத்தின் ஒரு அலகுக்குப் பங்களிப்பு
 செயல் அலகு_வளத்திற்கு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, வள_அலகுகள்) {
     (வள_அலகுகள் <= 0) எனில் {
         திரும்பு தவறு("வள அலகுகள் பூஜ்யம்: தரவரிசை இல்லை");

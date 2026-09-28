@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்பந்தங்களைத்_தொகு(நிலைகள்) — every contract's balances, added up__
+// எல்லா ஒப்பந்தங்களின் இருப்புகளையும் தொகுக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+நிலைகள் = [ஒப்பந்த_நிலை("C-1", 600000, 450000),
+            ஒப்பந்த_நிலை("C-2", 300000, 500000),
+            ஒப்பந்த_நிலை("C-3", 900000, 700000)];
+
+// __Assets and liabilities are totalled separately, because that is how they__
+// __go on the balance sheet: gross, on both sides.__
+// சொத்தும் பொறுப்பும் தனித்தனியே; இருபுறமும் மொத்தமாக
+தொகுப்பு_விடை = ஒப்பந்தங்களைத்_தொகு(நிலைகள்);
+அச்சு தொகுப்பு_விடை["மொத்தச்_சொத்து"];
+அச்சு தொகுப்பு_விடை["மொத்தப்_பொறுப்பு"];
+அச்சு தொகுப்பு_விடை["நிகரம்"];
+அச்சு தொகுப்பு_விடை["ஒப்பந்த_எண்ணிக்கை"];

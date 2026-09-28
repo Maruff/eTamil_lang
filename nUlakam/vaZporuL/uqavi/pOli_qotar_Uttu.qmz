@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __போலி_தொடர்_ஊட்டு(சாதனம், வரி) — make a line arrive on a simulated port__
+// போலித் துறையில் ஒரு வரி வந்ததாக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+
+// __The device's half of the conversation, written by the test. A malformed__
+// __frame, a truncated one, a frame from a panel that is not on this bus — all__
+// __of them easy to arrange here and hard to arrange with real hardware.__
+// சாதனத்தின் பக்கத்தைச் சோதனையே எழுதுகிறது
+போலி_தொடர்_ஊட்டு("sim:bus", ">01,P*2F");
+போலி_தொடர்_ஊட்டு("sim:bus", ">01,BAD");
+
+// __Lines are read back in the order they were fed.__
+// ஊட்டிய வரிசையிலேயே படிக்கப்படும்
+அச்சு மதிப்பு(தொடர்_வரி_படி(துறை, 0));
+அச்சு மதிப்பு(தொடர்_வரி_படி(துறை, 0));
+
+தொடர்_மூடு(துறை);

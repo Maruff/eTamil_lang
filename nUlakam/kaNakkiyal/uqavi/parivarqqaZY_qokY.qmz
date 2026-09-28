@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பரிவர்த்தனை_தொகை(பேரேடு, பரிவர்த்தனை_எண், கணக்கு_குறி, கணக்கு_வகை) — one account's amount within one entry__
+// ஒரு பரிவர்த்தனையில் ஒரு கணக்கின் தொகை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஏடு = [];
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+    [பற்று_வரிசை("1100", 11800), வரவு_வரிசை("4000", 10000),
+     வரவு_வரிசை("2200", 1800)])));
+
+// __What an allocation needs: how much of this invoice is the receivable, as__
+// __against what the whole entry came to.__
+// ஒதுக்கீட்டுக்குத் தேவை: இந்த விலைப்பட்டியலில் பெறவேண்டியது எவ்வளவு
+அச்சு பரிவர்த்தனை_தொகை(ஏடு, 1, "1100", வகை_சொத்து());
+அச்சு பரிவர்த்தனை_தொகை(ஏடு, 1, "2200", வகை_பொறுப்பு());
+அச்சு பரிவர்த்தனை_தொகை(ஏடு, 9, "1100", வகை_சொத்து());

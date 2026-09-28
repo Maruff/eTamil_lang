@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சரிபார்க்கப்படாதவை(விதிமுறைகள்) — the rules whose source has not been checked yet__
+// மூலம் இன்னும் சரிபார்க்கப்படாத விதிமுறைகள்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Every rule carries where it came from. A rule whose source still says__
+// __PLACEHOLDER was invented to make the code run, and a provision computed__
+// __from it is a number with nothing behind it.__
+// ஒவ்வொரு விதிமுறையும் தன் மூலத்தைச் சுமக்கிறது
+விதிகள் = [{"vakY": "நல்லது", "mUlam": "சுற்றறிக்கை 2020/14"},
+            {"vakY": "இழப்பு", "mUlam": "PLACEHOLDER — invented"}];
+
+// __Meant to be called before a report goes out, so the unchecked rules are__
+// __listed on it rather than discovered by whoever relies on it.__
+// அறிக்கை வெளியேறுமுன் அழைக்கப்பட வேண்டியது
+ஒவ்வொரு ஒரு_வகை இல் சரிபார்க்கப்படாதவை(விதிகள்) { அச்சு ஒரு_வகை; }
+
+அச்சு நீளம்(சரிபார்க்கப்படாதவை(விதிகள்));

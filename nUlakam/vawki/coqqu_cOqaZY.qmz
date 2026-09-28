@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __சொத்து வகைப்பாடு சோதனை — tests for asset classification__
+// சொத்து வகைப்பாட்டுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/vawki/coqqu_cOqaZY.qmz__
 //
@@ -10,7 +11,7 @@
 // __about what any real rule says — the day counts below are invented to make__
 // __the boundaries easy to see.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "coqqu.qmz";
 
 தளம்_இணை சீகுலைட், ":memory:";
@@ -61,6 +62,7 @@
 //
 // __The day a class starts and the day it ends are where a classification is__
 // __got wrong, so each is asserted on both sides.__
+// வகை_பெயர்(விதிகள், நாட்கள்) — தாமத நாட்களுக்கு உரிய வகையின் பெயர்
 செயல் வகை_பெயர்(விதிகள், நாட்கள்) {
     விடை = வகைப்படுத்து(விதிகள், நாட்கள்);
     (தவறா(விடை)) எனில் { திரும்பு "—"; }

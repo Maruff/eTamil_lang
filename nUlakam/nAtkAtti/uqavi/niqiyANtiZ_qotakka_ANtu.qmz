@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிதியாண்டின்_தொடக்க_ஆண்டு(ஒரு_நாள், தொடக்க_மாதம்) — the year the financial year containing this date began__
+// இந்நாள் சேரும் நிதியாண்டு தொடங்கிய ஆண்டு
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __The starting month is an argument. April is the Indian default and is not__
+// __assumed, because a subsidiary reporting to a parent elsewhere does not get__
+// __to choose its parent's year end.__
+// தொடக்க மாதம் அளபுருவே; ஏப்ரல் ஊகிக்கப்படுவதில்லை
+அச்சு நிதியாண்டின்_தொடக்க_ஆண்டு("2026-03-31", 4);
+அச்சு நிதியாண்டின்_தொடக்க_ஆண்டு("2026-04-01", 4);
+
+// __A January start makes the financial year the calendar year.__
+// ஜனவரியில் தொடங்கினால் நிதியாண்டும் நாட்காட்டி ஆண்டும் ஒன்றே
+அச்சு நிதியாண்டின்_தொடக்க_ஆண்டு("2026-03-31", 1);

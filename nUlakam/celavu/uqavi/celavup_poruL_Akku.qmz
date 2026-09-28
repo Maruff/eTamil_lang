@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவுப்_பொருள்_ஆக்கு(பொருள்_குறி, பொருள்_பெயர், அலகுகள்) — the thing whose cost is being measured__
+// செலவு அளக்கப்படும் பொருளை உருவாக்கும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __A cost object can be a product, a batch, a job or a customer. The unit__
+// __count is what a cost per unit is divided by, and naming it here stops it__
+// __being guessed later.__
+// தயாரிப்பு, தொகுதி, வேலை, வாடிக்கையாளர் — எதுவும் செலவுப் பொருளாகலாம்
+ஒரு_பொருள் = மதிப்பு(செலவுப்_பொருள்_ஆக்கு("J1", "வேலை 1", 500));
+அச்சு ஒரு_பொருள்["பொருள்_பெயர்"];
+அச்சு ஒரு_பொருள்["அலகுகள்"];

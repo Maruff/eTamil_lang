@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சராசரி_தலைகீழ்_இடம்(இடநிலைகள்) — the mean reciprocal rank over a question set__
+// கேள்விகள் அனைத்துக்கும் சராசரித் தலைகீழ் இடம்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __One number for a whole retrieval system, and the one to watch when a__
+// __change is made. It falls when an answer moves from first to second even__
+// __if every answer is still found.__
+// ஒரு தேடல் அமைப்புக்கு ஒரே எண்; மாற்றம் செய்யும்போது இதைக் கவனிக்க வேண்டும்
+அச்சு வட்டமிடு(சராசரி_தலைகீழ்_இடம்([1, 1, 2, 0 - 1]), 4);
+அச்சு வட்டமிடு(சராசரி_தலைகீழ்_இடம்([1, 1, 1, 1]), 4);
+அச்சு சராசரி_தலைகீழ்_இடம்([]);

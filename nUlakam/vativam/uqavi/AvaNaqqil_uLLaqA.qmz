@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) — does this text contain that?__
+// இந்தப் பாடத்தில் அது உள்ளதா
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __The one test the template walker is built on: whether a chunk of XML holds__
+// __a loop marker.__
+// படிவத்தை நடத்தும் செயல் இதன்மீதே நிற்கிறது
+அச்சு ஆவணத்தில்_உள்ளதா("<w:tr>{%tr for வரி in வரிகள் %}</w:tr>", "{%tr for ");
+அச்சு ஆவணத்தில்_உள்ளதா("<w:tr>plain</w:tr>", "{%tr for ");
+
+// __An empty needle would be found in everything, so asking for one is asking__
+// __a question with only one answer.__
+// வெறுமையைத் தேடினால் எங்கும் கிடைக்கும்
+அச்சு ஆவணத்தில்_உள்ளதா("எதுவும்", "தமிழ்");

@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — re-weight results by what kind of document they are__
+// முடிவின் வகைக்கு ஏற்ப எடை தரும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+தரவரிசை = [{"குறி": "a.md", "மதிப்பெண்": 4.0},
+             {"குறி": "b.qmz", "மதிப்பெண்": 3.5}];
+வகைகள் = {"a.md": "docs", "b.qmz": "code"};
+
+// __A question about how to call something is better answered from__
+// __documentation than from source, and the other way round for a question__
+// __about what something actually does.__
+// கேள்வியின் தன்மைக்கேற்ப ஆவணமோ மூலக் குறியீடோ சிறந்தது
+புதியது = வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், {"docs": 1.5, "code": 1.0});
+ஒவ்வொரு ஒன்று இல் புதியது { அச்சு ஒன்று["குறி"]; }
+
+// __A kind with no weight given is left at one.__
+// எடை சொல்லப்படாத வகை ஒன்றாகவே இருக்கும்
+அச்சு நீளம்(வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், {}));

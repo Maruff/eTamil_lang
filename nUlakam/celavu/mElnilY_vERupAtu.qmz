@@ -1,0 +1,60 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/celavu/mElnilY_vERupAtu.qmz — மேல்நிலை வேறுபாடு: overhead, variable and fixed__
+// மேல்நிலை வேறுபாடு: மாறும், நிலையான மேல்நிலை
+//
+// __Variable overhead splits like labour does. Fixed overhead splits__
+// __differently: spending against budget, and volume against the activity the__
+// __rate assumed — the second is an absorption effect rather than a cost.__
+
+// __மாறும்_மேல்நிலை_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_மேல்நிலை) — the whole variable overhead difference__
+// மாறும்_மேல்நிலை_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_மேல்நிலை) — மாறும் மேல்நிலையின் மொத்த வேறுபாடு
+//
+// __Overhead absorbed on the standard hours for the output achieved, less what was actually spent. Splits into an expenditure and an efficiency half, which sum back to this.__
+செயல் மாறும்_மேல்நிலை_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
+                                       உண்மை_மேல்நிலை) {
+    திரும்பு (நியம_நேரம் * நியம_வீதம்) - உண்மை_மேல்நிலை;
+}
+
+// மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_மேல்நிலை)
+//
+// __The expenditure element: what the hours actually worked should have cost in__
+// __overhead, less what was spent.__
+// மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_மேல்நிலை) — செலவு வேறுபட்டதால் வந்த வேறுபாடு
+செயல் மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம்,
+                                       உண்மை_மேல்நிலை) {
+    திரும்பு (உண்மை_நேரம் * நியம_வீதம்) - உண்மை_மேல்நிலை;
+}
+
+// மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்)
+// __மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — overhead lost or gained with the hours__
+// மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — நேரத்துடன் சேர்ந்து இழந்த அல்லது ஈட்டிய மேல்நிலை
+//
+// __The same arithmetic as the labour efficiency variance and for the same reason: variable overhead is absorbed on hours, so hours taken above the allowance carry overhead with them. It is reported separately because the recovery is the accountant's concern and the hours are the supervisor's.__
+செயல் மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) {
+    திரும்பு நியம_வீதம் * (நியம_நேரம் - உண்மை_நேரம்);
+}
+
+// __--- Fixed overhead ------------------------------------------------------__
+
+// நிலையான_மேல்நிலை_செலவு_வேறுபாடு(மதிப்பிட்ட_மேல்நிலை, உண்மை_மேல்நிலை)
+//
+// __Fixed overhead has no usage variance — by definition it does not move with__
+// __volume — so its decomposition is different: an expenditure variance against__
+// __budget, and a volume variance measuring under- or over-recovery caused by__
+// __producing a quantity other than the one the rate assumed.__
+// நிலையான_மேல்நிலை_செலவு_வேறுபாடு(மதிப்பிட்ட_மேல்நிலை, உண்மை_மேல்நிலை) — நிலையான மேல்நிலையின் செலவு வேறுபாடு
+செயல் நிலையான_மேல்நிலை_செலவு_வேறுபாடு(மதிப்பிட்ட_மேல்நிலை, உண்மை_மேல்நிலை) {
+    திரும்பு மதிப்பிட்ட_மேல்நிலை - உண்மை_மேல்நிலை;
+}
+
+// நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள்,
+//                                       உண்மை_அலகுகள்)
+// __நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — the volume variance__
+// நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — அளவு வேறுபட்டதால் வந்த வேறுபாடு
+//
+// __Actual output less budgeted, at the standard rate — the only variance in this module written that way round, and deliberately so: fixed overhead is recovered by making units, so making more than budget over-recovers and is favourable. It measures activity, not spending. A plant that ran below plan shows adverse here even if it spent exactly what it said it would.__
+செயல் நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள்,
+                                            உண்மை_அலகுகள்) {
+    திரும்பு நியம_வீதம் * (உண்மை_அலகுகள் - மதிப்பிட்ட_அலகுகள்);
+}

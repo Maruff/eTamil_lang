@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோரல்_தீர்வு(விவரங்கள்) — settle a claim through every clause in order__
+// ஒவ்வொரு நிபந்தனையையும் வரிசையாகக் கடந்து கோரலைத் தீர்க்கும்
+
+இறக்கு "../kAppItu.qmz";
+
+// __Average first, then the excess, then any co-payment, then the sub-limit,__
+// __then the sum insured. The order is the policy's, and it changes the answer.__
+// சராசரி, பின் கழிவு, பின் பங்கேற்பு, பின் உட்வரம்பு, பின் காப்பீட்டுத் தொகை
+குறை = கோரல்_தீர்வு({"இழப்பு": 500000, "காப்பீடு": 2500000,
+                      "உண்மை_மதிப்பு": 5000000, "கழிவு": 10000});
+அச்சு குறை["சராசரிக்குப்_பின்"];
+அச்சு குறை["செலுத்தத்தக்கது"];
+
+// __It says so when the policy was short, rather than leaving the reader to__
+// __work out why the payout is smaller than the loss.__
+// கொள்கை குறைவாக இருந்ததை அது சொல்கிறது
+அச்சு குறை["குறை_காப்பீடா"];
+
+// __The same loss on a fully insured policy pays roughly twice as much.__
+// முழுமையாகக் காப்பீடு செய்திருந்தால் அதே இழப்பு இரு மடங்கு செலுத்தும்
+முழு = கோரல்_தீர்வு({"இழப்பு": 500000, "காப்பீடு": 5000000,
+                      "உண்மை_மதிப்பு": 5000000, "கழிவு": 10000});
+அச்சு முழு["செலுத்தத்தக்கது"];
+
+// __A co-payment of a fifth, and a sub-limit that caps its own head.__
+// ஐந்தில் ஒரு பங்கேற்பு; தன் தலைப்புக்கே உட்வரம்பு
+அச்சு கோரல்_தீர்வு({"இழப்பு": 100000, "காப்பீடு": 1000000, "பங்கேற்பு": 20})["செலுத்தத்தக்கது"];
+அச்சு கோரல்_தீர்வு({"இழப்பு": 100000, "காப்பீடு": 1000000, "உட்_வரம்பு": 60000})["செலுத்தத்தக்கது"];
+
+// __And a loss inside the excess pays nothing, not a negative.__
+// கழிவுக்குள் அடங்கும் இழப்பு ஒன்றும் செலுத்தாது; எதிர்மறை அல்ல
+அச்சு கோரல்_தீர்வு({"இழப்பு": 5000, "காப்பீடு": 1000000, "கழிவு": 10000})["செலுத்தத்தக்கது"];

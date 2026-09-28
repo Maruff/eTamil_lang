@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — the overhead lost or gained along with the hours__
+// நேரத்துடன் சேர்ந்து இழந்த அல்லது ஈட்டிய மேல்நிலை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Variable overhead follows the hours, so working slowly costs overhead as__
+// __well as wages — which is why an efficiency problem is dearer than the__
+// __labour variance alone suggests.__
+// மெதுவாக வேலை செய்தால் ஊதியமும் மேல்நிலையும் இரண்டுமே செலவாகும்
+அச்சு மாறும்_மேல்நிலை_திறன்_வேறுபாடு(30, 2000, 2100);
+அச்சு ஊதிய_திறன்_வேறுபாடு(120, 2000, 2100);

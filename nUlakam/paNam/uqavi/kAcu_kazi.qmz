@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_கழி(அ, ஆ) — subtract one amount from another__
+// ஒரு தொகையிலிருந்து மற்றொன்றைக் கழிக்கும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+அச்சு காசு_உரை(காசு_கழி(ரூபாயாக(1000), ரூபாயும்_பைசாவும்(249, 50)));
+
+// __It goes below zero rather than stopping there. A balance that cannot be__
+// __negative is a business rule for the caller to apply; a subtraction that__
+// __silently floors at zero hides an overdraft.__
+// பூஜ்ஜியத்திற்குக் கீழும் செல்லும்; அங்கே நிற்பது கணக்கியல் விதி, கழித்தலின் வேலை அல்ல
+அச்சு காசு_உரை(காசு_கழி(ரூபாயாக(100), ரூபாயாக(250)));

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கொள்முதல்_பரிவர்த்தனை(பரிவர்த்தனை_எண், நாள், விவரம், விற்பனையாளர்_கணக்கு, செலவு_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a credit purchase, with recoverable input tax__
+// மீட்கக்கூடிய உள்ளீட்டு வரியுடன் கடன் கொள்முதல்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The tax is debited rather than credited: input tax is an asset, because it__
+// __comes back. Treating it as a cost overstates expenses by the tax on every__
+// __purchase.__
+// உள்ளீட்டு வரி ஒரு சொத்து; அது திரும்பக் கிடைக்கும்
+கொள்முதல் = கொள்முதல்_பரிவர்த்தனை(1, "2026-04-01", "கொள்முதல் 1",
+                                    "2100", "5000", "1200", 10000, 18);
+அச்சு சமநிலையா(கொள்முதல்);
+அச்சு நீளம்(கொள்முதல்["வரிசைகள்"]);

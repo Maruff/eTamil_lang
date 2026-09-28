@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விருப்பத்தைச்_சேர்(இணைப்பு, பெயர், மதிப்பீடு) — add an optional parameter, or leave the link alone__
+// விருப்ப அளபுருவைச் சேர்க்கும்; இல்லையெனில் இணைப்பை அப்படியே விடும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+தொடக்கம் = "upi://pay?pa=shop@okhdfcbank&pn=Shop&cu=INR";
+
+// __A value that is there is escaped and appended.__
+// மதிப்பு இருந்தால் மறைக்கப்பட்டுச் சேர்க்கப்படும்
+அச்சு விருப்பத்தைச்_சேர்(தொடக்கம், "tn", "Order 12");
+
+// __An empty one leaves the link exactly as it was. That is the point: an__
+// __absent note must not become tn=, which some apps show to the payer as an__
+// __empty line and others reject outright.__
+// காலி மதிப்பு இணைப்பை மாற்றாது; பெயர் மட்டும் வெறுமையாகச் சேர்வதில்லை
+அச்சு விருப்பத்தைச்_சேர்(தொடக்கம், "tn", "");
+
+// __A number is written out before it is measured, so 0 is a value and not an__
+// __absence.__
+// எண்ணும் சரமாக்கப்பட்டே அளக்கப்படுகிறது
+அச்சு விருப்பத்தைச்_சேர்(தொடக்கம், "mc", 5411);

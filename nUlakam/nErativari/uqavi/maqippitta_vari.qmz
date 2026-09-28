@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பிட்ட_வரி(மொத்த_வரி, மூலப்_பிடித்தம், நிவாரணங்கள்) — the assessed tax that advance tax is measured against__
+// முன்வரிக்கு அடிப்படையான மதிப்பிட்ட வரி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Tax for the year less what has been withheld at source and any reliefs. A__
+// __salaried person whose employer withholds correctly has almost no assessed__
+// __tax and therefore no advance tax liability.__
+// மூலவரியும் நிவாரணங்களும் போக மிஞ்சுவதே
+அச்சு மதிப்பிட்ட_வரி(250000, 180000, 0);
+அச்சு மதிப்பிட்ட_வரி(250000, 250000, 0);
+
+// __It does not go negative: an over-withheld year is a refund, not a negative__
+// __advance-tax base.__
+// இது எதிர்மறையாவதில்லை
+அச்சு மதிப்பிட்ட_வரி(250000, 300000, 0);

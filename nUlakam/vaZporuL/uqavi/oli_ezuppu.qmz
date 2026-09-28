@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒலி_எழுப்பு(முனை, அதிர்வெண்) — sound a buzzer at this frequency__
+// இந்த அதிர்வெண்ணில் ஒலி எழுப்பும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __It starts and returns: the sound goes on while the program does something__
+// __else. An alarm that only sounds while the program sits in a delay is an__
+// __alarm that stops when anything else needs doing.__
+// இது தொடங்கிவிட்டுத் திரும்பும்; ஒலி தொடரும், நிரல் வேறு வேலை பார்க்கும்
+ஒலி_எழுப்பு(8, 2000);
+
+// __2000 Hz is about where a small piezo buzzer is loudest, and where a room__
+// __full of people notices it.__
+// சிறிய ஒலிப்பான்கள் 2000 அதிர்வெண் அளவிலேயே அதிகம் ஒலிக்கும்
+காத்திரு(500);
+ஒலி_நிறுத்து(8);
+அச்சு "ஒலி எழுப்பி நிறுத்தப்பட்டது";

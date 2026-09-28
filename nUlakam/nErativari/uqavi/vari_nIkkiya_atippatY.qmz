@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரி_நீக்கிய_அடிப்படை(விலைப்பட்டியல்_மொத்தம், வணிகவரித்_தொகை, நீக்கவா) — the invoice less the indirect tax, if it comes out__
+// வணிக வரியை நீக்கிய அடிப்படை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Withholding is on the value of the service, not on the tax charged on it —__
+// __where the tax is shown separately on the invoice.__
+// வரியின்மீது மூலவரி இல்லை; வரி தனியே காட்டப்பட்டிருக்க வேண்டும்
+அச்சு வரி_நீக்கிய_அடிப்படை(118000, 18000, மெய்);
+
+// __On an invoice that does not show it separately, the whole amount is the__
+// __base — and the difference is real money.__
+// தனியே காட்டப்படவில்லையெனில் மொத்தமே அடிப்படை
+அச்சு வரி_நீக்கிய_அடிப்படை(118000, 18000, பொய்);
+அச்சு வரி_நீக்கிய_அடிப்படை(18000, 20000, மெய்);

@@ -22,7 +22,7 @@ for nuNNaRivu, kOppumuRY and the rest of 1.4.0.
 ### Added
 
 - Completions and highlighting for the 14 new builtins, the
-  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY.qmz`: 96 builtins and 806
+  `nUlakam/nuNNaRivu` modules and `nUlakam/kOppumuRY/kOppumuRY.qmz`: 96 builtins and 806
   library functions.
 
 ### Changed
@@ -70,7 +70,7 @@ their methods. See the repository's CHANGELOG for what each one does.
 
 - Highlighting for `நிலை` and `வடிவம்` in every spelling (`nilY`, `_const`,
   `vativam`, `_shape`).
-- Completions and signature help for `nUlakam/aNi.qmz`'s map, filter and fold:
+- Completions and signature help for `nUlakam/atippatY/aNi.qmz`'s map, filter and fold:
   `ஒவ்வொன்றுக்கும்`, `வடிகட்டு` and `மடி`.
 - The carried compiler is 1.1.0, which also runs files saved with CRLF line
   endings.
@@ -322,7 +322,7 @@ not possible at all. Installing this one is the whole setup.
   routes, which are unchanged.
 
   `ETAMIL_PATH` is set to the carried library whenever you have not set one
-  yourself, which is what makes `இறக்கு "nUlakam/paNam.qmz"` resolve. A
+  yourself, which is what makes `இறக்கு "nUlakam/paNam/paNam.qmz"` resolve. A
   terminal opened by **eTamil: Run this file** gets it too.
 
 - **eTamil: Install the compiler for use outside the editor** copies the

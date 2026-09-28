@@ -42,7 +42,7 @@ performs comes out right:
 
 Formatting follows Indian convention — three digits, then pairs:
 
-    இறக்கு "nUlakam/paNam.qmz";
+    இறக்கு "nUlakam/paNam/paNam.qmz";
     அச்சு ரூபாய்(12345678.5);   →  ₹1,23,45,678.50
 
 

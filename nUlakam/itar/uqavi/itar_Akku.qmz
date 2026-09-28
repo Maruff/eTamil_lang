@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இடர்_ஆக்கு(இடர்க்_குறி, விவரம், நிகழ்தகவு, தாக்கத்_தொகை, இடர்_வகை, உரிமையாளர்) — put a risk on the register__
+// பதிவேட்டில் ஓர் இடரை உருவாக்கும்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __A threat and an opportunity are both risks. A register holding only__
+// __threats is half filled in, and the kind is what tells the arithmetic__
+// __which direction the money goes.__
+// அச்சுறுத்தலும் வாய்ப்பும் இரண்டுமே இடர்கள்
+அச்சுறுத்தல் = இடர்_ஆக்கு("R1", "விற்பனையாளர் தாமதம்", 30, 500000,
+                           "அச்சுறுத்தல்", "பாலமுரளி");
+வாய்ப்பு = இடர்_ஆக்கு("R3", "முன்கூட்டிய முடிவு", 25, 200000,
+                       "வாய்ப்பு", "ஸ்வேதா");
+
+அச்சு அச்சுறுத்தல்["குறி"];
+அச்சு அச்சுறுத்தல்["நிகழ்தகவு"];
+
+// __The impact is entered as a positive number whichever kind it is. The sign__
+// __is carried by இடர்_வகை, so a threat typed in negative cannot end up being__
+// __added to the reserve instead of subtracted.__
+// தாக்கம் எப்போதும் நேர்மறையாகவே; திசையை வகை சுமக்கிறது
+அச்சு அச்சுறுத்தல்["தாக்கம்"];
+அச்சு வாய்ப்பு["தாக்கம்"];
+
+// __And an owner, because a risk nobody owns is a risk nobody watches.__
+// உரிமையாளர் இல்லாத இடரை யாரும் கவனிப்பதில்லை
+அச்சு அச்சுறுத்தல்["உரிமையாளர்"];

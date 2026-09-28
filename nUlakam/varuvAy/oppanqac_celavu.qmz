@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/oppanqac_celavu.qmz — ஒப்பந்தச் செலவு, and contracts that lose__
+// ஒப்பந்தச் செலவும் நட்டம் தரும் ஒப்பந்தங்களும்
 //
 // __Two subjects that belong together because both decide whether a cost sits on__
 // __the balance sheet or goes through the profit and loss now.__
@@ -22,8 +23,8 @@
 // __Recognising a provision while capitalised costs still sit on the balance__
 // __sheet counts the same loss twice.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __பெறுதல் செலவு — costs of obtaining a contract__
@@ -49,6 +50,7 @@
 //
 // __Answers the decision and the reason, because "not capitalised" without a__
 // __reason is an answer nobody can check.__
+// பெறுதல்_செலவின்_வகை(கூடுதலானதா, மீட்கக்கூடியதா) — ஒப்பந்தம் பெறச் செய்த செலவை முதலீடாக்கலாமா
 செயல் பெறுதல்_செலவின்_வகை(கூடுதலானதா, மீட்கக்கூடியதா, கழிப்பு_மாதங்கள்,
                             எளிய_வழி_மாதங்கள்) {
     (இல்லை கூடுதலானதா) எனில் {
@@ -94,6 +96,7 @@
 //
 // __General and administrative costs fail the first condition unless the__
 // __contract explicitly makes them chargeable.__
+// நிறைவேற்றல்_செலவின்_வகை(நேரடியானதா, வளம்_உருவாக்குமா, மீட்கக்கூடியதா) — நிறைவேற்றல் செலவை முதலீடாக்கலாமா
 செயல் நிறைவேற்றல்_செலவின்_வகை(நேரடியானதா, வளத்தை_உருவாக்குமா, மீட்கக்கூடியதா,
                                 கடந்த_செயலுக்கானதா, வீணானதா) {
     (வீணானதா) எனில் {
@@ -137,6 +140,7 @@
 // __divorced from the thing that justified capitalising it.__
 //
 // __முன்னேற்றம் is a fraction, 0 to 1, as it is throughout this directory.__
+// கழிப்புத்_தொகை(முதலீட்டுத்_தொகை, முன்னேற்றம், முன்பு_கழித்தது) — இக்காலத்தில் கழிக்க வேண்டிய தொகை
 செயல் கழிப்புத்_தொகை(முதலீட்டுத்_தொகை, முன்னேற்றம், முன்பு_கழித்தது) {
     (முன்னேற்றம் <= 0) எனில் { திரும்பு 0; }
     பயன்படும்_முன்னேற்றம் = முன்னேற்றம்;
@@ -161,6 +165,7 @@
 // __Note that the comparison uses **remaining** figures on both sides. Comparing__
 // __the carrying amount against the whole contract value ignores the cost of__
 // __finishing it, which is the only reason a contract cost ever fails this test.__
+// முதலீட்டுக்_குறைவு(புத்தக_மதிப்பு, எஞ்சிய_வருவாய், எஞ்சிய_செலவு) — முதலீட்டு மதிப்பு மீட்க முடியாமல் குறைந்ததா
 செயல் முதலீட்டுக்_குறைவு(புத்தக_மதிப்பு, எஞ்சிய_வருவாய், எஞ்சிய_செலவு) {
     மீட்கக்கூடியது = எஞ்சிய_வருவாய் - எஞ்சிய_செலவு;
     (மீட்கக்கூடியது < 0) எனில் { மீட்கக்கூடியது = 0; }
@@ -187,6 +192,7 @@
 // __as depreciation of equipment used on it. The 2022 amendment to Ind AS 37__
 // __settled this: the narrower "incremental only" reading made fewer contracts__
 // __onerous and was the more common practice before it.__
+// தவிர்க்க_முடியாத_செலவு(நிறைவேற்றும்_செலவு, வெளியேறும்_அபராதம்) — நிறைவேற்றுவதும் வெளியேறுவதும், எது குறைவோ அது
 செயல் தவிர்க்க_முடியாத_செலவு(நிறைவேற்றும்_செலவு, வெளியேறும்_அபராதம்) {
     திரும்பு வட்டமிடு(சிறியது(நிறைவேற்றும்_செலவு, வெளியேறும்_அபராதம்), 2);
 }
@@ -198,6 +204,7 @@
 // __contract that has lost money to date but will earn more than it costs from__
 // __here is not onerous, and one that has been profitable so far but faces a__
 // __ruinous final phase is.__
+// நட்டம்_தருமா(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு) — இவ்வொப்பந்தம் நட்டம் தருமா
 செயல் நட்டம்_தருமா(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு) {
     திரும்பு தவிர்க்க_முடியாத_செலவு > எஞ்சிய_வருவாய்;
 }
@@ -219,6 +226,7 @@
 // __percentage-of-completion pattern part company: revenue and cost are__
 // __recognised as the work is done, and the loss is recognised as soon as it is__
 // __foreseen.__
+// நட்டக்_கணக்கு(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு) — நட்டம் தரும் ஒப்பந்தத்துக்கான ஒதுக்கீடு
 செயல் நட்டக்_கணக்கு(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு,
                      ஒப்பந்தச்_சொத்தின்_மதிப்பு) {
     (இல்லை நட்டம்_தருமா(எஞ்சிய_வருவாய், தவிர்க்க_முடியாத_செலவு)) எனில் {

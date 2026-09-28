@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விகிதப்_பதிவு(வளக்_குறி, மணி_விகிதம், அமல்_தொடக்கம், அமல்_முடிவு) — an hourly rate, for a period__
+// ஒரு காலத்திற்கு உரிய மணி விகிதப் பதிவு
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __Rates change, and a project runs across the change. Holding one rate per__
+// __resource makes last year's costs move when this year's rate is entered.__
+// விகிதங்கள் மாறும்; திட்டம் அந்த மாற்றத்தைக் கடந்தே ஓடுகிறது
+பழையது = விகிதப்_பதிவு("E1", 500, "2025-04-01", "2026-03-31");
+புதியது = விகிதப்_பதிவு("E1", 600, "2026-04-01", "");
+
+அச்சு பழையது["மணி_விகிதம்"];
+அச்சு புதியது["மணி_விகிதம்"];
+
+// __An empty end date means it is still in force, rather than meaning it ended__
+// __at the beginning of time.__
+// காலி முடிவு நாள் என்றால் இன்னும் அமலில் உள்ளது
+அச்சு "[" & புதியது["அமல்_முடிவு"] & "]";

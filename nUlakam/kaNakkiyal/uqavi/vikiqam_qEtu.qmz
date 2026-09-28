@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விகிதம்_தேடு(வரி_வகை, குறியீட்டெண், மாநிலக்_குறி, நாள்) — the rate that was in force on a date__
+// அந்நாளில் அமலில் இருந்த விகிதம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The rates live in a table, effective-dated, because they change and last__
+// __year's invoices have to keep last year's rate.__
+// விகிதங்கள் அட்டவணையில், நாள்வாரியாக; பழைய விலைப்பட்டியல் பழைய விகிதத்தையே வைத்திருக்கும்
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE vari_vikiqam (
+             vari_vakY TEXT NOT NULL, kuRi TEXT NOT NULL, mAnilam TEXT NOT NULL,
+             vikiqam REAL, nilYq_qokY REAL,
+             varampu_muqal REAL NOT NULL DEFAULT 0, varampu_varY REAL,
+             amal_qotakkam TEXT NOT NULL, amal_mutivu TEXT, mUlam TEXT NOT NULL)", [];
+
+தளம்_செய் "INSERT INTO vari_vikiqam
+             (vari_vakY, kuRi, mAnilam, vikiqam, varampu_muqal,
+              amal_qotakkam, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["gst", "8471", "", 18, 0, "2020-01-01", "எடுத்துக்காட்டு"];
+
+அச்சு மதிப்பு(விகிதம்_தேடு("gst", "8471", "33", "2026-04-01"))["vikiqam"];
+
+// __A code with no rate on that day is a தவறு naming all four things it looked__
+// __for, because any of them could be the reason.__
+// அந்நாளில் விகிதம் இல்லையெனில் தவறே; நான்கையும் பெயரிட்டுச் சொல்லும்
+அச்சு தவறா(விகிதம்_தேடு("gst", "9999", "33", "2026-04-01"));

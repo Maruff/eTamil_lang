@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகைப்படுத்து(விதிமுறைகள், தாமத_நாட்கள்) — which rule covers an account this many days overdue__
+// இத்தனை நாட்கள் தாமதமான கணக்கு எந்த விதிமுறையின் கீழ் வரும்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Built here rather than read from a table, so the boundaries are visible.__
+// __The day counts below are invented for the sample and are not a claim about__
+// __what any real rule says.__
+// இங்கேயே கட்டப்பட்டவை; எந்த உண்மையான விதிமுறையையும் இவை குறிக்கவில்லை
+விதிகள் = [{"vakY": "நல்லது", "nAtkaL_muqal": 0, "nAtkaL_varY": 90,
+             "oqukkItu_vikiqam": 1, "mUlam": "எடுத்துக்காட்டு"},
+            {"vakY": "சந்தேகம்", "nAtkaL_muqal": 91, "nAtkaL_varY": 365,
+             "oqukkItu_vikiqam": 20, "mUlam": "எடுத்துக்காட்டு"}];
+
+அச்சு மதிப்பு(வகைப்படுத்து(விதிகள், 45))["vakY"];
+
+// __Ninety days is still good and ninety-one is not. A boundary written as__
+// __\"more than ninety\" and coded as \">= 90\" moves every account by a day.__
+// தொண்ணூறு நல்லது; தொண்ணூற்றொன்று அல்ல
+அச்சு மதிப்பு(வகைப்படுத்து(விதிகள், 90))["vakY"];
+அச்சு மதிப்பு(வகைப்படுத்து(விதிகள், 91))["vakY"];
+
+// __A delay no rule covers is a தவறு saying so, rather than the last rule__
+// __applied by accident. A gap in the table is a question for a human.__
+// எந்த விதிமுறையும் இல்லாத தாமதம் தவறாகவே திரும்பும்
+அச்சு தவறு_மதிப்பு(வகைப்படுத்து(விதிகள், 400));

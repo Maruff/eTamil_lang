@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒதுக்கியதன்_கூட்டல்(ஒதுக்கிய_கடமைகள்) — the allocated amounts added back up__
+// ஒதுக்கிய தொகைகளின் கூட்டுத்தொகை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+கடமைகள் = [கடமை_ஆக்கு("P1", "கருவி", 800000, பொய்),
+            கடமை_ஆக்கு("P2", "பராமரிப்பு", 200000, மெய்),
+            கடமை_ஆக்கு("P3", "பயிற்சி", 100000, பொய்)];
+
+// __The check worth making after every allocation: the parts come back to the__
+// __whole exactly, because the last share takes the remainder rather than__
+// __being computed.__
+// பங்குகள் சரியாக மொத்தத்திற்கே திரும்பும்
+ஒதுக்கியவை = மதிப்பு(கடமைகளுக்கு_ஒதுக்கு(1000000, கடமைகள்));
+அச்சு ஒதுக்கியதன்_கூட்டல்(ஒதுக்கியவை);
+
+// __A rounding difference left over here would be revenue belonging to no__
+// __obligation, which nothing downstream can post.__
+// மிச்சம் இருந்தால் அது எந்தக் கடமைக்கும் சேராத வருவாயாகும்

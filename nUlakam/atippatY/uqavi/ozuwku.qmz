@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒழுங்கு(சரம்) — trim spaces from both ends__
+// இரு முனைகளிலும் உள்ள இடைவெளிகளை நீக்கும்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு நீளம்(ஒழுங்கு("  தமிழ்  "));
+
+// __A string of nothing but spaces trims to empty.__
+// இடைவெளி மட்டுமே உள்ள சரம் வெறுமையாகும்
+அச்சு நீளம்(ஒழுங்கு("   "));
+அச்சு நீளம்(ஒழுங்கு(""));

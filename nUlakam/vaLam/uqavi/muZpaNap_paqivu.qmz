@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்பணப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், வங்கிக்_கணக்கு, ஒப்பந்தப்_பொறுப்புக்_கணக்கு, தொகை_மதிப்பு) — money received before the work is done__
+// பணி முடியும் முன் பெற்ற பணம்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __An advance is a liability, not revenue. The money is in the bank and the__
+// __obligation to do the work is still outstanding — treating it as income is__
+// __how a project looks profitable in its first month.__
+// முன்பணம் ஒரு பொறுப்பே; வருவாய் அல்ல
+பதிவு = முன்பணப்_பதிவு(7, "2026-02-01", "முன்பணம்", "BANK", "CL-SNG", 200000);
+அச்சு சமநிலையா(பதிவு);
+அச்சு பதிவு["வரிசைகள்"][0]["கணக்கு_குறி"];

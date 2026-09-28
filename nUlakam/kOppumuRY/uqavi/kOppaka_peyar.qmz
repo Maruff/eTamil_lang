@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோப்பக_பெயர்(பாதை) — everything before the last segment__
+// கடைசித் துண்டுக்கு முந்தைய அனைத்தும்
+
+இறக்கு "../kOppumuRY.qmz";
+
+அச்சு கோப்பக_பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz");
+
+// __A name with no directory in front of it has no directory, and answers with__
+// __nothing rather than with \".\" — the caller decides what an absent directory__
+// __should mean.__
+// கோப்பகமே இல்லாத பெயருக்கு வெற்றுச் சரம்; \".\" அல்ல
+அச்சு "[" & கோப்பக_பெயர்("pErEtu.qmz") & "]";
+
+// __And the two halves rejoin to what went in.__
+// இரு பாதிகளும் சேர்ந்தால் சென்றதே
+அச்சு பாதை_இணை(கோப்பக_பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz"),
+                அடிப்பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz"));

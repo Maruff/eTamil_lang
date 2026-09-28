@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிரிப்பானா(எழுத்து_ஒன்று) — does this character end a word?__
+// இந்த எழுத்து ஒரு பதத்தை முடிக்குமா
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு பிரிப்பானா(" ");
+அச்சு பிரிப்பானா(".");
+அச்சு பிரிப்பானா("அ");
+
+// __An underscore is not a separator, because eTamil function names are full__
+// __of them and splitting on one would turn கடமை_ஆக்கு into two words that__
+// __match nothing.__
+// அடிக்கோடு பிரிப்பான் அல்ல; செயல் பெயர்கள் அதனால் உடையும்
+அச்சு பிரிப்பானா("_");

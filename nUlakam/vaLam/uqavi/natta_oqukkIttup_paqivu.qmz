@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நட்ட_ஒதுக்கீட்டுப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், செலவுக்_கணக்கு, ஒதுக்கீட்டுக்_கணக்கு, தொகை_மதிப்பு) — provide for a contract expected to lose money__
+// நட்டம் தரும் ஒப்பந்தத்துக்கான ஒதுக்கீடு
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __The whole expected loss is taken as soon as it is foreseen, not spread over__
+// __the months in which it will be incurred. A contract known to be losing__
+// __money is a loss now.__
+// எதிர்பார்க்கும் நட்டம் முழுவதும் உடனே எடுக்கப்படுகிறது; பரவலாக அல்ல
+பதிவு = நட்ட_ஒதுக்கீட்டுப்_பதிவு(8, "2026-03-31", "நட்ட ஒதுக்கீடு",
+                                   "LOSS", "PROV", 150000);
+அச்சு சமநிலையா(பதிவு);
+அச்சு பதிவு["விவரம்"];

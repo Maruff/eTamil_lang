@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையத்_தொகையைப்_பெறு(இருப்புகள், ஒரு_குறி) — a centre's current balance__
+// ஒரு நிலையத்தின் நடப்பு இருப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+இருப்புகள் = [{"குறி": "P1", "தொகை": 50000},
+               {"குறி": "P2", "தொகை": 30000}];
+
+அச்சு நிலையத்_தொகையைப்_பெறு(இருப்புகள், "P1");
+
+// __A centre that is not there holds nothing, which is what lets the__
+// __re-apportionment start from an empty list.__
+// இல்லாத நிலையத்தில் ஒன்றுமில்லை; காலிப் பட்டியலிலிருந்தே தொடங்கலாம்
+அச்சு நிலையத்_தொகையைப்_பெறு(இருப்புகள், "S9");

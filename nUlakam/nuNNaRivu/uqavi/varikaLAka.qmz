@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரிகளாக(சரம்) — split into lines, dropping the empty ones__
+// ஒவ்வொரு வரியாகப் பிரிக்கும்; வெற்று வரிகள் நீக்கப்படும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __For material where a line is the unit: a table, a list of signatures, a__
+// __reference index.__
+// வரியே அலகாக உள்ள பொருளுக்கு
+அச்சு நீளம்(வரிகளாக("முதல்\nஇரண்டாம்\n\nமூன்றாம்"));
+அச்சு வரிகளாக("  இடைவெளியுடன்  \nஇரண்டாம்")[0];

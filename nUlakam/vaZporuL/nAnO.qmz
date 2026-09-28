@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaZporuL/nAnO.qmz — நானோ: the Arduino Nano's pins, and the hardware API__
+// நானோ: ஆர்டுயினோ நானோ பலகையின் முனைகளும் வன்பொருள் இடைமுகமும்
 //
 //   __இறக்கு "nUlakam/vaZporuL/nAnO.qmz";__
 //   __etamil --artino --board nano prog.qmz__

@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/Ittu_vERupAtu.qmz — ஈட்டு வேறுபாடு: variances and performance indices__
+// ஈட்டு வேறுபாடு: வேறுபாடுகளும் செயல்திறன் குறியீடுகளும்
+//
+// __Schedule variance is in money, not in time, which is the thing about__
+// __earned value that surprises people most often. A project can show a__
+// __favourable schedule variance and still be late.__
+
+// __செலவு_வேறுபாடு(ஈட்டியது, உண்மைச்_செலவு) — cost variance, CV__
+// செலவு_வேறுபாடு(ஈட்டியது, உண்மைச்_செலவு) — செலவு வேறுபாடு
+//
+// __What the work accomplished was worth, less what it cost. Positive is under budget. This is the total cost variance of standard costing with a project's physical progress as the flexed budget, which is why comparing spend against the original budget answers a different and much less useful question.__
+செயல் செலவு_வேறுபாடு(ஈட்டியது, உண்மைச்_செலவு) {
+    திரும்பு ஈட்டியது - உண்மைச்_செலவு;
+}
+
+// __கால_வேறுபாடு(ஈட்டியது, திட்டமிட்டது) — schedule variance, SV, in money__
+// கால_வேறுபாடு(ஈட்டியது, திட்டமிட்டது) — கால வேறுபாடு, பணத்தில்
+//
+// __In rupees, not days, and this catches everyone once. −85 does not mean 85 days late; it means the work that should have been done by now but was not was budgeted at 85. Turning that into time needs the schedule in pAqY.qmz. It also goes to zero at completion whatever happened, because by then all the planned work has been earned.__
+செயல் கால_வேறுபாடு(ஈட்டியது, திட்டமிட்டது) {
+    திரும்பு ஈட்டியது - திட்டமிட்டது;
+}
+
+// கணக்கியல்_வேறுபாடு(திட்டமிட்டது, உண்மைச்_செலவு)
+//
+// __Planned less actual — the figure a conventional "spend against budget"__
+// __report shows. Included precisely so a caller can demonstrate how misleading__
+// __it is: it can read favourable while both real variances are adverse.__
+// கணக்கியல்_வேறுபாடு(திட்டமிட்டது, உண்மைச்_செலவு) — திட்டமிட்டதற்கும் உண்மைக்கும் உள்ள வேறுபாடு
+செயல் கணக்கியல்_வேறுபாடு(திட்டமிட்டது, உண்மைச்_செலவு) {
+    திரும்பு திட்டமிட்டது - உண்மைச்_செலவு;
+}
+
+// __--- Indices -------------------------------------------------------------__
+
+// __செலவுச்_செயல்திறன்(ஈட்டியது, உண்மைச்_செலவு) — CPI__
+// செலவுச்_செயல்திறன்(ஈட்டியது, உண்மைச்_செலவு) — செலவுச் செயல்திறன் குறியீடு
+//
+// __Rupees of value earned per rupee spent. Dimensionless, so projects of__
+// __different sizes compare, and empirically quite stable once a project is__
+// __about 20% complete — which is what makes it usable for forecasting.__
+செயல் செலவுச்_செயல்திறன்(ஈட்டியது, உண்மைச்_செலவு) {
+    (உண்மைச்_செலவு == 0) எனில் {
+        திரும்பு தவறு("உண்மைச் செலவு பூஜ்யம்: செயல்திறன் இன்னும் பொருளற்றது");
+    }
+    திரும்பு சரி(ஈட்டியது / உண்மைச்_செலவு);
+}
+
+// __காலச்_செயல்திறன்(ஈட்டியது, திட்டமிட்டது) — schedule performance index, SPI__
+// காலச்_செயல்திறன்(ஈட்டியது, திட்டமிட்டது) — காலச் செயல்திறன் குறியீடு
+//
+// __Work done over work planned: 1 is on schedule, below 1 behind. தவறு when nothing was planned yet, because a ratio against zero is not infinity here, it is a question that has not started. Like SV it drifts to 1 as the project completes, so it is a mid-project signal and not a verdict.__
+செயல் காலச்_செயல்திறன்(ஈட்டியது, திட்டமிட்டது) {
+    (திட்டமிட்டது == 0) எனில் {
+        திரும்பு தவறு("திட்டமிட்ட மதிப்பு பூஜ்யம்: செயல்திறன் இன்னும் பொருளற்றது");
+    }
+    திரும்பு சரி(ஈட்டியது / திட்டமிட்டது);
+}
+
+// எதிர்பார்க்கும்_காலம்(அசல்_காலம், காலத்_திறன்)
+// __எதிர்பார்க்கும்_காலம்(அசல்_காலம், காலத்_திறன்) — the duration this pace implies__
+// எதிர்பார்க்கும்_காலம்(அசல்_காலம், காலத்_திறன்) — இந்த வேகம் குறிக்கும் கால அளவு
+//
+// __The planned duration divided by the schedule index. Assumes the pace so far continues, which is the weakest assumption in the module and stated rather than hidden: a project that lost time to a one-off will beat this, and one that is structurally slow will not.__
+செயல் எதிர்பார்க்கும்_காலம்(அசல்_காலம், காலத்_திறன்) {
+    (காலத்_திறன் == 0) எனில் { திரும்பு தவறு("காலச் செயல்திறன் பூஜ்யம்"); }
+    திரும்பு சரி(அசல்_காலம் / காலத்_திறன்);
+}

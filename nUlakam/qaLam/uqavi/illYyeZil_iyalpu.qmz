@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இல்லையெனில்_இயல்பு(சாவி, மாற்று_மதிப்பு) — the key's value, or this instead__
+// சாவி இல்லையெனில் மாற்று மதிப்பைத் தரும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+சேமி("மாதிரி:மொழி", "தமிழ்");
+
+// __This is the one function here that answers a plain value rather than a__
+// __result, and it is deliberate: a cache miss, a missing key and an unreachable__
+// __server all give the fallback. A cache that is down should slow a program,__
+// __not stop it.__
+// இது முடிவு அல்ல, நேரடி மதிப்பையே தரும்; இணைப்பு இல்லாவிட்டாலும் மாற்று மதிப்பே
+அச்சு இல்லையெனில்_இயல்பு("மாதிரி:மொழி", "ஆங்கிலம்");
+அச்சு இல்லையெனில்_இயல்பு("மாதிரி:இல்லாத_சாவி", "ஆங்கிலம்");
+
+// __Which also means a wrong answer is indistinguishable from a default. Use__
+// __எடு where the difference between "not cached" and "cache is down" matters.__
+// எனவே தவறான விடைக்கும் இயல்பு மதிப்புக்கும் வேறுபாடு தெரியாது; தேவையெனில் எடு-வைப் பயன்படுத்துக

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nAtkAtti/vAram.qmz — வாரம்: weekdays, quarters and the financial year__
+// வாரம்: வாரநாள், கால் ஆண்டு, நிதியாண்டு
+//
+// __The financial year takes its starting month as an argument. April is the__
+// __Indian default and is not assumed, because a subsidiary reporting to a__
+// __parent elsewhere does not get to choose.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "caripArppu.qmz";
+
+// =========================================================================
+// __வாரநாள் — the day of the week__
+// =========================================================================
+//
+// __வாரநாள்(ஒரு_நாள்) — 0 = Sunday through 6 = Saturday__
+// வாரநாள்(ஒரு_நாள்) — வாரநாள் எண்; பூஜ்ஜியம் ஞாயிறு, ஆறு சனி
+//
+// __Derived from the epoch, which was a Thursday. மீதி floors, so this is__
+// __correct for dates before 1970 as well — 31 December 1969 answers 3, a__
+// __Wednesday, without a special case.__
+செயல் வாரநாள்(ஒரு_நாள்) {
+    திரும்பு மீதி(நாள்_வேறுபாடு(காலத்_தொடக்கம்(), ஒரு_நாள்) + 4, 7);
+}
+
+// __வாரநாள்_பெயர்(வாரநாள்_எண்) — the Tamil name of a weekday number__
+// வாரநாள்_பெயர்(வாரநாள்_எண்) — வாரநாள் எண்ணின் தமிழ்ப் பெயர்
+//
+// __Takes the number வாரநாள் returns, 0 for Sunday. Kept apart from வாரநாள் so the arithmetic can be tested without asserting on names, and so a caller working in another language can replace the naming without touching the calendar.__
+செயல் வாரநாள்_பெயர்(வாரநாள்_எண்) {
+    (வாரநாள்_எண் == 0) எனில் { திரும்பு "ஞாயிறு"; }
+    (வாரநாள்_எண் == 1) எனில் { திரும்பு "திங்கள்"; }
+    (வாரநாள்_எண் == 2) எனில் { திரும்பு "செவ்வாய்"; }
+    (வாரநாள்_எண் == 3) எனில் { திரும்பு "புதன்"; }
+    (வாரநாள்_எண் == 4) எனில் { திரும்பு "வியாழன்"; }
+    (வாரநாள்_எண் == 5) எனில் { திரும்பு "வெள்ளி"; }
+    (வாரநாள்_எண் == 6) எனில் { திரும்பு "சனி"; }
+    திரும்பு "";
+}
+
+// =========================================================================
+// __நிதியாண்டு — the financial year__
+// =========================================================================
+//
+// நிதியாண்டின்_தொடக்க_ஆண்டு(ஒரு_நாள், தொடக்க_மாதம்)
+//
+// __Which financial year a date falls in, named by the calendar year it starts__
+// __in. India's begins in April, so the 14th of March 2026 belongs to the year__
+// __that began in April 2025 and is called 2025-26.__
+//
+// __The starting month is a parameter because it is not universal: the United__
+// __Kingdom's corporation tax year begins in April too but its personal tax year__
+// __begins on the 6th, Australia's begins in July, and a company's own financial__
+// __year may begin anywhere its articles say.__
+// நிதியாண்டின்_தொடக்க_ஆண்டு(ஒரு_நாள், தொடக்க_மாதம்) — இந்நாள் சேரும் நிதியாண்டு தொடங்கிய ஆண்டு
+செயல் நிதியாண்டின்_தொடக்க_ஆண்டு(ஒரு_நாள், தொடக்க_மாதம்) {
+    (மாதத்தைப்_பெறு(ஒரு_நாள்) >= தொடக்க_மாதம்) எனில் {
+        திரும்பு ஆண்டைப்_பெறு(ஒரு_நாள்);
+    }
+    திரும்பு ஆண்டைப்_பெறு(ஒரு_நாள்) - 1;
+}
+
+// __கால்_ஆண்டு_எண்(ஒரு_நாள், தொடக்க_மாதம்) — which quarter, 1 to 4__
+// கால்_ஆண்டு_எண்(ஒரு_நாள், தொடக்க_மாதம்) — எந்தக் கால் ஆண்டு, ஒன்று முதல் நான்கு வரை
+//
+// __Counted from the financial year's own start, so with an April start July is__
+// __in the second quarter and not the third. A report that quarters the calendar__
+// __while the accounts quarter the financial year disagrees with the accounts__
+// __three times in four.__
+செயல் கால்_ஆண்டு_எண்(ஒரு_நாள், தொடக்க_மாதம்) {
+    இடைவெளி_மாதம் = மீதி(மாதத்தைப்_பெறு(ஒரு_நாள்) - தொடக்க_மாதம், 12);
+    திரும்பு தரை(இடைவெளி_மாதம் / 3) + 1;
+}

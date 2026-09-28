@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேக்கத்தை_வகைப்படுத்து(தேக்கத்_தொகைமதிப்பு, குறை_நீக்கம்_மட்டுமா) — is the retention a receivable or a contract asset?__
+// தேக்கத் தொகை பெறவேண்டியதா, ஒப்பந்தச் சொத்தா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __If the only thing left is time — the defects period running out — it is a__
+// __receivable.__
+// காலம் கழிவது மட்டுமே மிச்சம் என்றால் அது பெறவேண்டியது
+அச்சு தேக்கத்தை_வகைப்படுத்து(50000, மெய்)["வகை"];
+
+// __If defects have to be made good first, payment is conditional on doing__
+// __more work, and it is a contract asset. Most retentions are this, and most__
+// __balance sheets show them as receivables.__
+// குறைகளை நீக்க வேண்டுமென்றால் அது ஒப்பந்தச் சொத்தே
+அச்சு தேக்கத்தை_வகைப்படுத்து(50000, பொய்)["வகை"];
+அச்சு தேக்கத்தை_வகைப்படுத்து(50000, பொய்)["தொகை"];

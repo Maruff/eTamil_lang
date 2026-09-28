@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிகர_ஆண்டு_மதிப்பீடு(மொத்த_ஆண்டு_மதிப்பு, செலுத்திய_நகர்_வரி) — annual value less the municipal tax actually paid__
+// செலுத்திய நகர வரி போக வீட்டின் நிகர ஆண்டு மதிப்பு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Paid, not payable. Municipal tax billed and not paid is not deductible,__
+// __which is the one thing about this line people get wrong every year.__
+// செலுத்தியது மட்டுமே; செலுத்த வேண்டியது அல்ல
+அச்சு நிகர_ஆண்டு_மதிப்பீடு(360000, 12000);
+அச்சு நிகர_ஆண்டு_மதிப்பீடு(360000, 0);
+
+// __It does not go below nothing.__
+// இது பூஜ்ஜியத்திற்குக் கீழ் செல்வதில்லை
+அச்சு நிகர_ஆண்டு_மதிப்பீடு(10000, 40000);

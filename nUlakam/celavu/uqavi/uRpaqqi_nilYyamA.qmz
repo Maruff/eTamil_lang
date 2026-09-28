@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உற்பத்தி_நிலையமா(நிலையம்) — will cost be absorbed into units here?__
+// இங்கே செலவு அலகுகளில் உள்வாங்கப்படுமா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+நிலையங்கள் = [மதிப்பு(நிலையம்_ஆக்கு("P1", "இயந்திரப் பட்டறை", வகை_உற்பத்தி())),
+               மதிப்பு(நிலையம்_ஆக்கு("S1", "பராமரிப்பு", வகை_சேவைத்துறை()))];
+
+// __The question that decides where re-apportionment has to stop.__
+// மீள்பகிர்வு எங்கே நிற்க வேண்டும் என்பதைத் தீர்மானிக்கும் வினா
+அச்சு உற்பத்தி_நிலையமா(நிலையங்கள்[0]);
+அச்சு உற்பத்தி_நிலையமா(நிலையங்கள்[1]);

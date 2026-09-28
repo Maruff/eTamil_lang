@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறியீட்டு_எண்ணிக்கை(நிறைவேற்ற_பொறுப்பா, சரக்கு_இடர்_உண்டா, விலை_விருப்பம்_உண்டா) — how many of the three principal indicators are present__
+// முதன்மையைக் காட்டும் குறியீடுகள் எத்தனை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Three indicators of being a principal: responsibility for fulfilment,__
+// __inventory risk, and discretion over price.__
+// மூன்று குறியீடுகள்: நிறைவேற்றல் பொறுப்பு, சரக்கு இடர், விலை விருப்பம்
+அச்சு குறியீட்டு_எண்ணிக்கை(மெய், மெய், மெய்);
+அச்சு குறியீட்டு_எண்ணிக்கை(மெய், பொய், பொய்);
+அச்சு குறியீட்டு_எண்ணிக்கை(பொய், பொய், பொய்);
+
+// __Control is the test; these only point at it. Two out of three is not a__
+// __rule, and this deliberately does not say which side it falls on.__
+// சோதனை கட்டுப்பாடே; இவை அதைச் சுட்டுகின்றன மட்டுமே

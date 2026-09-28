@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொருள்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, கிடங்குக்_கணக்கு, தொகை_மதிப்பு) — material issued from stores to the project__
+// கிடங்கிலிருந்து திட்டத்துக்குக் கொடுத்த பொருள்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+
+// __The same shape as labour, and a different credit: the cost leaves stores__
+// __rather than payroll. It is posted when the material is issued, not when it__
+// __was bought.__
+// பொருள் கொடுக்கப்படும்போதே பதிவு; வாங்கியபோது அல்ல
+பதிவு = பொருள்_பதிவு(2, "2026-03-05", "பொருள்", நடப்புக்_கணக்கு, "STORES", 8000);
+அச்சு சமநிலையா(பதிவு);
+அச்சு பதிவு["விவரம்"];

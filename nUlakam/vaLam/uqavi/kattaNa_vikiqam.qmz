@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டண_விகிதம்(கட்டண_மணிகள், பணிபுரிந்த_மணிகள்) — how much of the work done can be charged for__
+// பணிபுரிந்ததில் எவ்வளவு கட்டணத்துக்கு உரியது
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __A different question from utilisation, and the more important one. A__
+// __resource can be fully utilised and nothing chargeable — busy all month on__
+// __work nobody is paying for.__
+// பயன்பாட்டுடன் இது ஒன்றல்ல; முழுவதும் வேலை, ஒன்றும் வருவாய் இல்லை எனலாம்
+அச்சு மதிப்பு(கட்டண_விகிதம்(0, 24));
+அச்சு மதிப்பு(கட்டண_விகிதம்(18, 24));
+அச்சு மதிப்பு(கட்டண_விகிதம்(24, 24));

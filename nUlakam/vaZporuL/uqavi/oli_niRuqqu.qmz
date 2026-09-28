@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒலி_நிறுத்து(முனை) — stop the sound on this pin__
+// இந்த முனையின் ஒலியை நிறுத்தும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __Nothing else stops it. A buzzer started and never stopped keeps sounding__
+// __after the condition that started it has gone, and after the program that__
+// __started it has.__
+// வேறு எதுவும் அதை நிறுத்தாது; தொடங்கியது நிற்கவில்லை என்றால் ஒலித்துக்கொண்டே இருக்கும்
+ஒலி_எழுப்பு(8, 2000);
+ஒலி_நிறுத்து(8);
+
+// __Safe to call when nothing is sounding, so an alarm's \"all clear\" path does__
+// __not have to know whether it ever sounded.__
+// ஒலிக்காதபோதும் அழைக்கலாம்; ஒலித்ததா என்று தெரிய வேண்டியதில்லை
+ஒலி_நிறுத்து(8);
+அச்சு "அமைதி";

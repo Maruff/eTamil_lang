@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __போலி_தொடர்_வெளியீடு(சாதனம்) — what the program has written to a simulated port__
+// நிரல் போலித் துறைக்கு எழுதியவை
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+தொடர்_வரி_எழுது(துறை, "<01,1:N:182*3A");
+
+// __The other half: what the program said, so a test can check the frame it__
+// __sent rather than only the answer it accepted.__
+// நிரல் சொன்னதைச் சோதனை பார்க்க முடியும்
+அச்சு போலி_தொடர்_வெளியீடு("sim:bus");
+
+// __Each line is handed over once. A second call sees only what was written__
+// __since, so a loop's output can be checked pass by pass.__
+// ஒவ்வொரு வரியும் ஒரு முறையே தரப்படும்
+அச்சு போலி_தொடர்_வெளியீடு("sim:bus");
+
+தொடர்_மூடு(துறை);

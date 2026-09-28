@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதங்கள்(சரம்) — the words of a text, in order__
+// உரையின் பதங்கள், வந்த வரிசையில்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Empty words are dropped, so two spaces or a comma followed by a space do__
+// __not produce a word that is nothing.__
+// வெற்றுப் பதங்கள் நீக்கப்படுகின்றன
+ஒவ்வொரு ஒரு_பதம் இல் பதங்கள்("Hello,  world!") { அச்சு ஒரு_பதம்; }
+அச்சு நீளம்(பதங்கள்("Hello,  world!"));
+
+// __Order is kept and duplicates are kept: this is the text, tokenised, not a__
+// __set.__
+// வரிசையும் மீண்டும் வருவனவும் தக்கவைக்கப்படுகின்றன
+அச்சு நீளம்(பதங்கள்("tax tax tax"));
+அச்சு நீளம்(பதங்கள்(""));

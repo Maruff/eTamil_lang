@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அளவீட்டு_அடிப்படை(தொகுதி) — the performance measurement baseline__
+// செயல்திறன் அளவீட்டுக்கான அடிப்படை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொகுதி = நிதித்_தொகுதி_ஆக்கு(1000000, 150000, 100000);
+
+// __Baseline plus contingency, and not the management reserve. Variances are__
+// __measured against this: a project that spends its contingency is doing what__
+// __the contingency was for.__
+// அடிப்படையும் தற்செயல் இருப்பும்; மேலாண்மை இருப்பு அல்ல
+அச்சு அளவீட்டு_அடிப்படை(தொகுதி);

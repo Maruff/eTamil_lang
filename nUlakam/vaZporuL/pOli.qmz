@@ -1,0 +1,44 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/pOli.qmz — போலி: driving the simulated board, for tests__
+// போலி: போலிப் பலகையை இயக்குதல், சோதனைக்காக
+//
+// __These set what an input reads, move simulated time forward, and feed and__
+// __read a simulated serial port — so hardware logic can be tested with__
+// __etamil --vm before anything is uploaded to a board.__
+//
+// __What a test uses to play the outside world: a switch pressed, a sensor__
+// __reading, time passing, a line arriving on a port. On any other board these__
+// __are refused by the host.__
+
+// __போலி_முனை(முனை, இயக்கம்) — set what an input pin reads__
+// போலி_முனை(முனை, இயக்கம்) — உள்ளீட்டு முனை என்ன படிக்க வேண்டும் என்று அமைக்கும்
+செயல் போலி_முனை(முனை, இயக்கம்) {
+    மட்டம் = 0;
+    (இயக்கம்) எனில் { மட்டம் = 1; }
+    மதிப்பு(_simSetPin(முனை, மட்டம்));
+}
+
+// __போலி_ஒப்புமை(முனை, அளவீடு) — set what an analog pin reads, 0 to 1023__
+// போலி_ஒப்புமை(முனை, அளவீடு) — ஒப்புமை முனை என்ன படிக்க வேண்டும் என்று அமைக்கும்
+செயல் போலி_ஒப்புமை(முனை, அளவீடு) {
+    மதிப்பு(_simSetAnalog(முனை, அளவீடு));
+}
+
+// __போலி_நேரம்(மில்லி) — move simulated time forward__
+// போலி_நேரம்(மில்லி) — போலி நேரத்தை முன்னே நகர்த்தும்
+செயல் போலி_நேரம்(மில்லி) {
+    மதிப்பு(_simAdvanceMs(மில்லி));
+}
+
+// __போலி_தொடர்_ஊட்டு(சாதனம், வரி) — make a line arrive on a simulated port__
+// போலி_தொடர்_ஊட்டு(சாதனம், வரி) — போலித் துறையில் ஒரு வரி வந்ததாக்கும்
+செயல் போலி_தொடர்_ஊட்டு(சாதனம், வரி) {
+    மதிப்பு(_simFeedSerial(சாதனம், வரி));
+}
+
+// __போலி_தொடர்_வெளியீடு(சாதனம்) — the lines the program wrote to a simulated port since the last call__
+// போலி_தொடர்_வெளியீடு(சாதனம்) — கடைசி அழைப்புக்குப் பின் நிரல் எழுதிய வரிகள்
+செயல் போலி_தொடர்_வெளியீடு(சாதனம்) {
+    திரும்பு _simSerialOutput(சாதனம்);
+}

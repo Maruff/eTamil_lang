@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்_திற(சாதனம், வேகம்) — open a serial port, or say why not__
+// தொடர்த் துறையைத் திறக்கும், அல்லது ஏன் முடியவில்லை என்பதைச் சொல்லும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __Unlike the pin calls, this answers a result. A serial port can be absent or__
+// __unplugged at any moment, and that is an ordinary thing rather than a__
+// __mistake in the program.__
+// முனை அழைப்புகளைப் போலன்றி, இது முடிவைத் தருகிறது
+திறப்பு = தொடர்_திற("sim:bus", 19200);
+அச்சு சரியா(திறப்பு);
+
+// __A port that is not there is a தவறு, not a crash — so a program can go on__
+// __without the device, or wait and try again.__
+// இல்லாத துறை தவறே; நிரல் விழுவதில்லை
+அச்சு தவறா(தொடர்_திற("/dev/இல்லாத_துறை", 9600));
+
+தொடர்_மூடு(மதிப்பு(திறப்பு));

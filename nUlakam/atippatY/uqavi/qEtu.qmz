@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேடு(சரம், தேடல்) — position of the first match, or -1__
+// முதன்முதலில் பொருந்தும் இடம்; இல்லையெனில் ஒன்று குறை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு தேடு("தமிழ் மொழி", "மொழி");
+அச்சு தேடு("தமிழ் மொழி", "ஆங்கிலம்");
+
+// __An empty needle is found at the start.__
+// வெற்றுத் தேடல் தொடக்கத்திலேயே கிடைக்கும்
+அச்சு தேடு("தமிழ்", "");

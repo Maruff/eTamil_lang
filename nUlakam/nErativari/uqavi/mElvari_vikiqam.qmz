@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேல்வரி_விகிதம்(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) — the surcharge rate for this income__
+// இவ்வருமானத்துக்குப் பொருந்தும் மேல்வரி வீதம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+மேல்வரிப்_படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+                     {"முதல்": 5000000, "விகிதம்": 10},
+                     {"முதல்": 10000000, "விகிதம்": 15}];
+
+// __Strictly above the threshold. Exactly fifty lakh bears no surcharge and a__
+// __rupee more bears ten per cent of the whole tax.__
+// எல்லையைக் கண்டிப்பாகத் தாண்ட வேண்டும்
+அச்சு மேல்வரி_விகிதம்(5000000, மேல்வரிப்_படிகள்);
+அச்சு மேல்வரி_விகிதம்(5000001, மேல்வரிப்_படிகள்);
+அச்சு மேல்வரி_விகிதம்(10000000, மேல்வரிப்_படிகள்);
+அச்சு மேல்வரி_விகிதம்(10000001, மேல்வரிப்_படிகள்);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோப்பக_பட்டியல்(கோப்பகம்) — one directory's entries, as full paths__
+// ஒரு கோப்பகத்தின் உள்ளடக்கம், முழுப் பாதைகளாக
+
+இறக்கு "../kOppumuRY.qmz";
+
+மூலம் = சூழல்("ETAMIL_PATH", ".");
+நூலகம் = பாதை_இணை(மூலம், "nUlakam");
+
+// __Full paths rather than bare names, so an entry can be opened or asked__
+// __about without the caller having to remember which directory it came from.__
+// வெறும் பெயர்கள் அல்ல, முழுப் பாதைகள்
+உள்ளடக்கம் = கோப்பக_பட்டியல்(நூலகம்);
+அச்சு சரியா(உள்ளடக்கம்);
+அச்சு நீளம்(மதிப்பு(உள்ளடக்கம்)) > 0;
+
+// __One level only: this lists what is in the directory, not what is under it.__
+// ஒரே மட்டம்; கீழுள்ள அனைத்தும் அல்ல
+
+// __A directory that is not there is a தவறு rather than an empty list, because__
+// __\"nothing in it\" and \"no such directory\" are different answers.__
+// இல்லாத கோப்பகம் தவறே; காலிப் பட்டியல் அல்ல
+அச்சு தவறா(கோப்பக_பட்டியல்(பாதை_இணை(மூலம், "illY_kOppakam")));

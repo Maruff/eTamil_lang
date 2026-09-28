@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உற்பத்திக்கு_மொத்தம்(விடைப்_பட்டியல்) — everything that reached the production centres__
+// உற்பத்தி நிலையங்களுக்குச் சேர்ந்த மொத்தம்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+சேவைகள் = [சேவை_நிலையம்_ஆக்கு("S1", 100000,
+               [பகிர்வு_ஆக்கு("P1", 60), பகிர்வு_ஆக்கு("P2", 40)])];
+
+// __Which must equal what started, whichever method was used. It is the only__
+// __way to tell that an apportionment lost something on the way.__
+// எந்த முறையிலும் இது தொடங்கியதற்கே சமம்
+அச்சு உற்பத்திக்கு_மொத்தம்(படிநிலைப்_பகிர்வு(சேவைகள், ["P1", "P2"]));
+அச்சு நேரடிச்_செலவின்_மொத்தம்(சேவைகள்);

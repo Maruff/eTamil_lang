@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலுத்த_வேண்டியது(மொத்த_வரி, மூலப்_பிடித்தம், செலுத்திய_முன்வரி, சுய_மதிப்பீட்டு_வரி, வட்டிகள்) — the final settlement: pay this, or get this back__
+// இறுதியில் செலுத்த வேண்டியது, அல்லது திரும்பப் பெறுவது
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Everything paid during the year, against the tax and the interest.__
+// ஆண்டில் செலுத்திய அனைத்தும், வரிக்கும் வட்டிக்கும் எதிராக
+விளைவு = செலுத்த_வேண்டியது(250000, 180000, 50000, 0, 3500);
+அச்சு விளைவு["செலுத்தியவை"];
+அச்சு விளைவு["நிகரம்"];
+அச்சு விளைவு["திரும்பப்_பெறுவதா"];
+
+// __A negative net is a refund, and it is said so explicitly rather than left__
+// __as a sign for the caller to interpret.__
+// எதிர்மறை நிகரம் என்பது திரும்பப் பெறுவது; அது வெளிப்படையாகவே சொல்லப்படுகிறது
+திரும்பல் = செலுத்த_வேண்டியது(250000, 280000, 0, 0, 0);
+அச்சு திரும்பல்["நிகரம்"];
+அச்சு திரும்பல்["திரும்பப்_பெறுவதா"];

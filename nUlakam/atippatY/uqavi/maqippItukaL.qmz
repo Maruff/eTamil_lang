@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பீடுகள்(பதிவேடு) — the values, in the same order as புலங்கள்__
+// மதிப்புகள், புலங்கள் வரிசையிலேயே
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+ஒருவர் = { பெயர்: "கமலா", வயது: 34 };
+பெயர்கள் = புலங்கள்(ஒருவர்);
+மதிப்புகள் = மதிப்பீடுகள்(ஒருவர்);
+
+// __The two line up, so an index means the same in both.__
+// இரண்டும் ஒரே வரிசையில்; ஒரு இடம் இரண்டிலும் ஒன்றையே குறிக்கும்
+அச்சு நீளம்(பெயர்கள்) == நீளம்(மதிப்புகள்);

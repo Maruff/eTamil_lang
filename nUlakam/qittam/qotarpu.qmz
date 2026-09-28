@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qittam/qotarpu.qmz — தொடர்பு, the four dependency types and lag__
+// தொடர்பு: நான்கு வகைச் சார்புகளும் தாமதமும்
 //
 // __pAqY.qmz schedules finish-to-start with no lag, says so at the top, and is__
 // __right to: that is the network a textbook draws and a hand calculation can__
@@ -45,12 +46,13 @@
 // __duration suggests, and சுருக்கக்கூடிய_காலம் says so before the money is__
 // __spent finding out.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __How many passes before a network is called circular. A pass propagates at__
 // __least one activity's worth of constraint, so a sound network settles well__
 // __within its own size; anything past that is not converging.__
+// தொடர்பு_சுற்று_எல்லை() — வலையைக் கணக்கிடும்போது எத்தனை சுற்று வரை
 செயல் தொடர்பு_சுற்று_எல்லை() { திரும்பு 200; }
 
 // =========================================================================
@@ -62,6 +64,7 @@
 // __An activity. Unlike pAqY.qmz's செயல்_ஆக்கு it carries **no predecessors** —__
 // __a relationship now has a type and a lag of its own and no longer fits inside__
 // __a list of codes.__
+// முனை_ஆக்கு(முனைக்_குறி, விவரம், கால_அளவு) — வலையில் ஒரு முனையை உருவாக்கும்
 செயல் முனை_ஆக்கு(முனைக்_குறி, விவரம், கால_அளவு) {
     திரும்பு {"குறி": முனைக்_குறி,
               "விவரம்": விவரம்,
@@ -70,6 +73,7 @@
 
 // தொடர்பு_ஆக்கு(முன்னோடிக்_குறி, பின்தொடர்க்_குறி, தொடர்பு_வகை, தாமதம்)
 // __தொடர்பு_ஆக்கு(முன்னோடிக்_குறி, பின்தொடர்க்_குறி, தொடர்பு_வகை, தாமதம்) — one dependency edge__
+// தொடர்பு_ஆக்கு(முன்னோடிக்_குறி, பின்தொடர்க்_குறி, தொடர்பு_வகை, தாமதம்) — இரு முனைகளுக்கு இடையே ஒரு சார்பு
 //
 // __The kind and the lag travel with the edge rather than with either activity, because the same pair can be related more than once: a long task can be both SS+5 and FF+2 against its successor, which is how overlapping work is modelled honestly.__
 செயல் தொடர்பு_ஆக்கு(முன்னோடிக்_குறி, பின்தொடர்க்_குறி, தொடர்பு_வகை, தாமதம்) {
@@ -80,6 +84,7 @@
 }
 
 // __தொடர்பு_வகை_சரியா(தொடர்பு_வகை) — is this one of the four dependency types?__
+// தொடர்பு_வகை_சரியா(தொடர்பு_வகை) — இது நான்கு வகைகளில் ஒன்றா
 //
 // __A mistyped kind would otherwise fall through every branch of the pass and impose no constraint at all — an edge that is silently ignored, which shows up as a schedule that is impossibly short rather than as an error.__
 செயல் தொடர்பு_வகை_சரியா(தொடர்பு_வகை) {
@@ -91,6 +96,7 @@
 }
 
 // __முன்னோட்டமா(ஒரு_தொடர்பு) — a lead rather than a lag__
+// முன்னோட்டமா(ஒரு_தொடர்பு) — இது தாமதமா, முன்னோட்டமா
 //
 // __A negative lag asserts the successor may begin before the predecessor ends.__
 // __If that is true the two overlap, and **overlapping work is two activities,__
@@ -107,6 +113,7 @@
 // __--- helpers, named apart from pAqY.qmz's --------------------------------__
 
 // __முனையைப்_பெறு(முனைகள், முனைக்_குறி) — find one activity by its code__
+// முனையைப்_பெறு(முனைகள், முனைக்_குறி) — குறியைக் கொண்டு ஒரு முனையைத் தேடும்
 //
 // __சரி with the activity, or தவறு naming the code. An edge that points at an activity which is not in the network is a data error worth stopping on: ignoring it would drop a constraint and shorten the critical path.__
 செயல் முனையைப்_பெறு(முனைகள், முனைக்_குறி) {
@@ -117,6 +124,7 @@
 }
 
 // __கால_அளவைப்_பெறு(முனைகள், முனைக்_குறி) — an activity's duration, or zero__
+// கால_அளவைப்_பெறு(முனைகள், முனைக்_குறி) — ஒரு செயலின் கால அளவு; இல்லையெனில் பூஜ்ஜியம்
 //
 // __Answers 0 for an unknown code rather than propagating a தவறு, because this is called inside the forward pass where a missing activity contributes no time. முனையைப்_பெறு is the one to use when absence should be reported.__
 செயல் கால_அளவைப்_பெறு(முனைகள், முனைக்_குறி) {
@@ -126,6 +134,7 @@
 }
 
 // __முந்தியைப்_பெறு(முந்திகள், முனைக்_குறி, புலப்_பெயர்) — read one early-pass field__
+// முந்தியைப்_பெறு(முந்திகள், முனைக்_குறி, புலப்_பெயர்) — முன்னோக்கிய கடப்பின் ஒரு புலம்
 //
 // __தொடக்கம் or முடிவு for an activity, 0 if it has not been reached. The field is named rather than having two functions, because the four dependency types need different ends of the predecessor and the caller already knows which.__
 செயல் முந்தியைப்_பெறு(முந்திகள், முனைக்_குறி, புலப்_பெயர்) {
@@ -140,6 +149,7 @@
 // __Writes the early start and the early finish together, because the second__
 // __follows from the first and letting them drift apart is how a scheduler ends__
 // __up with an activity whose finish is not its start plus its duration.__
+// முந்தியை_அமை(முந்திகள், முனைக்_குறி, புது_தொடக்கம், கால_அளவு) — முன்னோக்கிய கடப்பில் ஒரு பதிவை எழுதும்
 செயல் முந்தியை_அமை(முந்திகள், முனைக்_குறி, புது_தொடக்கம், கால_அளவு) {
     விடை = [];
     ஒவ்வொரு ஒரு_நிலை இல் முந்திகள் {
@@ -155,6 +165,7 @@
 }
 
 // __தாழ்த்தியை_அமை(தாழ்த்திகள், முனைக்_குறி, புது_முடிவு, கால_அளவு) — write one late-pass entry__
+// தாழ்த்தியை_அமை(தாழ்த்திகள், முனைக்_குறி, புது_முடிவு, கால_அளவு) — பின்னோக்கிய கடப்பில் ஒரு பதிவை எழுதும்
 //
 // __The mirror of முந்தியை_அமை: the backward pass knows the late finish and derives the late start, so both are written together and cannot drift apart. Rebuilds the list rather than mutating it, which keeps each pass a value the tests can compare.__
 செயல் தாழ்த்தியை_அமை(தாழ்த்திகள், முனைக்_குறி, புது_முடிவு, கால_அளவு) {
@@ -180,6 +191,7 @@
 //
 // __The earliest the successor may start, given this one relationship. The four__
 // __types differ only here, which is why the passes below need no cases.__
+// தேவையான_தொடக்கம்(ஒரு_தொடர்பு, முன்னோடி_தொடக்கம், முன்னோடி_முடிவு, தாமதம்) — சார்பு கோரும் மிகச் சீக்கிரத் தொடக்கம்
 செயல் தேவையான_தொடக்கம்(ஒரு_தொடர்பு, முன்னோடி_தொடக்கம், முன்னோடி_முடிவு,
                         பின்தொடர்_கால_அளவு) {
     தாமதம் = ஒரு_தொடர்பு["தாமதம்"];
@@ -204,6 +216,7 @@
 // __The latest the predecessor may finish, given this one relationship. The__
 // __mirror of the above, and the reason the backward pass is the same shape as__
 // __the forward one.__
+// அனுமதித்த_முடிவு(ஒரு_தொடர்பு, பின்தொடர்_தொடக்கம், பின்தொடர்_முடிவு, தாமதம்) — சார்பு அனுமதிக்கும் மிகத் தாமதமான முடிவு
 செயல் அனுமதித்த_முடிவு(ஒரு_தொடர்பு, பின்தொடர்_தொடக்கம், பின்தொடர்_முடிவு,
                         முன்னோடி_கால_அளவு) {
     தாமதம் = ஒரு_தொடர்பு["தாமதம்"];
@@ -235,6 +248,7 @@
 // __is a தவறு before any arithmetic happens. A schedule with a typo in a code__
 // __silently loses the constraint otherwise, and a lost constraint makes a__
 // __project look shorter, which is the direction nobody questions.__
+// தொடர்பு_வலையைக்_கணக்கிடு(முனைகள், தொடர்புகள்) — சார்புகளுடன் கூடிய வலையைக் கணக்கிடும்
 செயல் தொடர்பு_வலையைக்_கணக்கிடு(முனைகள், தொடர்புகள்) {
     (நீளம்(முனைகள்) == 0) எனில் {
         திரும்பு தவறு("முனைகள் இல்லை  (the network has no activities)");
@@ -364,6 +378,7 @@
 }
 
 // __தொடர்பு_கடுமையானவை(வலை_விடை) — the codes with no float__
+// தொடர்பு_கடுமையானவை(வலை_விடை) — இளைப்பே இல்லாத முனைக் குறிகள்
 செயல் தொடர்பு_கடுமையானவை(வலை_விடை) {
     விடை = [];
     ஒவ்வொரு ஒரு_முனை இல் வலை_விடை["முனைகள்"] {
@@ -375,6 +390,7 @@
 }
 
 // __தொடர்பு_முனையின்_புலம்(வலை_விடை, முனைக்_குறி, புலப்_பெயர்) — read one field from a solved network__
+// தொடர்பு_முனையின்_புலம்(வலை_விடை, முனைக்_குறி, புலப்_பெயர்) — கணக்கிட்ட வலையிலிருந்து ஒரு புலத்தைப் படிக்கும்
 //
 // __For callers reading the result rather than computing it. Returns தவறு for an unknown activity, unlike the internal readers that answer zero: a report asking for an activity that is not there has made a mistake worth hearing about.__
 செயல் தொடர்பு_முனையின்_புலம்(வலை_விடை, முனைக்_குறி, புலப்_பெயர்) {
@@ -392,6 +408,7 @@
 // =========================================================================
 //
 // __மொத்தத்_தாமதம்(தொடர்புகள்) — every positive lag in the network, added up__
+// மொத்தத்_தாமதம்(தொடர்புகள்) — வலையில் உள்ள நேர்மறைத் தாமதங்கள் அனைத்தும்
 //
 // __Leads are excluded deliberately: a negative lag is an overlap, not waiting,__
 // __and adding the two together would net a genuine delay against a claimed__
@@ -407,6 +424,7 @@
 }
 
 // __முன்னோட்டங்கள்(தொடர்புகள்) — the relationships carrying a lead__
+// முன்னோட்டங்கள்(தொடர்புகள்) — முன்னோட்டம் கொண்ட தொடர்புகள்
 //
 // __Worth listing rather than counting. Each one is a claim that work can__
 // __overlap, and each should be either evidenced or rewritten as the two__
@@ -429,6 +447,7 @@
 // __answer is large is a schedule whose critical path runs mostly through other__
 // __people's organisations, and no amount of managing this project's resources__
 // __will shorten it.__
+// தாமதப்_பங்கு(தொடர்புகள், திட்ட_காலம்) — திட்டக் காலத்தில் தாமதத்தின் பங்கு
 செயல் தாமதப்_பங்கு(தொடர்புகள், திட்ட_காலம்) {
     (திட்ட_காலம் <= 0) எனில் {
         திரும்பு தவறு("திட்டக் காலம் இல்லை  (the project has no duration)");
@@ -460,6 +479,7 @@
 //
 // __The last activity on the path always counts: it reaches the project's end__
 // __through its own finish.__
+// சுருக்கக்கூடிய_காலம்(தொடர்புகள்) — தாமதத்தை நீக்கிச் சுருக்கக்கூடிய காலம்
 செயல் சுருக்கக்கூடிய_காலம்(முனைகள், தொடர்புகள், பாதைக்_குறிகள்) {
     (நீளம்(பாதைக்_குறிகள்) == 0) எனில் {
         திரும்பு {"வேலை": 0, "தாமதம்": 0, "சுருக்கக்கூடியது": 0};

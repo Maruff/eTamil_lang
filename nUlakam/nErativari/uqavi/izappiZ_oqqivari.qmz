@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இழப்பின்_ஒத்திவரி(முன்_கொண்டுசென்ற_இழப்பு, எதிர்பார்க்கும்_வரி_லாபம், எதிர்பார்க்கும்_வீதம்) — the deferred tax asset a carried-forward loss creates__
+// முன் கொண்டு செல்லப்பட்ட இழப்புக்கான ஒத்திவரிச் சொத்து
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The same recognition test, applied to a loss. A company with a history of__
+// __losses has the weakest evidence of future profit, which is exactly when__
+// __this asset is largest — and the tension is the point.__
+// இழப்பு வரலாறு உள்ள நிறுவனத்திற்கே இச்சொத்து பெரிது, சான்று பலவீனம்
+நம்பிக்கையுடன் = இழப்பின்_ஒத்திவரி(2000000, 3000000, 25);
+அச்சு நம்பிக்கையுடன்["அங்கீகரித்தது"];
+
+// __Expecting less profit than the loss: only part of it is recognised.__
+// லாபம் குறைவாக எதிர்பார்க்கப்பட்டால் ஒரு பகுதியே
+ஒரு_பகுதி = இழப்பின்_ஒத்திவரி(2000000, 1000000, 25);
+அச்சு ஒரு_பகுதி["அங்கீகரித்தது"];
+அச்சு ஒரு_பகுதி["அங்கீகரிக்காதது"];

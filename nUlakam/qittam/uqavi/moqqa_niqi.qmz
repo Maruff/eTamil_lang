@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_நிதி(பகிர்வுகள்) — the whole budget__
+// காலவாரியாகப் பகிர்ந்த நிதியின் கூட்டுத்தொகை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+பகிர்வுகள் = [காலப்_பகிர்வு(1, 100000),
+              காலப்_பகிர்வு(2, 250000),
+              காலப்_பகிர்வு(3, 400000)];
+
+// __Which must equal the performance measurement baseline, and is computed from__
+// __the spread rather than held beside it so the two cannot drift apart.__
+// பரவலிலிருந்தே கணக்கிடப்படுகிறது; தனியே வைக்கப்படுவதில்லை
+அச்சு மொத்த_நிதி(பகிர்வுகள்);
+அச்சு மொத்த_நிதி([]);

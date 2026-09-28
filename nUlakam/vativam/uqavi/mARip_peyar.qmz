@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறிப்_பெயர்(பகுதி) — the loop variable named in a {%tr for %} marker__
+// வளையக் குறியில் சொல்லப்பட்ட மாறியின் பெயர்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __The name between \"for\" and \"in\", which is what the fields inside the loop__
+// __are written against.__
+// வளையக் குறியின் இரு சொற்களுக்கு இடையிலுள்ள பெயர்
+அச்சு மாறிப்_பெயர்("<w:tr>{%tr for வரி in வரிகள் %}</w:tr>");
+அச்சு மாறிப்_பெயர்("{%tr for item in rows %}");
+
+// __A chunk with no marker in it has no name, and answers with nothing rather__
+// __than with the start of the chunk.__
+// குறியே இல்லாத துண்டுக்குப் பெயர் இல்லை
+அச்சு "[" & மாறிப்_பெயர்("<w:tr>plain</w:tr>") & "]";

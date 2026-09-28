@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வரி விகித சோதனை — finding the rate that applied__
+// வரி விகிதம் கண்டறிதலுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/kaNakkiyal/vari_vikiqam_cOqaZY.qmz__
 //
@@ -8,7 +9,7 @@
 // __asserts on is visibly its own. Nothing here is a claim about what any real__
 // __rate is — they are invented to make the lookup rules checkable.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vari_vikiqam.qmz";
 இறக்கு "vari.qmz";
 

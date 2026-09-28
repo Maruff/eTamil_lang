@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலவரம்(திட்டமிட்டது, ஈட்டியது, உண்மைச்_செலவு, மொத்த_நிதி) — the whole earned-value picture from three figures__
+// மூன்று எண்களிலிருந்து ஈட்டு மதிப்பின் முழு நிலவரம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Three inputs and everything else follows. That is the whole idea of earned__
+// __value: planned, earned and actual, and every variance and forecast is__
+// __arithmetic on those.__
+// மூன்று உள்ளீடுகள்; மற்ற அனைத்தும் அவற்றின் கணக்கே
+நிலை = மதிப்பு(நிலவரம்(300000, 250000, 300000, 1000000));
+
+அச்சு நிலை["செலவு_வேறுபாடு"];
+அச்சு நிலை["கால_வேறுபாடு"];
+அச்சு வட்டமிடு(நிலை["செலவுத்_திறன்"], 4);
+அச்சு வட்டமிடு(நிலை["காலத்_திறன்"], 4);
+அச்சு நிலை["முடிவில்_மதிப்பீடு"];
+அச்சு நிலை["முடிவில்_வேறுபாடு"];
+அச்சு நிலை["முடிக்க_மீதி"];
+
+// __Nothing spent yet is a தவறு rather than a report full of infinities.__
+// ஒன்றும் செலவழிக்காத நிலையில் இது தவறே
+அச்சு தவறா(நிலவரம்(300000, 250000, 0, 1000000));

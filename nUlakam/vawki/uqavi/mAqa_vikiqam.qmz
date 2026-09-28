@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாத_விகிதம்(ஆண்டு_விகிதம்) — an annual percentage as a monthly fraction__
+// ஆண்டு சதவீதத்தை மாதப் பின்னமாக
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Divided by 1200: twelve months and a hundred, in one step. Doing it in two__
+// __steps is how a rate ends up a hundred times too large in one branch of the__
+// __code and right in another.__
+// 1200-ஆல் வகுத்தல்: பன்னிரண்டு மாதமும் நூறும், ஒரே படியில்
+அச்சு மாத_விகிதம்(12);
+அச்சு மாத_விகிதம்(9);
+
+// __An interest-free loan has a monthly rate of nothing, and the instalment__
+// __functions have a separate path for exactly that.__
+// வட்டியில்லாக் கடனின் மாத விகிதம் பூஜ்ஜியம்
+அச்சு மாத_விகிதம்(0);

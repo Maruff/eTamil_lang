@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __UPI சோதனை — tests for addresses, pay links and payment states__
+// முகவரி, கட்டண இணைப்பு, நிலைமைகளுக்கான சோதனைகள்
 //
 //   __etamil --vm nUlakam/upi/upi_cOqaZY.qmz__
 //
 // __Needs no network. Everything here is the public part of UPI — what an__
 // __address looks like, what a upi:// link is, and what a payment state means.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vilAcam.qmz";
 இறக்கு "nilYmY.qmz";
 

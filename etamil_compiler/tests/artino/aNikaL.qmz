@@ -2,7 +2,7 @@
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __tests/artino/aNikaL.qmz — அணிகள்: arrays of a fixed length, as a board holds them__
 
-இறக்கு "nUlakam/aNi.qmz";
+இறக்கு "nUlakam/atippatY/aNi.qmz";
 
 அளவீடுகள் = [180, 182, 179, 640, 650];
 அச்சு அளவீடுகள்;

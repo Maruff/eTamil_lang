@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கால_வேறுபாடு(ஈட்டியது, திட்டமிட்டது) — earned less planned — a schedule variance, in money__
+// கால வேறுபாடு, பணத்தில்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __In money, not in time. A project can show a favourable schedule variance__
+// __and still be late, because value earned early on cheap work offsets value__
+// __not earned on the critical path.__
+// இது பணத்தில்; காலத்தில் அல்ல. சாதகமாக இருந்தும் திட்டம் தாமதமாகலாம்
+அச்சு கால_வேறுபாடு(250000, 300000);
+அச்சு கால_வேறுபாடு(300000, 250000);
+
+// __Which is the single most misread number in project reporting, and the__
+// __reason a schedule variance is never enough on its own.__
+// அறிக்கைகளில் மிகத் தவறாகப் படிக்கப்படும் எண் இதுவே

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கிளைகளின்_எதிர்பார்ப்பு(கிளைகள்) — the expected value of a whole tree__
+// எல்லாக் கிளைகளையும் சேர்த்த எதிர்பார்ப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+கிளைகள் = [கிளை_ஆக்கு("வெற்றி", 60, 1000000),
+             கிளை_ஆக்கு("தோல்வி", 40, 0 - 200000)];
+
+அச்சு மதிப்பு(கிளைகளின்_எதிர்பார்ப்பு(கிளைகள்));
+
+// __Probabilities that do not total a hundred are refused. A tree whose__
+// __branches do not cover every outcome has an outcome nobody thought of, and__
+// __its expected value is an average over a case that cannot happen.__
+// நூறாகக் கூடாத நிகழ்தகவுகள் மறுக்கப்படும்
+அச்சு தவறு_மதிப்பு(கிளைகளின்_எதிர்பார்ப்பு([கிளை_ஆக்கு("ஒன்று", 70, 100)]));
+
+// __And an empty tree has no value at all, rather than a value of nothing.__
+// காலி மரத்திற்கு மதிப்பே இல்லை
+அச்சு தவறா(கிளைகளின்_எதிர்பார்ப்பு([]));

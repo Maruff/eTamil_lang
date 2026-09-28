@@ -1,0 +1,50 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அணி சோதனை — map, filter and fold__
+// அணிச் செயல்களுக்கான சோதனைகள்
+//
+//   __etamil --vm nUlakam/atippatY/aNi_cOqaZY.qmz__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "aNi.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("அணி (map, filter, fold)");
+
+// __இரட்டி(எ) — double a number__
+// இரட்டி(எ) — எண்ணை இரட்டிப்பாக்கும்
+//
+// __A fixture for the array tests in this file, not part of the library's surface. It exists so a map over an array has something trivial and obviously correct to map with.__
+செயல் இரட்டி(எ) { திரும்பு எ * 2; }
+
+// __--- ஒவ்வொன்றுக்கும் ------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், ஒவ்வொன்றுக்கும்([1, 2, 3], இரட்டி), [2, 4, 6],
+              "a named செயல் applied to every item");
+ஓட்டம் = சமம்(ஓட்டம், ஒவ்வொன்றுக்கும்([], இரட்டி), [], "an empty array maps to an empty one");
+ஓட்டம் = சமம்(ஓட்டம், ஒவ்வொன்றுக்கும்(["வரி", "கணக்கு"], நீளம்), [2, 4],
+              "a builtin is a செயல் too, and counts Tamil letters");
+ஓட்டம் = சமம்(ஓட்டம், ஒவ்வொன்றுக்கும்([100, 250], செயல்(தொகை) { திரும்பு தொகை * 118%; }),
+              [118, 295], "one written where the value goes");
+
+// __--- வடிகட்டு --------------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், வடிகட்டு([1200, 450, 3100, 80], செயல்(எ) { திரும்பு எ >= 1000; }),
+              [1200, 3100], "only the items the rule accepts, in order");
+ஓட்டம் = சமம்(ஓட்டம், வடிகட்டு([1, 2], செயல்(எ) { திரும்பு பொய்; }), [],
+              "a rule that accepts nothing leaves nothing");
+
+// __A rule that carries a value from where it was made__
+// மேல்_உள்ளவை(பட்டியல், எல்லை) — எல்லைக்கு மேல் உள்ள உறுப்புகள்
+செயல் மேல்_உள்ளவை(பட்டியல், எல்லை) {
+    திரும்பு வடிகட்டு(பட்டியல், செயல்(எ) { திரும்பு எ > எல்லை; });
+}
+ஓட்டம் = சமம்(ஓட்டம், மேல்_உள்ளவை([5, 50, 500], 10), [50, 500],
+              "a rule captures the local it compares against");
+
+// __--- மடி --------------------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், மடி([100, 205, 5], 0, செயல்(அ, ஆ) { திரும்பு அ + ஆ; }), 310,
+              "a sum is a fold from zero");
+ஓட்டம் = சமம்(ஓட்டம், மடி([], 7, செயல்(அ, ஆ) { திரும்பு அ + ஆ; }), 7,
+              "an empty array folds to the starting value");
+ஓட்டம் = சமம்(ஓட்டம், மடி(["அ", "ஆ", "இ"], "", செயல்(அ, ஆ) { திரும்பு அ & ஆ; }), "அஆஇ",
+              "left to right");
+
+சோதனை_முடிவு(ஓட்டம்);

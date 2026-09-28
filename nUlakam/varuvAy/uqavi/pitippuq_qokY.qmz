@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிடிப்புத்_தொகை(புதிய_மொத்த_மதிப்பு, புதிய_முன்னேற்றம், அங்கீகரித்த_வருவாய்) — the cumulative catch-up a modification forces this period__
+// மாற்றத்தால் இக்காலத்தில் உடனே சரிசெய்ய வேண்டிய தொகை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The other treatment: the modification is folded into the original, revenue__
+// __to date is recomputed on the new total, and the whole difference hits this__
+// __period at once.__
+// மாற்றம் மூல ஒப்பந்தத்துள் சேர்ந்து, முழு வேறுபாடும் இக்காலத்திலேயே வரும்
+பிடிப்பு = பிடிப்புத்_தொகை(1200000, 0.5, 400000);
+அச்சு பிடிப்பு["இதுவரை_வருவாய்"];
+அச்சு பிடிப்பு["பிடிப்பு"];
+
+// __It can be negative, which is the case worth watching: a modification that__
+// __adds work for little money reduces revenue already recognised, and the__
+// __reduction lands in one month.__
+// இது எதிர்மறையாகவும் வரும்; அதுவே கவனிக்க வேண்டிய நிலை
+அச்சு பிடிப்புத்_தொகை(1200000, 0.25, 400000)["பிடிப்பு"];

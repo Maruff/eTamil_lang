@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒதுக்கீடு_ஆக்கு(மூல_எண், இலக்கு_எண், தொகை_மதிப்பு) — a record that one entry settles another__
+// ஒரு பரிவர்த்தனையை இன்னொன்றுக்கு எதிராக ஒதுக்கும் பதிவு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Kept beside the ledger rather than in it, because an allocation is not a__
+// __transaction: no money moves when a receipt is matched to an invoice.__
+// ஒதுக்கீடு ஒரு பரிவர்த்தனை அல்ல; பணம் நகர்வதில்லை
+ஒதுக்கீடு = ஒதுக்கீடு_ஆக்கு(2, 1, 3000);
+அச்சு ஒதுக்கீடு["மூல_எண்"];
+அச்சு ஒதுக்கீடு["இலக்கு_எண்"];
+அச்சு ஒதுக்கீடு["தொகை_மதிப்பு"];

@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆயிரத்திற்கு_முனைமம்(காப்பீட்டுத்_தொகை, ஆயிரத்திற்கு) — premium at a per-mille rate__
+// ஆயிரத்திற்கு இவ்வளவு என்ற வீதத்தில் முனைமம்
+
+இறக்கு "../kAppItu.qmz";
+
+// __Marine and fire rates are quoted per thousand, not per hundred: one rupee__
+// __eighty per mille on fifty lakh.__
+// கடல், தீ காப்பீட்டு வீதங்கள் ஆயிரத்திற்கு என்றே சொல்லப்படுகின்றன
+அச்சு ஆயிரத்திற்கு_முனைமம்(5000000, 1.80);
+
+// __Which is a tenth of what the same figure read as a percentage would be.__
+// __That is the mistake this function exists to prevent: it is not a__
+// __rounding difference, it is nine thousand against ninety.__
+// அதே எண்ணைச் சதவீதமாகப் படித்தால் பத்து மடங்கு; இதுவே இந்தச் செயல் தவிர்க்கும் தவறு
+அச்சு முனைமம்(5000000, 1.80);

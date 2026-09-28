@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாநில_பிரிப்பு(மொத்த_வரி, உள்_மாநிலமா) — split the tax into the two halves, or leave it whole__
+// மாநிலத்துக்குள் இரண்டாகப் பிரித்து, வெளியே ஒன்றாக
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Within the state the tax is split between the centre and the state; across__
+// __it, one integrated tax goes to the centre and is passed on. The total is__
+// __the same either way and the accounts are not.__
+// மொத்தம் இரண்டிலும் ஒன்றே; கணக்குகளே வேறு
+உள்ளே = மாநில_பிரிப்பு(1800, மெய்);
+அச்சு உள்ளே.cgst;
+அச்சு உள்ளே.sgst;
+அச்சு உள்ளே.igst;
+
+வெளியே = மாநில_பிரிப்பு(1800, பொய்);
+அச்சு வெளியே.igst;
+
+// __An odd amount splits with the extra paisa on one side, and the two still__
+// __add to the whole.__
+// ஒற்றைப் பைசா ஒரு பக்கம் சேரும்; இரண்டும் மொத்தத்திற்கே கூடும்
+அச்சு மாநில_பிரிப்பு(1801, மெய்).cgst + மாநில_பிரிப்பு(1801, மெய்).sgst;

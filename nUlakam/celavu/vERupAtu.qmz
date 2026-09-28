@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/celavu/vERupAtu.qmz — வேறுபாடு: reading a variance, whichever one it is__
+// வேறுபாடு: எந்த வேறுபாட்டையும் படித்தல்
+//
+// __A variance is signed, and the sign alone does not say whether it is good__
+// __news. These three answer that question once, so no caller has to remember__
+// __which direction is favourable for which figure.__
+
+// __சாதகமா(வேறுபாட்டுத்_தொகை) — is this variance favourable?__
+//
+// __Positive is favourable, because every variance here is standard minus actual. Provided so no caller has to remember which way the subtraction runs; texts that report an absolute figure with an F or A label have the opposite habit.__
+// சாதகமா(வேறுபாட்டுத்_தொகை) — இவ்வேறுபாடு சாதகமானதா
+செயல் சாதகமா(வேறுபாட்டுத்_தொகை) { திரும்பு வேறுபாட்டுத்_தொகை > 0; }
+// __பாதகமா(வேறுபாட்டுத்_தொகை) — is this variance adverse?__
+// பாதகமா(வேறுபாட்டுத்_தொகை) — இவ்வேறுபாடு பாதகமானதா
+//
+// __Not simply the negation of சாதகமா: exactly zero is neither, and a report that calls an on-standard month adverse will be argued with rather than acted on.__
+செயல் பாதகமா(வேறுபாட்டுத்_தொகை) { திரும்பு வேறுபாட்டுத்_தொகை < 0; }
+
+// வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — "1200 சாதகம்" / "800 பாதகம்"
+// வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — வேறுபாட்டை அறிக்கை வரியாகக் காட்டும்
+// __வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — the variance as a line of report Tamil__
+//
+// __Prints the magnitude with சாதகம் or பாதகம் rather than a signed number, because a minus sign in front of a variance is read as adverse by half its readers and as favourable by the other half. Exactly zero gets its own words.__
+செயல் வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) {
+    (வேறுபாட்டுத்_தொகை > 0) எனில் {
+        திரும்பு வேறுபாட்டுத்_தொகை & " சாதகம்";
+    }
+    (வேறுபாட்டுத்_தொகை < 0) எனில் {
+        திரும்பு (0 - வேறுபாட்டுத்_தொகை) & " பாதகம்";
+    }
+    திரும்பு "வேறுபாடு இல்லை";
+}

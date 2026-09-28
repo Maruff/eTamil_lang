@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கடமை_உள்ளதா(மதிப்பிட்ட_வரித்_தொகை, குறைந்த_எல்லை) — is there an advance-tax liability at all?__
+// முன்வரி செலுத்தும் கடமை உண்டா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __At or above the threshold, not strictly above it.__
+// எல்லையிலும் அதற்கு மேலும்; கண்டிப்பாக மேல் என்பதல்ல
+அச்சு கடமை_உள்ளதா(10000, 10000);
+அச்சு கடமை_உள்ளதா(9999, 10000);
+அச்சு கடமை_உள்ளதா(50000, 10000);

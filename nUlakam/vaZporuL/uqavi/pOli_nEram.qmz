@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __போலி_நேரம்(மில்லி) — move simulated time forward__
+// போலி நேரத்தை முன்னே நகர்த்தும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __Time on the simulated board moves only when told. A test of a two-minute__
+// __timeout takes no time at all, and is not flaky on a loaded machine.__
+// போலி நேரம் சொன்னால்தான் நகரும்
+தொடக்கம் = மில்லி_நொடி();
+போலி_நேரம்(120000);
+அச்சு மில்லி_நொடி() - தொடக்கம்;
+
+// __Which is what makes a timeout testable at all: with a real clock, the test__
+// __either waits two minutes or never reaches the branch it is meant to check.__
+// நிஜ கடிகாரத்துடன் இந்தக் கிளையைச் சோதிக்கவே முடியாது

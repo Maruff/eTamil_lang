@@ -11,6 +11,11 @@
 # Examples needing a database server that this repository does not provide are
 # skipped unless their guard variable is set, so a plain run stays hermetic.
 #
+# The uqavi/ sample programs are not run here. There are hundreds of them and
+# each costs about a second, which would take this gate from three minutes to
+# twenty. scripts/run_samples.sh runs those, and CI gives it its own job so the
+# two run at the same time rather than one after the other.
+#
 #   ./scripts/run_examples.sh
 #   ETAMIL_TEST_MYSQL=1 ./scripts/run_examples.sh
 
@@ -128,7 +133,7 @@ while IFS= read -r file; do
         fi
     fi
 done < <(find "$ROOT/examples" "$ROOT/nUlakam" \
-             -type f -name '*.qmz' | sort)
+             -type f -name '*.qmz' -not -path '*/uqavi/*' | sort)
 
 echo
 echo "-------------------------------------------"

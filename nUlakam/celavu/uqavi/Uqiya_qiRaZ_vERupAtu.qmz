@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — the part caused by taking more or less time__
+// அனுமதித்ததை விட அதிக அல்லது குறைந்த நேரம் எடுத்ததால்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு ஊதிய_திறன்_வேறுபாடு(120, 2000, 2100);
+அச்சு ஊதிய_திறன்_வேறுபாடு(120, 2000, 1900);
+
+// __A favourable rate variance and an adverse efficiency variance together is__
+// __the classic sign of cheaper, slower labour — and the two are usually the__
+// __same decision.__
+// மலிவான, மெதுவான உழைப்பின் அறிகுறி; இரண்டும் ஒரே முடிவின் விளைவே

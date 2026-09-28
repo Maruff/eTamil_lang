@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்பு_வகை_சரியா(தொடர்பு_வகை) — is this one of the four link types?__
+// இது நான்கு வகைகளில் ஒன்றா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Four, and no others.__
+// நான்கு; வேறில்லை
+அச்சு தொடர்பு_வகை_சரியா("முடிவு_தொடக்கம்");
+அச்சு தொடர்பு_வகை_சரியா("தொடக்கம்_தொடக்கம்");
+அச்சு தொடர்பு_வகை_சரியா("முடிவு_முடிவு");
+அச்சு தொடர்பு_வகை_சரியா("தொடக்கம்_முடிவு");
+
+// __A misspelt type would otherwise be treated as whichever branch came last,__
+// __so a schedule would be computed on a relationship nobody intended.__
+// எழுத்துப்பிழையுள்ள வகை, கடைசிக் கிளையாகக் கருதப்படும் அபாயம் உண்டு
+அச்சு தொடர்பு_வகை_சரியா("finish_to_start");

@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்_மூடு(துறை) — close the port__
+// துறையை மூடும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+தொடர்_வரி_எழுது(துறை, "வணக்கம்");
+
+// __A port left open is held against every other program on the machine. On a__
+// __Pi that means the next run of this same program cannot open it.__
+// மூடாத துறையை இயந்திரத்தில் வேறு எந்த நிரலும் திறக்க முடியாது
+அச்சு சரியா(தொடர்_மூடு(துறை));

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_செலவு() — the expense element__
+// செலவு மூலம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அச்சு வகை_செலவு();
+
+// __An expense increases on the debit side, like an asset — which is why__
+// __a debit on its own cannot be read as good news or bad.__
+// செலவு பற்றால் கூடும், சொத்தைப் போலவே
+அச்சு பற்று_இயல்பா(வகை_செலவு());
+அச்சு இருப்புநிலைக்கானதா(வகை_செலவு());

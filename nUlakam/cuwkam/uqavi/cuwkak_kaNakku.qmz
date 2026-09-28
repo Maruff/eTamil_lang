@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சுங்கக்_கணக்கு(மதிப்பு, அடிப்படை_விகிதம், மேலதிக_விகிதம், ஜிஎஸ்டி_விகிதம்) — duties charged one on top of another, in order__
+// வரிகள் ஒன்றன்மேல் ஒன்றாக ஏறும் வரிசைக் கணக்கு
+
+இறக்கு "../cuwkam.qmz";
+
+க = சுங்கக்_கணக்கு(113500, 10, 10, 18);
+
+// __Basic duty is on the assessable value.__
+// அடிப்படைச் சுங்கம் மதிப்பிடத்தக்க மதிப்பின்மீது
+அச்சு க["அடிப்படை"];
+
+// __The surcharge is on the duty, not on the value. Ten per cent of 11,350,__
+// __not ten per cent of 113,500 — the difference is ten times over.__
+// மேலதிகம் சுங்கத்தின்மீதே; மதிப்பின்மீது அல்ல
+அச்சு க["மேலதிகம்"];
+
+// __IGST is charged on the value plus everything already charged on it, which__
+// __is the step most often got wrong. Taking it on the bare value instead__
+// __understates the duty by 2,247.30 on this consignment alone.__
+// ஜிஎஸ்டி, மதிப்புடன் ஏற்கெனவே விதித்தவற்றையும் சேர்த்த தொகையின்மீது
+அச்சு க["ஜிஎஸ்டி_அடிப்படை"];
+அச்சு க["ஜிஎஸ்டி"];
+
+// __The duties add up, and the landed cost is value plus duty.__
+// வரிகள் கூடும்; இறங்கு விலை என்பது மதிப்பும் வரியும்
+அச்சு க["மொத்தம்"];
+அச்சு க["இறங்கு_விலை"];
+
+// __Nothing charged is nothing due, and the landed cost is then the value.__
+// ஒன்றும் விதிக்கப்படவில்லையெனில் ஒன்றும் செலுத்த வேண்டியதில்லை
+காலி = சுங்கக்_கணக்கு(100000, 0, 0, 0);
+அச்சு காலி["மொத்தம்"];
+அச்சு காலி["இறங்கு_விலை"];

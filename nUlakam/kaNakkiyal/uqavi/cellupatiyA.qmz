@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செல்லுபடியா(கணக்கு_வகை) — is this one of the five elements?__
+// இது ஐந்து மூலங்களில் ஒன்றா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அச்சு செல்லுபடியா(வகை_சொத்து());
+அச்சு செல்லுபடியா("சொத்து");
+
+// __Anything else is refused. A chart of accounts imported from a spreadsheet__
+// __is where this earns its keep.__
+// வேறு எதுவும் மறுக்கப்படும்; விரிதாளிலிருந்து இறக்குமதி செய்யும்போது இது பயன்படும்
+அச்சு செல்லுபடியா("asset");
+அச்சு செல்லுபடியா("");

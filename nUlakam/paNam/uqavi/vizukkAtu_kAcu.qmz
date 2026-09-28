@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விழுக்காடு_காசு(மொத்த_பைசா, மேல், கீழ்) — a fraction of an amount, rounded half up, in whole paise__
+// ஒரு தொகையின் பின்னம்; பாதியில் மேல்நோக்கி வட்டமிட்டு, முழுப் பைசாவாக
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __Eighteen per cent of 1,000 rupees, as a numerator and a denominator rather__
+// __than as 0.18 — because 0.18 cannot be written exactly and 18/100 can.__
+// 18/100 என்றே கொடுக்கப்படுகிறது; 0.18 என்பதைச் சரியாக எழுத முடியாது
+அச்சு காசு_உரை(விழுக்காடு_காசு(ரூபாயாக(1000), 18, 100));
+
+// __Half goes up, and it goes up in magnitude on both sides of zero, so a__
+// __credit note is not rounded the opposite way from the invoice it reverses.__
+// பாதி மேல்நோக்கி; எதிர்மறையிலும் அளவில் மேல்நோக்கியே
+அச்சு விழுக்காடு_காசு(101, 1, 2);
+அச்சு விழுக்காடு_காசு(0 - 101, 1, 2);
+
+// __A denominator of nothing answers nothing rather than dividing by zero.__
+// பகுதி பூஜ்ஜியமெனில் விடையும் பூஜ்ஜியமே; வகுத்தல் நடப்பதில்லை
+அச்சு விழுக்காடு_காசு(ரூபாயாக(1000), 18, 0);

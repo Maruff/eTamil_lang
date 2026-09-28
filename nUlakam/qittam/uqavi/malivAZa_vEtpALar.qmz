@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மலிவான_வேட்பாளர்(தரவுகள், கடுமையான_குறிகள்) — the cheapest critical activity to crash__
+// சுருக்க மலிவான கடுமையான செயல்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தரவுகள் = [செயல்_நேர_செலவு("A", 10, 100000, 7, 130000),
+            செயல்_நேர_செலவு("C", 4, 40000, 2, 44000),
+            செயல்_நேர_செலவு("D", 6, 60000, 5, 75000)];
+
+// __Critical and cheapest, in that order. C is cheaper per day than either, and__
+// __crashing it would shorten nothing.__
+// முதலில் கடுமையானது, பின் மலிவானது — அந்த வரிசையிலேயே
+தேர்வு = மதிப்பு(மலிவான_வேட்பாளர்(தரவுகள், ["A", "D"]));
+அச்சு தேர்வு["செயல்_குறி"];
+அச்சு தேர்வு["சரிவு"];
+
+// __With nothing critical there is nothing worth crashing.__
+// கடுமையானது ஒன்றுமில்லையெனில் சுருக்கத் தகுந்ததும் இல்லை
+அச்சு தவறா(மலிவான_வேட்பாளர்(தரவுகள், []));

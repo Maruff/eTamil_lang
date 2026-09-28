@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கால்_ஆண்டு_எண்(ஒரு_நாள், தொடக்க_மாதம்) — which quarter, one to four__
+// எந்தக் கால் ஆண்டு, ஒன்று முதல் நான்கு வரை
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Numbered from the financial year's own start, so April to June is the first__
+// __quarter on an April year and the second on a January one.__
+// நிதியாண்டின் தொடக்கத்திலிருந்தே எண்ணப்படுகிறது
+அச்சு கால்_ஆண்டு_எண்("2026-04-15", 4);
+அச்சு கால்_ஆண்டு_எண்("2026-04-15", 1);
+
+// __The last quarter of an April year ends in March.__
+// ஏப்ரல் ஆண்டின் கடைசிக் கால் ஆண்டு மார்ச்சில் முடிகிறது
+அச்சு கால்_ஆண்டு_எண்("2026-03-31", 4);
+அச்சு கால்_ஆண்டு_எண்("2026-12-31", 4);

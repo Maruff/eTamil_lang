@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்டக்_கழி(அ, ஆ) — a difference, to the paisa__
+// அ இல் ஆ கழித்து, பைசா வரை வட்டமிட்டு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு வட்டக்_கழி(100, 33.333);
+அச்சு வட்டக்_கழி(50, 80);

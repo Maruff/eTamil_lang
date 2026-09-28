@@ -1,0 +1,212 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவணம் — render a document template.__
+// ஆவணம் — ஒரு ஆவண வார்ப்புருவை நிரப்பிக் கொடுக்கும்
+//
+// __Written in eTamil, and needing nothing from nUlakam: மாற்று, பிரி, ஒன்றிணை,__
+// __பொதி_படி and பொதி_மாற்று are enough. Every decision about what a template__
+// __means is here; the host only moves bytes.__
+//
+// __A வடிவம் says which entry of the package holds the text and what a table__
+// __row is called there. Three are given below — an .odt, an .ods, and a .docx.__
+// __Nothing after them names a format.__
+
+_ODT_வடிவம் = {
+    "உறுப்பு":      "content.xml",
+    "வரிசை":        "<table:table-row",
+    "வரிசை_முடிவு": "</table:table-row>"
+};
+
+_ODS_வடிவம் = {
+    "உறுப்பு":      "content.xml",
+    "வரிசை":        "<table:table-row",
+    "வரிசை_முடிவு": "</table:table-row>"
+};
+
+_DOCX_வடிவம் = {
+    "உறுப்பு":      "word/document.xml",
+    "வரிசை":        "<w:tr",
+    "வரிசை_முடிவு": "</w:tr>"
+};
+
+// __An .xlsx keeps its text in a shared table and its rows in the sheet, so a__
+// __repeating row would have to renumber shared-string indexes. Scalars work;__
+// __தொகுதிகள் must be empty. Say so rather than half-do it.__
+_XLSX_வடிவம் = {
+    "உறுப்பு":      "xl/sharedStrings.xml",
+    "வரிசை":        "<si>",
+    "வரிசை_முடிவு": "</si>"
+};
+
+// __Containment through பிரி, so it costs one pass rather than one scan per__
+// __letter. col.qmz's கொண்டுள்ளதா reads letter by letter, which is fine on a__
+// __table cell and far too slow on a section of a document.__
+// __ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) — does the document text contain this?__
+// ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) — ஆவணப் பாடத்தில் இது இருக்கிறதா; ஒரே கடப்பில் பார்க்கும்
+செயல் ஆவணத்தில்_உள்ளதா(பாடம், தேடல்) {
+    திரும்பு நீளம்(பிரி(பாடம், தேடல்)) > 1;
+}
+
+// __XML escaping. & goes first, or it would escape the escapes.__
+// உரையை எக்ஸ்எம்எல் இல் பாதுகாப்பாக வைக்கும் வகையில் விடுவிக்கும்
+செயல் _xml_ஆக்கு(உள்ளீடு) {
+    வெளியே = மாற்று(உள்ளீடு, "&", "&amp;");
+    வெளியே = மாற்று(வெளியே, "<", "&lt;");
+    வெளியே = மாற்று(வெளியே, ">", "&gt;");
+    திரும்பு வெளியே;
+}
+
+// __A piece by position, or "" past the end. This predates மற்றும்__
+// __short-circuiting, when a loop guard could not both test the bound and index__
+// __in one expression; it stays because the loop below reads better for it.__
+// __பகுதியை_எடு(பட்டியல், எங்கே) — the piece at a position, or "" past the end__
+// பகுதியை_எடு(பட்டியல், எங்கே) — அவ்விடத்தில் உள்ள பகுதி; எல்லையைத் தாண்டினால் வெற்றுச் சரம்
+செயல் பகுதியை_எடு(பட்டியல், எங்கே) {
+    (எங்கே >= நீளம்(பட்டியல்)) எனில் { திரும்பு ""; }
+    திரும்பு பட்டியல்[எங்கே];
+}
+
+// __Splitting on the row marker gives a piece that is one row PLUS whatever__
+// __followed it up to the next row — for the endfor row that tail holds the__
+// __table's closing tag and the next section. Dropping a row therefore means__
+// __dropping the row and keeping the tail, not dropping the piece.__
+// __வரிசைக்குப்_பின்(பகுதி) — what follows a table row, up to the next one__
+// வரிசைக்குப்_பின்(பகுதி) — ஒரு வரிசைக்குப் பின் தொடரும் பகுதியைத் தரும்
+செயல் வரிசைக்குப்_பின்(பகுதி, முடிவுக்_குறி) {
+    கூறுகள் = பிரி(பகுதி, முடிவுக்_குறி);
+    (நீளம்(கூறுகள்) < 2) எனில் { திரும்பு ""; }
+    மீதம் = [];
+    எண்ணி = 1;
+    (எண்ணி < நீளம்(கூறுகள்)) சுற்று {
+        மீதம் = இணை(மீதம், கூறுகள்[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு ஒன்றிணை(மீதம், முடிவுக்_குறி);
+}
+
+// __The loop variable named in `{%tr for o in charter.objectives %}`.__
+// __மாறிப்_பெயர்(முன்னொட்டு, பெயர்) — a template variable's full dotted name__
+// மாறிப்_பெயர்(முன்னொட்டு, பெயர்) — வார்ப்புருவில் ஒரு மாறியின் முழுப் பெயரை அமைக்கும்
+செயல் மாறிப்_பெயர்(பகுதி) {
+    கூறுகள் = பிரி(பகுதி, "{%tr for ");
+    (நீளம்(கூறுகள்) < 2) எனில் { திரும்பு ""; }
+    பின்பு = பிரி(கூறுகள்[1], " in ");
+    திரும்பு பின்பு[0];
+}
+
+// __One item's worth of a repeating row group.__
+// __உறுப்பை_நிரப்பு(பாடம், முன்னொட்டு, பதிவேடு) — substitute one record's fields__
+// உறுப்பை_நிரப்பு(பாடம், முன்னொட்டு, பதிவேடு) — பதிவேட்டின் புலங்களை வார்ப்புருவில் நிரப்பும்
+செயல் உறுப்பை_நிரப்பு(படிவம், மாற்றுப்_பெயர், புலங்கள், உறுப்பு) {
+    வெளியே = படிவம்;
+    ஒவ்வொரு புலம் இல் புலங்கள் {
+        குறி = "{{ " & மாற்றுப்_பெயர் & "." & புலம் & " }}";
+        வெளியே = மாற்று(வெளியே, குறி, _xml_ஆக்கு(உறுப்பு[புலம்]));
+    }
+    திரும்பு வெளியே;
+}
+
+// __Which declared group owns this loop variable.__
+// __தொகுதியைத்_தேடு(பாடம், வடிவம்) — find the repeating row group__
+// தொகுதியைத்_தேடு(பாடம், வடிவம்) — திரும்பத் திரும்ப வரும் வரிசைத் தொகுதியைக் கண்டறியும்
+செயல் தொகுதியைத்_தேடு(தொகுதிகள், தேடல்) {
+    ஒவ்வொரு தொகுதி இல் தொகுதிகள் {
+        (தொகுதி["பெயர்"] == தேடல்) எனில் { திரும்பு தொகுதி; }
+    }
+    திரும்பு 0;
+}
+
+// __The whole of it: XML in, XML out.__
+// __ஆவணம்_நிரப்பு(பாடம், வடிவம், மதிப்புகள், தொகுதிகள்) — render a whole document body__
+// ஆவணம்_நிரப்பு(பாடம், வடிவம், மதிப்புகள், தொகுதிகள்) — ஆவணப் பாடம் முழுவதையும் நிரப்பும்
+செயல் ஆவணம்_நிரப்பு(மூலம், வடிவம், மதிப்புகள், தொகுதிகள்) {
+    வரிசைக்_குறி = வடிவம்["வரிசை"];
+    முடிவுக்_குறி = வடிவம்["வரிசை_முடிவு"];
+
+    துண்டுகள் = பிரி(மூலம், வரிசைக்_குறி);
+    மொத்தம் = நீளம்(துண்டுகள்);
+
+    // __Everything before the first row is preamble and passes through. Each__
+    // __later piece carries its own row marker back, so the pieces are__
+    // __concatenated at the end rather than joined on a separator.__
+    வெளியீடு = [துண்டுகள்[0]];
+    எண்ணி = 1;
+    (எண்ணி < மொத்தம்) சுற்று {
+        பகுதி = துண்டுகள்[எண்ணி];
+        (ஆவணத்தில்_உள்ளதா(பகுதி, "{%tr for ")) எனில் {
+            பெயர் = மாறிப்_பெயர்(பகுதி);
+            தொகுதி = தொகுதியைத்_தேடு(தொகுதிகள், பெயர்);
+            // __The `for` row goes; what trailed it stays.__
+            வெளியீடு = இணை(வெளியீடு, வரிசைக்குப்_பின்(பகுதி, முடிவுக்_குறி));
+            எண்ணி = எண்ணி + 1;
+
+            // __The body is every row between `for` and `endfor`.__
+            படிவங்கள் = [];
+            நிற்க = பொய்;
+            (நிற்க == பொய்) சுற்று {
+                அடுத்து = பகுதியை_எடு(துண்டுகள், எண்ணி);
+                (அடுத்து == "" அல்லது ஆவணத்தில்_உள்ளதா(அடுத்து, "{%tr endfor %}")) எனில் {
+                    நிற்க = மெய்;
+                }
+                இன்றேல் {
+                    படிவங்கள் = இணை(படிவங்கள், அடுத்து);
+                    எண்ணி = எண்ணி + 1;
+                }
+            }
+
+            ஒவ்வொரு உறுப்பு இல் தொகுதி["வரிசைகள்"] {
+                ஒவ்வொரு படிவம் இல் படிவங்கள் {
+                    வெளியீடு = இணை(வெளியீடு, வரிசைக்_குறி &
+                        உறுப்பை_நிரப்பு(படிவம், பெயர், தொகுதி["புலங்கள்"], உறுப்பு));
+                }
+            }
+
+            // __எண்ணி sits on the endfor row: that row goes, its tail stays.__
+            முடிவுப்_பகுதி = பகுதியை_எடு(துண்டுகள், எண்ணி);
+            (முடிவுப்_பகுதி == "") எனில் { } இன்றேல் {
+                வெளியீடு = இணை(வெளியீடு, வரிசைக்குப்_பின்(முடிவுப்_பகுதி, முடிவுக்_குறி));
+            }
+            எண்ணி = எண்ணி + 1;
+        }
+        இன்றேல் {
+            வெளியீடு = இணை(வெளியீடு, வரிசைக்_குறி & பகுதி);
+            எண்ணி = எண்ணி + 1;
+        }
+    }
+
+    ஆவணம் = ஒன்றிணை(வெளியீடு, "");
+    ஒவ்வொரு மதிப்புக்_குறிப்பு இல் மதிப்புகள் {
+        ஆவணம் = மாற்று(ஆவணம், "{{ " & மதிப்புக்_குறிப்பு["குறி"] & " }}",
+                        _xml_ஆக்கு(மதிப்புக்_குறிப்பு["மதிப்பு"]));
+    }
+    திரும்பு ஆவணம்;
+}
+
+// __A template package rendered into a new package of the same kind. Only the__
+// __text entry changes; pictures, styles and the mimetype travel across__
+// __untouched, which is why they are copied rather than rebuilt.__
+// __பொதியை_நிரப்பு(மூலப்_பொதி, விடைப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) — render the document inside a package__
+// பொதியை_நிரப்பு(மூலப்_பொதி, விடைப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) — பொதிக் கோப்பினுள் இருக்கும் ஆவணத்தை நிரப்பும்
+செயல் பொதியை_நிரப்பு(மூலப்_பொதி, விளைவுப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) {
+    உறுப்பு = வடிவம்["உறுப்பு"];
+    படித்தது = பொதி_படி(மூலப்_பொதி, உறுப்பு);
+    (தவறா(படித்தது)) எனில் { திரும்பு படித்தது; }
+
+    ஆவணம் = ஆவணம்_நிரப்பு(மதிப்பு(படித்தது), வடிவம், மதிப்புகள், தொகுதிகள்);
+
+    மாற்றங்கள் = {};
+    மாற்றங்கள்[உறுப்பு] = ஆவணம்;
+    திரும்பு பொதி_மாற்று(மூலப்_பொதி, விளைவுப்_பொதி, மாற்றங்கள்);
+}
+
+// __The PDF of a rendered package. LibreOffice does the conversion, so__
+// __ETAMIL_EXEC_ALLOW has to name it.__
+// வெளிக் கட்டளையை ஓட்டி ஆவணத்தைப் பிடிஎஃப் ஆக மாற்றும்
+செயல் _pdf_ஆக்கு(நிரல், ஆவணக்_கோப்பு, சேமிப்பிடம்) {
+    திரும்பு கட்டளை_ஓட்டு(நிரல், [
+        "--headless",
+        "--convert-to", "pdf",
+        "--outdir", சேமிப்பிடம்,
+        ஆவணக்_கோப்பு
+    ], 120);
+}

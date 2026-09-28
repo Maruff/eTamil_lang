@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இருப்பை_விடுவி(தொகுதி, விடுவிக்கும்_தொகை) — move money from the management reserve into the baseline__
+// மேலாண்மை இருப்பிலிருந்து ஒரு தொகையை விடுவிக்கும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொகுதி = நிதித்_தொகுதி_ஆக்கு(1000000, 150000, 100000);
+
+// __A formal act: the baseline changes, and the reserve shrinks by the same__
+// __amount. A release recorded as an increase in the baseline alone is how a__
+// __project's budget grows without anyone approving it.__
+// அடிப்படை பெருகும், இருப்பு அதே அளவு குறையும்
+புதியது = மதிப்பு(இருப்பை_விடுவி(தொகுதி, 60000));
+அச்சு புதியது["அடிப்படை_நிதி"];
+அச்சு புதியது["மேலாண்மை_இருப்பு"];
+அச்சு அனுமதித்த_நிதி(புதியது);
+
+// __More than there is in the reserve is refused.__
+// இருப்பில் உள்ளதைவிட அதிகம் மறுக்கப்படும்
+அச்சு தவறா(இருப்பை_விடுவி(தொகுதி, 500000));

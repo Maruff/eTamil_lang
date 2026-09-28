@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடக்க_இருப்பு(பரிவர்த்தனை_எண், நாள், கணக்கு_குறி, எதிர்_கணக்கு, தொகை_மதிப்பு, பற்றா) — an opening balance at the start of a year__
+// ஆண்டின் தொடக்கத்தில் திறப்பு இருப்பு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Opening balances are postings like any other, against a suspense account__
+// __that must end at nothing once every balance is in.__
+// திறப்பு இருப்புகளும் பதிவுகளே; இடைநிலைக் கணக்கு இறுதியில் பூஜ்ஜியமாக வேண்டும்
+சொத்து = தொடக்க_இருப்பு(1, "2026-04-01", "1000", "9999", 100000, மெய்);
+அச்சு சமநிலையா(சொத்து);
+
+// __A liability opens on the credit side, so the flag says which way round.__
+// பொறுப்பு வரவுப் பக்கம் திறக்கும்
+பொறுப்பு = தொடக்க_இருப்பு(2, "2026-04-01", "2100", "9999", 40000, பொய்);
+அச்சு சமநிலையா(பொறுப்பு);
+அச்சு பொறுப்பு["விவரம்"];

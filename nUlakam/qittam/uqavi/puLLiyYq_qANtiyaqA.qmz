@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __புள்ளியைத்_தாண்டியதா(உண்மைச்_செலவு, புள்ளி) — has the cost passed the point of total assumption?__
+// செலவு முழுப் பொறுப்புப் புள்ளியைத் தாண்டிவிட்டதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+புள்ளி = மதிப்பு(முழுப்_பொறுப்புப்_புள்ளி(1000000, 100000, 1250000, 0.5));
+
+// __Past it the seller's incentive changes completely: every further rupee__
+// __comes out of their own pocket, and stopping work starts to look rational.__
+// இதைத் தாண்டியபின் விற்பவரின் ஊக்கமே மாறுகிறது
+அச்சு புள்ளியைத்_தாண்டியதா(1300000, புள்ளி);
+அச்சு புள்ளியைத்_தாண்டியதா(1100000, புள்ளி);
+
+// __Worth watching on a buyer's side too: a seller past this point is a seller__
+// __who may walk away.__
+// வாங்குபவரும் இதைக் கவனிக்க வேண்டும்

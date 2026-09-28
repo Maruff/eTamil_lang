@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறியில்_உள்ளதா(குறிகள், தேடும்_குறி) — is this code in that list?__
+// இக்குறி பட்டியலில் உள்ளதா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __What தள்ளுபடியை_ஒதுக்கு matches its evidence with.__
+// தள்ளுபடியை_ஒதுக்கு தன் சான்றைப் பொருத்துவது இதனால்
+அச்சு குறியில்_உள்ளதா(["P1", "P2"], "P2");
+அச்சு குறியில்_உள்ளதா(["P1", "P2"], "P9");
+அச்சு குறியில்_உள்ளதா([], "P1");

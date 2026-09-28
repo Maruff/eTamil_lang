@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலை_மாற்றம்_சரியா(இருந்து, க்கு) — may a timesheet move from this state to that one?__
+// இந்நிலை மாற்றம் முறையானதா
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __A draft may be submitted, and a submitted sheet approved or rejected.__
+// வரைவைச் சமர்ப்பிக்கலாம்; சமர்ப்பித்ததை ஏற்கலாம், நிராகரிக்கலாம்
+அச்சு நிலை_மாற்றம்_சரியா("வரைவு", "சமர்ப்பித்தது");
+அச்சு நிலை_மாற்றம்_சரியா("சமர்ப்பித்தது", "ஏற்றது");
+அச்சு நிலை_மாற்றம்_சரியா("சமர்ப்பித்தது", "நிராகரித்தது");
+
+// __Nothing comes back from approved. It has been costed and posted to the__
+// __ledger, and it is corrected by a further entry rather than by editing.__
+// ஏற்றதிலிருந்து ஒன்றும் திரும்புவதில்லை; திருத்தம் என்பது மற்றொரு பதிவே
+அச்சு நிலை_மாற்றம்_சரியா("ஏற்றது", "வரைவு");
+
+// __And nothing skips submission: approving a draft nobody submitted is__
+// __approving work nobody claimed.__
+// சமர்ப்பிக்காமல் ஏற்க முடியாது
+அச்சு நிலை_மாற்றம்_சரியா("வரைவு", "ஏற்றது");

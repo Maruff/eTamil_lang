@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கணு_ஆக்கு(கணு_குறி, பெற்றோர்_குறி, கணு_பெயர், கணு_நிதி) — one node of the breakdown structure__
+// பகுப்புக் கட்டமைப்பில் ஒரு கணு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The parent is named on the child rather than the children on the parent,__
+// __so a node can be added without touching anything above it.__
+// பெற்றோரின் பெயர் சேயின்மீதே; மேலுள்ளதைத் தொடாமல் சேர்க்கலாம்
+மூலம் = கணு_ஆக்கு("1", "", "திட்டம்", 1000000);
+சேய் = கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000);
+
+அச்சு மூலம்["கணு_பெயர்"];
+அச்சு சேய்["பெற்றோர்_குறி"];
+அச்சு சேய்["கணு_நிதி"];
+
+// __An empty parent is a root, which is how the top of the tree is written.__
+// பெற்றோர் இல்லாதது மூலம்
+அச்சு "[" & மூலம்["பெற்றோர்_குறி"] & "]";

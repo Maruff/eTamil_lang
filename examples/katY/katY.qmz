@@ -12,9 +12,9 @@
 // __spelling written here — before roadmap item 2 they would have been stored as__
 // __Price, Balance, Tax, Goods and Invoice.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
-இறக்கு "../../nUlakam/col.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
+இறக்கு "../../nUlakam/atippatY/col.qmz";
 இறக்கு "../../nUlakam/kaNakkiyal/vari.qmz";
 
 // __--- Accounts -------------------------------------------------------------__

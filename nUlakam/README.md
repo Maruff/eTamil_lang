@@ -5,7 +5,7 @@ needed a systems language, the DSL would not be sufficient for the
 frameworks built on top of it.
 
 ```etamil
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 
 அச்சு ரூபாய்(12345678.5);        // ₹1,23,45,678.50
 ```
@@ -14,12 +14,12 @@ frameworks built on top of it.
 
 | File | Contents |
 |---|---|
-| `col.qmz` | strings — `துண்டு` `தேடு` `ஒழுங்கு` `தொடங்குகிறதா` `முடிகிறதா` `திரும்பச்செய்` `இடமிருந்து_நிரப்பு` |
-| `kaNiqam.qmz` | math — `முழுமதிப்பு` `சிறியது` `பெரியது` `கூட்டு` `சராசரி` `சதவீதம்` `வர்க்கமூலம்` |
-| `aNi.qmz` | arrays — `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` |
-| `poruL.qmz` | records — `புலம்_உள்ளதா` `புலம்_அல்லது` `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
-| `cOqaZY.qmz` | tests — `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
-| `kOppumuRY.qmz` | the file system — `பாதை_இணை` `அடிப்பெயர்` `கோப்பக_பெயர்` `நீட்சி` `பெயர்_மட்டும்` `பாதை_இயல்பாக்கு` `கோப்பகமா` `கோப்பக_பட்டியல்` `கோப்பக_நட` `நீட்சியால்_கோப்புகள்` `வினாடியை_நாளாக` |
+| `atippatY/col.qmz` | strings — `துண்டு` `தேடு` `ஒழுங்கு` `தொடங்குகிறதா` `முடிகிறதா` `திரும்பச்செய்` `இடமிருந்து_நிரப்பு` |
+| `atippatY/kaNiqam.qmz` | math — `முழுமதிப்பு` `சிறியது` `பெரியது` `கூட்டு` `சராசரி` `சதவீதம்` `வர்க்கமூலம்` |
+| `atippatY/aNi.qmz` | arrays — `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` |
+| `atippatY/poruL.qmz` | records — `புலம்_உள்ளதா` `புலம்_அல்லது` `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
+| `cOqaZY/cOqaZY.qmz` | tests — `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
+| `kOppumuRY/kOppumuRY.qmz` | the file system — `பாதை_இணை` `அடிப்பெயர்` `கோப்பக_பெயர்` `நீட்சி` `பெயர்_மட்டும்` `பாதை_இயல்பாக்கு` `கோப்பகமா` `கோப்பக_பட்டியல்` `கோப்பக_நட` `நீட்சியால்_கோப்புகள்` `வினாடியை_நாளாக` |
 | `vaZporuL/vaZporuL.qmz` | hardware, one API for Raspberry Pi, the simulated board and (through artino) Arduino — `பலகை` `முனை_வெளியீடு` `முனை_எழுது` `முனை_படி` `முனை_மாற்று` `ஒப்புமை_படி` `மில்லி_நொடி` `காத்திரு` `தொடர்_திற` `தொடர்_வரி_படி` `தொடர்_வரி_எழுது` `தொடர்_மூடு` `ஒலி_எழுப்பு` `ஒலி_நிறுத்து` `காவல்_தொடங்கு` `காவல்_புதுப்பி`, and `போலி_*` for tests. On the VM: `ETAMIL_BOARD=sim` anywhere, a Raspberry Pi's GPIO, serial ports on Linux and macOS |
 | `vaZporuL/yUnO.qmz` `nAnO.qmz` `mekA.qmz` `pIkO.qmz` `rAspY.qmz` | one board each — Uno, Nano, Mega, Pico and Pico 2, Raspberry Pi: the hardware API plus the board's pin names under the same names everywhere, `விளக்கு_முனை` `ஒப்புமை_0`… `ஒப்புமை_மில்லிவோல்ட்` `USB_துறை` `தொடர்1_துறை`…; the Pi's `தலைப்பு_முனை` maps header pins to BCM. artino refuses a board file that does not match `--board` |
 | `vawki/vatti.qmz` | interest — `எளிய_வட்டி` `நாளாந்த_வட்டி` `கூட்டு_வட்டி` `முதிர்வுத்_தொகை` `அடுக்கு` `நாட்கள்` |
@@ -76,11 +76,11 @@ frameworks built on top of it.
 | `kAppItu/kAppItu.qmz` | insurance — `முனைமம்` `ஆயிரத்திற்கு_முனைமம்` `சராசரி_விதி` `கோரல்_தீர்வு` `கோரல்_இல்லா_சலுகை` `நிலுவைக்_கோரல்கள்` |
 | `cuwkam/cuwkam.qmz` | customs and trade — `மதிப்பிடத்தக்க_மதிப்பு` `சுங்கக்_கணக்கு` `தலைப்பு_சரியா` `பொருந்துமா` `செல்லுபடி_நாட்கள்` `வழிச்சீட்டு_சரிபார்` |
 | `qaLam/retis.qmz` | Redis — `சேமி` `காலத்துடன்_சேமி` `எடு` `இருக்கிறதா` `நீக்கு` `ஒன்று_கூட்டு` `முன்_சேர்` `வரிசைப்_பகுதி` `இல்லையெனில்_இயல்பு` |
-| `paNam.qmz` | money — `ரூபாய்` `காசு_வடிவம்` `காசாக` `லட்சம்` `கோடி` |
-| `kAcu.qmz` | paise-exact money — `ரூபாயும்_பைசாவும்` `ரூபாயாக` `காசு_உரை` `காசு_கூட்டு` `விழுக்காடு_காசு` `சமமாகப்_பிரி` `விகிதத்தில்_பிரி` |
-| `jEcAZ.qmz` | JSON — `ஜேசான்_ஆக்கு` `ஜேசான்_படி` |
-| `kuRiyAkkam.qmz` | encoding — `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` |
-| `AvaNam.qmz` | documents — `ஆவணம்_நிரப்பு` `பொதியை_நிரப்பு` `_pdf_ஆக்கு`, and the `_ODT_வடிவம்` / `_ODS_வடிவம்` / `_DOCX_வடிவம்` / `_XLSX_வடிவம்` shapes |
+| `paNam/paNam.qmz` | money — `ரூபாய்` `காசு_வடிவம்` `காசாக` `லட்சம்` `கோடி` |
+| `paNam/kAcu.qmz` | paise-exact money — `ரூபாயும்_பைசாவும்` `ரூபாயாக` `காசு_உரை` `காசு_கூட்டு` `விழுக்காடு_காசு` `சமமாகப்_பிரி` `விகிதத்தில்_பிரி` |
+| `vativam/jEcAZ.qmz` | JSON — `ஜேசான்_ஆக்கு` `ஜேசான்_படி` |
+| `vativam/kuRiyAkkam.qmz` | encoding — `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` |
+| `vativam/AvaNam.qmz` | documents — `ஆவணம்_நிரப்பு` `பொதியை_நிரப்பு` `_pdf_ஆக்கு`, and the `_ODT_வடிவம்` / `_ODS_வடிவம்` / `_DOCX_வடிவம்` / `_XLSX_வடிவம்` shapes |
 
 ## JSON is written here, not in the host
 
@@ -89,7 +89,7 @@ VM already allows that: `பொருள்[சாவி] = மதிப்ப�
 So `jEcAZ.qmz` is ordinary eTamil, and Layer 0 gains nothing.
 
 ```etamil
-இறக்கு "nUlakam/jEcAZ.qmz";
+இறக்கு "nUlakam/vativam/jEcAZ.qmz";
 
 ப = மதிப்பு(ஜேசான்_படி(request_body));
 அச்சு ப["qokY"] + 1;                       // a number, not text
@@ -142,6 +142,25 @@ produces the field `வரி`. It used to be filed under the English token name
 2. The consequence is that `{வரி: 1}` and `{vari: 1}` are now *different*
 fields, so a program should pick one spelling and keep to it.
 
+## Worked examples, one per function
+
+Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
+each function in it, named after the function it demonstrates. 791 of them, and
+each one shows the ordinary use together with the cases that are easy to get
+wrong: the boundary, the empty input, the failure that is a தவறு rather than a
+crash. The reasoning is in English and Tamil, like the library itself.
+
+They are executed rather than admired. Documentation that is not run stops being
+true, so a sample that no longer matches its function fails:
+
+```
+./scripts/run_samples.sh              # all of them
+./scripts/run_samples.sh paNam upi    # only these folders
+```
+
+They are kept out of `run_examples.sh` and given their own CI job, because each
+costs about a second and the examples gate is on the critical path.
+
 ## Import paths
 
 `இறக்கு` looks beside the importing file, then along `ETAMIL_PATH`, then next
@@ -179,7 +198,7 @@ template *means* is decided in `AvaNam.qmz`: which placeholder gets which
 value, which rows repeat, what has to be escaped.
 
 ```etamil
-இறக்கு "nUlakam/AvaNam.qmz";
+இறக்கு "nUlakam/vativam/AvaNam.qmz";
 
 மதிப்புகள் = [{"குறி": "project.name", "மதிப்பு": "Beak PMO"}];
 தொகுதிகள் = [{"பெயர்": "o",

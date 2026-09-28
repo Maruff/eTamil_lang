@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோடி(தொகை) — an amount in crores, to two decimals__
+// தொகையைக் கோடிகளில், இரு தசம இடங்களுக்கு
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __A hundred lakh, for the top line of a report that would otherwise be nine__
+// __digits wide.__
+// நூறு லட்சம்; ஒன்பது இலக்கங்களைத் தவிர்க்க
+அச்சு கோடி(250000000);
+அச்சு கோடி(15000000);
+அச்சு கோடி(500000);

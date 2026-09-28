@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சராசரி_விதி(இழப்புத்_தொகை, காப்பீட்டுத்_தொகை, உண்மை_மதிப்பு) — under-insurance scales the payout down in proportion__
+// குறைவாகக் காப்பீடு செய்தால் விகிதப்படி குறைக்கும் விதி
+
+இறக்கு "../kAppItu.qmz";
+
+// __Insured for half its value, so half the loss is paid. This surprises__
+// __people: the loss was well inside the sum insured, and it still pays half.__
+// பாதி மதிப்புக்குக் காப்பீடு, பாதி இழப்பே செலுத்தப்படும்
+அச்சு சராசரி_விதி(500000, 2500000, 5000000);
+
+// __Insured for its full value, the whole loss is paid.__
+// முழு மதிப்புக்குக் காப்பீடு, முழு இழப்பும் செலுத்தப்படும்
+அச்சு சராசரி_விதி(500000, 5000000, 5000000);
+
+// __Over-insured pays the loss and no more. Paying extra for a larger sum__
+// __insured than the property is worth buys nothing.__
+// அதிகமாகக் காப்பீடு செய்தாலும் இழப்பைவிட மேல் செலுத்தப்படாது
+அச்சு சராசரி_விதி(500000, 6000000, 5000000);
+
+// __With no value at risk stated, nothing is averaged: an unknown value must__
+// __not quietly become a reduction.__
+// உண்மை மதிப்பு சொல்லப்படவில்லையெனில் குறைப்பு இல்லை
+அச்சு சராசரி_விதி(500000, 2500000, 0);

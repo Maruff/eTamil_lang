@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடுத்த_வேலை_நாள்(ஒரு_நாள், ஒரு_நாட்காட்டி) — the first working day after this one__
+// இதற்குப் பின் வரும் முதல் வேலை நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __After, strictly. A working day's next working day is the one after it, not__
+// __itself.__
+// கண்டிப்பாக அதற்குப் பின்; அதே நாள் அல்ல
+அச்சு மதிப்பு(அடுத்த_வேலை_நாள்("2026-03-02", நாட்காட்டி));
+
+// __It skips the holiday and the weekend together.__
+// விடுமுறையையும் வார ஓய்வையும் சேர்த்தே தாண்டும்
+அச்சு மதிப்பு(அடுத்த_வேலை_நாள்("2026-03-04", நாட்காட்டி));
+அச்சு மதிப்பு(அடுத்த_வேலை_நாள்("2026-03-06", நாட்காட்டி));
+
+// __A calendar with no working week in it is a தவறு rather than a search that__
+// __never ends.__
+// வேலை வாரமே இல்லாத நாட்காட்டி தவறே
+அச்சு தவறா(அடுத்த_வேலை_நாள்("2026-03-02", நாட்காட்டி_ஆக்கு([0,1,2,3,4,5,6], [])));

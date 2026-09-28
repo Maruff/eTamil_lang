@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதையை_அமை(நுழைவுப்_பொருள், வினவல், எழுதும்) — one gateway's routes are not another's__
+// ஒவ்வொரு நுழைவாயிலுக்கும் பாதைகள் வேறு
+
+இறக்கு "../fabric.qmz";
+
+நு = நுழைவு("https://gw.example/api", "mychannel", "basic", {});
+
+// __A gateway that puts its routes elsewhere is configuration, not a reason__
+// __to fork the client. The channel and chaincode stay as they were.__
+// வேறு பாதைகள் என்பது அமைப்பு மட்டுமே; இதற்காகக் குறியீட்டைப் பிரிக்கத் தேவையில்லை
+வேறு = பாதையை_அமை(நு, "/q", "/i");
+அச்சு வேறு["வினவல்_பாதை"];
+அச்சு வேறு["எழுதும்_பாதை"];
+அச்சு வேறு["சேனல்"];

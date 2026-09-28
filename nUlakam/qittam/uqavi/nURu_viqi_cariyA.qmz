@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நூறு_விதி_சரியா(கணுக்கள், கணு_குறி) — do the children add up to the parent?__
+// சேய்களின் நிதி பெற்றோரின் நிதிக்குச் சமமா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+             கணு_ஆக்கு("1.2", "1", "கட்டுமானம்", 600000)];
+
+அச்சு நூறு_விதி_சரியா(கணுக்கள், "1");
+
+// __The hundred per cent rule: a decomposition that does not add up has either__
+// __work nobody is doing or money nobody is spending.__
+// கூடாத பகுப்பில், யாரும் செய்யாத வேலையோ, யாரும் செலவிடாத பணமோ இருக்கும்
+குறைவானவை = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+               கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000)];
+அச்சு நூறு_விதி_சரியா(குறைவானவை, "1");
+
+// __A leaf satisfies it trivially: it is its own whole.__
+// இலை தானாகவே விதியை நிறைவேற்றுகிறது
+அச்சு நூறு_விதி_சரியா(கணுக்கள், "1.1");

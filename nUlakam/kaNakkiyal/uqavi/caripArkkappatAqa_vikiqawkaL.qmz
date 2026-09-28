@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சரிபார்க்கப்படாத_விகிதங்கள்(நாள்) — the rates whose source has not been checked__
+// மூலம் வேறு சொல்லும் விகிதங்கள்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE vari_vikiqam (
+             vari_vakY TEXT NOT NULL, kuRi TEXT NOT NULL, mAnilam TEXT NOT NULL,
+             vikiqam REAL, nilYq_qokY REAL,
+             varampu_muqal REAL NOT NULL DEFAULT 0, varampu_varY REAL,
+             amal_qotakkam TEXT NOT NULL, amal_mutivu TEXT, mUlam TEXT NOT NULL)", [];
+
+// __Every rate carries where it came from. One that still says PLACEHOLDER was__
+// __invented to make the code run, and an invoice computed from it is a number__
+// __with nothing behind it.__
+// ஒவ்வொரு விகிதமும் தன் மூலத்தைச் சுமக்கிறது
+தளம்_செய் "INSERT INTO vari_vikiqam
+             (vari_vakY, kuRi, mAnilam, vikiqam, varampu_muqal,
+              amal_qotakkam, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["gst", "8471", "", 18, 0, "2020-01-01", "PLACEHOLDER — invented"];
+
+// __Meant to be run before a rate table is trusted, and printed on the report__
+// __rather than discovered by whoever relies on it.__
+// அட்டவணையை நம்புமுன் இதை இயக்க வேண்டும்
+அச்சு நீளம்(சரிபார்க்கப்படாத_விகிதங்கள்("2026-04-01"));

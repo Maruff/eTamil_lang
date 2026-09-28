@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வங்கி சோதனை — tests for interest and loans__
+// வட்டிக்கும் கடனுக்குமான சோதனைகள்
 //
 //   __etamil --vm nUlakam/vawki/vawki_cOqaZY.qmz__
 //
 // __No rate here is a claim about what any bank charges. They are arguments,__
 // __chosen so the arithmetic can be checked by hand.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "kataZ.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("வங்கி — வட்டி, கடன்");

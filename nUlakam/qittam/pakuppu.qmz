@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qittam/pakuppu.qmz — வேலைப் பகுப்பு (the work breakdown structure)__
+// வேலைப் பகுப்புக் கட்டமைப்பு
 //
 // __The WBS is the one artefact everything else on a project hangs off: the__
 // __schedule, the budget, the responsibility assignment and the risk register__
@@ -25,6 +26,7 @@
 // __the planner wrote down; for a leaf it is the work package estimate. The two__
 // __are reconciled by நூறு_விதி_சரியா, not by construction — a WBS that cannot__
 // __be built in a violating state cannot be checked, and the check is the point.__
+// கணு_ஆக்கு(கணு_குறி, பெற்றோர்_குறி, கணு_பெயர், கணு_நிதி) — பகுப்புக் கட்டமைப்பில் ஒரு கணுவை உருவாக்கும்
 செயல் கணு_ஆக்கு(கணு_குறி, பெற்றோர்_குறி, கணு_பெயர், கணு_நிதி) {
     திரும்பு {
         கணு_குறி: கணு_குறி,
@@ -35,6 +37,7 @@
 }
 
 // __கணு_தேடு(கணுக்கள், கணு_குறி) — find one WBS node by its code__
+// கணு_தேடு(கணுக்கள், கணு_குறி) — குறியைக் கொண்டு ஒரு கணுவைத் தேடும்
 //
 // __சரி with the node, or தவறு naming the code. The WBS is what the schedule, the budget and the responsibility matrix all key on, so a code that resolves to nothing is a break between two of them and not a lookup miss to shrug at.__
 செயல் கணு_தேடு(கணுக்கள், கணு_குறி) {
@@ -45,6 +48,7 @@
 }
 
 // __சேய்கள்(கணுக்கள், பெற்றோர்_குறி) — the immediate children of one node__
+// சேய்கள்(கணுக்கள், பெற்றோர்_குறி) — ஒரு கணுவின் நேரடிச் சேய்கள்
 //
 // __One level, not the whole subtree. Rolling a cost up the WBS means summing children whose own totals are already rolled up, and a function that returned every descendant would double-count at every level above the leaves.__
 செயல் சேய்கள்(கணுக்கள், பெற்றோர்_குறி) {
@@ -58,11 +62,13 @@
 }
 
 // __மூலங்கள்(கணுக்கள்) — the top-level nodes__
+// மூலங்கள்(கணுக்கள்) — மேல்மட்டக் கணுக்கள்
 //
 // __The children of the empty parent, which is how a root is recorded: a node with no parent rather than a parent that is absent. That keeps the tree in one flat list with no special case for the top.__
 செயல் மூலங்கள்(கணுக்கள்) { திரும்பு சேய்கள்(கணுக்கள், ""); }
 
 // __இலைக்_கணுவா(கணுக்கள், கணு_குறி) — a leaf is a work package__
+// இலைக்_கணுவா(கணுக்கள், கணு_குறி) — இலைக் கணுவே வேலைத் தொகுப்பு
 //
 // __The WBS decomposes deliverables, and it stops at the level where a single__
 // __owner can be held to a cost and a duration. That level is defined by having__
@@ -73,6 +79,7 @@
 }
 
 // __வேலைத்_தொகுப்புகள்(கணுக்கள்) — the work packages, the leaves of the tree__
+// வேலைத்_தொகுப்புகள்(கணுக்கள்) — மரத்தின் இலைகளான வேலைத் தொகுப்புகள்
 //
 // __The only nodes that carry estimates, get scheduled and are assigned to someone. Everything above them is a summary, and a budget entered against a summary node is the classic way a WBS stops adding up.__
 செயல் வேலைத்_தொகுப்புகள்(கணுக்கள்) {
@@ -88,6 +95,7 @@
 // __--- Rolling up ---------------------------------------------------------__
 
 // __உள்_கூட்டல்(கணுக்கள், கணு_குறி) — the subtree's budget, from its leaves__
+// உள்_கூட்டல்(கணுக்கள், கணு_குறி) — உட்கிளையின் நிதி, அதன் இலைகளிலிருந்து
 //
 // __Deliberately sums *leaves* rather than the node's own figure, so that it__
 // __answers what the work actually adds up to. Comparing it with the entered__
@@ -106,6 +114,7 @@
 }
 
 // __ஆழம்(கணுக்கள், கணு_குறி) — a root is at depth 0__
+// ஆழம்(கணுக்கள், கணு_குறி) — கணுவின் ஆழம்; மூலம் பூஜ்ஜியம்
 செயல் ஆழம்(கணுக்கள், கணு_குறி) {
     விடை = கணு_தேடு(கணுக்கள், கணு_குறி);
     (தவறா(விடை)) எனில் { திரும்பு 0; }
@@ -125,6 +134,7 @@
 // __by this comparison.__
 //
 // __A leaf satisfies it trivially, having nothing below it to disagree with.__
+// நூறு_விதி_சரியா(கணுக்கள், கணு_குறி) — சேய்களின் நிதி பெற்றோரின் நிதிக்குச் சமமா
 செயல் நூறு_விதி_சரியா(கணுக்கள், கணு_குறி) {
     (இலைக்_கணுவா(கணுக்கள், கணு_குறி)) எனில் { திரும்பு மெய்; }
     விடை = கணு_தேடு(கணுக்கள், கணு_குறி);
@@ -137,6 +147,7 @@
 }
 
 // __விதியை_சரிபார்(கணுக்கள்) — the first violation, or சரி__
+// விதியை_சரிபார்(கணுக்கள்) — முதல் மீறல்; இல்லையெனில் சரி
 //
 // __Returns the offending node rather than a boolean, because "the WBS does not__
 // __balance" is not actionable and "ப2 is entered at 400 but its children total__

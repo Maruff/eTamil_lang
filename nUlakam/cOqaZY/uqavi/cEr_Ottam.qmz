@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சேர்_ஓட்டம்(முதல், இரண்டாவது) — two runs as one, for a suite of suites__
+// இரு ஓட்டங்களை ஒன்றாக்கும்; தொகுப்புகளின் தொகுப்புக்கு
+
+இறக்கு "../cOqaZY.qmz";
+
+முதல் = சோதனை_தொடக்கம்("கூட்டல்");
+முதல் = உறுதிசெய்(முதல், 1 + 1 == 2, "one and one");
+
+இரண்டாவது = சோதனை_தொடக்கம்("பெருக்கல்");
+இரண்டாவது = உறுதிசெய்(இரண்டாவது, 2 * 3 == 6, "two threes");
+இரண்டாவது = உறுதிசெய்(இரண்டாவது, 4 * 0 == 0, "and anything by nothing");
+
+// __The counts add and the first run's name is kept, so a file that gathers__
+// __several suites reports one summary rather than one per suite.__
+// எண்ணிக்கைகள் கூடும்; முதல் ஓட்டத்தின் பெயர் நிலைக்கும்
+சேர்ந்தது = சேர்_ஓட்டம்(முதல், இரண்டாவது);
+அச்சு சேர்ந்தது["பெயர்"];
+அச்சு சேர்ந்தது["வெற்றி"];

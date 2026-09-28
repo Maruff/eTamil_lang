@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __லட்சம்(தொகை) — an amount in lakhs, to two decimals__
+// தொகையை லட்சங்களில், இரு தசம இடங்களுக்கு
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __For a summary line, where the exact rupees are noise. One lakh is a hundred__
+// __thousand.__
+// சுருக்க அறிக்கைக்கு; அங்கு சரியான ரூபாய் தேவையில்லை
+அச்சு லட்சம்(2500000);
+அச்சு லட்சம்(150000);
+
+// __It rounds, so a figure shown in lakhs will not add up to the total shown__
+// __beside it. Summarise for reading, not for balancing.__
+// இது வட்டமிடுகிறது; லட்சங்களில் காட்டியதைக் கூட்டினால் மொத்தம் பொருந்தாது
+அச்சு லட்சம்(149999);

@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்ட_மாதங்கள்(நாட்கள்) — days as whole months, any part month counting as one__
+// நாட்களை முழு மாதங்களாக; பகுதி மாதமும் ஒன்றாகக் கணக்கு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு வட்ட_மாதங்கள்(30);
+
+// __A part month counts as a whole one, which is how interest__
+// __for a delayed payment is reckoned.__
+// பகுதி மாதமும் ஒன்றாகக் கணக்கு; தாமதத் தொகைக்கு வட்டி இப்படியே
+அச்சு வட்ட_மாதங்கள்(31);
+அச்சு வட்ட_மாதங்கள்(0);

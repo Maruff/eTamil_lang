@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முந்தையது(அ, ஆ) — the earlier of two dates__
+// இரு நாள்களில் முந்தியது
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Dates in this form compare as text, but saying so at every call site is how__
+// __one of them ends up comparing the wrong way.__
+// இந்த வடிவத்தில் நாட்கள் உரையாகவே ஒப்பிடப்படும்; அதை ஒவ்வொரு இடத்திலும் எழுதுவது தவறுக்கு வழி
+அச்சு முந்தையது("2026-03-02", "2026-01-15");
+அச்சு முந்தையது("2026-03-02", "2026-03-02");

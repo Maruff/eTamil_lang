@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/niyamam.qmz — நியமச் செலவு (standard costing and variances)__
+// நியமச் செலவும் வேறுபாடுகளும்
 //
 // __A standard cost is what a unit ought to cost. The actual cost differs, and__
 // __the whole value of the technique is in *decomposing* that difference: a__
@@ -16,6 +17,7 @@
 // __texts differ — some report the absolute figure with an F or A label — and a__
 // __mixed convention inside one system produces reports that add up to nothing.__
 // __சாதகமா() is provided so callers never have to remember which way it runs.__
+// சாதகமா(வேறுபாட்டுத்_தொகை) — இவ்வேறுபாடு சாதகமானதா
 //
 // __Every variance here also obeys the reconciliation that gives the technique__
 // __its name: the sub-variances of a class sum exactly to that class's total.__
@@ -24,196 +26,11 @@
 
 // __--- Reading a variance -------------------------------------------------__
 
-// __சாதகமா(வேறுபாட்டுத்_தொகை) — is this variance favourable?__
-//
-// __Positive is favourable, because every variance here is standard minus actual. Provided so no caller has to remember which way the subtraction runs; texts that report an absolute figure with an F or A label have the opposite habit.__
-செயல் சாதகமா(வேறுபாட்டுத்_தொகை) { திரும்பு வேறுபாட்டுத்_தொகை > 0; }
-// __பாதகமா(வேறுபாட்டுத்_தொகை) — is this variance adverse?__
-//
-// __Not simply the negation of சாதகமா: exactly zero is neither, and a report that calls an on-standard month adverse will be argued with rather than acted on.__
-செயல் பாதகமா(வேறுபாட்டுத்_தொகை) { திரும்பு வேறுபாட்டுத்_தொகை < 0; }
+// __Split into the files below. This one keeps the name so that every__
+// __`இறக்கு` of it still reaches every function it used to.__
 
-// வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — "1200 சாதகம்" / "800 பாதகம்"
-// __வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — the variance as a line of report Tamil__
-//
-// __Prints the magnitude with சாதகம் or பாதகம் rather than a signed number, because a minus sign in front of a variance is read as adverse by half its readers and as favourable by the other half. Exactly zero gets its own words.__
-செயல் வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) {
-    (வேறுபாட்டுத்_தொகை > 0) எனில் {
-        திரும்பு வேறுபாட்டுத்_தொகை & " சாதகம்";
-    }
-    (வேறுபாட்டுத்_தொகை < 0) எனில் {
-        திரும்பு (0 - வேறுபாட்டுத்_தொகை) & " பாதகம்";
-    }
-    திரும்பு "வேறுபாடு இல்லை";
-}
-
-// __--- Material ------------------------------------------------------------__
-
-// பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்)
-//
-// __What the output should have cost in material, less what it did cost. The two__
-// __sub-variances below add to this.__
-செயல் பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம்,
-                              உண்மை_அளவு, உண்மை_வீதம்) {
-    திரும்பு (நியம_அளவு * நியம_வீதம்) - (உண்மை_அளவு * உண்மை_வீதம்);
-}
-
-// பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்)
-//
-// __The price variance: actual quantity × (standard price − actual price). It is__
-// __weighted on *actual* quantity, not standard, because the overpayment was__
-// __made on every unit actually bought.__
-செயல் பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்) {
-    திரும்பு உண்மை_அளவு * (நியம_வீதம் - உண்மை_வீதம்);
-}
-
-// பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம், நியம_அளவு, உண்மை_அளவு)
-//
-// __The usage variance: standard price × (standard quantity − actual quantity).__
-// __Valued at *standard* price so that a price movement cannot contaminate a__
-// __measure of physical efficiency — the separation the whole technique exists__
-// __to provide.__
-செயல் பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம், நியம_அளவு, உண்மை_அளவு) {
-    திரும்பு நியம_வீதம் * (நியம_அளவு - உண்மை_அளவு);
-}
-
-// __--- Labour --------------------------------------------------------------__
-
-// __ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — the whole labour difference__
-//
-// __What the wages should have been for this output, less what they were. It is the figure the ledger shows, and on its own it says nothing about cause: the rate and efficiency variances below split it into the two decisions that produced it, and they sum back to exactly this.__
-செயல் ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
-                            உண்மை_நேரம், உண்மை_வீதம்) {
-    திரும்பு (நியம_நேரம் * நியம_வீதம்) - (உண்மை_நேரம் * உண்மை_வீதம்);
-}
-
-// ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்)
-// __ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — the labour rate variance: paying more or less per hour__
-//
-// __Priced on the hours actually worked, not the standard hours. Using standard hours here would move part of the efficiency effect into the rate figure, and the two would stop reconciling to the total. Adverse usually means overtime, a grade mix, or a wage settlement, and none of those belong to the supervisor who controls the hours.__
-செயல் ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) {
-    திரும்பு உண்மை_நேரம் * (நியம_வீதம் - உண்மை_வீதம்);
-}
-
-// ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்)
-// __ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — taking more or fewer hours than allowed__
-//
-// __Valued at the standard rate, so the price of labour cannot leak into a measure of how it was used. நியம_நேரம் is the time allowed for the output actually achieved, not the time budgeted at the start of the period — comparing against the budget would report a variance for simply making less.__
-செயல் ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) {
-    திரும்பு நியம_வீதம் * (நியம_நேரம் - உண்மை_நேரம்);
-}
-
-// ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்)
-//
-// __Idle time, split out of efficiency because it is always adverse and always__
-// __somebody's decision — a breakdown, a stockout, a power cut. Leaving it__
-// __inside the efficiency variance blames the operator for a stopped machine.__
-// __Returned negative, since paid-for hours that produced nothing cannot be__
-// __favourable.__
-செயல் ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்) {
-    திரும்பு 0 - (நியம_வீதம் * செயலிழந்த_நேரம்);
-}
-
-// __--- Variable overhead ---------------------------------------------------__
-
-// __மாறும்_மேல்நிலை_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_மேல்நிலை) — the whole variable overhead difference__
-//
-// __Overhead absorbed on the standard hours for the output achieved, less what was actually spent. Splits into an expenditure and an efficiency half, which sum back to this.__
-செயல் மாறும்_மேல்நிலை_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
-                                       உண்மை_மேல்நிலை) {
-    திரும்பு (நியம_நேரம் * நியம_வீதம்) - உண்மை_மேல்நிலை;
-}
-
-// மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_மேல்நிலை)
-//
-// __The expenditure element: what the hours actually worked should have cost in__
-// __overhead, less what was spent.__
-செயல் மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம்,
-                                       உண்மை_மேல்நிலை) {
-    திரும்பு (உண்மை_நேரம் * நியம_வீதம்) - உண்மை_மேல்நிலை;
-}
-
-// மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்)
-// __மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — overhead lost or gained with the hours__
-//
-// __The same arithmetic as the labour efficiency variance and for the same reason: variable overhead is absorbed on hours, so hours taken above the allowance carry overhead with them. It is reported separately because the recovery is the accountant's concern and the hours are the supervisor's.__
-செயல் மாறும்_மேல்நிலை_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) {
-    திரும்பு நியம_வீதம் * (நியம_நேரம் - உண்மை_நேரம்);
-}
-
-// __--- Fixed overhead ------------------------------------------------------__
-
-// நிலையான_மேல்நிலை_செலவு_வேறுபாடு(மதிப்பிட்ட_மேல்நிலை, உண்மை_மேல்நிலை)
-//
-// __Fixed overhead has no usage variance — by definition it does not move with__
-// __volume — so its decomposition is different: an expenditure variance against__
-// __budget, and a volume variance measuring under- or over-recovery caused by__
-// __producing a quantity other than the one the rate assumed.__
-செயல் நிலையான_மேல்நிலை_செலவு_வேறுபாடு(மதிப்பிட்ட_மேல்நிலை, உண்மை_மேல்நிலை) {
-    திரும்பு மதிப்பிட்ட_மேல்நிலை - உண்மை_மேல்நிலை;
-}
-
-// நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள்,
-//                                       உண்மை_அலகுகள்)
-// __நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — the volume variance__
-//
-// __Actual output less budgeted, at the standard rate — the only variance in this module written that way round, and deliberately so: fixed overhead is recovered by making units, so making more than budget over-recovers and is favourable. It measures activity, not spending. A plant that ran below plan shows adverse here even if it spent exactly what it said it would.__
-செயல் நிலையான_மேல்நிலை_கொள்திறன்_வேறுபாடு(நியம_வீதம், மதிப்பிட்ட_அலகுகள்,
-                                            உண்மை_அலகுகள்) {
-    திரும்பு நியம_வீதம் * (உண்மை_அலகுகள் - மதிப்பிட்ட_அலகுகள்);
-}
-
-// __--- Sales ---------------------------------------------------------------__
-
-// விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்)
-//
-// __The one variance where the sign flips relative to cost: selling *above*__
-// __standard price is favourable, so this is actual less standard. Stated__
-// __explicitly because it is the exception to the module's rule.__
-செயல் விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்) {
-    திரும்பு உண்மை_அலகுகள் * (உண்மை_வீதம் - நியம_வீதம்);
-}
-
-// விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்)
-//
-// __Volume valued at standard *contribution*, not standard price — selling one__
-// __more unit does not earn its price, it earns its contribution. Valuing this__
-// __at price is a common and expensive error.__
-செயல் விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள்,
-                              உண்மை_அலகுகள்) {
-    திரும்பு நியம_பங்களிப்பு * (உண்மை_அலகுகள் - மதிப்பிட்ட_அலகுகள்);
-}
-
-// __--- Putting a report together ------------------------------------------__
-
-// பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்)
-//
-// __The two material sub-variances and their total, in one record, so a caller__
-// __can check the reconciliation rather than trusting it.__
-செயல் பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம்,
-                                  உண்மை_அளவு, உண்மை_வீதம்) {
-    திரும்பு {
-        வீத_வேறுபாடு: பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம்,
-                                            உண்மை_வீதம்),
-        பயன்பாட்டு_வேறுபாடு: பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம்,
-                                                          நியம_அளவு,
-                                                          உண்மை_அளவு),
-        மொத்த_வேறுபாடு: பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம்,
-                                                உண்மை_அளவு, உண்மை_வீதம்)
-    };
-}
-
-// __ஊதிய_வேறுபாட்டுத்_தொகுதி(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — the labour variances as one record__
-//
-// __Rate, efficiency and total together, so a report cannot show two of the three and leave the reader to assume the third. The first two add to the last, which the tests assert: a decomposition that does not reconcile is arithmetic with no meaning.__
-செயல் ஊதிய_வேறுபாட்டுத்_தொகுதி(நியம_நேரம், நியம_வீதம்,
-                                உண்மை_நேரம், உண்மை_வீதம்) {
-    திரும்பு {
-        வீத_வேறுபாடு: ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம்,
-                                          உண்மை_வீதம்),
-        திறன்_வேறுபாடு: ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம்,
-                                              உண்மை_நேரம்),
-        மொத்த_வேறுபாடு: ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
-                                              உண்மை_நேரம், உண்மை_வீதம்)
-    };
-}
+இறக்கு "vERupAtu.qmz";
+இறக்கு "poruL_vERupAtu.qmz";
+இறக்கு "Uqiya_vERupAtu.qmz";
+இறக்கு "mElnilY_vERupAtu.qmz";
+இறக்கு "viRpaZY_vERupAtu.qmz";

@@ -62,7 +62,7 @@ This directory contains comprehensive examples demonstrating the eTamil compiler
 
 ### 2b. **AvaNam_uqAraNam.qmz** - Filling a document template
 **Description:** Fills an ODF/OOXML document template — the renderer is
-`nUlakam/AvaNam.qmz`, written in eTamil
+`nUlakam/vativam/AvaNam.qmz`, written in eTamil
 
 **Features:**
 - Scalar placeholders named by dotted path (`{{ project.name }}`)
@@ -72,7 +72,7 @@ This directory contains comprehensive examples demonstrating the eTamil compiler
 
 **Sample Code:**
 ```tamil
-இறக்கு "../../nUlakam/AvaNam.qmz";
+இறக்கு "../../nUlakam/vativam/AvaNam.qmz";
 
 மதிப்புகள் = [{"குறி": "project.name", "மதிப்பு": "பீக் PMO"}];
 ஆவணம் = ஆவணம்_நிரப்பு(படிவம், _ODT_வடிவம், மதிப்புகள், தொகுதிகள்);

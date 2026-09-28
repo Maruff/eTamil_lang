@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமமாகப்_பிரி(மொத்த_பைசா, எத்தனை) — split an amount evenly, giving the odd paise to the first shares__
+// தொகையைச் சமமாகப் பிரிக்கும்; மீதிப் பைசாக்கள் முதல் பங்குகளுக்கு
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __A hundred rupees between three. The parts add back to exactly a hundred,__
+// __which 33.33 three times over does not.__
+// நூறு ரூபாய் மூவருக்கு; பங்குகள் கூடினால் சரியாக நூறே
+பங்குகள் = சமமாகப்_பிரி(ரூபாயாக(100), 3);
+ஒவ்வொரு ஒரு_பங்கு இல் பங்குகள் { அச்சு காசு_உரை(ஒரு_பங்கு); }
+அச்சு காசு_உரை(காசு_கூட்டல்(பங்குகள்));
+
+// __The odd paise go to the earliest shares rather than being dropped. Someone__
+// __has to get the extra paisa, and it has to be decided rather than lost.__
+// மீதிப் பைசா முதல் பங்குகளுக்கே; தொலைந்து போவதில்லை
+அச்சு நீளம்(சமமாகப்_பிரி(ரூபாயாக(100), 3));
+
+// __Splitting between nobody gives nothing rather than dividing by zero.__
+// யாருக்கும் இல்லாமல் பிரித்தால் ஒன்றுமில்லை
+அச்சு நீளம்(சமமாகப்_பிரி(ரூபாயாக(100), 0));

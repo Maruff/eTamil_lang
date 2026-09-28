@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செயல்_ஆக்கு(செயல்_குறி, செயல்_காலம், முன்னோடிகள்) — one activity in the network__
+// வலையில் ஒரு செயல்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Predecessors by name, so a network is a list that can be written in any__
+// __order and read in any order.__
+// முன்னோடிகள் பெயரால்; வலையை எந்த வரிசையிலும் எழுதலாம்
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []),
+             செயல்_ஆக்கு("B", 4, ["A"]),
+             செயல்_ஆக்கு("C", 2, ["A"]),
+             செயல்_ஆக்கு("D", 5, ["B", "C"])];
+
+அச்சு செயல்கள்[3]["செயல்_குறி"];
+அச்சு நீளம்(செயல்கள்[3]["முன்னோடிகள்"]);
+
+// __An activity with no predecessors starts at the beginning.__
+// முன்னோடிகள் இல்லாத செயல் தொடக்கத்திலேயே
+அச்சு நீளம்(செயல்கள்[0]["முன்னோடிகள்"]);

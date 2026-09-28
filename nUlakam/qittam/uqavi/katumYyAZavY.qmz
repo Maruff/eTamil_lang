@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கடுமையானவை(கணக்கிட்டவை) — the activities with no float — the critical path__
+// இளைப்பே இல்லாத செயல்கள்; கடுமையான பாதை
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []),
+             செயல்_ஆக்கு("B", 4, ["A"]),
+             செயல்_ஆக்கு("C", 2, ["A"]),
+             செயல்_ஆக்கு("D", 5, ["B", "C"])];
+விடை = மதிப்பு(வலையைக்_கணக்கிடு(செயல்கள்));
+
+// __A day lost on any of these is a day lost on the project. A day lost on__
+// __anything else may cost nothing at all.__
+// இவற்றில் ஒரு நாள் இழந்தால் திட்டமே ஒரு நாள் தாமதம்
+ஒவ்வொரு ஒரு_செயல் இல் கடுமையானவை(விடை) { அச்சு ஒரு_செயல்["செயல்_குறி"]; }
+அச்சு நீளம்(கடுமையானவை(விடை));

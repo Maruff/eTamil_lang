@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_வரிச்_செலவு(நடப்பு_வரி, ஒத்திவரி_மாற்றத்_தொகை) — current tax and the deferred movement together__
+// நடப்பு வரியும் ஒத்திவரியும் சேர்ந்த மொத்தச் செலவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The tax charge in the profit and loss account, which is why it is never the__
+// __same as the tax paid.__
+// இலாப நட்டக் கணக்கில் வரும் வரிச் செலவு; செலுத்திய வரி அல்ல
+அச்சு மொத்த_வரிச்_செலவு(250000, 30000);
+அச்சு மொத்த_வரிச்_செலவு(250000, 0 - 30000);
+அச்சு மொத்த_வரிச்_செலவு(250000, 0);

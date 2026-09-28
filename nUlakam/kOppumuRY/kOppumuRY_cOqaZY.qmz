@@ -1,0 +1,147 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோப்புமுறை சோதனை — tests for paths and the file system__
+//
+//   __etamil --vm nUlakam/kOppumuRY_cOqaZY.qmz__
+//
+// __Run from the repository root: the walking tests read nUlakam itself,__
+// __which is the one directory that is certainly there when these run.__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "kOppumuRY.qmz";
+
+// __Paths are resolved against ETAMIL_PATH so this runs from any working__
+// __directory. scripts/run_examples.sh executes from a scratch folder and__
+// __exports ETAMIL_PATH; a plain run from the repository root falls back to__
+// __".", which is the same place.__
+மூலம் = சூழல்("ETAMIL_PATH", ".");
+நூலகம் = பாதை_இணை(மூலம், "nUlakam");
+
+ஓட்டம் = சோதனை_தொடக்கம்("கோப்புமுறை — பாதைகள், கோப்பகங்கள்");
+
+// __--- joining ---------------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இணை("nUlakam", "col.qmz"), "nUlakam/col.qmz",
+              "two pieces join with one separator");
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இணை("nUlakam/", "col.qmz"), "nUlakam/col.qmz",
+              "a trailing separator does not double");
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இணை("nUlakam", "/col.qmz"), "nUlakam/col.qmz",
+              "nor does a leading one");
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இணை("", "col.qmz"), "col.qmz",
+              "an empty left piece yields the right one");
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இணை("nUlakam", ""), "nUlakam",
+              "and an empty right piece yields the left");
+
+// __--- taking a path apart ---------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், அடிப்பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz"), "pErEtu.qmz",
+              "the base name is the last segment");
+ஓட்டம் = சமம்(ஓட்டம், அடிப்பெயர்("pErEtu.qmz"), "pErEtu.qmz",
+              "a bare name is its own base name");
+ஓட்டம் = சமம்(ஓட்டம், கோப்பக_பெயர்("nUlakam/kaNakkiyal/pErEtu.qmz"),
+              "nUlakam/kaNakkiyal", "the directory is everything before it");
+ஓட்டம் = சமம்(ஓட்டம், கோப்பக_பெயர்("pErEtu.qmz"), "",
+              "a bare name has no directory");
+
+ஓட்டம் = சமம்(ஓட்டம், நீட்சி("nUlakam/col.qmz"), "qmz",
+              "the extension comes without its dot");
+ஓட்டம் = சமம்(ஓட்டம், நீட்சி("README"), "",
+              "a name with no dot has no extension");
+// __A dotfile is a name, not an extension. Getting this wrong shows up as__
+// __files quietly skipped by a filter rather than as an error.__
+ஓட்டம் = சமம்(ஓட்டம், நீட்சி(".gitignore"), "",
+              "a leading dot does not make an extension");
+ஓட்டம் = சமம்(ஓட்டம், நீட்சி("a.b/README"), "",
+              "and a dot in a directory does not count");
+ஓட்டம் = சமம்(ஓட்டம், நீட்சி("archive.tar.gz"), "gz",
+              "the last dot wins");
+
+ஓட்டம் = சமம்(ஓட்டம், பெயர்_மட்டும்("nUlakam/col.qmz"), "col",
+              "the stem drops the extension");
+ஓட்டம் = சமம்(ஓட்டம், பெயர்_மட்டும்("README"), "README",
+              "and leaves a name that has none alone");
+
+// __--- one spelling of a path ------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இயல்பாக்கு("nUlakam\\col.qmz"), "nUlakam/col.qmz",
+              "a backslash becomes a slash");
+ஓட்டம் = சமம்(ஓட்டம், பாதை_இயல்பாக்கு("nUlakam/"), "nUlakam",
+              "a trailing separator is dropped");
+
+// __--- existence and kind ----------------------------------------------------__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பு_உள்ளதா(பாதை_இணை(நூலகம், "atippatY/col.qmz")),
+                    "a file that is there exists");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பு_உள்ளதா(பாதை_இணை(நூலகம், "illY_kOppu.qmz")) == பொய்,
+                    "and one that is not does not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பகமா(நூலகம்),
+                    "a directory reports itself as one");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பகமா(பாதை_இணை(நூலகம், "atippatY/col.qmz")) == பொய்,
+                    "a file does not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பகமா("illY_kOppakam") == பொய்,
+                    "and neither does something absent");
+
+விவரம் = கோப்பு_விவரம்(பாதை_இணை(நூலகம், "atippatY/col.qmz"));
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(விவரம்), "stat answers for a real file");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், மதிப்பு(விவரம்).அளவு > 0,
+                    "and reports a size");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கோப்பு_விவரம்("illY_kOppu.qmz")),
+                    "and is a தவறு for one that is not there");
+
+// __--- listing and walking ---------------------------------------------------__
+உள்ளடக்கம் = கோப்பக_பட்டியல்(நூலகம்);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(உள்ளடக்கம்), "a directory lists");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்(மதிப்பு(உள்ளடக்கம்)) > 0,
+                    "and has entries in it");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கோப்பக_பட்டியல்("illY_kOppakam")),
+                    "a directory that is not there is a தவறு");
+
+// __A directory has no order of its own, so கோப்பகம்_படி sorts. Without that,__
+// __two runs of a program built on this could disagree, and anything__
+// __reproducible — a corpus, a generated index — would quietly stop being so.__
+வரிசையிலா = பொய்;
+முந்தையது = "";
+ஒவ்வொரு பெயர் இல் மதிப்பு(கோப்பகம்_படி(நூலகம்)) {
+    (பெயர் < முந்தையது) எனில் { வரிசையிலா = மெய்; }
+    முந்தையது = பெயர்;
+}
+ஓட்டம் = உறுதிசெய்(ஓட்டம், வரிசையிலா == பொய்,
+                    "entries come back sorted, so a run is reproducible");
+
+// __The walk must reach a file that only exists below a subdirectory, which is__
+// __the whole difference between it and a listing.__
+அனைத்தும் = கோப்பக_நட(நூலகம்);
+ஆழமானது = பொய்;
+ஒவ்வொரு பாதை இல் அனைத்தும் {
+    (முடிகிறதா(பாதை, "kaNakkiyal/pErEtu.qmz")) எனில் { ஆழமானது = மெய்; }
+}
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஆழமானது,
+                    "the walk descends into subdirectories");
+
+// __Only files come back. A directory appearing in the result would make every__
+// __caller filter it out again.__
+கோப்பகம்_கலந்ததா = பொய்;
+ஒவ்வொரு பாதை இல் அனைத்தும் {
+    (கோப்பகமா(பாதை)) எனில் { கோப்பகம்_கலந்ததா = மெய்; }
+}
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கோப்பகம்_கலந்ததா == பொய்,
+                    "and returns files only, never directories");
+
+வடிகட்டியவை = நீட்சியால்_கோப்புகள்(நூலகம், "qmz");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்(வடிகட்டியவை) > 20,
+                    "filtering by extension finds the library");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்(வடிகட்டியவை) <= நீளம்(அனைத்தும்),
+                    "and never more than the walk it filters");
+
+// __--- modification time ------------------------------------------------------__
+நேரம் = மதிப்பு(கோப்பு_விவரம்(பாதை_இணை(நூலகம், "atippatY/col.qmz"))).மாற்றம்;
+ஓட்டம் = உறுதிசெய்(ஓட்டம், வினாடியை_நாளாக(இன்மை) == இன்மை,
+                    "no time in, no date out");
+(நேரம் != இன்மை) எனில் {
+    ஓட்டம் = உறுதிசெய்(ஓட்டம், நீளம்(வினாடியை_நாளாக(நேரம்)) == 10,
+                        "a time becomes an ISO date");
+}
+
+// __--- slicing ----------------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(துண்டு_அணி([1, 2, 3, 4], 0, 2)), 2,
+              "a slice takes the length asked for");
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(துண்டு_அணி([1, 2, 3], 0, 99)), 3,
+              "and stops at the end rather than past it");
+
+சோதனை_முடிவு(ஓட்டம்);

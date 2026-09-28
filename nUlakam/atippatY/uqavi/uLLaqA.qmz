@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்ளதா(அணி, மதிப்பு) — does the array contain this value?__
+// இந்த மதிப்பு அணியில் இருக்கிறதா
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+பழங்கள் = ["மா", "பலா", "வாழை"];
+அச்சு உள்ளதா(பழங்கள், "பலா");
+அச்சு உள்ளதா(பழங்கள், "கொய்யா");
+
+// __An empty array contains nothing, and says so rather than failing.__
+// காலி அணியில் ஒன்றும் இல்லை; பிழை தராமல் அதைச் சொல்லும்
+அச்சு உள்ளதா([], "மா");

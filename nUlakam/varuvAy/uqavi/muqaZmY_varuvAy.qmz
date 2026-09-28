@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதன்மை_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — as principal: the whole amount is revenue__
+// முதன்மையாக இருந்தால் மொத்த மதிப்பே வருவாய்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Gross. The third party's charge is a cost of sale, not a deduction from__
+// __revenue.__
+// மொத்தமாக; மூன்றாம் தரப்புச் செலவு விற்பனைச் செலவே
+விடை = முதன்மை_வருவாய்(1000000, 850000);
+அச்சு விடை["வருவாய்"];
+அச்சு விடை["விற்பனைச்_செலவு"];
+அச்சு விடை["லாபம்"];

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீண்டும்_சமர்ப்பி(நுழைவுப்_பொருள், செயற்பெயர், அளபுருக்கள், எத்தனை_முறை) — submit, and try again on a conflict__
+// மோதல் வந்தால் மீண்டும் முயலும்
+
+இறக்கு "../fabric.qmz";
+
+எங்கும்_இல்லை = நுழைவு("http://127.0.0.1:1", "mychannel", "basic", {});
+
+// __Only a read-write conflict is retried, and only up to the given number of__
+// __attempts. A key under constant contention would otherwise retry until__
+// __something else broke.__
+// மோதல் மட்டுமே மீண்டும் முயலப்படும், அதுவும் சொன்ன முறைகள் வரை
+விளைவு = மீண்டும்_சமர்ப்பி(எங்கும்_இல்லை, "CreateAsset", ["asset2", "குமார்"], 3);
+அச்சு தவறா(விளைவு);
+
+// __A gateway that is not there is not a conflict, so this gave up after the__
+// __first attempt rather than spending all three on the same closed port.__
+// நுழைவாயிலே இல்லாதது மோதல் அல்ல; முதல் முயற்சியிலேயே நிறுத்தியது
+அச்சு தவறு_மதிப்பு(விளைவு)["வகைப்பாடு"];
+
+// __Zero attempts is allowed and writes nothing, which is what makes the count__
+// __safe to pass in from configuration.__
+// பூஜ்ஜிய முயற்சி என்பதும் செல்லும்; ஒன்றும் எழுதப்படாது
+அச்சு தவறா(மீண்டும்_சமர்ப்பி(எங்கும்_இல்லை, "CreateAsset", [], 0));

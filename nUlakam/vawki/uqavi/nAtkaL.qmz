@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாட்கள்(தொடக்க_நாள், முடிவு_நாள்) — how many days between two dates__
+// இரு நாட்களுக்கு இடையே எத்தனை நாட்கள்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Interest is counted in days, not in months, so every figure in this folder__
+// __starts here.__
+// வட்டி நாட்களில் எண்ணப்படுகிறது; மாதங்களில் அல்ல
+அச்சு நாட்கள்("2026-01-01", "2026-04-01");
+
+// __The same day twice is no days at all: a loan drawn and repaid on one day__
+// __carries no interest.__
+// ஒரே நாள் என்றால் நாட்களே இல்லை
+அச்சு நாட்கள்("2026-04-01", "2026-04-01");
+
+// __A leap year is counted as it falls rather than as 365.__
+// நெட்டாண்டு இருந்தபடியே எண்ணப்படும்
+அச்சு நாட்கள்("2024-01-01", "2025-01-01");
+அச்சு நாட்கள்("2026-01-01", "2027-01-01");

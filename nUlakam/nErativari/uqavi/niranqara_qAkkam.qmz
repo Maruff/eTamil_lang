@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிரந்தர_தாக்கம்(நிரந்தர_வேறுபாடு, சட்ட_வீதம்) — the tax effect of a permanent difference__
+// நிரந்தர வேறுபாட்டின் வரித் தாக்கம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A permanent difference never reverses — a disallowed penalty, an exempt__
+// __dividend — so it creates no deferred tax at all and shows up only in the__
+// __effective rate.__
+// நிரந்தர வேறுபாடு ஒருபோதும் மாறாது; அதனால் ஒத்திவரி இல்லை
+அச்சு நிரந்தர_தாக்கம்(100000, 25);
+அச்சு நிரந்தர_தாக்கம்(0 - 100000, 25);
+அச்சு நிரந்தர_தாக்கம்(0, 25);

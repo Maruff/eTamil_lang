@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எழுத்து_மறை(ஒரு_எழுத்து) — the JSON escape for one character, if it needs one__
+// ஒரு எழுத்துக்கான ஜேசான் மறைப்பு, தேவைப்பட்டால்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __The five that must be escaped, and everything else passing through as it__
+// __is — including Tamil, which JSON carries as itself.__
+// மறைக்க வேண்டிய ஐந்து; மற்றவை அப்படியே, தமிழ் உட்பட
+அச்சு எழுத்து_மறை("\"");
+அச்சு எழுத்து_மறை("\\");
+அச்சு எழுத்து_மறை("\n");
+அச்சு எழுத்து_மறை("அ");

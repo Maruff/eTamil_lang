@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறுபத்துநான்கு_படி(குறியிட்டது) — decode base64, or say what was wrong with it__
+// அறுபத்துநான்கிலிருந்து படிக்கும், அல்லது என்ன தவறு என்பதைச் சொல்லும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __What went in comes back out.__
+// சென்றது அப்படியே திரும்பி வரும்
+அச்சு மதிப்பு(அறுபத்துநான்கு_படி(அறுபத்துநான்கு_ஆக்கு("தமிழ்")));
+அச்சு மதிப்பு(அறுபத்துநான்கு_படி("TWFu"));
+
+// __Line breaks are skipped, because base64 arriving from a mail header or a__
+// __PEM file is wrapped at seventy-six columns and is not wrong for that.__
+// வரி முறிவுகள் தவிர்க்கப்படுகின்றன; மடித்து எழுதப்பட்டது தவறல்ல
+அச்சு மதிப்பு(அறுபத்துநான்கு_படி("TW\nFu"));
+
+// __A character outside the alphabet is refused and named, rather than being__
+// __treated as a zero and quietly corrupting everything after it.__
+// எழுத்துவரிசையில் இல்லாத எழுத்து மறுக்கப்படும்; பெயர் சொல்லப்படும்
+தவறானது = அறுபத்துநான்கு_படி("TW F!");
+அச்சு தவறா(தவறானது);
+அச்சு தவறு_மதிப்பு(தவறானது);

@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நியம_விலகல்(ஒரு_மதிப்பீடு) — the range over six__
+// அவநம்பிக்கைக்கும் நம்பிக்கைக்கும் உள்ள வேறுபாடு ஆறால் வகுத்தது
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+ஆ = மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13));
+அச்சு நியம_விலகல்(ஆ);
+
+// __Six because the optimistic and pessimistic points are taken to be three__
+// __deviations either side of the mean — which is an assumption, and the one__
+// __every three-point estimate quietly rests on.__
+// ஆறு என்பது, இரு முனைகளும் சராசரியிலிருந்து மூன்று விலகல்கள் என்ற ஊகத்தின்மீதே
+அச்சு நியம_விலகல்(மதிப்பு(முப்புள்ளி_ஆக்கு(4, 4, 4)));

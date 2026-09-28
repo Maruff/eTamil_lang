@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்) — the part caused by selling at a different price__
+// விற்ற விலை வேறுபட்டதால்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __A discount given away, or a premium earned. Measured on what was actually__
+// __sold.__
+// தள்ளுபடி கொடுத்ததோ, கூடுதல் விலை பெற்றதோ
+அச்சு விற்பனை_வீத_வேறுபாடு(9000, 480, 500);
+அச்சு விற்பனை_வீத_வேறுபாடு(9000, 520, 500);

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வளத்தைத்_தேடு(வளங்கள், வளக்_குறி) — find a resource by its code__
+// குறியைக் கொண்டு ஒரு வளத்தைத் தேடும்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+வளங்கள் = [வளம்_ஆக்கு("E1", "பாலமுரளி", "பணியாளர்", 8),
+            வளம்_ஆக்கு("E2", "நிரஞ்சனா", "ஒப்பந்தம்", 6)];
+
+அச்சு மதிப்பு(வளத்தைத்_தேடு(வளங்கள், "E2"))["பெயர்"];
+
+// __A code nobody has is a தவறு naming the code, not an empty record. A__
+// __timesheet line for a resource that has been deleted is a real thing that__
+// __happens, and it must not cost nothing.__
+// இல்லாத குறி, குறியைப் பெயரிட்டுச் சொல்லும் தவறே
+அச்சு தவறு_மதிப்பு(வளத்தைத்_தேடு(வளங்கள், "E9"));

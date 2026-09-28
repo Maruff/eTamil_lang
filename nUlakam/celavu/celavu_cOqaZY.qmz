@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __செலவு_சோதனை — tests for the cost accounting modules, written in eTamil__
+// செலவுக் கணக்குத் தொகுதிகளுக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/celavu/celavu_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__
@@ -8,7 +9,7 @@
 // __The figures are chosen so the arithmetic is checkable by eye. None of them__
 // __is a claim about any real product's costs.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "pawkaLippu.qmz";
 இறக்கு "mILpakirvu.qmz";
 இறக்கு "ceyalmuRY.qmz";

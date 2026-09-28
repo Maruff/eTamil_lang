@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பயன்படும்_வீதம்(பிரிவு_வீதம், பான்_உள்ளதா, பான்_இல்லா_தளம், சான்று_உள்ளதா, சான்று_வீதம்) — the rate actually applied__
+// பொருந்தும் பிடித்த வீதம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A lower-deduction certificate replaces the section's rate.__
+// குறைந்த பிடித்தச் சான்று பிரிவின் வீதத்தை மாற்றுகிறது
+அச்சு பயன்படும்_வீதம்(10, மெய், 20, பொய், 0);
+அச்சு பயன்படும்_வீதம்(10, மெய், 20, மெய், 2);
+
+// __No permanent account number means a floor rate, and the floor beats a__
+// __certificate: a certificate is issued against a number, so there cannot be__
+// __one without it.__
+// நிரந்தரக் கணக்கு எண் இல்லையெனில் தளவீதமே; சான்றையும் அது மீறும்
+அச்சு பயன்படும்_வீதம்(10, பொய், 20, பொய், 0);
+அச்சு பயன்படும்_வீதம்(10, பொய், 20, மெய், 2);
+
+// __And a floor below the section's rate changes nothing.__
+// தளவீதம் பிரிவின் வீதத்திற்குக் கீழே இருந்தால் மாற்றமில்லை
+அச்சு பயன்படும்_வீதம்(30, பொய், 20, பொய், 0);

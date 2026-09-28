@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __இடர்_சோதனை — tests for risk and three-point estimation__
+// இடருக்கும் மூன்றுப்புள்ளி மதிப்பீட்டுக்குமான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/itar/itar_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__
@@ -10,8 +11,8 @@
 // __path variance of exactly 5. The standard deviation is then √5, asserted to__
 // __four places because it is irrational.__
 
-இறக்கு "../cOqaZY.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "itar.qmz";
 இறக்கு "mUZRuppuLLi.qmz";
 

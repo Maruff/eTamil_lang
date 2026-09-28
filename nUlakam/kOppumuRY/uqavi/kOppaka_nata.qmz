@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோப்பக_நட(கோப்பகம்) — every file under a directory, at any depth__
+// ஒரு கோப்பகத்தின் கீழ், எந்த ஆழத்திலும், எல்லாக் கோப்புகளும்
+
+இறக்கு "../kOppumuRY.qmz";
+
+மூலம் = சூழல்("ETAMIL_PATH", ".");
+நூலகம் = பாதை_இணை(மூலம், "nUlakam");
+
+// __Descending into subdirectories is the whole difference between this and a__
+// __listing.__
+// உள் கோப்பகங்களுக்குள் இறங்குவதே இதற்கும் பட்டியலுக்கும் உள்ள வேறுபாடு
+அனைத்தும் = கோப்பக_நட(நூலகம்);
+அச்சு நீளம்(அனைத்தும்) > நீளம்(மதிப்பு(கோப்பக_பட்டியல்(நூலகம்)));
+
+// __Files only, never directories, so a caller can open everything it answers__
+// __without checking each one first.__
+// கோப்புகள் மட்டுமே; கோப்பகங்கள் ஒருபோதும் இல்லை
+கோப்பகம்_வந்ததா = பொய்;
+ஒவ்வொரு பாதை இல் அனைத்தும் {
+    (கோப்பகமா(பாதை)) எனில் { கோப்பகம்_வந்ததா = மெய்; }
+}
+அச்சு கோப்பகம்_வந்ததா;
+
+// __A directory that is not there walks to nothing rather than failing: a walk__
+// __skips what it cannot read, which is what lets it run over a tree with a__
+// __permission-denied corner in it.__
+// படிக்க முடியாததைத் தவிர்த்துச் செல்லும்
+அச்சு நீளம்(கோப்பக_நட(பாதை_இணை(மூலம், "illY_kOppakam")));

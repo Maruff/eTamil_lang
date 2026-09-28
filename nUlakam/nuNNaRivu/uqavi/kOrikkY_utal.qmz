@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கோரிக்கை_உடல்(மாதிரி, உரைகள்) — the body of an embedding request__
+// உட்பொதிப்புக் கோரிக்கையின் ஜேசான் உடல்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A batch, not one text. Embedding a corpus one document per request spends__
+// __almost all of its time on the round trips.__
+// ஒரு தொகுதி; ஒரே உரை அல்ல
+அச்சு கோரிக்கை_உடல்("all-minilm", ["முதல் உரை", "இரண்டாம் உரை"]);

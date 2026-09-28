@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவண_அதிர்வெண்(ஆவணங்கள்) — how many documents each word appears in__
+// ஒவ்வொரு பதமும் எத்தனை ஆவணங்களில் வருகிறது
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [ஆவணம்_ஆக்கு("a", ["வரி", "வீதம்"]),
+              ஆவணம்_ஆக்கு("b", ["வரி", "படி"]),
+              ஆவணம்_ஆக்கு("c", ["வரி", "வரி", "வரி"])];
+
+// __Documents, not occurrences: a word repeated three times in one document__
+// __still counts once here, which is what makes it a measure of how common a__
+// __word is across a corpus.__
+// ஆவணங்களே எண்ணப்படுகின்றன; ஒரே ஆவணத்தில் மீண்டும் வருவது ஒன்றே
+அச்சு ஆவண_அதிர்வெண்(ஆவணங்கள்)["வரி"];
+அச்சு ஆவண_அதிர்வெண்(ஆவணங்கள்)["படி"];

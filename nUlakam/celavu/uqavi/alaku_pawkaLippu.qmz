@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அலகு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு) — what one unit contributes towards fixed cost__
+// ஓர் அலகின் பங்களிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Price less variable cost. Not profit: the fixed cost has not been met yet,__
+// __and a product with a positive contribution may still be losing money.__
+// இது லாபம் அல்ல; நிலையான செலவு இன்னும் ஈடுசெய்யப்படவில்லை
+அச்சு அலகு_பங்களிப்பு(500, 300);
+அச்சு அலகு_பங்களிப்பு(500, 500);
+அச்சு அலகு_பங்களிப்பு(500, 600);

@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இடமிருந்து_நிரப்பு(சரம், அகலம், நிரப்பி) — left pad__
+// இடப்பக்கம் நிரப்பி சொன்ன அகலத்தை நிறைக்கும்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு இடமிருந்து_நிரப்பு("7", 3, "0");
+
+// __Already wide enough: left as it is rather than truncated.__
+// ஏற்கனவே அகலமாக இருந்தால் வெட்டாமல் அப்படியே விடப்படும்
+அச்சு இடமிருந்து_நிரப்பு("1234", 3, "0");

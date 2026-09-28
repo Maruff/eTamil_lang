@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/urYyAkkam.qmz — உரையாக்கம், asking a model to phrase an answer__
+// உரையாக்கம்: மாதிரியிடம் பதிலைக் கேட்டல்
 //
 // __Retrieval finds the right documentation; this turns it into a reply. The__
 // __step is optional by design, and everything built on this folder should__
@@ -14,20 +15,24 @@
 // __being asked about should not leave the machine unless its author decides__
 // __otherwise. A key, when there is one, is supplied by the person using it.__
 
-இறக்கு "../jEcAZ.qmz";
-இறக்கு "../poruL.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../vativam/jEcAZ.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __உள்ளூர்_வழங்குநர்() — the default: Ollama on this machine__
+// உள்ளூர்_வழங்குநர்() — இயல்பு வழங்குநர்; இவ்வியந்திரத்திலேயே ஓடுவது
 செயல் உள்ளூர்_வழங்குநர்() { திரும்பு "ollama"; }
 
 // __இயல்பு_இணையவழி() — where a local Ollama listens__
+// இயல்பு_இணையவழி() — உள்ளூர் மாதிரி கேட்கும் முகவரி
 செயல் இயல்பு_இணையவழி() { திரும்பு "http://127.0.0.1:11434"; }
 
 // __இயல்பு_மொழி_மாதிரி() — a generation model that fits in a small machine__
+// இயல்பு_மொழி_மாதிரி() — சிறிய இயந்திரத்தில் அடங்கும் உரையாக்க மாதிரி
 செயல் இயல்பு_மொழி_மாதிரி() { திரும்பு "granite3.3:2b"; }
 
 // __அதிகபட்சச்_சொற்கள்() — how long a reply may be__
+// அதிகபட்சச்_சொற்கள்() — பதில் எவ்வளவு நீளமாக இருக்கலாம்
 //
 // __Kept short deliberately. On a machine without a GPU this is the single__
 // __largest cost in answering a question, and it is close to linear: the__
@@ -36,6 +41,7 @@
 செயல் அதிகபட்சச்_சொற்கள்() { திரும்பு 160; }
 
 // __வழங்குநர்_ஆக்கு(பெயர், இணையவழி, மாதிரி, திறவுகோல்) — how to reach one model__
+// வழங்குநர்_ஆக்கு(பெயர், இணையவழி, மாதிரி, திறவுகோல்) — ஒரு மாதிரியை எப்படி அணுகுவது
 //
 // __A record rather than four parameters threaded through every call. The key__
 // __is empty for a local model and is the caller's own for a hosted one; this__
@@ -51,12 +57,14 @@
 }
 
 // __உள்ளூர்_வழங்குநர்_ஆக்கு() — the no-configuration case__
+// உள்ளூர்_வழங்குநர்_ஆக்கு() — அமைப்பே தேவையில்லாத உள்ளூர் வழங்குநர்
 செயல் உள்ளூர்_வழங்குநர்_ஆக்கு() {
     திரும்பு வழங்குநர்_ஆக்கு(உள்ளூர்_வழங்குநர்(), இயல்பு_இணையவழி(),
                                இயல்பு_மொழி_மாதிரி(), "");
 }
 
 // __திறவுகோல்_தேவையா(வழங்குநர்) — does this provider need a key to work?__
+// திறவுகோல்_தேவையா(வழங்குநர்) — இவ்வழங்குநருக்குத் திறவுகோல் தேவையா
 //
 // __Asked before the call so that a missing key is reported as a missing key,__
 // __rather than as whatever authentication error the service happens to return.__
@@ -65,6 +73,7 @@
 }
 
 // __தலைப்புகளை_ஆக்கு(வழங்குநர்) — the HTTP headers for this provider__
+// தலைப்புகளை_ஆக்கு(வழங்குநர்) — இவ்வழங்குநருக்கான கோரிக்கைத் தலைப்புகள்
 //
 // __Only a local provider is wired here. A hosted one differs in the header__
 // __that carries the key and in the shape of its request body, and adding one__
@@ -81,6 +90,7 @@
 }
 
 // __கோரிக்கை_உடலை_ஆக்கு(வழங்குநர், தூண்டுதல்) — the request body__
+// கோரிக்கை_உடலை_ஆக்கு(வழங்குநர், தூண்டுதல்) — கோரிக்கையின் உடல்
 //
 // __A low temperature, because the job is to phrase retrieved documentation__
 // __and not to invent. Anything it adds beyond what was retrieved is a__
@@ -96,6 +106,7 @@
 }
 
 // __பதிலிறுப்பைப்_பிரி(பதில்_உரை) — pull the generated text out of the reply__
+// பதிலிறுப்பைப்_பிரி(பதில்_உரை) — பதிலிலிருந்து உருவாக்கப்பட்ட உரையை எடுக்கும்
 செயல் பதிலிறுப்பைப்_பிரி(பதில்_உரை) {
     பகுத்தது = ஜேசான்_படி(பதில்_உரை);
     (தவறா(பகுத்தது)) எனில் { திரும்பு பகுத்தது; }
@@ -107,6 +118,7 @@
 }
 
 // __உருவாக்கு(வழங்குநர், தூண்டுதல்) — ask the model, and say plainly if it cannot__
+// உருவாக்கு(வழங்குநர், தூண்டுதல்) — மாதிரியிடம் கேட்கும்; முடியாவிட்டால் ஏன் என்று சொல்லும்
 //
 // __Every failure is a தவறு carrying why. Callers are expected to fall back to__
 // __showing the retrieved documentation rather than to propagate the error: a__
@@ -132,6 +144,7 @@
 }
 
 // __கிடைக்கிறதா(வழங்குநர்) — can this provider answer right now?__
+// கிடைக்கிறதா(வழங்குநர்) — இவ்வழங்குநர் இப்போது பதிலளிக்க முடியுமா
 //
 // __Only meaningful for a local provider, where the answer is whether the__
 // __service is running. For a hosted one it would cost a request to find out,__

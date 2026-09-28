@@ -4,8 +4,8 @@
 // __பொருள் is a row: named fields, read by name.__
 // __An array of records is therefore a table.__
 
-இறக்கு "../../nUlakam/aNi.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
+இறக்கு "../../nUlakam/atippatY/aNi.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
 
 // __அணி — a column of values__
 விலைகள் = [1200, 450, 8900, 3300, 75];

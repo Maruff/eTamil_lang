@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சமர்ப்பி(நுழைவுப்_பொருள், செயற்பெயர், அளபுருக்கள்) — one attempt at a write__
+// எழுதுவதற்கான ஒரு முயற்சி
+
+இறக்கு "../fabric.qmz";
+
+எங்கும்_இல்லை = நுழைவு("http://127.0.0.1:1", "mychannel", "basic", {});
+
+// __One attempt, and it goes to the invoke route rather than the query one.__
+// ஒரே முயற்சி; இது எழுதும் பாதைக்குச் செல்கிறது
+விளைவு = சமர்ப்பி(எங்கும்_இல்லை, "CreateAsset", ["asset2", "குமார்", "700"]);
+அச்சு தவறா(விளைவு);
+அச்சு தவறு_மதிப்பு(விளைவு)["வகைப்பாடு"];
+
+// __Prefer மீண்டும்_சமர்ப்பி unless you have a reason not to. A single attempt__
+// __is right only for a transaction you would rather see fail than see retried__
+// __— everything else loses to whoever touched the key first.__
+// காரணமின்றி இதைத் தேர்ந்தெடுக்க வேண்டாம்; மீண்டும்_சமர்ப்பியே பொதுவில் சரி

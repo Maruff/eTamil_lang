@@ -179,7 +179,7 @@ SNIPPETS = {
         "{kw} ${1:உறுப்பு} இல் ${2:வரிசை} {\n\t$0\n}",
         "{kw} ${1:item} il ${2:items} {\n\t$0\n}",
     ),
-    "Import": ('{kw} "${1:nUlakam/col.qmz}";', '{kw} "${1:nUlakam/col.qmz}";'),
+    "Import": ('{kw} "${1:nUlakam/atippatY/col.qmz}";', '{kw} "${1:nUlakam/atippatY/col.qmz}";'),
     "IntegerType": ("{kw} ${1:பெயர்} = ${2:0};", "{kw} ${1:name} = ${2:0};"),
     "FloatType": ("{kw} ${1:பெயர்} = ${2:0.0};", "{kw} ${1:name} = ${2:0.0};"),
     "StringType": ('{kw} ${1:பெயர்} = "${2:உரை}";', '{kw} ${1:name} = "${2:text}";'),
@@ -472,6 +472,11 @@ def read_stdlib() -> list[dict]:
     # this — aNi.qmz and AvaNam.qmz swap places, and CI then rejects a
     # file that was correct when it was generated.
     for path in sorted(NULAKAM.rglob("*.qmz"), key=lambda p: p.as_posix()):
+        # uqavi/ holds the worked examples, not the library. A helper a sample
+        # defines to make its own point is not something an editor should offer
+        # as a completion, and three of them had already got in this way.
+        if "uqavi" in path.relative_to(NULAKAM).parts:
+            continue
         module = path.relative_to(ROOT).as_posix()
         lines = path.read_text(encoding="utf-8").splitlines()
 

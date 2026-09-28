@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qittam/pAqY.qmz — கடுமையான பாதை (the critical path method)__
+// கடுமையான பாதை முறை
 //
 // __The WBS says what must be produced. The network says in what order, and from__
 // __that one fact everything schedulers care about falls out: the earliest each__
@@ -31,6 +32,7 @@
 // செயல்_ஆக்கு(செயல்_குறி, செயல்_காலம், முன்னோடிகள்)
 //
 // __முன்னோடிகள் is a list of activity codes. An empty list starts the network.__
+// செயல்_ஆக்கு(செயல்_குறி, செயல்_காலம், முன்னோடிகள்) — வலையில் ஒரு செயலை உருவாக்கும்
 செயல் செயல்_ஆக்கு(செயல்_குறி, செயல்_காலம், முன்னோடிகள்) {
     திரும்பு {
         செயல்_குறி: செயல்_குறி,
@@ -40,6 +42,7 @@
 }
 
 // __செயலைத்_தேடு(செயல்கள், செயல்_குறி) — find one activity by its code__
+// செயலைத்_தேடு(செயல்கள், செயல்_குறி) — குறியைக் கொண்டு ஒரு செயலைத் தேடும்
 //
 // __சரி with the activity, or தவறு naming the code. A dependency pointing at an activity that is not in the network would otherwise impose no constraint, and the schedule comes out shorter than reality rather than wrong in a visible way.__
 செயல் செயலைத்_தேடு(செயல்கள், செயல்_குறி) {
@@ -50,6 +53,7 @@
 }
 
 // __வழித்தோன்றல்கள்(செயல்கள், செயல்_குறி) — the successors of an activity__
+// வழித்தோன்றல்கள்(செயல்கள், செயல்_குறி) — ஒரு செயலைத் தொடரும் செயல்கள்
 செயல் வழித்தோன்றல்கள்(செயல்கள், செயல்_குறி) {
     விடை_பட்டி = [];
     ஒவ்வொரு ஒரு_செயல் இல் செயல்கள் {
@@ -65,6 +69,7 @@
 // __--- Structural checks --------------------------------------------------__
 
 // __முன்னோடிகள்_உள்ளனவா(செயல்கள்) — every named predecessor must exist__
+// முன்னோடிகள்_உள்ளனவா(செயல்கள்) — பெயரிடப்பட்ட ஒவ்வொரு முன்னோடியும் உண்மையில் உள்ளதா
 செயல் முன்னோடிகள்_உள்ளனவா(செயல்கள்) {
     ஒவ்வொரு ஒரு_செயல் இல் செயல்கள் {
         ஒவ்வொரு ஒரு_முன்னோடி இல் ஒரு_செயல்.முன்னோடிகள் {
@@ -78,6 +83,7 @@
 }
 
 // __சுழற்சி_உள்ளதா(செயல்கள்) — is there a cycle?__
+// சுழற்சி_உள்ளதா(செயல்கள்) — வலையில் சுழற்சி உள்ளதா
 //
 // __Repeatedly strip activities all of whose predecessors have already been__
 // __stripped. What cannot be stripped is in, or downstream of, a cycle. This is__
@@ -112,6 +118,7 @@
 // __One call does both passes and returns the activities enriched with__
 // __முந்தைய_தொடக்கம் (ES), முந்தைய_முடிவு (EF), பிந்தைய_தொடக்கம் (LS),__
 // __பிந்தைய_முடிவு (LF) and மிதப்பு (float).__
+// வலையைக்_கணக்கிடு(செயல்கள்) — முன்னோக்கி, பின்னோக்கி இரு கடப்புகளையும் செய்யும்
 செயல் வலையைக்_கணக்கிடு(செயல்கள்) {
     சரிபார்ப்பு = முன்னோடிகள்_உள்ளனவா(செயல்கள்);
     (தவறா(சரிபார்ப்பு)) எனில் { திரும்பு சரிபார்ப்பு; }
@@ -206,6 +213,7 @@
 // __--- Reading the answer --------------------------------------------------__
 
 // __கடுமையானவை(கணக்கிட்டவை) — the zero-float activities__
+// கடுமையானவை(கணக்கிட்டவை) — இளைப்பே இல்லாத செயல்கள்
 //
 // __Float belongs to the project, not to the activity's owner. Where it is__
 // __treated as a private buffer it is consumed first and unavailable when__
@@ -221,6 +229,7 @@
 }
 
 // __உணர்திறன்_வலையா(கணக்கிட்டவை) — is the network sensitive?__
+// உணர்திறன்_வலையா(கணக்கிட்டவை) — இவ்வலை உணர்திறன் மிக்கதா
 //
 // __A network where most activities are critical absorbs no disturbance: a small__
 // __slip anywhere makes a new path critical. One with a single critical chain__
@@ -239,6 +248,7 @@
 // __figure out of it — "what is D's float?" — rather than the whole table.__
 // __Valid field names are முந்தைய_தொடக்கம், முந்தைய_முடிவு,__
 // __பிந்தைய_தொடக்கம், பிந்தைய_முடிவு, மிதப்பு and செயல்_காலம்.__
+// பெறு_புலம்(கணக்கிட்ட_செயல்கள், செயல்_குறி, புலப்_பெயர்) — கணக்கிட்ட செயலின் ஒரு புலத்தைப் படிக்கும்
 செயல் பெறு_புலம்(கணக்கிட்ட_செயல்கள், செயல்_குறி, புலப்_பெயர்) {
     ஒவ்வொரு ஒரு_செயல் இல் கணக்கிட்ட_செயல்கள் {
         (ஒரு_செயல்.செயல்_குறி == செயல்_குறி) எனில் {
@@ -266,6 +276,7 @@
 // __--- Small helpers the passes need --------------------------------------__
 
 // __குறி_உள்ளதா(பட்டியல், தேடும்_குறி) — is this code in the list?__
+// குறி_உள்ளதா(பட்டியல், தேடும்_குறி) — இக்குறி பட்டியலில் உள்ளதா
 //
 // __Used on predecessor lists, which are short. Kept local so the scheduler carries no dependency on the collection helpers in col.qmz.__
 செயல் குறி_உள்ளதா(பட்டியல், தேடும்_குறி) {
@@ -276,6 +287,7 @@
 }
 
 // __பதிவைத்_தேடு(பதிவுகள், செயல்_குறி, புலப்_பெயர்) — read a start or finish from a pass__
+// பதிவைத்_தேடு(பதிவுகள், செயல்_குறி, புலப்_பெயர்) — ஒரு கடப்பிலிருந்து தொடக்கம் அல்லது முடிவைப் படிக்கும்
 //
 // __Answers 0 for an activity that has not been reached, which is what the forward pass needs: an unreached predecessor imposes no lower bound. Anything that should report a missing activity must use செயலைத்_தேடு instead.__
 செயல் பதிவைத்_தேடு(பதிவுகள், செயல்_குறி, புலப்_பெயர்) {
@@ -289,6 +301,7 @@
 }
 
 // __பதிவை_மாற்று(பதிவுகள், செயல்_குறி, புது_தொடக்கம், புது_முடிவு) — rewrite one activity's dates in a pass__
+// பதிவை_மாற்று(பதிவுகள், செயல்_குறி, புது_தொடக்கம், புது_முடிவு) — ஒரு கடப்பில் ஒரு செயலின் நாள்களை மாற்றும்
 //
 // __Rebuilds the list rather than changing an entry in place, so each pass of the scheduler is a value the tests can hold and compare. Both dates are written together, because a start without its matching finish is a record that cannot be true.__
 செயல் பதிவை_மாற்று(பதிவுகள், செயல்_குறி, புது_தொடக்கம், புது_முடிவு) {

@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆண்டுப்_பிடித்தம்(ஒரு_பிரிவு, செலுத்தல்கள், பயன்_வீதம்) — a whole year of payments, withheld in order__
+// ஆண்டு முழுவதற்கும் வரிசையாகப் பிடித்தம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+ஒப்பந்தம் = பிரிவு_ஆக்கு("194C", "ஒப்பந்தக்காரர்", 1, 30000, 100000);
+
+// __Four payments of 28,000. None of them passes the per-payment threshold and__
+// __the fourth crosses the year, so nothing is withheld until it does and then__
+// __the whole year is.__
+// நான்கு செலுத்தல்கள்; நான்காவதே ஆண்டு எல்லையைத் தாண்டுகிறது
+விளைவு = ஆண்டுப்_பிடித்தம்(ஒப்பந்தம், [28000, 28000, 28000, 28000], 1);
+ஒவ்வொரு ஒரு_வரிசை இல் விளைவு["வரிசைகள்"] { அச்சு ஒரு_வரிசை["பிடித்தம்"]; }
+
+அச்சு விளைவு["மொத்தச்_செலுத்தல்"];
+அச்சு விளைவு["மொத்தப்_பிடித்தம்"];
+
+// __Which comes to one per cent of the year, as it should — the timing moved,__
+// __not the amount.__
+// மொத்தம் ஆண்டின் ஒரு விழுக்காடே; காலம் மாறியது, தொகை அல்ல

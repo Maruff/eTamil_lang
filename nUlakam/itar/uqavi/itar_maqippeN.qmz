@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இடர்_மதிப்பெண்(நிகழ்தகவுத்_தரம், தாக்கத்_தரம்) — probability and impact as one score, with both kept__
+// நிகழ்தகவையும் தாக்கத்தையும் சேர்த்த மதிப்பெண், இரண்டும் தக்கவைக்கப்பட்டு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+உயர்_நிகழ்வு = இடர்_மதிப்பெண்(5, 1);
+பெரும்_தாக்கம் = இடர்_மதிப்பெண்(1, 5);
+
+// __The same score. One happens constantly and costs nothing; the other would__
+// __end the project. A matrix that reports only the product cannot tell them__
+// __apart, and they need opposite responses.__
+// ஒரே மதிப்பெண்; ஆனால் இரண்டும் முற்றிலும் வேறு
+அச்சு உயர்_நிகழ்வு["மதிப்பெண்"];
+அச்சு பெரும்_தாக்கம்["மதிப்பெண்"];
+
+// __Which is why the two grades come back beside the score.__
+// அதனாலேயே இரு தரங்களும் மதிப்பெண்ணுடன் திரும்புகின்றன
+அச்சு உயர்_நிகழ்வு["தாக்கத்_தரம்"];
+அச்சு பெரும்_தாக்கம்["தாக்கத்_தரம்"];

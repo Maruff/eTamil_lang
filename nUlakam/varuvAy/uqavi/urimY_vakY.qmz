@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உரிமை_வகை(காலம்_மட்டும்_நிபந்தனையா) — a receivable, or a contract asset?__
+// பெறவேண்டியதா, ஒப்பந்தச் சொத்தா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __A receivable is an unconditional right to money: only the passage of time__
+// __stands between it and payment.__
+// பெறவேண்டியது என்பது நிபந்தனையற்ற உரிமை; காலம் மட்டுமே இடையே
+அச்சு உரிமை_வகை(மெய்);
+
+// __A contract asset is conditional on doing something more, and it carries__
+// __performance risk as well as credit risk — which is why it is impaired__
+// __differently and disclosed separately.__
+// ஒப்பந்தச் சொத்து இன்னும் ஏதோ செய்வதைச் சார்ந்தது
+அச்சு உரிமை_வகை(பொய்);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், பரிவர்த்தனை_எண்) — how much has been allocated to an invoice__
+// இப்பரிவர்த்தனைக்கு ஒதுக்கப்பட்ட மொத்தம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஒதுக்கீடுகள் = [ஒதுக்கீடு_ஆக்கு(2, 1, 3000),
+                ஒதுக்கீடு_ஆக்கு(3, 1, 1000)];
+
+// __An invoice can be settled by several receipts, and this is the sum of them.__
+// ஒரு விலைப்பட்டியலைப் பல வரவுகள் தீர்க்கலாம்
+அச்சு ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், 1);
+அச்சு ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், 9);

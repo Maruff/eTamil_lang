@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __போலி_முனை(முனை, இயக்கம்) — set what a pin reads, on the simulated board__
+// போலிப் பலகையில், ஒரு முனை என்ன படிக்கும் என்பதை அமைக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __For tests. This and its four companions are what let hardware logic be__
+// __checked with etamil --vm before anything is uploaded to a board, and before__
+// __anyone has to press a real button at the right moment.__
+// சோதனைக்காக; பலகைக்கு ஏற்றுவதற்கு முன்பே வன்பொருள் தர்க்கத்தைச் சோதிக்கலாம்
+முனை_மேலிழு_உள்ளீடு(3);
+அச்சு முனை_படி(3);
+
+// __A switch to ground, pressed.__
+// சுவிட்ச் அழுத்தப்பட்டது
+போலி_முனை(3, பொய்);
+அச்சு முனை_படி(3);
+
+// __And released again.__
+// விடப்பட்டது
+போலி_முனை(3, மெய்);
+அச்சு முனை_படி(3);

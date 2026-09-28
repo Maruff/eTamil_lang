@@ -428,7 +428,7 @@ void artino_print_bool(int32_t value) {
 
 void artino_print_line(void) { Serial.println(); }
 
-// --- nUlakam/vaZporuL.qmz ----------------------------------------------------------
+// --- nUlakam/vaZporuL/vaZporuL.qmz ----------------------------------------------------------
 
 void artino_pin_output(int32_t pin) { pinMode(pin, OUTPUT); }
 void artino_pin_input(int32_t pin) { pinMode(pin, INPUT); }

@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேடல்_பதங்கள்(சரம்) — split, filter and de-duplicate, in one call__
+// பிரித்து, வடிகட்டி, தனித்தவையாக்கும் முழு வரிசை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __The whole pipeline, and the one a caller should normally use: everything__
+// __else in this file is a step inside it.__
+// முழு வரிசை; வழக்கமாக இதையே அழைக்க வேண்டும்
+ஒவ்வொரு ஒரு_பதம் இல் தேடல்_பதங்கள்("What is the income tax slab rate?") {
+    அச்சு ஒரு_பதம்;
+}
+
+// __The same question asked twice over gives the same terms.__
+// இரு முறை கேட்டாலும் அதே பதங்களே
+அச்சு நீளம்(தேடல்_பதங்கள்("tax tax TAX"));

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaZporuL/yUnO.qmz — யூனோ: the Arduino Uno's pins, and the hardware API__
+// யூனோ: ஆர்டுயினோ யூனோ பலகையின் முனைகளும் வன்பொருள் இடைமுகமும்
 //
 //   __இறக்கு "nUlakam/vaZporuL/yUnO.qmz";__
 //   __etamil --artino --board uno prog.qmz__

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எதிர்பார்ப்பு(ஒரு_இடர்) — probability times impact, signed by the kind__
+// நிகழ்தகவும் தாக்கமும் பெருக்கியது, வகைக்கேற்ற குறியுடன்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+அச்சுறுத்தல் = இடர்_ஆக்கு("R1", "தாமதம்", 30, 500000, "அச்சுறுத்தல்", "");
+வாய்ப்பு = இடர்_ஆக்கு("R3", "முன்கூட்டியது", 25, 200000, "வாய்ப்பு", "");
+
+// __A threat's expected value is negative and an opportunity's is positive, so__
+// __the two can be added without anyone remembering which way round they go.__
+// அச்சுறுத்தல் எதிர்மறை, வாய்ப்பு நேர்மறை
+அச்சு எதிர்பார்ப்பு(அச்சுறுத்தல்);
+அச்சு எதிர்பார்ப்பு(வாய்ப்பு);
+
+// __A certainty carries its whole impact, which is the check worth making__
+// __against any expected-value function.__
+// நிச்சயமானது தன் முழுத் தாக்கத்தையும் சுமக்கும்
+அச்சு எதிர்பார்ப்பு(இடர்_ஆக்கு("R9", "நிச்சயம்", 100, 400000, "அச்சுறுத்தல்", ""));

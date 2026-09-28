@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அலகுக்குச்_செலவு(மொத்தச்_செலவு, அலகுகள்) — cost per unit__
+// ஓர் அலகுக்கான செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு அலகுக்குச்_செலவு(930000, 5000);
+
+// __With no units there is no unit cost, and that is a தவறு rather than a__
+// __division by zero halfway through a report.__
+// அலகுகளே இல்லையெனில் அலகுச் செலவும் இல்லை
+அச்சு தவறா(அலகுக்குச்_செலவு(930000, 0));

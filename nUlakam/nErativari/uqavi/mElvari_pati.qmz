@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேல்வரி_படி(வரிக்குரிய_வருமானம், மேல்வரிப்_படிகள்) — the surcharge band this income falls in__
+// இவ்வருமானம் சேரும் மேல்வரிப் படி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+மேல்வரிப்_படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+                     {"முதல்": 5000000, "விகிதம்": 10},
+                     {"முதல்": 10000000, "விகிதம்": 15}];
+
+// __The band, not just the rate: the threshold comes back too, because__
+// __marginal relief is computed against it.__
+// வீதம் மட்டுமல்ல, எல்லையும்; விளிம்பு நிவாரணம் அதன்மீதே கணக்கிடப்படுகிறது
+அச்சு மேல்வரி_படி(6000000, மேல்வரிப்_படிகள்)["முதல்"];
+அச்சு மேல்வரி_படி(6000000, மேல்வரிப்_படிகள்)["விகிதம்"];
+அச்சு மேல்வரி_படி(1000000, மேல்வரிப்_படிகள்)["விகிதம்"];

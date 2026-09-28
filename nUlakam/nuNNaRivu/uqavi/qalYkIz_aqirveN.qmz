@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைகீழ்_அதிர்வெண்(மொத்த_ஆவணங்கள், ஆவண_எண்ணிக்கை) — the weight a rare word earns__
+// அரிதான பதத்துக்கு அதிக எடை தரும் அளவை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A word in one document out of a hundred says a great deal about that__
+// __document; a word in ninety of them says almost nothing.__
+// அரிதான பதமே ஆவணத்தைப் பற்றி அதிகம் சொல்கிறது
+அச்சு வட்டமிடு(தலைகீழ்_அதிர்வெண்(100, 1), 4);
+அச்சு வட்டமிடு(தலைகீழ்_அதிர்வெண்(100, 90), 4);
+
+// __Which is why stop words barely matter even when they are not filtered out.__
+// அதனாலேயே நிறுத்துப் பதங்கள் வடிகட்டப்படாவிட்டாலும் பெரிதாகப் பாதிப்பதில்லை
+அச்சு வட்டமிடு(தலைகீழ்_அதிர்வெண்(100, 100), 4);

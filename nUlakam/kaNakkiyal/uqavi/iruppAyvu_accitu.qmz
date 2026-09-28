@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இருப்பாய்வு_அச்சிடு(அறிக்கை) — print the trial balance__
+// இருப்பாய்வை அச்சிடும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+கணக்குகள் = [மதிப்பு(கணக்கு_ஆக்கு("1000", "வங்கி", வகை_சொத்து(), "நடப்பு")),
+              மதிப்பு(கணக்கு_ஆக்கு("4000", "விற்பனை", வகை_வருவாய்(), "இயக்கம்"))];
+ஏடு = மதிப்பு(பதிவிடு([], பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+    [பற்று_வரிசை("1000", 50000), வரவு_வரிசை("4000", 50000)])));
+
+// __The formatting is separate from the arithmetic, so the figures can go into__
+// __a spreadsheet, a document or a web page without being reformatted first.__
+// வடிவமைப்பும் கணக்கும் தனித்தனியே
+இருப்பாய்வு_அச்சிடு(இருப்பாய்வு(ஏடு, கணக்குகள்));

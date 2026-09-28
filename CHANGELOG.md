@@ -106,7 +106,7 @@ benchmarks, and what is still open: namespaced imports and private helpers.
 
 ### The file system, from eTamil
 
-`nUlakam/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
+`nUlakam/kOppumuRY/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
 join and split paths, and read a name's extension. It can list a directory,
 walk everything under one, or collect the files with one extension:
 `நீட்சியால்_கோப்புகள்("nUlakam", "qmz")`. It can also turn a modification time
@@ -154,7 +154,7 @@ rounding, an overflow, a division by zero — the board says so once, over
 serial, and carries on. It never gives a different answer silently.
 
 Text and letters are counted as the VM counts them. So are arrays, results and
-`?`, `வடிவம்` records and serial ports. `nUlakam/col.qmz` and `aNi.qmz` compile
+`?`, `வடிவம்` records and serial ports. `nUlakam/atippatY/col.qmz` and `aNi.qmz` compile
 for a board as written. `docs/artino.md` has what compiles, what is refused and
 why, and what each board takes.
 
@@ -311,7 +311,7 @@ on the shape. No inheritance.
 
 ### Map, filter and fold
 
-`nUlakam/aNi.qmz` gains `ஒவ்வொன்றுக்கும்`, `வடிகட்டு` and `மடி`, each taking the
+`nUlakam/atippatY/aNi.qmz` gains `ஒவ்வொன்றுக்கும்`, `வடிகட்டு` and `மடி`, each taking the
 rule it applies as a `செயல்`, with a test suite in `aNi_cOqaZY.qmz`.
 
 ### Also
