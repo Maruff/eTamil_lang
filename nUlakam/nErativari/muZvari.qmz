@@ -116,6 +116,7 @@
 // __pays the whole liability in one instalment on the last date, and the dates__
 // __and percentages have been amended before. Every function below takes the__
 // __schedule as an argument so another one can be passed.__
+// முன்வரித்_தவணைகள்() — முன்கூட்டிய வரியின் தவணை நாட்களும், அவ்வப்போது செலுத்த வேண்டிய விழுக்காடுகளும்
 செயல் முன்வரித்_தவணைகள்() {
     திரும்பு [
         {"தவணை_எண்": 1, "விகிதம்": 15,  "நிவாரண_விகிதம்": 12, "மாதங்கள்": 3},

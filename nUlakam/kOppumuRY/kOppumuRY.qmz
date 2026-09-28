@@ -18,6 +18,7 @@
 // __Collapses a trailing or leading separator rather than producing `a//b`.__
 // __An empty piece yields the other one, so folding over a list of segments__
 // __needs no special case for the first.__
+// பாதை_இணை(முதல், இரண்டாவது) — இரு பாதைத் துண்டுகளை ஒரே பிரிப்பானால் இணைக்கும்; ஒன்று வெறுமையானால் மற்றொன்றைத் தரும்
 செயல் பாதை_இணை(முதல், இரண்டாவது) {
     (நீளம்(முதல்) == 0) எனில் { திரும்பு இரண்டாவது; }
     (நீளம்(இரண்டாவது) == 0) எனில் { திரும்பு முதல்; }
@@ -36,6 +37,7 @@
 }
 
 // __அடிப்பெயர்(பாதை) — the last segment. "a/b/c.qmz" gives "c.qmz".__
+// அடிப்பெயர்(பாதை) — பாதையின் கடைசித் துண்டு
 செயல் அடிப்பெயர்(பாதை) {
     துண்டுகள் = பிரி(பாதை_இயல்பாக்கு(பாதை), "/");
     (நீளம்(துண்டுகள்) == 0) எனில் { திரும்பு பாதை; }
@@ -43,6 +45,7 @@
 }
 
 // __கோப்பக_பெயர்(பாதை) — everything before the last segment, or "" at the top.__
+// கோப்பக_பெயர்(பாதை) — கடைசித் துண்டுக்கு முந்தைய பகுதி; மேலிடத்தில் வெற்றுச் சரம்
 செயல் கோப்பக_பெயர்(பாதை) {
     நேர் = பாதை_இயல்பாக்கு(பாதை);
     துண்டுகள் = பிரி(நேர், "/");
@@ -63,6 +66,7 @@
 // __dot and has nothing after it — ".gitignore" — has no extension rather than__
 // __an extension of "gitignore". Both are the conventions every other language__
 // __settled on, and getting either wrong shows up as files quietly skipped.__
+// நீட்சி(பாதை) — புள்ளி நீங்கிய நீட்சி; இல்லையேல் வெற்றுச் சரம்
 செயல் நீட்சி(பாதை) {
     பெயர் = அடிப்பெயர்(பாதை);
     புள்ளியிடம் = -1;
@@ -76,6 +80,7 @@
 }
 
 // __பெயர்_மட்டும்(பாதை) — the base name with its extension removed.__
+// பெயர்_மட்டும்(பாதை) — நீட்சி நீக்கிய அடிப்பெயர்
 செயல் பெயர்_மட்டும்(பாதை) {
     பெயர் = அடிப்பெயர்(பாதை);
     நீ = நீட்சி(பாதை);
@@ -89,6 +94,7 @@
 // __Windows hands back backslashes from some places, and a path that differs__
 // __from another only by its separator would otherwise be treated as a__
 // __different file.__
+// பாதை_இயல்பாக்கு(பாதை) — பாதைக்கு ஒரே எழுத்துமுறை; பின்சாய்வுகள் சாய்வாகும், இறுதிப் பிரிப்பான் நீங்கும்
 செயல் பாதை_இயல்பாக்கு(பாதை) {
     விடை = மாற்று(பாதை, "\\", "/");
     (நீளம்(விடை) > 1 மற்றும் எழுத்து(விடை, நீளம்(விடை) - 1) == "/") சுற்று {
@@ -98,6 +104,7 @@
 }
 
 // __கோப்பகமா(பாதை) — is this a directory? பொய் if it does not exist.__
+// கோப்பகமா(பாதை) — இது கோப்பகமா; இல்லாவிட்டால் பொய்
 செயல் கோப்பகமா(பாதை) {
     விவரம் = கோப்பு_விவரம்(பாதை);
     (தவறா(விவரம்)) எனில் { திரும்பு பொய்; }
@@ -110,6 +117,7 @@
 // __arithmetic works on. This turns it into the ISO text the rest of the__
 // __language uses for dates, which is what sorts chronologically. இன்மை in,__
 // __இன்மை out: a file system that could not say when is not a file from 1970.__
+// வினாடியை_நாளாக(வினாடிகள்) — மாற்ற நேரத்தை ஆண்டு, மாதம், நாள் என்னும் வடிவில் தரும்
 செயல் வினாடியை_நாளாக(வினாடிகள்) {
     (வினாடிகள் == இன்மை) எனில் { திரும்பு இன்மை; }
     திரும்பு நாள்_கூட்டு("1970-01-01", தரை(வினாடிகள் / 86400));
@@ -119,6 +127,7 @@
 //
 // __கோப்பகம்_படி answers with bare names; this joins each onto the directory__
 // __it came from, which is what a caller almost always wants next.__
+// கோப்பக_பட்டியல்(கோப்பகம்) — ஒரு கோப்பகத்தின் உள்ளடக்கம் முழுப் பாதைகளாக
 செயல் கோப்பக_பட்டியல்(கோப்பகம்) {
     பெயர்கள் = கோப்பகம்_படி(கோப்பகம்);
     (தவறா(பெயர்கள்)) எனில் { திரும்பு பெயர்கள்; }
@@ -141,6 +150,7 @@
 // __One unreadable folder in a tree of thousands should not lose the other__
 // __thousands, and the caller can test any single path with கோப்பகம்_படி if it__
 // __needs to know.__
+// கோப்பக_நட(கோப்பகம்) — கோப்பக மரம் முழுவதையும் சுற்றி வரும்; ஆழமான மரத்திலும் தடையின்றி இயங்க மடக்கமின்றி எழுதப்பட்டது
 செயல் கோப்பக_நட(கோப்பகம்) {
     மீதம் = [கோப்பகம்];
     விடை = [];
@@ -168,6 +178,7 @@
 // __நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — every file under a directory with one extension.__
 //
 // __The extension is given without its dot: நீட்சியால்_கோப்புகள்("nUlakam", "qmz").__
+// நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — ஒரு கோப்பகத்தின் கீழ் அந்த நீட்சியுள்ள கோப்புகள் அனைத்தும்; நீட்சி புள்ளியின்றித் தரப்படும்
 செயல் நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) {
     விடை = [];
     ஒவ்வொரு பாதை இல் கோப்பக_நட(கோப்பகம்) {
@@ -182,6 +193,7 @@
 //
 // __Here rather than in aNi.qmz because நட needs it and nothing else did.__
 // __Move it if a second caller appears.__
+// துண்டு_அணி(பட்டியல், தொடக்கம், அளவு) — அணியின் ஒரு துண்டு
 செயல் துண்டு_அணி(பட்டியல், தொடக்கம், அளவு) {
     விடை = [];
     இ = தொடக்கம்;

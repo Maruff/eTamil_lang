@@ -120,6 +120,7 @@
 // __a normal result rather than an error. Crediting the expense accounts__
 // __directly makes that difference disappear and with it the only evidence that__
 // __the absorption rate is wrong.__
+// மேல்நிலைப்_பதிவு(...) — வரவுசெலவுத் திட்டப்படி மேல்நிலைச் செலவின் ஒரு பங்கை வேலைக்கு ஏற்றும் ஈடுபதிவு; உண்மையில் ஆன செலவு அதன் இடத்திலேயே நிற்கும்
 செயல் மேல்நிலைப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு,
                         உள்வாங்கல்_கணக்கு, தொகை_மதிப்பு) {
     திரும்பு பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், [
@@ -157,6 +158,7 @@
 // __This is the entry that is most often written as debit receivable, credit__
 // __revenue, which recognises revenue on the invoice date and undoes everything__
 // __Ind AS 115 asks for.__
+// விலைப்பட்டியல்_பதிவு(...) — பெறவேண்டியதற்குப் பற்று, ஒப்பந்தச் சொத்துக்கு வரவு; விலைப்பட்டியல் வருவாயை ஏற்பதில்லை, அது வேலை முடிந்தபோதே ஏற்கப்பட்டது
 செயல் விலைப்பட்டியல்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம்,
                              பெறவேண்டிய_கணக்கு, ஒப்பந்தச்_சொத்துக்_கணக்கு,
                              தொகை_மதிப்பு) {

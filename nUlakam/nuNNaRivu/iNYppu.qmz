@@ -100,6 +100,7 @@
 // __வகைகள் maps an identifier to its kind, and வகை_எடைகள் maps a kind to its__
 // __multiplier. An unlisted kind keeps its score unchanged rather than being__
 // __dropped, so adding a new kind of document degrades gracefully.__
+// வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) — ஒரே தரவரிசையிலும் பொருத்தத்தின் வகைக்கேற்ப எடையிட்டு மதிப்பை மாற்றும்
 செயல் வகை_எடை_பயன்படுத்து(தரவரிசை, வகைகள், வகை_எடைகள்) {
     விடை = [];
     ஒவ்வொரு உருப்படி இல் தரவரிசை {

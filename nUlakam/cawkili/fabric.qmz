@@ -131,6 +131,7 @@
 // __and the answer is to read again and redo the work.__
 //
 // __Retrying anything else would be retrying something that failed for a reason.__
+// மோதலா(பிழை) — ஒரே சாவியை இரு பரிமாற்றங்கள் எழுதியதால் வந்த மோதலா; ஆம் எனில் மீண்டும் படித்து வேலையை மீண்டும் செய்யவும்
 செயல் மோதலா(பிழை) {
     (வகை(பிழை) != "a record") எனில் { திரும்பு பொய்; }
     விவரம் = புலம்_அல்லது(பிழை, "விவரம்", "");

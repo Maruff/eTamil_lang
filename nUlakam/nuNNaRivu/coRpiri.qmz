@@ -46,6 +46,7 @@
 // __every time — quadratic in the length of the text, and measurably so: a__
 // __corpus of two thousand chunks did not finish. மாற்று is a host builtin and__
 // __does each replacement in one pass.__
+// இயல்பாக்கு(சரம்) — ஒப்பிடுவதற்கேற்பச் சரத்தை ஒரே வடிவமாக்கும்; தமிழுக்கு எழுத்துயரம் இல்லாததால் அது அப்படியே இருக்கும்
 செயல் இயல்பாக்கு(சரம்) {
     விடை = கீழ்_எழுத்து(சரம்);
     ஒவ்வொரு ஒரு_பிரிப்பான் இல் பிரிப்பான்கள்() {

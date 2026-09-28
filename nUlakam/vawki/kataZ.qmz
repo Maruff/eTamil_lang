@@ -32,6 +32,7 @@
 // __A rate of zero is not a special case anyone writes down, and it is the one__
 // __that divides by zero: with no interest the instalment is simply the loan__
 // __spread evenly.__
+// மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — கடனுக்கான சமமான மாதத் தவணை
 செயல் மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) {
     (எத்தனை_மாதங்கள் <= 0) எனில் { திரும்பு 0; }
 
