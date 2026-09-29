@@ -11,11 +11,11 @@
   "homepage": "https://etamil.in",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Maruff/etamil_compiler",
+    "url": "https://github.com/Maruff/eTamil_lang",
     "directory": "eTamil_Code"
   },
   "bugs": {
-    "url": "https://github.com/Maruff/etamil_compiler/issues"
+    "url": "https://github.com/Maruff/eTamil_lang/issues"
   },
   "//license": "AGPL-3.0-or-later, matching the repository's LICENSE. This said MIT until 0.3.0, which contradicted the compiler it ships alongside; the AGPL choice is deliberate and explained in the root README.",
   "license": "AGPL-3.0-or-later",

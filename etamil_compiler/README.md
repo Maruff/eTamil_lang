@@ -73,7 +73,7 @@ without rebuilding the compiler.
 - Manual — <https://etamil.in/manual/> ([தமிழ்](https://etamil.in/ta/manual/))
 - Keyword reference — <https://etamil.in/keywords/>
 - Source, issues and the full README —
-  <https://github.com/Maruff/etamil_compiler>
+  <https://github.com/Maruff/eTamil_lang>
 
 ## Licence
 

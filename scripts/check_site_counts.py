@@ -171,7 +171,7 @@ def main(argv: list[str]) -> int:
     if root is None:
         print(
             "no website checkout found -- skipped. "
-            "Pass --site, set ETAMIL_SITE, or clone Maruff/eTamil beside this "
+            "Pass --site, set ETAMIL_SITE, or clone Maruff/eTamil.in beside this "
             "repository.\n"
         )
         return 0

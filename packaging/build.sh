@@ -32,7 +32,7 @@ TARGET="${TARGET:-}"
 # still discoverable: it is in README.txt and in `etamil --version`. The stable
 # download URL depends on the same thing:
 #
-#   https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-windows-x64.zip
+#   https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-windows-x64.zip
 # The architecture is derived, not assumed. macOS runners are Apple Silicon
 # now, so a hardcoded -x64 would have shipped an arm64 binary under a name
 # promising an Intel one — the kind of quiet wrongness this project refuses

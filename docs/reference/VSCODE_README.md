@@ -123,7 +123,7 @@ Point `etamil.compilerPath` at it. An
 explicit path always wins over the carried one. Building that compiler needs
 Rust:
 ```bash
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler/etamil_compiler
 cargo build --release
 ```
@@ -293,7 +293,7 @@ sum: 30
 #### Option 1: From GitHub (Recommended)
 ```bash
 # Build from source (requires Rust)
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler/etamil_compiler
 cargo build --release
 # Binary is at: target/release/etamil or etamil_compiler.exe
@@ -411,10 +411,10 @@ chmod +x /path/to/etamil
 
 ## 📖 Additional Resources
 
-- **Official Repository**: https://github.com/Maruff/etamil_compiler
+- **Official Repository**: https://github.com/Maruff/eTamil_lang
 - **Documentation**: See `docs/` folder in repository
 - **Examples**: See `examples/` in repository
-- **Issue Tracker**: https://github.com/Maruff/etamil_compiler/issues
+- **Issue Tracker**: https://github.com/Maruff/eTamil_lang/issues
 
 ---
 
@@ -434,7 +434,7 @@ Press `Ctrl+Space` while typing to see available keywords and autocomplete sugge
 
 ## 📞 Support
 
-- Report bugs: https://github.com/Maruff/etamil_compiler/issues
+- Report bugs: https://github.com/Maruff/eTamil_lang/issues
 - Ask questions in documentation
 - Check examples for reference
 

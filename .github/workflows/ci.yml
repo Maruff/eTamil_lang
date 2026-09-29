@@ -28,7 +28,7 @@ jobs:
       # `path:` keeps it out of the way of the compiler checkout at the root.
       - uses: actions/checkout@v4
         with:
-          repository: Maruff/eTamil
+          repository: Maruff/eTamil.in
           path: site
 
       # Explicit rather than the runner's default, which is what the matrix

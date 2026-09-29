@@ -22,7 +22,7 @@ rust-version = "1.88"
 authors = ["Esan Maruff <esan@etamil.in>"]
 description = "JNI bindings that let an Android app run eTamil programs"
 license = "AGPL-3.0-or-later"
-repository = "https://github.com/Maruff/etamil_compiler"
+repository = "https://github.com/Maruff/eTamil_lang"
 homepage = "https://etamil.in"
 publish = false
 

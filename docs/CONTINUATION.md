@@ -12,7 +12,7 @@ opened and merged this way in one session — and the branch is deleted, local a
 remote, after each merge. Both checkouts sit on `main` at origin HEAD between
 pieces of work.
 
-The website is a separate repository, `Maruff/eTamil`, cloned beside this one as
+The website is a separate repository, `Maruff/eTamil.in`, cloned beside this one as
 `../eTamil_site`. Several things now span the two; see the counts note below.
 
 ```bash
@@ -135,7 +135,7 @@ and 1.0.0 after the compiler was tagged v1.1.0:
 python scripts/check_site_counts.py --check --site ../eTamil_site
 ```
 
-CI checks out `Maruff/eTamil` to run it, which couples the two: **a keyword
+CI checks out `Maruff/eTamil.in` to run it, which couples the two: **a keyword
 added here fails that step until the site is updated too**, and the fix lives in
 the other repository. Merge the site's PR first.
 

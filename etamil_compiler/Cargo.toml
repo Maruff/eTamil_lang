@@ -22,7 +22,7 @@ description = "Bilingual (Tamil/Latin) FinTech DSL Compiler for Indian Regulator
 # `license-file = "../LICENSE"` pointed outside the package directory, so
 # `cargo package` would not have included the file it named.
 license = "AGPL-3.0-or-later"
-repository = "https://github.com/Maruff/etamil_compiler"
+repository = "https://github.com/Maruff/eTamil_lang"
 homepage = "https://etamil.in"
 documentation = "https://etamil.in/manual/"
 readme = "README.md"

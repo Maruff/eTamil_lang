@@ -82,7 +82,7 @@ DOCUMENTATION
 -------------
 
 Website     https://etamil.in
-Source      https://github.com/Maruff/etamil_compiler
+Source      https://github.com/Maruff/eTamil_lang
 Language    docs/reference/KEYWORDS.md — all 201 keywords in three spellings
 Roadmap     docs/ROADMAP.md — what is not built yet, and why
 

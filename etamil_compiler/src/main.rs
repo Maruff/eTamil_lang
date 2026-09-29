@@ -401,7 +401,7 @@ fn main() {
                 println!("This is free software: you are free to change and redistribute it.");
                 println!("There is NO WARRANTY, to the extent permitted by law.");
                 println!();
-                println!("Source: <https://github.com/Maruff/etamil_compiler>");
+                println!("Source: <https://github.com/Maruff/eTamil_lang>");
                 return;
             }
             // What the LLVM backend would refuse, without needing LLVM to
