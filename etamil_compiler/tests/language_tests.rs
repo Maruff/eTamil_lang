@@ -1644,10 +1644,7 @@ fn base64_decodes_across_windows_line_endings() {
     )
     .unwrap();
 
-    assert_eq!(
-        vm.variables.get("சரியா_இருந்ததா"),
-        Some(&Value::Boolean(true))
-    );
+    assert_eq!(vm.variables.get("சரியா_இருந்ததா"), Some(&Value::Boolean(true)));
     assert_eq!(text(&vm, "மறுபடி"), "hello world");
     assert_eq!(text(&vm, "ஒற்றை_வரி"), "hello world");
 }
