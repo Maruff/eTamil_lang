@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடுத்த_கட்டம்(ஒரு_கட்டம்) — the phase after this one__
+// இதற்கு அடுத்த கட்டம்
+
+இறக்கு "../kattam.qmz";
+
+// __The portal project has a signed charter and moves from initiation to planning,__
+// __then on to execution once the baseline is approved.__
+// சாசனம் கையொப்பமானதும் திட்டமிடலுக்கு, அடிப்படை ஏற்றதும் செயலாக்கத்துக்கு
+அச்சு அடுத்த_கட்டம்("தொடக்கம்");
+அச்சு அடுத்த_கட்டம்("திட்டமிடல்");
+
+// __Walking the whole lifecycle: stop when the answer is "".__
+// வெறுமை வரும்வரை முழு வாழ்க்கைச் சுழற்சியும்
+கட்டம்_இப்போது = "தொடக்கம்";
+பாதை_உரை = கட்டம்_இப்போது;
+(அடுத்த_கட்டம்(கட்டம்_இப்போது) != "") சுற்று {
+    கட்டம்_இப்போது = அடுத்த_கட்டம்(கட்டம்_இப்போது);
+    பாதை_உரை = பாதை_உரை & " → " & கட்டம்_இப்போது;
+}
+அச்சு பாதை_உரை;
+
+// __Closure is last: there is nowhere to go, so the answer is "", not a wrap back__
+// __to initiation.__
+// நிறைவுறுத்தலுக்குப் பின் எதுவுமில்லை; முதலுக்குத் திரும்பாது
+அச்சு "[" & அடுத்த_கட்டம்("நிறைவுறுத்தல்") & "]";
+
+// __A name that is not a phase also gives "", rather than a guess. Check the name__
+// __with வாழ்க்கைக்_கட்டங்கள் first if "" must mean the end.__
+// கட்டமல்லாத பெயருக்கும் வெறுமையே; ஊகம் இல்லை
+அச்சு "[" & அடுத்த_கட்டம்("Planning") & "]";

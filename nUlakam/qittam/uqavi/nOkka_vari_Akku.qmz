@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நோக்க_வரி_ஆக்கு(பகுப்புக்_குறி, விவரம், அடிப்படை_மணி, நோக்க_முடிவு) — one WBS row and the decision on it__
+// ஒரு பகுப்பு வரியும் அதன் முடிவும்
+
+இறக்கு "../nOkkam.qmz";
+
+// __The statement of work for a customer portal offers four rows. Two are in, data__
+// __migration is written into the exclusions, and the mainframe bridge does not apply.__
+// நான்கு வரிகள்: இரண்டு உள்ளே, ஒன்று விலக்கு, ஒன்று நீக்கு
+வரிகள் = [நோக்க_வரி_ஆக்கு("1.1", "Requirements", 40, "உள்ளே"),
+          நோக்க_வரி_ஆக்கு("1.2", "Build", 120, "உள்ளே"),
+          நோக்க_வரி_ஆக்கு("1.3", "Data migration", 60, "விலக்கு"),
+          நோக்க_வரி_ஆக்கு("1.4", "Mainframe bridge", 80, "நீக்கு")];
+ஒவ்வொரு வரி_ஒன்று இல் வரிகள் {
+    அச்சு வரி_ஒன்று.பகுப்புக்_குறி & " " & வரி_ஒன்று.விவரம் & " "
+          & சொல்லாக்கு(வரி_ஒன்று.அடிப்படை_மணி) & " " & வரி_ஒன்று.நோக்க_முடிவு;
+}
+
+// __Only in-scope rows become tasks; the excluded one is listed; the removed one is gone.__
+// உள்ளே உள்ளவை பணிகள்; விலக்கு பட்டியலில்; நீக்கியது எங்குமில்லை
+விடை = மதிப்பு(நோக்கத்தைப்_பயன்படுத்து(வரிகள், [], []));
+அச்சு சொல்லாக்கு(நீளம்(விடை.பணிகள்)) & " பணி, " & சொல்லாக்கு(நீளம்(விடை.விலக்குகள்)) & " விலக்கு";
+
+// __The decision is not checked when the row is made, but it is when the scope is__
+// __applied: a misspelt "உள்ளது" for "உள்ளே" is refused by name, rather than__
+// __dropping the row from both the tasks and the exclusions without a word.__
+// தவறாக எழுதிய முடிவு பெயருடன் மறுக்கப்படும்; வரி மௌனமாக மறையாது
+பிழை_வரி = நோக்க_வரி_ஆக்கு("1.5", "Training", 16, "உள்ளது");
+அச்சு நோக்கத்தைப்_பயன்படுத்து([பிழை_வரி], [], []);

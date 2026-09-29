@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வாழ்க்கைக்_கட்டங்கள்() — the five phases, in order__
+// ஐந்து வாழ்க்கைக் கட்டங்கள்
+
+இறக்கு "../kattam.qmz";
+
+// __Initiation, planning, execution, control and closure — the order a project__
+// __moves through, and the order a phase column on the PMO board should use.__
+// தொடக்கம் முதல் நிறைவுறுத்தல் வரை, திட்டம் நகரும் வரிசையில்
+கட்டங்கள் = வாழ்க்கைக்_கட்டங்கள்();
+எண்ணி = 1;
+ஒவ்வொரு ஒரு_கட்டம் இல் கட்டங்கள் {
+    அச்சு சொல்லாக்கு(எண்ணி) & ". " & ஒரு_கட்டம்;
+    எண்ணி = எண்ணி + 1;
+}
+
+// __How far through the lifecycle a project in execution is, by phase position.__
+// செயலாக்கத்திலுள்ள திட்டம் எத்தனையாவது கட்டத்தில்
+அச்சு இடம்_காண்(கட்டங்கள், "செயலாக்கம்") + 1;
+
+// __The names are the exact words to store and compare. The English "Execution"__
+// __is not a phase, and neither is a near spelling such as "செயல்படுத்தல்".__
+// சேமிக்கும் சொற்கள் இவையே; அருகிய சொல் கட்டமல்ல
+அச்சு இடம்_காண்(கட்டங்கள், "Execution");
+அச்சு இடம்_காண்(கட்டங்கள், "செயல்படுத்தல்");
+
+// __Each call returns a fresh list, so changing one copy cannot rename a phase for__
+// __everyone else.__
+// ஒவ்வோர் அழைப்பும் புதிய பட்டியல்; ஒன்றை மாற்றினால் மற்றது மாறாது
+கட்டங்கள்[0] = "முன்மொழிவு";
+அச்சு வாழ்க்கைக்_கட்டங்கள்()[0];

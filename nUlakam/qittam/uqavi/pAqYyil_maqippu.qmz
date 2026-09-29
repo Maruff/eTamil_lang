@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதையில்_மதிப்பு(சூழல், புள்ளிப்_பாதை) — the value at a dotted path__
+// புள்ளிப் பாதையிலுள்ள மதிப்பு
+
+இறக்கு "../kattam.qmz";
+
+சூழல் = {"திட்டம்": {"பெயர்": "Billing portal", "நிதி": {"தொகை": 48000}, "அனுசரணையாளர்": ""},
+         "மைல்கற்கள்": ["M1", "M2"]};
+
+// __Each dotted part walks one record deeper; a single part reads the top level.__
+// ஒவ்வொரு புள்ளியும் ஒரு பதிவு ஆழம்
+அச்சு மதிப்பு(பாதையில்_மதிப்பு(சூழல், "திட்டம்.பெயர்"));
+அச்சு மதிப்பு(பாதையில்_மதிப்பு(சூழல், "திட்டம்.நிதி.தொகை"));
+அச்சு நீளம்(மதிப்பு(பாதையில்_மதிப்பு(சூழல், "மைல்கற்கள்")));
+
+// __A missing field is a தவறு naming the part that is missing, not the whole path.__
+// இல்லாத புலம் அந்தப் பகுதியையே பெயரிடும்
+அச்சு தவறு_மதிப்பு(பாதையில்_மதிப்பு(சூழல், "திட்டம்.மேலாளர்.பெயர்"));
+
+// __A sponsor recorded as "" is there, so this is சரி with "". Whether an empty value__
+// __is good enough is வார்ப்புத்_தயார்நிலை's question, not this one's.__
+// வெற்று மதிப்பு இருக்கிறது; ஆகவே சரியே
+விடை = பாதையில்_மதிப்பு(சூழல், "திட்டம்.அனுசரணையாளர்");
+அச்சு சொல்லாக்கு(சரியா(விடை)) & " [" & மதிப்பு(விடை) & "]";
+
+// __Paths do not index lists: "மைல்கற்கள்.0" is refused, because a list has no fields.__
+// பாதை பட்டியலுக்குள் செல்லாது
+அச்சு தவறா(பாதையில்_மதிப்பு(சூழல், "மைல்கற்கள்.0"));

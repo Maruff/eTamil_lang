@@ -10,7 +10,26 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ## Unreleased
 
+### Added
+
+- **Libraries for building a project office.** `nUlakam/qittam` gains the rules
+  a PMO application runs on: task status and roll-up, the critical path on a
+  working calendar and rescheduling a project under way on its actuals, RAG
+  health with its reasons, change control as a state machine whose approved
+  items become tasks, scope and the features that change it, the portfolio by
+  hours and by client, lifecycle readiness, the weekly status report, and the
+  context a document template is filled from. `nUlakam/oruwkiNYppu` is the
+  Azure DevOps integration — state mapping by category, field ownership, echo
+  detection, an outbox with backoff, fingerprints, validated JSON Patch, WIQL,
+  service hooks and the REST client — and `nUlakam/qayArippu` holds product
+  versions and customer commitments. `examples/aluvalakam/` runs one project
+  through all three in 223 lines.
+
 ### Fixed
+
+- **Base64 wrapped with Windows line endings decodes.** `"\r\n"` is one
+  letter, so the decoder's line-break skip matched neither `"\r"` nor `"\n"`
+  and refused MIME- or PEM-wrapped text written on Windows.
 
 - **The extension offers ARM Linux the arm64 package.** Since 1.2.0 the
   release has published `etamil-linux-arm64.tar.gz`, but the install command
