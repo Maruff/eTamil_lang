@@ -182,6 +182,65 @@ _XLSX_வடிவம் = {
     திரும்பு ஆவணம்;
 }
 
+// __Word breaks a paragraph's text into runs wherever formatting, spell-check or__
+// __edit history changes, so "{{ திட்டம்.பெயர் }}" typed in two sittings can reach__
+// __the file as "{{ திட்" in one run and "டம்.பெயர் }}" in the next, and no__
+// __substitution would ever match it. Text is moved back into the run a__
+// __placeholder starts in until its braces balance, and the runs it came from are__
+// __left empty; the moved text takes that first run's formatting, which is the__
+// __price. It never reaches past the end of a paragraph, so a stray brace cannot__
+// __swallow the rest of the document. Text with no w:t runs passes through.__
+// __பிளந்த_குறிகளை_இணை(ஆவணம்) — rejoin the placeholders Word has split across runs__
+// பிளந்த_குறிகளை_இணை(ஆவணம்) — வேர்டு பல ஓட்டங்களாகப் பிளந்த குறிகளை மீண்டும் இணைக்கும்
+செயல் பிளந்த_குறிகளை_இணை(ஆவணம்) {
+    துண்டுகள் = பிரி(ஆவணம், "</w:t>");
+    கடைசி = நீளம்(துண்டுகள்) - 1;
+    (கடைசி < 2) எனில் { திரும்பு ஆவணம்; }
+
+    // __Each piece but the last ends in one run's text: what follows its final '>'.__
+    முன்பகுதிகள் = [];
+    உரைகள் = [];
+    எண்ணி = 0;
+    (எண்ணி < கடைசி) சுற்று {
+        கூறுகள் = பிரி(துண்டுகள்[எண்ணி], ">");
+        உரை_ = கூறுகள்[நீளம்(கூறுகள்) - 1];
+        முன்பகுதிகள் = இணை(முன்பகுதிகள், துண்டு(துண்டுகள்[எண்ணி], 0, நீளம்(துண்டுகள்[எண்ணி]) - நீளம்(உரை_)));
+        உரைகள் = இணை(உரைகள், உரை_);
+        எண்ணி = எண்ணி + 1;
+    }
+
+    சேர்க்குமிடம் = 0 - 1;
+    எண்ணி = 0;
+    (எண்ணி < கடைசி) சுற்று {
+        (சேர்க்குமிடம் >= 0 மற்றும் ஆவணத்தில்_உள்ளதா(முன்பகுதிகள்[எண்ணி], "</w:p>")) எனில் { சேர்க்குமிடம் = 0 - 1; }
+        (சேர்க்குமிடம் >= 0) எனில் {
+            உரைகள்[சேர்க்குமிடம்] = உரைகள்[சேர்க்குமிடம்] & உரைகள்[எண்ணி];
+            உரைகள்[எண்ணி] = "";
+            சேர்ந்தது = உரைகள்[சேர்க்குமிடம்];
+            (நீளம்(பிரி(சேர்ந்தது, "{")) == நீளம்(பிரி(சேர்ந்தது, "}"))) எனில் { சேர்க்குமிடம் = 0 - 1; }
+        } இன்றேல் {
+            (நீளம்(பிரி(உரைகள்[எண்ணி], "{")) > நீளம்(பிரி(உரைகள்[எண்ணி], "}"))) எனில் {
+                சேர்க்குமிடம் = எண்ணி;
+                // __Gathered text may start or end with a space, which Word drops__
+                // __unless the run says to keep it.__
+                முன் = முன்பகுதிகள்[எண்ணி];
+                (துண்டு(முன், நீளம்(முன்) - 5, 5) == "<w:t>") எனில் {
+                    முன்பகுதிகள்[எண்ணி] = துண்டு(முன், 0, நீளம்(முன்) - 5) & "<w:t xml:space=\"preserve\">";
+                }
+            }
+        }
+        எண்ணி = எண்ணி + 1;
+    }
+
+    வெளியீடு = [];
+    எண்ணி = 0;
+    (எண்ணி < கடைசி) சுற்று {
+        வெளியீடு = இணை(வெளியீடு, முன்பகுதிகள்[எண்ணி] & உரைகள்[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு ஒன்றிணை(இணை(வெளியீடு, துண்டுகள்[கடைசி]), "</w:t>");
+}
+
 // __A template package rendered into a new package of the same kind. Only the__
 // __text entry changes; pictures, styles and the mimetype travel across__
 // __untouched, which is why they are copied rather than rebuilt.__
@@ -192,7 +251,7 @@ _XLSX_வடிவம் = {
     படித்தது = பொதி_படி(மூலப்_பொதி, உறுப்பு);
     (தவறா(படித்தது)) எனில் { திரும்பு படித்தது; }
 
-    ஆவணம் = ஆவணம்_நிரப்பு(மதிப்பு(படித்தது), வடிவம், மதிப்புகள், தொகுதிகள்);
+    ஆவணம் = ஆவணம்_நிரப்பு(பிளந்த_குறிகளை_இணை(மதிப்பு(படித்தது)), வடிவம், மதிப்புகள், தொகுதிகள்);
 
     மாற்றங்கள் = {};
     மாற்றங்கள்[உறுப்பு] = ஆவணம்;
