@@ -373,5 +373,5 @@ for an amount.
 |---|---|---|
 | Number | `1500`, `99.99` | fixed-point decimal — `0.1 + 0.2` is exactly `0.3` |
 | Percentage | `20%` | converted at lex time to exactly `0.20` |
-| String | `"vaNakkam"` | escape sequences are not yet unescaped |
+| String | `"vaNakkam"` | `\n` `\t` `\r` `\"` `\\` are escapes; any other backslash is kept as written, so `"C:\kaNakku"` stays whole. A line break typed inside a literal is always `\n`, because a file saved with CRLF endings is read as LF — only the `\r` escape puts a carriage return in a string |
 | Identifier | `varuvAy`, `வருவாய்` | Tamil letters, ASCII letters, digits, underscore |

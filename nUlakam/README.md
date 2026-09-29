@@ -146,12 +146,20 @@ is a name your program is free to use.
 which are a different set: none of the builtins above appear in it. The three
 forms of each are in `call_builtin` in `etamil_compiler/src/vm/interpreter.rs`.
 
-## Two behaviours worth knowing
+## Three behaviours worth knowing
 
 **Strings are measured in written letters, not code points.**
 `நீளம்("வணக்கம்")` is 5. A Tamil letter is often a consonant plus a vowel
 sign or pulli, so counting code points would give 7 and every helper here
 would be wrong on Tamil text.
+
+**`"\r\n"` is one letter.** The same rule joins a carriage return to the line
+feed after it, so a Windows line ending is a single letter equal to neither
+`"\r"` nor `"\n"`. Code that skips line breaks a letter at a time needs a
+third case for it: base64 wrapped on Windows was refused until
+`vativam/kuRiyAkkam.qmz` got one. A line break typed inside a string literal
+never produces it — source saved with CRLF endings is read as LF — so text
+with real CRLF comes from a file, the network, or the `"\r\n"` escape.
 
 **A field name is stored exactly as written**, keyword or not: `{வரி: 1000}`
 produces the field `வரி`. It used to be filed under the English token name
