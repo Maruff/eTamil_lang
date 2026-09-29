@@ -146,6 +146,18 @@ entries from `nUlakam/paNam/kAcu.qmz`, drifting since `b2de386` — a plain nUla
 commit, no builtins involved. Adding a function to nUlakam is enough to fail
 that gate.
 
+**Fix it rather than edit it.** `--fix` rewrites every stale figure, here and on
+the site, through the same patterns `--check` reads:
+
+```bash
+python scripts/check_site_counts.py --fix --site ../eTamil_site
+```
+
+then commit the site's change as its PR. The extension's README counts need no
+PR: `scripts/fix_extension_counts.py` corrects them, and the publish workflow
+runs it after regenerating, so they reach `Maruff/eTamil_vsCode` in the same
+commit as the data they describe.
+
 ## Traps that cost real time
 
 **Reserved words.** Many of the words a financial library most wants are
