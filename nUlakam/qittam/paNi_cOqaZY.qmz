@@ -52,6 +52,8 @@
                   "progress fields may change on a baselined task");
 ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பூட்டிய_மாற்றம்_சரியா({நிறைவு: 60, இறுதி_நாள்: "2026-11-01"})),
                   "a planned date may not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(பூட்டிய_மாற்றம்_சரியா({நடப்பு_நிலை: "மூடியது", முடிந்த_நாள்: "2026-10-01"})),
+                  "but an actual finish may: finishing a baselined task is progress");
 
 ஓட்டம் = சமம்(ஓட்டம், திரட்டிய_நிறைவு(பணிகள், "A"), 75, "A is the mean of 100 and 50");
 ஓட்டம் = சமம்(ஓட்டம், திரட்டிய_நிறைவு(பணிகள், "A2"), 50, "a leaf reports its own figure");

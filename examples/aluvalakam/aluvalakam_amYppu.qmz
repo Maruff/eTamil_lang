@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __aluvalakam_amYppu.qmz — அமைப்பு (set up the service's database)__
+// சேவையின் தரவுத்தளத்தை அமைக்கும்
+//
+// __Run it once before the server:  etamil --vm examples/aluvalakam/aluvalakam_amYppu.qmz__
+// __It writes aluvalakam.db in the current directory — or ALUVALAKAM_DB — with the__
+// __demo projects, change request CR-3 waiting at requested, and every task__
+// __queued for Azure DevOps. Running it again starts from empty.__
+
+இறக்கு "aluvalakam_kYyALi.qmz";
+
+தளம்_இணை சீகுலைட், சூழல்("ALUVALAKAM_DB", "aluvalakam.db");
+களம்_அமை();
+களத்தை_அழி();
+மாதிரித்_திட்டத்தை_விதை(சூழல்("ALUVALAKAM_SECRET", "change-me"));
+அச்சு "திட்டங்கள்: " & நீளம்(எல்லாத்_திட்டங்களும்()) & ", வரிசையில் " & நீளம்(வரிசை_உருப்படிகள்()) & " உருப்படிகள்";
+தளம்_பிரி சீகுலைட்;

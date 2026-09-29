@@ -13,7 +13,7 @@ is decimal and exact, the tax rules are in the library rather than in a framewor
 you find later, and every keyword can be written in Tamil script or in ASCII.
 
 **This extension carries the whole toolchain.** The compiler for your platform,
-the 939-function `nUlakam` standard library, thirty-eight example programs and the
+the 939-function `nUlakam` standard library, forty-three example programs and the
 eTamil font all travel inside it, so installing it is the entire installation —
 no Rust, no download, nothing to put on your `PATH`.
 
@@ -36,7 +36,7 @@ no Rust, no download, nothing to put on your `PATH`.
 | **Go to Definition** | Jumps into `nUlakam`, and to functions in the current file |
 | **Outline** | Every `செயல்` in the file |
 | **Run** | Run or serve the current file in a terminal |
-| **Examples** | **eTamil: Open an example** — thirty-eight programs, carried in the extension |
+| **Examples** | **eTamil: Open an example** — forty-three programs, carried in the extension |
 | **Documentation** | **eTamil: Documentation…** — the manual, the playground and the reference on [etamil.in](https://etamil.in) |
 
 Both spellings are first-class. Type `eZil` and you get a romanized template;
@@ -104,7 +104,7 @@ does is on **[etamil.in](https://etamil.in)**:
 keyword hover links the reference for that word.
 
 **eTamil: Open an example** is the shorter route. The extension carries the
-repository's thirty-eight example programs — the accounting framework, the HTTP
+repository's forty-three example programs — the accounting framework, the HTTP
 server, the GST invoice, the project-costing worked example — and opens a copy
 you can edit and run. A copy, not the original: the extension directory is
 replaced on every update.
