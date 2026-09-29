@@ -14,7 +14,7 @@ keywords = ["pygments", "lexer", "syntax", "highlighting", "etamil", "tamil"]
 dependencies = ["Pygments>=2.14"]
 
 [project.urls]
-Homepage = "https://github.com/Maruff/etamil_compiler"
+Homepage = "https://github.com/Maruff/eTamil_lang"
 
 # This is what makes the lexer available to Sphinx, MkDocs, Jekyll and
 # `pygmentize` the moment the package is installed — no Pygments release

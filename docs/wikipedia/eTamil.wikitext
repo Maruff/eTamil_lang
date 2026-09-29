@@ -281,31 +281,31 @@ Standard-library modules are named with romanized Tamil words, such as <code>paN
 
 == References ==
 {{reflist|refs=
-<ref name="readme">{{cite web |author=Esan Maruff |title=eTamil Programming Language |url=https://github.com/Maruff/etamil_compiler/blob/main/README.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="changelog">{{cite web |author=Esan Maruff |title=Changelog |url=https://github.com/Maruff/etamil_compiler/blob/main/CHANGELOG.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="arch">{{cite web |author=Esan Maruff |title=Architecture and decisions |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/ARCHITECTURE.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="keywords">{{cite web |author=Esan Maruff |title=eTamil Keyword Reference |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/reference/KEYWORDS.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="romanization">{{cite web |author=Esan Maruff |title=Tamil letter equivalents – the ezuqqu scheme |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="roadmap">{{cite web |author=Esan Maruff |title=eTamil Roadmap |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/ROADMAP.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="citation">{{cite web |title=CITATION.cff |url=https://github.com/Maruff/etamil_compiler/blob/main/CITATION.cff |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="nulakam">{{cite web |author=Esan Maruff |title=nUlakam – the eTamil standard library |url=https://github.com/Maruff/etamil_compiler/blob/main/nUlakam/README.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="vscode">{{cite web |author=Esan Maruff |title=eTamil for Visual Studio Code |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/reference/VSCODE_README.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="android">{{cite web |author=Esan Maruff |title=eTamil for Android |url=https://github.com/Maruff/etamil_compiler/blob/main/android/README.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="llvm">{{cite web |author=Esan Maruff |title=LLVM backend gaps |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/llvm-backend-gaps.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="mvp">{{cite web |author=Esan Maruff |title=eTamil Studio – MVP knowledge base |url=https://github.com/Maruff/etamil_compiler/blob/main/docs/studio/MVP.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="authors">{{cite web |author=Esan Maruff |title=eTamil — authors and copyright holders |url=https://github.com/Maruff/etamil_compiler/blob/main/AUTHORS |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="site-initial">{{cite web |author=Esan Maruff |title=Initial commit |url=https://github.com/Maruff/eTamil/commit/d14d4f8772ad286ec19a9a2c5a5bc94b718db8b8 |website=GitHub |date=5 July 2024 |access-date=26 September 2026}}</ref>
-<ref name="site-removal">{{cite web |author=Esan Maruff |title=Rebuild the site around the compiler that actually exists |url=https://github.com/Maruff/eTamil/commit/bd1d3d0e675852407ed85fc06dcb45727dfd7289 |website=GitHub |date=18 August 2026 |access-date=26 September 2026}}</ref>
+<ref name="readme">{{cite web |author=Esan Maruff |title=eTamil Programming Language |url=https://github.com/Maruff/eTamil_lang/blob/main/README.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="changelog">{{cite web |author=Esan Maruff |title=Changelog |url=https://github.com/Maruff/eTamil_lang/blob/main/CHANGELOG.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="arch">{{cite web |author=Esan Maruff |title=Architecture and decisions |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/ARCHITECTURE.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="keywords">{{cite web |author=Esan Maruff |title=eTamil Keyword Reference |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/KEYWORDS.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="romanization">{{cite web |author=Esan Maruff |title=Tamil letter equivalents – the ezuqqu scheme |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="roadmap">{{cite web |author=Esan Maruff |title=eTamil Roadmap |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/ROADMAP.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="citation">{{cite web |title=CITATION.cff |url=https://github.com/Maruff/eTamil_lang/blob/main/CITATION.cff |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="nulakam">{{cite web |author=Esan Maruff |title=nUlakam – the eTamil standard library |url=https://github.com/Maruff/eTamil_lang/blob/main/nUlakam/README.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="vscode">{{cite web |author=Esan Maruff |title=eTamil for Visual Studio Code |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/VSCODE_README.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="android">{{cite web |author=Esan Maruff |title=eTamil for Android |url=https://github.com/Maruff/eTamil_lang/blob/main/android/README.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="llvm">{{cite web |author=Esan Maruff |title=LLVM backend gaps |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/llvm-backend-gaps.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="mvp">{{cite web |author=Esan Maruff |title=eTamil Studio – MVP knowledge base |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/studio/MVP.md |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="authors">{{cite web |author=Esan Maruff |title=eTamil — authors and copyright holders |url=https://github.com/Maruff/eTamil_lang/blob/main/AUTHORS |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="site-initial">{{cite web |author=Esan Maruff |title=Initial commit |url=https://github.com/Maruff/eTamil.in/commit/d14d4f8772ad286ec19a9a2c5a5bc94b718db8b8 |website=GitHub |date=5 July 2024 |access-date=26 September 2026}}</ref>
+<ref name="site-removal">{{cite web |author=Esan Maruff |title=Rebuild the site around the compiler that actually exists |url=https://github.com/Maruff/eTamil.in/commit/bd1d3d0e675852407ed85fc06dcb45727dfd7289 |website=GitHub |date=18 August 2026 |access-date=26 September 2026}}</ref>
 <ref name="repos">GitHub repositories by Esan Maruff, with creation dates: [https://github.com/Maruff/eTml eTml] (26 June 2024), [https://github.com/Maruff/eTamil-ciRal eTamil-ciRal] (20 August 2024), [https://github.com/Maruff/eTamil-nivaqi eTamil-nivaqi] (1 September 2024), [https://github.com/Maruff/Accounts Accounts] (19 February 2025), [https://github.com/Maruff/nivaqi-v1 nivaqi-v1] (28 March 2025), [https://github.com/Maruff/etamil-compiler eTamil-Compiler] (25 January 2026), [https://github.com/Maruff/etamil-vscode eTamil-vscode] (25 January 2026), [https://github.com/Maruff/etamil_transpiler eTamil_transpiler] (2 February 2026). Retrieved 26 September 2026.</ref>
 <ref name="site-about">{{cite web |author=Esan Maruff |title=About eTamil and its author |url=https://etamil.in/about/ |website=etamil.in |access-date=26 September 2026}}</ref>
 <ref name="ictetl">{{cite conference |last1=Maruff |first1=Mohammed |last2=Valli |first2=S. P. |title=Developing an Indian DSL (Programming Language) for Accounts, Commerce, Finance, and Fintech Professionals |conference=International Conference on Technology Enhanced Teaching and Learning (ICTETL 2025) |book-title=Proceedings of the International Conference on Technology Enhanced Teaching and Learning |publisher=Centre for Distance and Online Education, B. S. Abdur Rahman Crescent Institute of Science and Technology |location=Chennai |date=October 2025 |pages=160–174 |url=https://heyzine.com/flip-book/30f47b1d9c.html#page/195 |access-date=26 September 2026}}</ref>
-<ref name="vscode-manifest">{{cite web |author=Esan Maruff |title=eTamil_Code/package.json |url=https://github.com/Maruff/etamil_compiler/blob/main/eTamil_Code/package.json |website=GitHub |access-date=26 September 2026}}</ref>
+<ref name="vscode-manifest">{{cite web |author=Esan Maruff |title=eTamil_Code/package.json |url=https://github.com/Maruff/eTamil_lang/blob/main/eTamil_Code/package.json |website=GitHub |access-date=26 September 2026}}</ref>
 <ref name="manual">{{cite web |title=eTamil user manual |url=https://etamil.in/manual/ |website=etamil.in |access-date=26 September 2026}}</ref>
 }}
 
 == External links ==
 * {{Official website|https://etamil.in}}
-* [https://github.com/Maruff/etamil_compiler eTamil] on [[GitHub]]
+* [https://github.com/Maruff/eTamil_lang eTamil] on [[GitHub]]
 * [https://etamil.in/ta/manual/ User manual in Tamil]
 
 {{Programming languages}}

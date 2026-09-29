@@ -22,7 +22,7 @@
   "homepage": "https://etamil.in",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Maruff/etamil_compiler",
+    "url": "https://github.com/Maruff/eTamil_lang",
     "directory": "eTamil_HighlightJS"
   },
   "files": [

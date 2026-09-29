@@ -55,7 +55,7 @@ export async function openExample(): Promise<void> {
     );
     if (picked === browse) {
       await vscode.env.openExternal(
-        vscode.Uri.parse('https://github.com/Maruff/etamil_compiler/tree/main/examples')
+        vscode.Uri.parse('https://github.com/Maruff/eTamil_lang/tree/main/examples')
       );
     }
     return;

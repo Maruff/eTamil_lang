@@ -67,7 +67,7 @@ const SKIP_INSTALL_PROMPT = 'etamil.skipInstallPrompt';
  * correct after every release without this file being edited. The version is
  * still recoverable from README.txt in the archive and from `etamil --version`.
  */
-const RELEASES_URL = 'https://github.com/Maruff/etamil_compiler/releases/latest';
+const RELEASES_URL = 'https://github.com/Maruff/eTamil_lang/releases/latest';
 
 const DOWNLOADS: Record<string, { asset: string; commands: string }> = {
   win32: {
@@ -451,7 +451,7 @@ async function buildForBoard(context: vscode.ExtensionContext, upload: boolean):
  * machine. The others stay for the platforms no VSIX was built for.
  */
 async function offerInstall(context: vscode.ExtensionContext): Promise<void> {
-  const clone = 'git clone https://github.com/Maruff/etamil_compiler.git';
+  const clone = 'git clone https://github.com/Maruff/eTamil_lang.git';
   const build =
     process.platform === 'win32'
       ? 'cd etamil_compiler\\etamil_compiler && cargo build --release'

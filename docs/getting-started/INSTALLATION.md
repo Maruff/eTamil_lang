@@ -13,7 +13,7 @@ Each release publishes a package that needs neither Rust nor a C toolchain:
 | macOS Intel | `etamil-macos-x64.tar.gz` |
 
 Download from
-`https://github.com/Maruff/etamil_compiler/releases/latest/download/<package>`.
+`https://github.com/Maruff/eTamil_lang/releases/latest/download/<package>`.
 On Linux, `uname -m` says which one you need: `aarch64` means arm64, `x86_64`
 means x64. A Raspberry Pi running the 32-bit OS reports `armv7l`; there is no
 package for that, so build from source or move to the 64-bit OS.
@@ -66,7 +66,7 @@ Open a new terminal afterwards so `PATH` picks up both tools.
 ## Build
 
 ```bash
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler/etamil_compiler
 cargo build --release
 ```

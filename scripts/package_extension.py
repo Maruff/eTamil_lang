@@ -72,7 +72,7 @@ ROOT = Path(__file__).resolve().parent.parent
 EXT = ROOT / "eTamil_Code"
 BIN = EXT / "bin"
 RUNTIME = EXT / "runtime"
-RELEASES = "https://github.com/Maruff/etamil_compiler/releases"
+RELEASES = "https://github.com/Maruff/eTamil_lang/releases"
 
 # VS Code's `--target` name, the `bin/` directory it maps to, and the release
 # asset it is built from. The middle column is what `src/bundle.ts` computes

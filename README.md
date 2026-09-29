@@ -2,7 +2,7 @@
 
 **A programming language whose vocabulary is Tamil, aimed at Indian FinTech.**
 
-[![CI](https://github.com/Maruff/etamil_compiler/actions/workflows/ci.yml/badge.svg)](https://github.com/Maruff/etamil_compiler/actions/workflows/ci.yml)
+[![CI](https://github.com/Maruff/eTamil_lang/actions/workflows/ci.yml/badge.svg)](https://github.com/Maruff/eTamil_lang/actions/workflows/ci.yml)
 
 ---
 
@@ -152,15 +152,15 @@ Equality is exact too. Division keeps full precision rather than rounding at eac
 
 | Platform | Download |
 |---|---|
-| **Windows** x64 | [etamil-windows-x64.zip](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-windows-x64.zip) |
-| **Linux** x64 | [etamil-linux-x64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-linux-x64.tar.gz) |
-| **Linux** arm64 (Raspberry Pi 4/5) | [etamil-linux-arm64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-linux-arm64.tar.gz) |
-| **macOS** Apple Silicon | [etamil-macos-arm64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-macos-arm64.tar.gz) |
-| **macOS** Intel | [etamil-macos-x64.tar.gz](https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-macos-x64.tar.gz) |
+| **Windows** x64 | [etamil-windows-x64.zip](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-windows-x64.zip) |
+| **Linux** x64 | [etamil-linux-x64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-linux-x64.tar.gz) |
+| **Linux** arm64 (Raspberry Pi 4/5) | [etamil-linux-arm64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-linux-arm64.tar.gz) |
+| **macOS** Apple Silicon | [etamil-macos-arm64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-macos-arm64.tar.gz) |
+| **macOS** Intel | [etamil-macos-x64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-macos-x64.tar.gz) |
 
 Every link points at the latest release, so it stays correct across versions.
 Each archive is published with a `.sha256` beside it — see
-[all releases](https://github.com/Maruff/etamil_compiler/releases/latest).
+[all releases](https://github.com/Maruff/eTamil_lang/releases/latest).
 
 The archive holds the compiler, `nUlakam/` (the eTamil standard library) and the
 examples. The install script copies them into place, puts `etamil` on your `PATH`
@@ -229,7 +229,7 @@ SQLite and the crypto crates compile C:
   line tools).
 
 ```bash
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler/etamil_compiler
 cargo build --release
 ```

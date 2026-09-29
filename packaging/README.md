@@ -76,7 +76,7 @@ inside the archive matches. This is what makes GitHub's *latest* redirect
 resolve:
 
 ```
-https://github.com/Maruff/etamil_compiler/releases/latest/download/etamil-windows-x64.zip
+https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-windows-x64.zip
 ```
 
 That URL is written into four places that are expensive to keep in step:

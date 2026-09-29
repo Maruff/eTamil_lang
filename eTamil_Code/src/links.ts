@@ -26,7 +26,7 @@ export interface Link {
 const SITE = 'https://etamil.in';
 
 /** The repository, which is not on the website. */
-export const REPOSITORY = 'https://github.com/Maruff/etamil_compiler';
+export const REPOSITORY = 'https://github.com/Maruff/eTamil_lang';
 
 /**
  * Everything the documentation command offers, in the order it offers it.

@@ -457,6 +457,6 @@ the two script marks, and duplicate function names across `nUlakam`.
 
 ## 0.4.0 and earlier
 
-See the [releases](https://github.com/Maruff/etamil_compiler/releases) and the
+See the [releases](https://github.com/Maruff/eTamil_lang/releases) and the
 git history. `eTamil_Code/CHANGELOG.md` carries the extension's own record back
 to 0.1.0.

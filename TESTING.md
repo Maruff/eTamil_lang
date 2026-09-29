@@ -5,7 +5,7 @@ expected to fail, that is stated — a few examples fail deliberately, and a
 run that "passes" them would mean a regression.
 
 ```bash
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler
 ```
 

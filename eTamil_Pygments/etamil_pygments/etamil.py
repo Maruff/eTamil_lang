@@ -42,7 +42,7 @@ class ETamilLexer(RegexLexer):
     """For eTamil source code."""
 
     name = 'eTamil'
-    url = 'https://github.com/Maruff/etamil_compiler'
+    url = 'https://github.com/Maruff/eTamil_lang'
     aliases = ['etamil']
     filenames = ['*.qmz']
     mimetypes = ['text/x-etamil']

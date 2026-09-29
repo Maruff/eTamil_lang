@@ -98,7 +98,7 @@ does is on **[etamil.in](https://etamil.in)**:
 | [Finance and accounting](https://etamil.in/finance/) | Ledgers, GST, tax |
 | [Databases and HTTP](https://etamil.in/server/) | Building services |
 | [Status and roadmap](https://etamil.in/status/) | What works today, and what does not yet |
-| [Source](https://github.com/Maruff/etamil_compiler) | The compiler, the library and this extension |
+| [Source](https://github.com/Maruff/eTamil_lang) | The compiler, the library and this extension |
 
 **eTamil: Documentation…** in the Command Palette opens any of them, and every
 keyword hover links the reference for that word.
@@ -149,7 +149,7 @@ the install command offers the release package and the source build, as before.
 By hand, the prebuilt package needs no Rust and no C toolchain:
 
 ```powershell
-# Windows — https://github.com/Maruff/etamil_compiler/releases/latest
+# Windows — https://github.com/Maruff/eTamil_lang/releases/latest
 Expand-Archive etamil-windows-x64.zip -DestinationPath .
 .\etamil-windows-x64\install.ps1
 ```
@@ -176,7 +176,7 @@ LLVM backend — Rust 1.85+ and a C toolchain, MSVC Build Tools with "Desktop
 development with C++" on Windows and `cc` elsewhere:
 
 ```bash
-git clone https://github.com/Maruff/etamil_compiler.git
+git clone https://github.com/Maruff/eTamil_lang.git
 cd etamil_compiler/etamil_compiler
 cargo build --release
 ```
@@ -265,7 +265,7 @@ line shifts. A monospaced build of the face would make that exact and nothing
 in the extension would change.
 
 The two marks are the language's, not the extension's:
-[SCRIPT_RULES.md](https://github.com/Maruff/etamil_compiler/blob/main/docs/reference/SCRIPT_RULES.md) specifies them,
+[SCRIPT_RULES.md](https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/SCRIPT_RULES.md) specifies them,
 `scripts/check_script_rules.py` gates them, and `fonts/README.md` records what
 is in the font file.
 
@@ -289,7 +289,7 @@ Versions of this extension before 0.3.0 shipped the older scheme, where ந and
 were the ones the compiler rejected, and the ones it accepted got no
 highlighting. If you have romanized eTamil written against a pre-0.3.0
 extension, it needs updating — see the [letter equivalents
-guide](https://github.com/Maruff/etamil_compiler/blob/main/docs/reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md).
+guide](https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md).
 
 ## Contributing
 
