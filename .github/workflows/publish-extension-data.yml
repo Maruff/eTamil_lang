@@ -22,6 +22,10 @@ on:
     branches: [main]
     paths:
       - 'etamil_compiler/src/lexer.rs'
+      # The builtins the completion data lists, and the examples the README counts.
+      - 'etamil_compiler/src/vm/interpreter.rs'
+      - 'examples/**'
+      - 'scripts/fix_extension_counts.py'
       - 'nUlakam/**'
       - 'scripts/generate_editor_support.py'
   workflow_dispatch:
@@ -50,19 +54,28 @@ jobs:
       - name: Regenerate
         run: python scripts/generate_editor_support.py
 
-      # Only the two files the extension owns. The generator also writes the
+      # The README's counts are as derived as the two files above, and the
+      # extension's counts.test.js fails when they disagree -- which happened on
+      # every regeneration after a builtin or a library function was added, until
+      # someone edited the README by hand. Fixed here, so it goes in the same
+      # commit as the data it describes.
+      - name: Bring the README's counts into line
+        run: python scripts/fix_extension_counts.py --extension eTamil_Code
+
+      # Only what the extension owns: the two generated files and the README's
+      # counts. The generator also writes the
       # Pygments, Rouge, highlight.js and tree-sitter outputs, and those belong
       # to this repository rather than that one.
       - name: Push them if they changed
         working-directory: eTamil_Code
         run: |
-          if git diff --quiet -- src/generated/language-data.ts syntaxes/etamil.tmLanguage.json; then
+          if git diff --quiet -- src/generated/language-data.ts syntaxes/etamil.tmLanguage.json README.md; then
             echo "generated data already matches the compiler; nothing to push"
             exit 0
           fi
           git config user.name  "eTamil generator"
           git config user.email "esan@etamil.in"
-          git add src/generated/language-data.ts syntaxes/etamil.tmLanguage.json
+          git add src/generated/language-data.ts syntaxes/etamil.tmLanguage.json README.md
           git commit -m "Regenerate from ${GITHUB_REPOSITORY}@${GITHUB_SHA:0:8}
 
           Written by scripts/generate_editor_support.py from the compiler's

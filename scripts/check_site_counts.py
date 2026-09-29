@@ -22,6 +22,13 @@ parsed a second time here.
     python scripts/check_site_counts.py
     python scripts/check_site_counts.py --check          # exit 1 on a mismatch
     python scripts/check_site_counts.py --site ../eTamil # an explicit checkout
+    python scripts/check_site_counts.py --fix            # rewrite the stale figures
+
+`--fix` rewrites each stale figure in place, in this repository and on the
+site, through the same patterns the check reads -- so a fix and a check can
+never disagree about what a sentence claims -- and then checks as usual. It
+leaves `brand.version` alone: that changes at a release, and a release is a
+decision rather than a count.
 
 The site is a separate repository, so it has to be found before it can be
 read: `--site`, then `$ETAMIL_SITE`, then `../eTamil_site` and `../eTamil`
@@ -165,9 +172,50 @@ def check(root: Path, truth: dict[str, int]) -> list[str]:
     return findings
 
 
+def fix(root: Path, truth: dict[str, int]) -> list[str]:
+    """Rewrite every stale figure under root in place; say where."""
+    changed: list[str] = []
+    for path in sorted(root.rglob("*")):
+        if path.suffix not in SUFFIXES or not path.is_file():
+            continue
+        if path.name in SKIP_FILES or any(part in SKIP_DIRS for part in path.parts):
+            continue
+        raw = path.read_bytes().decode("utf-8")
+        ending = "\r\n" if "\r\n" in raw else "\n"
+        lines = raw.split(ending)
+        touched = False
+        for index, line in enumerate(lines):
+            if HISTORICAL in line:
+                continue
+            for pattern, fields in PATTERNS:
+
+                def truthful(match: re.Match[str], fields: tuple[str, ...] = fields) -> str:
+                    claim = match.group(0)
+                    offset = match.start()
+                    # Right to left, so the earlier groups keep their offsets.
+                    for group in range(len(fields), 0, -1):
+                        start, end = match.span(group)
+                        claim = (claim[: start - offset] + str(truth[fields[group - 1]])
+                                 + claim[end - offset:])
+                    return claim
+
+                rewritten = pattern.sub(truthful, line)
+                if rewritten != line:
+                    changed.append(f"{path.relative_to(root).as_posix()}:{index + 1}")
+                    line = rewritten
+                    touched = True
+            lines[index] = line
+        if touched:
+            path.write_bytes(ending.join(lines).encode("utf-8"))
+    return changed
+
+
 def main(argv: list[str]) -> int:
     truth = counts()
     findings: list[str] = []
+    if "--fix" in argv:
+        for where in fix(ROOT, truth):
+            print(f"fixed {where}")
 
     # This repository states the same figures the website does -- the feature
     # table in README.md, the roadmap, the architecture notes -- and nothing
@@ -208,6 +256,9 @@ def main(argv: list[str]) -> int:
             f"etamil_compiler/Cargo.toml is {released}"
         )
 
+    if "--fix" in argv:
+        for where in fix(root, truth):
+            print(f"fixed {where}")
     findings += check(root, truth)
     print(
         f"checked {root.name} against the lexer: {truth['tokens']} tokens, "
