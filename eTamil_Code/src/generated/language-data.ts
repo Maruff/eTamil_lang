@@ -3301,6 +3301,20 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": null
   },
   {
+    "name": "இப்போதைய_நொடி",
+    "forms": [
+      "இப்போதைய_நொடி",
+      "ippOqYya_noti",
+      "_nowSeconds"
+    ],
+    "params": null,
+    "arity": 0,
+    "doc": "இப்போதைய_நொடி() — whole seconds since 1970-01-01 UTC",
+    "kind": "builtin",
+    "module": null,
+    "line": null
+  },
+  {
     "name": "நாள்_வேறுபாடு",
     "forms": [
       "நாள்_வேறுபாடு",

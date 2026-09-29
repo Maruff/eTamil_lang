@@ -30,7 +30,7 @@ no Rust, no download, nothing to put on your `PATH`.
 |---|---|
 | **Syntax highlighting** | All 203 keywords across 545 spellings — Tamil script, romanized, and the English aliases |
 | **Errors as you type** | From the compiler's own front end, so they are the errors you will actually get |
-| **Completions** | Keywords with correct statement templates, 96 host builtins, and all 939 `செயல்` functions in the `nUlakam` standard library |
+| **Completions** | Keywords with correct statement templates, 97 host builtins, and all 939 `செயல்` functions in the `nUlakam` standard library |
 | **Hover** | Every spelling of a word, whether it is reserved, and the doc comment from its definition |
 | **Signature help** | Parameter names, read from the library's own source |
 | **Go to Definition** | Jumps into `nUlakam`, and to functions in the current file |

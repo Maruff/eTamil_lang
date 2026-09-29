@@ -29,7 +29,14 @@ GitHub's generated notes list the commits; this file says what they add up to.
   a SQLite-backed HTTP service on the same libraries — schedule, health,
   progress, change requests, the portfolio and an Azure DevOps service hook,
   with the outbox drained on a timer — whose handlers are plain functions,
-  tested under `--vm` against a real database.
+  tested under `--vm` against a real database. It signs users in with a
+  bcrypt-checked password and a signed token, admits each route to the roles
+  that may use it, sets scope before baseline, renders the status report and
+  charter, and keeps the customer-commitment dashboard.
+- **`இப்போதைய_நொடி()`, whole seconds since 1970.** The only clock finer than
+  a day counted from the program's start, so anything stored and read back
+  after a restart — an outbox row's next attempt — meant nothing. Also
+  `ippOqYya_noti` and `_nowSeconds`. 97 builtins now.
 
 ### Fixed
 

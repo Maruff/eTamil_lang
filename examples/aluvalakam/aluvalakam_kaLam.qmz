@@ -24,12 +24,15 @@
     தளம்_செய் "CREATE TABLE IF NOT EXISTS aZuppu_varicY (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
     தளம்_செய் "CREATE TABLE IF NOT EXISTS nikazvukaL (varicY_eN INTEGER PRIMARY KEY AUTOINCREMENT,
                poruL_kuRi TEXT, qaravu TEXT)", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS payaZarkaL (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS vAkkuRuqikaL (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
 }
 
 // __களத்தை_அழி() — empty every table; for seeding and tests__
 // களத்தை_அழி() — எல்லா அட்டவணைகளையும் காலியாக்கும்
 செயல் களத்தை_அழி() {
-    ஒவ்வொரு அட்டவணைப்_பெயர் இல் ["qittawkaL", "paNikaL", "mARRawkaL", "aZuppu_varicY", "nikazvukaL"] {
+    ஒவ்வொரு அட்டவணைப்_பெயர் இல் ["qittawkaL", "paNikaL", "mARRawkaL", "aZuppu_varicY", "nikazvukaL",
+                                       "payaZarkaL", "vAkkuRuqikaL"] {
         தளம்_செய் "DELETE FROM " & அட்டவணைப்_பெயர், [];
     }
 }
@@ -79,6 +82,12 @@
     திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
 }
 
+// __பணியை_நீக்கு(திட்டக்_குறி, பணிக்_குறி) — remove one task of a project__
+// பணியை_நீக்கு(திட்டக்_குறி, பணிக்_குறி) — ஒரு பணியை நீக்கும்
+செயல் பணியை_நீக்கு(திட்டக்_குறி, பணிக்_குறி) {
+    தளம்_செய் "DELETE FROM paNikaL WHERE qittak_kuRi = ? AND paNi_kuRi = ?", [திட்டக்_குறி, பணிக்_குறி];
+}
+
 // __மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) — save a change request, by its மாற்றக்_குறி__
 // மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) — ஒரு மாற்றக் கோரிக்கையைச் சேமிக்கும்
 செயல் மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) {
@@ -124,5 +133,34 @@
 செயல் நிகழ்வுகள்(பொருள்_குறி) {
     தளம்_வினா "SELECT qaravu FROM nikazvukaL WHERE poruL_kuRi = ? ORDER BY varicY_eN",
               [பொருள்_குறி], வரிகள்;
+    திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
+}
+
+// __பயனரைச்_சேமி(பயனர்_பதிவு) — save a user, by their பயனர்_பெயர்__
+// பயனரைச்_சேமி(பயனர்_பதிவு) — ஒரு பயனரைச் சேமிக்கும்
+செயல் பயனரைச்_சேமி(பயனர்_பதிவு) {
+    தளம்_செய் "INSERT OR REPLACE INTO payaZarkaL (kuRi, qaravu) VALUES (?, ?)",
+             [பயனர்_பதிவு["பயனர்_பெயர்"], ஜேசான்_ஆக்கு(பயனர்_பதிவு)];
+}
+
+// __பயனரைப்_பெறு(பயனர்_பெயர்) — one user, or தவறு__
+// பயனரைப்_பெறு(பயனர்_பெயர்) — ஒரு பயனர், அல்லது தவறு
+செயல் பயனரைப்_பெறு(பயனர்_பெயர்) {
+    தளம்_வினா "SELECT qaravu FROM payaZarkaL WHERE kuRi = ?", [பயனர்_பெயர்], வரிகள்;
+    (நீளம்(வரிகள்) == 0) எனில் { திரும்பு தவறு("பயனர் இல்லை: " & பயனர்_பெயர்); }
+    திரும்பு சரி(வரிகளைப்_பதிவாக்கு(வரிகள்)[0]);
+}
+
+// __வாக்குறுதியைச்_சேமி(வாக்குறுதிப்_பதிவு) — save a customer commitment, by its code__
+// வாக்குறுதியைச்_சேமி(வாக்குறுதிப்_பதிவு) — ஒரு வாக்குறுதியைச் சேமிக்கும்
+செயல் வாக்குறுதியைச்_சேமி(வாக்குறுதிப்_பதிவு) {
+    தளம்_செய் "INSERT OR REPLACE INTO vAkkuRuqikaL (kuRi, qaravu) VALUES (?, ?)",
+             [வாக்குறுதிப்_பதிவு["வாக்குறுதிக்_குறி"], ஜேசான்_ஆக்கு(வாக்குறுதிப்_பதிவு)];
+}
+
+// __எல்லா_வாக்குறுதிகளும்() — every customer commitment__
+// எல்லா_வாக்குறுதிகளும்() — எல்லா வாக்குறுதிகளும்
+செயல் எல்லா_வாக்குறுதிகளும்() {
+    தளம்_வினா "SELECT qaravu FROM vAkkuRuqikaL ORDER BY kuRi", [], வரிகள்;
     திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
 }

@@ -1010,6 +1010,22 @@ impl VM {
                     .as_secs() as i64;
                 Ok(Value::String(Self::format_date(seconds / 86_400)))
             }
+            // இப்போதைய_நொடி() — whole seconds since 1970-01-01 UTC
+            //
+            // For timing, not for dates: a retry's next attempt, a token's age.
+            // Before this the only clock finer than a day was வன்_மில்லி, which
+            // counts from the program's start, so anything a program stored and
+            // read back after a restart — an outbox row's backoff — meant
+            // nothing. A number rather than text, because the uses are
+            // arithmetic; இன்று remains the way to ask for a date.
+            "இப்போதைய_நொடி" | "ippOqYya_noti" | "_nowSeconds" => {
+                Self::expect_args(name, &args, 0)?;
+                let seconds = std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .map_err(|_| "கடிகாரம் படிக்க முடியவில்லை  (cannot read the clock)")?
+                    .as_secs() as i64;
+                Ok(Value::Number(Decimal::from(seconds)))
+            }
             // நாள்_வேறுபாடு(a, b) — whole days from a to b, negative if b is earlier
             "நாள்_வேறுபாடு" | "nAL_vERupAtu" | "_daysBetween" => {
                 Self::expect_args(name, &args, 2)?;

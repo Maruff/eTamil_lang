@@ -251,6 +251,7 @@
         ["புலத்தால்_வரிசையாக்கு", "pulaqqAl_varicYyAkku", "_sortByField"],
         ["இணை", "iNY", "_append"],
         ["இன்று", "iZRu", "_today"],
+        ["இப்போதைய_நொடி", "ippOqYya_noti", "_nowSeconds"],
         ["நாள்_வேறுபாடு", "nAL_vERupAtu", "_daysBetween"],
         ["நாள்_கூட்டு", "nAL_kUttu", "_addDays"],
         ["வகை", "vakY", "_typeof"],
