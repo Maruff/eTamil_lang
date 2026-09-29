@@ -14,5 +14,5 @@
 // __Separated from the arithmetic so that the figures can be used without the__
 // __formatting, and so the formatting can change without touching them.__
 // கணக்கும் வடிவமைப்பும் தனித்தனியே
-நிலை = மதிப்பு(நிலவரம்(300000, 250000, 300000, 1000000));
-நிலவரத்தை_அச்சிடு(நிலை);
+ஒரு_நிலவரம் = மதிப்பு(நிலவரம்(300000, 250000, 300000, 1000000));
+நிலவரத்தை_அச்சிடு(ஒரு_நிலவரம்);

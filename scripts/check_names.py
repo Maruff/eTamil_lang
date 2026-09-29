@@ -78,7 +78,11 @@ DIGRAPHS = {
     "ii": "I (ஈ)", "oo": "O (ஓ)", "uu": "U (ஊ)",
 }
 
-KEY = re.compile(r'\["([A-Za-z_]+)"\]')
+# A key is read as `record["name"]`, so the `[` must follow something that can
+# be indexed — a name, `]` or `)`. Without that, a one-item list literal such as
+# the predecessor list `["A"]` in `செயல்_ஆக்கு("D", 15, ["A"])` was taken for a
+# record key and its task code reported as an off-scheme name.
+KEY = re.compile(r'(?<=[஀-௿A-Za-z0-9_\])])\["([A-Za-z_]+)"\]')
 COLUMN = re.compile(r"^\s+([A-Za-z_]+)\s+(?:TEXT|REAL|INTEGER|NUMERIC|BLOB)", re.M)
 TABLE = re.compile(
     r"(?:CREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?|INSERT\s+INTO|FROM|UPDATE)"
