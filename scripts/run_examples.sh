@@ -47,6 +47,9 @@ fi
 # இறக்கு resolves relative to the importing file first, but set this so
 # examples work no matter where they are run from.
 export ETAMIL_PATH="$ROOT"
+# Programs run from a scratch directory, so the office service's test is told
+# where its Word templates are, as the service itself would be.
+export ALUVALAKAM_TEMPLATES="$ROOT/examples/aluvalakam/vArppukaL"
 
 # Examples that must fail, and the text their error must contain.
 declare -A EXPECT_FAIL=(

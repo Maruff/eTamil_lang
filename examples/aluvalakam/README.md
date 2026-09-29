@@ -71,7 +71,7 @@ Sign in with `POST /uLnuzYvu` and `{"பயனர்_பெயர்": "meena", 
 `Authorization: Bearer <token>`, and is good for eight hours. The seed makes
 three users, one per role — `meena` manages, `arun` is on the team, `ravi` is a
 stakeholder — all with the password `demo-password`, which is for a laptop and
-nowhere else.
+nowhere else. The manager adds everyone after that, through `/payaZarkaL`.
 
 | Route | Who | What it does |
 |---|---|---|
@@ -80,6 +80,8 @@ nowhere else.
 | `GET /qittam/:kuRi/nalam` | any role | RAG health, its reasons, and the go-live forecast |
 | `GET /qittam/:kuRi/aRikkY` | any role | this week's status report — achievements, blockers, next steps — and its rendered document body |
 | `GET /qittam/:kuRi/cAcaZam` | any role | the charter: how ready it is, what it still lacks, and its rendered body |
+| `GET /qittam/:kuRi/aRikkY/kOppu` | any role | the status report as a Word file, filled from `vArppukaL/aRikkY.docx` |
+| `GET /qittam/:kuRi/cAcaZam/kOppu` | any role | the charter as a Word file, filled from `vArppukaL/cAcaZam.docx` |
 | `POST /qittam/:kuRi/paNi/:paNi` | manager, team | record progress; on a baselined project only progress fields move, anything else is a 409 |
 | `POST /qittam/:kuRi/nOkkam` | manager | set the scope and features before baseline; tasks that stay keep their progress, and one that leaves is deleted — or cancelled, if it is already a work item |
 | `POST /mARRam/:kuRi` | manager | move a change request; approval turns its items into tasks and queues them |
@@ -87,6 +89,10 @@ nowhere else.
 | `GET /vAkkuRuqi` | any role | customer commitments: overdue, notice due, notice late |
 | `POST /vAkkuRuqi/:kuRi` | manager | record that the customer has been told |
 | `GET /varicY` | manager | the outbox |
+| `GET /payaZarkaL` | manager | the users, with their roles and never their password hashes |
+| `POST /payaZarkaL` | manager | add a user — `{பயனர்_பெயர், கடவுச்சொல், பயனர்_பங்கு}`; a name already taken is a 409, and a password needs twelve characters |
+| `POST /payaZarkaL/:peyar/pawku` | manager | change a user's role, from their next request on; the last manager stays a manager |
+| `POST /payaZarkaL/:peyar/katavuccol` | manager | reset a user's password, which signs them out everywhere |
 | `POST /ajUr/kokki/:cIttu` | the hook's token | an Azure DevOps service hook: token, echo brakes, field ownership |
 
 No token, a forged one or an expired one is a 401; a role the route does not
@@ -103,7 +109,8 @@ and, after eight attempts, park.
 | `aluvalakam_kYyALi.qmz` | the handlers — what each route does, as functions that take today's date and Azure DevOps as arguments |
 | `aluvalakam_cEvY.qmz` | the server — routes, the outbox worker, the real Azure DevOps calls |
 | `aluvalakam_amYppu.qmz` | creates and seeds the database |
-| `aluvalakam_kYyALi_cOqaZY.qmz` | 68 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
+| `vArppukaL/` | the two Word templates the documents are filled from — `aRikkY.docx`, `cAcaZam.docx` |
+| `aluvalakam_kYyALi_cOqaZY.qmz` | 92 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
 
 The handlers are functions rather than code inside the routes so that the whole
 service is tested under `--vm` — including a failed send rescheduled, a child
@@ -120,15 +127,34 @@ not move a change request, and the manager's approval produced the change's
 task; closing a task on its actual dates moved go-live back onto the baseline;
 the status report and charter came back rendered; and with Azure DevOps not
 configured the worker tried the queued rows, recorded why they failed, and
-scheduled them again at wall-clock seconds.
+scheduled them again at wall-clock seconds. A manager added a user, who could
+record progress until demoted, and the token they already held lost the right
+on the next request; demoting the last manager was refused; a password reset
+refused the old token and let the new password in; and the report and charter
+came down as Word files that Word, LibreOffice and python-docx open.
 
 **What it does not do.** It holds one database connection at a time, which is
-what the host provides. It serves plain HTTP; put TLS in front of it. Users are
-made by the seed or by `பயனரை_ஆக்கு`, and there is no route for managing them.
-The documents are rendered from templates held in the code rather than read
-from a `.docx` file, though `vativam/AvaNam.qmz`'s `பொதியை_நிரப்பு` would fill
-one. And the parent link it sends to Azure DevOps carries `?api-version=7.1`,
+what the host provides. It serves plain HTTP; put TLS in front of it. And the parent link it sends to Azure DevOps carries `?api-version=7.1`,
 which has not yet been checked against a real organisation.
+
+**Users.** A role is read from the user's record on every request rather than
+from the token, so a change holds at once. A password reset moves the record's
+`சீட்டுப்_பதிப்பு` on, and a token that carries an older one is refused — which
+is how a reset signs someone out without a list of revoked tokens.
+
+**Documents in Word.** The `.docx` routes fill the templates in `vArppukaL/`
+with `பொதியை_நிரப்பு`: only `word/document.xml` changes, so a template's styles,
+fonts and pictures come through as they were made. Edit them in Word. A
+placeholder is `{{ திட்டம்.பெயர் }}`, and a repeating row is a table row between
+a `{%tr for சாதனை in சாதனைகள் %}` row and a `{%tr endfor %}` row, as the
+templates show. Type a placeholder in one go and leave its formatting alone: if
+Word splits it across runs, it is left unfilled. Keep each list's heading row,
+so a list that comes out empty leaves a table Word still opens. The service
+looks for the templates in `ALUVALAKAM_TEMPLATES` (by default
+`examples/aluvalakam/vArppukaL`, from the repository root), writes the filled
+file to `ALUVALAKAM_OUT` (by default the system's temporary directory), and
+answers 503 when a template is missing rather than send an empty document. The
+JSON routes still render from templates in the code, so they need no file.
 
 The outbox's backoff is timed with `இப்போதைய_நொடி()`, the seconds clock added to
 the language for this: before it, the only clock finer than a day counted from
@@ -139,10 +165,10 @@ the program's start, so a row's next attempt meant nothing after a restart.
 | | Code lines |
 |---|---:|
 | BeakPMO for the same ground — domain logic, Azure DevOps integration, and the sign-in, API routes, repositories, sync worker and sync SQL behind it⁴ | 5,599 |
-| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **771** |
+| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **959** |
 | the `nUlakam` modules it uses | 1,293 |
 
-BeakPMO's API and repository files serve more endpoints than these thirteen —
+BeakPMO's API and repository files serve more endpoints than these nineteen —
 full create, read, update and delete, with authentication in front — so the
 ratio flatters the service, and should be read as the size of the same *kind*
 of application rather than the same application. The domain-logic comparison
