@@ -83,7 +83,7 @@ frameworks built on top of it.
 | `oruwkiNYppu/pula_urimY.qmz` | field ownership — `இயல்பு_உரிமைகள்` `உரிமையாளர்` `வரவைப்_பிரி` `அனுப்பவேண்டியவை` |
 | `oruwkiNYppu/mItci.qmz` | retry and backoff — `மீள்_முயலத்தக்கதா` `காத்திருப்பு_நொடிகள்` `கைவிடலாமா` |
 | `oruwkiNYppu/kYrEkY.qmz` | fingerprints — `நிலையான_வடிவம்` `கைரேகை` `ஒருமுறைக்_குறி` `கைரேகை_ஒன்றா` |
-| `oruwkiNYppu/ottu.qmz` | JSON Patch — `புல_ஒட்டு` `திருத்தச்_சோதனை` `பெற்றோர்_ஒட்டு` `குறிச்சொற்களை_இணை` `பணி_ஒட்டுகள்` |
+| `oruwkiNYppu/ottu.qmz` | JSON Patch — `புல_ஒட்டு` `திருத்தச்_சோதனை` `பெற்றோர்_ஒட்டு` `குறிச்சொற்களை_இணை` `பணி_ஒட்டுகள்` `ஒட்டுகள்_சரியா` |
 | `oruwkiNYppu/viZA.qmz` | WIQL — `வினா_மேற்கோள்` `தேடல்_தொடக்க_நாள்` `மாறியவை_வினா` |
 | `oruwkiNYppu/varavu.qmz` | inbound — `வரவு_முடிவு` `கொக்கிச்_சீட்டு_சரியா` `கொக்கி_நிகழ்வைப்_படி` |
 | `oruwkiNYppu/aZuppu_varicY.qmz` | the outbox — `அனுப்பு_உருப்படி_ஆக்கு` `வரிசையில்_உள்ளதா` `அனுப்பத்_தயாரானவை` `அனுப்பியதாகப்_பதி` `தோல்வியைப்_பதி` |
@@ -182,7 +182,7 @@ current second are arguments, which is what makes every rule testable.
 ## Worked examples, one per function
 
 Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
-each function in it, named after the function it demonstrates. 914 of them, and
+each function in it, named after the function it demonstrates. 915 of them, and
 each one shows the ordinary use together with the cases that are easy to get
 wrong: the boundary, the empty input, the failure that is a தவறு rather than a
 crash. The reasoning is in English and Tamil, like the library itself.

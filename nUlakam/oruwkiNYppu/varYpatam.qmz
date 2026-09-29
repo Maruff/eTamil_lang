@@ -122,7 +122,7 @@
 }
 
 // __பணியுருப்படி_வகை(விதிகள், ஒரு_பதிவு) — the work-item type a record becomes__
-// பணியுருப்படி_வகை(விதிகள், ஒரு_பதிவு) — ஒரு ஒரு_பதிவு எந்தப் பணியுருப்படி வகையாகும்
+// பணியுருப்படி_வகை(விதிகள், ஒரு_பதிவு) — ஒரு பதிவு எந்தப் பணியுருப்படி வகையாகும்
 //
 // __The first rule, by வரிசை_எண், that matches. With no default rule and no__
 // __match it is தவறு, because guessing a type creates the item in the wrong__

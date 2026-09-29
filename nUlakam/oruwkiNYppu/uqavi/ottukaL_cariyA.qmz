@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒட்டுகள்_சரியா(ஒட்டுகள்) — is this a patch Azure DevOps will accept?__
+// இவ்வொட்டை அஜூர் ஏற்குமா
+
+இறக்கு "../ottu.qmz";
+
+// __A patch built from the helpers passes: a revision test, a field set by its__
+// __reference name, and a parent link.__
+// உதவிச் செயல்களால் கட்டிய ஒட்டு ஏற்கப்படும்
+நல்லது = [திருத்தச்_சோதனை(12),
+          புல_ஒட்டு("Microsoft.VSTS.Scheduling.RemainingWork", 6),
+          பெற்றோர்_ஒட்டு("https://dev.azure.com/beak/PMO/_apis/wit/workitems/40")];
+அச்சு சரியா(ஒட்டுகள்_சரியா(நல்லது));
+
+// __A display name is the commonest mistake: it is what the board shows.__
+// __Refused with the name in the message, which Azure DevOps's own 400 omits.__
+// காட்சிப் பெயரே அடிக்கடி வரும் பிழை; செய்தியில் அப்பெயர் இருக்கும்
+அச்சு ஒட்டுகள்_சரியா([புல_ஒட்டு("Remaining Work", 6)]);
+
+// __An op outside JSON Patch's six, and a path without its leading slash.__
+// __The first wrong operation is the one reported.__
+// ஆறுக்கு வெளியே உள்ள செயல்பாடும், சாய்வில்லாத பாதையும் மறுக்கப்படும்
+அச்சு ஒட்டுகள்_சரியா([ஒட்டுச்_செயல்("update", "/fields/System.Title", "x")]);
+அச்சு ஒட்டுகள்_சரியா([ஒட்டுச்_செயல்("add", "fields/System.Title", "x")]);
+
+// __It checks shape, not existence: a well-formed name for a field this process__
+// __does not have passes here and is refused by the service.__
+// வடிவத்தையே பார்க்கும்; இல்லாத புலத்தின் சரியான பெயரை அஜூரே மறுக்கும்
+அச்சு சரியா(ஒட்டுகள்_சரியா([புல_ஒட்டு("Custom.NoSuchField", 1)]));

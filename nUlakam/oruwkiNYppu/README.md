@@ -15,7 +15,7 @@ Task statuses and priorities are the ones in `../qittam/paNi.qmz`. Nothing here 
 | `kYrEkY.qmz` | கைரேகை: fingerprints and idempotency keys | `நிலையான_வடிவம்` `கைரேகை` `ஒருமுறைக்_குறி` `கைரேகை_ஒன்றா` |
 | `mItci.qmz` | மீட்சி: retrying a call that failed | `அதிக_முயற்சிகள்` `மேல்_காத்திருப்பு` `மீள்_முயலத்தக்கதா` `காத்திருப்பு_நொடிகள்` `கைவிடலாமா` |
 | `oruwkiNYppu_cOqaZY.qmz` | tests for the integration modules | — |
-| `ottu.qmz` | ஒட்டு: JSON Patch bodies for work items | `ஒட்டுச்_செயல்` `புல_ஒட்டு` `திருத்தச்_சோதனை` `பெற்றோர்_ஒட்டு` `குறிச்சொற்களை_இணை` `பணி_ஒட்டுகள்` |
+| `ottu.qmz` | ஒட்டு: JSON Patch bodies for work items | `ஒட்டுச்_செயல்` `புல_ஒட்டு` `திருத்தச்_சோதனை` `பெற்றோர்_ஒட்டு` `குறிச்சொற்களை_இணை` `பணி_ஒட்டுகள்` `ஒட்டுகள்_சரியா` |
 | `pula_urimY.qmz` | புல உரிமை: which side owns each field | `புல_உரிமை_ஆக்கு` `இயல்பு_உரிமைகள்` `உரிமையாளர்` `வரவைப்_பிரி` `அனுப்பவேண்டியவை` |
 | `varavu.qmz` | வரவு: service hooks and echoes | `வரவு_முடிவு` `கொக்கிச்_சீட்டு_சரியா` `கொக்கி_நிகழ்வைப்_படி` |
 | `varYpatam.qmz` | வரைபடம்: statuses, priorities, types, progress | `வெளி_நிலை_வேட்பாளர்கள்` `நிலையின்_வகைமை` `வெளி_நிலை` `உள்_நிலை` `முன்னுரிமை_எண்` `எண்ணிலிருந்து_முன்னுரிமை` `வகை_விதி_ஆக்கு` `பணியுருப்படி_வகை` `மணியிலிருந்து_நிறைவு` |

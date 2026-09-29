@@ -124,6 +124,13 @@
 ஓட்டம் = சமம்(ஓட்டம், ஒட்டுகள்[1]["value"], "Build API", "a blank description is sent as the title");
 ஓட்டம் = சமம்(ஓட்டம், பெற்றோர்_ஒட்டு("u")["value"]["rel"], "System.LinkTypes.Hierarchy-Reverse",
               "the parent link type");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(ஒட்டுகள்_சரியா(ஒட்டுகள்)), "a patch built by the helpers passes the check");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(ஒட்டுகள்_சரியா([புல_ஒட்டு("Remaining Work", 4)])),
+                  "a display name is refused");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(ஒட்டுகள்_சரியா([ஒட்டுச்_செயல்("put", "/rev", 1)])),
+                  "so is an op that is not JSON Patch");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(ஒட்டுகள்_சரியா([ஒட்டுச்_செயல்("add", "fields/System.Title", "x")])),
+                  "and a path without its leading slash");
 
 ஓட்டம் = சமம்(ஓட்டம், வினா_மேற்கோள்("O'Brien"), "'O''Brien'", "a quote inside a WIQL literal is doubled");
 ஓட்டம் = சமம்(ஓட்டம், தேடல்_தொடக்க_நாள்("", "2026-09-28"), "2026-08-29", "the first sweep looks back 30 days");
@@ -173,6 +180,13 @@
                   "a read sends no content type");
 தாங்கி = அஜூர்_இணைப்பு_ஆக்கு("https://dev.azure.com/beak", "P", "Bearer", "eyJ");
 ஓட்டம் = சமம்(ஓட்டம், புலம்_அல்லது(அஜூர்_தலைப்புகள்(தாங்கி, ""), "Authorization", ""), "Bearer eyJ", "an Entra token is Bearer");
+ஓட்டம் = சமம்(ஓட்டம், திட்ட_உரலி(இணைப்பு, "/wit/wiql"), திட்ட_உரலி(இணைப்பு, "wit/wiql"),
+              "a leading slash is dropped");
+கெட்டது = பணியுருப்படியை_உருவாக்கு(அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "p", "PAT", "x"), "Task",
+                                   [புல_ஒட்டு("Remaining Work", 4)]);
+ஓட்டம் = சமம்(ஓட்டம், தவறு_மதிப்பு(கெட்டது).நிலைக்_குறி, 400,
+              "a malformed patch is refused as 400 before it is sent");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், இல்லை மீள்_முயலத்தக்கதா(400), "which the outbox parks rather than retries");
 மறுத்தது = பணியுருப்படியைப்_பெறு(அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "p", "PAT", "x"), 1);
 ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(மறுத்தது), "an unreachable service is a தவறு");
 ஓட்டம் = சமம்(ஓட்டம், தவறு_மதிப்பு(மறுத்தது).நிலைக்_குறி, 0, "with status 0, which the outbox retries");

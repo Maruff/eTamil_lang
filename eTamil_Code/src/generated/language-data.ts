@@ -12391,7 +12391,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அஜூர்_பதிப்பு() — the REST api-version every call sends",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 28
+    "line": 31
   },
   {
     "name": "அஜூர்_இணைப்பு_ஆக்கு",
@@ -12408,7 +12408,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அஜூர்_இணைப்பு_ஆக்கு(நிறுவன_உரலி, திட்டப்_பெயர், சீட்டு_வகை, அணுகல்_சீட்டு) — one connection",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 35
+    "line": 38
   },
   {
     "name": "அஜூர்_தலைப்புகள்",
@@ -12423,7 +12423,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அஜூர்_தலைப்புகள்(இணைப்பு, உள்ளடக்க_வகை) — the request headers for a connection",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 47
+    "line": 50
   },
   {
     "name": "திட்ட_உரலி",
@@ -12438,7 +12438,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "திட்ட_உரலி(இணைப்பு, பாதை) — a project-scoped API url",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 63
+    "line": 67
   },
   {
     "name": "பணியுருப்படி_உரலி",
@@ -12453,7 +12453,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — the url of one work item",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 73
+    "line": 78
   },
   {
     "name": "அஜூர்_அனுப்பு",
@@ -12470,7 +12470,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "அஜூர்_அனுப்பு(கோரிக்கை_முறை, இலக்கு_உரலி, உடலுரை, தலைப்புகள்) — send one request, and give every failure one shape",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 83
+    "line": 88
   },
   {
     "name": "பணியுருப்படியைப்_பெறு",
@@ -12485,7 +12485,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணியுருப்படியைப்_பெறு(இணைப்பு, பணியுருப்படி_எண்) — read one work item, with its relations",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 103
+    "line": 108
   },
   {
     "name": "பணியுருப்படியை_உருவாக்கு",
@@ -12501,7 +12501,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்) — create a work item",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 113
+    "line": 120
   },
   {
     "name": "பணியுருப்படியைத்_திருத்து",
@@ -12517,7 +12517,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) — update a work item",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 121
+    "line": 134
   },
   {
     "name": "வினாவை_ஓட்டு",
@@ -12532,7 +12532,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "வினாவை_ஓட்டு(இணைப்பு, வினா_உரை) — run a WIQL query and return the ids",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ajUr.qmz",
-    "line": 131
+    "line": 148
   },
   {
     "name": "நிலையான_வடிவம்",
@@ -12678,7 +12678,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — one patch operation",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 23
+    "line": 28
   },
   {
     "name": "புல_ஒட்டு",
@@ -12693,7 +12693,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — set one field",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 33
+    "line": 39
   },
   {
     "name": "திருத்தச்_சோதனை",
@@ -12707,7 +12707,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "திருத்தச்_சோதனை(திருத்த_எண்) — refuse the update if the item has moved on",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 39
+    "line": 45
   },
   {
     "name": "பெற்றோர்_ஒட்டு",
@@ -12721,7 +12721,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) — link a work item under its parent",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 47
+    "line": 53
   },
   {
     "name": "குறிச்சொற்களை_இணை",
@@ -12737,7 +12737,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) — merge tags without deleting the team's",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 59
+    "line": 65
   },
   {
     "name": "பணி_ஒட்டுகள்",
@@ -12753,7 +12753,21 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) — the whole patch for one record",
     "kind": "stdlib",
     "module": "nUlakam/oruwkiNYppu/ottu.qmz",
-    "line": 83
+    "line": 89
+  },
+  {
+    "name": "ஒட்டுகள்_சரியா",
+    "forms": [
+      "ஒட்டுகள்_சரியா"
+    ],
+    "params": [
+      "ஒட்டுகள்"
+    ],
+    "arity": 1,
+    "doc": "ஒட்டுகள்_சரியா(ஒட்டுகள்) — is this a patch Azure DevOps will accept?",
+    "kind": "stdlib",
+    "module": "nUlakam/oruwkiNYppu/ottu.qmz",
+    "line": 116
   },
   {
     "name": "புல_உரிமை_ஆக்கு",

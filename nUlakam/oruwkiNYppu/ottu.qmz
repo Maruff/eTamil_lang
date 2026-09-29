@@ -16,10 +16,15 @@
 //
 // __The keys op, path, value, rel and url are Azure DevOps's, and stay English.__
 
+இறக்கு "../atippatY/aNi.qmz";
 இறக்கு "../atippatY/col.qmz";
 
 // __ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — one patch operation__
 // ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — ஒரு ஒட்டுச் செயல்பாடு
+//
+// __Builds what it is given and checks nothing, so that a patch can be put__
+// __together a piece at a time. ஒட்டுகள்_சரியா checks the finished list, and__
+// __ajUr.qmz runs it before anything is sent.__
 செயல் ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) {
     திரும்பு { "op": செயல்பாடு, "path": பாதை, "value": மதிப்பு_தரவு };
 }
@@ -27,7 +32,8 @@
 // __புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — set one field__
 // புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — ஒரு புலத்தை அமைக்கும்
 //
-// __புலக்_குறிப்பு is the reference name, System.Title, not the display name.__
+// __புலக்_குறிப்பு is the reference name, System.Title, not the display name —__
+// __"Remaining Work" is refused by ஒட்டுகள்_சரியா before it reaches the service.__
 // __"add" rather than "replace", because add creates or overwrites and replace__
 // __fails on a field the item does not have yet.__
 செயல் புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) {
@@ -93,4 +99,39 @@
         }
     }
     திரும்பு ஒட்டுகள்;
+}
+
+// __ஒட்டுகள்_சரியா(ஒட்டுகள்) — is this a patch Azure DevOps will accept?__
+// ஒட்டுகள்_சரியா(ஒட்டுகள்) — இவ்வொட்டை அஜூர் ஏற்குமா
+//
+// __சரி(ஒட்டுகள்), or தவறு naming the first operation that is wrong. Three__
+// __mistakes are caught before they cost a round trip: an op that is not one of__
+// __JSON Patch's six, a path that does not begin with /, and a field addressed__
+// __by its display name — /fields/Remaining Work — rather than its reference__
+// __name, Microsoft.VSTS.Scheduling.RemainingWork. Azure DevOps refuses all__
+// __three, but only after the request has gone, and its answer names neither the__
+// __operation nor the field. A reference name is known by its shape — a dot and__
+// __no space — not looked up, so a well-formed name for a field the process does__
+// __not have still passes here and is refused by the service.__
+செயல் ஒட்டுகள்_சரியா(ஒட்டுகள்) {
+    ஒவ்வொரு ஒரு_ஒட்டு இல் ஒட்டுகள் {
+        செயல்பாடு = புலம்_அல்லது(ஒரு_ஒட்டு, "op", "");
+        ஒட்டுப்_பாதை = சொல்லாக்கு(புலம்_அல்லது(ஒரு_ஒட்டு, "path", ""));
+        (இல்லை உள்ளதா(["add", "remove", "replace", "move", "copy", "test"], செயல்பாடு)) எனில் {
+            திரும்பு தவறு("'" & சொல்லாக்கு(செயல்பாடு) & "' ஒட்டுச் செயல்பாடு அல்ல  ('"
+                           & சொல்லாக்கு(செயல்பாடு) & "' is not a JSON Patch op)");
+        }
+        (இல்லை தொடங்குகிறதா(ஒட்டுப்_பாதை, "/")) எனில் {
+            திரும்பு தவறு("'" & ஒட்டுப்_பாதை & "' / கொண்டு தொடங்க வேண்டும்  ('"
+                           & ஒட்டுப்_பாதை & "' must begin with /)");
+        }
+        (தொடங்குகிறதா(ஒட்டுப்_பாதை, "/fields/")) எனில் {
+            புலக்_குறிப்பு = துண்டு(ஒட்டுப்_பாதை, 8, நீளம்(ஒட்டுப்_பாதை) - 8);
+            ((இல்லை கொண்டுள்ளதா(புலக்_குறிப்பு, ".")) அல்லது கொண்டுள்ளதா(புலக்_குறிப்பு, " ")) எனில் {
+                திரும்பு தவறு("'" & புலக்_குறிப்பு & "' புலக் குறிப்புப் பெயர் அல்ல  ('" & புலக்_குறிப்பு
+                               & "' is not a field reference name, such as System.Title)");
+            }
+        }
+    }
+    திரும்பு சரி(ஒட்டுகள்);
 }
