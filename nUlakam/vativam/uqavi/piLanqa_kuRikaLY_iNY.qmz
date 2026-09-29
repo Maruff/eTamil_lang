@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிளந்த_குறிகளை_இணை(ஆவணம்) — rejoin the placeholders Word has split across runs__
+// வேர்டு பல ஓட்டங்களாகப் பிளந்த குறிகளை மீண்டும் இணைக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __A placeholder typed in two sittings: Word stored its halves in two runs, so a__
+// __substitution for "{{ பெயர் }}" finds nothing to replace.__
+// இருமுறை தட்டச்சிட்ட குறி இரு ஓட்டங்களில் பிளந்து நிற்கிறது
+பிளந்தது = "<w:p><w:r><w:t>வாடிக்கையாளர்: {{ பெ</w:t></w:r>"
+         & "<w:r><w:rPr><w:b/></w:rPr><w:t>யர் }}</w:t></w:r></w:p>";
+அச்சு ஆவணத்தில்_உள்ளதா(பிளந்தது, "{{ பெயர் }}");
+
+// __Rejoined, the placeholder is whole again in the first run, and the second is__
+// __left empty — so ஆவணம்_நிரப்பு can fill it.__
+// இணைத்த பின் குறி முதல் ஓட்டத்தில் முழுமையாக உள்ளது
+இணைந்தது = பிளந்த_குறிகளை_இணை(பிளந்தது);
+அச்சு ஆவணத்தில்_உள்ளதா(இணைந்தது, "{{ பெயர் }}");
+அச்சு ஆவணம்_நிரப்பு(இணைந்தது, _DOCX_வடிவம், [{ குறி: "பெயர்", மதிப்பு: "ACME" }], []);
+
+// __A brace left open never reaches into the next paragraph.__
+// திறந்த அடைப்பு அடுத்த பத்திக்குள் நுழைவதில்லை
+அச்சு பிளந்த_குறிகளை_இணை("<w:p><w:r><w:t>{ அரை</w:t></w:r></w:p><w:p><w:r><w:t>அடுத்தது</w:t></w:r></w:p>");

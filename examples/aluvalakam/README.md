@@ -76,6 +76,11 @@ nowhere else. The manager adds everyone after that, through `/payaZarkaL`.
 | Route | Who | What it does |
 |---|---|---|
 | `POST /uLnuzYvu` | anyone | sign in; the reply carries a signed token |
+| `POST /qittam` | manager | open a project — `{திட்டக்_குறி, பெயர், தொடக்க_நாள்}`, and optionally the customer, sponsor, objective, holidays and a target end |
+| `GET /qittam/:kuRi` | any role | the project's record, and how many tasks it has |
+| `POST /qittam/:kuRi` | manager | change the name, customer, sponsor or objective; the start, target end and holidays only before the baseline |
+| `POST /qittam/:kuRi/atippatY` | manager | baseline: schedule the scope on the project's calendar, record where it ends, and lock the scope |
+| `POST /qittam/:kuRi/mUtu` | manager | close the project; it takes no changes after that |
 | `GET /qittam/:kuRi/attavaNY` | any role | the schedule as of today, rescheduled on actuals |
 | `GET /qittam/:kuRi/nalam` | any role | RAG health, its reasons, and the go-live forecast |
 | `GET /qittam/:kuRi/aRikkY` | any role | this week's status report — achievements, blockers, next steps — and its rendered document body |
@@ -110,7 +115,7 @@ and, after eight attempts, park.
 | `aluvalakam_cEvY.qmz` | the server — routes, the outbox worker, the real Azure DevOps calls |
 | `aluvalakam_amYppu.qmz` | creates and seeds the database |
 | `vArppukaL/` | the two Word templates the documents are filled from — `aRikkY.docx`, `cAcaZam.docx` |
-| `aluvalakam_kYyALi_cOqaZY.qmz` | 92 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
+| `aluvalakam_kYyALi_cOqaZY.qmz` | 120 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
 
 The handlers are functions rather than code inside the routes so that the whole
 service is tested under `--vm` — including a failed send rescheduled, a child
@@ -147,14 +152,25 @@ with `பொதியை_நிரப்பு`: only `word/document.xml` change
 fonts and pictures come through as they were made. Edit them in Word. A
 placeholder is `{{ திட்டம்.பெயர் }}`, and a repeating row is a table row between
 a `{%tr for சாதனை in சாதனைகள் %}` row and a `{%tr endfor %}` row, as the
-templates show. Type a placeholder in one go and leave its formatting alone: if
-Word splits it across runs, it is left unfilled. Keep each list's heading row,
+templates show. Word often stores a placeholder typed in two sittings in two
+runs; `பிளந்த_குறிகளை_இணை` joins it back before filling, and the rejoined text
+takes the formatting of the run it starts in. Keep each list's heading row,
 so a list that comes out empty leaves a table Word still opens. The service
 looks for the templates in `ALUVALAKAM_TEMPLATES` (by default
 `examples/aluvalakam/vArppukaL`, from the repository root), writes the filled
 file to `ALUVALAKAM_OUT` (by default the system's temporary directory), and
 answers 503 when a template is missing rather than send an empty document. The
-JSON routes still render from templates in the code, so they need no file.
+JSON routes render from the same templates, so an edit in Word shows there too,
+and fall back to the templates in the code when none is installed; their reply's
+`வார்ப்பு_மூலம்` says which was used.
+
+**Projects.** A manager opens a project, fills in what the charter asks for,
+sets the scope, and baselines it: the tasks are scheduled on the project's
+calendar from its start, where they end becomes the baseline every forecast is
+measured against, and the scope locks. After that the dates move only by
+rescheduling on actuals and the scope only by change request, so editing a date
+by hand is a 409. Closing is final. There is no delete: a project with history
+is closed, not erased.
 
 The outbox's backoff is timed with `இப்போதைய_நொடி()`, the seconds clock added to
 the language for this: before it, the only clock finer than a day counted from
@@ -165,10 +181,10 @@ the program's start, so a row's next attempt meant nothing after a restart.
 | | Code lines |
 |---|---:|
 | BeakPMO for the same ground — domain logic, Azure DevOps integration, and the sign-in, API routes, repositories, sync worker and sync SQL behind it⁴ | 5,599 |
-| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **959** |
+| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **1,118** |
 | the `nUlakam` modules it uses | 1,293 |
 
-BeakPMO's API and repository files serve more endpoints than these nineteen —
+BeakPMO's API and repository files serve more endpoints than these twenty-four —
 full create, read, update and delete, with authentication in front — so the
 ratio flatters the service, and should be read as the size of the same *kind*
 of application rather than the same application. The domain-logic comparison
