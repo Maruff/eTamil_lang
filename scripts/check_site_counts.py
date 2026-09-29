@@ -167,16 +167,28 @@ def check(root: Path, truth: dict[str, int]) -> list[str]:
 
 def main(argv: list[str]) -> int:
     truth = counts()
+    findings: list[str] = []
+
+    # This repository states the same figures the website does -- the feature
+    # table in README.md, the roadmap, the architecture notes -- and nothing
+    # was checking them. README.md claimed 62 builtins and 696 nUlakam
+    # functions when the answer was 96 and 939, and had said so long enough
+    # that nobody could say when it went wrong.
+    #
+    # Checked first and always, because it needs no second checkout: whoever
+    # has only this repository still gets an answer about it.
+    findings += check(ROOT, truth)
+
     root = site_root(argv)
     if root is None:
         print(
-            "no website checkout found -- skipped. "
-            "Pass --site, set ETAMIL_SITE, or clone Maruff/eTamil.in beside this "
-            "repository.\n"
+            "no website checkout found -- the site was not checked. "
+            "Pass --site, set ETAMIL_SITE, or clone Maruff/eTamil.in beside "
+            "this repository."
         )
-        return 0
-
-    findings: list[str] = []
+        for finding in findings:
+            print(finding)
+        return len(findings)
 
     # The one field a release has to edit by hand. The download URLs beside it
     # in _config.yml are deliberately unversioned, behind GitHub's /latest/
