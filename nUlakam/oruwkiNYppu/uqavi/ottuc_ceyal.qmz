@@ -14,7 +14,8 @@
 // புலத்தை அழிக்க நீக்கும் செயல்; மதிப்பாக இன்மை தருக, அது வெற்றாக எழுதப்படும்
 அச்சு ஜேசான்_ஆக்கு(ஒட்டுச்_செயல்("remove", "/fields/Microsoft.VSTS.Scheduling.DueDate", இன்மை));
 
-// __Nothing here checks the operation or the path. A typo is caught only when__
-// __Azure DevOps answers 400, so build patches with புல_ஒட்டு where possible.__
-// செயல்பாடும் பாதையும் இங்கு சரிபார்க்கப்படுவதில்லை; பிழை 400 ஆகவே தெரியும்
-அச்சு ஒட்டுச்_செயல்("ad", "/field/System.Title", "x")["op"];
+// __It builds whatever it is given, typos included. The check is ஒட்டுகள்_சரியா,__
+// __which the create and update calls run before sending, so the typo below is__
+// __refused here rather than as a 400 from Azure DevOps.__
+// இது எதையும் சரிபார்ப்பதில்லை; அனுப்பும் முன் ஒட்டுகள்_சரியா பிழையைப் பிடிக்கும்
+அச்சு ஒட்டுகள்_சரியா([ஒட்டுச்_செயல்("ad", "/fields/System.Title", "x")]);

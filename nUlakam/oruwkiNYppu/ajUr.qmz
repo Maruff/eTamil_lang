@@ -10,7 +10,9 @@
 //
 //   __தவறு({நிலைக்_குறி, செய்தி, மீண்டும்_முயல்_நொடிகள்})__
 //
-// __with நிலைக்_குறி 0 when there was no response at all. That shape is exactly__
+// __with நிலைக்_குறி 0 when there was no response at all, and 400 for a patch__
+// __ஒட்டுகள்_சரியா refused before sending — a request that will never succeed,__
+// __which the outbox parks rather than retries. That shape is exactly__
 // __what aZuppu_varicY.qmz's தோல்வியைப்_பதி takes, so the worker's error path is__
 // __one line whatever went wrong. A 412 from an update is the /rev test in__
 // __ottu.qmz refusing a stale write; the answer is to fetch the item again and__
@@ -22,6 +24,7 @@
 
 இறக்கு "../atippatY/col.qmz";
 இறக்கு "../vativam/kuRiyAkkam.qmz";
+இறக்கு "ottu.qmz";
 
 // __அஜூர்_பதிப்பு() — the REST api-version every call sends__
 // அஜூர்_பதிப்பு() — ஒவ்வோர் அழைப்பும் அனுப்பும் இடைமுகப் பதிப்பு
@@ -55,13 +58,15 @@
 }
 
 // __திட்ட_உரலி(இணைப்பு, பாதை) — a project-scoped API url__
-// திட்ட_உரலி(இணைப்பு, பாதை) — திட்டத்துக்குரிய இடைமுக இலக்கு_உரலி
+// திட்ட_உரலி(இணைப்பு, பாதை) — திட்டத்துக்குரிய இடைமுக உரலி
 //
-// __பாதை follows _apis/, without a leading slash. Spaces in the project name are__
-// __escaped; Azure DevOps project names cannot hold the other characters that__
-// __would need it.__
+// __பாதை follows _apis/. A leading slash is dropped, so "/wit/wiql" and__
+// __"wit/wiql" give the same url rather than one with _apis//wit in it. Spaces in__
+// __the project name are escaped; Azure DevOps project names cannot hold the__
+// __other characters that would need it.__
 செயல் திட்ட_உரலி(இணைப்பு, பாதை) {
     திட்டம் = மாற்று(இணைப்பு.திட்டப்_பெயர், " ", "%20");
+    (தொடங்குகிறதா(பாதை, "/")) சுற்று { பாதை = துண்டு(பாதை, 1, நீளம்(பாதை) - 1); }
     இணைப்புக்குறி = "?";
     (கொண்டுள்ளதா(பாதை, "?")) எனில் { இணைப்புக்குறி = "&"; }
     திரும்பு இணைப்பு.அடி_உரலி & "/" & திட்டம் & "/_apis/" & பாதை
@@ -69,7 +74,7 @@
 }
 
 // __பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — the url of one work item__
-// பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — ஒரு பணியுருப்படியின் இலக்கு_உரலி
+// பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) — ஒரு பணியுருப்படியின் உரலி
 செயல் பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்) {
     திரும்பு திட்ட_உரலி(இணைப்பு, "wit/workitems/" & சொல்லாக்கு(பணியுருப்படி_எண்));
 }
@@ -110,7 +115,13 @@
 // பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்) — ஒரு பணியுருப்படியை உருவாக்கும்
 //
 // __ஒட்டுகள் is an ottu.qmz patch without a /rev test — there is no revision yet.__
+// __It is checked with ஒட்டுகள்_சரியா first; a malformed patch is refused with__
+// __status 400 and never sent.__
 செயல் பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்) {
+    சரிபார்ப்பு = ஒட்டுகள்_சரியா(ஒட்டுகள்);
+    (தவறா(சரிபார்ப்பு)) எனில் {
+        திரும்பு தவறு({ நிலைக்_குறி: 400, செய்தி: தவறு_மதிப்பு(சரிபார்ப்பு), மீண்டும்_முயல்_நொடிகள்: 0 });
+    }
     திரும்பு அஜூர்_அனுப்பு("POST",
         திட்ட_உரலி(இணைப்பு, "wit/workitems/$" & மாற்று(பணியுருப்படி_வகை, " ", "%20")),
         ஜேசான்_ஆக்கு(ஒட்டுகள்), அஜூர்_தலைப்புகள்(இணைப்பு, "application/json-patch+json"));
@@ -118,7 +129,13 @@
 
 // __பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) — update a work item__
 // பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) — ஒரு பணியுருப்படியைத் திருத்தும்
+//
+// __Checked with ஒட்டுகள்_சரியா first, like a create.__
 செயல் பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்) {
+    சரிபார்ப்பு = ஒட்டுகள்_சரியா(ஒட்டுகள்);
+    (தவறா(சரிபார்ப்பு)) எனில் {
+        திரும்பு தவறு({ நிலைக்_குறி: 400, செய்தி: தவறு_மதிப்பு(சரிபார்ப்பு), மீண்டும்_முயல்_நொடிகள்: 0 });
+    }
     திரும்பு அஜூர்_அனுப்பு("PATCH", பணியுருப்படி_உரலி(இணைப்பு, பணியுருப்படி_எண்),
         ஜேசான்_ஆக்கு(ஒட்டுகள்), அஜூர்_தலைப்புகள்(இணைப்பு, "application/json-patch+json"));
 }

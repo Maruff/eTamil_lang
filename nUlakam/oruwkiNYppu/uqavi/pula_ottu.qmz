@@ -14,7 +14,7 @@
 // எண்கள் எண்களாகவே; 0 என்பதும் உண்மையான மதிப்பு
 அச்சு ஜேசான்_ஆக்கு(புல_ஒட்டு("Microsoft.VSTS.Scheduling.RemainingWork", 0));
 
-// __It takes the reference name. The display name makes a path that Azure__
-// __DevOps rejects, and nothing here can tell the two apart.__
-// குறிப்புப் பெயரே வேண்டும்; காட்சிப் பெயர் தரும் பாதையை அஜூர் மறுக்கும்
-அச்சு புலம்_அல்லது(புல_ஒட்டு("Remaining Work", 0), "path", "");
+// __It takes the reference name. A display name is refused by ஒட்டுகள்_சரியா,__
+// __which the create and update calls run first, so it never reaches the service.__
+// குறிப்புப் பெயரே வேண்டும்; காட்சிப் பெயரை ஒட்டுகள்_சரியா அனுப்பும் முன்பே மறுக்கும்
+அச்சு ஒட்டுகள்_சரியா([புல_ஒட்டு("Remaining Work", 0)]);

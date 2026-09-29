@@ -23,7 +23,7 @@
 செயல் தொடக்கத்_தேடல்_நாட்கள்() { திரும்பு 30; }
 
 // __வினா_மேற்கோள்(மூல_உரை) — a WIQL string literal__
-// வினா_மேற்கோள்(மூல_உரை) — வினாவுக்கான மேற்கோள் மூல_உரை
+// வினா_மேற்கோள்(மூல_உரை) — வினாவுக்கான மேற்கோள் உரை
 //
 // __Single quotes around the text, and any quote inside doubled. A project__
 // __called O'Brien Portal otherwise ends the literal early, and whatever follows__

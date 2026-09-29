@@ -17,7 +17,7 @@
 // ஏற்கனவே ? உள்ள பாதைக்கு & சேர்க்கப்படும்
 அச்சு திட்ட_உரலி(இணைப்பு, "wit/workitemtypes/Bug/states?$top=50");
 
-// __A leading slash is not removed, and gives a double slash: pass the path__
-// __exactly as documented.__
-// முன்னுள்ள சாய்வு நீக்கப்படுவதில்லை; இரட்டைச் சாய்வு வரும்
-அச்சு கொண்டுள்ளதா(திட்ட_உரலி(இணைப்பு, "/wit/wiql"), "_apis//wit");
+// __A leading slash is dropped, so a path copied from the REST reference with__
+// __its slash gives the same url, not one with _apis//wit in it.__
+// முன்னுள்ள சாய்வு நீக்கப்படும்; இரட்டைச் சாய்வு வராது
+அச்சு திட்ட_உரலி(இணைப்பு, "/wit/wiql") == திட்ட_உரலி(இணைப்பு, "wit/wiql");
