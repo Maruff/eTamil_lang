@@ -732,7 +732,7 @@ a call, plus the deepest interrupt handler. Calls through a pointer are not foll
 fixed list and ask for the port, remembering both for the workspace. Neither reads a command from
 settings. They need an `etamil` built with LLVM.
 
-**Editor support** is regenerated: 82 builtins and 722 library functions, the board files among them.
+**Editor support** is regenerated, the board files among it.
 
 Still to do before hardware counts as done: every one of the above on real boards. The Pi's GPIO path,
 the node on the Uno and Nano with SoftwareSerial, the panel on the Mega with three nodes, and Stage 7
