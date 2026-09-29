@@ -1,0 +1,70 @@
+# Keep the extension's generated files in step with the compiler.
+#
+# The grammar and the completion data are generated from lexer.rs and from
+# nUlakam, and they live in Maruff/eTamil_vsCode since the extension was split
+# out. Nothing else changed about how they are produced: this runs the same
+# generate_editor_support.py, into a checkout of that repository, and commits
+# the result only when it differs.
+#
+# Why a push rather than a pull request: these two files are derived, never
+# edited by hand, and a review that can only say yes is a review in name only.
+# The gate that matters already ran — the extension's own CI fails when its
+# generated files disagree with the compiler, so a bad push is caught there
+# rather than waved through here.
+#
+# 22 commits in two days touched these files. That is the reason this is a
+# workflow and not a habit.
+
+name: Publish extension data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'etamil_compiler/src/lexer.rs'
+      - 'nUlakam/**'
+      - 'scripts/generate_editor_support.py'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: publish generated data
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the compiler
+        uses: actions/checkout@v4
+
+      # Into eTamil_Code, because that is where the generator writes.
+      - name: Check out the extension
+        uses: actions/checkout@v4
+        with:
+          repository: Maruff/eTamil_vsCode
+          path: eTamil_Code
+          token: ${{ secrets.VSCODE_PUBLISH_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Regenerate
+        run: python scripts/generate_editor_support.py
+
+      # Only the two files the extension owns. The generator also writes the
+      # Pygments, Rouge, highlight.js and tree-sitter outputs, and those belong
+      # to this repository rather than that one.
+      - name: Push them if they changed
+        working-directory: eTamil_Code
+        run: |
+          if git diff --quiet -- src/generated/language-data.ts syntaxes/etamil.tmLanguage.json; then
+            echo "generated data already matches the compiler; nothing to push"
+            exit 0
+          fi
+          git config user.name  "eTamil generator"
+          git config user.email "esan@etamil.in"
+          git add src/generated/language-data.ts syntaxes/etamil.tmLanguage.json
+          git commit -m "Regenerate from ${GITHUB_REPOSITORY}@${GITHUB_SHA:0:8}
+
+          Written by scripts/generate_editor_support.py from the compiler's
+          lexer and nUlakam. Do not edit by hand."
+          git push
