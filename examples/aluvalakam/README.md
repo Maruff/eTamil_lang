@@ -62,19 +62,35 @@ SQLite, answers HTTP, and drains the Azure DevOps outbox on a timer:
 
 ```bash
 etamil --vm examples/aluvalakam/aluvalakam_amYppu.qmz            # the database, seeded
-ALUVALAKAM_HOOK_TOKEN=hook-token \
+ETAMIL_JWT_SECRET=… ALUVALAKAM_HOOK_TOKEN=hook-token \
   etamil --server --port 8095 examples/aluvalakam/aluvalakam_cEvY.qmz
 ```
 
-| Route | What it does |
-|---|---|
-| `GET /qittam/:kuRi/attavaNY` | the schedule as of today, rescheduled on actuals |
-| `GET /qittam/:kuRi/nalam` | RAG health, its reasons, and the go-live forecast |
-| `POST /qittam/:kuRi/paNi/:paNi` | record progress; on a baselined project only progress fields move, anything else is a 409 |
-| `POST /mARRam/:kuRi` | move a change request; approval turns its items into tasks and queues them |
-| `GET /palaqittam` | the portfolio, overall and by client |
-| `GET /varicY` | the outbox |
-| `POST /ajUr/kokki/:cIttu` | an Azure DevOps service hook: token, echo brakes, field ownership |
+Sign in with `POST /uLnuzYvu` and `{"பயனர்_பெயர்": "meena", "கடவுச்சொல்":
+"demo-password"}`; the reply's `சீட்டு` goes on every other request as
+`Authorization: Bearer <token>`, and is good for eight hours. The seed makes
+three users, one per role — `meena` manages, `arun` is on the team, `ravi` is a
+stakeholder — all with the password `demo-password`, which is for a laptop and
+nowhere else.
+
+| Route | Who | What it does |
+|---|---|---|
+| `POST /uLnuzYvu` | anyone | sign in; the reply carries a signed token |
+| `GET /qittam/:kuRi/attavaNY` | any role | the schedule as of today, rescheduled on actuals |
+| `GET /qittam/:kuRi/nalam` | any role | RAG health, its reasons, and the go-live forecast |
+| `GET /qittam/:kuRi/aRikkY` | any role | this week's status report — achievements, blockers, next steps — and its rendered document body |
+| `GET /qittam/:kuRi/cAcaZam` | any role | the charter: how ready it is, what it still lacks, and its rendered body |
+| `POST /qittam/:kuRi/paNi/:paNi` | manager, team | record progress; on a baselined project only progress fields move, anything else is a 409 |
+| `POST /qittam/:kuRi/nOkkam` | manager | set the scope and features before baseline; tasks that stay keep their progress, and one that leaves is deleted — or cancelled, if it is already a work item |
+| `POST /mARRam/:kuRi` | manager | move a change request; approval turns its items into tasks and queues them |
+| `GET /palaqittam` | any role | the portfolio, overall and by client |
+| `GET /vAkkuRuqi` | any role | customer commitments: overdue, notice due, notice late |
+| `POST /vAkkuRuqi/:kuRi` | manager | record that the customer has been told |
+| `GET /varicY` | manager | the outbox |
+| `POST /ajUr/kokki/:cIttu` | the hook's token | an Azure DevOps service hook: token, echo brakes, field ownership |
+
+No token, a forged one or an expired one is a 401; a role the route does not
+admit is a 403.
 
 Every 15 seconds the worker sends what is due, parents first, and backs off on
 failure. Set `AZURE_DEVOPS_ORG`, `AZURE_DEVOPS_PROJECT` and `AZURE_DEVOPS_PAT`
@@ -87,39 +103,46 @@ and, after eight attempts, park.
 | `aluvalakam_kYyALi.qmz` | the handlers — what each route does, as functions that take today's date and Azure DevOps as arguments |
 | `aluvalakam_cEvY.qmz` | the server — routes, the outbox worker, the real Azure DevOps calls |
 | `aluvalakam_amYppu.qmz` | creates and seeds the database |
-| `aluvalakam_kYyALi_cOqaZY.qmz` | 40 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
+| `aluvalakam_kYyALi_cOqaZY.qmz` | 68 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
 
 The handlers are functions rather than code inside the routes so that the whole
 service is tested under `--vm` — including a failed send rescheduled, a child
-sent after its parent in the same round, an echo refused, and a developer's
-rename of a PMO-owned title rejected while their progress is applied. The
+sent after its parent in the same round, an echo refused, a developer's rename
+of a PMO-owned title rejected while their progress is applied, a forged token
+and every role refused where it should be, and a rescope that keeps a task's
+progress, deletes one task and cancels another. The
 server file itself stops at its first route under `--vm`, as route examples do,
 and is listed as such in `scripts/run_examples.sh`.
 
-It was also run as a server and driven over HTTP: closing a task on its actual
-dates moved go-live back onto the baseline and turned the project green; a
-locked field came back 409 naming the field; a change request that tried to
-skip review came back 409, and on approval produced its task; and with Azure
-DevOps not configured the worker tried the queued rows, recorded why they
-failed, and kept them waiting.
+It was also run as a server and driven over HTTP, signed in: a stakeholder
+could read but not record progress, a team member could record progress but
+not move a change request, and the manager's approval produced the change's
+task; closing a task on its actual dates moved go-live back onto the baseline;
+the status report and charter came back rendered; and with Azure DevOps not
+configured the worker tried the queued rows, recorded why they failed, and
+scheduled them again at wall-clock seconds.
 
-**What it does not do.** There is no sign-in: anyone who can reach the port can
-record progress, and a real deployment puts it behind one. It holds one
-database connection at a time, which is what the host provides. The outbox
-times its backoff against the process's own clock — the language has no wall
-clock in seconds — so a restart makes every waiting row due at once. And the
-parent link it sends to Azure DevOps carries `?api-version=7.1`, which has not
-yet been checked against a real organisation.
+**What it does not do.** It holds one database connection at a time, which is
+what the host provides. It serves plain HTTP; put TLS in front of it. Users are
+made by the seed or by `பயனரை_ஆக்கு`, and there is no route for managing them.
+The documents are rendered from templates held in the code rather than read
+from a `.docx` file, though `vativam/AvaNam.qmz`'s `பொதியை_நிரப்பு` would fill
+one. And the parent link it sends to Azure DevOps carries `?api-version=7.1`,
+which has not yet been checked against a real organisation.
+
+The outbox's backoff is timed with `இப்போதைய_நொடி()`, the seconds clock added to
+the language for this: before it, the only clock finer than a day counted from
+the program's start, so a row's next attempt meant nothing after a restart.
 
 ### The whole application
 
 | | Code lines |
 |---|---:|
-| BeakPMO for the same ground — domain logic, Azure DevOps integration, and the API routes, repositories, sync worker and sync SQL behind it⁴ | 4,653 |
-| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **495** |
+| BeakPMO for the same ground — domain logic, Azure DevOps integration, and the sign-in, API routes, repositories, sync worker and sync SQL behind it⁴ | 5,599 |
+| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **771** |
 | the `nUlakam` modules it uses | 1,293 |
 
-BeakPMO's API and repository files serve more endpoints than these seven —
+BeakPMO's API and repository files serve more endpoints than these thirteen —
 full create, read, update and delete, with authentication in front — so the
 ratio flatters the service, and should be read as the size of the same *kind*
 of application rather than the same application. The domain-logic comparison
@@ -133,6 +156,8 @@ the SQL views `db/phase6/19_kpi_views` and `23_status_report_items`.
 `reconcile`, and `integrations/common/` `fingerprint`, `policy`, `retry`.
 ³ Eleven `qittam` modules, nine `oruwkiNYppu` and two `qayArippu`.
 ⁴ The files in ¹ and ², and `project/api/` `tasks`, `change_control`,
-`integrations`, `dashboards`; `project/repositories/` `tasks`,
-`change_control`, `integrations`, `projects`; `workers/sync`; and
-`db/phase4/01_schema` and `02_functions_triggers`.
+`integrations`, `dashboards`, `scope_wbs`, `status_reports`, `lifecycle`;
+`project/repositories/` `tasks`, `change_control`, `integrations`, `projects`,
+`scope_wbs`, `status_reports`; `product/api` and `product/repositories`
+`product_management`; `core/security` and `common/api/auth`; `workers/sync`;
+and `db/phase4/01_schema` and `02_functions_triggers`.
