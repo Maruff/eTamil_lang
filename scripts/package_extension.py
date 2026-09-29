@@ -69,7 +69,15 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-EXT = ROOT / "eTamil_Code"
+# The extension is Maruff/eTamil_vsCode now. Packaging still happens here,
+# because the VSIX carries the compiler, nUlakam and the examples, and those
+# live in this repository -- but the extension itself has to be checked out
+# somewhere first.
+#
+# ETAMIL_EXTENSION says where. The default is eTamil_Code beside this file,
+# which is where the extension's own CI puts it and where it used to live, so
+# nothing changes for a checkout arranged that way.
+EXT = Path(os.environ.get("ETAMIL_EXTENSION") or (ROOT / "eTamil_Code"))
 BIN = EXT / "bin"
 RUNTIME = EXT / "runtime"
 RELEASES = "https://github.com/Maruff/eTamil_lang/releases"
