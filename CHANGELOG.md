@@ -25,7 +25,17 @@ GitHub's generated notes list the commits; this file says what they add up to.
   versions and customer commitments. `examples/aluvalakam/` runs one project
   through all three in 223 lines.
 
+- **The project office as a running service.** `examples/aluvalakam/` adds
+  a SQLite-backed HTTP service on the same libraries — schedule, health,
+  progress, change requests, the portfolio and an Azure DevOps service hook,
+  with the outbox drained on a timer — whose handlers are plain functions,
+  tested under `--vm` against a real database.
+
 ### Fixed
+
+- **A baselined task can be finished.** `qittam/paNi.qmz`'s list of fields a
+  locked task still accepts had the actual start but not the actual finish,
+  so a task could be started on a baselined project and never recorded done.
 
 - **Base64 wrapped with Windows line endings decodes.** `"\r\n"` is one
   letter, so the decoder's line-break skip matched neither `"\r"` nor `"\n"`

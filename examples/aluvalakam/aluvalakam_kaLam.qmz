@@ -1,0 +1,128 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __aluvalakam_kaLam.qmz — களம் (where the project office keeps its records)__
+// திட்ட அலுவலகத்தின் பதிவுகள் சேமிக்கப்படும் இடம்
+//
+// __SQLite, through the statements the language has. Each table holds a key and__
+// __the record itself as JSON, so a task goes in and comes out as exactly the__
+// __paNi.qmz record the libraries work on — no mapping layer between a row and a__
+// __record, and a new field on a task needs no migration. The price is that the__
+// __database cannot query inside a record; the office never needs it to, because__
+// __every question it asks is about one project's tasks at a time.__
+//
+// __Every function here assumes the connection is open. The caller — a route, the__
+// __outbox worker, a test — opens it with தளம்_இணை, because one connection at a__
+// __time is what the host provides.__
+
+// __களம்_அமை() — create the tables if they are not there__
+// களம்_அமை() — அட்டவணைகள் இல்லையெனில் உருவாக்கும்
+செயல் களம்_அமை() {
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS qittawkaL (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS paNikaL (qittak_kuRi TEXT, paNi_kuRi TEXT, qaravu TEXT,
+               PRIMARY KEY (qittak_kuRi, paNi_kuRi))", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS mARRawkaL (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS aZuppu_varicY (kuRi TEXT PRIMARY KEY, qaravu TEXT)", [];
+    தளம்_செய் "CREATE TABLE IF NOT EXISTS nikazvukaL (varicY_eN INTEGER PRIMARY KEY AUTOINCREMENT,
+               poruL_kuRi TEXT, qaravu TEXT)", [];
+}
+
+// __களத்தை_அழி() — empty every table; for seeding and tests__
+// களத்தை_அழி() — எல்லா அட்டவணைகளையும் காலியாக்கும்
+செயல் களத்தை_அழி() {
+    ஒவ்வொரு அட்டவணைப்_பெயர் இல் ["qittawkaL", "paNikaL", "mARRawkaL", "aZuppu_varicY", "nikazvukaL"] {
+        தளம்_செய் "DELETE FROM " & அட்டவணைப்_பெயர், [];
+    }
+}
+
+// __வரிகளைப்_பதிவாக்கு(வரிகள்) — rows of JSON back into records__
+// வரிகளைப்_பதிவாக்கு(வரிகள்) — ஜேசான் வரிகளைப் பதிவுகளாக்கும்
+செயல் வரிகளைப்_பதிவாக்கு(வரிகள்) {
+    விடை = [];
+    ஒவ்வொரு ஒன்று இல் வரிகள் { விடை = இணை(விடை, மதிப்பு(ஜேசான்_படி(ஒன்று["qaravu"]))); }
+    திரும்பு விடை;
+}
+
+// __திட்டத்தைச்_சேமி(திட்டம்_பதிவு) — save a project, by its திட்டக்_குறி__
+// திட்டத்தைச்_சேமி(திட்டம்_பதிவு) — ஒரு திட்டத்தைச் சேமிக்கும்
+செயல் திட்டத்தைச்_சேமி(திட்டம்_பதிவு) {
+    தளம்_செய் "INSERT OR REPLACE INTO qittawkaL (kuRi, qaravu) VALUES (?, ?)",
+             [திட்டம்_பதிவு["திட்டக்_குறி"], ஜேசான்_ஆக்கு(திட்டம்_பதிவு)];
+}
+
+// __திட்டத்தைப்_பெறு(திட்டக்_குறி) — one project, or தவறு__
+// திட்டத்தைப்_பெறு(திட்டக்_குறி) — ஒரு திட்டம், அல்லது தவறு
+செயல் திட்டத்தைப்_பெறு(திட்டக்_குறி) {
+    தளம்_வினா "SELECT qaravu FROM qittawkaL WHERE kuRi = ?", [திட்டக்_குறி], வரிகள்;
+    (நீளம்(வரிகள்) == 0) எனில் { திரும்பு தவறு("திட்டம் இல்லை: " & திட்டக்_குறி); }
+    திரும்பு சரி(வரிகளைப்_பதிவாக்கு(வரிகள்)[0]);
+}
+
+// __எல்லாத்_திட்டங்களும்() — every project__
+// எல்லாத்_திட்டங்களும்() — எல்லாத் திட்டங்களும்
+செயல் எல்லாத்_திட்டங்களும்() {
+    தளம்_வினா "SELECT qaravu FROM qittawkaL ORDER BY kuRi", [], வரிகள்;
+    திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
+}
+
+// __பணியைச்_சேமி(திட்டக்_குறி, ஒரு_பணி) — save one task of a project__
+// பணியைச்_சேமி(திட்டக்_குறி, ஒரு_பணி) — ஒரு திட்டத்தின் ஒரு பணியைச் சேமிக்கும்
+செயல் பணியைச்_சேமி(திட்டக்_குறி, ஒரு_பணி) {
+    தளம்_செய் "INSERT OR REPLACE INTO paNikaL (qittak_kuRi, paNi_kuRi, qaravu) VALUES (?, ?, ?)",
+             [திட்டக்_குறி, ஒரு_பணி["பணி_குறி"], ஜேசான்_ஆக்கு(ஒரு_பணி)];
+}
+
+// __திட்டப்_பணிகள்(திட்டக்_குறி) — every task of a project, in code order__
+// திட்டப்_பணிகள்(திட்டக்_குறி) — ஒரு திட்டத்தின் எல்லாப் பணிகளும்
+செயல் திட்டப்_பணிகள்(திட்டக்_குறி) {
+    தளம்_வினா "SELECT qaravu FROM paNikaL WHERE qittak_kuRi = ? ORDER BY paNi_kuRi",
+              [திட்டக்_குறி], வரிகள்;
+    திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
+}
+
+// __மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) — save a change request, by its மாற்றக்_குறி__
+// மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) — ஒரு மாற்றக் கோரிக்கையைச் சேமிக்கும்
+செயல் மாற்றத்தைச்_சேமி(மாற்றப்_பதிவு) {
+    தளம்_செய் "INSERT OR REPLACE INTO mARRawkaL (kuRi, qaravu) VALUES (?, ?)",
+             [மாற்றப்_பதிவு["மாற்றக்_குறி"], ஜேசான்_ஆக்கு(மாற்றப்_பதிவு)];
+}
+
+// __மாற்றத்தைப்_பெறு(மாற்றக்_குறி) — one change request, or தவறு__
+// மாற்றத்தைப்_பெறு(மாற்றக்_குறி) — ஒரு மாற்றக் கோரிக்கை, அல்லது தவறு
+செயல் மாற்றத்தைப்_பெறு(மாற்றக்_குறி) {
+    தளம்_வினா "SELECT qaravu FROM mARRawkaL WHERE kuRi = ?", [மாற்றக்_குறி], வரிகள்;
+    (நீளம்(வரிகள்) == 0) எனில் { திரும்பு தவறு("மாற்றக் கோரிக்கை இல்லை: " & மாற்றக்_குறி); }
+    திரும்பு சரி(வரிகளைப்_பதிவாக்கு(வரிகள்)[0]);
+}
+
+// __வரிசை_உருப்படியைச்_சேமி(உருப்படி) — save an outbox row, by its ஒருமுறைக்_குறி__
+// வரிசை_உருப்படியைச்_சேமி(உருப்படி) — வெளியனுப்பும் வரிசை உருப்படியைச் சேமிக்கும்
+//
+// __Keyed by the idempotency key, so saving a job that is already queued replaces__
+// __it rather than adding it twice — the database's unique key doing what__
+// __வரிசையில்_உள்ளதா does in memory.__
+செயல் வரிசை_உருப்படியைச்_சேமி(உருப்படி) {
+    தளம்_செய் "INSERT OR REPLACE INTO aZuppu_varicY (kuRi, qaravu) VALUES (?, ?)",
+             [உருப்படி["ஒருமுறைக்_குறி"], ஜேசான்_ஆக்கு(உருப்படி)];
+}
+
+// __வரிசை_உருப்படிகள்() — every outbox row__
+// வரிசை_உருப்படிகள்() — வெளியனுப்பும் வரிசையின் எல்லா உருப்படிகளும்
+செயல் வரிசை_உருப்படிகள்() {
+    தளம்_வினா "SELECT qaravu FROM aZuppu_varicY ORDER BY kuRi", [], வரிகள்;
+    திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
+}
+
+// __நிகழ்வைப்_பதி(பொருள்_குறி, நிகழ்வு) — append one audit event__
+// நிகழ்வைப்_பதி(பொருள்_குறி, நிகழ்வு) — ஒரு தணிக்கை நிகழ்வைச் சேர்க்கும்
+செயல் நிகழ்வைப்_பதி(பொருள்_குறி, நிகழ்வு) {
+    தளம்_செய் "INSERT INTO nikazvukaL (poruL_kuRi, qaravu) VALUES (?, ?)",
+             [பொருள்_குறி, ஜேசான்_ஆக்கு(நிகழ்வு)];
+}
+
+// __நிகழ்வுகள்(பொருள்_குறி) — the audit trail of one record, oldest first__
+// நிகழ்வுகள்(பொருள்_குறி) — ஒரு பதிவின் தணிக்கைத் தடம்
+செயல் நிகழ்வுகள்(பொருள்_குறி) {
+    தளம்_வினா "SELECT qaravu FROM nikazvukaL WHERE poruL_kuRi = ? ORDER BY varicY_eN",
+              [பொருள்_குறி], வரிகள்;
+    திரும்பு வரிகளைப்_பதிவாக்கு(வரிகள்);
+}

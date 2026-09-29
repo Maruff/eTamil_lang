@@ -55,6 +55,76 @@ No performance comparison is claimed. On the machine this was written on, the
 whole program — twenty-five modules loaded, every step above — runs in about
 2.5 seconds, most of it start-up.
 
+## The same office, as a running service
+
+`aluvalakam.qmz` keeps its project in memory. The service beside it keeps it in
+SQLite, answers HTTP, and drains the Azure DevOps outbox on a timer:
+
+```bash
+etamil --vm examples/aluvalakam/aluvalakam_amYppu.qmz            # the database, seeded
+ALUVALAKAM_HOOK_TOKEN=hook-token \
+  etamil --server --port 8095 examples/aluvalakam/aluvalakam_cEvY.qmz
+```
+
+| Route | What it does |
+|---|---|
+| `GET /qittam/:kuRi/attavaNY` | the schedule as of today, rescheduled on actuals |
+| `GET /qittam/:kuRi/nalam` | RAG health, its reasons, and the go-live forecast |
+| `POST /qittam/:kuRi/paNi/:paNi` | record progress; on a baselined project only progress fields move, anything else is a 409 |
+| `POST /mARRam/:kuRi` | move a change request; approval turns its items into tasks and queues them |
+| `GET /palaqittam` | the portfolio, overall and by client |
+| `GET /varicY` | the outbox |
+| `POST /ajUr/kokki/:cIttu` | an Azure DevOps service hook: token, echo brakes, field ownership |
+
+Every 15 seconds the worker sends what is due, parents first, and backs off on
+failure. Set `AZURE_DEVOPS_ORG`, `AZURE_DEVOPS_PROJECT` and `AZURE_DEVOPS_PAT`
+to sync for real; without them every send fails with status 0 and the rows wait
+and, after eight attempts, park.
+
+| File | |
+|---|---|
+| `aluvalakam_kaLam.qmz` | storage — one SQLite table per kind of record, each row a key and the record as JSON |
+| `aluvalakam_kYyALi.qmz` | the handlers — what each route does, as functions that take today's date and Azure DevOps as arguments |
+| `aluvalakam_cEvY.qmz` | the server — routes, the outbox worker, the real Azure DevOps calls |
+| `aluvalakam_amYppu.qmz` | creates and seeds the database |
+| `aluvalakam_kYyALi_cOqaZY.qmz` | 40 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
+
+The handlers are functions rather than code inside the routes so that the whole
+service is tested under `--vm` — including a failed send rescheduled, a child
+sent after its parent in the same round, an echo refused, and a developer's
+rename of a PMO-owned title rejected while their progress is applied. The
+server file itself stops at its first route under `--vm`, as route examples do,
+and is listed as such in `scripts/run_examples.sh`.
+
+It was also run as a server and driven over HTTP: closing a task on its actual
+dates moved go-live back onto the baseline and turned the project green; a
+locked field came back 409 naming the field; a change request that tried to
+skip review came back 409, and on approval produced its task; and with Azure
+DevOps not configured the worker tried the queued rows, recorded why they
+failed, and kept them waiting.
+
+**What it does not do.** There is no sign-in: anyone who can reach the port can
+record progress, and a real deployment puts it behind one. It holds one
+database connection at a time, which is what the host provides. The outbox
+times its backoff against the process's own clock — the language has no wall
+clock in seconds — so a restart makes every waiting row due at once. And the
+parent link it sends to Azure DevOps carries `?api-version=7.1`, which has not
+yet been checked against a real organisation.
+
+### The whole application
+
+| | Code lines |
+|---|---:|
+| BeakPMO for the same ground — domain logic, Azure DevOps integration, and the API routes, repositories, sync worker and sync SQL behind it⁴ | 4,653 |
+| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **495** |
+| the `nUlakam` modules it uses | 1,293 |
+
+BeakPMO's API and repository files serve more endpoints than these seven —
+full create, read, update and delete, with authentication in front — so the
+ratio flatters the service, and should be read as the size of the same *kind*
+of application rather than the same application. The domain-logic comparison
+above is the like-for-like one.
+
 ¹ `project/services/` `scheduling`, `dependencies`, `tasks`, `change_control`,
 `status_reports`, `scope_wbs`, `project_features`, `lifecycle`,
 `field_defaults`; `docgen/context`; `product/services/product_management`; and
@@ -62,3 +132,7 @@ the SQL views `db/phase6/19_kpi_views` and `23_status_report_items`.
 ² `integrations/azure_devops/` `mapper`, `applier`, `client`, `publisher`,
 `reconcile`, and `integrations/common/` `fingerprint`, `policy`, `retry`.
 ³ Eleven `qittam` modules, nine `oruwkiNYppu` and two `qayArippu`.
+⁴ The files in ¹ and ², and `project/api/` `tasks`, `change_control`,
+`integrations`, `dashboards`; `project/repositories/` `tasks`,
+`change_control`, `integrations`, `projects`; `workers/sync`; and
+`db/phase4/01_schema` and `02_functions_triggers`.

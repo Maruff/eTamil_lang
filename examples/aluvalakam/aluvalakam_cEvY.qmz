@@ -1,0 +1,146 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __aluvalakam_cEvY.qmz — சேவை (the project office, as an HTTP service)__
+// திட்ட அலுவலகச் சேவை
+//
+// __Run it:__
+//
+//   __etamil --vm examples/aluvalakam/aluvalakam_amYppu.qmz     (once: the database)__
+//   __etamil --server --port 8095 examples/aluvalakam/aluvalakam_cEvY.qmz__
+//
+// __Under --vm this stops at the first வழி, which is right: routes run only under__
+// __--server. What each route does is in aluvalakam_kYyALi.qmz, and that is where__
+// __it is tested; this file is routing, the outbox worker, and the two functions__
+// __that make the real Azure DevOps calls.__
+//
+// __Settings come from the environment: ALUVALAKAM_SECRET keys fingerprints,__
+// __ALUVALAKAM_HOOK_TOKEN is the token in the service-hook url, and__
+// __AZURE_DEVOPS_ORG, AZURE_DEVOPS_PROJECT and AZURE_DEVOPS_PAT say where to sync.__
+// __With no Azure DevOps settings every send fails with status 0 and the outbox__
+// __backs off and, after eight attempts, parks the row — it never pretends to__
+// __have sent anything.__
+
+இறக்கு "aluvalakam_kYyALi.qmz";
+இறக்கு "../../nUlakam/oruwkiNYppu/ajUr.qmz";
+
+// __களக்_கோப்பு() — the SQLite file__
+// களக்_கோப்பு() — தரவுத்தளக் கோப்பு
+செயல் களக்_கோப்பு() { திரும்பு சூழல்("ALUVALAKAM_DB", "aluvalakam.db"); }
+
+// __சேவை_விசை() — the key fingerprints and idempotency keys are made with__
+// சேவை_விசை() — கைரேகைகளுக்கான விசை
+செயல் சேவை_விசை() { திரும்பு சூழல்("ALUVALAKAM_SECRET", "change-me"); }
+
+// __அஜூர்_இணைப்பா() — the Azure DevOps connection, or தவறு when it is not configured__
+// அஜூர்_இணைப்பா() — அஜூர் இணைப்பு, அல்லது அமைக்கப்படவில்லை எனில் தவறு
+செயல் அஜூர்_இணைப்பா() {
+    நிறுவனம் = சூழல்("AZURE_DEVOPS_ORG", "");
+    (நிறுவனம் == "") எனில் {
+        திரும்பு தவறு({ நிலைக்_குறி: 0, செய்தி: "Azure DevOps is not configured", மீண்டும்_முயல்_நொடிகள்: 0 });
+    }
+    திரும்பு சரி(அஜூர்_இணைப்பு_ஆக்கு(நிறுவனம், சூழல்("AZURE_DEVOPS_PROJECT", ""), "PAT",
+                                    சூழல்("AZURE_DEVOPS_PAT", "")));
+}
+
+// __அஜூர்_அனுப்புவி(பணியுருப்படி_வகை, பணியுருப்படி_எண், பெற்றோர்_எண், ஒட்டுகள்) — the real send__
+// அஜூர்_அனுப்புவி(பணியுருப்படி_வகை, பணியுருப்படி_எண், பெற்றோர்_எண், ஒட்டுகள்) — உண்மையான அனுப்புதல்
+செயல் அஜூர்_அனுப்புவி(பணியுருப்படி_வகை, பணியுருப்படி_எண், பெற்றோர்_எண், ஒட்டுகள்) {
+    இணைப்பு_விடை = அஜூர்_இணைப்பா();
+    (தவறா(இணைப்பு_விடை)) எனில் { திரும்பு இணைப்பு_விடை; }
+    இணைப்பு = மதிப்பு(இணைப்பு_விடை);
+    (பணியுருப்படி_எண் == 0 மற்றும் பெற்றோர்_எண் > 0) எனில் {
+        ஒட்டுகள் = இணை(ஒட்டுகள், பெற்றோர்_ஒட்டு(பணியுருப்படி_உரலி(இணைப்பு, பெற்றோர்_எண்)));
+    }
+    விளைவு = இன்மை;
+    (பணியுருப்படி_எண் == 0) எனில் {
+        விளைவு = பணியுருப்படியை_உருவாக்கு(இணைப்பு, பணியுருப்படி_வகை, ஒட்டுகள்);
+    } இன்றேல் {
+        விளைவு = பணியுருப்படியைத்_திருத்து(இணைப்பு, பணியுருப்படி_எண், ஒட்டுகள்);
+    }
+    (தவறா(விளைவு)) எனில் { திரும்பு விளைவு; }
+    உள்ளது = மதிப்பு(விளைவு).பதில்_உடல்;
+    திரும்பு சரி({ பணியுருப்படி_எண்: உள்ளது["id"], திருத்தம்: உள்ளது["rev"] });
+}
+
+// __அஜூர்_பெறுவி(பணியுருப்படி_எண்) — the real fetch, in the shape கொக்கி_கையாள் reads__
+// அஜூர்_பெறுவி(பணியுருப்படி_எண்) — உண்மையான பெறுதல்
+//
+// __A work item does not carry its state's category, so it is looked up in the__
+// __same states the outbox maps onto.__
+செயல் அஜூர்_பெறுவி(பணியுருப்படி_எண்) {
+    இணைப்பு_விடை = அஜூர்_இணைப்பா();
+    (தவறா(இணைப்பு_விடை)) எனில் { திரும்பு இணைப்பு_விடை; }
+    விளைவு = பணியுருப்படியைப்_பெறு(மதிப்பு(இணைப்பு_விடை), பணியுருப்படி_எண்);
+    (தவறா(விளைவு)) எனில் { திரும்பு விளைவு; }
+    உள்ளது = மதிப்பு(விளைவு).பதில்_உடல்;
+    புலங்கள்_ = உள்ளது["fields"];
+    நிலைப்_பெயர் = புலம்_அல்லது(புலங்கள்_, "System.State", "");
+    வகைமை = "InProgress";
+    ஒவ்வொரு ஒன்று இல் [["New", "Proposed"], ["Active", "InProgress"], ["Resolved", "Resolved"],
+                       ["Closed", "Completed"], ["Removed", "Removed"]] {
+        (ஒன்று[0] == நிலைப்_பெயர்) எனில் { வகைமை = ஒன்று[1]; }
+    }
+    மாற்றியவர் = புலம்_அல்லது(புலங்கள்_, "System.ChangedBy", "");
+    (வகை(மாற்றியவர்) == "a record") எனில் { மாற்றியவர் = புலம்_அல்லது(மாற்றியவர், "uniqueName", ""); }
+    திரும்பு சரி({ திருத்தம்: உள்ளது["rev"], மாற்றியவர்: மாற்றியவர், நிலைப்_பெயர்: நிலைப்_பெயர்,
+                  நிலை_வகைமை: வகைமை,
+                  முடிந்த_மணி: புலம்_அல்லது(புலங்கள்_, "Microsoft.VSTS.Scheduling.CompletedWork", இன்மை),
+                  மீதி_மணி: புலம்_அல்லது(புலங்கள்_, "Microsoft.VSTS.Scheduling.RemainingWork", இன்மை),
+                  "தலைப்பு": புலம்_அல்லது(புலங்கள்_, "System.Title", "") });
+}
+
+// __On start: the tables, and a clean slate for the outbox's timings.__
+தளம்_இணை சீகுலைட், களக்_கோப்பு();
+களம்_அமை();
+வரிசைக்_காலத்தை_மீட்டமை();
+
+வழி பெறு, "/qittam/:kuRi/attavaNY" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = அட்டவணை_கையாள்(param_kuRi, இன்று());
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+வழி பெறு, "/qittam/:kuRi/nalam" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = நல_கையாள்(param_kuRi, இன்று());
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+வழி பதி, "/qittam/:kuRi/paNi/:paNi" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = முன்னேற்ற_கையாள்(param_kuRi, param_paNi, request_body, இன்று(), சேவை_விசை());
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+வழி பதி, "/mARRam/:kuRi" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = மாற்ற_நகர்வு_கையாள்(param_kuRi, request_body, இன்று(), சேவை_விசை());
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+வழி பெறு, "/palaqittam" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = பல_திட்ட_கையாள்(இன்று());
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+வழி பெறு, "/varicY" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    பதில் 200, ஜேசான்_ஆக்கு({ உருப்படிகள்: வரிசை_உருப்படிகள்() });
+}
+
+வழி பதி, "/ajUr/kokki/:cIttu" {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    விடை = கொக்கி_கையாள்(param_cIttu, request_body,
+        கைரேகை(சூழல்("ALUVALAKAM_HOOK_TOKEN", ""), சேவை_விசை()), சேவை_விசை(),
+        சூழல்("AZURE_DEVOPS_SERVICE_USER", ""), அஜூர்_பெறுவி);
+    பதில் விடை.நிலைக்_குறி, ஜேசான்_ஆக்கு(விடை.விடை_உடல்);
+}
+
+// __The outbox worker. Time is the process's own clock in seconds; the jitter is__
+// __drawn from its milliseconds, since the language has no random numbers.__
+இடைவெளி 15 {
+    தளம்_இணை சீகுலைட், களக்_கோப்பு();
+    மில்லி = வன்_மில்லி();
+    வரிசையை_அனுப்பு(தரை(மில்லி / 1000), 0.7 + மீதி(மில்லி, 600) / 1000, அஜூர்_அனுப்புவி);
+}

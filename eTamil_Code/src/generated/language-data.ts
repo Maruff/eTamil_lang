@@ -15320,7 +15320,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பூட்டிலும்_மாறுபவை() — the fields a baselined task still accepts",
     "kind": "stdlib",
     "module": "nUlakam/qittam/paNi.qmz",
-    "line": 112
+    "line": 113
   },
   {
     "name": "பூட்டிய_மாற்றம்_சரியா",
@@ -15334,7 +15334,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) — may these changes touch a baselined task?",
     "kind": "stdlib",
     "module": "nUlakam/qittam/paNi.qmz",
-    "line": 123
+    "line": 124
   },
   {
     "name": "திரட்டிய_நிறைவு",
@@ -15349,7 +15349,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "திரட்டிய_நிறைவு(பணிகள், பணி_குறி) — a task's percentage, rolled up from its sub-tasks",
     "kind": "stdlib",
     "module": "nUlakam/qittam/paNi.qmz",
-    "line": 147
+    "line": 148
   },
   {
     "name": "எடையிட்ட_நிறைவு",
@@ -15363,7 +15363,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "எடையிட்ட_நிறைவு(பணிகள்) — percentage complete, weighted by estimated effort",
     "kind": "stdlib",
     "module": "nUlakam/qittam/paNi.qmz",
-    "line": 173
+    "line": 174
   },
   {
     "name": "பெற்றோர்_முன்_வரிசை",
@@ -15379,7 +15379,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பெற்றோர்_முன்_வரிசை(பதிவுகள், குறிப்_புலம், பெற்றோர்_புலம்) — order a flat tree parents first",
     "kind": "stdlib",
     "module": "nUlakam/qittam/paNi.qmz",
-    "line": 207
+    "line": 208
   },
   {
     "name": "கணு_ஆக்கு",

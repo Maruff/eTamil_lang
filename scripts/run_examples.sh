@@ -2,7 +2,7 @@
 #
 # Run every example and check each one behaves as expected.
 #
-# Some examples are expected to FAIL: three use route statements the VM cannot
+# Some examples are expected to FAIL: four use route statements the VM cannot
 # execute, and the artino ones are firmware. Failing loudly is the intended
 # behaviour. This script fails if
 # any other example breaks, or if one of those starts passing without the
@@ -53,6 +53,9 @@ declare -A EXPECT_FAIL=(
     ["examples/api/simple_api.qmz"]="not implemented"
     ["examples/api/vari_cEvY.qmz"]="not implemented"
     ["examples/katY/katY_cEvY.qmz"]="not implemented"
+    # Routing only; what it routes to is aluvalakam_kYyALi.qmz, tested by
+    # aluvalakam_kYyALi_cOqaZY.qmz here under --vm.
+    ["examples/aluvalakam/aluvalakam_cEvY.qmz"]="not implemented"
     # Firmware, for artino: the VM runs no இடைவெளி blocks and has no C++ to
     # call. scripts/artino_conformance.sh is where these are tested.
     ["examples/artino/minnu.qmz"]="not implemented"

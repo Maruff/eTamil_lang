@@ -68,6 +68,8 @@ ALLOW = {
     "embeddings",
     # "category" is the state category Azure DevOps returns with each state.
     "category",
+    # "fields" holds a work item's fields; "path" is a JSON Patch operation's.
+    "fields", "path",
 }
 
 # ISO 15919 spellings that survive the round trip because their letters are all

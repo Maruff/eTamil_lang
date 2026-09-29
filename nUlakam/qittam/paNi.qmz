@@ -106,11 +106,12 @@
 // பூட்டிலும்_மாறுபவை() — பூட்டிய பணியிலும் மாற்றக்கூடிய புலங்கள்
 //
 // __Once the schedule is baselined, the plan is frozen and only progress moves:__
-// __status, percentage, actuals, priority and which milestone it rolls into.__
+// __status, percentage, actuals — the actual start and finish among them —__
+// __priority and which milestone it rolls into.__
 // __Changing a planned date or estimate after that is a change request, which is__
 // __the whole point of having a baseline.__
 செயல் பூட்டிலும்_மாறுபவை() {
-    திரும்பு ["நடப்பு_நிலை", "நிறைவு", "உண்மைத்_தொடக்கம்", "உண்மை_நாட்கள்",
+    திரும்பு ["நடப்பு_நிலை", "நிறைவு", "உண்மைத்_தொடக்கம்", "முடிந்த_நாள்", "உண்மை_நாட்கள்",
               "உண்மை_மணி", "முன்னுரிமை", "மைல்கல்_குறி"];
 }
 
