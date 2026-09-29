@@ -83,6 +83,15 @@ const DOWNLOADS: Record<string, { asset: string; commands: string }> = {
       '\n'
     ),
   },
+  // A static aarch64 build, for a Raspberry Pi 4 or 5 on 64-bit Raspberry Pi
+  // OS. Without this key an ARM machine falls back to `linux` and is offered
+  // the x64 archive, which cannot run there.
+  'linux-arm64': {
+    asset: 'etamil-linux-arm64.tar.gz',
+    commands: ['tar -xzf etamil-linux-arm64.tar.gz', './etamil-linux-arm64/install.sh'].join(
+      '\n'
+    ),
+  },
   // macOS is two genuinely different binaries, so the key carries the
   // architecture as well. The extra xattr line is not optional: these are not
   // notarized, and Gatekeeper refuses a quarantined binary outright rather
@@ -109,9 +118,9 @@ const DOWNLOADS: Record<string, { asset: string; commands: string }> = {
  * The package for this machine.
  *
  * Keyed by platform and architecture, falling back to platform alone: Windows
- * and Linux ship one x64 build each, while macOS ships separate Apple Silicon
- * and Intel packages, and picking by platform alone would offer half of macOS
- * users a binary that cannot run.
+ * ships one x64 build, while Linux and macOS each ship arm64 and x64 packages,
+ * and picking by platform alone would offer ARM Linux and half of macOS users
+ * a binary that cannot run.
  */
 function downloadFor(
   platform: string,
