@@ -43,6 +43,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import os
 import sys
 from pathlib import Path
 
@@ -52,7 +53,18 @@ PARSER = ROOT / "etamil_compiler" / "src" / "parser.rs"
 INTERPRETER = ROOT / "etamil_compiler" / "src" / "vm" / "interpreter.rs"
 NULAKAM = ROOT / "nUlakam"
 
-EXT = ROOT / "eTamil_Code"
+# The extension lives in Maruff/eTamil_vsCode now. Its CI checks this
+# repository out as a sibling and puts itself at eTamil_Code, which is where
+# it used to sit, so the path below finds it there and the drift gate works
+# exactly as it did before the split.
+#
+# In this repository on its own that directory does not exist, and the two
+# outputs that belong to the extension are simply not written. Everything else
+# -- Pygments, Rouge, highlight.js, tree-sitter, the spelling table -- lives
+# here and is generated and gated as before.
+#
+# ETAMIL_EXTENSION points it somewhere else, for a checkout kept elsewhere.
+EXT = Path(os.environ.get("ETAMIL_EXTENSION") or (ROOT / "eTamil_Code"))
 GRAMMAR_OUT = EXT / "syntaxes" / "etamil.tmLanguage.json"
 DATA_OUT = EXT / "src" / "generated" / "language-data.ts"
 PYGMENTS_OUT = (
@@ -1503,8 +1515,6 @@ def main() -> int:
     spellings = build_spellings(tokens, builtins, stdlib)
 
     outputs = [
-        (GRAMMAR_OUT, grammar),
-        (DATA_OUT, data),
         (PYGMENTS_OUT, pygments_words),
         (ROUGE_OUT, rouge),
         (HIGHLIGHTJS_OUT, highlightjs),
@@ -1512,6 +1522,10 @@ def main() -> int:
         (TREESITTER_QUERIES, ts_queries),
         (SPELLINGS_OUT, spellings),
     ]
+
+    # Only when the extension is checked out beside this repository.
+    if EXT.is_dir():
+        outputs += [(GRAMMAR_OUT, grammar), (DATA_OUT, data)]
 
     if args.check:
         stale = []
