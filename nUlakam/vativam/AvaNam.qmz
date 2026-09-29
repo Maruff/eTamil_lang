@@ -182,63 +182,89 @@ _XLSX_வடிவம் = {
     திரும்பு ஆவணம்;
 }
 
-// __Word breaks a paragraph's text into runs wherever formatting, spell-check or__
-// __edit history changes, so "{{ திட்டம்.பெயர் }}" typed in two sittings can reach__
-// __the file as "{{ திட்" in one run and "டம்.பெயர் }}" in the next, and no__
-// __substitution would ever match it. Text is moved back into the run a__
-// __placeholder starts in until its braces balance, and the runs it came from are__
-// __left empty; the moved text takes that first run's formatting, which is the__
-// __price. It never reaches past the end of a paragraph, so a stray brace cannot__
-// __swallow the rest of the document. Text with no w:t runs passes through.__
-// __பிளந்த_குறிகளை_இணை(ஆவணம்) — rejoin the placeholders Word has split across runs__
-// பிளந்த_குறிகளை_இணை(ஆவணம்) — வேர்டு பல ஓட்டங்களாகப் பிளந்த குறிகளை மீண்டும் இணைக்கும்
+// __A word processor stores a paragraph's text in runs and splits them wherever__
+// __formatting, spell-check or edit history changes — w:t runs in Word,__
+// __text:span in LibreOffice — so "{{ திட்டம்.பெயர் }}" typed in two sittings can__
+// __reach the file as "{{ திட்" in one run and "டம்.பெயர் }}" in the next, and no__
+// __substitution would ever match it. The characters of a placeholder are moved__
+// __back into the run it starts in, up to the brace that closes it; whatever__
+// __follows that brace stays in its own run with its own formatting. The__
+// __placeholder takes the formatting of its first run, as a filled value must take__
+// __one. It never reaches past the end of a paragraph, so a stray brace cannot__
+// __swallow the rest of the document.__
+// __பிளந்த_குறிகளை_இணை(ஆவணம்) — rejoin the placeholders a word processor has split across runs__
+// பிளந்த_குறிகளை_இணை(ஆவணம்) — பல ஓட்டங்களாகப் பிளந்த குறிகளை மீண்டும் இணைக்கும்
 செயல் பிளந்த_குறிகளை_இணை(ஆவணம்) {
-    துண்டுகள் = பிரி(ஆவணம், "</w:t>");
-    கடைசி = நீளம்(துண்டுகள்) - 1;
-    (கடைசி < 2) எனில் { திரும்பு ஆவணம்; }
-
-    // __Each piece but the last ends in one run's text: what follows its final '>'.__
-    முன்பகுதிகள் = [];
+    // __Split on "<": each piece after the first is a tag, ">", and the text that__
+    // __follows it up to the next tag.__
+    துண்டுகள் = பிரி(ஆவணம், "<");
+    (நீளம்(துண்டுகள்) < 3) எனில் { திரும்பு ஆவணம்; }
+    குறிகள் = [];
     உரைகள் = [];
-    எண்ணி = 0;
-    (எண்ணி < கடைசி) சுற்று {
+    எண்ணி = 1;
+    (எண்ணி < நீளம்(துண்டுகள்)) சுற்று {
         கூறுகள் = பிரி(துண்டுகள்[எண்ணி], ">");
-        உரை_ = கூறுகள்[நீளம்(கூறுகள்) - 1];
-        முன்பகுதிகள் = இணை(முன்பகுதிகள், துண்டு(துண்டுகள்[எண்ணி], 0, நீளம்(துண்டுகள்[எண்ணி]) - நீளம்(உரை_)));
-        உரைகள் = இணை(உரைகள், உரை_);
+        குறிகள் = இணை(குறிகள், கூறுகள்[0]);
+        மீதம் = [];
+        அடுத்த_கூறு = 1;
+        (அடுத்த_கூறு < நீளம்(கூறுகள்)) சுற்று { மீதம் = இணை(மீதம், கூறுகள்[அடுத்த_கூறு]); அடுத்த_கூறு = அடுத்த_கூறு + 1; }
+        உரைகள் = இணை(உரைகள், ஒன்றிணை(மீதம், ">"));
         எண்ணி = எண்ணி + 1;
     }
 
     சேர்க்குமிடம் = 0 - 1;
+    ஆழம் = 0;
     எண்ணி = 0;
-    (எண்ணி < கடைசி) சுற்று {
-        (சேர்க்குமிடம் >= 0 மற்றும் ஆவணத்தில்_உள்ளதா(முன்பகுதிகள்[எண்ணி], "</w:p>")) எனில் { சேர்க்குமிடம் = 0 - 1; }
-        (சேர்க்குமிடம் >= 0) எனில் {
-            உரைகள்[சேர்க்குமிடம்] = உரைகள்[சேர்க்குமிடம்] & உரைகள்[எண்ணி];
-            உரைகள்[எண்ணி] = "";
-            சேர்ந்தது = உரைகள்[சேர்க்குமிடம்];
-            (நீளம்(பிரி(சேர்ந்தது, "{")) == நீளம்(பிரி(சேர்ந்தது, "}"))) எனில் { சேர்க்குமிடம் = 0 - 1; }
-        } இன்றேல் {
-            (நீளம்(பிரி(உரைகள்[எண்ணி], "{")) > நீளம்(பிரி(உரைகள்[எண்ணி], "}"))) எனில் {
+    (எண்ணி < நீளம்(உரைகள்)) சுற்று {
+        குறி_ = குறிகள்[எண்ணி];
+        (குறி_ == "/w:p" அல்லது தொடங்குகிறதா(குறி_, "/text:p") அல்லது தொடங்குகிறதா(குறி_, "/text:h")) எனில் {
+            சேர்க்குமிடம் = 0 - 1;
+        }
+        உரை_ = உரைகள்[எண்ணி];
+        (சேர்க்குமிடம் >= 0 மற்றும் உரை_ != "") எனில் {
+            // __Take characters up to the brace that closes the placeholder.__
+            வெட்டு = 0 - 1;
+            இடம்_ = 0;
+            (இடம்_ < நீளம்(உரை_) மற்றும் வெட்டு < 0) சுற்று {
+                எழுத்து_ = துண்டு(உரை_, இடம்_, 1);
+                (எழுத்து_ == "{") எனில் { ஆழம் = ஆழம் + 1; }
+                (எழுத்து_ == "}") எனில் { ஆழம் = ஆழம் - 1; }
+                (ஆழம் == 0) எனில் { வெட்டு = இடம்_ + 1; }
+                இடம்_ = இடம்_ + 1;
+            }
+            (வெட்டு < 0) எனில் {
+                உரைகள்[சேர்க்குமிடம்] = உரைகள்[சேர்க்குமிடம்] & உரை_;
+                உரைகள்[எண்ணி] = "";
+            } இன்றேல் {
+                உரைகள்[சேர்க்குமிடம்] = உரைகள்[சேர்க்குமிடம்] & துண்டு(உரை_, 0, வெட்டு);
+                உரைகள்[எண்ணி] = துண்டு(உரை_, வெட்டு, நீளம்(உரை_) - வெட்டு);
+                சேர்க்குமிடம் = 0 - 1;
+            }
+            (குறி_ == "w:t") எனில் { குறிகள்[எண்ணி] = "w:t xml:space=\"preserve\""; }
+        }
+        // __A run that leaves a brace open starts gathering — including one whose__
+        // __remainder, just above, opens the next placeholder.__
+        (சேர்க்குமிடம் < 0) எனில் {
+            மீதி_உரை = உரைகள்[எண்ணி];
+            திறப்பு = நீளம்(பிரி(மீதி_உரை, "{")) - நீளம்(பிரி(மீதி_உரை, "}"));
+            (திறப்பு > 0) எனில் {
                 சேர்க்குமிடம் = எண்ணி;
+                ஆழம் = திறப்பு;
                 // __Gathered text may start or end with a space, which Word drops__
                 // __unless the run says to keep it.__
-                முன் = முன்பகுதிகள்[எண்ணி];
-                (துண்டு(முன், நீளம்(முன்) - 5, 5) == "<w:t>") எனில் {
-                    முன்பகுதிகள்[எண்ணி] = துண்டு(முன், 0, நீளம்(முன்) - 5) & "<w:t xml:space=\"preserve\">";
-                }
+                (குறி_ == "w:t") எனில் { குறிகள்[எண்ணி] = "w:t xml:space=\"preserve\""; }
             }
         }
         எண்ணி = எண்ணி + 1;
     }
 
-    வெளியீடு = [];
+    வெளியீடு = [துண்டுகள்[0]];
     எண்ணி = 0;
-    (எண்ணி < கடைசி) சுற்று {
-        வெளியீடு = இணை(வெளியீடு, முன்பகுதிகள்[எண்ணி] & உரைகள்[எண்ணி]);
+    (எண்ணி < நீளம்(உரைகள்)) சுற்று {
+        வெளியீடு = இணை(வெளியீடு, குறிகள்[எண்ணி] & ">" & உரைகள்[எண்ணி]);
         எண்ணி = எண்ணி + 1;
     }
-    திரும்பு ஒன்றிணை(இணை(வெளியீடு, துண்டுகள்[கடைசி]), "</w:t>");
+    திரும்பு ஒன்றிணை(வெளியீடு, "<");
 }
 
 // __A template package rendered into a new package of the same kind. Only the__

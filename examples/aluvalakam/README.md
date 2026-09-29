@@ -115,7 +115,7 @@ and, after eight attempts, park.
 | `aluvalakam_cEvY.qmz` | the server — routes, the outbox worker, the real Azure DevOps calls |
 | `aluvalakam_amYppu.qmz` | creates and seeds the database |
 | `vArppukaL/` | the two Word templates the documents are filled from — `aRikkY.docx`, `cAcaZam.docx` |
-| `aluvalakam_kYyALi_cOqaZY.qmz` | 120 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
+| `aluvalakam_kYyALi_cOqaZY.qmz` | 123 assertions driving every handler against a real SQLite file, with Azure DevOps faked |
 
 The handlers are functions rather than code inside the routes so that the whole
 service is tested under `--vm` — including a failed send rescheduled, a child
@@ -153,8 +153,10 @@ fonts and pictures come through as they were made. Edit them in Word. A
 placeholder is `{{ திட்டம்.பெயர் }}`, and a repeating row is a table row between
 a `{%tr for சாதனை in சாதனைகள் %}` row and a `{%tr endfor %}` row, as the
 templates show. Word often stores a placeholder typed in two sittings in two
-runs; `பிளந்த_குறிகளை_இணை` joins it back before filling, and the rejoined text
-takes the formatting of the run it starts in. Keep each list's heading row,
+runs, and LibreOffice does the same in an `.odt`; `பிளந்த_குறிகளை_இணை` joins it
+back before filling. Only the placeholder moves — it takes the formatting of the
+run it starts in, as a filled value must take one — and any text after it keeps
+its own run and formatting. Keep each list's heading row,
 so a list that comes out empty leaves a table Word still opens. The service
 looks for the templates in `ALUVALAKAM_TEMPLATES` (by default
 `examples/aluvalakam/vArppukaL`, from the repository root), writes the filled
@@ -169,7 +171,8 @@ sets the scope, and baselines it: the tasks are scheduled on the project's
 calendar from its start, where they end becomes the baseline every forecast is
 measured against, and the scope locks. After that the dates move only by
 rescheduling on actuals and the scope only by change request, so editing a date
-by hand is a 409. Closing is final. There is no delete: a project with history
+by hand is a 409. Closing is final: a closed project's record, progress, scope
+and change requests all refuse changes with the same 409. There is no delete: a project with history
 is closed, not erased.
 
 The outbox's backoff is timed with `இப்போதைய_நொடி()`, the seconds clock added to
@@ -181,7 +184,7 @@ the program's start, so a row's next attempt meant nothing after a restart.
 | | Code lines |
 |---|---:|
 | BeakPMO for the same ground — domain logic, Azure DevOps integration, and the sign-in, API routes, repositories, sync worker and sync SQL behind it⁴ | 5,599 |
-| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **1,118** |
+| **the service** — `kaLam`, `kYyALi`, `cEvY`, `amYppu` | **1,124** |
 | the `nUlakam` modules it uses | 1,293 |
 
 BeakPMO's API and repository files serve more endpoints than these twenty-four —

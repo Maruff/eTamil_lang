@@ -24,3 +24,13 @@
 // __A brace left open never reaches into the next paragraph.__
 // திறந்த அடைப்பு அடுத்த பத்திக்குள் நுழைவதில்லை
 அச்சு பிளந்த_குறிகளை_இணை("<w:p><w:r><w:t>{ அரை</w:t></w:r></w:p><w:p><w:r><w:t>அடுத்தது</w:t></w:r></w:p>");
+
+// __Only the placeholder moves. The bold " Ltd" typed after it stays in its own__
+// __run, bold.__
+// குறி மட்டுமே நகர்கிறது; அதன் பின் வரும் உரை தன் ஓட்டத்திலேயே இருக்கிறது
+அச்சு பிளந்த_குறிகளை_இணை("<w:p><w:r><w:t>{{ பெ</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:t>யர் }} Ltd</w:t></w:r></w:p>");
+
+// __LibreOffice splits the same way, into text:span; an .odt template is rejoined__
+// __as a .docx one is.__
+// லிப்ரே ஆஃபீஸ் பிளந்த குறியும் அவ்வாறே இணைகிறது
+அச்சு பிளந்த_குறிகளை_இணை("<text:p text:style-name=\"P1\">{{ பெ<text:span text:style-name=\"T1\">யர் }}</text:span></text:p>");
