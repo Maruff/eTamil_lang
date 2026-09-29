@@ -139,62 +139,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dtolnay/rust-toolchain@stable
-
-      - uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: etamil_compiler
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: npm
-          cache-dependency-path: eTamil_Code/package-lock.json
-
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # The extension's keyword lists and grammar are generated from the
-      # compiler. This step is the whole reason they can be trusted: add a
-      # keyword to lexer.rs without regenerating, and the build says so.
+      # The VS Code extension moved to Maruff/eTamil_vsCode. The two files it
+      # owns -- the TextMate grammar and the completion data -- are generated
+      # there instead: its CI checks this repository out as a sibling, runs
+      # this same script, and fails when they disagree with the compiler. The
+      # publish workflow here keeps them current between times.
       #
-      # Gating from the start, unlike the checks above — there is no backlog to
-      # sweep here, because the generated files were committed already current.
+      # What is still generated in this repository is everything else:
+      # Pygments, Rouge, highlight.js, tree-sitter and the spelling table.
+      # Add a keyword to lexer.rs without regenerating and this says so.
       - name: Generated editor data matches the compiler
         run: python scripts/generate_editor_support.py --check
 
-      - name: Install extension dependencies
-        working-directory: eTamil_Code
-        run: npm ci
-
-      - name: Typecheck
-        working-directory: eTamil_Code
-        run: npm run build
-
-      - name: Lint
-        working-directory: eTamil_Code
-        run: npm run lint
-
-      # The snippet tests compile every template with the real binary, so the
-      # compiler has to exist before they run.
-      - name: Build the compiler
-        working-directory: etamil_compiler
-        run: cargo build --release
-
-      - name: Test the grammar and the snippets
-        working-directory: eTamil_Code
-        run: npm test
-
-      - name: Package the extension
-        working-directory: eTamil_Code
-        run: npx vsce package --out etamil-support.vsix
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: etamil-support-vsix
-          path: eTamil_Code/etamil-support.vsix
-          if-no-files-found: error
 
   # Everything that renders eTamil outside VS Code: the tree-sitter grammar
   # (Neovim, Helix, Zed, GitHub code navigation) and the highlight.js
