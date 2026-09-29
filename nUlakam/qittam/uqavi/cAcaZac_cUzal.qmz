@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சாசனச்_சூழல்(திட்டத்_தரவு, பணிகள், மைல்கற்கள்) — everything a project charter template reads__
+// திட்டச் சாசன வார்ப்புருவுக்கான முழுச் சூழல்
+
+இறக்கு "../paNi.qmz";
+இறக்கு "../nalam.qmz";
+இறக்கு "../AvaNac_cUzal.qmz";
+
+// __The portal's own record is the layered defaults; the plan has 44 hours of work__
+// __and a cancelled 100-hour bridge, and two milestones.__
+// அடுக்கிய இயல்புகளே திட்டப் பதிவு; ஒரு பணி கைவிட்டது
+திட்டத்_தரவு = அடுக்கிய_இயல்புகள்([{"அனுசரணையாளர்": "COO"}, {"பெயர்": "Billing portal"}]);
+பணிகள் = [பணி_ஆக்கு("1.1", "", "செய்யவேண்டியது", 0, 40, ""),
+          பணி_ஆக்கு("1.2", "", "செய்யவேண்டியது", 0, 4, ""),
+          பணி_ஆக்கு("1.3", "", "கைவிட்டது", 0, 100, "")];
+மைல்கற்கள் = [மைல்கல்_ஆக்கு("M1", "2026-10-16", "2026-10-16", "", "சரியாக"),
+              மைல்கல்_ஆக்கு("M2", "2026-10-30", "2026-10-30", "", "சரியாக")];
+சாசனம் = சாசனச்_சூழல்(திட்டத்_தரவு, பணிகள், மைல்கற்கள்);
+
+// __Every field becomes திட்டம்.<field>, and effort is added. Cancelled work is left__
+// __out: 44 hours, stated as 5.5 person-days of eight hours.__
+// கைவிட்ட பணி இல்லாமல் 44 மணி, அதாவது ஐந்தரை நபர் நாள்
+ஒவ்வொரு ஒன்று இல் சாசனம்.மதிப்புகள் { அச்சு ஒன்று["குறி"] & " = " & ஒன்று["மதிப்பு"]; }
+
+// __The task table leaves the cancelled task out too, so it lists the same work__
+// __the effort figure adds up: two rows, not three.__
+// பணித் தொகுதியிலும் கைவிட்ட பணி இல்லை; முயற்சிக் கணக்கும் அட்டவணையும் ஒத்துப்போகும்
+அச்சு நீளம்(சாசனம்.தொகுதிகள்[0]["வரிசைகள்"]);
+அச்சு சாசனம்.தொகுதிகள்[1]["பெயர்"] & " " & சாசனம்.தொகுதிகள்[1]["வரிசைகள்"][1]["அடிப்படை_நாள்"];

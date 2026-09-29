@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அம்ச_விளைவு_ஆக்கு(அம்சக்_குறி, விளைவு_வகை, பகுப்புக்_குறி, கூடுதல்_மணி, விவரம்) — what one feature does to the plan__
+// ஓர் அம்சம் திட்டத்தில் செய்யும் மாற்றம்
+
+இறக்கு "../nOkkam.qmz";
+
+// __Single sign-on has two impacts: sixteen more hours on the build row 1.2, and a__
+// __row of its own, 1.5, for the identity-provider setup.__
+// ஒற்றை உள்நுழைவு: உருவாக்க வரிக்கு மணி, தனக்கென ஒரு புதிய வரி
+கூட்டல் = அம்ச_விளைவு_ஆக்கு("SSO", "மணி_கூட்டு", "1.2", 16, "");
+சேர்த்தல் = அம்ச_விளைவு_ஆக்கு("SSO", "பணி_சேர்", "1.5", 8, "Entra setup");
+அச்சு கூட்டல்.அம்சக்_குறி & " " & கூட்டல்.விளைவு_வகை & " " & கூட்டல்.பகுப்புக்_குறி
+      & " +" & சொல்லாக்கு(கூட்டல்.கூடுதல்_மணி);
+
+வரிகள் = [நோக்க_வரி_ஆக்கு("1.1", "Requirements", 40, "உள்ளே"),
+          நோக்க_வரி_ஆக்கு("1.2", "Build", 120, "உள்ளே")];
+விடை = மதிப்பு(நோக்கத்தைப்_பயன்படுத்து(வரிகள், ["SSO"], [கூட்டல், சேர்த்தல்]));
+ஒவ்வொரு ஒரு_பணி இல் விடை.பணிகள் {
+    அச்சு ஒரு_பணி.பணி_குறி & " " & ஒரு_பணி.விவரம் & " " & சொல்லாக்கு(ஒரு_பணி.மதிப்பீட்டு_மணி);
+}
+
+// __For மணி_கூட்டு the description is ignored: the hours join the row, which keeps__
+// __its own. The new row carries the feature's code so it can be traced back.__
+// மணி கூட்டலில் விவரம் பயனற்றது; புதிய வரி அம்சக் குறியைச் சுமக்கும்
+அச்சு விடை.பணிகள்[2].அம்சக்_குறி;
+
+// __An impact type the scope does not know, such as "பணி_நீக்கு", is not checked__
+// __when the impact is made, but applying the scope refuses it by name rather than__
+// __letting a feature quietly do nothing.__
+// அறியாத விளைவு வகை பயன்படுத்தும்போது பெயருடன் மறுக்கப்படும்
+அறியாதது = அம்ச_விளைவு_ஆக்கு("SSO", "பணி_நீக்கு", "1.1", 0, "");
+அச்சு தவறா(நோக்கத்தைப்_பயன்படுத்து(வரிகள், ["SSO"], [அறியாதது]));

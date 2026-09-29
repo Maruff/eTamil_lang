@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிணைப்பு_ஆக்கு(பிணைப்புப்_பாதை, கட்டாயமா, பிணைப்பு_வகை) — one field a template reads__
+// வார்ப்புரு படிக்கும் ஒரு புலம்
+
+இறக்கு "../kattam.qmz";
+
+// __The charter template reads the project's name and sponsor, repeats a row per__
+// __milestone, and shows a note if there is one.__
+// சாசன வார்ப்புரு: பெயர், அனுசரணையாளர், மைல்கற்கள், விருப்பக் குறிப்பு
+பெயர்_பிணைப்பு = பிணைப்பு_ஆக்கு("திட்டம்.பெயர்", மெய், "மதிப்பு");
+அச்சு பெயர்_பிணைப்பு.பிணைப்புப்_பாதை & " " & சொல்லாக்கு(பெயர்_பிணைப்பு.கட்டாயமா) & " "
+      & பெயர்_பிணைப்பு.பிணைப்பு_வகை;
+பிணைப்புகள் = [பெயர்_பிணைப்பு,
+               பிணைப்பு_ஆக்கு("திட்டம்.அனுசரணையாளர்", மெய், "மதிப்பு"),
+               பிணைப்பு_ஆக்கு("மைல்கற்கள்", மெய், "பட்டியல்"),
+               பிணைப்பு_ஆக்கு("திட்டம்.குறிப்பு", பொய், "மதிப்பு")];
+
+// __The sponsor is filled in and the note is absent, but the milestone list is empty.__
+// __A list binding needs at least one row, so two of the three required are met: 67%.__
+// பட்டியல் பிணைப்புக்கு ஒரு வரியாவது வேண்டும்
+சூழல் = {"திட்டம்": {"பெயர்": "Billing portal", "அனுசரணையாளர்": "COO"}, "மைல்கற்கள்": []};
+தயார் = வார்ப்புத்_தயார்நிலை(பிணைப்புகள், சூழல்);
+அச்சு சொல்லாக்கு(தயார்.சதவீதம்) & "% — " & தயார்.இல்லாதவை[0];
+
+// __The optional note counts for nothing either way: it is not in இல்லாதவை.__
+// விருப்பப் பிணைப்பு எண்ணப்படாது
+அச்சு நீளம்(தயார்.இல்லாதவை);
+
+// __An empty list is never ready, whichever kind it is bound as: the same list__
+// __bound as "மதிப்பு" is still unmet, 0%. Bind repeating blocks as "பட்டியல்"__
+// __all the same — that is what the template reads them as.__
+// வெற்றுப் பட்டியல் எந்த வகையிலும் தயாரல்ல; மீளும் தொகுதிகளைப் பட்டியலாகவே பிணைக்கவும்
+அச்சு வார்ப்புத்_தயார்நிலை([பிணைப்பு_ஆக்கு("மைல்கற்கள்", மெய், "மதிப்பு")], சூழல்).சதவீதம்;

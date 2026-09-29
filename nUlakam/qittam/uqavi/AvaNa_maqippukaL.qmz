@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவண_மதிப்புகள்(பதிவு_தரவு, முன்னொட்டு) — a record as template values__
+// ஒரு பதிவை வார்ப்புரு மதிப்புகளாக்கும்
+
+இறக்கு "../AvaNac_cUzal.qmz";
+
+// __The portal project's record, with its budget nested one level down. Prefixed__
+// __"திட்டம்", every key reads the way the template's {{ … }} placeholders do.__
+// முன்னொட்டுடன் ஒவ்வொரு குறியும் வார்ப்புருவின் இடக்குறி போல
+திட்டப்_பதிவு = {"பெயர்": "Billing portal", "நிதி": {"தொகை": 12.50, "நாணயம்": "INR"},
+                "அனுசரணையாளர்": இன்மை, "மைல்கற்கள்": ["M1", "M2"]};
+ஒவ்வொரு ஒன்று இல் ஆவண_மதிப்புகள்(திட்டப்_பதிவு, "திட்டம்") {
+    அச்சு ஒன்று["குறி"] & " = [" & ஒன்று["மதிப்பு"] & "]";
+}
+
+// __They come out in key order, not the order written. Values are always text; the__
+// __amount reads 12.5. இன்மை becomes "", and the milestone list is skipped — lists__
+// __are blocks, not values.__
+// குறி வரிசையில் வரும்; மதிப்புகள் எப்போதும் உரை; பட்டியல் தவிர்க்கப்படும்
+அச்சு வகை(ஆவண_மதிப்புகள்(திட்டப்_பதிவு, "திட்டம்")[1]["மதிப்பு"]);
+
+// __With "" as the prefix the keys start at the record's own fields.__
+// முன்னொட்டு இல்லையெனில் குறிகள் புலப் பெயரிலேயே தொடங்கும்
+அச்சு ஆவண_மதிப்புகள்({"நலம்": {"நிறம்": "மஞ்சள்"}}, "")[0]["குறி"];
+
+// __The prefix is joined with a dot, and a dot it already ends with is dropped:__
+// __"திட்டம்." gives திட்டம்.பெயர், not a doubled dot no template would match.__
+// முன்னொட்டின் இறுதிப் புள்ளி நீக்கப்படும்; இரட்டைப் புள்ளி வராது
+அச்சு ஆவண_மதிப்புகள்({"பெயர்": "Billing portal"}, "திட்டம்.")[0]["குறி"];

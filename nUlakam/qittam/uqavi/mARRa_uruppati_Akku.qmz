@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாற்ற_உருப்படி_ஆக்கு(உருப்படிக்_குறி, பெற்றோர்_குறி, விவரம், மதிப்பீட்டு_மணி) — one piece of work a change request adds__
+// மாற்றக் கோரிக்கை சேர்க்கும் ஒரு வேலை
+
+இறக்கு "../mARRak_kOrikkY.qmz";
+
+// __CR-12 asks for a reporting module: a new top-level item R2 with no parent, and__
+// __an export API under it.__
+// புதிய மேல்மட்ட உருப்படியும் அதன் கீழ் ஒரு துணை உருப்படியும்
+அறிக்கைகள் = மாற்ற_உருப்படி_ஆக்கு("R2", "", "Reporting", 0);
+ஏற்றுமதி = மாற்ற_உருப்படி_ஆக்கு("R2.1", "R2", "Export API", 8);
+அச்சு ஏற்றுமதி.உருப்படிக்_குறி & " கீழ் " & ஏற்றுமதி.பெற்றோர்_குறி & ": " & ஏற்றுமதி.விவரம்
+      & ", " & சொல்லாக்கு(ஏற்றுமதி.மதிப்பீட்டு_மணி) & " மணி";
+
+// __The parent may instead be a task that already exists in the plan: here an audit__
+// __log goes under the planned build task 1.2, not under anything in the request.__
+// பெற்றோர் திட்டத்தில் ஏற்கனவே உள்ள பணியாகவும் இருக்கலாம்
+தணிக்கைப்_பதிவேடு = மாற்ற_உருப்படி_ஆக்கு("1.2.4", "1.2", "Audit log", 12);
+
+// __Once approved, an item with a parent outside the request is still placed: the__
+// __parent is taken as existing, so the audit log is a root and can come out first.__
+// கோரிக்கைக்கு வெளியே உள்ள பெற்றோர் ஏற்கனவே உள்ளதாகக் கொள்ளப்படும்
+பணிகள் = மதிப்பு(மாற்றத்தைப்_பணிகளாக்கு({மாற்றக்_குறி: "CR-12", நடப்பு_நிலை: "ஏற்றது"},
+                                        [ஏற்றுமதி, தணிக்கைப்_பதிவேடு, அறிக்கைகள்]));
+ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+    அச்சு ஒரு_பணி.பணி_குறி & " (" & ஒரு_பணி.பெற்றோர்_குறி & ") " & ஒரு_பணி.விவரம்;
+}
+
+// __A grouping item such as R2 may carry 0 hours of its own.__
+// குழு உருப்படிக்குச் சுழிய மணியும் சரி
+அச்சு அறிக்கைகள்.மதிப்பீட்டு_மணி;

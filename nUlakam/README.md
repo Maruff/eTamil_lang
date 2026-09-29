@@ -79,6 +79,11 @@ frameworks built on top of it.
 | `qittam/nalam.qmz` | project health — `மைல்கல்_ஆக்கு` `மைல்கல்_வேறுபாடு` `கழிந்த_சதவீதம்` `திட்ட_நலம்` |
 | `qittam/mARRak_kOrikkY.qmz` | change control — `மாற்றக்_கோரிக்கை_வரைவு` `புதிய_பணிக்கு_அனுமதியா` |
 | `qittam/nilY_aRikkY.qmz` | the status report — `அறிக்கைக்_காலம்` `அறிக்கை_வேட்பாளர்கள்` |
+| `qittam/maRu_attavaNY.qmz` | rescheduling on actuals — `அட்டவணைக்கு_அமை` `மறு_அட்டவணையிடு` `துணைச்_சாளரங்கள்` |
+| `qittam/nOkkam.qmz` | scope and features — `நோக்க_வரி_ஆக்கு` `அம்ச_விளைவு_ஆக்கு` `நோக்கத்தைப்_பயன்படுத்து` |
+| `qittam/pala_qittam.qmz` | the portfolio — `திட்டச்_சுருக்கம்` `பல_திட்ட_நிலவரம்` `வாடிக்கையாளர்_வாரியாக` |
+| `qittam/kattam.qmz` | lifecycle and readiness — `வாழ்க்கைக்_கட்டங்கள்` `அடுத்த_கட்டம்` `வார்ப்புத்_தயார்நிலை` |
+| `qittam/AvaNac_cUzal.qmz` | document contexts — `ஆவண_மதிப்புகள்` `அடுக்கிய_இயல்புகள்` `நிலை_அறிக்கைச்_சூழல்` `சாசனச்_சூழல்` |
 | `oruwkiNYppu/varYpatam.qmz` | Azure DevOps mapping — `வெளி_நிலை` `உள்_நிலை` `முன்னுரிமை_எண்` `பணியுருப்படி_வகை` `மணியிலிருந்து_நிறைவு` |
 | `oruwkiNYppu/pula_urimY.qmz` | field ownership — `இயல்பு_உரிமைகள்` `உரிமையாளர்` `வரவைப்_பிரி` `அனுப்பவேண்டியவை` |
 | `oruwkiNYppu/mItci.qmz` | retry and backoff — `மீள்_முயலத்தக்கதா` `காத்திருப்பு_நொடிகள்` `கைவிடலாமா` |
@@ -176,7 +181,7 @@ by what they are about, not by the application that first needed them:
 
 | Folder | What it knows |
 |---|---|
-| `qittam/` | the project — tasks, the schedule on a real calendar, health, change control, the status report, alongside the costing modules already there |
+| `qittam/` | the project — tasks, the schedule on a real calendar and rescheduling on actuals, health, change control, scope and features, the portfolio, lifecycle readiness, document contexts and the status report, alongside the costing modules already there |
 | `oruwkiNYppu/` | Azure DevOps — state and priority mapping, field ownership, the outbox, retries, fingerprints, JSON Patch, WIQL, service hooks and the REST client |
 | `qayArippu/` | the product — versions and their support life, and release commitments to customers |
 
@@ -187,10 +192,14 @@ statuses of `qittam/paNi.qmz`, so a PMO built on `qittam` can sync without a
 translation layer of its own. Nothing here asks the clock: today's date and the
 current second are arguments, which is what makes every rule testable.
 
+`examples/aluvalakam/` runs one project through all three folders — scope,
+plan, charter, rescheduling, health, the status report, a change request,
+Azure DevOps and the portfolio — and counts the code it took.
+
 ## Worked examples, one per function
 
 Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
-each function in it, named after the function it demonstrates. 915 of them, and
+each function in it, named after the function it demonstrates. 936 of them, and
 each one shows the ordinary use together with the cases that are easy to get
 wrong: the boundary, the empty input, the failure that is a தவறு rather than a
 crash. The reasoning is in English and Tamil, like the library itself.

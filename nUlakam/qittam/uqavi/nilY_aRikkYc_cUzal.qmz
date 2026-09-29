@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலை_அறிக்கைச்_சூழல்(திட்டப்_பெயர், காலம், நலம்_விடை, வேட்பாளர்கள்) — everything a status report template reads__
+// நிலை அறிக்கை வார்ப்புருவுக்கான முழுச் சூழல்
+
+இறக்கு "../paNi.qmz";
+இறக்கு "../nalam.qmz";
+இறக்கு "../nilY_aRikkY.qmz";
+இறக்கு "../AvaNac_cUzal.qmz";
+இறக்கு "../../vativam/AvaNam.qmz";
+
+// __Monday 28 September's report for the portal: design finished last week, the API__
+// __build is past its due date, and the report covers the week since the 21st.__
+// வடிவமைப்பு முடிந்தது; நிரல் இடைமுகப் பணி காலம் கடந்தது
+கட்டல் = பணி_ஆக்கு("API", "", "நடப்பில்", 20, 10, "2026-09-20");
+கட்டல்["விவரம்"] = "Build API";
+வடிவு = பணி_ஆக்கு("DES", "", "மூடியது", 100, 30, "");
+வடிவு["விவரம்"] = "Design";
+வடிவு["முடிந்த_நாள்"] = "2026-09-25";
+பணிகள் = [கட்டல், வடிவு];
+காலம் = அறிக்கைக்_காலம்("2026-09-21", "2026-09-28");
+நல = திட்ட_நலம்("2026-09-01", "2026-11-01", பொய், [], பணிகள், "2026-09-28");
+சூழல் = நிலை_அறிக்கைச்_சூழல்("Portal", காலம், நல, அறிக்கை_வேட்பாளர்கள்(பணிகள், காலம், "2026-09-28"));
+
+// __One call builds the context, one fills the template. The block names are the__
+// __loop variables: சாதனை, தடை, அடுத்தது and காரணம்.__
+// ஒரு அழைப்பு சூழலுக்கு, ஒன்று நிரப்புதலுக்கு
+படிவம் = "<w:body><w:tr>{{ திட்டம்.பெயர் }} {{ காலம்.தொடக்கம் }}: {{ நலம்.நிறம் }} {{ நலம்.நிறைவு }}%</w:tr>"
+         & "<w:tr>{%tr for சாதனை in சாதனைகள் %}</w:tr><w:tr>+ {{ சாதனை.விவரம் }}</w:tr><w:tr>{%tr endfor %}</w:tr>"
+         & "<w:tr>{%tr for தடை in தடைகள் %}</w:tr><w:tr>! {{ தடை.விவரம் }}</w:tr><w:tr>{%tr endfor %}</w:tr></w:body>";
+அச்சு ஆவணம்_நிரப்பு(படிவம், _DOCX_வடிவம், சூழல்.மதிப்புகள், சூழல்.தொகுதிகள்);
+
+// __The colour's reasons are a block too, one row per reason, in காரண_உரை.__
+// நிறத்தின் காரணங்களும் ஒரு தொகுதி
+அச்சு சூழல்.தொகுதிகள்[3]["வரிசைகள்"][0]["காரண_உரை"];

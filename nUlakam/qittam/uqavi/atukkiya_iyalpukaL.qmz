@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடுக்கிய_இயல்புகள்(அடுக்குகள்) — defaults from several layers, the later winning__
+// பல அடுக்கு இயல்புகளை இணைக்கும்; பிந்தையதே வெல்லும்
+
+இறக்கு "../AvaNac_cUzal.qmz";
+
+// __Organisation defaults, then the billing product's, then what was saved for this__
+// __project — most general first.__
+// நிறுவனம், பின் தயாரிப்பு, பின் இத்திட்டம்: பொதுவானது முதலில்
+நிறுவனம் = {"அனுசரணையாளர்": "COO", "பண_வகை": "INR",
+            "அலுவலகம்": {"நகரம்": "Chennai", "நாடு": "IN"}};
+தயாரிப்பு = {"அனுசரணையாளர்": "VP Product"};
+இத்திட்டம் = {"அலுவலகம்": {"நகரம்": "Coimbatore"}, "நோக்கம்_உரை": "Online billing"};
+இயல் = அடுக்கிய_இயல்புகள்([நிறுவனம், தயாரிப்பு, இத்திட்டம்]);
+
+// __The product's sponsor replaces the organisation's; the currency, set only once,__
+// __comes through; the project's objective is added.__
+// பிந்தைய அடுக்கின் புலம் முந்தையதை மாற்றும்
+அச்சு இயல்.அனுசரணையாளர் & " " & இயல்.பண_வகை & " " & இயல்.நோக்கம்_உரை;
+
+// __Nested records merge field by field: the project changes the city and keeps the__
+// __organisation's country.__
+// உள்ளமைந்த பதிவுகள் புலம் புலமாக இணையும்
+அச்சு இயல்["அலுவலகம்"]["நகரம்"] & ", " & இயல்["அலுவலகம்"]["நாடு"];
+
+// __Lists do not merge — a later list replaces the earlier one whole.__
+// பட்டியல்கள் இணையாது; பிந்தையது முழுதாக மாற்றும்
+அச்சு நீளம்(அடுக்கிய_இயல்புகள்([{"மைல்கற்கள்": ["M1", "M2"]}, {"மைல்கற்கள்": ["M3"]}]).மைல்கற்கள்);
+
+// __Order is everything: the same layers reversed let the organisation win.__
+// வரிசையே முக்கியம்; தலைகீழானால் நிறுவனம் வெல்லும்
+அச்சு அடுக்கிய_இயல்புகள்([இத்திட்டம், தயாரிப்பு, நிறுவனம்]).அனுசரணையாளர்;

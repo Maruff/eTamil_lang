@@ -13695,6 +13695,84 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 102
   },
   {
+    "name": "ஆவண_மதிப்புகள்",
+    "forms": [
+      "ஆவண_மதிப்புகள்"
+    ],
+    "params": [
+      "பதிவு_தரவு",
+      "முன்னொட்டு"
+    ],
+    "arity": 2,
+    "doc": "ஆவண_மதிப்புகள்(பதிவு_தரவு, முன்னொட்டு) — a record as template values",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/AvaNac_cUzal.qmz",
+    "line": 33
+  },
+  {
+    "name": "அடுக்கிய_இயல்புகள்",
+    "forms": [
+      "அடுக்கிய_இயல்புகள்"
+    ],
+    "params": [
+      "அடுக்குகள்"
+    ],
+    "arity": 1,
+    "doc": "அடுக்கிய_இயல்புகள்(அடுக்குகள்) — defaults from several layers, the later winning",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/AvaNac_cUzal.qmz",
+    "line": 63
+  },
+  {
+    "name": "ஆவணத்_தொகுதி",
+    "forms": [
+      "ஆவணத்_தொகுதி"
+    ],
+    "params": [
+      "தொகுதிப்_பெயர்",
+      "புலங்கள்",
+      "வரிசைகள்"
+    ],
+    "arity": 3,
+    "doc": "ஆவணத்_தொகுதி(தொகுதிப்_பெயர், புலங்கள், வரிசைகள்) — rows for one repeating block",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/AvaNac_cUzal.qmz",
+    "line": 85
+  },
+  {
+    "name": "நிலை_அறிக்கைச்_சூழல்",
+    "forms": [
+      "நிலை_அறிக்கைச்_சூழல்"
+    ],
+    "params": [
+      "திட்டப்_பெயர்",
+      "காலம்",
+      "நலம்_விடை",
+      "வேட்பாளர்கள்"
+    ],
+    "arity": 4,
+    "doc": "நிலை_அறிக்கைச்_சூழல்(திட்டப்_பெயர், காலம், நலம்_விடை, வேட்பாளர்கள்) — everything a status report template reads",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/AvaNac_cUzal.qmz",
+    "line": 108
+  },
+  {
+    "name": "சாசனச்_சூழல்",
+    "forms": [
+      "சாசனச்_சூழல்"
+    ],
+    "params": [
+      "திட்டத்_தரவு",
+      "பணிகள்",
+      "மைல்கற்கள்"
+    ],
+    "arity": 3,
+    "doc": "சாசனச்_சூழல்(திட்டத்_தரவு, பணிகள், மைல்கற்கள்) — everything a project charter template reads",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/AvaNac_cUzal.qmz",
+    "line": 139
+  },
+  {
     "name": "செலவு_வேறுபாடு",
     "forms": [
       "செலவு_வேறுபாடு"
@@ -13969,6 +14047,78 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "line": 162
   },
   {
+    "name": "வாழ்க்கைக்_கட்டங்கள்",
+    "forms": [
+      "வாழ்க்கைக்_கட்டங்கள்"
+    ],
+    "params": [],
+    "arity": 0,
+    "doc": "வாழ்க்கைக்_கட்டங்கள்() — the five phases, in order",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/kattam.qmz",
+    "line": 27
+  },
+  {
+    "name": "அடுத்த_கட்டம்",
+    "forms": [
+      "அடுத்த_கட்டம்"
+    ],
+    "params": [
+      "ஒரு_கட்டம்"
+    ],
+    "arity": 1,
+    "doc": "அடுத்த_கட்டம்(ஒரு_கட்டம்) — the phase after this one",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/kattam.qmz",
+    "line": 36
+  },
+  {
+    "name": "பிணைப்பு_ஆக்கு",
+    "forms": [
+      "பிணைப்பு_ஆக்கு"
+    ],
+    "params": [
+      "பிணைப்புப்_பாதை",
+      "கட்டாயமா",
+      "பிணைப்பு_வகை"
+    ],
+    "arity": 3,
+    "doc": "பிணைப்பு_ஆக்கு(பிணைப்புப்_பாதை, கட்டாயமா, பிணைப்பு_வகை) — one field a template reads",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/kattam.qmz",
+    "line": 48
+  },
+  {
+    "name": "பாதையில்_மதிப்பு",
+    "forms": [
+      "பாதையில்_மதிப்பு"
+    ],
+    "params": [
+      "சூழல்",
+      "புள்ளிப்_பாதை"
+    ],
+    "arity": 2,
+    "doc": "பாதையில்_மதிப்பு(சூழல், புள்ளிப்_பாதை) — the value at a dotted path",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/kattam.qmz",
+    "line": 58
+  },
+  {
+    "name": "வார்ப்புத்_தயார்நிலை",
+    "forms": [
+      "வார்ப்புத்_தயார்நிலை"
+    ],
+    "params": [
+      "பிணைப்புகள்",
+      "சூழல்"
+    ],
+    "arity": 2,
+    "doc": "வார்ப்புத்_தயார்நிலை(பிணைப்புகள், சூழல்) — how ready the data is for this template",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/kattam.qmz",
+    "line": 79
+  },
+  {
     "name": "கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு",
     "forms": [
       "கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு"
@@ -14144,7 +14294,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "மாற்றக்_கோரிக்கை_வரைவு() — the change-request lifecycle as a machine",
     "kind": "stdlib",
     "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
-    "line": 28
+    "line": 29
   },
   {
     "name": "புதிய_பணிக்கு_அனுமதியா",
@@ -14160,7 +14310,89 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "புதிய_பணிக்கு_அனுமதியா(நோக்கம்_கையொப்பமா, பெற்றோர்_குறி, மாற்றக்_குறி) — may this task be added?",
     "kind": "stdlib",
     "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
-    "line": 51
+    "line": 52
+  },
+  {
+    "name": "மாற்ற_உருப்படி_ஆக்கு",
+    "forms": [
+      "மாற்ற_உருப்படி_ஆக்கு"
+    ],
+    "params": [
+      "உருப்படிக்_குறி",
+      "பெற்றோர்_குறி",
+      "விவரம்",
+      "மதிப்பீட்டு_மணி"
+    ],
+    "arity": 4,
+    "doc": "மாற்ற_உருப்படி_ஆக்கு(உருப்படிக்_குறி, பெற்றோர்_குறி, விவரம், மதிப்பீட்டு_மணி) — one piece of work a change request adds",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
+    "line": 66
+  },
+  {
+    "name": "மாற்றத்தைப்_பணிகளாக்கு",
+    "forms": [
+      "மாற்றத்தைப்_பணிகளாக்கு"
+    ],
+    "params": [
+      "ஒரு_கோரிக்கை",
+      "உருப்படிகள்"
+    ],
+    "arity": 2,
+    "doc": "மாற்றத்தைப்_பணிகளாக்கு(ஒரு_கோரிக்கை, உருப்படிகள்) — an approved request's items as tasks",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/mARRak_kOrikkY.qmz",
+    "line": 85
+  },
+  {
+    "name": "அட்டவணைக்கு_அமை",
+    "forms": [
+      "அட்டவணைக்கு_அமை"
+    ],
+    "params": [
+      "ஒரு_பணி",
+      "கால_அளவு",
+      "முன்னோடிகள்"
+    ],
+    "arity": 3,
+    "doc": "அட்டவணைக்கு_அமை(ஒரு_பணி, கால_அளவு, முன்னோடிகள்) — give a task what the scheduler needs",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/maRu_attavaNY.qmz",
+    "line": 46
+  },
+  {
+    "name": "மறு_அட்டவணையிடு",
+    "forms": [
+      "மறு_அட்டவணையிடு"
+    ],
+    "params": [
+      "பணிகள்",
+      "திட்டத்_தொடக்கம்",
+      "இன்றைய_நாள்",
+      "ஒரு_நாட்காட்டி"
+    ],
+    "arity": 4,
+    "doc": "மறு_அட்டவணையிடு(பணிகள், திட்டத்_தொடக்கம், இன்றைய_நாள், ஒரு_நாட்காட்டி) — the schedule as of today",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/maRu_attavaNY.qmz",
+    "line": 70
+  },
+  {
+    "name": "துணைச்_சாளரங்கள்",
+    "forms": [
+      "துணைச்_சாளரங்கள்"
+    ],
+    "params": [
+      "தொடக்க_நாள்",
+      "முடிவு_நாள்",
+      "எண்ணிக்கை",
+      "ஒரு_நாட்காட்டி"
+    ],
+    "arity": 4,
+    "doc": "துணைச்_சாளரங்கள்(தொடக்க_நாள், முடிவு_நாள், எண்ணிக்கை, ஒரு_நாட்காட்டி) — split a parent's window across its sub-tasks",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/maRu_attavaNY.qmz",
+    "line": 237
   },
   {
     "name": "முறை_0_100",
@@ -14329,6 +14561,57 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/qittam/muZZurYppu.qmz",
     "line": 67
+  },
+  {
+    "name": "நோக்க_வரி_ஆக்கு",
+    "forms": [
+      "நோக்க_வரி_ஆக்கு"
+    ],
+    "params": [
+      "பகுப்புக்_குறி",
+      "விவரம்",
+      "அடிப்படை_மணி",
+      "நோக்க_முடிவு"
+    ],
+    "arity": 4,
+    "doc": "நோக்க_வரி_ஆக்கு(பகுப்புக்_குறி, விவரம், அடிப்படை_மணி, நோக்க_முடிவு) — one WBS row and the decision on it",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nOkkam.qmz",
+    "line": 26
+  },
+  {
+    "name": "அம்ச_விளைவு_ஆக்கு",
+    "forms": [
+      "அம்ச_விளைவு_ஆக்கு"
+    ],
+    "params": [
+      "அம்சக்_குறி",
+      "விளைவு_வகை",
+      "பகுப்புக்_குறி",
+      "கூடுதல்_மணி",
+      "விவரம்"
+    ],
+    "arity": 5,
+    "doc": "அம்ச_விளைவு_ஆக்கு(அம்சக்_குறி, விளைவு_வகை, பகுப்புக்_குறி, கூடுதல்_மணி, விவரம்) — what one feature does to the plan",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nOkkam.qmz",
+    "line": 37
+  },
+  {
+    "name": "நோக்கத்தைப்_பயன்படுத்து",
+    "forms": [
+      "நோக்கத்தைப்_பயன்படுத்து"
+    ],
+    "params": [
+      "நோக்க_வரிகள்",
+      "தேர்ந்த_அம்சங்கள்",
+      "விளைவுகள்"
+    ],
+    "arity": 3,
+    "doc": "நோக்கத்தைப்_பயன்படுத்து(நோக்க_வரிகள், தேர்ந்த_அம்சங்கள், விளைவுகள்) — the tasks and exclusions the scope comes to",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/nOkkam.qmz",
+    "line": 58
   },
   {
     "name": "மைல்கல்_ஆக்கு",
@@ -15246,6 +15529,51 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "kind": "stdlib",
     "module": "nUlakam/qittam/pakuppu.qmz",
     "line": 155
+  },
+  {
+    "name": "திட்டச்_சுருக்கம்",
+    "forms": [
+      "திட்டச்_சுருக்கம்"
+    ],
+    "params": [
+      "திட்டக்_குறி",
+      "வாடிக்கையாளர்",
+      "நலம்_விடை",
+      "பணிகள்"
+    ],
+    "arity": 4,
+    "doc": "திட்டச்_சுருக்கம்(திட்டக்_குறி, வாடிக்கையாளர், நலம்_விடை, பணிகள்) — one project, reduced to its portfolio line",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/pala_qittam.qmz",
+    "line": 24
+  },
+  {
+    "name": "பல_திட்ட_நிலவரம்",
+    "forms": [
+      "பல_திட்ட_நிலவரம்"
+    ],
+    "params": [
+      "சுருக்கங்கள்"
+    ],
+    "arity": 1,
+    "doc": "பல_திட்ட_நிலவரம்(சுருக்கங்கள்) — the portfolio's figures",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/pala_qittam.qmz",
+    "line": 42
+  },
+  {
+    "name": "வாடிக்கையாளர்_வாரியாக",
+    "forms": [
+      "வாடிக்கையாளர்_வாரியாக"
+    ],
+    "params": [
+      "சுருக்கங்கள்"
+    ],
+    "arity": 1,
+    "doc": "வாடிக்கையாளர்_வாரியாக(சுருக்கங்கள்) — the same figures, one set per client",
+    "kind": "stdlib",
+    "module": "nUlakam/qittam/pala_qittam.qmz",
+    "line": 74
   },
   {
     "name": "காலத்தைப்_பெறு",

@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __துணைச்_சாளரங்கள்(தொடக்க_நாள், முடிவு_நாள், எண்ணிக்கை, ஒரு_நாட்காட்டி) — split a parent's window across its sub-tasks__
+// பெற்றோரின் காலத்தைத் துணைப் பணிகளுக்குப் பகிரும்
+
+இறக்கு "../../nAtkAtti/vElYnAL.qmz";
+இறக்கு "../maRu_attavaNY.qmz";
+
+// __The build phase runs Monday 5 to Friday 16 October: ten working days for three__
+// __undated sub-tasks. Each gets three, and the last also takes the day left over.__
+// பத்து வேலை நாள், மூன்று துணைப் பணிகள்; கடைசிக்கு மீதி நாளும்
+வார_நாட்கள் = நாட்காட்டி_ஆக்கு([0, 6], []);
+ஒவ்வொரு சாளரம் இல் மதிப்பு(துணைச்_சாளரங்கள்("2026-10-05", "2026-10-16", 3, வார_நாட்கள்)) {
+    அச்சு சாளரம்.தொடக்கம் & " .. " & சாளரம்.முடிவு;
+}
+
+// __A window that opens on Saturday 3 October is moved to Monday before it is split.__
+// சனிக்கிழமைத் தொடக்கம் திங்களுக்கு நகரும்
+அச்சு மதிப்பு(துணைச்_சாளரங்கள்("2026-10-03", "2026-10-06", 2, வார_நாட்கள்))[0].தொடக்கம்;
+
+// __Two working days for three sub-tasks: each gets one day, and the third sits on__
+// __the parent's last day with the second, rather than running past it.__
+// இரண்டு நாளில் மூன்று பணிகள்; மூன்றாவது கடைசி நாளிலேயே
+ஒவ்வொரு சாளரம் இல் மதிப்பு(துணைச்_சாளரங்கள்("2026-10-15", "2026-10-16", 3, வார_நாட்கள்)) {
+    அச்சு சாளரம்.தொடக்கம் & " .. " & சாளரம்.முடிவு;
+}
+
+// __No sub-tasks at all is refused.__
+// துணைப் பணி இல்லையெனில் மறுக்கப்படும்
+அச்சு தவறா(துணைச்_சாளரங்கள்("2026-10-05", "2026-10-16", 0, வார_நாட்கள்));

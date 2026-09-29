@@ -18,6 +18,7 @@
 // __அடுத்த_நிலைகள் of the same machine.__
 
 இறக்கு "nilYmARRam.qmz";
+இறக்கு "paNi.qmz";
 
 // __மாற்றக்_கோரிக்கை_வரைவு() — the change-request lifecycle as a machine__
 // மாற்றக்_கோரிக்கை_வரைவு() — மாற்றக் கோரிக்கையின் நிலை வரைவு
@@ -54,4 +55,45 @@
     (மாற்றக்_குறி != "") எனில் { திரும்பு சரி(மெய்); }
     திரும்பு தவறு("நோக்கம் கையொப்பமாகியுள்ளது; புதிய மேல்மட்டப் பணிக்கு மாற்றக் கோரிக்கை தேவை  "
                    & "(scope is signed; a new top-level task needs a change request)");
+}
+
+// __மாற்ற_உருப்படி_ஆக்கு(உருப்படிக்_குறி, பெற்றோர்_குறி, விவரம், மதிப்பீட்டு_மணி) — one piece of work a change request adds__
+// மாற்ற_உருப்படி_ஆக்கு(உருப்படிக்_குறி, பெற்றோர்_குறி, விவரம், மதிப்பீட்டு_மணி) — மாற்றக் கோரிக்கை சேர்க்கும் ஒரு வேலை
+//
+// __பெற்றோர்_குறி may name another item of the same request or a task that__
+// __already exists — a change often adds sub-tasks under work already planned —__
+// __or "" for new top-level work.__
+செயல் மாற்ற_உருப்படி_ஆக்கு(உருப்படிக்_குறி, பெற்றோர்_குறி, விவரம், மதிப்பீட்டு_மணி) {
+    திரும்பு { உருப்படிக்_குறி: உருப்படிக்_குறி, பெற்றோர்_குறி: பெற்றோர்_குறி,
+              விவரம்: விவரம், மதிப்பீட்டு_மணி: மதிப்பீட்டு_மணி };
+}
+
+// __மாற்றத்தைப்_பணிகளாக்கு(ஒரு_கோரிக்கை, உருப்படிகள்) — an approved request's items as tasks__
+// மாற்றத்தைப்_பணிகளாக்கு(ஒரு_கோரிக்கை, உருப்படிகள்) — ஏற்ற கோரிக்கையின் உருப்படிகளைப் பணிகளாக்கும்
+//
+// __The step that makes a change binding: once approved, what it asked for__
+// __becomes planned work. Each item comes back as a paNi.qmz task — to do, 0%,__
+// __with its estimate and description — carrying மாற்றக்_குறி, the request's__
+// __own code, so the scope gate in புதிய_பணிக்கு_அனுமதியா lets it in and anyone__
+// __reading the plan can see which change added it. Parents come before their__
+// __children, so a caller creating them one at a time never meets a child whose__
+// __parent does not exist yet.__
+//
+// __Refused unless the request is in ஏற்றது: materialising a request that is__
+// __only reviewed is how unapproved scope gets built. ஒரு_கோரிக்கை must carry its__
+// __code in மாற்றக்_குறி and its state in நடப்பு_நிலை.__
+செயல் மாற்றத்தைப்_பணிகளாக்கு(ஒரு_கோரிக்கை, உருப்படிகள்) {
+    (ஒரு_கோரிக்கை.நடப்பு_நிலை != "ஏற்றது") எனில் {
+        திரும்பு தவறு("கோரிக்கை ஏற்கப்படவில்லை (" & ஒரு_கோரிக்கை.நடப்பு_நிலை
+                       & "); பணிகளாக்க முடியாது  (the request is not approved, so it cannot become tasks)");
+    }
+    பணிகள் = [];
+    ஒவ்வொரு உருப்படி இல் உருப்படிகள் {
+        புதியது = பணி_ஆக்கு(உருப்படி.உருப்படிக்_குறி, உருப்படி.பெற்றோர்_குறி, "செய்யவேண்டியது", 0,
+                            உருப்படி.மதிப்பீட்டு_மணி, "");
+        புதியது["விவரம்"] = உருப்படி.விவரம்;
+        புதியது["மாற்றக்_குறி"] = ஒரு_கோரிக்கை.மாற்றக்_குறி;
+        பணிகள் = இணை(பணிகள், புதியது);
+    }
+    திரும்பு பெற்றோர்_முன்_வரிசை(பணிகள், "பணி_குறி", "பெற்றோர்_குறி");
 }

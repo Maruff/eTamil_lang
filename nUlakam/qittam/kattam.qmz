@@ -1,0 +1,106 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/kattam.qmz — கட்டம் (lifecycle phases, and whether a document can be written yet)__
+// வாழ்க்கைக் கட்டங்களும் ஆவணத் தயார்நிலையும்
+//
+// __A project moves through five phases — initiation, planning, execution,__
+// __control, closure — and each phase has its documents: a charter to start, a__
+// __schedule baseline to plan, status reports to execute. Whether a document can__
+// __be generated is a question about data, not about the template: a charter__
+// __with no sponsor is not ready, however good the template is.__
+//
+// __So a template declares its bindings — the paths into the project's data it__
+// __reads, and which of them it cannot do without — and readiness is the share of__
+// __required bindings that are satisfied. The missing ones come back by name,__
+// __which is the to-do list for whoever wants the document.__
+//
+// __A path is dotted, "திட்டம்.அனுசரணையாளர்", and walks records. A value binding__
+// __is satisfied by anything but "", இன்மை, or an empty list or record; a list__
+// __binding only by a non-empty list. An empty collection is never ready: a__
+// __charter that promises milestones and has none is not ready, whichever kind__
+// __the binding was declared as.__
+
+இறக்கு "../atippatY/aNi.qmz";
+
+// __வாழ்க்கைக்_கட்டங்கள்() — the five phases, in order__
+// வாழ்க்கைக்_கட்டங்கள்() — ஐந்து வாழ்க்கைக் கட்டங்கள்
+செயல் வாழ்க்கைக்_கட்டங்கள்() {
+    திரும்பு ["தொடக்கம்", "திட்டமிடல்", "செயலாக்கம்", "கட்டுப்பாடு", "நிறைவுறுத்தல்"];
+}
+
+// __அடுத்த_கட்டம்(ஒரு_கட்டம்) — the phase after this one__
+// அடுத்த_கட்டம்(ஒரு_கட்டம்) — இதற்கு அடுத்த கட்டம்
+//
+// __"" after the last phase and for a name that is not a phase: there is nowhere__
+// __to go, and a guess would move a project into a phase it never entered.__
+செயல் அடுத்த_கட்டம்(ஒரு_கட்டம்) {
+    கட்டங்கள் = வாழ்க்கைக்_கட்டங்கள்();
+    இடம்_எண் = இடம்_காண்(கட்டங்கள், ஒரு_கட்டம்);
+    (இடம்_எண் < 0 அல்லது இடம்_எண் >= நீளம்(கட்டங்கள்) - 1) எனில் { திரும்பு ""; }
+    திரும்பு கட்டங்கள்[இடம்_எண் + 1];
+}
+
+// __பிணைப்பு_ஆக்கு(பிணைப்புப்_பாதை, கட்டாயமா, பிணைப்பு_வகை) — one field a template reads__
+// பிணைப்பு_ஆக்கு(பிணைப்புப்_பாதை, கட்டாயமா, பிணைப்பு_வகை) — வார்ப்புரு படிக்கும் ஒரு புலம்
+//
+// __பிணைப்பு_வகை is "மதிப்பு" for a single value or "பட்டியல்" for a repeating__
+// __block. An optional binding counts for nothing either way.__
+செயல் பிணைப்பு_ஆக்கு(பிணைப்புப்_பாதை, கட்டாயமா, பிணைப்பு_வகை) {
+    திரும்பு { பிணைப்புப்_பாதை: பிணைப்புப்_பாதை, கட்டாயமா: கட்டாயமா, பிணைப்பு_வகை: பிணைப்பு_வகை };
+}
+
+// __பாதையில்_மதிப்பு(சூழல், புள்ளிப்_பாதை) — the value at a dotted path__
+// பாதையில்_மதிப்பு(சூழல், புள்ளிப்_பாதை) — புள்ளிப் பாதையிலுள்ள மதிப்பு
+//
+// __சரி with the value, or தவறு naming the first part of the path that is not__
+// __there — "திட்டம்.அனுசரணையாளர்" on a project with no sponsor names__
+// __அனுசரணையாளர், not the whole path, so the gap is obvious.__
+செயல் பாதையில்_மதிப்பு(சூழல், புள்ளிப்_பாதை) {
+    இப்போதைய_மதிப்பு = சூழல்;
+    ஒவ்வொரு பகுதி இல் பிரி(புள்ளிப்_பாதை, ".") {
+        (வகை(இப்போதைய_மதிப்பு) == "an array" அல்லது வகை(இப்போதைய_மதிப்பு) == "a string" அல்லது வகை(இப்போதைய_மதிப்பு) == "a number"
+            அல்லது வகை(இப்போதைய_மதிப்பு) == "a boolean" அல்லது வகை(இப்போதைய_மதிப்பு) == "nil") எனில் {
+            திரும்பு தவறு(புள்ளிப்_பாதை & " இல் " & பகுதி & " இல்லை  (" & பகுதி & " is missing from " & புள்ளிப்_பாதை & ")");
+        }
+        (இல்லை புலம்_உள்ளதா(இப்போதைய_மதிப்பு, பகுதி)) எனில் {
+            திரும்பு தவறு(புள்ளிப்_பாதை & " இல் " & பகுதி & " இல்லை  (" & பகுதி & " is missing from " & புள்ளிப்_பாதை & ")");
+        }
+        இப்போதைய_மதிப்பு = இப்போதைய_மதிப்பு[பகுதி];
+    }
+    திரும்பு சரி(இப்போதைய_மதிப்பு);
+}
+
+// __வார்ப்புத்_தயார்நிலை(பிணைப்புகள், சூழல்) — how ready the data is for this template__
+// வார்ப்புத்_தயார்நிலை(பிணைப்புகள், சூழல்) — இவ்வார்ப்புருவுக்குத் தரவு எவ்வளவு தயார்
+//
+// __{சதவீதம், இல்லாதவை}: the whole percentage of required bindings satisfied, and__
+// __the paths of those that are not. A template with no required bindings is__
+// __100% ready — it can always be written.__
+செயல் வார்ப்புத்_தயார்நிலை(பிணைப்புகள், சூழல்) {
+    தேவை = 0;
+    நிறைந்தவை = 0;
+    இல்லாதவை = [];
+    ஒவ்வொரு பிணைப்பு இல் பிணைப்புகள் {
+        (பிணைப்பு.கட்டாயமா) எனில் {
+            தேவை = தேவை + 1;
+            கிடைத்தது = பாதையில்_மதிப்பு(சூழல், பிணைப்பு.பிணைப்புப்_பாதை);
+            சரியானது = பொய்;
+            (சரியா(கிடைத்தது)) எனில் {
+                மதிப்பு_தரவு = மதிப்பு(கிடைத்தது);
+                (பிணைப்பு.பிணைப்பு_வகை == "பட்டியல்") எனில் {
+                    சரியானது = வகை(மதிப்பு_தரவு) == "an array" மற்றும் நீளம்(மதிப்பு_தரவு) > 0;
+                } இன்றேல் {
+                    சரியானது = மதிப்பு_தரவு != "" மற்றும் மதிப்பு_தரவு != இன்மை;
+                    (வகை(மதிப்பு_தரவு) == "an array" அல்லது வகை(மதிப்பு_தரவு) == "a record") எனில் {
+                        சரியானது = நீளம்(மதிப்பு_தரவு) > 0;
+                    }
+                }
+            }
+            (சரியானது) எனில் { நிறைந்தவை = நிறைந்தவை + 1; }
+            இன்றேல் { இல்லாதவை = இணை(இல்லாதவை, பிணைப்பு.பிணைப்புப்_பாதை); }
+        }
+    }
+    சதவீதம் = 100;
+    (தேவை > 0) எனில் { சதவீதம் = வட்டமிடு(நிறைந்தவை * 100 / தேவை, 0); }
+    திரும்பு { சதவீதம்: சதவீதம், இல்லாதவை: இல்லாதவை };
+}

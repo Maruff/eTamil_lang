@@ -1,0 +1,114 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/nOkkam.qmz — நோக்கம் (scope: what is in, what is out, and what the features add)__
+// நோக்கம்: உள்ளே, வெளியே, அம்சங்கள் சேர்ப்பவை
+//
+// __Before a plan has tasks it has scope: the WBS rows the statement of work__
+// __offers, each marked as in (it becomes a task), excluded (it is written into__
+// __the exclusions so nobody later assumes it was promised) or removed (it does__
+// __not apply at all). On top of that, the features a customer chooses change the__
+// __work — some add hours to a row that is already in, some add a row of their__
+// __own.__
+//
+// __The answer is always recomputed from the three inputs rather than patched__
+// __onto the last one. Choosing a feature, unchoosing it and choosing it again__
+// __must give the plan it gave the first time, and a patching approach adds the__
+// __hours twice. Here the same inputs always give the same tasks.__
+//
+// __A row's decision is one of "உள்ளே" (in scope), "விலக்கு" (excluded) and__
+// __"நீக்கு" (removed). An impact is "மணி_கூட்டு" (add hours to a row) or__
+// __"பணி_சேர்" (add a row, in scope, of its own).__
+
+இறக்கு "paNi.qmz";
+
+// __நோக்க_வரி_ஆக்கு(பகுப்புக்_குறி, விவரம், அடிப்படை_மணி, நோக்க_முடிவு) — one WBS row and the decision on it__
+// நோக்க_வரி_ஆக்கு(பகுப்புக்_குறி, விவரம், அடிப்படை_மணி, நோக்க_முடிவு) — ஒரு பகுப்பு வரியும் அதன் முடிவும்
+செயல் நோக்க_வரி_ஆக்கு(பகுப்புக்_குறி, விவரம், அடிப்படை_மணி, நோக்க_முடிவு) {
+    திரும்பு { பகுப்புக்_குறி: பகுப்புக்_குறி, விவரம்: விவரம்,
+              அடிப்படை_மணி: அடிப்படை_மணி, நோக்க_முடிவு: நோக்க_முடிவு };
+}
+
+// __அம்ச_விளைவு_ஆக்கு(அம்சக்_குறி, விளைவு_வகை, பகுப்புக்_குறி, கூடுதல்_மணி, விவரம்) — what one feature does to the plan__
+// அம்ச_விளைவு_ஆக்கு(அம்சக்_குறி, விளைவு_வகை, பகுப்புக்_குறி, கூடுதல்_மணி, விவரம்) — ஓர் அம்சம் திட்டத்தில் செய்யும் மாற்றம்
+//
+// __For "மணி_கூட்டு", பகுப்புக்_குறி names the row the hours go on and விவரம் is__
+// __ignored. For "பணி_சேர்", பகுப்புக்_குறி is the new row's code and விவரம் its__
+// __description. A feature may have several impacts.__
+செயல் அம்ச_விளைவு_ஆக்கு(அம்சக்_குறி, விளைவு_வகை, பகுப்புக்_குறி, கூடுதல்_மணி, விவரம்) {
+    திரும்பு { அம்சக்_குறி: அம்சக்_குறி, விளைவு_வகை: விளைவு_வகை, பகுப்புக்_குறி: பகுப்புக்_குறி,
+              கூடுதல்_மணி: கூடுதல்_மணி, விவரம்: விவரம் };
+}
+
+// __நோக்கத்தைப்_பயன்படுத்து(நோக்க_வரிகள், தேர்ந்த_அம்சங்கள், விளைவுகள்) — the tasks and exclusions the scope comes to__
+// நோக்கத்தைப்_பயன்படுத்து(நோக்க_வரிகள், தேர்ந்த_அம்சங்கள், விளைவுகள்) — நோக்கம் தரும் பணிகளும் விலக்குகளும்
+//
+// __சரி({பணிகள், விலக்குகள்}). Each in-scope row becomes a to-do paNi.qmz task__
+// __coded by its WBS code, with estimate = its base hours + every மணி_கூட்டு of a__
+// __chosen feature on it; each chosen பணி_சேர் adds one more task, carrying__
+// __அம்சக்_குறி so it can be traced to the feature that asked for it. Excluded rows__
+// __come back as விலக்குகள். Impacts of features not in தேர்ந்த_அம்சங்கள் do__
+// __nothing.__
+//
+// __தவறு when a chosen feature adds hours to a row that is not in scope — hours__
+// __on work that is excluded or removed would vanish from the plan without a__
+// __word, and the customer would be charged for a feature nobody builds. Also__
+// __தவறு for a decision or an impact type that is not one of the words above: a__
+// __misspelt "உள்ளது" would otherwise drop the row from both the tasks and the__
+// __exclusions, and nobody would notice until the work was missed.__
+செயல் நோக்கத்தைப்_பயன்படுத்து(நோக்க_வரிகள், தேர்ந்த_அம்சங்கள், விளைவுகள்) {
+    ஒவ்வொரு வரி_ஒன்று இல் நோக்க_வரிகள் {
+        முடிவு_சொல் = வரி_ஒன்று.நோக்க_முடிவு;
+        (முடிவு_சொல் != "உள்ளே" மற்றும் முடிவு_சொல் != "விலக்கு" மற்றும் முடிவு_சொல் != "நீக்கு") எனில் {
+            திரும்பு தவறு(வரி_ஒன்று.பகுப்புக்_குறி & " வரியின் முடிவு '" & முடிவு_சொல்
+                           & "' உள்ளே, விலக்கு, நீக்கு இவற்றில் ஒன்றல்ல  (the decision on row "
+                           & வரி_ஒன்று.பகுப்புக்_குறி & " is not உள்ளே, விலக்கு or நீக்கு)");
+        }
+    }
+    ஒவ்வொரு விளைவு இல் விளைவுகள் {
+        (விளைவு.விளைவு_வகை != "மணி_கூட்டு" மற்றும் விளைவு.விளைவு_வகை != "பணி_சேர்") எனில் {
+            திரும்பு தவறு(விளைவு.அம்சக்_குறி & " அம்சத்தின் விளைவு வகை '" & விளைவு.விளைவு_வகை
+                           & "' மணி_கூட்டு, பணி_சேர் இவற்றில் ஒன்றல்ல  (an impact of feature "
+                           & விளைவு.அம்சக்_குறி & " is neither மணி_கூட்டு nor பணி_சேர்)");
+        }
+    }
+    தேர்ந்தவை = {};
+    ஒவ்வொரு அம்சம் இல் தேர்ந்த_அம்சங்கள் { தேர்ந்தவை[அம்சம்] = மெய்; }
+    உள்ளவை = {};
+    ஒவ்வொரு வரி_ஒன்று இல் நோக்க_வரிகள் {
+        (வரி_ஒன்று.நோக்க_முடிவு == "உள்ளே") எனில் { உள்ளவை[வரி_ஒன்று.பகுப்புக்_குறி] = 0; }
+    }
+
+    சேர்ப்புகள் = [];
+    ஒவ்வொரு விளைவு இல் விளைவுகள் {
+        (புலம்_உள்ளதா(தேர்ந்தவை, விளைவு.அம்சக்_குறி)) எனில் {
+            (விளைவு.விளைவு_வகை == "மணி_கூட்டு") எனில் {
+                (இல்லை புலம்_உள்ளதா(உள்ளவை, விளைவு.பகுப்புக்_குறி)) எனில் {
+                    திரும்பு தவறு(விளைவு.அம்சக்_குறி & " அம்சம் நோக்கத்தில் இல்லாத " & விளைவு.பகுப்புக்_குறி
+                                   & " வரிக்கு மணி சேர்க்கிறது  (feature " & விளைவு.அம்சக்_குறி
+                                   & " adds hours to " & விளைவு.பகுப்புக்_குறி & ", which is not in scope)");
+                }
+                உள்ளவை[விளைவு.பகுப்புக்_குறி] = உள்ளவை[விளைவு.பகுப்புக்_குறி] + விளைவு.கூடுதல்_மணி;
+            }
+            (விளைவு.விளைவு_வகை == "பணி_சேர்") எனில் { சேர்ப்புகள் = இணை(சேர்ப்புகள், விளைவு); }
+        }
+    }
+
+    பணிகள் = [];
+    விலக்குகள் = [];
+    ஒவ்வொரு வரி_ஒன்று இல் நோக்க_வரிகள் {
+        (வரி_ஒன்று.நோக்க_முடிவு == "உள்ளே") எனில் {
+            புதியது = பணி_ஆக்கு(வரி_ஒன்று.பகுப்புக்_குறி, "", "செய்யவேண்டியது", 0,
+                                வரி_ஒன்று.அடிப்படை_மணி + உள்ளவை[வரி_ஒன்று.பகுப்புக்_குறி], "");
+            புதியது["விவரம்"] = வரி_ஒன்று.விவரம்;
+            பணிகள் = இணை(பணிகள், புதியது);
+        }
+        (வரி_ஒன்று.நோக்க_முடிவு == "விலக்கு") எனில் { விலக்குகள் = இணை(விலக்குகள், வரி_ஒன்று); }
+    }
+    ஒவ்வொரு விளைவு இல் சேர்ப்புகள் {
+        புதியது = பணி_ஆக்கு(விளைவு.பகுப்புக்_குறி, "", "செய்யவேண்டியது", 0, விளைவு.கூடுதல்_மணி, "");
+        புதியது["விவரம்"] = விளைவு.விவரம்;
+        புதியது["அம்சக்_குறி"] = விளைவு.அம்சக்_குறி;
+        பணிகள் = இணை(பணிகள், புதியது);
+    }
+    திரும்பு சரி({ பணிகள்: பணிகள், விலக்குகள்: விலக்குகள் });
+}

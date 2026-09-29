@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவணத்_தொகுதி(தொகுதிப்_பெயர், புலங்கள், வரிசைகள்) — rows for one repeating block__
+// மீளும் ஒரு தொகுதிக்கான வரிசைகள்
+
+இறக்கு "../paNi.qmz";
+இறக்கு "../AvaNac_cUzal.qmz";
+
+// __The charter's work table repeats a row per task. The template loops "for பணி__
+// __in பணிகள்", so the block's name is பணி — the loop variable, not the collection.__
+// தொகுதியின் பெயர் சுழல் மாறியே; தொகுப்பின் பெயரல்ல
+முதல் = பணி_ஆக்கு("1.1", "", "செய்யவேண்டியது", 0, 40, "");
+முதல்["விவரம்"] = "Requirements";
+இரண்டாவது = பணி_ஆக்கு("1.2", "", "செய்யவேண்டியது", 0, 136, "");
+தொகுதி_ஒன்று = ஆவணத்_தொகுதி("பணி", ["பணி_குறி", "விவரம்", "மதிப்பீட்டு_மணி"], [முதல், இரண்டாவது]);
+அச்சு தொகுதி_ஒன்று["பெயர்"] & " " & சொல்லாக்கு(நீளம்(தொகுதி_ஒன்று["வரிசைகள்"])) & " வரி";
+
+// __Each row keeps only the fields asked for, all as text: the hours are "40", and__
+// __the task's status and progress are gone.__
+// கேட்ட புலங்கள் மட்டும், உரையாக
+வரிகள் = தொகுதி_ஒன்று["வரிசைகள்"];
+அச்சு வரிகள்[0]["பணி_குறி"] & " " & வரிகள்[0]["விவரம்"] & " " & வரிகள்[0]["மதிப்பீட்டு_மணி"];
+அச்சு வகை(வரிகள்[0]["மதிப்பீட்டு_மணி"]);
+அச்சு புலம்_உள்ளதா(வரிகள்[0], "நடப்பு_நிலை");
+
+// __The second task has no description, so its row has "" there, and the template__
+// __prints an empty cell rather than failing.__
+// இல்லாத புலம் வெற்று உரையாகும்
+அச்சு "[" & வரிகள்[1]["விவரம்"] & "]";
+
+// __No rows is still a block, with its fields: the loop just repeats nothing.__
+// வரிசை இல்லையெனினும் தொகுதி உண்டு
+அச்சு நீளம்(ஆவணத்_தொகுதி("மைல்கல்", ["மைல்கல்_குறி"], [])["புலங்கள்"]);
