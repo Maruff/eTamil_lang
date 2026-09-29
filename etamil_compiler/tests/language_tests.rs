@@ -2464,6 +2464,36 @@ fn date_arithmetic() {
     assert_eq!(num(&vm, "d"), dec(-110));
 }
 
+// The seconds clock agrees with the system clock and with இன்று: the day it
+// falls in, counted from 1970-01-01, is today. Read today on both sides of it so
+// a run that crosses midnight cannot fail spuriously.
+#[test]
+fn the_seconds_clock_is_now_and_agrees_with_today() {
+    let before = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs() as i64;
+    let vm = run(r#"முன்னர் = இன்று();
+                    நொடி = இப்போதைய_நொடி();
+                    அன்று = நாள்_கூட்டு("1970-01-01", தரை(நொடி / 86400));
+                    பின்னர் = _today();
+                    மீண்டும் = ippOqYya_noti() >= நொடி;"#)
+    .unwrap();
+    let seconds = num(&vm, "நொடி");
+    assert!(
+        seconds >= dec(before) && seconds <= dec(before + 5),
+        "not now: {}",
+        seconds
+    );
+    let day = text(&vm, "அன்று");
+    assert!(
+        day == text(&vm, "முன்னர்") || day == text(&vm, "பின்னர்"),
+        "not today: {}",
+        day
+    );
+    assert_eq!(vm.variables.get("மீண்டும்"), Some(&Value::Boolean(true)));
+}
+
 #[test]
 fn a_malformed_date_is_an_error() {
     let err = run(r#"x = nAL_kUttu("not-a-date", 1);"#).expect_err("bad date");
