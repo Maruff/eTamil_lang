@@ -17733,7 +17733,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதினாறு_ஆக்கு(மூலம்) — a string as hexadecimal",
     "kind": "stdlib",
     "module": "nUlakam/vativam/kuRiyAkkam.qmz",
-    "line": 144
+    "line": 151
   },
   {
     "name": "பதினாறு_படி",
@@ -17747,7 +17747,7 @@ export const FUNCTIONS: readonly FunctionEntry[] = [
     "doc": "பதினாறு_படி(குறியிட்டது) — hexadecimal back to a string",
     "kind": "stdlib",
     "module": "nUlakam/vativam/kuRiyAkkam.qmz",
-    "line": 157
+    "line": 164
   },
   {
     "name": "விதிமுறைகளை_ஏற்று",
