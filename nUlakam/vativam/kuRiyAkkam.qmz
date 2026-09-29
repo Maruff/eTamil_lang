@@ -106,7 +106,14 @@
     (எண்ணி < மொத்தம்) சுற்று {
         ஒரு_எழுத்து = உரைப்பு[எண்ணி];
 
-        (ஒரு_எழுத்து != "=" மற்றும் ஒரு_எழுத்து != "\n" மற்றும் ஒரு_எழுத்து != "\r") எனில் {
+        // __Line breaks are skipped because MIME and PEM wrap base64 at a fixed__
+        // __width. The text is read letter by letter, and "\r\n" is one letter —__
+        // __the rule that makes நீளம்("வணக்கம்") 5 also joins a carriage return to__
+        // __the line feed after it. A Windows line ending therefore matches neither__
+        // __the "\r" arm nor the "\n" one, and without an arm of its own it is__
+        // __looked up in the alphabet and refused as a character not in base64.__
+        (ஒரு_எழுத்து != "=" மற்றும் ஒரு_எழுத்து != "\n"
+         மற்றும் ஒரு_எழுத்து != "\r" மற்றும் ஒரு_எழுத்து != "\r\n") எனில் {
             மதிப்பு_எண் = தேடு(எழுத்துகள், ஒரு_எழுத்து);
             (மதிப்பு_எண் < 0) எனில் {
                 திரும்பு தவறு("அறுபத்துநான்கில் இல்லாத எழுத்து: " & ஒரு_எழுத்து);

@@ -1627,6 +1627,28 @@ fn base64_refuses_what_is_not_base64() {
     assert_eq!(vm.variables.get("நல்லது"), Some(&Value::Boolean(true)));
 }
 
+// Regression: the encoded text is read letter by letter, and "\r\n" is one
+// letter — the rule that makes நீளம்("வணக்கம்") 5 also joins a carriage return
+// to the line feed after it. So a Windows line ending matched neither the "\r"
+// arm of the decoder's skip test nor the "\n" one, was looked up in the
+// alphabet, and MIME- or PEM-wrapped base64 written on Windows came back
+// refused for a character that was only a line break.
+#[test]
+fn base64_decodes_across_windows_line_endings() {
+    let vm = run_with_stdlib(
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
+           விளைவு = அறுபத்துநான்கு_படி("aGVsbG8g\r\nd29ybGQ=");
+           சரியா_இருந்ததா = சரியா(விளைவு);
+           மறுபடி = மதிப்பு(விளைவு);
+           ஒற்றை_வரி = மதிப்பு(அறுபத்துநான்கு_படி("aGVsbG8gd29ybGQ="));"#,
+    )
+    .unwrap();
+
+    assert_eq!(vm.variables.get("சரியா_இருந்ததா"), Some(&Value::Boolean(true)));
+    assert_eq!(text(&vm, "மறுபடி"), "hello world");
+    assert_eq!(text(&vm, "ஒற்றை_வரி"), "hello world");
+}
+
 #[test]
 fn hex_encodes_and_decodes() {
     let vm = run_with_stdlib(
