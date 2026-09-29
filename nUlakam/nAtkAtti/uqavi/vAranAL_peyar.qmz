@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வாரநாள்_பெயர்(வாரநாள்_எண்) — the Tamil name of a weekday number__
+// வாரநாள் எண்ணின் தமிழ்ப் பெயர்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு வாரநாள்_பெயர்(0);
+அச்சு வாரநாள்_பெயர்(1);
+அச்சு வாரநாள்_பெயர்(6);
+
+// __Read together with வாரநாள், which is the only way it is ever used.__
+// வாரநாள் உடனேயே சேர்ந்து பயன்படுகிறது
+அச்சு வாரநாள்_பெயர்(வாரநாள்("2026-03-02"));

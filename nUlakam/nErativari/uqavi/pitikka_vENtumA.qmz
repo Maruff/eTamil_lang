@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிடிக்க_வேண்டுமா(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது) — does this payment bring the section into charge?__
+// இச்செலுத்தலுக்கு மூலவரி பிடிக்க வேண்டுமா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+ஒப்பந்தம் = பிரிவு_ஆக்கு("194C", "ஒப்பந்தக்காரர்", 1, 30000, 100000);
+
+// __A single payment over the per-payment threshold.__
+// ஒரே செலுத்தல் எல்லையைத் தாண்டினால்
+அச்சு பிடிக்க_வேண்டுமா(ஒப்பந்தம், 35000, 0);
+அச்சு பிடிக்க_வேண்டுமா(ஒப்பந்தம், 25000, 0);
+
+// __Or several small ones that cross the annual threshold. This is the one__
+// __that is missed: four payments of 25,000 each pass the per-payment test and__
+// __the fourth one crosses the year.__
+// சிறு செலுத்தல்கள் சேர்ந்து ஆண்டு எல்லையைத் தாண்டும்போது
+அச்சு பிடிக்க_வேண்டுமா(ஒப்பந்தம், 25000, 50000);
+அச்சு பிடிக்க_வேண்டுமா(ஒப்பந்தம், 25000, 80000);
+
+// __A section with no thresholds at all charges from the first rupee.__
+// எல்லைகளே இல்லாத பிரிவு முதல் ரூபாயிலிருந்தே
+அச்சு பிடிக்க_வேண்டுமா(பிரிவு_ஆக்கு("194A", "வட்டி", 10, 0, 0), 100, 0);

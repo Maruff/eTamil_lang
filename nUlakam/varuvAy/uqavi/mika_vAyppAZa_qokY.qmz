@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மிக_வாய்ப்பான_தொகை(விளைவுகள்) — variable consideration, as the single most likely outcome__
+// மிகுந்த வாய்ப்புள்ள ஒற்றை விளைவின் தொகை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+விளைவுகள் = [{"தொகை": 100000, "நிகழ்தகவு": 60},
+              {"தொகை": 50000, "நிகழ்தகவு": 30},
+              {"தொகை": 0, "நிகழ்தகவு": 10}];
+
+// __The right method where there are two outcomes and one contract: a bonus__
+// __that is either earned or not. The expectation would give a figure that__
+// __cannot occur.__
+// இரண்டே விளைவுகள் என்றால் இதுவே சரி; சராசரி நடக்கவே முடியாத எண்ணைத் தரும்
+அச்சு மதிப்பு(மிக_வாய்ப்பான_தொகை(விளைவுகள்));
+அச்சு மதிப்பு(மாறும்_எதிர்பார்ப்பு(விளைவுகள்));
+
+// __The method is chosen once per contract and kept, not picked per period__
+// __for the answer it gives.__
+// முறை ஒப்பந்தத்திற்கு ஒருமுறையே தேர்ந்தெடுக்கப்படுகிறது
+அச்சு தவறா(மிக_வாய்ப்பான_தொகை([]));

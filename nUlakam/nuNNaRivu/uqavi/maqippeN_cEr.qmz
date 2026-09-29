@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) — the same item, with a different score__
+// அதே உருப்படி, புதிய மதிப்பெண்ணுடன்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Every other field survives, which is what lets a result be re-scored by a__
+// __second stage without losing what the first stage found out about it.__
+// மற்ற புலங்கள் அப்படியே; இரண்டாம் நிலை மீண்டும் மதிப்பெண் இடலாம்
+உருப்படி = {"குறி": "vari.md", "தலைப்புரை": "வரி", "மதிப்பெண்": 1.0};
+புதியது = மதிப்பெண்_சேர்(உருப்படி, 7.5);
+அச்சு புதியது["மதிப்பெண்"];
+அச்சு புதியது["தலைப்புரை"];
+
+// __And the original is unchanged.__
+// மூலம் மாறாமல் இருக்கிறது
+அச்சு உருப்படி["மதிப்பெண்"];

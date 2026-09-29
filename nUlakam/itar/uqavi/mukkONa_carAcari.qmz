@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முக்கோண_சராசரி(ஒரு_மதிப்பீடு) — the plain average of the three points__
+// மூன்றின் எளிய சராசரி
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+ஆ = மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13));
+
+அச்சு முக்கோண_சராசரி(ஆ);
+அச்சு பீட்டா_சராசரி(ஆ);
+
+// __Where the two disagree, the estimate is skewed — and that is worth a__
+// __conversation with whoever gave it, rather than a choice of formula.__
+// இரண்டும் வேறுபட்டால் மதிப்பீடு சாய்ந்துள்ளது; அது பேச வேண்டிய விஷயம்
+அச்சு முக்கோண_சராசரி(ஆ) - பீட்டா_சராசரி(ஆ);

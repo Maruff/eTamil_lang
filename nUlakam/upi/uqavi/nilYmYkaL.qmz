@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலைமைகள்() — every state a UPI payment can be in__
+// ஒரு பணப்பரிமாற்றம் இருக்கக்கூடிய எல்லா நிலைமைகளும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __Five, and no others. Written out as one list so that anything which has__
+// __to handle every state — a report, a switch, a reconciliation — can be__
+// __checked against it rather than against someone's memory.__
+// ஐந்து; அவ்வளவே. ஒவ்வொரு நிலைமையையும் கையாள வேண்டியவை இதனுடன் ஒப்பிடலாம்
+ஒவ்வொரு ஒரு_நிலைமை இல் நிலைமைகள்() { அச்சு ஒரு_நிலைமை; }
+
+அச்சு நீளம்(நிலைமைகள்());

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவுச்_செயல்திறன்(ஈட்டியது, உண்மைச்_செலவு) — value earned per rupee spent__
+// செலவுச் செயல்திறன் குறியீடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Below one is over budget. An index rather than a variance, because it is__
+// __comparable between projects of different sizes and it extrapolates.__
+// ஒன்றுக்குக் கீழே என்றால் நிதியை மீறியது; இது வெவ்வேறு அளவு திட்டங்களை ஒப்பிடும்
+அச்சு வட்டமிடு(மதிப்பு(செலவுச்_செயல்திறன்(250000, 300000)), 4);
+அச்சு மதிப்பு(செலவுச்_செயல்திறன்(300000, 250000));
+
+// __With nothing spent there is no index, which is a தவறு rather than infinity.__
+// ஒன்றும் செலவழிக்கவில்லையெனில் குறியீடே இல்லை
+அச்சு தவறா(செலவுச்_செயல்திறன்(250000, 0));

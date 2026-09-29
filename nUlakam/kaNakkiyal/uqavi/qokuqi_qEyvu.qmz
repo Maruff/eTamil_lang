@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகுதி_தேய்வு(திறப்பு_மதிப்பு, சேர்த்தவை, விற்றவை, ஆண்டு_விகிதம், குறைந்த_நாட்கள்_சேர்ப்பு) — depreciation on a block of assets, the Indian tax way__
+// ஒரு தொகுதிச் சொத்துகளுக்கான தேய்வு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Tax depreciation in India is on a block rather than on an asset. Additions__
+// __held for less than half a year get half the rate, which is why they are__
+// __passed separately.__
+// வரித் தேய்வு தொகுதியின்மீதே; அரையாண்டுக்கும் குறைவாக வைத்திருந்ததற்குப் பாதி விகிதம்
+விடை = தொகுதி_தேய்வு(500000, 200000, 50000, 15, 100000);
+அச்சு விடை["முழு_விகிதம்"];
+அச்சு விடை["பாதி_விகிதம்"];
+அச்சு விடை["மொத்தம்"];
+அச்சு விடை["இறுதி_மதிப்பு"];

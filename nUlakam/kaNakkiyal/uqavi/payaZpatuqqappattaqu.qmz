@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், மூல_எண்) — how much of a receipt has been used__
+// இம்மூலத்திலிருந்து பயன்படுத்தப்பட்டது
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஒதுக்கீடுகள் = [ஒதுக்கீடு_ஆக்கு(2, 1, 3000),
+                ஒதுக்கீடு_ஆக்கு(2, 4, 1500)];
+
+// __The other direction: one receipt can settle several invoices, and what is__
+// __left of it is a payment on account.__
+// ஒரு வரவு பல விலைப்பட்டியல்களைத் தீர்க்கலாம்; மிச்சம் முன்பணமாக நிற்கும்
+அச்சு பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், 2);
+அச்சு பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், 9);

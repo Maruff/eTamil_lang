@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_செல்லுபடியா(நாள்_உரை) — is this a day that actually exists?__
+// இது உண்மையில் இருக்கும் நாளா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு நாள்_செல்லுபடியா("2026-03-02");
+
+// __31 February is well shaped and does not exist. This is the check that__
+// __catches a form filled in from memory, and a month arithmetic that spilled.__
+// பிப்ரவரி 31 வடிவத்தில் சரி; உண்மையில் இல்லை
+அச்சு நாள்_செல்லுபடியா("2026-02-31");
+அச்சு நாள்_செல்லுபடியா("2026-13-01");
+
+// __And a leap day exists in a leap year and not otherwise.__
+// நெட்டாண்டில் பிப்ரவரி 29 உண்டு; மற்ற ஆண்டுகளில் இல்லை
+அச்சு நாள்_செல்லுபடியா("2024-02-29");
+அச்சு நாள்_செல்லுபடியா("2026-02-29");

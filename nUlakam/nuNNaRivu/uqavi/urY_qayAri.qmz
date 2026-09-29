@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உரை_தயாரி(தலைப்புரை, உடல்பகுதி, எல்லை) — the text to embed, heading and all__
+// உட்பொதிக்க வேண்டிய உரையைத் தயாரிக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __The heading goes in with the body, because it is often the only place the__
+// __subject is named: a paragraph about rounding may never use the word__
+// __\"money\", and the heading above it does.__
+// தலைப்பும் சேர்க்கப்படுகிறது; பொருள் பெயரிடப்படும் ஒரே இடம் அதுவாக இருக்கலாம்
+அச்சு உரை_தயாரி("காசு — வட்டமிடல்", "பைசா வரை வட்டமிடப்படுகிறது.", 500);
+
+// __A body longer than the limit is cut, because an embedding model has a fixed__
+// __window and quietly ignores whatever does not fit.__
+// எல்லைக்கு மேல் வெட்டப்படுகிறது; மாதிரி மிச்சத்தை அமைதியாகப் புறக்கணிக்கும்
+அச்சு உரை_தயாரி("தலைப்பு", "ஒரு நீண்ட உடல்பகுதி இங்கே", 10);

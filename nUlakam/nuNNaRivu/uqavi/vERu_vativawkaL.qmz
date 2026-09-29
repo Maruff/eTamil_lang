@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __vERu_vativawkaL — every spelling of the name this word is__
+// வேறு_வடிவங்கள் — இச்சொல் குறிக்கும் பெயரின் எல்லா வடிவங்களும்
+
+இறக்கு "../colvativam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணையை_நிரப்பு();
+
+// __eTamil takes a name under up to three spellings, and அச்சு, accu and__
+// ___print are one word. Ask in any of them and the other two come back.__
+// எந்த வடிவத்தில் கேட்டாலும் மற்றவை வரும்
+ஒவ்வொரு ஒ இல் வேறு_வடிவங்கள்("அச்சு") { அச்சு ஒ; }
+அச்சு "--";
+
+// __The word as typed leads, so a ranking that favours earlier terms favours__
+// __what was actually asked rather than whichever spelling the table held__
+// __first. Same three words, different order.__
+// கேட்ட சொல்லே முதலில்
+ஒவ்வொரு ஒ இல் வேறு_வடிவங்கள்("accu") { அச்சு ஒ; }
+அச்சு "--";
+
+// __A word that is not a name answers itself and nothing else, so a caller can__
+// __expand every word of a question without first asking which are names.__
+// பெயரல்லாத சொல் தன்னைத் தானே தரும்
+ஒவ்வொரு ஒ இல் வேறு_வடிவங்கள்("reverse") { அச்சு ஒ; }

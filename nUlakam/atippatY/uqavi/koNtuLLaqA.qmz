@@ -1,0 +1,12 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கொண்டுள்ளதா(சரம், தேடல்) — does it contain?__
+// இது சரத்தில் இருக்கிறதா
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு கொண்டுள்ளதா("நூலகம்", "நூல்");
+அச்சு கொண்டுள்ளதா("நூலகம்", "கணினி");

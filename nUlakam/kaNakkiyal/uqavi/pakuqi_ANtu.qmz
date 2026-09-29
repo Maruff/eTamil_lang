@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பகுதி_ஆண்டு(ஆண்டுத்_தொகை, வைத்திருந்த_நாட்கள், ஆண்டு_நாட்கள்) — depreciation for part of a year__
+// ஆண்டின் ஒரு பகுதிக்கு மட்டும் தேய்வு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __An asset bought in December gets a month of depreciation, not a year's.__
+// __Under Indian rules the day count matters, not the month.__
+// டிசம்பரில் வாங்கிய சொத்துக்கு ஒரு மாதத் தேய்வே
+அச்சு பகுதி_ஆண்டு(90000, 90, 365);
+அச்சு பகுதி_ஆண்டு(90000, 365, 365);
+அச்சு பகுதி_ஆண்டு(90000, 0, 365);

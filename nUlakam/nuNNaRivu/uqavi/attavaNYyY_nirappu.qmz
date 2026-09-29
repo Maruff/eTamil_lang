@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __attavaNYyY_nirappu — build the lookup table in the open database__
+// அட்டவணையை_நிரப்பு — திறந்துள்ள தரவுத்தளத்தில் தேடல் அட்டவணையைக் கட்டுதல்
+
+இறக்கு "../colvativam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+
+// __Answers how many names went in.__
+// எத்தனை பெயர்கள் சேர்ந்தன என்பதைத் தரும்
+அ = அட்டவணையை_நிரப்பு();
+அச்சு சரியா(அ);
+அச்சு மதிப்பு(அ);
+
+// __Calling it twice leaves one copy, not two of everything: the table is__
+// __dropped and rebuilt. A program that opens its own database on every run__
+// __does not have to remember whether it already did this.__
+// இருமுறை அழைத்தாலும் ஒரே நகல்தான்
+அட்டவணையை_நிரப்பு();
+அச்சு மதிப்பு(அட்டவணையை_நிரப்பு());

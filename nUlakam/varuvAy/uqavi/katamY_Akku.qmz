@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கடமை_ஆக்கு(கடமைக்_குறி, விவரம், தனி_விற்பனை_மதிப்பு, காலப்போக்கிலா) — step two: one thing promised to the customer__
+// இரண்டாம் படி: வாடிக்கையாளருக்கு வாக்களித்த ஒரு பொருள்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The standalone selling price is what the allocation is done on, and it is__
+// __what this thing would sell for on its own — not what the contract says it__
+// __costs.__
+// தனி விற்பனை மதிப்பு என்பது தனியே விற்றால் எவ்வளவு; ஒப்பந்த விலை அல்ல
+கருவி = கடமை_ஆக்கு("P1", "கருவி", 800000, பொய்);
+பராமரிப்பு = கடமை_ஆக்கு("P2", "இரண்டாண்டு பராமரிப்பு", 200000, மெய்);
+
+அச்சு கருவி["தனி_விற்பனை_மதிப்பு"];
+
+// __Whether it is satisfied over time or at a point decides when its share of__
+// __the money becomes revenue, so it belongs on the obligation.__
+// காலப்போக்கிலா என்பது எப்போது வருவாய் என்பதைத் தீர்மானிக்கிறது
+அச்சு கருவி["காலப்போக்கிலா"];
+அச்சு பராமரிப்பு["காலப்போக்கிலா"];

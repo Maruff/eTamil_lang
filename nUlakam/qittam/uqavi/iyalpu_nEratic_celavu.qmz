@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இயல்பு_நேரடிச்_செலவு(தரவுகள்) — the project's direct cost with nothing crashed__
+// ஒன்றும் சுருக்காத நிலையில் திட்டத்தின் நேரடிச் செலவு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தரவுகள் = [செயல்_நேர_செலவு("A", 10, 100000, 7, 130000),
+            செயல்_நேர_செலவு("C", 4, 40000, 2, 44000),
+            செயல்_நேர_செலவு("D", 6, 60000, 5, 75000)];
+
+// __The baseline every crashing decision is measured against.__
+// ஒவ்வொரு சுருக்க முடிவும் இதன்மீதே அளக்கப்படுகிறது
+அச்சு இயல்பு_நேரடிச்_செலவு(தரவுகள்);

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இழந்த_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) — the deduction lost because there was not enough income__
+// வருமானம் போதாததால் இழந்த கழிவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Reported rather than silently dropped. A deduction claimed and not usable__
+// __is money invested for a benefit that did not arrive, and the person who__
+// __invested it should be told.__
+// அமைதியாக விடப்படுவதில்லை; இது சொல்லப்பட வேண்டிய இழப்பு
+அச்சு இழந்த_கழிவு(200000, 150000);
+அச்சு இழந்த_கழிவு(200000, 800000);

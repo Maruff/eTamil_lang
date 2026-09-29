@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உற்பத்தியா(உற்பத்திக்_குறிகள், ஒரு_குறி) — is this code a production centre?__
+// இது உற்பத்தி நிலையமா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __What tells the re-apportionment where a cost can finally rest.__
+// செலவு எங்கே இறுதியாகத் தங்கலாம் என்பதைச் சொல்வது இதுவே
+அச்சு உற்பத்தியா(["P1", "P2"], "P1");
+அச்சு உற்பத்தியா(["P1", "P2"], "S1");

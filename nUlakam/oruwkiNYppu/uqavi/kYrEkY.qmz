@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கைரேகை(மதிப்பு_தரவு, ரகசிய_விசை) — the fingerprint of any value__
+// எந்த மதிப்புக்கும் கைரேகை
+
+இறக்கு "../kYrEkY.qmz";
+
+ரகசியம் = "fake-secret-for-samples";
+பணி_அ = { "தலைப்பு": "அறிக்கை வடிவமைப்பு", "மதிப்பீட்டு_மணி": 8 };
+ரேகை_அ = கைரேகை(பணி_அ, ரகசியம்);
+
+// __Sixty-four hex characters, small enough to keep in one column.__
+// அறுபத்து நான்கு எழுத்துகள்; ஒரு நெடுவரிசையில் அடங்கும்
+அச்சு நீளம்(ரேகை_அ);
+
+// __Field order and trailing zeros do not change it...__
+// புல வரிசையும் பின்னுள்ள பூஜ்ஜியங்களும் அதை மாற்றாது
+பணி_ஆ = { "மதிப்பீட்டு_மணி": 8.0, "தலைப்பு": "அறிக்கை வடிவமைப்பு" };
+அச்சு கைரேகை(பணி_ஆ, ரகசியம்) == ரேகை_அ;
+
+// __...but any change to a value does, which is how sync knows a task has__
+// __changed since it was last sent.__
+// மதிப்பில் எந்த மாற்றமும் அதை மாற்றும்
+பணி_இ = { "தலைப்பு": "அறிக்கை வடிவமைப்பு", "மதிப்பீட்டு_மணி": 9 };
+அச்சு கைரேகை(பணி_இ, ரகசியம்) == ரேகை_அ;
+
+// __The same value under another secret gives another fingerprint, so one who__
+// __can read the data but not the secret cannot compute them.__
+// வேறு ரகசியத்தில் வேறு கைரேகை
+அச்சு கைரேகை(பணி_அ, "another-fake-secret") == ரேகை_அ;

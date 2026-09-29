@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்புமை_படி(முனை) — read an analog pin as a number__
+// ஒப்புமை முனையை எண்ணாகப் படிக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __A reading, not a voltage. What it means depends on the board, which is why__
+// __each board file says so: ஒப்புமை_உச்சம் is the largest reading and__
+// __ஒப்புமை_மில்லிவோல்ட் is the voltage that stands for.__
+// இது அளவீடே; மின்னழுத்தம் அல்ல
+போலி_ஒப்புமை(14, 612);
+அச்சு ஒப்புமை_படி(14);
+
+// __Turned into millivolts with the board's own two numbers, so the same code__
+// __is right on a 10-bit 5 V Uno and a 12-bit 3.3 V Pico.__
+// பலகையின் சொந்த எண்களால் மில்லிவோல்ட்டாக மாற்றலாம்
+அச்சு தரை(ஒப்புமை_படி(14) * 5000 / 1023);

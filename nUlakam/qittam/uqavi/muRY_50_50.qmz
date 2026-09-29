@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறை_50_50(தொடங்கியதா, முடிந்ததா) — half on starting, the rest on finishing__
+// தொடங்கும்போது பாதி, முடியும்போது மீதி
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+அச்சு முறை_50_50(பொய், பொய்);
+அச்சு முறை_50_50(மெய், பொய்);
+அச்சு முறை_50_50(மெய், மெய்);
+
+// __A compromise, and it flatters short packages: a task started yesterday is__
+// __reported half done. Best kept for packages short enough that it does not__
+// __matter.__
+// நேற்றுத் தொடங்கியது பாதி முடிந்ததாகக் காட்டப்படும்; சிறு தொகுப்புகளுக்கே இது ஏற்றது

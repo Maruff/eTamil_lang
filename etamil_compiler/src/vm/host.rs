@@ -108,7 +108,7 @@ mod imp {
     /// The entries of a directory, as bare names rather than paths.
     ///
     /// Bare names because joining is the caller's business and doing it here
-    /// would decide the separator for them — `nUlakam/paNam.qmz` is how an
+    /// would decide the separator for them — `nUlakam/paNam/paNam.qmz` is how an
     /// author writes a path on every platform, and `\` leaking out of this
     /// function would put a backslash in the middle of one.
     ///

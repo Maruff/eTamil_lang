@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்னோட்டமா(ஒரு_தொடர்பு) — is this a lead rather than a lag?__
+// இது முன்னோட்டமா, தாமதமா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+அச்சு முன்னோட்டமா(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0 - 2));
+அச்சு முன்னோட்டமா(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7));
+அச்சு முன்னோட்டமா(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0));
+
+// __Worth counting: a schedule that meets its date only because of its leads is__
+// __a schedule of overlapping work, and the overlap is a risk nobody listed.__
+// முன்னோட்டங்களால் மட்டுமே முடியும் திட்டம், பட்டியலிடப்படாத இடரைச் சுமக்கிறது

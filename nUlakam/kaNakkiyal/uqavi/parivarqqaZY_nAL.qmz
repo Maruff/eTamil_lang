@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பரிவர்த்தனை_நாள்(பேரேடு, பரிவர்த்தனை_எண்) — when an entry was posted__
+// பரிவர்த்தனை பதிவான நாள்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஏடு = [];
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 5000)])));
+
+// __What an ageing schedule is computed from: an invoice is as old as its__
+// __posting date, not as its allocation.__
+// வயது அட்டவணை இதன்மீதே கணக்கிடப்படுகிறது
+அச்சு பரிவர்த்தனை_நாள்(ஏடு, 1);
+அச்சு "[" & பரிவர்த்தனை_நாள்(ஏடு, 9) & "]";

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மில்லி_நொடி() — milliseconds since the board started__
+// பலகை தொடங்கியதிலிருந்து மில்லி நொடிகள்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __It never goes backwards, which is what makes it safe to compare two__
+// __readings. A clock that can step back — one corrected by a time server,__
+// __say — turns a timeout into a hang.__
+// இது பின்னோக்கிப் போவதில்லை; அதனாலேயே இரு அளவீடுகளை ஒப்பிடலாம்
+தொடக்கம் = மில்லி_நொடி();
+
+// __On the simulated board time moves only when told, so a test of a timeout__
+// __finishes at once instead of waiting for it.__
+// போலிப் பலகையில் நேரம் சொன்னால்தான் நகரும்
+போலி_நேரம்(250);
+அச்சு மில்லி_நொடி() - தொடக்கம்;
+
+// __Subtracting two readings is the whole of it: how long since, and whether__
+// __long enough.__
+// இரண்டைக் கழிப்பதே முழுப் பயன்
+(மில்லி_நொடி() - தொடக்கம் > 100) எனில் { அச்சு "காலம் கடந்தது"; }

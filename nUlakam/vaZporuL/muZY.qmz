@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/muZY.qmz — முனை: the pins, and which board this is__
+// முனை: முனைகளும், இது எந்தப் பலகை என்பதும்
+//
+// __One API over a Raspberry Pi's GPIO, the simulated board, and an Arduino__
+// __through artino. பலகை() says which is underneath.__
+
+// __பலகை() — which board this is running on: "pi", "sim", "host", or an Arduino board name under artino__
+// பலகை() — எந்தப் பலகையில் இது ஓடுகிறது என்று சொல்லும்
+செயல் பலகை() {
+    திரும்பு _boardName();
+}
+
+// __--- pins ---------------------------------------------------------------------__
+//
+// __Pin numbers are the board's own: BCM GPIO numbers on a Raspberry Pi, the__
+// __printed pin numbers on an Arduino (A0 is 14 on an Uno), GPn on a Pico.__
+
+// __முனை_வெளியீடு(முனை) — make a pin an output__
+// முனை_வெளியீடு(முனை) — முனையை வெளியீட்டு முனையாக்கும்
+செயல் முனை_வெளியீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "out"));
+}
+
+// __முனை_உள்ளீடு(முனை) — make a pin an input__
+// முனை_உள்ளீடு(முனை) — முனையை உள்ளீட்டு முனையாக்கும்
+செயல் முனை_உள்ளீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "in"));
+}
+
+// __முனை_மேலிழு_உள்ளீடு(முனை) — an input held high by the board, for a switch to ground__
+// முனை_மேலிழு_உள்ளீடு(முனை) — பலகையே உயர்த்திப் பிடிக்கும் உள்ளீடு; நிலத்திற்குச் செல்லும் சுவிட்சுக்கு
+செயல் முனை_மேலிழு_உள்ளீடு(முனை) {
+    மதிப்பு(_pinMode(முனை, "in_pullup"));
+}
+
+// __முனை_எழுது(முனை, இயக்கம்) — drive an output high (மெய்) or low (பொய்)__
+// முனை_எழுது(முனை, இயக்கம்) — வெளியீட்டை உயர்த்தும் அல்லது தாழ்த்தும்
+செயல் முனை_எழுது(முனை, இயக்கம்) {
+    மட்டம் = 0;
+    (இயக்கம்) எனில் { மட்டம் = 1; }
+    மதிப்பு(_pinWrite(முனை, மட்டம்));
+}
+
+// __முனை_படி(முனை) — மெய் when the pin is high__
+// முனை_படி(முனை) — முனை உயர்ந்திருந்தால் மெய்
+செயல் முனை_படி(முனை) {
+    திரும்பு மதிப்பு(_pinRead(முனை)) == 1;
+}
+
+// __முனை_மாற்று(முனை) — flip an output: high becomes low, low becomes high__
+// முனை_மாற்று(முனை) — வெளியீட்டைத் திருப்பும்; உயர்ந்தது தாழும், தாழ்ந்தது உயரும்
+செயல் முனை_மாற்று(முனை) {
+    முனை_எழுது(முனை, இல்லை முனை_படி(முனை));
+}
+
+// __ஒப்புமை_படி(முனை) — an analog reading, 0 to 1023__
+// ஒப்புமை_படி(முனை) — ஒப்புமை அளவீடு, பூஜ்ஜியம் முதல் ஆயிரத்து இருபத்துமூன்று வரை
+//
+// __Arduino boards and the simulated board have analog inputs. A Raspberry Pi__
+// __has none: the host refuses, naming an external ADC such as the MCP3008.__
+செயல் ஒப்புமை_படி(முனை) {
+    திரும்பு மதிப்பு(_analogRead(முனை));
+}
+
+// __--- time -------------------------------------------------------------------__

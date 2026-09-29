@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வழித்தோன்றல்கள்(செயல்கள், செயல்_குறி) — the activities that follow this one__
+// ஒரு செயலைத் தொடரும் செயல்கள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []),
+             செயல்_ஆக்கு("B", 4, ["A"]),
+             செயல்_ஆக்கு("C", 2, ["A"]),
+             செயல்_ஆக்கு("D", 5, ["B", "C"])];
+
+// __The other direction, which the backward pass needs and which nothing in__
+// __the data records: a predecessor list has to be read the wrong way round.__
+// பின்னோக்கிய கடப்புக்குத் தேவை; தரவில் இது நேரடியாக இல்லை
+அச்சு நீளம்(வழித்தோன்றல்கள்(செயல்கள், "A"));
+அச்சு நீளம்(வழித்தோன்றல்கள்(செயல்கள், "D"));

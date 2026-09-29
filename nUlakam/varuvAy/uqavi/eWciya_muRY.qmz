@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எஞ்சிய_முறை(பரிமாற்றத்_தொகை, அறிந்த_விலைகள்) — allocate what is left after the observable prices__
+// அறிந்த விலைகளைக் கழித்து எஞ்சியதை ஒதுக்கும்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __For the obligation whose standalone price nobody knows — typically a first__
+// __licence of something never sold separately. Everything else is priced, and__
+// __the remainder is its share.__
+// தனியே விற்கப்படாத ஒன்றுக்கு, மற்றவற்றைக் கழித்து எஞ்சியதே
+அச்சு மதிப்பு(எஞ்சிய_முறை(1000000, [600000, 150000]));
+
+// __If the observable prices leave nothing, the method has nothing to say —__
+// __and answering zero would price the unknown obligation at nothing.__
+// எஞ்சியதே இல்லையென்றால் இம்முறை பயனற்றது
+அச்சு தவறா(எஞ்சிய_முறை(1000000, [600000, 400000]));
+அச்சு தவறா(எஞ்சிய_முறை(1000000, [1200000]));

@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாளைப்_பெறு(ஒரு_நாள்) — the day of the month__
+// மாதத்தின் நாள், ஒன்று முதல் முப்பத்தொன்று வரை
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு நாளைப்_பெறு("2026-03-02");
+அச்சு நாளைப்_பெறு("2026-03-31");
+
+// __The day of the month, not the day of the week — வாரநாள் answers that one.__
+// இது மாதத்தின் நாள்; வாரநாள் அல்ல
+அச்சு வாரநாள்("2026-03-02");

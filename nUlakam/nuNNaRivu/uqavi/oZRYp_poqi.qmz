@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒன்றைப்_பொதி(இணையவழி, மாதிரி, ஒரு_உரை) — embed a single text, for a query__
+// ஒரே உரையை உட்பொதிக்கும்; கேள்விக்கு உதவும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A query is one text and needs one vector. Built on பொதி rather than beside__
+// __it, so a query is embedded exactly the way the documents were.__
+// கேள்வியும் ஆவணங்களும் ஒரே வழியிலேயே பொதியப்படுகின்றன
+அச்சு தவறா(ஒன்றைப்_பொதி("http://127.0.0.1:1", "all-minilm", "பணம் என்றால் என்ன?"));

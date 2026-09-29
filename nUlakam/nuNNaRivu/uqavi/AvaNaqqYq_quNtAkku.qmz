@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) — the recommended chunking, end to end__
+// பரிந்துரைக்கப்படும் முழு துண்டாக்க வரிசை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+பாடம் = "தலைப்பு\n\nஒரு சிறு பத்தி.\n\nஇன்னொரு பத்தி, சற்று நீளமானது, "
+       & "ஆனால் இன்னும் எல்லைக்குள்.";
+
+// __Paragraphs first, merged up to the limit, and only what is still too long__
+// __is cut by size. Cutting by size alone is what produces chunks that begin__
+// __mid-word.__
+// முதலில் பத்திகள்; மிகவும் நீளமானதே அளவால் வெட்டப்படுகிறது
+ஒவ்வொரு ஒரு_துண்டு இல் ஆவணத்தைத்_துண்டாக்கு(பாடம், 200) { அச்சு ஒரு_துண்டு; }
+அச்சு நீளம்(ஆவணத்தைத்_துண்டாக்கு(பாடம், 200));
+அச்சு நீளம்(ஆவணத்தைத்_துண்டாக்கு(பாடம், 20)) > 1;

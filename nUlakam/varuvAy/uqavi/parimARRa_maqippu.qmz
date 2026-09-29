@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பரிமாற்ற_மதிப்பு(நிலையான_தொகை, கட்டுப்படுத்திய_மாறும்_தொகை, வாடிக்கையாளருக்குச்_செலுத்தியது, நிதிக்_கூறு) — step three: the whole transaction price__
+// மூன்றாம் படி: ஒப்பந்தத்தின் மொத்தப் பரிமாற்ற மதிப்பு
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Payments to the customer are a reduction of revenue, not an expense —__
+// __a slotting fee to a retailer is a discount wearing a different name.__
+// வாடிக்கையாளருக்குச் செலுத்தியது செலவு அல்ல, வருவாயின் குறைப்பே
+அச்சு பரிமாற்ற_மதிப்பு(1000000, 60000, 0, 0);
+அச்சு பரிமாற்ற_மதிப்பு(1000000, 60000, 40000, 0);
+
+// __And a significant financing component comes out too: money received two__
+// __years early is partly interest, and calling all of it revenue overstates__
+// __the sale and hides the finance income.__
+// முன்கூட்டிப் பெற்ற பணத்தில் ஒரு பகுதி வட்டியே
+அச்சு பரிமாற்ற_மதிப்பு(1000000, 0, 0, 80000);
+
+// __It does not go below nothing.__
+// இது பூஜ்ஜியத்துக்குக் கீழ் செல்வதில்லை
+அச்சு பரிமாற்ற_மதிப்பு(100000, 0, 500000, 0);

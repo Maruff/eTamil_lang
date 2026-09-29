@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எண்களே(பாடம்) — is every character of this a digit?__
+// இந்தச் சரத்தின் ஒவ்வொரு எழுத்தும் இலக்கமா
+
+இறக்கு "../cuwkam.qmz";
+
+// __The check the tariff heading and the GST number both rest on.__
+// வரித் தலைப்பும் ஜிஎஸ்டி எண்ணும் இதன்மீதே நிற்கின்றன
+அச்சு எண்களே("84713010");
+அச்சு எண்களே("8471A010");
+
+// __A space is not a digit, and neither is a minus sign — a code is not a__
+// __number and must not be read as one.__
+// இடைவெளியும் கழித்தல் குறியும் இலக்கம் அல்ல
+அச்சு எண்களே("84 71");
+அச்சு எண்களே("-8471");
+
+// __An empty string has no non-digit in it and is still not digits: answering__
+// __மெய் there would let a missing code pass every check downstream.__
+// வெற்றுச் சரத்தில் இலக்கமல்லாதது ஒன்றும் இல்லை; இருப்பினும் அது இலக்கங்கள் அல்ல
+அச்சு எண்களே("");

@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __attavaNY_Akku — make the index__
+// அட்டவணை_ஆக்கு — குறியீட்டு அட்டவணையை உருவாக்குதல்
+
+இறக்கு "../muzuqqEtal.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+
+// __One table, two columns. FTS5 and bm25() are built into the SQLite the__
+// __compiler carries, so nothing has to be installed for this to work.__
+// தொகுப்பான் சுமக்கும் தரவுத்தளத்திலேயே முழுத்தேடல் உள்ளது; தனியே நிறுவ ஒன்றுமில்லை
+வி = அட்டவணை_ஆக்கு("aaviZ", ["qalYppu", "utal"]);
+அச்சு சரியா(வி);
+அச்சு மதிப்பு(வி);
+
+// __Making it twice is not an error: the statement says IF NOT EXISTS, so a__
+// __program that opens its own index on every run does not have to check.__
+// இரண்டாம் முறை உருவாக்குவது பிழையல்ல
+அச்சு சரியா(அட்டவணை_ஆக்கு("aaviZ", ["qalYppu", "utal"]));
+
+// __A table name is written into the statement because SQL has no placeholder__
+// __for one, so anything that is not a plain name is refused instead.__
+// அட்டவணைப் பெயருக்கு இடங்குறி இல்லாததால், எளிய பெயரல்லாதது மறுக்கப்படும்
+த = அட்டவணை_ஆக்கு("a; DROP TABLE b", ["utal"]);
+அச்சு தவறா(த);
+அச்சு தவறு_மதிப்பு(த);
+
+// __A column name is checked the same way, and a table with no columns is__
+// __refused rather than producing an FTS5 syntax error.__
+// நெடுவரிசையின்றி அட்டவணை உருவாக்க முடியாது
+அச்சு தவறா(அட்டவணை_ஆக்கு("bb", []));

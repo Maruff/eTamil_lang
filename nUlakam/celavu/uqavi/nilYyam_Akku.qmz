@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையம்_ஆக்கு(நிலைய_குறி, நிலைய_பெயர், நிலைய_வகை) — one cost centre__
+// ஒரு செலவு நிலையத்தை உருவாக்கும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+நிலையம் = மதிப்பு(நிலையம்_ஆக்கு("P1", "இயந்திரப் பட்டறை", வகை_உற்பத்தி()));
+அச்சு நிலையம்["நிலைய_பெயர்"];
+அச்சு நிலையம்["நிலைய_வகை"];

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வெளி_நிலை_வேட்பாளர்கள்(பணி_நிலை) — the state names to try, in order, for a task status__
+// ஒரு பணி நிலைக்கு முயல வேண்டிய வெளி நிலைப் பெயர்கள், வரிசையாக
+
+இறக்கு "../varYpatam.qmz";
+
+// __A task in progress tries the Scrum and Agile names first and the Basic__
+// __process's Doing after them; the first one the work-item type has wins.__
+// நடப்பிலுள்ள பணிக்கு முதலில் ஸ்க்ரம், அஜைல் பெயர்கள்; வகையில் உள்ள முதல் பெயர் வெல்லும்
+அச்சு வெளி_நிலை_வேட்பாளர்கள்("நடப்பில்");
+
+// __Active is on two lists: last for a to-do task, for a process whose only__
+// __early state is Active, and in the middle for work in progress. Order keeps__
+// __them apart, because New or Proposed is found first wherever it exists.__
+// ஒரு பெயர் இரு பட்டியல்களிலும் உண்டு; வரிசையே இரண்டையும் பிரிக்கிறது
+அச்சு வெளி_நிலை_வேட்பாளர்கள்("செய்யவேண்டியது");
+
+// __A status outside the five has no candidates at all. That is not an error:__
+// __வெளி_நிலை falls back on the category instead.__
+// ஐந்துக்கு வெளியே உள்ள நிலைக்கு வேட்பாளர் இல்லை; வெளி_நிலை வகைமைக்குத் திரும்பும்
+அச்சு வெளி_நிலை_வேட்பாளர்கள்("காத்திருப்பில்");

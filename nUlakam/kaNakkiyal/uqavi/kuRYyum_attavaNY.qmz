@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறையும்_அட்டவணை(கொள்முதல்_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு, எத்தனை_ஆண்டுகள்) — the whole reducing-balance schedule__
+// குறையும் இருப்புத் தேய்வு அட்டவணை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அட்டவணை = குறையும்_அட்டவணை(500000, 20, 50000, 5);
+
+// __The charge falls every year, which is the whole difference from the__
+// __straight line: most of the cost is taken early.__
+// தேய்வு ஆண்டுதோறும் குறையும்; பெரும்பகுதி ஆரம்பத்திலேயே எடுக்கப்படுகிறது
+அச்சு அட்டவணை[0]["தேய்வு"];
+அச்சு அட்டவணை[4]["தேய்வு"];
+அச்சு நேர்கோட்டு_அட்டவணை(500000, 50000, 5)[0]["தேய்வு"];

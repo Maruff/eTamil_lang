@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேறுபாட்டு_உரை(வேறுபாட்டுத்_தொகை) — the variance as a line of report Tamil__
+// வேறுபாட்டை அறிக்கை வரியாகக் காட்டும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __A signed number in a report is read wrong by somebody every month. The__
+// __word is not.__
+// அறிக்கையில் உள்ள குறியிட்ட எண்ணை ஒவ்வொரு மாதமும் யாரோ தவறாகப் படிக்கிறார்
+அச்சு வேறுபாட்டு_உரை(5000);
+அச்சு வேறுபாட்டு_உரை(0 - 5000);
+அச்சு வேறுபாட்டு_உரை(0);

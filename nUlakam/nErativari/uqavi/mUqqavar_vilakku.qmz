@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மூத்தவர்_விலக்கு(வயது, வயது_எல்லை, தொழில்_வருமானம்_உள்ளதா, குடியிருப்பாளரா) — is this senior citizen exempt from advance tax?__
+// மூத்த குடிமகனுக்கு முன்வரி விலக்கு உண்டா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __All three conditions. Resident, of age, and with no business income — a__
+// __retired person with a small consultancy loses the exemption entirely.__
+// மூன்று நிபந்தனைகளும் வேண்டும்
+அச்சு மூத்தவர்_விலக்கு(65, 60, பொய், மெய்);
+அச்சு மூத்தவர்_விலக்கு(65, 60, மெய், மெய்);
+அச்சு மூத்தவர்_விலக்கு(65, 60, பொய், பொய்);
+அச்சு மூத்தவர்_விலக்கு(55, 60, பொய், மெய்);

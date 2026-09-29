@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கைரேகை_ஒன்றா(அ, ஆ) — are two fingerprints the same?__
+// இரு கைரேகைகளும் ஒன்றா
+
+இறக்கு "../../atippatY/col.qmz";
+இறக்கு "../kYrEkY.qmz";
+
+ரகசியம் = "fake-secret-for-samples";
+பதிந்தது = கைரேகை({ "நடப்பு_நிலை": "மூடியது" }, ரகசியம்);
+
+அச்சு கைரேகை_ஒன்றா(கைரேகை({ "நடப்பு_நிலை": "மூடியது" }, ரகசியம்), பதிந்தது);
+அச்சு கைரேகை_ஒன்றா(கைரேகை({ "நடப்பு_நிலை": "நடப்பில்" }, ரகசியம்), பதிந்தது);
+
+// __A forgery that is right in all but the last character takes as long to__
+// __refuse as one that is wrong from the start, so timing leaks nothing.__
+// கடைசி எழுத்தில் மட்டும் தவறிய போலியும் அதே நேரத்தில் மறுக்கப்படும்
+போலி = துண்டு(பதிந்தது, 0, 63) & "x";
+அச்சு கைரேகை_ஒன்றா(போலி, பதிந்தது);
+
+// __A different length is refused at once; there is nothing to hide there.__
+// நீளம் வேறுபட்டால் உடனே மறுக்கப்படும்
+அச்சு கைரேகை_ஒன்றா("", பதிந்தது);
+
+// __It compares text exactly, so the same hex in capitals is not a match.__
+// __Store fingerprints as they are made, in lower case.__
+// உரை அப்படியே ஒப்பிடப்படும்; பெரிய எழுத்தில் உள்ள அதே கைரேகை பொருந்தாது
+அச்சு கைரேகை_ஒன்றா(மேல்_எழுத்து(பதிந்தது), பதிந்தது);

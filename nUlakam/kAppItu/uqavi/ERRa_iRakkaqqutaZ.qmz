@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஏற்ற_இறக்கத்துடன்(அடிப்படை_முனைமம், ஏற்ற_விகிதம், தள்ளுபடி_விகிதம்) — premium after a loading and a discount__
+// ஏற்றமும் தள்ளுபடியும் சேர்த்த முனைமம்
+
+இறக்கு "../kAppItu.qmz";
+
+// __Loaded a quarter, then discounted a tenth — and the tenth comes off the__
+// __loaded figure, not off the base. The order is the underwriter's, and__
+// __doing it the other way round gives 11,000 instead of 11,250.__
+// ஏற்றத்திற்குப் பிறகே தள்ளுபடி; வரிசையை மாற்றினால் விடை வேறு
+அச்சு ஏற்ற_இறக்கத்துடன்(10000, 25, 10);
+
+// __Neither loaded nor discounted is simply the base premium, so a policy__
+// __with no adjustments needs no special case at the call site.__
+// ஏற்றமும் தள்ளுபடியும் இல்லையெனில் அடிப்படை முனைமமே
+அச்சு ஏற்ற_இறக்கத்துடன்(10000, 0, 0);

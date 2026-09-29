@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வாக்குறுதி_ஆக்கு(வாக்குறுதிக்_குறி, இலக்கு_நாள், திருத்திய_நாள், வாக்குறுதி_நிலை, தெரிவித்த_நாள்) — one commitment__
+// ஒரு வாக்குறுதியை உருவாக்கும்
+
+இறக்கு "../vAkkuRuqi.qmz";
+
+// __Single sign-on promised to a customer for 6.3.0, due 15 October, not yet__
+// __revised and nothing yet to tell them: the unknown dates are "".__
+// இன்னும் திருத்தாத, தெரிவிக்காத நாட்கள் வெற்று உரையாக இருக்கும்
+ஒற்றை_நுழைவு = வாக்குறுதி_ஆக்கு("வா-101", "2026-10-15", "", "உறுதியளித்தது", "");
+அச்சு ஒற்றை_நுழைவு.நடப்பு_நிலை;
+அச்சு ஒற்றை_நுழைவு.திருத்திய_நாள் == "";
+
+// __The state is not checked. A misspelt state is simply one that is neither__
+// __delivered nor withdrawn, so the commitment silently counts as open.__
+// நிலை சரிபார்க்கப்படாது; தவறாக எழுதிய நிலை திறந்ததாகவே கணக்கிடப்படும்
+தவறிய_நிலை = வாக்குறுதி_ஆக்கு("வா-102", "2026-10-15", "", "வெளியிட்டோம்", "");
+அச்சு வாக்குறுதி_திறந்ததா(தவறிய_நிலை);

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாரம்பரிய_மேல்நிலை(மொத்த_மேல்நிலை, மொத்த_அடிப்படை, தயாரிப்பின்_அடிப்படை) — the same overhead on a single volume base__
+// ஒற்றை அடிப்படையில் பழைய முறை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The old way, for comparison. One rate over one base, so a product's__
+// __overhead depends only on how much of that base it used.__
+// பழைய முறை; ஒரே அடிப்படையில் ஒரே விகிதம்
+அச்சு மதிப்பு(பாரம்பரிய_மேல்நிலை(350000, 10000, 2000));
+
+// __With no base there is nothing to apportion on.__
+// அடிப்படையே இல்லையெனில் பகிர வழியில்லை
+அச்சு தவறா(பாரம்பரிய_மேல்நிலை(350000, 0, 2000));

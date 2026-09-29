@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கொக்கிச்_சீட்டு_சரியா(வந்த_சீட்டு, பதிந்த_கைரேகை, ரகசிய_விசை) — is this service hook ours?__
+// இச்சேவைக் கொக்கி நம்முடையதா
+
+இறக்கு "../varavu.qmz";
+
+ரகசியம் = "fake-secret-for-samples";
+
+// __When the hook is set up, a token goes into its URL and only the token's__
+// __fingerprint is stored. A leaked database then holds nothing to post with.__
+// கொக்கி அமைக்கும்போது சீட்டின் கைரேகை மட்டுமே பதியப்படுகிறது
+கொக்கிச்_சீட்டு = "fake-hook-token-7f3a";
+பதிந்த_ரேகை = கைரேகை(கொக்கிச்_சீட்டு, ரகசியம்);
+அச்சு பதிந்த_ரேகை == கொக்கிச்_சீட்டு;
+
+// __A hook arriving with the token is ours.__
+// சீட்டுடன் வரும் கொக்கி நம்முடையது
+அச்சு கொக்கிச்_சீட்டு_சரியா("fake-hook-token-7f3a", பதிந்த_ரேகை, ரகசியம்);
+
+// __Anything else is refused: a guessed token, and a missing one.__
+// ஊகித்த சீட்டும் இல்லாத சீட்டும் மறுக்கப்படும்
+அச்சு கொக்கிச்_சீட்டு_சரியா("fake-hook-token-7f3b", பதிந்த_ரேகை, ரகசியம்);
+அச்சு கொக்கிச்_சீட்டு_சரியா("", பதிந்த_ரேகை, ரகசியம்);
+
+// __Posting the stored fingerprint itself does not work either, which is the__
+// __point of storing it instead of the token.__
+// பதிந்த கைரேகையையே அனுப்பினாலும் பயனில்லை
+அச்சு கொக்கிச்_சீட்டு_சரியா(பதிந்த_ரேகை, பதிந்த_ரேகை, ரகசியம்);

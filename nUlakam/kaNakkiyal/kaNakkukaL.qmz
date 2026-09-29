@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/kaNakkukaL.qmz — கணக்குகள் (chart of accounts)__
+// கணக்குகளின் பட்டியல்
 //
 // __Account classification follows IFRS presentation: the five roots decide__
 // __which statement an account appears in, and which side is its normal__
@@ -11,28 +12,34 @@
 
 // __--- The five roots ---__
 // __வகை_சொத்து() — the asset root: what the business controls__
+// வகை_சொத்து() — சொத்து மூலம்: நிறுவனம் கட்டுப்படுத்துவது
 //
 // __A balance-sheet account with a debit normal balance, increased by a debit. The first of the five IFRS roots, and the one whose boundary with செலவு carries the judgement: an asset is a cost whose benefit is still to come.__
 செயல் வகை_சொத்து()    { திரும்பு "சொத்து"; }
 // __வகை_பொறுப்பு() — the liability root: what the business owes__
+// வகை_பொறுப்பு() — பொறுப்பு மூலம்: நிறுவனம் கொடுக்க வேண்டியது
 //
 // __Appears on the balance sheet and carries a credit normal balance. Increased by a credit, so a liability that has gone down is a debit — the opposite of the intuition most people bring to the word.__
 செயல் வகை_பொறுப்பு()  { திரும்பு "பொறுப்பு"; }
 // __வகை_பங்கு() — the equity root: the owners' residual claim__
+// வகை_பங்கு() — பங்கு மூலம்: உரிமையாளர்களுக்கு எஞ்சும் உரிமை
 //
 // __Assets less liabilities, and a credit balance like the liabilities it ranks behind. Kept as its own root rather than folded into liabilities because equity is what is left over, not what is owed on a date.__
 செயல் வகை_பங்கு()     { திரும்பு "பங்கு"; }
 // __வகை_வருவாய்() — the income root__
+// வகை_வருவாய்() — வருவாய் மூலம்
 //
 // __A profit-and-loss account, closed to equity at the period end rather than carried forward — which is why the five roots decide the statement as well as the side.__
 செயல் வகை_வருவாய்()   { திரும்பு "வருவாய்"; }
 // __வகை_செலவு() — the expense root__
+// வகை_செலவு() — செலவு மூலம்
 //
 // __The one debit-balance root outside சொத்து, and closed to equity with வருவாய். An expense is not an asset because what it bought is already consumed; whether a particular payment is one or the other is the judgement this classification records.__
 செயல் வகை_செலவு()     { திரும்பு "செலவு"; }
 
 // கணக்கு_ஆக்கு(குறி, பெயர், வகை, உள்வகை)
 // __கணக்கு_ஆக்கு(குறி, பெயர், கணக்கு_வகை, உள்வகை) — one account in the chart__
+// கணக்கு_ஆக்கு(குறி, பெயர், கணக்கு_வகை, உள்வகை) — பட்டியலில் ஒரு கணக்கு
 //
 // __Returns தவறு for an unknown root rather than the record, so an account whose type was mistyped never reaches the ledger. உள்வகை is free text for the caller's own sub-classification: the five roots decide presentation, and everything finer than that is a reporting choice this module does not make.__
 செயல் கணக்கு_ஆக்கு(குறி, பெயர், கணக்கு_வகை, உள்வகை) {
@@ -48,6 +55,7 @@
 }
 
 // __செல்லுபடியா(கணக்கு_வகை) — is this one of the five IFRS roots?__
+// செல்லுபடியா(கணக்கு_வகை) — இது ஐந்து மூலங்களில் ஒன்றா
 //
 // __Checked at construction. An account with a bad type would otherwise post happily and then be absent from every statement, because each statement selects by root — a balance that exists and appears nowhere is much harder to find than a rejected entry.__
 செயல் செல்லுபடியா(கணக்கு_வகை) {
@@ -60,6 +68,7 @@
 }
 
 // __பற்று_இயல்பா(வகை) — is a debit an increase for this type?__
+// பற்று_இயல்பா(வகை) — இவ்வகைக்குப் பற்று கூட்டலா
 // __Assets and expenses rise on the debit side; the rest rise on the credit__
 // __side. Every balance and every report depends on this one fact.__
 செயல் பற்று_இயல்பா(கணக்கு_வகை) {
@@ -69,6 +78,7 @@
 }
 
 // __இருப்புநிலைக்கானதா(வகை) — does it belong on the balance sheet?__
+// இருப்புநிலைக்கானதா(வகை) — இது இருப்புநிலைக் குறிப்பில் வருமா
 செயல் இருப்புநிலைக்கானதா(கணக்கு_வகை) {
     (கணக்கு_வகை == "வருவாய்") எனில் { திரும்பு பொய்; }
     (கணக்கு_வகை == "செலவு")   எனில் { திரும்பு பொய்; }
@@ -77,6 +87,7 @@
 
 // கணக்கு_தேடு(கணக்குகள், குறி)
 // __கணக்கு_தேடு(கணக்குகள், குறி) — find one account by its code__
+// கணக்கு_தேடு(கணக்குகள், குறி) — குறியைக் கொண்டு ஒரு கணக்கைத் தேடும்
 //
 // __சரி with the account, or தவறு naming the code. Posting to an account that is not in the chart is the error this exists to stop: the trial balance would still balance, and the money would be in a place no report looks at.__
 செயல் கணக்கு_தேடு(கணக்குகள், குறி) {
@@ -88,6 +99,7 @@
 
 // வகையால்_வடிகட்டு(கணக்குகள், வகை)
 // __வகையால்_வடிகட்டு(கணக்குகள், கணக்கு_வகை) — every account under one root__
+// வகையால்_வடிகட்டு(கணக்குகள், கணக்கு_வகை) — ஒரு மூலத்தின் கீழ் வரும் கணக்குகள்
 //
 // __How a statement is assembled: the balance sheet asks for சொத்து, பொறுப்பு and பங்கு, and the income statement for வருவாய் and செலவு. Because the roots partition the chart, the two statements together see every account exactly once.__
 செயல் வகையால்_வடிகட்டு(கணக்குகள், கணக்கு_வகை) {

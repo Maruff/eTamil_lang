@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறுபத்துநான்கு_ஆக்கு(மூலம்) — encode as base64__
+// அறுபத்துநான்கில் குறியாக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __Three bytes become four characters, which is how a file safely crosses__
+// __something that only carries text — a JSON field, a header, an XML body.__
+// மூன்று பைட்டுகள் நான்கு எழுத்துகளாகும்
+அச்சு அறுபத்துநான்கு_ஆக்கு("Man");
+
+// __The padding says how much of the last group was real. One byte left over__
+// __takes two equals signs, two bytes take one.__
+// நிரப்புக் குறிகள், கடைசிக் குழுவில் எவ்வளவு உண்மை என்பதைச் சொல்கின்றன
+அச்சு அறுபத்துநான்கு_ஆக்கு("M");
+அச்சு அறுபத்துநான்கு_ஆக்கு("Ma");
+
+// __It works on bytes rather than on characters, so Tamil text — three bytes__
+// __to the letter — survives it whole.__
+// இது எழுத்துகளின்மீது அல்ல, பைட்டுகளின்மீதே வேலை செய்கிறது
+அச்சு அறுபத்துநான்கு_ஆக்கு("தமிழ்");

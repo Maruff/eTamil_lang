@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_வருமானம்(தலைப்புகள்) — the heads added up__
+// தலைப்புகள் அனைத்தும் கூட்டியது
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+தலைப்புகள் = [தலைப்பு_ஆக்கு("சம்பளம்", 1200000),
+               தலைப்பு_ஆக்கு("வீட்டுச்_சொத்து", 0 - 200000),
+               தலைப்பு_ஆக்கு("பிற", 50000)];
+அச்சு மொத்த_வருமானம்(தலைப்புகள்);
+
+// __It floors at nothing: total income cannot be negative. A year of losses is__
+// __a year of nil income and a carry-forward, not a negative assessment.__
+// மொத்த வருமானம் எதிர்மறையாகாது; அது நிகர இழப்புக் கொண்டு செல்லலே
+அச்சு மொத்த_வருமானம்([தலைப்பு_ஆக்கு("தொழில்", 0 - 500000)]);
+அச்சு மொத்த_வருமானம்([]);

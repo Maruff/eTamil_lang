@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_விகிதம்(தொகை, நாட்கள், மொத்த_நாட்கள்) — a period's share of an amount__
+// ஒரு காலத்திற்கு உரிய தொகையின் பங்கு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+// __Half a year of an annual premium.__
+// ஆண்டு முனைமத்தில் அரை ஆண்டுக்கான பங்கு
+அச்சு நாள்_விகிதம்(36500, 182, 365);
+அச்சு நாள்_விகிதம்(36500, 0, 365);

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பீட்டா_சராசரி(ஒரு_மதிப்பீடு) — the expected duration, weighting the likely case four times__
+// வாய்ப்பானதற்கு நான்கு மடங்கு எடை தரும் எதிர்பார்ப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+அ = மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6));
+ஆ = மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13));
+
+// __A symmetric estimate's expected value is its middle.__
+// சமச்சீர் மதிப்பீட்டின் எதிர்பார்ப்பு அதன் நடுவே
+அச்சு பீட்டா_சராசரி(அ);
+
+// __A skewed one is pulled out by the tail. The long pessimistic case moves__
+// __the expectation even though the likely case has four times the weight.__
+// சாய்ந்த மதிப்பீட்டை நீண்ட வால் இழுக்கிறது
+அச்சு பீட்டா_சராசரி(ஆ);

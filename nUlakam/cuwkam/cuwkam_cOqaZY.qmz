@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __சுங்கம் சோதனை — the duty cascade, tariff headings and the e-way bill__
+// சுங்கச் செயல்களுக்கான சோதனைகள்: வரிவரிசை, வரித் தலைப்பு, வழிச்சீட்டு
 //
 //   __etamil --vm nUlakam/cuwkam/cuwkam_cOqaZY.qmz__
 //
 // __No rate here is a claim about any real tariff. They are arguments, chosen so__
 // __the cascade can be checked by hand.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "cuwkam.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("சுங்கம்");

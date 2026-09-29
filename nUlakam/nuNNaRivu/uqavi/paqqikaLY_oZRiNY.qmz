@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) — gather short paragraphs up to a size__
+// சிறு பத்திகளைச் சொன்ன அளவு வரை ஒன்றாக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A heading and the sentence under it are two paragraphs and one idea.__
+// __Embedding them separately gives two weak vectors instead of one good one.__
+// தலைப்பும் அதன் கீழ் உள்ள வரியும் இரு பத்திகள், ஒரே கருத்து
+பத்திகள் = ["தலைப்பு", "அதன் கீழ் ஒரு சிறு வரி.", "வேறொரு நீண்ட பத்தி இங்கே."];
+அச்சு நீளம்(பத்திகளை_ஒன்றிணை(பத்திகள், 80));
+
+// __With a small enough limit nothing is merged.__
+// எல்லை சிறியதானால் ஒன்றும் இணைக்கப்படுவதில்லை
+அச்சு நீளம்(பத்திகளை_ஒன்றிணை(பத்திகள், 5));

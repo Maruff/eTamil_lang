@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கழிவுக்குப்_பின்(இழப்புத்_தொகை, கழிவு) — what is left after the excess the insured bears__
+// காப்பீடு செய்தவர் தாங்கும் கழிவுக்குப் பிறகு மிஞ்சுவது
+
+இறக்கு "../kAppItu.qmz";
+
+// __A fifty thousand loss with a ten thousand excess.__
+// ஐம்பதாயிரம் இழப்பு, பத்தாயிரம் கழிவு
+அச்சு கழிவுக்குப்_பின்(50000, 10000);
+
+// __A loss smaller than the excess is not a small payment — it is none. The__
+// __subtraction stops at zero rather than going negative, because a claim__
+// __below the excess must not turn into money owed back to the insurer.__
+// கழிவைவிடச் சிறிய இழப்பு சிறிய தொகை அல்ல; ஒன்றுமில்லை
+அச்சு கழிவுக்குப்_பின்(8000, 10000);
+
+// __Nor is a loss exactly equal to it.__
+// கழிவுக்குச் சமமான இழப்புக்கும் ஒன்றுமில்லை
+அச்சு கழிவுக்குப்_பின்(10000, 10000);

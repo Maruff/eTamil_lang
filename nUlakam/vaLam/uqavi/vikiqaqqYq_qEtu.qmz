@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விகிதத்தைத்_தேடு(விகிதங்கள், வளக்_குறி, ஒரு_நாள்) — the rate in force on that day__
+// அந்நாளில் அமலில் இருந்த விகிதம்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+விகிதங்கள் = [விகிதப்_பதிவு("E1", 500, "2025-04-01", "2026-03-31"),
+               விகிதப்_பதிவு("E1", 600, "2026-04-01", ""),
+               விகிதப்_பதிவு("E2", 400, "2025-04-01", "")];
+
+// __The old rate applies to the last day it was in force, and the new one from__
+// __the day it starts. Both ends included, no gap between them.__
+// பழைய விகிதம் அதன் கடைசி நாள்வரை; புதியது தொடங்கும் நாளிலிருந்து
+அச்சு மதிப்பு(விகிதத்தைத்_தேடு(விகிதங்கள், "E1", "2026-03-31"));
+அச்சு மதிப்பு(விகிதத்தைத்_தேடு(விகிதங்கள், "E1", "2026-04-01"));
+
+// __An open-ended rate has no end date to compare against.__
+// முடிவு நாள் இல்லாத விகிதத்திற்கு ஒப்பிட ஒன்றுமில்லை
+அச்சு மதிப்பு(விகிதத்தைத்_தேடு(விகிதங்கள், "E2", "2026-09-11"));
+
+// __A day before any rate was in force is a தவறு, not zero. Charging time at__
+// __nothing understates a project by exactly the amount worth knowing.__
+// விகிதமே இல்லாத நாள் தவறே; பூஜ்ஜியம் அல்ல
+அச்சு தவறா(விகிதத்தைத்_தேடு(விகிதங்கள், "E1", "2025-01-01"));
+அச்சு தவறா(விகிதத்தைத்_தேடு(விகிதங்கள், "E9", "2026-04-01"));

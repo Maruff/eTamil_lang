@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முன்_சேர்(சாவி, மதிப்புரு) — push onto the front of a list__
+// பட்டியலின் முன்னே சேர்க்கும்; வரிசைக்கு உதவும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+நீக்கு("மாதிரி:வேலைகள்");
+
+// __Pushing at the front and reading from the back is a queue; pushing and__
+// __reading at the same end is a stack. The choice is the caller's and this__
+// __function does not make it.__
+// முன்னே சேர்த்து, பின்னால் படித்தால் வரிசை; ஒரே முனையில் இரண்டும் என்றால் அடுக்கு
+முன்_சேர்("மாதிரி:வேலைகள்", "முதல் வேலை");
+விளைவு = முன்_சேர்("மாதிரி:வேலைகள்", "இரண்டாம் வேலை");
+
+// __The answer is the length of the list afterwards.__
+// விடை, சேர்த்தபின் பட்டியலின் நீளம்
+(சரியா(விளைவு)) எனில் { அச்சு மதிப்பு(விளைவு); }
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நீட்சி(பாதை) — the extension, without its dot__
+// நீட்சி, புள்ளி இல்லாமல்
+
+இறக்கு "../kOppumuRY.qmz";
+
+அச்சு நீட்சி("nUlakam/atippatY/col.qmz");
+
+// __The last dot wins, so a name with several gives the real extension.__
+// கடைசிப் புள்ளியே; பல புள்ளிகள் இருந்தாலும் உண்மையான நீட்சியே
+அச்சு நீட்சி("archive.tar.gz");
+
+// __A name with no dot has no extension.__
+// புள்ளியே இல்லாத பெயருக்கு நீட்சியும் இல்லை
+அச்சு "[" & நீட்சி("README") & "]";
+
+// __And a leading dot is a hidden file rather than an extension, which is the__
+// __case a naive split on \".\" gets wrong.__
+// தொடக்கப் புள்ளி என்பது மறைந்த கோப்பு; நீட்சி அல்ல
+அச்சு "[" & நீட்சி(".gitignore") & "]";

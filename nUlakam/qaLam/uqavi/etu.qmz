@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எடு(சாவி) — read a key; a missing key is absence, not failure__
+// சாவியின் மதிப்பை எடுக்கும்; சாவி இல்லாதது தவறு அல்ல, இன்மை
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+சேமி("மாதிரி:வாடிக்கையாளர்:1", "குமார்");
+விளைவு = எடு("மாதிரி:வாடிக்கையாளர்:1");
+
+// __A key that was never written comes back as nil inside a சரி, not as a__
+// __தவறு. The distinction matters: a cache miss is the ordinary case and a__
+// __broken connection is not, and code that treats them alike either retries__
+// __every miss or ignores every outage.__
+// எழுதப்படாத சாவி, இன்மையைச் சுமந்த சரி ஆகவே திரும்பும்; தவறாக அல்ல
+இல்லாதது = எடு("மாதிரி:இல்லாத_சாவி");
+
+(சரியா(விளைவு)) எனில் {
+    அச்சு சொல்லாக்கு(மதிப்பு(விளைவு));
+    அச்சு வகை(மதிப்பு(இல்லாதது));
+}
+இன்றேல் { அச்சு "இணைப்பு இல்லை — தவறாகத் திரும்பியது"; }

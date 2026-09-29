@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விதிமுறைகளை_ஏற்று(நாள்) — the classification rules in force on that date__
+// அந்த நாளில் அமலில் இருந்த வகைப்பாட்டு விதிமுறைகள்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __The rules live in a table, not in this code. A regulator that changes a__
+// __day count should not need a release of the software to do it.__
+// விதிமுறைகள் அட்டவணையில் உள்ளன; இந்தக் குறியீட்டில் அல்ல
+தளம்_இணை சீகுலைட், ":memory:";
+
+தளம்_செய் "CREATE TABLE coqqu_viqimuRY (
+             vakY TEXT NOT NULL,
+             nAtkaL_muqal INTEGER NOT NULL,
+             nAtkaL_varY INTEGER,
+             oqukkItu_vikiqam REAL NOT NULL,
+             amal_qotakkam TEXT NOT NULL,
+             amal_mutivu TEXT,
+             mUlam TEXT NOT NULL)", [];
+
+நிரல்கள் = "(vakY, nAtkaL_muqal, nAtkaL_varY, oqukkItu_vikiqam, amal_qotakkam, mUlam)";
+தளம்_செய் "INSERT INTO coqqu_viqimuRY " & நிரல்கள் & " VALUES (?,?,?,?,?,?)",
+          ["நல்லது", 0, 90, 1, "2020-01-01", "எடுத்துக்காட்டு"];
+
+// __A rule that was replaced: in force until 2020, and it must not turn up__
+// __in a classification made today.__
+// மாற்றப்பட்ட விதிமுறை இன்றைய வகைப்பாட்டில் வரக் கூடாது
+தளம்_செய் "INSERT INTO coqqu_viqimuRY
+             (vakY, nAtkaL_muqal, nAtkaL_varY, oqukkItu_vikiqam,
+              amal_qotakkam, amal_mutivu, mUlam)
+             VALUES (?,?,?,?,?,?,?)",
+          ["பழையது", 0, 90, 5, "2010-01-01", "2020-01-01", "எடுத்துக்காட்டு"];
+
+அச்சு நீளம்(விதிமுறைகளை_ஏற்று("2026-08-22"));
+அச்சு நீளம்(விதிமுறைகளை_ஏற்று("2015-08-22"));

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/varuvAy/oppanqam.qmz — ஒப்பந்தம், the contract and its price__
+// ஒப்பந்தமும் அதன் விலையும்
 //
 // __Ind AS 115 is five steps, and this module is the first four:__
 //
@@ -30,16 +31,17 @@
 // __பொறுப்பு, பங்கு and மதிப்பீடு are all keywords, and a keyword used as a bare__
 // __key is stored under its token name.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../aNi.qmz";
-இறக்கு "../kAcu.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
+இறக்கு "../paNam/kAcu.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __படி 1 — the contract__
 // =========================================================================
 //
 // ஒப்பந்தம்_ஆக்கு(ஒப்பந்தக்_குறி, வாடிக்கையாளர், தொடக்க_நாள்)
+// ஒப்பந்தம்_ஆக்கு(ஒப்பந்தக்_குறி, வாடிக்கையாளர், தொடக்க_நாள்) — ஒரு ஒப்பந்தப் பதிவை உருவாக்கும்
 செயல் ஒப்பந்தம்_ஆக்கு(ஒப்பந்தக்_குறி, வாடிக்கையாளர், தொடக்க_நாள்) {
     திரும்பு {"குறி": ஒப்பந்தக்_குறி,
               "வாடிக்கையாளர்": வாடிக்கையாளர்,
@@ -57,6 +59,7 @@
 // __This is not prudence applied loosely. It is the reason a sale to a customer__
 // __in distress produces no revenue at all rather than revenue with a provision__
 // __against it, and the two look very different in a margin.__
+// ஒப்பந்தம்_உள்ளதா(ஒப்புதல்_உண்டா, உரிமைகள்_தெளிவா, செலுத்தும்_விதிமுறை_உண்டா, வணிகப்_பொருள்_உண்டா, வசூல்_வாய்ப்பு_உண்டா) — ஐந்து நிபந்தனைகளும் நிறைவேறி ஒப்பந்தம் உள்ளதா
 செயல் ஒப்பந்தம்_உள்ளதா(ஒப்புதல்_உண்டா, உரிமைகள்_தெளிவா,
                          செலுத்தும்_விதிமுறை_உண்டா, வணிகப்_பொருள்_உண்டா,
                          வசூல்_வாய்ப்புள்ளதா) {
@@ -78,6 +81,7 @@
 // __**not** the price written against the line in the contract. A contract that__
 // __prices a two-year warranty at one rupee has not thereby made the warranty__
 // __worth one rupee.__
+// கடமை_ஆக்கு(கடமைக்_குறி, விவரம், தனி_விற்பனை_மதிப்பு, காலப்போக்கிலா) — நிறைவேற்றக் கடமையை உருவாக்கும்
 செயல் கடமை_ஆக்கு(கடமைக்_குறி, விவரம், தனி_விற்பனை_மதிப்பு, காலப்போக்கிலா) {
     திரும்பு {"குறி": கடமைக்_குறி,
               "விவரம்": விவரம்,
@@ -99,6 +103,7 @@
 // __is to combine them. Treating every line on the invoice as an obligation is__
 // __the commonest error in applying this standard, and it spreads revenue across__
 // __the wrong periods.__
+// தனிக்_கடமையா(வேறுபடுத்தக்_கூடியதா, சூழலில்_தனியா) — இது தனிக் கடமையா
 செயல் தனிக்_கடமையா(தனியே_பயன்தருமா, தனியே_அடையாளம்_காணலாமா) {
     திரும்பு தனியே_பயன்தருமா மற்றும் தனியே_அடையாளம்_காணலாமா;
 }
@@ -118,6 +123,7 @@
 // __out of a hundred. They must sum to 100, and a list that does not is a தவறு__
 // __rather than a scaled answer: probabilities that sum to 90 mean an outcome__
 // __was forgotten, and silently scaling the rest hides it.__
+// மாறும்_எதிர்பார்ப்பு(விளைவுகள்) — மாறும் தொகையின் நிகழ்தகவு சார்ந்த எதிர்பார்ப்பு
 செயல் மாறும்_எதிர்பார்ப்பு(விளைவுகள்) {
     (நீளம்(விளைவுகள்) == 0) எனில் {
         திரும்பு தவறு("விளைவுகள் இல்லை  (no outcomes given)");
@@ -148,6 +154,7 @@
 // __The choice between the two methods is made per contract and applied__
 // __consistently. It is not a choice to be made afresh each period in whichever__
 // __direction suits.__
+// மிக_வாய்ப்பான_தொகை(விளைவுகள்) — மிகுந்த வாய்ப்புள்ள ஒற்றை விளைவின் தொகை
 செயல் மிக_வாய்ப்பான_தொகை(விளைவுகள்) {
     (நீளம்(விளைவுகள்) == 0) எனில் {
         திரும்பு தவறு("விளைவுகள் இல்லை  (no outcomes given)");
@@ -178,6 +185,7 @@
 //
 // __சேர்க்கும்_பகுதி is the portion that survives the constraint, out of a__
 // __hundred. It is a judgement, so it is a parameter, and there is no default.__
+// கட்டுப்பாட்டுடன்(மதிப்பீடு, கட்டுப்பாட்டு_எல்லை) — திரும்பப் பெறும் அபாயம் கருதி வரம்பிட்ட மதிப்பு
 செயல் கட்டுப்பாட்டுடன்(மாறும்_தொகை, சேர்க்கும்_பகுதி) {
     (சேர்க்கும்_பகுதி <= 0) எனில் { திரும்பு 0; }
     (சேர்க்கும்_பகுதி >= 100) எனில் { திரும்பு வட்டமிடு(மாறும்_தொகை, 2); }
@@ -200,6 +208,7 @@
 // __where payment is due long before or long after delivery, part of the money__
 // __is for the time and not for the goods. Pass 0 where there is none, which is__
 // __the usual case and always the case when the gap is under a year.__
+// பரிமாற்ற_மதிப்பு(நிலையான_தொகை, மாறும்_தொகை, பண_மதிப்புச்_சரிப்பு) — ஒப்பந்தத்தின் மொத்தப் பரிமாற்ற மதிப்பு
 செயல் பரிமாற்ற_மதிப்பு(நிலையான_தொகை, கட்டுப்படுத்திய_மாறும்_தொகை,
                          வாடிக்கையாளருக்குச்_செலுத்தியது, நிதிக்_கூறு) {
     விடை = நிலையான_தொகை + கட்டுப்படுத்திய_மாறும்_தொகை
@@ -227,6 +236,7 @@
 //
 // __Obligations whose standalone selling prices sum to zero are a தவறு: with no__
 // __basis there is no allocation, and dividing equally would be an invention.__
+// கடமைகளுக்கு_ஒதுக்கு(பரிமாற்ற_மதிப்பு, கடமைகள்) — தனி விற்பனை மதிப்பின் விகிதத்தில் ஒதுக்கும்
 செயல் கடமைகளுக்கு_ஒதுக்கு(பரிமாற்றத்_தொகை, கடமைகள்) {
     (நீளம்(கடமைகள்) == 0) எனில் {
         திரும்பு தவறு("கடமைகள் இல்லை  (no performance obligations)");
@@ -267,6 +277,7 @@
 // __What the allocation adds back to. Exists so a caller can assert it, because__
 // __an allocation that does not reconcile to the transaction price is the__
 // __failure this whole approach is designed to make impossible.__
+// ஒதுக்கியதன்_கூட்டல்(ஒதுக்கிய_கடமைகள்) — ஒதுக்கிய தொகைகளின் கூட்டுத்தொகை
 செயல் ஒதுக்கியதன்_கூட்டல்(ஒதுக்கிய_கடமைகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_கடமை இல் ஒதுக்கிய_கடமைகள் {
@@ -289,6 +300,7 @@
 // __A residual of nothing or less is a தவறு: it means the observable prices__
 // __already exhaust the transaction price, and an obligation cannot be worth__
 // __nothing merely because the arithmetic ran out.__
+// எஞ்சிய_முறை(பரிமாற்ற_மதிப்பு, அறியப்பட்ட_மதிப்புகள்) — மற்றவற்றைக் கழித்து எஞ்சியதை ஒதுக்கும் முறை
 செயல் எஞ்சிய_முறை(பரிமாற்றத்_தொகை, அறிந்த_விலைகள்) {
     அறிந்தவற்றின்_கூட்டல் = 0;
     ஒவ்வொரு ஒரு_விலை இல் அறிந்த_விலைகள் {
@@ -314,6 +326,7 @@
 //
 // __குறிப்பிட்ட_குறிகள் is the list of obligation codes the evidence points to;__
 // __an empty list means proportionate across all.__
+// தள்ளுபடியை_ஒதுக்கு(தள்ளுபடித்_தொகை, கடமைகள், குறிப்பிட்ட_குறிகள்) — தள்ளுபடியைக் கடமைகளுக்குப் பிரிக்கும்
 செயல் தள்ளுபடியை_ஒதுக்கு(தள்ளுபடித்_தொகை, கடமைகள், குறிப்பிட்ட_குறிகள்) {
     இலக்குகள் = [];
     ஒவ்வொரு ஒரு_கடமை இல் கடமைகள் {
@@ -333,6 +346,7 @@
 }
 
 // __குறியில்_உள்ளதா(குறிகள், தேடும்_குறி) — is this code in the list?__
+// குறியில்_உள்ளதா(குறிகள், தேடும்_குறி) — இக்குறி பட்டியலில் உள்ளதா
 //
 // __Used when checking that a contract's obligations are distinct and accounted for once. Thin wrapper over உள்ளதா, named for what it is looking for so the call sites read as the rule they are enforcing.__
 செயல் குறியில்_உள்ளதா(குறிகள், தேடும்_குறி) {

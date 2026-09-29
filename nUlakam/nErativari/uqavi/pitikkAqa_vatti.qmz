@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிடிக்காத_வட்டி(பிடிக்க_வேண்டியது, மாத_வீதம், மாதங்கள்) — interest for failing to withhold at all__
+// பிடிக்கத் தவறியதற்கான வட்டி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __From the date it should have been withheld to the date it actually was.__
+// பிடித்திருக்க வேண்டிய நாளிலிருந்து, உண்மையில் பிடித்த நாள்வரை
+அச்சு பிடிக்காத_வட்டி(50000, 1, 5);
+
+// __At a lower rate than the interest for withholding and not paying, which is__
+// __the opposite of what most people assume: keeping the government's money is__
+// __treated more seriously than never collecting it.__
+// பிடித்தும் செலுத்தாததற்கே வட்டி அதிகம்
+அச்சு செலுத்தாத_வட்டி(50000, 1.5, 5);
+அச்சு பிடிக்காத_வட்டி(50000, 1, 0);

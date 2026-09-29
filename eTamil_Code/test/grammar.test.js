@@ -10,7 +10,7 @@
 // combining vowel sign or pulli, and Oniguruma counts marks as word
 // characters — which is what makes `\bஇல்\b` refuse to match inside இல்லை,
 // and what makes `\bஎண்\b` refuse to match inside எண்ணி (a real variable in
-// nUlakam/col.qmz). Both cases are asserted below, because if that
+// nUlakam/atippatY/col.qmz). Both cases are asserted below, because if that
 // assumption were wrong the grammar would mis-scope ordinary library code
 // and nobody would notice from reading it.
 //
@@ -172,7 +172,7 @@ describe('keywords', () => {
     assert.equal(scopeOf('திரும்பு 1;', 'திரும்பு'), 'keyword.control.flow.return.etamil');
     assert.equal(scopeOf('ஒவ்வொரு உ இல் அ {', 'ஒவ்வொரு'), 'keyword.control.loop.etamil');
     assert.equal(scopeOf('ஒவ்வொரு உ இல் அ {', 'இல்'), 'keyword.control.loop.etamil');
-    assert.equal(scopeOf('இறக்கு "nUlakam/col.qmz";', 'இறக்கு'), 'keyword.control.import.etamil');
+    assert.equal(scopeOf('இறக்கு "nUlakam/atippatY/col.qmz";', 'இறக்கு'), 'keyword.control.import.etamil');
     assert.equal(scopeOf('(a மற்றும் b) எனில் {', 'மற்றும்'), 'keyword.operator.logical.etamil');
     assert.equal(scopeOf('ஈர்ம கொடி = மெய்;', 'ஈர்ம'), 'storage.type.etamil');
     assert.equal(scopeOf('ஈர்ம கொடி = மெய்;', 'மெய்'), 'constant.language.boolean.etamil');
@@ -199,7 +199,7 @@ describe('keywords', () => {
 // The assumption the whole \b-anchored approach rests on.
 describe('word boundaries around Tamil', () => {
   test('a keyword is not matched inside a longer Tamil identifier', () => {
-    // எண்ணி — the loop counter used throughout nUlakam/col.qmz — begins with
+    // எண்ணி — the loop counter used throughout nUlakam/atippatY/col.qmz — begins with
     // the type keyword எண். It must scope as one identifier, not as a type
     // followed by a fragment.
     const tokens = tokenize('எண்ணி = 0;').filter((t) => t.text.trim());
@@ -317,8 +317,8 @@ describe('structure', () => {
 // of Tamil text, the grammar has a hole.
 describe('the repository tokenizes without holes', () => {
   const sources = [
-    'nUlakam/col.qmz',
-    'nUlakam/paNam.qmz',
+    'nUlakam/atippatY/col.qmz',
+    'nUlakam/paNam/paNam.qmz',
     'nUlakam/kaNakkiyal/pErEtu.qmz',
     'examples/basic_samples/example.qmz',
   ];

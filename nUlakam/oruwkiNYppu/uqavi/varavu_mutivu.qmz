@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரவு_முடிவு(வரவுத்_திருத்தம், அனுப்பிய_திருத்தம், மாற்றியவர், எங்கள்_அடையாளம், வரவுக்_கைரேகை, பதிந்த_கைரேகை) — apply, or skip and why__
+// ஏற்பதா, தவிர்ப்பதா, ஏன்
+
+இறக்கு "../varavu.qmz";
+
+ரகசியம் = "fake-secret-for-samples";
+எங்கள்_சேவை = "PMO Sync Service";
+பதிந்தது = கைரேகை({ "நடப்பு_நிலை": "நடப்பில்" }, ரகசியம்);
+புதியது = கைரேகை({ "நடப்பு_நிலை": "மூடியது" }, ரகசியம்);
+
+// __We pushed revision 9, and the hook for revision 9 came back: our own echo.__
+// நாம் அனுப்பிய திருத்தம் 9 திரும்பி வந்தது; இது எதிரொலி
+அச்சு வரவு_முடிவு(9, 9, எங்கள்_சேவை, எங்கள்_சேவை, புதியது, பதிந்தது);
+
+// __Revision 10, but saved by our own service identity: an echo too, from a__
+// __push whose revision we had not recorded yet.__
+// திருத்தம் 10, ஆனால் நம் சேவை அடையாளமே மாற்றியது; இதுவும் எதிரொலி
+அச்சு வரவு_முடிவு(10, 9, எங்கள்_சேவை, எங்கள்_சேவை, புதியது, பதிந்தது);
+
+// __A real person saved it, but nothing we hold has changed: skipped as no change.__
+// ஒருவர் சேமித்தார், ஆனால் புதிதாக ஒன்றுமில்லை
+அச்சு வரவு_முடிவு(10, 9, "கலா", எங்கள்_சேவை, பதிந்தது, பதிந்தது);
+
+// __A real person, a real change: apply it.__
+// உண்மையான மாற்றம்; ஏற்கலாம்
+அச்சு வரவு_முடிவு(10, 9, "கலா", எங்கள்_சேவை, புதியது, பதிந்தது);
+
+// __An item never pushed nor applied passes 0 and "", and every brake is off.__
+// __An empty identity never matches, so it cannot swallow every change.__
+// ஒருபோதும் அனுப்பாத உருப்படிக்கு 0, ""; வெற்று அடையாளம் எதையும் விழுங்காது
+அச்சு வரவு_முடிவு(1, 0, "", "", புதியது, "");

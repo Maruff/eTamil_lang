@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேற்கோள்_இல்லாத_பதில்(மேற்கோள்கள்) — the answer when there is no model to ask__
+// மாதிரி இல்லாதபோது தரும் பதில்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+மேற்கோள்கள் = [மேற்கோள்_ஆக்கு("paNam — காசு", "பைசாவாகவே வைக்கப்படுகிறது.")];
+
+// __The retrieved passages, handed over as they are. Worse than an answer and__
+// __much better than an error: the search worked, and only the writing did not.__
+// தேடல் வேலை செய்தது; எழுதுவது மட்டுமே நடக்கவில்லை
+அச்சு மேற்கோள்_இல்லாத_பதில்(மேற்கோள்கள்);
+
+// __And when nothing was found, it says so.__
+// ஒன்றும் கிடைக்கவில்லையெனில் அதைச் சொல்கிறது
+அச்சு மேற்கோள்_இல்லாத_பதில்([]);

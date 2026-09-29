@@ -33,9 +33,12 @@ slow part and must never be required for the library to be of use.
 
 | File | Contents |
 |---|---|
-| `coRpiri.qmz` | text into terms — `பிரிப்பானா` `இயல்பாக்கு` `பதங்கள்` `நிறுத்துப்_பதமா` `பொருளுள்ளவை` `தனிப்பதங்கள்` `தேடல்_பதங்கள்` |
-| `eNNikkY.qmz` | counting terms — `ஆவணம்_ஆக்கு` `பத_அதிர்வெண்` `எத்தனை_முறை` `ஆவண_அதிர்வெண்` `சராசரி_ஆவண_நீளம்` `குறியீட்டு_ஆக்கு` |
+| `coRpiri.qmz` | text into terms — `பிரிப்பான்கள்` `பிரிப்பானா` `இயல்பாக்கு` `பதங்கள்` `நிறுத்துப்_பதமா` `பொருளுள்ளவை` `தனிப்பதங்கள்` `தேடல்_பதங்கள்` |
+| `eNNikkY.qmz` | counting terms — `ஆவணம்_ஆக்கு` `பத_அதிர்வெண்` `எத்தனை_முறை` `ஆவண_அதிர்வெண்` `தனித்தவை_உள்ளூர்` `சராசரி_ஆவண_நீளம்` `குறியீட்டு_ஆக்கு` |
 | `coRqEtal.qmz` | relevance by shared words, BM25 — `கே1` `பி` `தலைகீழ்_அதிர்வெண்` `ஆவண_மதிப்பெண்` `பொருத்தங்கள்` `சிறந்தவை` |
+| `muzuqqEtal.qmz` | full-text search on an index, BM25 through FTS5 — `பெயர்_சரியா` `சொல்_தப்பி` `முன்னொட்டாக்கு` `வினவல்_ஆக்கு` `வினவல்_வரிசை` `அட்டவணை_ஆக்கு` `ஆவணம்_இடு` `எடைப்_பட்டி` `முழுப்_பொருத்தம்` `ஆவண_எண்ணிக்கை` |
+| `colvativam.qmz` | the other spellings of a name — `அட்டவணையை_நிரப்பு` `வேறு_வடிவங்கள்` `விரிந்த_பதங்கள்` `பெயரா` |
+| `colvativam_qaravu.qmz` | **generated** — the 299 names with more than one spelling — `வடிவக்_குழுக்கள்` |
 | `qicYyaZ.qmz` | vector arithmetic — `புள்ளிப்_பெருக்கம்` `திசை_அளவு` `ஒருமைப்படுத்து` `கோசைன்_ஒற்றுமை` `கூட்டுத்_திசையன்` `மடங்காக்கு` `சராசரித்_திசையன்` |
 | `oRRumY.qmz` | finding by meaning — `பொதிந்த_ஆவணம்` `அண்மையவை` `அகலம்_ஒத்ததா` `வரம்புக்குள்_அண்மையவை` |
 | `iNYppu.qmz` | merging rankings — `கே_மாறிலி` `பங்களிப்பு` `இணை_தரவரிசைகள்` `இரண்டை_இணை` `வகை_எடை_பயன்படுத்து` |
@@ -45,7 +48,7 @@ slow part and must never be required for the library to be of use.
 | `urYyAkkam.qmz` | asking a model — `உள்ளூர்_வழங்குநர்` `இயல்பு_இணையவழி` `இயல்பு_மொழி_மாதிரி` `அதிகபட்சச்_சொற்கள்` `வழங்குநர்_ஆக்கு` `உள்ளூர்_வழங்குநர்_ஆக்கு` `திறவுகோல்_தேவையா` `தலைப்புகளை_ஆக்கு` `கோரிக்கை_உடலை_ஆக்கு` `பதிலிறுப்பைப்_பிரி` `உருவாக்கு` `கிடைக்கிறதா` |
 | `kELvi.qmz` | putting the question — `அதிகபட்ச_மேற்கோள்கள்` `ஒரு_மேற்கோளின்_நீளம்` `மேற்கோள்_ஆக்கு` `சுருக்கு` `பின்புலம்_ஆக்கு` `அறிவுறுத்தல்` `தூண்டுதல்_ஆக்கு` `மேற்கோள்_இல்லாத_பதில்` |
 | `aLavItu.qmz` | measuring whether it works — `சோதனை_ஆக்கு` `கண்டுபிடித்த_இடம்` `தலைகீழ்_இடம்` `சராசரி_தலைகீழ்_இடம்` `எத்தனை_முதல்_சிலவற்றில்` `கண்டுபிடிப்பு_விகிதம்` `முடிவுகளைத்_தொகு` |
-| `matakkY.qmz` | logarithms — `இரண்டின்_மடக்கை` `இயற்கை_மடக்கை` `பத்தின்_மடக்கை` `இரண்டின்_அடிப்படை_மடக்கை` |
+| `matakkY.qmz` | logarithms — `இரண்டின்_மடக்கை` `இரண்டின்_அடிப்படை_மடக்கை`. `இயற்கை_மடக்கை` and `பத்தின்_மடக்கை` are host builtins now |
 
 ## How they fit together
 
@@ -136,8 +139,43 @@ the first use, naming the word rather than the declaration.
 
 ## Precision
 
-`matakkY.qmz` and `வர்க்கமூலம்` are computed by series, not by the host. They
-agree with the true value to about 28 digits, which is past what a Decimal
-carries; `ln(10)` returns `2.3025850929940456840179914545`. Exact integers are
-not guaranteed — `log10(1000)` is `3.0000000000000000000000000006` — so compare
-with a tolerance rather than for equality.
+`இயற்கை_மடக்கை`, `பத்தின்_மடக்கை` and `வர்க்கமூலம்` are host builtins, computed on the
+Decimal itself rather than through f64. They were series written in eTamil
+until the host had them, and the series were accurate to about 28 digits, so
+going through a binary float would have been a regression dressed as a
+speed-up.
+
+Two artifacts this page used to warn about are gone with them. `√25` is `5`,
+not `5.000000000000000000000288615`, and `log10(1000)` is `3`, not
+`3.0000000000000000000000000006` — the last needed its own builtin, because
+`ln(x)/ln(10)` is not exact.
+
+What is left in `matakkY.qmz` is the base-2 wrapper and the `ln 2` constant it
+divides by, neither of which was ever the expensive part.
+
+`coRqEtal.qmz` and `muzuqqEtal.qmz` compute the same BM25 and differ in where
+the work happens. `coRqEtal.qmz` scores documents it is handed, which is right
+when they are already in hand and few. `muzuqqEtal.qmz` keeps them in an FTS5
+table and lets SQLite hold the inverted index, so a query touches the postings
+for its own words rather than every document — which is what keeps a search
+fast as a collection grows.
+
+`colvativam_qaravu.qmz` is written by `scripts/generate_editor_support.py` from
+the compiler's own token tables, so it cannot drift from what the language
+accepts — and `generate_editor_support.py --check` fails if it does. Only names
+with more than one spelling are in it: the standard library is Tamil-only, and
+a group of one expands to nothing, which is the difference between 19 kB and
+880 kB.
+
+## uqavi — உதவி (worked examples)
+
+`uqavi/` holds 101 runnable programs, one for each function above, named
+after the function they demonstrate. Each shows the ordinary use and the
+cases that are easy to get wrong, with the reasoning in English and Tamil.
+
+They are run by `scripts/run_samples.sh`, so a sample that stops matching
+its function fails rather than quietly going stale:
+
+```
+./scripts/run_samples.sh nuNNaRivu
+```

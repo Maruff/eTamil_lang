@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாத_இறுதியா(ஒரு_நாள்) — is this the last day of its month?__
+// இது அம்மாதத்தின் இறுதி நாளா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு மாத_இறுதியா("2026-03-31");
+அச்சு மாத_இறுதியா("2026-03-30");
+
+// __The 30th is a month end in April and not in March, which is why this is a__
+// __question about a date rather than about a number.__
+// 30 என்பது ஏப்ரலில் மாத இறுதி; மார்ச்சில் அல்ல
+அச்சு மாத_இறுதியா("2026-04-30");
+அச்சு மாத_இறுதியா("2026-02-28");
+அச்சு மாத_இறுதியா("2024-02-28");

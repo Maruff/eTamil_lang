@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்_கூட்டல்(கணுக்கள், கணு_குறி) — a subtree's budget, from its leaves__
+// உட்கிளையின் நிதி, அதன் இலைகளிலிருந்து
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+             கணு_ஆக்கு("1.2", "1", "கட்டுமானம்", 600000)];
+
+// __Computed from the leaves rather than read off the parent, so a parent whose__
+// __figure was never updated does not hide a gap.__
+// இலைகளிலிருந்தே கணக்கிடப்படுகிறது; பெற்றோரின் எண் படிக்கப்படுவதில்லை
+அச்சு உள்_கூட்டல்(கணுக்கள், "1");
+அச்சு உள்_கூட்டல்(கணுக்கள், "1.1");

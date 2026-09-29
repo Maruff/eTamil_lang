@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முகவர்_வருவாய்(வாடிக்கையாளர்_மதிப்பு, மூன்றாம்_தரப்பு_செலவு) — as agent: only the commission is revenue__
+// முகவராக இருந்தால் கமிஷன் மட்டுமே வருவாய்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Net. The same transaction, and a fifteenth of the revenue.__
+// நிகரமாக; அதே பரிவர்த்தனை, வருவாய் பதினைந்தில் ஒரு பங்கு
+விடை = முகவர்_வருவாய்(1000000, 850000);
+அச்சு விடை["வருவாய்"];
+அச்சு விடை["விற்பனைச்_செலவு"];
+
+// __The profit is identical either way, which is what makes this so tempting__
+// __to get wrong: nothing on the bottom line changes.__
+// லாபம் இரு வழியிலும் ஒன்றே; அதனாலேயே இதைத் தவறாகச் செய்வது எளிது
+அச்சு விடை["லாபம்"];
+அச்சு முதன்மை_வருவாய்(1000000, 850000)["லாபம்"];

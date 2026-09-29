@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வினாவை_ஓட்டு(இணைப்பு, வினா_உரை) — run a WIQL query and return the ids__
+// வினாவை இயக்கி எண்களைத் தரும்
+
+இறக்கு "../ajUr.qmz";
+இறக்கு "../viZA.qmz";
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+
+// __The nightly sweep: everything changed since a day before the watermark.__
+// இரவுத் தேடல்: நீர்க்குறிக்கு ஒரு நாள் முன்பிலிருந்து மாறியவை
+வினா = மாறியவை_வினா("PMO Portal", தேடல்_தொடக்க_நாள்("2026-09-27", "2026-09-28"), "");
+விடை = வினாவை_ஓட்டு(இணைப்பு, வினா);
+
+// __A real organisation answers சரி with the ids alone, oldest change first,__
+// __say [1201, 118, 119]; each is then read with பணியுருப்படியைப்_பெறு. Here__
+// __it fails, and the failure passes through unchanged, in the usual shape.__
+// உண்மையில் எண்கள் மட்டும் வரும்; இங்கே தோல்வி அதே வடிவில் திரும்பும்
+அச்சு தவறா(விடை);
+அச்சு தவறு_மதிப்பு(விடை).நிலைக்_குறி;
+
+// __A failed sweep must not move the watermark: the next sweep would start__
+// __after items this one never saw.__
+// தோற்ற தேடல் நீர்க்குறியை நகர்த்தக் கூடாது
+நீர்க்குறி = "2026-09-27";
+(இல்லை தவறா(விடை)) எனில் { நீர்க்குறி = "2026-09-28"; }
+அச்சு நீர்க்குறி;

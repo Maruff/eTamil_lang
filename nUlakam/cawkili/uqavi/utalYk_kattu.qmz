@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உடலைக்_கட்டு(செயற்பெயர், அளபுருக்கள்) — the JSON body of a chaincode call__
+// நிரல்பொருள் அழைப்புக்கான ஜேசான் உடல்
+
+இறக்கு "../fabric.qmz";
+
+// __Fabric expects a function name and an array of string arguments — the__
+// __shape every chaincode sees, whatever it does. Built through ஜேசான்_ஆக்கு,__
+// __so quoting is handled in one place rather than at each call site.__
+// ஒவ்வொரு நிரல்பொருளும் காணும் வடிவம் இதுவே; மேற்கோள் ஒரே இடத்தில் கையாளப்படுகிறது
+அச்சு உடலைக்_கட்டு("ReadAsset", ["asset1"]);
+அச்சு உடலைக்_கட்டு("CreateAsset", ["asset2", "குமார்", "700"]);

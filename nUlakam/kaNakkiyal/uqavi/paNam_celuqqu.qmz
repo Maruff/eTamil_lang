@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணம்_செலுத்து(பரிவர்த்தனை_எண், நாள், விவரம், வங்கி_கணக்கு, விற்பனையாளர்_கணக்கு, தொகை_மதிப்பு) — money paid against a payable__
+// கொடுக்கத்தக்கதற்கு எதிராகப் பணம் செலுத்துதல்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+செலுத்தல் = பணம்_செலுத்து(3, "2026-04-20", "செலுத்தல்", "1000", "2100", 11800);
+அச்சு சமநிலையா(செலுத்தல்);
+அச்சு செலுத்தல்["விவரம்"];

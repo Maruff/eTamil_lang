@@ -759,7 +759,7 @@ impl VM {
             // ஜேசான்_படி — JSON text into eTamil values
             //
             // A host builtin because the eTamil version could not keep up. It
-            // is in nUlakam/jEcAZ.qmz, it is correct, and it is a recursive
+            // is in nUlakam/vativam/jEcAZ.qmz, it is correct, and it is a recursive
             // descent parser written in the language — which means it pays the
             // language's string and record costs on every character. A 624 KB
             // corpus did not finish parsing in ten minutes.
@@ -1165,7 +1165,7 @@ impl VM {
                 Ok(Value::String(args[0].to_string().to_lowercase()))
             }
             // --- Text, over a whole string ---------------------------------
-            // மாற்று, பிரி and ஒன்றிணை were nUlakam/col.qmz functions until
+            // மாற்று, பிரி and ஒன்றிணை were nUlakam/atippatY/col.qmz functions until
             // now. They read one letter at a time, and every read re-segmented
             // the entire string, so a single search cost O(n²) segmentations:
             // measured at 14 seconds over 8 KB, and a 400 KB document never
@@ -1270,7 +1270,7 @@ impl VM {
             // Three primitives, because three are what the language cannot
             // express for itself. Everything above them — joining paths,
             // taking a base name or an extension, walking a tree — is
-            // ordinary eTamil and lives in nUlakam/kOppumuRY.qmz.
+            // ordinary eTamil and lives in nUlakam/kOppumuRY/kOppumuRY.qmz.
 
             // கோப்பகம்_படி(பாதை) — the entries of a directory, sorted, as bare
             // names rather than paths. Joining is the caller's business:
@@ -1483,7 +1483,7 @@ impl VM {
             // An identity provider signs with RS256 and publishes its public
             // keys as a JWKS document. Fetching that document, picking the key
             // and caching it are ordinary work the language can do with
-            // வலை_பெறு and nUlakam/jEcAZ.qmz. Only the two things it cannot
+            // வலை_பெறு and nUlakam/vativam/jEcAZ.qmz. Only the two things it cannot
             // do live here: reading a token's header, and checking a signature
             // against an RSA key.
 
@@ -1525,7 +1525,7 @@ impl VM {
             //
             // A test run that reports failures and then exits 0 has told the
             // truth to a reader and a lie to everything else — CI, make, a
-            // shell script. This is how nUlakam/cOqaZY.qmz makes a failing
+            // shell script. This is how nUlakam/cOqaZY/cOqaZY.qmz makes a failing
             // suite fail the process it is running in.
             //
             // Nothing is returned, because nothing continues.
@@ -1891,7 +1891,7 @@ impl VM {
             // in eTamil, so they live in the host. Everything above them —
             // who a user is, which route needs which role — stays in the
             // language. A token's payload crosses as JSON text, which
-            // nUlakam/jEcAZ.qmz reads and writes.
+            // nUlakam/vativam/jEcAZ.qmz reads and writes.
             // கடவுச்சொல்_மறை(கடவுச்சொல்) — hash a password for storage
             "கடவுச்சொல்_மறை" | "kataveuccol_maRY" | "_hashPassword" => {
                 Self::expect_args(name, &args, 1)?;
@@ -1941,7 +1941,7 @@ impl VM {
             // backend — to add a type the language could otherwise represent
             // already. The cost is space, since each byte becomes a Decimal;
             // the gain is that base64 and hex are ordinary eTamil in
-            // nUlakam/kuRiyAkkam.qmz rather than more host code.
+            // nUlakam/vativam/kuRiyAkkam.qmz rather than more host code.
             //
             // The limit worth knowing: a சொல் is valid UTF-8, so arbitrary
             // bytes can live in an array but not in a string. Encode them

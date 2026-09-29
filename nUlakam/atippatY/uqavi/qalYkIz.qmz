@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைகீழ்(அணி) — reverse an array, returning a new one__
+// அணியைத் தலைகீழாக்கிப் புதிய அணியாகத் தரும்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+பட்டியல் = [1, 2, 3];
+திருப்பியது = தலைகீழ்(பட்டியல்);
+அச்சு திருப்பியது[0];
+
+// __The original is untouched — a new array comes back.__
+// மூல அணி மாறவில்லை; புதிய அணியே திரும்புகிறது
+அச்சு பட்டியல்[0];

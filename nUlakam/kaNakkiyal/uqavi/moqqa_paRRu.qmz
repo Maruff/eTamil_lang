@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_பற்று(வரிசைகள்) — the debits of one entry, added up__
+// ஒரு பரிவர்த்தனையின் பற்றுகள் கூட்டியது
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+வரிசைகள் = [பற்று_வரிசை("1100", 11800),
+             வரவு_வரிசை("4000", 10000),
+             வரவு_வரிசை("2200", 1800)];
+அச்சு மொத்த_பற்று(வரிசைகள்);
+அச்சு மொத்த_வரவு(வரிசைகள்);

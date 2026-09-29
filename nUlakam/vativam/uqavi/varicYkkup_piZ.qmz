@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரிசைக்குப்_பின்(பகுதி, முடிவுக்_குறி) — what is left of a chunk after its row ends__
+// ஒரு துண்டில், வரிசை முடிந்தபின் மிஞ்சுவது
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __The marker row itself is dropped and everything after it is kept. That is__
+// __how a {%tr for %} line disappears from the finished document instead of__
+// __being printed in it.__
+// குறி வரிசை நீக்கப்பட்டு, அதற்குப் பின்னுள்ளது வைக்கப்படுகிறது
+அச்சு வரிசைக்குப்_பின்("{%tr for வ in வரிகள் %}</w:tr><w:tr>மீதம்", "</w:tr>");
+
+// __A chunk with no row end in it leaves nothing, rather than leaving itself.__
+// வரிசை முடிவே இல்லாத துண்டு வெற்றுச் சரத்தையே தரும்
+அச்சு "[" & வரிசைக்குப்_பின்("எதுவும் இல்லை", "</w:tr>") & "]";
+
+// __Several row ends are put back as they were, so a chunk holding a nested__
+// __table is not flattened.__
+// பல வரிசை முடிவுகள் இருந்தபடியே திரும்பச் சேர்க்கப்படும்
+அச்சு வரிசைக்குப்_பின்("தலை</w:tr>அ</w:tr>ஆ", "</w:tr>");

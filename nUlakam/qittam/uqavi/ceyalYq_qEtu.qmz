@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செயலைத்_தேடு(செயல்கள், செயல்_குறி) — find an activity by its code__
+// குறியைக் கொண்டு ஒரு செயலைத் தேடும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+செயல்கள் = [செயல்_ஆக்கு("A", 3, []), செயல்_ஆக்கு("B", 4, ["A"])];
+
+அச்சு மதிப்பு(செயலைத்_தேடு(செயல்கள், "B"))["செயல்_காலம்"];
+அச்சு தவறா(செயலைத்_தேடு(செயல்கள், "Z"));

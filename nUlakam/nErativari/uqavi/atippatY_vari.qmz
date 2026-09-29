@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படை_வரி(வரிக்குரிய_வருமானம், படிகள்) — tax on the slabs, before anything else__
+// படிவரிசைப்படி அடிப்படை வரி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The slabs are passed in rather than built in, because they change every__
+// __year and there are two regimes running side by side.__
+// படிகள் வெளியேயிருந்து வருகின்றன; அவை ஆண்டுதோறும் மாறுகின்றன
+படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+           {"முதல்": 250000, "விகிதம்": 5},
+           {"முதல்": 500000, "விகிதம்": 20},
+           {"முதல்": 1000000, "விகிதம்": 30}];
+
+// __Each band is taxed at its own rate: only the part above 5,00,000 pays 20%.__
+// ஒவ்வொரு படியும் தன் வீதத்திலேயே; 5 லட்சத்திற்கு மேல் உள்ள பகுதியே 20%
+அச்சு அடிப்படை_வரி(850000, படிகள்);
+அச்சு அடிப்படை_வரி(250000, படிகள்);
+அச்சு அடிப்படை_வரி(0, படிகள்);

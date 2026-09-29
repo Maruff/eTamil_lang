@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறுவனத்துடன்_பதிவிடு(பேரேடு, பரிவர்த்தனை, நிறுவனக்_குறி) — post an entry, tagged with its company__
+// நிறுவனக் குறியுடன் பதியும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஏடு = [];
+ஏடு = மதிப்பு(நிறுவனத்துடன்_பதிவிடு(ஏடு,
+    பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+        [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 5000)]), "IN"));
+ஏடு = மதிப்பு(நிறுவனத்துடன்_பதிவிடு(ஏடு,
+    பரிவர்த்தனை_ஆக்கு(2, "2026-04-02", "விற்பனை",
+        [பற்று_வரிசை("1100", 8000), வரவு_வரிசை("4000", 8000)]), "SG"));
+
+// __One ledger, several companies. The balance check is still per entry, so a__
+// __transaction cannot balance across two companies — which it must not.__
+// ஒரே பேரேடு, பல நிறுவனங்கள்; சமநிலை பதிவுக்குப் பதிவே
+அச்சு நீளம்(ஏடு);

@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேலை_வாரம்_உள்ளதா(ஒரு_நாட்காட்டி) — does this calendar have any working day at all?__
+// இந்நாட்காட்டியில் வேலை நாள் ஏதேனும் உண்டா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __A calendar whose weekend list holds all seven days has no working day, and__
+// __every search on it would run to the limit and fail. Asking once is cheaper__
+// __than failing four hundred times.__
+// ஏழு நாளும் ஓய்வு என்றால் வேலை நாளே இல்லை
+அச்சு வேலை_வாரம்_உள்ளதா(நாட்காட்டி_ஆக்கு([0, 6], []));
+அச்சு வேலை_வாரம்_உள்ளதா(நாட்காட்டி_ஆக்கு([0, 1, 2, 3, 4, 5, 6], []));
+
+// __Holidays do not count here: a year of declared holidays still has a working__
+// __week underneath it.__
+// விடுமுறைகள் இங்கே கணக்கில் இல்லை
+அச்சு வேலை_வாரம்_உள்ளதா(நாட்காட்டி_ஆக்கு([], []));

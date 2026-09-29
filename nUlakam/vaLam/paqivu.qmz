@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaLam/paqivu.qmz — பதிவு, project cost into the ledger__
+// திட்டச் செலவைப் பேரேட்டில் பதிதல்
 //
 // __Until this module, project costing and the books were two separate__
 // __universes. qittam/ collected cost against control accounts and__
@@ -29,7 +30,7 @@
 // __**record key**, which is stored under its token name, and no record in this__
 // __directory has one.__
 
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 இறக்கு "../kaNakkiyal/pErEtu.qmz";
 இறக்கு "../kaNakkiyal/kaNakkukaL.qmz";
 
@@ -42,6 +43,7 @@
 // __The account code project cost is collected in. Built rather than looked up,__
 // __so the mapping is a rule instead of a table somebody has to maintain in step__
 // __with the work breakdown.__
+// நடப்புக்_கணக்குக்_குறி(திட்டக்_குறி, கட்டுப்பாட்டுக்_குறி) — திட்டத்துக்கான நடப்புக் கணக்குக் குறி
 செயல் நடப்புக்_கணக்குக்_குறி(திட்டக்_குறி, கட்டுப்பாட்டுக்_குறி) {
     திரும்பு "WIP-" & திட்டக்_குறி & "-" & கட்டுப்பாட்டுக்_குறி;
 }
@@ -66,6 +68,7 @@
 // __Crediting the bank directly is the shortcut that makes project cost follow__
 // __the payment run instead of the work, and it puts a month's labour in the__
 // __wrong period every time payday falls near a month end.__
+// உழைப்புப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — உழைப்புச் செலவுப் பதிவு
 செயல் உழைப்புப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு,
                         ஊதியக்_கணக்கு, தொகை_மதிப்பு) {
     திரும்பு பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், [
@@ -75,6 +78,7 @@
 }
 
 // __பொருள்_பதிவு(...) — material issued from stores to the project__
+// பொருள்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — கிடங்கிலிருந்து திட்டத்துக்குக் கொடுத்த பொருள்
 //
 // __The credit is stores, so the cost moves from one asset to another and the__
 // __balance sheet total does not change. Material **purchased** for a project__
@@ -90,6 +94,7 @@
 }
 
 // __துணை_ஒப்பந்தப்_பதிவு(...) — a subcontractor's certified work__
+// துணை_ஒப்பந்தப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — துணை ஒப்பந்தக்காரரின் சான்றளிக்கப்பட்ட பணி
 //
 // __Credited to a payable, on certification rather than on payment. A__
 // __subcontractor's work is the entity's cost when it is done, and retention__
@@ -104,6 +109,7 @@
 }
 
 // __மேல்நிலைப்_பதிவு(...) — overhead absorbed onto the project__
+// மேல்நிலைப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — திட்டத்தின்மேல் ஏற்றப்பட்ட மேல்நிலைச் செலவு
 //
 // __The credit is an **absorption** account and not the expense accounts the__
 // __overhead was actually incurred in. Those stay where they are; this is the__
@@ -114,6 +120,7 @@
 // __a normal result rather than an error. Crediting the expense accounts__
 // __directly makes that difference disappear and with it the only evidence that__
 // __the absorption rate is wrong.__
+// மேல்நிலைப்_பதிவு(...) — வரவுசெலவுத் திட்டப்படி மேல்நிலைச் செலவின் ஒரு பங்கை வேலைக்கு ஏற்றும் ஈடுபதிவு; உண்மையில் ஆன செலவு அதன் இடத்திலேயே நிற்கும்
 செயல் மேல்நிலைப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு,
                         உள்வாங்கல்_கணக்கு, தொகை_மதிப்பு) {
     திரும்பு பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், [
@@ -127,6 +134,7 @@
 // =========================================================================
 //
 // __வருவாய்ப்_பதிவு(...) — revenue recognised under Ind AS 115__
+// வருவாய்ப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — ஏற்கப்பட்ட வருவாய்ப் பதிவு
 //
 // __Debit the contract asset, credit revenue. The debit is **not** a receivable:__
 // __nothing has been invoiced and the right to the money is conditional on__
@@ -141,6 +149,7 @@
 }
 
 // __விலைப்பட்டியல்_பதிவு(...) — invoicing the customer__
+// விலைப்பட்டியல்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — வாடிக்கையாளருக்கு விலைப்பட்டியல் இடுதல்
 //
 // __Debit the receivable, credit the contract asset. **Invoicing recognises no__
 // __revenue.** It converts a conditional right into an unconditional one, and__
@@ -149,6 +158,7 @@
 // __This is the entry that is most often written as debit receivable, credit__
 // __revenue, which recognises revenue on the invoice date and undoes everything__
 // __Ind AS 115 asks for.__
+// விலைப்பட்டியல்_பதிவு(...) — பெறவேண்டியதற்குப் பற்று, ஒப்பந்தச் சொத்துக்கு வரவு; விலைப்பட்டியல் வருவாயை ஏற்பதில்லை, அது வேலை முடிந்தபோதே ஏற்கப்பட்டது
 செயல் விலைப்பட்டியல்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம்,
                              பெறவேண்டிய_கணக்கு, ஒப்பந்தச்_சொத்துக்_கணக்கு,
                              தொகை_மதிப்பு) {
@@ -159,6 +169,7 @@
 }
 
 // __முன்பணப்_பதிவு(...) — money received before the work is done__
+// முன்பணப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — பணி முடியும் முன் பெற்ற பணம்
 //
 // __Debit the bank, credit a **contract liability**. An advance is not revenue__
 // __and it is not a reduction of the receivable; it is money owed back in goods__
@@ -172,6 +183,7 @@
 }
 
 // __நட்ட_ஒதுக்கீட்டுப்_பதிவு(...) — the provision for an onerous contract__
+// நட்ட_ஒதுக்கீட்டுப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, தொகை) — நட்டம் தரும் ஒப்பந்தத்துக்கான ஒதுக்கீடு
 //
 // __Debit cost of sales, credit a provision. The whole expected loss at once,__
 // __which is what Ind AS 37 requires and what varuvAy/oppanqac_celavu.qmz__
@@ -200,6 +212,7 @@
 // __the spreadsheet disagrees with the plan.__
 //
 // __Work in progress is an asset, so its debit balance is the cost collected.__
+// ஈட்டிய_செலவு(பேரேடு, நடப்புக்_கணக்கு) — இதுவரை ஈட்டிய மொத்தச் செலவு
 செயல் ஈட்டிய_செலவு(பேரேடு, நடப்புக்_கணக்கு) {
     திரும்பு கணக்கு_இருப்பு(பேரேடு, நடப்புக்_கணக்கு, வகை_சொத்து());
 }
@@ -209,6 +222,7 @@
 // __The same figure as at a date. A cost variance reported at a month end must__
 // __be computed on the ledger as it stood at that month end, and a ledger that__
 // __has since been posted to gives a different answer to the same question.__
+// காலம்_வரை_செலவு(பேரேடு, நடப்புக்_கணக்கு, வரம்பு_நாள்) — சொன்ன நாள் வரையிலான செலவு
 செயல் காலம்_வரை_செலவு(பேரேடு, நடப்புக்_கணக்கு, வரம்பு_நாள்) {
     திரும்பு ஈட்டிய_செலவு(வரை_வடிகட்டு(பேரேடு, வரம்பு_நாள்), நடப்புக்_கணக்கு);
 }
@@ -223,6 +237,7 @@
 // __posted. Both are worth knowing and neither shows up in any report that looks__
 // __at one source alone. A project whose books and timesheets disagree has an__
 // __actual cost that depends on who you ask.__
+// செலவை_ஒப்பிடு(பேரேடு, நடப்புக்_கணக்கு, நேரத்தாள்_தொகை) — பேரேட்டுச் செலவையும் நேரத்தாள் தொகையையும் ஒப்பிடும்
 செயல் செலவை_ஒப்பிடு(பேரேடு, நடப்புக்_கணக்கு, நேரத்தாள்_தொகை) {
     பேரேட்டுத்_தொகை = ஈட்டிய_செலவு(பேரேடு, நடப்புக்_கணக்கு);
     வேறுபாடு = வட்டமிடு(பேரேட்டுத்_தொகை - நேரத்தாள்_தொகை, 2);

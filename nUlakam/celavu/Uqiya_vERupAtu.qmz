@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/celavu/Uqiya_vERupAtu.qmz — ஊதிய வேறுபாடு: labour rate, efficiency and idle time__
+// ஊதிய வேறுபாடு: ஊதிய வீதம், திறன், செயலிழப்பு
+//
+// __Idle time is separated out rather than left inside the efficiency__
+// __variance. Hours nobody worked and hours worked slowly are different__
+// __problems with different owners.__
+
+// __ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — the whole labour difference__
+// ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — ஊதியத்தின் மொத்த வேறுபாடு
+//
+// __What the wages should have been for this output, less what they were. It is the figure the ledger shows, and on its own it says nothing about cause: the rate and efficiency variances below split it into the two decisions that produced it, and they sum back to exactly this.__
+செயல் ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
+                            உண்மை_நேரம், உண்மை_வீதம்) {
+    திரும்பு (நியம_நேரம் * நியம_வீதம்) - (உண்மை_நேரம் * உண்மை_வீதம்);
+}
+
+// ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்)
+// __ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — the labour rate variance: paying more or less per hour__
+// ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) — மணிக்கு அதிகமாகவோ குறைவாகவோ கொடுத்ததால்
+//
+// __Priced on the hours actually worked, not the standard hours. Using standard hours here would move part of the efficiency effect into the rate figure, and the two would stop reconciling to the total. Adverse usually means overtime, a grade mix, or a wage settlement, and none of those belong to the supervisor who controls the hours.__
+செயல் ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_வீதம்) {
+    திரும்பு உண்மை_நேரம் * (நியம_வீதம் - உண்மை_வீதம்);
+}
+
+// ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்)
+// __ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — taking more or fewer hours than allowed__
+// ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) — அனுமதித்ததை விட அதிக அல்லது குறைந்த நேரம் எடுத்ததால்
+//
+// __Valued at the standard rate, so the price of labour cannot leak into a measure of how it was used. நியம_நேரம் is the time allowed for the output actually achieved, not the time budgeted at the start of the period — comparing against the budget would report a variance for simply making less.__
+செயல் ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம், உண்மை_நேரம்) {
+    திரும்பு நியம_வீதம் * (நியம_நேரம் - உண்மை_நேரம்);
+}
+
+// ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்)
+//
+// __Idle time, split out of efficiency because it is always adverse and always__
+// __somebody's decision — a breakdown, a stockout, a power cut. Leaving it__
+// __inside the efficiency variance blames the operator for a stopped machine.__
+// __Returned negative, since paid-for hours that produced nothing cannot be__
+// __favourable.__
+// ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்) — வேலையின்றிப் போன நேரத்தின் விலை
+செயல் ஊதிய_செயலிழப்பு_வேறுபாடு(நியம_வீதம், செயலிழந்த_நேரம்) {
+    திரும்பு 0 - (நியம_வீதம் * செயலிழந்த_நேரம்);
+}
+
+// __--- Variable overhead ---------------------------------------------------__
+
+// __ஊதிய_வேறுபாட்டுத்_தொகுதி(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — the labour variances as one record__
+// ஊதிய_வேறுபாட்டுத்_தொகுதி(நியம_நேரம், நியம_வீதம், உண்மை_நேரம், உண்மை_வீதம்) — ஊதிய வேறுபாடுகள் ஒரே பதிவேடாக
+//
+// __Rate, efficiency and total together, so a report cannot show two of the three and leave the reader to assume the third. The first two add to the last, which the tests assert: a decomposition that does not reconcile is arithmetic with no meaning.__
+செயல் ஊதிய_வேறுபாட்டுத்_தொகுதி(நியம_நேரம், நியம_வீதம்,
+                                உண்மை_நேரம், உண்மை_வீதம்) {
+    திரும்பு {
+        வீத_வேறுபாடு: ஊதிய_வீத_வேறுபாடு(உண்மை_நேரம், நியம_வீதம்,
+                                          உண்மை_வீதம்),
+        திறன்_வேறுபாடு: ஊதிய_திறன்_வேறுபாடு(நியம_வீதம், நியம_நேரம்,
+                                              உண்மை_நேரம்),
+        மொத்த_வேறுபாடு: ஊதிய_மொத்த_வேறுபாடு(நியம_நேரம், நியம_வீதம்,
+                                              உண்மை_நேரம், உண்மை_வீதம்)
+    };
+}

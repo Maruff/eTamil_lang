@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வயது_அட்டவணை_அச்சிடு(அட்டவணை) — print the ageing schedule__
+// வயது அட்டவணையை அச்சிடும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஏடு = மதிப்பு(பதிவிடு([], பரிவர்த்தனை_ஆக்கு(1, "2026-01-01", "பழையது",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 5000)])));
+
+வயது_அட்டவணை_அச்சிடு(
+    வயது_அட்டவணை(ஏடு, [], "1100", வகை_சொத்து(), "2026-06-01"));

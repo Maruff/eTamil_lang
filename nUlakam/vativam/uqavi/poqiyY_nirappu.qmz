@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொதியை_நிரப்பு(மூலப்_பொதி, விளைவுப்_பொதி, வடிவம், மதிப்புகள், தொகுதிகள்) — fill a real .docx or .odt, leaving everything else in it untouched__
+// உண்மையான ஆவணக் கோப்பை நிரப்பும்; மற்ற உள்ளடக்கம் அப்படியே
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __One entry of the zip is read, filled and written back, and every other__
+// __entry is copied across byte for byte. Rebuilding the whole archive instead__
+// __would lose the fonts, the images and the styles the template was made for.__
+// பொதியின் ஒரு உறுப்பு மட்டுமே மாற்றப்படுகிறது; மற்றவை அப்படியே நகலெடுக்கப்படுகின்றன
+வடிவம் = _DOCX_வடிவம்;
+அச்சு வடிவம்["உறுப்பு"];
+
+// __A template that is not there is a தவறு that says so, rather than an empty__
+// __document written out as though it had worked.__
+// இல்லாத படிவம் தவறாகவே திரும்பும்; காலி ஆவணம் எழுதப்படுவதில்லை
+விளைவு = பொதியை_நிரப்பு("இல்லாத_படிவம்.docx", "வெளியீடு.docx", வடிவம், [], []);
+அச்சு தவறா(விளைவு);
+
+// __With a real template the call is the same, and the output file is a__
+// __document Word or LibreOffice opens without complaint.__
+// உண்மையான படிவத்துடன் அழைப்பு இதுவே

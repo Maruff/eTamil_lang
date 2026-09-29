@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaZporuL/rAspY.qmz — ராஸ்பை: the Raspberry Pi's pins, and the hardware API__
+// ராஸ்பை: ராஸ்பெரி பை பலகையின் முனைகளும் வன்பொருள் இடைமுகமும்
 //
 //   __இறக்கு "nUlakam/vaZporuL/rAspY.qmz";__
 //   __etamil --vm prog.qmz__
@@ -42,6 +43,7 @@
 ];
 
 // __தலைப்பு_முனை(எண்ணிக்கை) — the BCM GPIO number of header pin 1–40, or -1 for a power or ground pin__
+// தலைப்பு_முனை(எண்ணிக்கை) — தலைப்பு முனையின் உள்முனை எண்; மின்சார அல்லது நில முனையெனில் ஒன்று குறை
 செயல் தலைப்பு_முனை(எண்ணிக்கை) {
     ((எண்ணிக்கை < 1) அல்லது (எண்ணிக்கை > 40)) எனில் { திரும்பு 0 - 1; }
     திரும்பு தலைப்பு_முனைகள்[எண்ணிக்கை - 1];

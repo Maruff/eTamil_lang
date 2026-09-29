@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உறிஞ்ச_வேண்டிய_செலவு(மொத்தச்_செலவு, இயல்பு_இழப்பின்_கழிவு_மதிப்பு) — the cost the good units must carry__
+// நல்ல அலகுகள் உறிஞ்ச வேண்டிய செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The scrap the normal loss can be sold for comes off first, so the good__
+// __units do not carry a cost that was recovered.__
+// இயல்பு இழப்பின் கழிவு மதிப்பு முதலில் கழிக்கப்படுகிறது
+அச்சு உறிஞ்ச_வேண்டிய_செலவு(500000, 10000);
+அச்சு உறிஞ்ச_வேண்டிய_செலவு(500000, 0);

@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிவிடு(பேரேடு, பரிவர்த்தனை) — post to the ledger, or refuse__
+// பேரேட்டில் பதியும்; சமநிலை இல்லையெனில் மறுக்கும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+ஏடு = [];
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "விற்பனை",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 5000)])));
+அச்சு நீளம்(ஏடு);
+
+// __An unbalanced entry never reaches the ledger. Every report here assumes__
+// __the ledger balances, and this is the only place that assumption is made__
+// __good.__
+// சமநிலையற்ற பதிவு பேரேட்டை எட்டுவதே இல்லை
+அச்சு தவறா(பதிவிடு(ஏடு, பரிவர்த்தனை_ஆக்கு(2, "2026-04-01", "தவறு",
+    [பற்று_வரிசை("1100", 5000), வரவு_வரிசை("4000", 4500)])));

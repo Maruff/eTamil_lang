@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ரூபாயும்_பைசாவும்(ரூபாய், பைசா) — rupees and paise into one whole number of paise__
+// ரூபாயையும் பைசாவையும் ஒரே முழு எண்ணாக்கும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __Money is held as a whole number of paise all the way through this module.__
+// __249.50 as a fraction cannot be represented exactly in binary; 24950 can,__
+// __and a ledger that adds a million of them still balances to the paisa.__
+// பணம் முழுக்க முழுக்கப் பைசாவாகவே வைக்கப்படுகிறது; பின்னமாக அல்ல
+அச்சு ரூபாயும்_பைசாவும்(249, 50);
+அச்சு ரூபாயும்_பைசாவும்(0, 5);
+
+// __Which is why every other function here takes and answers paise.__
+// அதனாலேயே இங்குள்ள ஒவ்வொரு செயலும் பைசாவையே ஏற்கிறது, பைசாவையே தருகிறது
+அச்சு காசு_உரை(ரூபாயும்_பைசாவும்(249, 50));

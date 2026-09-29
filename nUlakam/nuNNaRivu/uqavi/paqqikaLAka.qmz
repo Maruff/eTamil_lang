@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பத்திகளாக(சரம்) — split on blank lines, keeping paragraphs whole__
+// வெற்று வரிகளில் பிரித்து, பத்திகளை முழுமையாக வைக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+பாடம் = "முதல் பத்தி.\n\nஇரண்டாம் பத்தி,\nஇரு வரிகளில்.\n\n\nமூன்றாம்.";
+
+// __A paragraph is a unit of meaning, so a chunker that respects them produces__
+// __quotable pieces rather than sentences cut in half.__
+// பத்தி ஒரு பொருள் அலகு; அதை உடைக்காமல் வைப்பது மேற்கோளுக்கு உதவும்
+அச்சு நீளம்(பத்திகளாக(பாடம்));
+
+// __Extra blank lines produce no empty paragraphs.__
+// கூடுதல் வெற்று வரிகள் காலிப் பத்திகளை உருவாக்குவதில்லை
+அச்சு நீளம்(பத்திகளாக("ஒன்று\n\n\n\nஇரண்டு"));

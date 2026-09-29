@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வளைவு_அட்டவணை() — the normal curve, as a table__
+// இயல்நிலை வளைவின் அட்டவணை
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __A table rather than an integral, because the whole of the curve this__
+// __library needs is a few dozen points and a table can be read and checked by__
+// __anyone with the standard one beside them.__
+// தொகையிடல் அல்ல, அட்டவணையே; இதைப் பார்த்துச் சரிபார்க்க முடியும்
+அட்டவணை = வளைவு_அட்டவணை();
+அச்சு நீளம்(அட்டவணை) > 0;
+
+// __Read through _நிகழ்தகவு_Z and _நம்பிக்கைக்கான_Z rather than directly.__
+// நேரடியாக அல்ல, அந்த இரு செயல்கள் வழியாகவே படிக்கப்படுகிறது
+அச்சு அட்டவணை[0];

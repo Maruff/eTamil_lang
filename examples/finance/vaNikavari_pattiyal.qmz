@@ -3,9 +3,9 @@
 // __Line items are records, the invoice is an array of them. GST splits into__
 // __CGST and SGST within a state, or IGST across states.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
-இறக்கு "../../nUlakam/col.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
+இறக்கு "../../nUlakam/atippatY/col.qmz";
 
 // வரி_பிரிப்பு(தொகை, விகிதம், மாநிலம்_ஒன்றா)
 // __வரி_பிரிப்பு(தொகை, விகிதம், மாநிலம்_ஒன்றா) — split GST into CGST, SGST or IGST__

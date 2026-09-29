@@ -1,0 +1,96 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/ottu.qmz — ஒட்டு (JSON Patch bodies for work items)__
+// பணியுருப்படிகளுக்கான ஜேசான் ஒட்டு
+//
+// __Azure DevOps creates and updates work items with a JSON Patch document: a__
+// __list of {op, path, value} operations, sent as application/json-patch+json.__
+// __Fields live under /fields/<reference name>, links under /relations/-.__
+//
+// __Two operations earn their own functions because getting them wrong is__
+// __silent. A "test" of /rev at the front of an update makes Azure DevOps refuse__
+// __it with 412 if someone else changed the item since we read it — without it,__
+// __our update lands on top of theirs and their edit is lost. And tags are one__
+// __semicolon-separated string that both sides write; replacing it wholesale__
+// __deletes the team's own tags, so only the prefixes we own are replaced.__
+//
+// __The keys op, path, value, rel and url are Azure DevOps's, and stay English.__
+
+இறக்கு "../atippatY/col.qmz";
+
+// __ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — one patch operation__
+// ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) — ஒரு ஒட்டுச் செயல்பாடு
+செயல் ஒட்டுச்_செயல்(செயல்பாடு, பாதை, மதிப்பு_தரவு) {
+    திரும்பு { "op": செயல்பாடு, "path": பாதை, "value": மதிப்பு_தரவு };
+}
+
+// __புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — set one field__
+// புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) — ஒரு புலத்தை அமைக்கும்
+//
+// __புலக்_குறிப்பு is the reference name, System.Title, not the display name.__
+// __"add" rather than "replace", because add creates or overwrites and replace__
+// __fails on a field the item does not have yet.__
+செயல் புல_ஒட்டு(புலக்_குறிப்பு, மதிப்பு_தரவு) {
+    திரும்பு ஒட்டுச்_செயல்("add", "/fields/" & புலக்_குறிப்பு, மதிப்பு_தரவு);
+}
+
+// __திருத்தச்_சோதனை(திருத்த_எண்) — refuse the update if the item has moved on__
+// திருத்தச்_சோதனை(திருத்த_எண்) — உருப்படி மாறியிருந்தால் திருத்தத்தை மறுக்கும்
+செயல் திருத்தச்_சோதனை(திருத்த_எண்) {
+    திரும்பு ஒட்டுச்_செயல்("test", "/rev", திருத்த_எண்);
+}
+
+// __பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) — link a work item under its parent__
+// பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) — பணியுருப்படியை அதன் பெற்றோருடன் இணைக்கும்
+//
+// __பெற்றோர்_உரலி is the parent's API url, as பணியுருப்படி_உரலி gives it.__
+செயல் பெற்றோர்_ஒட்டு(பெற்றோர்_உரலி) {
+    திரும்பு ஒட்டுச்_செயல்("add", "/relations/-",
+        { "rel": "System.LinkTypes.Hierarchy-Reverse", "url": பெற்றோர்_உரலி });
+}
+
+// __குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) — merge tags without deleting the team's__
+// குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) — அணியின் குறிச்சொற்களை அழிக்காமல் இணைக்கும்
+//
+// __இருக்கும்_குறிகள் is System.Tags as it is now ("a; b"). Every existing tag__
+// __that starts with one of எங்கள்_முன்னொட்டுகள் is ours and is dropped; the__
+// __rest are the team's and stay; எங்கள்_குறிகள் are appended. The result is__
+// __the new System.Tags string.__
+செயல் குறிச்சொற்களை_இணை(இருக்கும்_குறிகள், எங்கள்_குறிகள், எங்கள்_முன்னொட்டுகள்) {
+    விடை = [];
+    ஒவ்வொரு மூலக்_குறி இல் பிரி(இருக்கும்_குறிகள், ";") {
+        குறிச்சொல் = ஒழுங்கு(மூலக்_குறி);
+        எங்களுடையதா = பொய்;
+        ஒவ்வொரு முன்னொட்டு இல் எங்கள்_முன்னொட்டுகள் {
+            (தொடங்குகிறதா(குறிச்சொல், முன்னொட்டு)) எனில் { எங்களுடையதா = மெய்; }
+        }
+        (குறிச்சொல் != "" மற்றும் இல்லை எங்களுடையதா) எனில் { விடை = இணை(விடை, குறிச்சொல்); }
+    }
+    ஒவ்வொரு குறிச்சொல் இல் எங்கள்_குறிகள் { விடை = இணை(விடை, குறிச்சொல்); }
+    திரும்பு ஒன்றிணை(விடை, "; ");
+}
+
+// __பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) — the whole patch for one record__
+// பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) — ஒரு பதிவுக்கான முழு ஒட்டு
+//
+// __புல_வரைபடம் maps a PMO field to a reference name —__
+// __{"தலைப்பு": "System.Title", "மதிப்பீட்டு_மணி": "Microsoft.VSTS.Scheduling.OriginalEstimate"}.__
+// __Fields the record lacks, or holds as "" or இன்மை, are left out: sending an__
+// __empty value clears the field on the other side. The one exception is a__
+// __blank விவரம், which is sent as the தலைப்பு, because an item with no__
+// __description is unreadable on the board. திருத்த_எண் above 0 puts the /rev__
+// __test first; pass 0 when creating.__
+செயல் பணி_ஒட்டுகள்(ஒரு_பதிவு, புல_வரைபடம், திருத்த_எண்) {
+    ஒட்டுகள் = [];
+    (திருத்த_எண் > 0) எனில் { ஒட்டுகள் = இணை(ஒட்டுகள், திருத்தச்_சோதனை(திருத்த_எண்)); }
+    ஒவ்வொரு புலப்_பெயர் இல் புல_வரைபடம் {
+        மதிப்பு_தரவு = புலம்_அல்லது(ஒரு_பதிவு, புலப்_பெயர், "");
+        (புலப்_பெயர் == "விவரம்" மற்றும் (மதிப்பு_தரவு == "" அல்லது மதிப்பு_தரவு == இன்மை)) எனில் {
+            மதிப்பு_தரவு = புலம்_அல்லது(ஒரு_பதிவு, "தலைப்பு", "");
+        }
+        (மதிப்பு_தரவு != "" மற்றும் மதிப்பு_தரவு != இன்மை) எனில் {
+            ஒட்டுகள் = இணை(ஒட்டுகள், புல_ஒட்டு(புல_வரைபடம்[புலப்_பெயர்], மதிப்பு_தரவு));
+        }
+    }
+    திரும்பு ஒட்டுகள்;
+}

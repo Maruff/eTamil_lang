@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்பு_வலையைக்_கணக்கிடு(முனைகள், தொடர்புகள்) — solve a network with typed links and lags__
+// சார்புகளுடன் கூடிய வலையைக் கணக்கிடும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முனைகள் = [முனை_ஆக்கு("P", "தளம் தயார்", 4),
+            முனை_ஆக்கு("Q", "அடித்தளம்", 6)];
+
+// __Finish-to-start with no lag puts the six after the four.__
+// தாமதமில்லா முடிவு-தொடக்கம்: ஆறு, நான்குக்குப் பின்
+வரிசையாக = மதிப்பு(தொடர்பு_வலையைக்_கணக்கிடு(முனைகள்,
+    [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0)]));
+அச்சு வரிசையாக["திட்ட_காலம்"];
+
+// __A lag of two adds two days of waiting to the project.__
+// இரண்டு நாள் தாமதம், திட்டத்திற்கு இரண்டு நாள் சேர்க்கிறது
+அச்சு மதிப்பு(தொடர்பு_வலையைக்_கணக்கிடு(முனைகள்,
+    [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 2)]))["திட்ட_காலம்"];
+
+// __And starting them together makes the project as long as the longer of the__
+// __two — which is why overlapping is worth modelling rather than assuming.__
+// சேர்ந்தே தொடங்கினால், திட்டம் நீளமானதின் அளவே
+அச்சு மதிப்பு(தொடர்பு_வலையைக்_கணக்கிடு(முனைகள்,
+    [தொடர்பு_ஆக்கு("P", "Q", "தொடக்கம்_தொடக்கம்", 0)]))["திட்ட_காலம்"];

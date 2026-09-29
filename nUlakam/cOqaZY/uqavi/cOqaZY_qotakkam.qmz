@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சோதனை_தொடக்கம்(பெயர்) — an empty run, named__
+// பெயரிடப்பட்ட, ஒன்றும் நடக்காத ஓட்டம்
+
+இறக்கு "../cOqaZY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("வணக்கம்");
+
+// __A new run has nothing in it: no passes and no failures. The name is__
+// __carried along so the summary at the end can say what was being tested.__
+// புதிய ஓட்டத்தில் ஒன்றுமில்லை; பெயர் முடிவுவரை கூடவே வரும்
+அச்சு ஓட்டம்["பெயர்"];
+அச்சு ஓட்டம்["வெற்றி"];
+அச்சு ஓட்டம்["தோல்வி"];

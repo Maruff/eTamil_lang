@@ -127,7 +127,7 @@ void artino_serial_read_line(int32_t port, int32_t wait, artino_result *result, 
 void artino_serial_write(int32_t port, const char *text, int32_t newline, artino_result *result);
 void artino_serial_close(int32_t port, artino_result *result);
 
-// nUlakam/vaZporuL.qmz
+// nUlakam/vaZporuL/vaZporuL.qmz
 void artino_pin_output(int32_t pin);
 void artino_pin_input(int32_t pin);
 void artino_pin_input_pullup(int32_t pin);

@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முடிந்த_மாதங்கள்(தொடக்கம், முடிவு) — how many whole months have passed__
+// முழுமையாக முடிந்த மாதங்கள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Whole ones only. A month and a day is one month, and so is a month and__
+// __twenty-nine days.__
+// முழு மாதங்கள் மட்டுமே
+அச்சு முடிந்த_மாதங்கள்("2026-01-15", "2026-04-15");
+அச்சு முடிந்த_மாதங்கள்("2026-01-15", "2026-04-14");
+
+// __Which is what a rent, a subscription or a depreciation charge counts in.__
+// வாடகை, சந்தா, தேய்மானம் — இவை எண்ணுவது இதையே
+அச்சு முடிந்த_மாதங்கள்("2026-01-31", "2026-02-28");
+அச்சு முடிந்த_மாதங்கள்("2026-04-15", "2026-01-15");

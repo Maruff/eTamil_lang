@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_ஆக்கு(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) — build a date, checked__
+// சரிபார்த்து நாளை உருவாக்கும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+அச்சு மதிப்பு(நாள்_ஆக்கு(2026, 3, 2));
+
+// __An impossible date is refused here rather than three functions later, where__
+// __it would come back as a difference of a few days and look like a date.__
+// இல்லாத நாள் இங்கேயே மறுக்கப்படும்
+அச்சு தவறா(நாள்_ஆக்கு(2026, 2, 31));
+அச்சு தவறா(நாள்_ஆக்கு(2026, 13, 1));
+அச்சு சரியா(நாள்_ஆக்கு(2024, 2, 29));

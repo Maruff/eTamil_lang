@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vativam/jEcAZ.qmz — ஜேசான் (JSON), written in eTamil__
+// ஜேசான் வடிவம், இம்மொழியிலேயே எழுதப்பட்டது
+//
+// __Both directions live here rather than in the host, because the language__
+// __already has the one capability a JSON parser needs: a record key can be__
+// __computed at runtime, so `பொருள்[சாவி] = மதிப்பு` builds a record from data__
+// __rather than from names written in the source. Layer 0 stays thin.__
+//
+//   __ஜேசான்_ஆக்கு(மதிப்பு)  -> JSON text__
+//   __ஜேசான்_படி(உரை)        -> சரி(மதிப்பு) or தவறு(செய்தி)__
+//
+// __Two things to know. Record fields come out in sorted order, because that is__
+// __the order ஒவ்வொரு walks a record — the output is therefore stable run to__
+// __run, which matters when a response is compared in a test. And `\uXXXX`__
+// __escapes are not decoded; the six escapes JSON uses in practice are.__
+
+இறக்கு "../atippatY/col.qmz";
+
+// __--- Serializing ----------------------------------------------------------__
+
+// __எழுத்து_மறை(எழுத்து) — one letter, escaped for a JSON string.__
+// எழுத்து_மறை(எழுத்து) — ஒரு எழுத்தை ஜேசான் சரத்திற்கு ஏற்ப விடுவிக்கும்
+//
+// __"\r\n" is one letter, not two, so it needs an arm of its own: without it__
+// __a Windows line ending inside a string falls through unescaped and the__
+// __output carries a raw control character, which no JSON reader accepts.__
+செயல் எழுத்து_மறை(ஒரு_எழுத்து) {
+    (ஒரு_எழுத்து == "\"") எனில் { திரும்பு "\\\""; }
+    (ஒரு_எழுத்து == "\\") எனில் { திரும்பு "\\\\"; }
+    (ஒரு_எழுத்து == "\n") எனில் { திரும்பு "\\n"; }
+    (ஒரு_எழுத்து == "\t") எனில் { திரும்பு "\\t"; }
+    (ஒரு_எழுத்து == "\r") எனில் { திரும்பு "\\r"; }
+    (ஒரு_எழுத்து == "\r\n") எனில் { திரும்பு "\\r\\n"; }
+    திரும்பு ஒரு_எழுத்து;
+}
+
+// __ஜேசான்_சரம்(சரம்) — a quoted, escaped JSON string__
+// ஜேசான்_சரம்(சரம்) — மேற்கோள் இட்டு விடுவிக்கப்பட்ட ஜேசான் சரம்
+செயல் ஜேசான்_சரம்(சரம்) {
+    விடை = "\"";
+    ஒவ்வொரு ஒரு_எழுத்து இல் சொல்லாக்கு(சரம்) {
+        விடை = விடை & எழுத்து_மறை(ஒரு_எழுத்து);
+    }
+    திரும்பு விடை & "\"";
+}
+
+// __ஜேசான்_ஆக்கு(மதிப்பு) and ஜேசான்_படி(உரை) are host builtins now.__
+//
+// __Both were written here, in eTamil, along with the recursive descent parser__
+// __they rested on — ஜே_மதிப்பு, ஜே_பொருள், ஜே_அணி and the rest. All of it was__
+// __correct, and none of it could stay.__
+//
+// __The parser read one character at a time and built its result with & and__
+// __with records, so it paid the language's string and record costs on every__
+// __character of input. A 624 KB corpus did not finish parsing in ten minutes.__
+// __The writer had the same shape: appending to a string copies the whole__
+// __string, so serialising grew quadratically with the output.__
+//
+// __The host does both in one pass. Numbers keep their exact decimal text__
+// __rather than going through f64, which is the property this language exists__
+// __to protect: 0.1 serialises as 0.1 and reads back as 0.1.__
+//
+// __A function defined here would shadow the builtin, so they are gone rather__
+// __than delegating — see col.qmz and poruL.qmz, which lost பிரி, ஒன்றிணை,__
+// __புலம்_உள்ளதா and புலம்_அல்லது for exactly the same reason.__
+//
+// __ஜேசான்_சரம் above stays: quoting one string is still a useful thing to ask__
+// __for on its own, and it is not on any hot path.__

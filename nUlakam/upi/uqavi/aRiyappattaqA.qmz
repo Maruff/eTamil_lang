@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறியப்பட்டதா(நிலைமை) — is this one of the five?__
+// இது அந்த ஐந்தில் ஒன்றா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+அச்சு அறியப்பட்டதா(வெற்றியானது);
+அச்சு அறியப்பட்டதா(நிலுவையில்);
+
+// __A PSP that invents a state, or a column that arrives misspelt, is caught__
+// __here rather than falling through a comparison and being treated as__
+// __whatever the last branch happened to be.__
+// புதிய நிலைமையோ, எழுத்துப்பிழையோ இங்கேயே பிடிபடும்
+அச்சு அறியப்பட்டதா("SOMETHING_ELSE");
+அச்சு அறியப்பட்டதா("success");
+அச்சு அறியப்பட்டதா("");

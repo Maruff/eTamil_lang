@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அலகுக்கான_செலவு_தவறாக(உறிஞ்ச_வேண்டியது, நல்ல_அலகுகள்) — what dividing by actual output would give__
+// உண்மை வெளியீட்டால் வகுக்கும் தவறு என்ன விளைவைத் தரும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Here on purpose. Dividing by actual output buries an abnormal loss in the__
+// __unit cost, so a bad month silently makes every unit look dearer and nobody__
+// __is asked why.__
+// இது வேண்டுமென்றே; உண்மை வெளியீட்டால் வகுத்தால் அசாதாரண இழப்பு மறைந்துவிடும்
+அச்சு மதிப்பு(அலகுக்கான_செலவு(490000, 10000, 500));
+அச்சு (அலகுக்கான_செலவு_தவறாக(490000, 9300));
+
+// __The difference is the abnormal loss, hidden in the cost of the good units__
+// __instead of being reported as a loss.__
+// வேறுபாடே அசாதாரண இழப்பு; அது நல்ல அலகுகளின் செலவுக்குள் மறைந்துள்ளது
+அச்சு அலகுக்கான_செலவு_தவறாக(490000, 0);

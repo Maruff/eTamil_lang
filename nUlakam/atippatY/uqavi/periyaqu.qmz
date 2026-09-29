@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பெரியது(அ, ஆ) — the larger of two numbers__
+// இரண்டில் பெரிய எண்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு பெரியது(3, 8);
+
+// __Holding an allowance at or above zero is the same call.__
+// கழிவு பூஜ்ஜியத்துக்குக் கீழே இறங்காமல் வைப்பதும் இதே அழைப்பே
+அச்சு பெரியது(0 - 200, 0);

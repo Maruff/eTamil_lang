@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எழுத்து(சரம், இடம்) — the letter at a position, or "" past either end__
+// அவ்விடத்தில் உள்ள எழுத்து; எல்லையைத் தாண்டினால் வெற்றுச் சரம்
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+வாக்கியம் = "வணக்கம்";
+அச்சு எழுத்து(வாக்கியம், 0);
+
+// __Counted in letters, not bytes: வ ண க் க ம் is five.__
+// பைட்டுகளல்ல, எழுத்துகள்; வணக்கம் ஐந்து எழுத்துகள்
+அச்சு நீளம்(வாக்கியம்);
+அச்சு நீளம்(எழுத்து(வாக்கியம், 99));

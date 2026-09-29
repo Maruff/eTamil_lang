@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) — the base-two logarithm__
+// இரண்டை அடிப்படையாகக் கொண்ட மடக்கை
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+அச்சு மதிப்பு(இரண்டின்_அடிப்படை_மடக்கை(8));
+அச்சு மதிப்பு(இரண்டின்_அடிப்படை_மடக்கை(1));
+
+// __Base two because the measures that use it are counted in halvings: a__
+// __result at rank two is worth half of one at rank one.__
+// அடிப்படை இரண்டு; அளவீடுகள் பாதியாகக் குறைவதிலேயே எண்ணப்படுகின்றன
+அச்சு தவறா(இரண்டின்_அடிப்படை_மடக்கை(0));

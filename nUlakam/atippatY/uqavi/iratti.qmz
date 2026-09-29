@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இரட்டி(எண்) — double a number — the helper aNi_cOqaZY passes as a value__
+// எண்ணை இரட்டிப்பாக்கும்; அணிச் சோதனை மதிப்பாகக் கொடுப்பது
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+இறக்கு "../aNi_cOqaZY.qmz";
+
+அச்சு இரட்டி(21);
+
+// __Its purpose is to be passed, not called: ஒவ்வொன்றுக்கும் takes it.__
+// இதன் நோக்கம் மதிப்பாகக் கொடுக்கப்படுவதே
+அச்சு ஒவ்வொன்றுக்கும்([1, 2], இரட்டி)[1];

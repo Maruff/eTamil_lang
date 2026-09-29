@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறும்_மேல்நிலை_செலவு_வேறுபாடு(உண்மை_நேரம், நியம_வீதம், உண்மை_மேல்நிலை) — the part caused by spending more or less per hour__
+// செலவு வேறுபட்டதால் வந்த வேறுபாடு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __What the overhead should have cost for the hours actually worked, less what__
+// __it did — the same shape as the labour rate variance.__
+// உண்மையில் வேலை செய்த மணிகளுக்கு ஆகியிருக்க வேண்டியதற்கும் ஆனதற்கும் உள்ள வேறுபாடு
+அச்சு மாறும்_மேல்நிலை_செலவு_வேறுபாடு(2100, 30, 64000);

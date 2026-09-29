@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முதன்மைச்_செலவு(நேரடிப்_பொருட்கள், நேரடி_ஊதியம், நேரடிச்_செலவுகள்) — prime cost: everything traceable__
+// முதன்மைச் செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The first line of a cost sheet and the only one with no judgement in it.__
+// செலவுத் தாளின் முதல் வரி; இதில் தீர்ப்பு எதுவும் இல்லை
+அச்சு முதன்மைச்_செலவு(400000, 250000, 30000);
+அச்சு முதன்மைச்_செலவு(400000, 250000, 0);

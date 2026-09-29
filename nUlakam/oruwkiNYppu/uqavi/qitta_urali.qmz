@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திட்ட_உரலி(இணைப்பு, பாதை) — a project-scoped API url__
+// திட்டத்துக்குரிய இடைமுக உரலி
+
+இறக்கு "../ajUr.qmz";
+
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+
+// __The path follows _apis/, with no leading slash; the space in the project__
+// __name is escaped.__
+// பாதை இடைமுக முன்னொட்டுக்குப் பின்; திட்டப் பெயரின் இடைவெளி குறியாக்கப்படும்
+அச்சு திட்ட_உரலி(இணைப்பு, "wit/wiql");
+
+// __A path that already has a query gets the version with & rather than a__
+// __second ?, which Azure DevOps would read as part of the value.__
+// ஏற்கனவே ? உள்ள பாதைக்கு & சேர்க்கப்படும்
+அச்சு திட்ட_உரலி(இணைப்பு, "wit/workitemtypes/Bug/states?$top=50");
+
+// __A leading slash is not removed, and gives a double slash: pass the path__
+// __exactly as documented.__
+// முன்னுள்ள சாய்வு நீக்கப்படுவதில்லை; இரட்டைச் சாய்வு வரும்
+அச்சு கொண்டுள்ளதா(திட்ட_உரலி(இணைப்பு, "/wit/wiql"), "_apis//wit");

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/oqukkItu.qmz — ஒதுக்கீடு (assignment / clearing)__
+// ஒதுக்கீடும் நிலுவைத் தீர்வும்
 //
 // __A receipt is assigned against the invoices it settles. Until it is, an__
 // __invoice is outstanding for its full amount. This is what gives "நிலுவை"__
@@ -11,11 +12,12 @@
 
 இறக்கு "pErEtu.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // ஒதுக்கீடு_ஆக்கு(மூல_எண், இலக்கு_எண், தொகை)
 //   __மூல_எண்   — the clearing transaction (a receipt or payment)__
 //   __இலக்கு_எண் — the transaction being cleared (an invoice or bill)__
+// ஒதுக்கீடு_ஆக்கு(மூல_எண், இலக்கு_எண், தொகை) — ஒரு பரிவர்த்தனையை இன்னொன்றுக்கு எதிராக ஒதுக்கும் பதிவு
 செயல் ஒதுக்கீடு_ஆக்கு(மூல_எண், இலக்கு_எண், தொகை_மதிப்பு) {
     திரும்பு {
         மூல_எண்: மூல_எண்,
@@ -26,6 +28,7 @@
 
 // ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், பரிவர்த்தனை_எண்)
 // __How much has been cleared against a transaction so far.__
+// ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், பரிவர்த்தனை_எண்) — இப்பரிவர்த்தனைக்கு ஒதுக்கப்பட்ட மொத்தம்
 செயல் ஒதுக்கப்பட்ட_மொத்தம்(ஒதுக்கீடுகள், பரிவர்த்தனை_எண்) {
     மொத்தம் = 0;
     ஒவ்வொரு ஒன்று இல் ஒதுக்கீடுகள் {
@@ -38,6 +41,7 @@
 
 // பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், மூல_எண்)
 // __How much of a receipt has already been spread over invoices.__
+// பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், மூல_எண்) — இம்மூலத்திலிருந்து பயன்படுத்தப்பட்டது
 செயல் பயன்படுத்தப்பட்டது(ஒதுக்கீடுகள், மூல_எண்) {
     மொத்தம் = 0;
     ஒவ்வொரு ஒன்று இல் ஒதுக்கீடுகள் {
@@ -50,6 +54,7 @@
 
 // நிலுவைத்_தொகை(பேரேடு, ஒதுக்கீடுகள், பரிவர்த்தனை_எண், கணக்கு, வகை)
 // __What is still owed on one transaction.__
+// நிலுவைத்_தொகை(பேரேடு, ஒதுக்கீடுகள், பரிவர்த்தனை_எண், கணக்கு, வகை) — இன்னும் நிலுவையில் உள்ள தொகை
 செயல் நிலுவைத்_தொகை(பேரேடு, ஒதுக்கீடுகள், பரிவர்த்தனை_எண்,
                       கணக்கு_குறி, கணக்கு_வகை) {
     மொத்தம் = பரிவர்த்தனை_தொகை(பேரேடு, பரிவர்த்தனை_எண், கணக்கு_குறி, கணக்கு_வகை);
@@ -57,6 +62,7 @@
 }
 
 // __ஒதுக்கு(...) — clear one transaction against another, or refuse__
+// ஒதுக்கு(பேரேடு, ஒதுக்கீடுகள், மூல_எண், இலக்கு_எண், கணக்கு, வகை) — ஒன்றை இன்னொன்றுக்கு எதிராகத் தீர்க்கும், அல்லது மறுக்கும்
 //
 // __Two things are checked, and both are real accounting errors rather than__
 // __programming mistakes: you cannot clear more than the invoice is worth, and__
@@ -88,6 +94,7 @@
 }
 
 // __நிலுவைப்_பட்டியல்(...) — every transaction on an account still owing__
+// நிலுவைப்_பட்டியல்(பேரேடு, ஒதுக்கீடுகள், கணக்கு, வகை) — ஒரு கணக்கில் இன்னும் நிலுவையில் உள்ளவை
 செயல் நிலுவைப்_பட்டியல்(பேரேடு, ஒதுக்கீடுகள், கணக்கு_குறி, கணக்கு_வகை) {
     விடை = [];
     ஒவ்வொரு ஒரு_எண் இல் பரிவர்த்தனை_எண்கள்(பேரேடு, கணக்கு_குறி) {
@@ -105,6 +112,7 @@
 }
 
 // __வயது_அட்டவணை(...) — an ageing schedule__
+// வயது_அட்டவணை(பேரேடு, ஒதுக்கீடுகள், கணக்கு, வகை, நாள், படிகள்) — நிலுவைகளின் வயது அட்டவணை
 //
 // __Buckets follow the usual receivables convention. இன்று is passed in__
 // __rather than read from the clock so a report can be reproduced.__
@@ -142,6 +150,7 @@
 }
 
 // __வயது_அட்டவணை_அச்சிடு(அட்டவணை) — print a receivables ageing schedule__
+// வயது_அட்டவணை_அச்சிடு(அட்டவணை) — வயது அட்டவணையை அச்சிடும்
 //
 // __The standard 30-day buckets, with the total last so it can be checked against the ledger. Printing is kept out of the function that computes the ageing, so the buckets can be tested without asserting on layout.__
 செயல் வயது_அட்டவணை_அச்சிடு(அட்டவணை) {

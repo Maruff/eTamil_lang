@@ -25,7 +25,7 @@ export interface CheckResult {
  *
  * The text is piped in rather than read from disk so unsaved edits are what
  * gets checked, and the working directory is the document's own so that
- * `இறக்கு "nUlakam/col.qmz"` — a path relative to the importing file —
+ * `இறக்கு "nUlakam/atippatY/col.qmz"` — a path relative to the importing file —
  * resolves the way it will when the file is run.
  *
  * The environment comes from `compilerEnv`, which names the carried standard

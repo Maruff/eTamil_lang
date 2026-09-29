@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொருத்தங்கள்(குறியீட்டு, கேள்விப்_பதங்கள்) — every document that matches, best first__
+// மதிப்பெண் இட்ட ஆவணங்கள், சிறந்தது முதலில்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [ஆவணம்_ஆக்கு("vari.md", தேடல்_பதங்கள்("income tax slab rates")),
+              ஆவணம்_ஆக்கு("paNam.md", தேடல்_பதங்கள்("money paise rupees")),
+              ஆவணம்_ஆக்கு("vatti.md", தேடல்_பதங்கள்("interest rates simple"))];
+குறியீட்டு = குறியீட்டு_ஆக்கு(ஆவணங்கள்);
+
+// __Documents that score nothing are left out rather than ranked last: a list__
+// __that ends in things which match nothing is a list nobody can threshold.__
+// பூஜ்ஜிய மதிப்பெண் உள்ளவை விடப்படுகின்றன; கடைசியில் வைக்கப்படுவதில்லை
+விடை = பொருத்தங்கள்(குறியீட்டு, தேடல்_பதங்கள்("tax slab"));
+ஒவ்வொரு ஒரு_விடை இல் விடை { அச்சு ஒரு_விடை["குறி"]; }
+அச்சு நீளம்(விடை);
+
+// __A query matching nothing gives an empty list, not an error.__
+// ஒன்றும் பொருந்தவில்லையெனில் காலிப் பட்டியலே
+அச்சு நீளம்(பொருத்தங்கள்(குறியீட்டு, தேடல்_பதங்கள்("aeroplane")));

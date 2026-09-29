@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/qaravaricY.qmz — தரவரிசை (ranking) over scored results__
+// தரவரிசை: மதிப்பெண் இட்ட முடிவுகளை வரிசைப்படுத்தல்
 //
 // __A retriever produces scored candidates; a ranking decides what a person__
 // __actually sees. The two are worth separating, because almost every way of__
@@ -10,9 +11,10 @@
 // __record is carried through untouched, so the same functions rank documents,__
 // __functions, chunks or anything else that has been given a number.__
 
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __மதிப்பெண்_பெறு(உருப்படி) — the score, or zero if the item has none__
+// மதிப்பெண்_பெறு(உருப்படி) — மதிப்பெண்; இல்லையெனில் பூஜ்ஜியம்
 //
 // __Anything without a score sorts to the bottom rather than crashing the__
 // __ranking. A retriever that returns one malformed row should cost that row,__
@@ -27,6 +29,7 @@
 }
 
 // __வரிசைப்படுத்து(பட்டியல்) — sort scored items, highest score first__
+// வரிசைப்படுத்து(பட்டியல்) — மதிப்பெண்படி வரிசைப்படுத்தும், பெரியது முதலில்
 //
 // __One call to the host now. This was an insertion sort written out here,__
 // __which was defensible for tens of results and wrong for anything larger,__
@@ -36,17 +39,20 @@
 // __chunks on an identical score still keep the order the retriever gave them__
 // __rather than swapping about between runs for no visible reason. An item__
 // __with no score sorts as zero there, which is what மதிப்பெண்_பெறு did here.__
+// வரிசைப்படுத்து(பட்டியல்) — பட்டியலை வரிசைப்படுத்தும்
 செயல் வரிசைப்படுத்து(பட்டியல்) {
     திரும்பு புலத்தால்_வரிசையாக்கு(பட்டியல், "மதிப்பெண்", மெய்);
 }
 
 // __முதல்_சில(பட்டியல், எண்ணிக்கை) — the top n, already sorted__
+// முதல்_சில(பட்டியல், எண்ணிக்கை) — வரிசைப்படுத்திய பின் முதல் சில
 செயல் முதல்_சில(பட்டியல், எண்ணிக்கை) {
     தரப்பட்டியல் = வரிசைப்படுத்து(பட்டியல்);
     திரும்பு வெட்டு(தரப்பட்டியல், 0, எண்ணிக்கை);
 }
 
 // __வரம்புக்கு_மேல்(பட்டியல், குறைந்தபட்சம்) — keep only scores at or above a floor__
+// வரம்புக்கு_மேல்(பட்டியல், குறைந்தபட்சம்) — சொன்ன மதிப்பெண்ணுக்கு மேல் உள்ளவை மட்டும்
 //
 // __Useful where showing nothing is better than showing the least bad thing:__
 // __a completion suggestion nobody asked for costs more than an empty list.__
@@ -61,6 +67,7 @@
 }
 
 // __மேலோங்கியதா(பட்டியல், மடங்கு) — does the top result dominate the runner-up?__
+// மேலோங்கியதா(பட்டியல், மடங்கு) — முதல் முடிவு இரண்டாவதை இவ்வளவு மடங்கு மிஞ்சுகிறதா
 //
 // __Asks whether the best hit is ahead by at least the given multiple. This is__
 // __the question to ask before treating the top hit as *the* answer rather than__
@@ -70,6 +77,7 @@
 // __A ratio and not an absolute floor. Scores from different retrievers live on__
 // __different scales, and a threshold calibrated against one of them silently__
 // __stops meaning anything when the scoring changes.__
+// மேலோங்கியதா(பட்டியல், மடங்கு) — முதல் விடை அடுத்ததைவிட இத்தனை மடங்கு முன்னிலையில் உள்ளதா; குறைந்த இடைவெளி ஊகத்தைக் காட்டும்
 செயல் மேலோங்கியதா(பட்டியல், மடங்கு) {
     (நீளம்(பட்டியல்) == 0) எனில் { திரும்பு பொய்; }
     தரப்பட்டியல் = வரிசைப்படுத்து(பட்டியல்);
@@ -81,6 +89,7 @@
 }
 
 // __இடம்_குறி(பட்டியல், அடையாளப்_புலம், தேடல்) — 1-based rank of an item, or -1__
+// இடம்_குறி(பட்டியல், அடையாளப்_புலம், தேடல்) — ஒரு உருப்படியின் இடம்; இல்லையெனில் ஒன்று குறை
 //
 // __Written for measurement rather than for serving: given the ranked list and__
 // __the answer that was wanted, where did it actually land. அளவீடு is built__
@@ -99,6 +108,7 @@
 }
 
 // __மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) — the same item with a new score__
+// மதிப்பெண்_சேர்(உருப்படி, புதிய_மதிப்பெண்) — அதே உருப்படி, புதிய மதிப்பெண்ணுடன்
 //
 // __Copies rather than mutates, so a re-ranking never damages the list it was__
 // __derived from and the two can be compared afterwards.__

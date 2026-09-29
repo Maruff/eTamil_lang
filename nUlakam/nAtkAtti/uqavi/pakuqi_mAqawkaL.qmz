@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பகுதி_மாதங்கள்(தொடக்கம், முடிவு) — months, counting a part month as a whole one__
+// முழு மாதங்களுக்குப் பின் எஞ்சும் பகுதியையும் ஒரு மாதமாக எண்ணும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __The other convention, and the one a hire charge or a parking fee uses: any__
+// __part of a month is a month.__
+// மாதத்தின் ஒரு பகுதியும் ஒரு மாதமே
+அச்சு பகுதி_மாதங்கள்("2026-01-15", "2026-04-15");
+அச்சு பகுதி_மாதங்கள்("2026-01-15", "2026-04-16");
+
+// __Which differs from முடிந்த_மாதங்கள் by one wherever there is a remainder,__
+// __and the two are worth naming apart rather than adding one at the call site.__
+// மீதம் இருக்கும் இடங்களில் இரண்டும் ஒன்றால் வேறுபடும்
+அச்சு முடிந்த_மாதங்கள்("2026-01-15", "2026-04-16");
+அச்சு பகுதி_மாதங்கள்("2026-04-15", "2026-01-15");

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலையத்_தொகையைக்_கூட்டு(இருப்புகள், ஒரு_குறி, சேர்க்கும்_தொகை) — add to a centre's balance__
+// ஒரு நிலையத்தின் இருப்புடன் கூட்டும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+இருப்புகள் = [{"குறி": "P1", "தொகை": 50000}];
+
+// __A new list rather than a changed one, and a centre that was not there is__
+// __added — which is how each round of the re-apportionment builds up.__
+// புதிய பட்டியலே; இல்லாத நிலையம் சேர்க்கப்படும்
+புதியது = நிலையத்_தொகையைக்_கூட்டு(இருப்புகள், "P1", 10000);
+அச்சு நிலையத்_தொகையைப்_பெறு(புதியது, "P1");
+அச்சு நிலையத்_தொகையைப்_பெறு(நிலையத்_தொகையைக்_கூட்டு(இருப்புகள், "P2", 7000), "P2");

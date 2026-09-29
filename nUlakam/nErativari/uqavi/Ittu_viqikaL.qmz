@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஈட்டு_விதிகள்() — which losses may be set off against which heads__
+// எந்த இழப்பை எந்த வருமானத்துக்கு எதிராக ஈடுசெய்யலாம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A table rather than a chain of conditions, because the rules are a table:__
+// __asymmetric, full of exceptions, and changed by statute rather than by__
+// __reasoning.__
+// இவை விதிகளின் அட்டவணையே; நிபந்தனைகளின் சங்கிலி அல்ல
+அச்சு நீளம்(ஈட்டு_விதிகள்());
+
+// __Read through ஈடுசெய்ய_முடியுமா rather than directly.__
+// நேரடியாக அல்ல, ஈடுசெய்ய_முடியுமா வழியாகவே படிக்கப்படுகிறது
+அச்சு ஈட்டு_விதிகள்()[0]["இழப்பு_வகை"];
+அச்சு ஈட்டு_விதிகள்()[0]["வருமான_வகை"];

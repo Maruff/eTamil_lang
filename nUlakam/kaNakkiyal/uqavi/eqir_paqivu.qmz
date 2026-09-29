@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எதிர்_பதிவு(பரிவர்த்தனை_எண், நாள், விவரம், இருந்து_கணக்கு, க்கு_கணக்கு, தொகை_மதிப்பு) — money moved between the business's own accounts__
+// நிறுவனத்தின் சொந்தக் கணக்குகளுக்கு இடையே பண நகர்வு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Cash banked, or money moved between two bank accounts. Nothing is earned__
+// __and nothing is spent, which is why it needs its own name: a transfer booked__
+// __as income doubles the revenue.__
+// ஒன்றும் ஈட்டப்படவில்லை, செலவிடப்படவில்லை
+நகர்வு = எதிர்_பதிவு(6, "2026-04-25", "வங்கியில் செலுத்தியது",
+                      "1010", "1000", 25000);
+அச்சு சமநிலையா(நகர்வு);
+அச்சு நகர்வு["விவரம்"];

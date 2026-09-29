@@ -144,41 +144,70 @@ fn load_inner(
 
 /// Find an imported file: next to the importer first, then along
 /// `ETAMIL_PATH`, then in a `nUlakam` directory beside the executable. That
-/// last one is what lets `இறக்கு "nUlakam/paNam.qmz";` work from anywhere
+/// last one is what lets `இறக்கு "nUlakam/paNam/paNam.qmz";` work from anywhere
 /// once the compiler is installed.
 fn locate(relative: &str, base_dir: &Path) -> Option<PathBuf> {
-    let beside = base_dir.join(relative);
-    if beside.exists() {
-        return Some(beside);
-    }
+    let mut roots: Vec<PathBuf> = vec![base_dir.to_path_buf()];
 
     if let Ok(search_path) = std::env::var("ETAMIL_PATH") {
-        for entry in std::env::split_paths(&search_path) {
-            let candidate = entry.join(relative);
-            if candidate.exists() {
-                return Some(candidate);
-            }
-        }
+        roots.extend(std::env::split_paths(&search_path));
     }
 
     if let Ok(exe) = std::env::current_exe()
         && let Some(dir) = exe.parent()
     {
-        let candidate = dir.join(relative);
+        roots.push(dir.to_path_buf());
+    }
+
+    // Native packages keep the standard library in the platform data
+    // directory rather than beside the executable in /usr/bin.
+    roots.push(PathBuf::from("/usr/share/etamil"));
+    roots.push(PathBuf::from("/usr/local/share/etamil"));
+
+    for root in &roots {
+        let candidate = root.join(relative);
         if candidate.exists() {
             return Some(candidate);
         }
     }
 
-    // Native packages keep the standard library in the platform data
-    // directory rather than beside the executable in /usr/bin.
-    for data_dir in [
-        Path::new("/usr/share/etamil"),
-        Path::new("/usr/local/share/etamil"),
-    ] {
-        let candidate = data_dir.join(relative);
-        if candidate.exists() {
-            return Some(candidate);
+    one_level_deeper(relative, &roots)
+}
+
+/// The library was one flat directory until its files were grouped into folders
+/// by subject. Every program published before that move says
+/// `இறக்கு "nUlakam/paNam.qmz"`, so when the literal path finds nothing, look
+/// one directory deeper for the same file name. Module file names are unique
+/// across the library, so there is never a choice to make.
+///
+/// Only one level, and never through `..`: this widens where a name may be
+/// found, and it should not widen what a name may reach.
+fn one_level_deeper(relative: &str, roots: &[PathBuf]) -> Option<PathBuf> {
+    if relative.split(['/', '\\']).any(|part| part == "..") {
+        return None;
+    }
+
+    let asked = Path::new(relative);
+    let file = asked.file_name()?;
+    let holder = asked.parent().unwrap_or_else(|| Path::new(""));
+
+    for root in roots {
+        let Ok(entries) = std::fs::read_dir(root.join(holder)) else {
+            continue;
+        };
+        let mut folders: Vec<PathBuf> = entries
+            .flatten()
+            .map(|entry| entry.path())
+            .filter(|path| path.is_dir())
+            .collect();
+        // Sorted, so which file answers an import never depends on the order
+        // the file system happens to hand back.
+        folders.sort();
+        for folder in folders {
+            let candidate = folder.join(file);
+            if candidate.exists() {
+                return Some(candidate);
+            }
         }
     }
 

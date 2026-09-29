@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுப்பியதாகப்_பதி(உருப்படி) — record a successful send__
+// வெற்றிகரமாக அனுப்பியதைப் பதியும்
+
+இறக்கு "../aZuppu_varicY.qmz";
+
+// __PMO-118 failed once with a 503 and has now gone through.__
+// இப்பணி ஒருமுறை 503-இல் தோல்வியுற்று இப்போது அனுப்பப்பட்டது
+முதலில் = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "திருத்து", 1, "fake-key-118");
+தோற்றது = தோல்வியைப்_பதி(முதலில், 503, "Service Unavailable", 1000, 1, 0);
+அனுப்பியது = அனுப்பியதாகப்_பதி(தோற்றது);
+
+// __Sent, and the attempt that worked is counted: two in all.__
+// அனுப்பியது; வெற்றி பெற்ற முயற்சியும் எண்ணப்படும், மொத்தம் இரண்டு
+அச்சு அனுப்பியது.நடப்பு_நிலை;
+அச்சு அனுப்பியது.முயற்சிகள்;
+
+// __The old error is cleared, so a sent row never looks like a failing one.__
+// பழைய பிழை அழிக்கப்படும்; அனுப்பிய வரிசை தோல்வியாகத் தோன்றாது
+அச்சு அனுப்பியது.கடைசிப்_பிழை == "";
+
+// __It returns a new row and leaves the one passed in as it was; the caller__
+// __writes the returned row back to the outbox.__
+// புதிய வரிசையைத் தரும்; தந்ததை மாற்றாது; திரும்பியதைப் பதிவதே அழைப்பவர் வேலை
+அச்சு தோற்றது.நடப்பு_நிலை;
+அச்சு தோற்றது.கடைசிப்_பிழை;

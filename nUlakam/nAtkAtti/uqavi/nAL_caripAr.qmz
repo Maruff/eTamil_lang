@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_சரிபார்(நாள்_உரை) — the same question, answered as a result__
+// அதே கேள்வி, விளைவாகப் பதிலளிக்கப்பட்டது
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __For the call sites that want to stop rather than branch. The message names__
+// __the date and the format expected, which is what a user filling in a form__
+// __needs to see.__
+// நிபந்தனையாக அல்ல, நிற்பதற்காக; செய்தி நாளையும் எதிர்பார்க்கும் வடிவத்தையும் சொல்லும்
+அச்சு மதிப்பு(நாள்_சரிபார்("2026-03-02"));
+அச்சு தவறு_மதிப்பு(நாள்_சரிபார்("2026-02-31"));
+அச்சு தவறு_மதிப்பு(நாள்_சரிபார்("02/03/2026"));

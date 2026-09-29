@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/mElnilY.qmz — மேல்நிலைச் செலவு (overhead absorption)__
+// மேல்நிலைச் செலவு உள்வாங்கல்
 //
 // __Indirect cost cannot be traced to a unit, so it is attached by a rate: pick__
 // __a base that plausibly drives the cost, divide the overhead by the budgeted__
@@ -22,32 +23,38 @@
 // __cross-subsidising each other, which is the argument for activity-based__
 // __costing and the reason அடிப்படை_வகை is recorded with the rate.__
 
-இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam/kAcu.qmz";
 
 // __--- Which base ---------------------------------------------------------__
 
 // __அடிப்படை_அலகுகள்() — absorb on units produced__
+// அடிப்படை_அலகுகள்() — உற்பத்தி அலகுகளின்மேல் உள்வாங்குதல்
 //
 // __The simplest base and the safest only when every unit is alike. Where a line makes several products, units charge a complex item and a trivial one the same overhead, which is the clearest form of cross-subsidy.__
 செயல் அடிப்படை_அலகுகள்()      { திரும்பு "அலகுகள்"; }
 // __அடிப்படை_இயந்திர_நேரம்() — absorb on machine hours__
+// அடிப்படை_இயந்திர_நேரம்() — இயந்திர நேரத்தின்மேல் உள்வாங்குதல்
 //
 // __The base for a machine-intensive shop, where power, depreciation and maintenance move with running time and not with headcount.__
 செயல் அடிப்படை_இயந்திர_நேரம்() { திரும்பு "இயந்திர_நேரம்"; }
 // __அடிப்படை_ஊதிய_நேரம்() — absorb on direct labour hours__
+// அடிப்படை_ஊதிய_நேரம்() — நேரடி ஊதிய நேரத்தின்மேல் உள்வாங்குதல்
 //
 // __For a labour-intensive shop. Uses hours rather than wages, so a grade that is paid more does not attract more overhead for doing the same work in the same time.__
 செயல் அடிப்படை_ஊதிய_நேரம்()   { திரும்பு "ஊதிய_நேரம்"; }
 // __அடிப்படை_நேரடி_ஊதியம்() — absorb on direct wages__
+// அடிப்படை_நேரடி_ஊதியம்() — நேரடி ஊதியத்தின்மேல் உள்வாங்குதல்
 //
 // __Hours weighted by rate. Defensible where the costly grades really are the ones that consume supervision and space, and misleading where they are not.__
 செயல் அடிப்படை_நேரடி_ஊதியம்() { திரும்பு "நேரடி_ஊதியம்"; }
 // __அடிப்படை_நேரடிப்_பொருள்() — absorb on direct material cost__
+// அடிப்படை_நேரடிப்_பொருள்() — நேரடிப் பொருள் செலவின்மேல் உள்வாங்குதல்
 //
 // __The weakest of the five and kept because it is still used: material cost rarely drives factory overhead, so it mostly redistributes overhead by purchase price. Worth choosing only where handling and storage genuinely dominate.__
 செயல் அடிப்படை_நேரடிப்_பொருள்() { திரும்பு "நேரடிப்_பொருள்"; }
 
 // __அடிப்படை_செல்லுபடியா(அடிப்படை_வகை) — is this one of the five bases?__
+// அடிப்படை_செல்லுபடியா(அடிப்படை_வகை) — இது ஐந்து அடிப்படைகளில் ஒன்றா
 //
 // __Checked when the rate is built. A mistyped base would otherwise be recorded with the rate and carried into every absorption after it, and the products would cross-subsidise silently — the failure this module's header warns about, which no variance ever reveals.__
 செயல் அடிப்படை_செல்லுபடியா(அடிப்படை_வகை) {
@@ -66,6 +73,7 @@
 // __Budgeted overhead over budgeted base. Returned as a record rather than a__
 // __bare number so the base travels with it: a rate of 40 is meaningless until__
 // __you know it is 40 per machine hour and not 40 per unit.__
+// உள்வாங்கல்_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை, அடிப்படை_வகை) — முன்கூட்டிய உள்வாங்கல் விகிதம்
 செயல் உள்வாங்கல்_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை,
                           அடிப்படை_வகை) {
     (இல்லை அடிப்படை_செல்லுபடியா(அடிப்படை_வகை)) எனில் {
@@ -84,6 +92,7 @@
 //
 // __The same thing expressed as a percentage, which is how overhead on direct__
 // __wages or direct material is conventionally quoted — "150% of direct wages".__
+// சதவீத_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை) — உள்வாங்கல் விகிதம், சதவீதமாக
 செயல் சதவீத_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை) {
     (மதிப்பிட்ட_அடிப்படை <= 0) எனில் {
         திரும்பு தவறு("மதிப்பிட்ட அடிப்படை பூஜ்யம்: விகிதம் இல்லை");
@@ -95,6 +104,7 @@
 
 // உள்வாங்கியது(விகிதத்_தொகுதி, உண்மை_அடிப்படை)
 // __உள்வாங்கியது(விகிதத்_தொகுதி, உண்மை_அடிப்படை) — overhead charged onto actual activity__
+// உள்வாங்கியது(விகிதத்_தொகுதி, உண்மை_அடிப்படை) — உண்மைச் செயல்பாட்டின்மேல் ஏற்றப்பட்ட மேல்நிலை
 //
 // __The budgeted rate applied to what actually happened. This is the amount that reached the jobs, and it is almost never what was spent — the difference is the over- or under-absorption below, and it is a real amount that has to be disposed of, not an error to suppress.__
 செயல் உள்வாங்கியது(விகிதத்_தொகுதி, உண்மை_அடிப்படை) {
@@ -110,11 +120,13 @@
 // __under-absorption and has to be charged. The sign convention is the same one__
 // __niyamam.qmz uses for variances — standard less actual — so the two modules__
 // __read the same way round.__
+// உள்வாங்கல்_வேறுபாடு(உள்வாங்கிய_தொகை, உண்மை_மேல்நிலை) — உள்வாங்கியதற்கும் செலவழித்ததற்கும் உள்ள வேறுபாடு
 செயல் உள்வாங்கல்_வேறுபாடு(உள்வாங்கிய_தொகை, உண்மை_மேல்நிலை) {
     திரும்பு உள்வாங்கிய_தொகை - உண்மை_மேல்நிலை;
 }
 
 // __அதிக_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) — was more absorbed than was spent?__
+// அதிக_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) — செலவழித்ததை விட அதிகம் உள்வாங்கப்பட்டதா
 //
 // __Over-absorption credits the period, because the jobs were charged with overhead the factory did not incur. Favourable as a number and not always as news: it usually means activity ran above the budget the rate was built on, and the rate is now wrong for the rest of the year.__
 செயல் அதிக_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) {
@@ -122,6 +134,7 @@
 }
 
 // __குறை_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) — was less absorbed than was spent?__
+// குறை_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) — செலவழித்ததை விடக் குறைவாக உள்வாங்கப்பட்டதா
 //
 // __Under-absorption is the cost that never reached a job, and it has to be written off or spread rather than left in a suspense account. Persistent under-absorption is a budgeted-activity figure that was too optimistic, not a spending problem.__
 செயல் குறை_உள்வாங்கலா(வேறுபாட்டுத்_தொகை) {
@@ -138,6 +151,7 @@
 // __weights has a rounding problem that has already been solved there: the parts__
 // __must add back to the whole exactly, and naive division does not guarantee__
 // __that. Amounts are in paise, as everywhere in kAcu.__
+// நிலையங்களுக்குப்_பகிர்(மொத்த_மேல்நிலை, எடைகள்) — மேல்நிலையை நிலையங்களுக்குப் பகிரும்
 செயல் நிலையங்களுக்குப்_பகிர்(மொத்த_மேல்நிலை_பைசா, எடைகள்) {
     திரும்பு விகிதத்தில்_பிரி(மொத்த_மேல்நிலை_பைசா, எடைகள்);
 }
@@ -149,6 +163,7 @@
 // __service — two service centres serving each other — needs simultaneous__
 // __equations and is deliberately not attempted here; apportion it manually or__
 // __use the step-down order.__
+// சேவையை_மறுபகிர்(சேவை_மேல்நிலை_பைசா, உற்பத்தி_எடைகள்) — சேவை நிலையச் செலவை உற்பத்தி நிலையங்களுக்கு மறுபகிரும்
 செயல் சேவையை_மறுபகிர்(சேவை_மேல்நிலை_பைசா, உற்பத்தி_எடைகள்) {
     திரும்பு விகிதத்தில்_பிரி(சேவை_மேல்நிலை_பைசா, உற்பத்தி_எடைகள்);
 }

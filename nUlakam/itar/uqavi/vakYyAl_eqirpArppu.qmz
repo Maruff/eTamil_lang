@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகையால்_எதிர்பார்ப்பு(இடர்கள், இடர்_வகை) — the exposure of one kind alone__
+// ஒரு வகைக்கு மட்டுமான எதிர்பார்ப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+இடர்கள் = [இடர்_ஆக்கு("R1", "தாமதம்", 30, 500000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R2", "அளவு மாற்றம்", 20, 300000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R3", "முன்கூட்டியது", 25, 200000, "வாய்ப்பு", "")];
+
+// __The threats alone, and the opportunities alone. Reported separately__
+// __because they are funded separately: one needs money set aside and the__
+// __other does not.__
+// தனித்தனியாக அறிவிக்கப்படுகின்றன; ஏனெனில் தனித்தனியாகவே நிதியளிக்கப்படுகின்றன
+அச்சு வகையால்_எதிர்பார்ப்பு(இடர்கள், "அச்சுறுத்தல்");
+அச்சு வகையால்_எதிர்பார்ப்பு(இடர்கள், "வாய்ப்பு");

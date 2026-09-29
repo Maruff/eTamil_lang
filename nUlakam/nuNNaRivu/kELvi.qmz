@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/kELvi.qmz — கேள்வி, putting the question to a model__
+// கேள்வி: மாதிரியிடம் கேள்வியை வைத்தல்
 //
 // __Between retrieval and generation there is a step that decides most of the__
 // __answer's quality: what the model is shown, and what it is told to do with__
@@ -17,10 +18,11 @@
 // __comment that happens to contain a sentence addressed to a model is still__
 // __documentation, and this file's job is to keep that boundary.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __அதிகபட்ச_மேற்கோள்கள்() — how many retrieved pieces to show the model__
+// அதிகபட்ச_மேற்கோள்கள்() — மாதிரிக்கு எத்தனை மேற்கோள்களைக் காட்டுவது
 //
 // __Few. Each one lengthens the prompt, and on a small machine the prompt is__
 // __read before a single word is produced. Beyond the first two or three the__
@@ -28,14 +30,17 @@
 செயல் அதிகபட்ச_மேற்கோள்கள்() { திரும்பு 3; }
 
 // __ஒரு_மேற்கோளின்_நீளம்() — how much of each piece to show__
+// ஒரு_மேற்கோளின்_நீளம்() — ஒவ்வொரு மேற்கோளிலும் எவ்வளவு காட்டுவது
 செயல் ஒரு_மேற்கோளின்_நீளம்() { திரும்பு 500; }
 
 // __மேற்கோள்_ஆக்கு(தலைப்புரை, உடல்பகுதி) — one retrieved piece, ready to quote__
+// மேற்கோள்_ஆக்கு(தலைப்புரை, உடல்பகுதி) — மேற்கோள் காட்டத் தயாரான ஒரு துண்டு
 செயல் மேற்கோள்_ஆக்கு(தலைப்புரை, உடல்பகுதி) {
     திரும்பு { தலைப்புரை: தலைப்புரை, உடல்பகுதி: உடல்பகுதி };
 }
 
 // __சுருக்கு(சரம், எல்லை) — cut to length, marking that something was dropped__
+// சுருக்கு(சரம், எல்லை) — நீளத்துக்கு வெட்டி, ஏதோ விடப்பட்டதைக் குறிக்கும்
 //
 // __The marker matters. Text that simply stops looks like text that ended, and__
 // __a model shown half a function signature will confidently complete it.__
@@ -45,6 +50,7 @@
 }
 
 // __பின்புலம்_ஆக்கு(மேற்கோள்கள்) — the retrieved material, as one block__
+// பின்புலம்_ஆக்கு(மேற்கோள்கள்) — கிடைத்த மேற்கோள்களை ஒரே தொகுதியாக்கும்
 //
 // __Numbered and separated, so the model can refer to a specific piece and so__
 // __that where one ends and the next begins is unambiguous. Running them__
@@ -65,6 +71,7 @@
 }
 
 // __அறிவுறுத்தல்() — what the model is being asked to do__
+// அறிவுறுத்தல்() — மாதிரி என்ன செய்ய வேண்டும் என்ற அறிவுறுத்தல்
 //
 // __Written out here rather than assembled at the call site, so that there is__
 // __one place to read in order to know what the model was told. Two rules do__
@@ -83,6 +90,7 @@
 }
 
 // __தூண்டுதல்_ஆக்கு(கேள்வி_உரை, மேற்கோள்கள்) — instruction, material, question__
+// தூண்டுதல்_ஆக்கு(கேள்வி_உரை, மேற்கோள்கள்) — அறிவுறுத்தல், மேற்கோள், கேள்வி என்ற வரிசையில்
 //
 // __That order. The instruction first so it frames everything after it, the__
 // __material next, the question last so it is the most recent thing the model__
@@ -96,6 +104,7 @@
 }
 
 // __மேற்கோள்_இல்லாத_பதில்(மேற்கோள்கள்) — the answer to give with no model__
+// மேற்கோள்_இல்லாத_பதில்(மேற்கோள்கள்) — மாதிரி இல்லாதபோது தரும் பதில்
 //
 // __The fallback, and it has to be a real answer rather than an apology. What__
 // __retrieval found, shown plainly, is what a reader would have got from__

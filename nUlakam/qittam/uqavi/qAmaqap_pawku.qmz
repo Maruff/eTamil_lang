@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தாமதப்_பங்கு(தொடர்புகள், திட்ட_காலம்) — how much of the project is waiting__
+// திட்டக் காலத்தில் தாமதத்தின் பங்கு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தொடர்புகள் = [தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7),
+               தொடர்பு_ஆக்கு("Q", "R", "முடிவு_தொடக்கம்", 3)];
+
+// __A quarter of a schedule spent waiting is a schedule with a quarter of its__
+// __length available for nothing more than better sequencing.__
+// காத்திருப்பில் கழியும் பகுதி, சிறந்த வரிசையால் மீட்கக்கூடியது
+அச்சு வட்டமிடு(தாமதப்_பங்கு(தொடர்புகள், 40), 4);
+அச்சு தாமதப்_பங்கு([], 40);
+அச்சு தாமதப்_பங்கு(தொடர்புகள், 0);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பெறுதல்_செலவின்_வகை(கூடுதலானதா, மீட்கக்கூடியதா, கழிப்பு_மாதங்கள், எளிய_வழி_மாதங்கள்) — may the cost of winning the contract be capitalised?__
+// ஒப்பந்தம் பெறச் செய்த செலவை முதலீடாக்கலாமா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __A sales commission paid only on winning is incremental; a bid team's__
+// __salaries are not, because they were paid whether the bid was won or lost.__
+// வென்றால் மட்டும் தரப்படும் கமிஷன் கூடுதலானது; ஏலக் குழுவின் ஊதியம் அல்ல
+அச்சு பெறுதல்_செலவின்_வகை(மெய், மெய், 24, 12)["முதலீடா"];
+அச்சு பெறுதல்_செலவின்_வகை(பொய், மெய், 24, 12)["முதலீடா"];
+அச்சு பெறுதல்_செலவின்_வகை(பொய், மெய், 24, 12)["காரணம்"];
+
+// __And a practical expedient: if it would be written off within a year__
+// __anyway, it can be expensed as incurred.__
+// ஓராண்டுக்குள் கழிக்கப்படுமென்றால் உடனேயே செலவாக்கலாம்
+அச்சு பெறுதல்_செலவின்_வகை(மெய், மெய், 9, 12)["முதலீடா"];
+அச்சு பெறுதல்_செலவின்_வகை(மெய், பொய், 24, 12)["காரணம்"];

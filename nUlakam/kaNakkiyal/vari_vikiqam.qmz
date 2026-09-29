@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/vari_vikiqam.qmz — finding the rate that applied__
+// அன்று அமலில் இருந்த வரி விகிதத்தைக் கண்டறிதல்
 //
 // __vari.qmz computes a tax once you know the rate. This is where the rate comes__
 // __from, and it holds none: they live in the table described by__
@@ -16,7 +17,7 @@
 // __as slabs, and whatever else is stated as a rate on a thing in a place.__
 // __Jurisdiction is a GST state code, or "" for a rule that applies everywhere.__
 
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 இறக்கு "Uqiyam.qmz";
 
 // விகிதம்_தேடு(வரி_வகை, குறியீட்டெண், மாநிலக்_குறி, நாள்)
@@ -27,6 +28,7 @@
 // __is for. Nothing found is a தவறு rather than zero: a missing rate and a rate__
 // __of nothing are different, and returning zero for the first understates a__
 // __liability without saying so.__
+// விகிதம்_தேடு(வரி_வகை, குறியீட்டெண், மாநிலக்_குறி, நாள்) — அந்நாளில் அமலில் இருந்த விகிதம்
 செயல் விகிதம்_தேடு(வரி_வகை, குறியீட்டெண், மாநிலக்_குறி, நாள்) {
     தளம்_வினா "SELECT vari_vakY, kuRi, mAnilam, vikiqam, nilYq_qokY,
                        varampu_muqal, varampu_varY, mUlam
@@ -52,6 +54,7 @@
 // __Every band of a slab tax, ordered by where it starts, in the shape__
 // __படிநிலை_வரி in Uqiyam.qmz takes. Income tax, professional tax and anything__
 // __else stated as bands go through the same two functions.__
+// படிகளை_ஏற்று(வரி_வகை, மாநிலக்_குறி, நாள்) — அந்நாளுக்கு உரிய வரிப் படிகள்
 செயல் படிகளை_ஏற்று(வரி_வகை, மாநிலக்_குறி, நாள்) {
     தளம்_வினா "SELECT varampu_muqal, vikiqam, nilYq_qokY, mUlam
                   FROM vari_vikiqam
@@ -81,6 +84,7 @@
 //
 // __The two steps together: load the bands in force that day, and apply them.__
 // __A tax kind with no bands loaded is a தவறு, not nil tax.__
+// படி_வரி_கணக்கிடு(வரி_வகை, மாநிலக்_குறி, நாள், வரிக்குரிய_தொகை) — படிகளைக் கொண்டு வரியைக் கணக்கிடும்
 செயல் படி_வரி_கணக்கிடு(வரி_வகை, மாநிலக்_குறி, நாள், வரிக்குரிய_தொகை) {
     படிகள் = படிகளை_ஏற்று(வரி_வகை, மாநிலக்_குறி, நாள்);
     (நீளம்(படிகள்) == 0) எனில் {
@@ -96,11 +100,13 @@
 //
 // __Within a state it is CGST and SGST; across states, IGST. vari.qmz's__
 // __மாநில_பிரிப்பு does the splitting and this answers the question it asks.__
+// உள்_மாநிலமா(விற்பனையாளர்_மாநிலம், வாங்குபவர்_மாநிலம்) — இது ஒரே மாநிலத்துக்குள்ளா
 செயல் உள்_மாநிலமா(விற்பனையாளர்_மாநிலம், வாங்குபவர்_மாநிலம்) {
     திரும்பு விற்பனையாளர்_மாநிலம் == வாங்குபவர்_மாநிலம்;
 }
 
 // __மாநிலப்_பெயர்(மாநிலக்_குறி) — the state a GST code names__
+// மாநிலப்_பெயர்(மாநிலக்_குறி) — வரிக் குறி குறிக்கும் மாநிலம்
 செயல் மாநிலப்_பெயர்(மாநிலக்_குறி) {
     தளம்_வினா "SELECT peyar FROM mAnilawkaL WHERE kuRi = ?", [மாநிலக்_குறி], கிடைத்தவை;
     (நீளம்(கிடைத்தவை) == 0) எனில் { திரும்பு ""; }
@@ -108,6 +114,7 @@
 }
 
 // __மாநிலங்கள்() — every state and union territory on record__
+// மாநிலங்கள்() — பதிவில் உள்ள எல்லா மாநிலங்களும் ஒன்றியப் பகுதிகளும்
 செயல் மாநிலங்கள்() {
     தளம்_வினா "SELECT kuRi, peyar, vakY FROM mAnilawkaL ORDER BY kuRi", [], கிடைத்தவை;
     திரும்பு கிடைத்தவை;
@@ -116,6 +123,7 @@
 // __--- what nobody has vouched for ------------------------------------------__
 //
 // __சரிபார்க்கப்படாத_விகிதங்கள்(நாள்) — rates whose source still says otherwise__
+// சரிபார்க்கப்படாத_விகிதங்கள்(நாள்) — மூலம் வேறு சொல்லும் விகிதங்கள்
 //
 // __A rate marked PLACEHOLDER or CHECK in a filed return is worse than no__
 // __return. This lists them so a program can stop rather than file.__

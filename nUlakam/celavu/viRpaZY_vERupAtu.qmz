@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/celavu/viRpaZY_vERupAtu.qmz — விற்பனை வேறுபாடு: selling price and sales volume__
+// விற்பனை வேறுபாடு: விற்ற விலையும் விற்ற அளவும்
+//
+// __Volume is measured on standard contribution rather than on price, so a__
+// __unit sold does not look more profitable merely because it was sold dear.__
+
+// விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்)
+//
+// __The one variance where the sign flips relative to cost: selling *above*__
+// __standard price is favourable, so this is actual less standard. Stated__
+// __explicitly because it is the exception to the module's rule.__
+// விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்) — விற்ற விலை வேறுபட்டதால்
+செயல் விற்பனை_வீத_வேறுபாடு(உண்மை_அலகுகள், உண்மை_வீதம், நியம_வீதம்) {
+    திரும்பு உண்மை_அலகுகள் * (உண்மை_வீதம் - நியம_வீதம்);
+}
+
+// விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்)
+//
+// __Volume valued at standard *contribution*, not standard price — selling one__
+// __more unit does not earn its price, it earns its contribution. Valuing this__
+// __at price is a common and expensive error.__
+// விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள், உண்மை_அலகுகள்) — விற்ற அளவு வேறுபட்டதால்
+செயல் விற்பனை_அளவு_வேறுபாடு(நியம_பங்களிப்பு, மதிப்பிட்ட_அலகுகள்,
+                              உண்மை_அலகுகள்) {
+    திரும்பு நியம_பங்களிப்பு * (உண்மை_அலகுகள் - மதிப்பிட்ட_அலகுகள்);
+}

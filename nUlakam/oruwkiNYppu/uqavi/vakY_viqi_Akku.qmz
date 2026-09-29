@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_விதி_ஆக்கு(பொருத்தப்_புலம், பொருத்த_மதிப்பு, பணியுருப்படி_வகை, வரிசை_எண்) — one work-item type rule__
+// பணியுருப்படி வகைக்கான ஒரு விதி
+
+இறக்கு "../varYpatam.qmz";
+
+// __"A task whose பணி_வகை is பிழை becomes a Bug."__
+// பணி_வகை பிழை எனில் அது பிழை வகை உருப்படி ஆகும்
+பிழை_விதி = வகை_விதி_ஆக்கு("பணி_வகை", "பிழை", "Bug", 10);
+அச்சு பிழை_விதி.பணியுருப்படி_வகை;
+அச்சு பிழை_விதி.வரிசை_எண்;
+
+// __An empty field matches every record, so this is the default. Give it the__
+// __largest order number: rules are tried lowest first, and a default tried__
+// __first would swallow every other rule.__
+// வெற்றுப் புலம் எல்லாவற்றையும் பொருத்தும்; இயல்பு விதிக்கு மிகப் பெரிய வரிசை எண் தருக
+இயல்பு_விதி = வகை_விதி_ஆக்கு("", "", "Task", 999);
+அச்சு இயல்பு_விதி.பொருத்தப்_புலம் == "";
+அச்சு இயல்பு_விதி.வரிசை_எண் > பிழை_விதி.வரிசை_எண்;

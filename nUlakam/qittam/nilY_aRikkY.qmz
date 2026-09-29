@@ -1,0 +1,72 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/nilY_aRikkY.qmz — நிலை அறிக்கை (the weekly status report)__
+// வார நிலை அறிக்கை: காலமும் வேட்பாளர்களும்
+//
+// __A status report has three lists — what was achieved, what is blocked, what__
+// __comes next — and a project manager writing it from memory forgets half of__
+// __each. The task data already knows all three. This file proposes them; the__
+// __manager edits the proposal, which is a much smaller job than writing it.__
+//
+// __The period runs from the day after the previous report to today, so__
+// __consecutive reports tile the calendar with no gap and no overlap. The first__
+// __report covers the seven days ending today.__
+//
+// __Tasks are paNi.qmz records. The two optional fields used here are__
+// __முடிந்த_நாள் (the actual finish) and தொடக்க_நாள் (the planned start).__
+
+இறக்கு "paNi.qmz";
+
+// __அடுத்தவைக்_காலம்() — how far ahead "next steps" looks, in days__
+// அடுத்தவைக்_காலம்() — அடுத்த படிகளுக்குப் பார்க்கும் நாட்கள்
+செயல் அடுத்தவைக்_காலம்() { திரும்பு 14; }
+
+// __அறிக்கைக்_காலம்(முந்தைய_அறிக்கை_நாள், இன்றைய_நாள்) — the period this report covers__
+// அறிக்கைக்_காலம்(முந்தைய_அறிக்கை_நாள், இன்றைய_நாள்) — இவ்வறிக்கை உள்ளடக்கும் காலம்
+//
+// __{தொடக்கம், முடிவு}, both inclusive. Pass "" as the previous date for the__
+// __first report.__
+செயல் அறிக்கைக்_காலம்(முந்தைய_அறிக்கை_நாள், இன்றைய_நாள்) {
+    (முந்தைய_அறிக்கை_நாள் == "") எனில் {
+        திரும்பு { தொடக்கம்: நாள்_கூட்டு(இன்றைய_நாள், 0 - 6), முடிவு: இன்றைய_நாள் };
+    }
+    திரும்பு { தொடக்கம்: நாள்_கூட்டு(முந்தைய_அறிக்கை_நாள், 1), முடிவு: இன்றைய_நாள் };
+}
+
+// __அறிக்கை_வேட்பாளர்கள்(பணிகள், காலம், இன்றைய_நாள்) — the proposed achievements, blockers and next steps__
+// அறிக்கை_வேட்பாளர்கள்(பணிகள், காலம், இன்றைய_நாள்) — சாதனைகள், தடைகள், அடுத்த படிகள்
+//
+// __{சாதனைகள், தடைகள், அடுத்தவை}, each a list of tasks:__
+//
+//   __சாதனைகள்  done, with முடிந்த_நாள் inside the period__
+//   __தடைகள்    in progress and past the due date__
+//   __அடுத்தவை  not done, not cancelled, and either in progress already or__
+//             __planned to start within அடுத்தவைக்_காலம்() days__
+//
+// __A task can be both a blocker and a next step, and is listed in both: it is__
+// __late, and it is also what the team is doing next. Hiding it from one list to__
+// __keep them disjoint would understate one or the other.__
+செயல் அறிக்கை_வேட்பாளர்கள்(பணிகள், காலம், இன்றைய_நாள்) {
+    எல்லை_நாள் = நாள்_கூட்டு(இன்றைய_நாள், அடுத்தவைக்_காலம்());
+    சாதனைகள் = [];
+    தடைகள் = [];
+    அடுத்தவை = [];
+    ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+        பணி_நிலை = ஒரு_பணி.நடப்பு_நிலை;
+        முடிந்த_நாள் = புலம்_அல்லது(ஒரு_பணி, "முடிந்த_நாள்", "");
+        தொடக்க_நாள் = புலம்_அல்லது(ஒரு_பணி, "தொடக்க_நாள்", "");
+        (பணி_முடிந்ததா(பணி_நிலை) மற்றும் முடிந்த_நாள் >= காலம்.தொடக்கம்
+            மற்றும் முடிந்த_நாள் <= காலம்.முடிவு மற்றும் முடிந்த_நாள் != "") எனில் {
+            சாதனைகள் = இணை(சாதனைகள், ஒரு_பணி);
+        }
+        (பணி_நிலை == "நடப்பில்" மற்றும் பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்)) எனில் {
+            தடைகள் = இணை(தடைகள், ஒரு_பணி);
+        }
+        திறந்தது = (இல்லை பணி_முடிந்ததா(பணி_நிலை)) மற்றும் பணி_நிலை != "கைவிட்டது";
+        விரைவில் = தொடக்க_நாள் != "" மற்றும் தொடக்க_நாள் <= எல்லை_நாள்;
+        (திறந்தது மற்றும் (பணி_நிலை == "நடப்பில்" அல்லது விரைவில்)) எனில் {
+            அடுத்தவை = இணை(அடுத்தவை, ஒரு_பணி);
+        }
+    }
+    திரும்பு { சாதனைகள்: சாதனைகள், தடைகள்: தடைகள், அடுத்தவை: அடுத்தவை };
+}

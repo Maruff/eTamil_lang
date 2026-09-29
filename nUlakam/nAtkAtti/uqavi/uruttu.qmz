@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உருட்டு(ஒரு_நாள், ஒரு_நாட்காட்டி, மரபுப்_பெயர்) — roll a non-working day by the named business convention__
+// வேலை நாள் இல்லையெனில், சொன்ன மரபின்படி உருட்டும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], []);
+
+// __A working day is never rolled, whichever convention is named.__
+// வேலை நாள் எந்த மரபிலும் உருட்டப்படுவதில்லை
+அச்சு மதிப்பு(உருட்டு("2026-03-02", நாட்காட்டி, "அடுத்தது"));
+
+// __Forward, or back.__
+// முன்னோக்கி, அல்லது பின்னோக்கி
+அச்சு மதிப்பு(உருட்டு("2026-03-07", நாட்காட்டி, "அடுத்தது"));
+அச்சு மதிப்பு(உருட்டு("2026-03-07", நாட்காட்டி, "முந்தையது"));
+
+// __The modified conventions are the ones interest actually uses: roll forward,__
+// __but not into the next month — a payment due on the last Sunday of May__
+// __is paid on the Friday, because moving it to June changes the quarter it__
+// __falls in and the interest that accrues to it.__
+// திருத்திய மரபுகள் மாதத்தைத் தாண்டுவதில்லை
+அச்சு மதிப்பு(உருட்டு("2026-05-31", நாட்காட்டி, "அடுத்தது"));
+அச்சு மதிப்பு(உருட்டு("2026-05-31", நாட்காட்டி, "திருத்திய_அடுத்தது"));
+
+// __And the same rule the other way at the start of a month.__
+// மாதத் தொடக்கத்தில் அதே விதி மறுதிசையில்
+அச்சு மதிப்பு(உருட்டு("2026-03-01", நாட்காட்டி, "திருத்திய_முந்தையது"));

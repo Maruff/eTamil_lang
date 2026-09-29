@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாதங்களாக(நாட்களின்_எண்ணிக்கை) — days as months, a part month counting as one__
+// நாட்களை மாதங்களாக்கும்; பகுதி மாதமும் ஒன்றே
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The same convention the withholding interest uses, named here too so the__
+// __advance-tax code does not reach across for it.__
+// மூலவரி வட்டியின் அதே மரபு
+அச்சு மாதங்களாக(30);
+அச்சு மாதங்களாக(45);
+அச்சு மாதங்களாக(1);

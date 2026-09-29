@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறிக்கைக்_காலம்(முந்தைய_அறிக்கை_நாள், இன்றைய_நாள்) — the period this report covers__
+// இவ்வறிக்கை உள்ளடக்கும் காலம்
+
+இறக்கு "../nilY_aRikkY.qmz";
+
+// __Last report on Monday the 21st, this one on Monday the 28th: the period starts__
+// __the day after, so the 21st is not reported twice.__
+// முந்தைய அறிக்கையின் மறுநாளிலிருந்து தொடங்கும்; 21 இருமுறை வராது
+வாரம் = அறிக்கைக்_காலம்("2026-09-21", "2026-09-28");
+அச்சு வாரம்.தொடக்கம் & " .. " & வாரம்.முடிவு;
+
+// __A late report simply covers more days. Nothing falls in a gap.__
+// தாமதமான அறிக்கை அதிக நாட்களை உள்ளடக்கும்; இடைவெளி இல்லை
+தாமதம் = அறிக்கைக்_காலம்("2026-09-21", "2026-10-02");
+அச்சு தாமதம்.தொடக்கம் & " .. " & தாமதம்.முடிவு;
+
+// __The first report passes "" and covers the seven days ending today, both ends__
+// __inclusive — the same length as every regular weekly report after it.__
+// முதல் அறிக்கை "" தரும்; இரு முனைகளும் சேர்த்து ஏழு நாட்கள்
+முதல் = அறிக்கைக்_காலம்("", "2026-09-28");
+அச்சு முதல்.தொடக்கம் & " .. " & முதல்.முடிவு;

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்பந்தம்_உள்ளதா(ஒப்புதல்_உண்டா, உரிமைகள்_தெளிவா, செலுத்தும்_விதிமுறை_உண்டா, வணிகப்_பொருள்_உண்டா, வசூல்_வாய்ப்புள்ளதா) — step one: is there a contract to account for at all?__
+// முதல் படி: கணக்கிடத்தக்க ஒப்பந்தம் உள்ளதா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __All five, or none. A signed order with no payment terms is not a contract__
+// __for this purpose, and neither is one the customer probably cannot pay for.__
+// ஐந்தும் நிறைவேற வேண்டும்; ஒன்று குறைந்தாலும் ஒப்பந்தம் இல்லை
+அச்சு ஒப்பந்தம்_உள்ளதா(மெய், மெய், மெய், மெய், மெய்);
+
+// __Collectability is the one that is a judgement rather than a fact, and the__
+// __one that keeps revenue off the books when a customer is in trouble.__
+// வசூல் வாய்ப்பு என்பது உண்மை அல்ல, தீர்ப்பு
+அச்சு ஒப்பந்தம்_உள்ளதா(மெய், மெய், மெய், மெய், பொய்);
+அச்சு ஒப்பந்தம்_உள்ளதா(மெய், மெய், பொய், மெய், மெய்);

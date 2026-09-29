@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __துண்டு_அணி(பட்டியல், தொடக்கம், அளவு) — a slice of an array__
+// ஒரு அணியின் ஒரு பகுதி
+
+இறக்கு "../kOppumuRY.qmz";
+
+// __What the walk keeps its stack of directories with: take everything but the__
+// __last entry, and go round again.__
+// நடை தன் அடுக்கைக் குறைப்பது இதனால்
+பட்டி = ["a", "b", "c", "d"];
+அச்சு நீளம்(துண்டு_அணி(பட்டி, 0, 3));
+அச்சு துண்டு_அணி(பட்டி, 1, 2)[0];
+
+// __It stops at the end of the array rather than past it, so a length taken__
+// __from somewhere else cannot read off the end.__
+// அணியின் முடிவிலேயே நிற்கும்; அதற்கு அப்பால் செல்லாது
+அச்சு நீளம்(துண்டு_அணி(பட்டி, 2, 99));
+அச்சு நீளம்(துண்டு_அணி(பட்டி, 0, 0));

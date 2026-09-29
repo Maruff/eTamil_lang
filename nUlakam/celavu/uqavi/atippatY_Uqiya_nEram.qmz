@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படை_ஊதிய_நேரம்() — absorb overhead on direct labour hours__
+// நேரடி ஊதிய நேரத்தின்மேல் உள்வாங்குதல்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The commonest choice, and the one activity-based costing was invented to__
+// __get away from: it charges overhead to whatever takes the most labour__
+// __whether or not that is what causes the overhead.__
+// மிகவும் பரவலானது; செயல்பாட்டுக் கணக்கீடு இதிலிருந்தே விலகியது
+அச்சு அடிப்படை_ஊதிய_நேரம்();
+அச்சு அடிப்படை_செல்லுபடியா(அடிப்படை_ஊதிய_நேரம்());

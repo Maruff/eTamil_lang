@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேலை_நாட்களை_எண்ணு(தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) — how many working days lie between two dates__
+// இரு நாள்களுக்கு இடையே உள்ள வேலை நாட்கள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+
+// __A week with one holiday in it holds four working days, not seven and not__
+// __five.__
+// ஒரு விடுமுறை உள்ள வாரத்தில் நான்கு வேலை நாட்களே
+அச்சு வேலை_நாட்களை_எண்ணு("2026-03-02", "2026-03-08", நாட்காட்டி);
+
+// __This is what a resource's capacity for a period is built on, and counting__
+// __elapsed days instead inflates a plan by about a third.__
+// வளத்தின் திறன் இதன்மீதே கட்டப்படுகிறது
+அச்சு வேலை_நாட்களை_எண்ணு("2026-03-02", "2026-03-06", நாட்காட்டி);
+அச்சு வேலை_நாட்களை_எண்ணு("2026-03-02", "2026-03-02", நாட்காட்டி);

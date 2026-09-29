@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறுவாத_பொருளுடன்_வருவாய்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு, நிறுவாத_பொருள்_செலவு) — revenue with the uninstalled material at cost and no margin__
+// நிறுவப்படாத பொருளை விளிம்பின்றிச் சேர்த்த வருவாய்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The material is recognised at cost with no margin on it, and the rest of__
+// __the contract carries its margin as usual. Both halves are reported, because__
+// __a single total hides why the margin moved this period.__
+// பொருளுக்கு விளிம்பு இல்லை; மீதிக்கு வழக்கம்போல
+நிலவரம் = மதிப்பு(நிறுவாத_பொருளுடன்_வருவாய்(2000000, 500000, 1500000, 400000));
+அச்சு நிலவரம்["முன்னேற்றம்"];
+அச்சு நிலவரம்["விளிம்புள்ள_வருவாய்"];
+அச்சு நிலவரம்["விளிம்பற்ற_வருவாய்"];
+அச்சு நிலவரம்["மொத்த_வருவாய்"];

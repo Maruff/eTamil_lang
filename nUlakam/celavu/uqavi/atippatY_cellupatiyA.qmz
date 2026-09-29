@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படை_செல்லுபடியா(அடிப்படை_வகை) — is this one of the five bases?__
+// இது ஐந்து அடிப்படைகளில் ஒன்றா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு அடிப்படை_செல்லுபடியா(அடிப்படை_அலகுகள்());
+அச்சு அடிப்படை_செல்லுபடியா("ஏதோ");
+
+// __Checked before a rate is computed, because a rate on a base nobody__
+// __recognises is a number that will be used all year.__
+// விகிதம் கணக்கிடுமுன் சரிபார்க்கப்படுகிறது
+அச்சு தவறா(உள்வாங்கல்_விகிதம்(600000, 30000, "ஏதோ"));

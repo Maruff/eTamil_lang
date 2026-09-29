@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாத_முதல்(ஒரு_நாள்) — the first of that month__
+// அம்மாதத்தின் முதல் நாள்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Where a monthly report's period starts, whichever day inside it you happen__
+// __to be holding.__
+// மாத அறிக்கையின் காலம் தொடங்கும் இடம்
+அச்சு மாத_முதல்("2026-03-17");
+அச்சு மாத_முதல்("2026-03-01");

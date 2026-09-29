@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அணி_நிரப்பு(மதிப்பு, எண்ணிக்கை) — an array of n copies of a value__
+// சொன்ன மதிப்பைச் சொன்ன எண்ணிக்கையில் கொண்ட அணி
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+பூஜ்ஜியங்கள் = அணி_நிரப்பு(0, 4);
+அச்சு நீளம்(பூஜ்ஜியங்கள்);
+அச்சு பூஜ்ஜியங்கள்[3];
+
+// __Useful as the starting state of a tally.__
+// எண்ணிக்கையின் தொடக்க நிலையாகப் பயன்படும்

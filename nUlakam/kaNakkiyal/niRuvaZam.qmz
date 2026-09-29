@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/niRuvaZam.qmz — நிறுவனம் and நாணயம்__
+// நிறுவனமும் நாணயமும்
 //
 // __Multiple companies in one ledger, and transactions in a currency other__
 // __than the one the books are kept in.__
@@ -9,13 +10,14 @@
 // __group can be consolidated by simply not filtering.__
 
 இறக்கு "pErEtu.qmz";
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __--- நிறுவனம் (entity) ---__
 
 // நிறுவனம்_ஆக்கு(குறி, பெயர், அறிக்கை_நாணயம்)
 // __நிறுவனம்_ஆக்கு(குறி, பெயர், அறிக்கை_நாணயம்) — one company in the ledger__
+// நிறுவனம்_ஆக்கு(குறி, பெயர், அறிக்கை_நாணயம்) — பேரேட்டில் ஒரு நிறுவனம்
 //
 // __The reporting currency belongs to the company, not to the installation, which is what lets several companies share one ledger and still each present in their own. Translation differences are then a property of the pair, and வேறுபாட்டுத்_தொகை below computes them.__
 செயல் நிறுவனம்_ஆக்கு(குறி, பெயர், அறிக்கை_நாணயம்) {
@@ -30,6 +32,7 @@
 //
 // __Posts exactly as பதிவிடு does — the same balance check — then stamps each__
 // __line with the entity it belongs to.__
+// நிறுவனத்துடன்_பதிவிடு(பேரேடு, பரிவர்த்தனை, நிறுவனக்_குறி) — நிறுவனக் குறியுடன் பதியும்
 செயல் நிறுவனத்துடன்_பதிவிடு(பேரேடு, பரிவர்த்தனை, நிறுவனக்_குறி) {
     முன்_நீளம் = நீளம்(பேரேடு);
     விளைவு = பதிவிடு(பேரேடு, பரிவர்த்தனை);
@@ -51,6 +54,7 @@
 }
 
 // __நிறுவன_வடிகட்டு(பேரேடு, நிறுவனக்_குறி) — one company's books__
+// நிறுவன_வடிகட்டு(பேரேடு, நிறுவனக்_குறி) — ஒரு நிறுவனத்தின் கணக்குகள் மட்டும்
 செயல் நிறுவன_வடிகட்டு(பேரேடு, நிறுவனக்_குறி) {
     திரும்பு புலத்தால்_வடிகட்டு(பேரேடு, "நிறுவனக்_குறி", நிறுவனக்_குறி);
 }
@@ -59,6 +63,7 @@
 
 // நாணயம்_ஆக்கு(குறி, பெயர், சின்னம்)
 // __நாணயம்_ஆக்கு(குறி, பெயர், சின்னம்) — one currency__
+// நாணயம்_ஆக்கு(குறி, பெயர், சின்னம்) — ஒரு நாணயம்
 //
 // __The symbol is carried for presentation only. Nothing computes with it: amounts are numbers and the currency is a label on them, because a figure that knows how to print itself is a figure that can be added to one that prints differently.__
 செயல் நாணயம்_ஆக்கு(குறி, பெயர், சின்னம்) {
@@ -67,11 +72,13 @@
 
 // மாற்று_விகிதம்_ஆக்கு(நாணயக்_குறி, நாள், விகிதம்)
 // __விகிதம் is units of the reporting currency per one unit of the foreign one.__
+// மாற்று_விகிதம்_ஆக்கு(நாணயக்_குறி, நாள், விகிதம்) — ஒரு நாளுக்கான மாற்று விகிதம்
 செயல் மாற்று_விகிதம்_ஆக்கு(நாணயக்_குறி, நாள், விகிதம்) {
     திரும்பு {நாணயக்_குறி: நாணயக்_குறி, நாள்: நாள், விகிதம்: விகிதம்};
 }
 
 // __அடிப்படைக்கு_மாற்று(தொகை, விகிதம்) — foreign amount into reporting currency__
+// அடிப்படைக்கு_மாற்று(தொகை, விகிதம்) — அன்னியத் தொகையை அறிக்கை நாணயமாக்கும்
 செயல் அடிப்படைக்கு_மாற்று(தொகை_மதிப்பு, விகிதம்) {
     திரும்பு வட்டப்_பெருக்கு(தொகை_மதிப்பு, விகிதம்);
 }
@@ -85,6 +92,7 @@
 
 // வேறுபாட்டுத்_தொகை(அன்னியத்_தொகை, பழைய_விகிதம், புதிய_விகிதம்)
 // __வேறுபாட்டுத்_தொகை(அன்னியத்_தொகை, பழைய_விகிதம், புதிய_விகிதம்) — the exchange difference__
+// வேறுபாட்டுத்_தொகை(அன்னியத்_தொகை, பழைய_விகிதம், புதிய_விகிதம்) — மாற்று விகித வேறுபாட்டுத் தொகை
 //
 // __The foreign amount revalued at the new rate less the old, rounded to two places. Positive when the new rate is higher, which is a gain on an asset and a loss on a liability — the sign here is arithmetic and which side it falls on is the caller's to decide.__
 செயல் வேறுபாட்டுத்_தொகை(அன்னியத்_தொகை, பழைய_விகிதம், புதிய_விகிதம்) {
@@ -92,6 +100,7 @@
 }
 
 // __அன்னிய_வேறுபாடு(...) — the transaction that records it__
+// அன்னிய_வேறுபாடு(எண், நாள், விவரம், கணக்கு, வேறுபாட்டுக்_கணக்கு, தொகை) — வேறுபாட்டைப் பதியும் பரிவர்த்தனை
 //
 // __A positive difference on a receivable is a gain: the customer's debt is__
 // __worth more in our currency than when it was raised.__

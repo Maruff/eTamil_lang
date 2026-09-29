@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிலளிப்பு_நிகரம்(நன்மை, பதிலளிப்புச்_செலவு) — what the response is worth, priced__
+// பதிலளிப்பின் நிகர மதிப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __The same question as பதிலளிப்பு_பயனுள்ளதா, answered with a number instead__
+// __of a yes — which is what a comparison between two responses needs.__
+// அதே வினா, எண்ணாக; இரு பதிலளிப்புகளை ஒப்பிட இதுவே தேவை
+அச்சு பதிலளிப்பு_நிகரம்(100000, 50000);
+அச்சு பதிலளிப்பு_நிகரம்(100000, 150000);
+அச்சு பதிலளிப்பு_நிகரம்(100000, 100000);

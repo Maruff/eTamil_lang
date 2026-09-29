@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இயக்கி_விகிதம்(ஒரு_செயல்பாடு) — the cost of one unit of the driver__
+// இயக்கியின் ஓர் அலகுக்குச் செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+செயல்பாடு = செயல்பாடு_ஆக்கு("A1", "இயந்திரம் அமைத்தல்", 200000, "அமைப்புகள்", 500);
+
+// __Four hundred rupees a set-up. A product made in small batches takes more__
+// __set-ups per unit, and this is where that finally shows up in its cost.__
+// ஒரு அமைப்புக்கு நானூறு ரூபாய்; சிறு தொகுதிகள் அதிக அமைப்புகளை எடுக்கும்
+அச்சு மதிப்பு(இயக்கி_விகிதம்(செயல்பாடு));
+
+// __An activity nobody performed has no rate.__
+// நடக்காத செயல்பாட்டுக்கு விகிதம் இல்லை
+அச்சு தவறா(இயக்கி_விகிதம்(செயல்பாடு_ஆக்கு("A9", "ஏதோ", 100000, "x", 0)));

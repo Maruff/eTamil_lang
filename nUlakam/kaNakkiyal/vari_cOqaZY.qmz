@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __வரி_சோதனை — tests for the GST module, written in eTamil__
+// வணிக வரித் தொகுதிக்கான சோதனைகள்
 //
 // __Run it like any other program:  etamil --vm nUlakam/kaNakkiyal/vari_cOqaZY.qmz__
 // __It exits non-zero if anything fails, so it works as a CI step.__
@@ -10,7 +11,7 @@
 // __either — வரி_விகிதம்_ஆக்கு takes one — which is what lets the real figures__
 // __live in a table that is updated when the rules change, rather than in code.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "vari.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("வரி (GST)");

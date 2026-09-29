@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மீதி(எண், வகுப்பான்) — the remainder, since there is no % operator__
+// வகுத்தபின் மிஞ்சுவது; மீதிக்கெனச் செயற்குறி இல்லை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு மீதி(17, 5);
+அச்சு மீதி(20, 5);
+
+// __Dividing by zero answers zero rather than stopping the program.__
+// பூஜ்ஜியத்தால் வகுத்தால் நிரலை நிறுத்தாமல் பூஜ்ஜியம் தரும்
+அச்சு மீதி(7, 0);

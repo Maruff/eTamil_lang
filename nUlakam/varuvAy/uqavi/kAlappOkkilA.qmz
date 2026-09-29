@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலப்போக்கிலா(ஒரே_நேரத்தில்_நுகர்கிறாரா, வாடிக்கையாளர்_கட்டுப்பாட்டிலா, மாற்று_பயன்_இல்லையா, செலுத்த_உரிமை_உண்டா) — step five: is this satisfied over time, or at a point?__
+// ஐந்தாம் படி: இது காலப்போக்கில் நிறைவேறுகிறதா, ஒரு புள்ளியிலா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Any one of the three criteria is enough. The customer consuming as you__
+// __perform — a cleaning contract — is the clearest.__
+// மூன்றில் ஏதேனும் ஒன்று போதும்
+அச்சு காலப்போக்கிலா(மெய், பொய், பொய், பொய்);
+அச்சு காலப்போக்கிலா(பொய், மெய், பொய், பொய்);
+
+// __The third criterion is two conditions and needs both: an asset with no__
+// __alternative use AND an enforceable right to payment for work done. A__
+// __bespoke machine with no such right is not over time.__
+// மூன்றாவது நிபந்தனைக்கு இரண்டும் வேண்டும்
+அச்சு காலப்போக்கிலா(பொய், பொய், மெய், மெய்);
+அச்சு காலப்போக்கிலா(பொய், பொய், மெய், பொய்);
+அச்சு காலப்போக்கிலா(பொய், பொய், பொய், பொய்);

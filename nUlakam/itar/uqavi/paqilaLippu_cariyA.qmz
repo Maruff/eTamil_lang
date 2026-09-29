@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிலளிப்பு_சரியா(இடர்_வகை, பதிலளிப்பு) — does this response fit this kind of risk?__
+// இந்த வகை இடருக்கு இந்தப் பதிலளிப்பு பொருந்துமா
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __A threat may be mitigated, transferred or avoided.__
+// அச்சுறுத்தலைத் தணிக்கலாம், மாற்றலாம், தவிர்க்கலாம்
+அச்சு பதிலளிப்பு_சரியா("அச்சுறுத்தல்", "தணிப்பு");
+அச்சு பதிலளிப்பு_சரியா("அச்சுறுத்தல்", "மாற்றல்");
+
+// __Mitigating an opportunity is a contradiction: mitigation makes it smaller,__
+// __which is the opposite of what is wanted. An opportunity is enhanced or__
+// __exploited instead.__
+// வாய்ப்பைத் தணிப்பது முரண்; தணிப்பு அதைச் சிறிதாக்கும்
+அச்சு பதிலளிப்பு_சரியா("வாய்ப்பு", "தணிப்பு");
+அச்சு பதிலளிப்பு_சரியா("வாய்ப்பு", "மேம்படுத்தல்");
+அச்சு பதிலளிப்பு_சரியா("வாய்ப்பு", "பயன்படுத்தல்");
+
+// __And exploiting a threat is the same mistake the other way round.__
+// அச்சுறுத்தலைப் பயன்படுத்துவது அதே தவறின் மறுபக்கம்
+அச்சு பதிலளிப்பு_சரியா("அச்சுறுத்தல்", "பயன்படுத்தல்");
+
+// __Acceptance is the one response that fits both.__
+// ஏற்பு ஒன்றே இரண்டுக்கும் பொருந்தும்
+அச்சு பதிலளிப்பு_சரியா("அச்சுறுத்தல்", "ஏற்பு");
+அச்சு பதிலளிப்பு_சரியா("வாய்ப்பு", "ஏற்பு");

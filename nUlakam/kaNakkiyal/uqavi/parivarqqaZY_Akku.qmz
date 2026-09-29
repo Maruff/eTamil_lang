@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், நாள், விவரம், வரிசைகள்) — a journal entry__
+// ஒரு பரிவர்த்தனை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Any number of lines, not just two. A sale with tax has three, and a payroll__
+// __entry has as many as there are deductions.__
+// இரண்டு வரிசைகள் மட்டுமல்ல; வரியுடன் விற்பனைக்கு மூன்று
+பரிவர்த்தனை = பரிவர்த்தனை_ஆக்கு(1, "2026-04-01", "வரியுடன் விற்பனை", [
+    பற்று_வரிசை("1100", 11800),
+    வரவு_வரிசை("4000", 10000),
+    வரவு_வரிசை("2200", 1800)]);
+
+அச்சு பரிவர்த்தனை["விவரம்"];
+அச்சு நீளம்(பரிவர்த்தனை["வரிசைகள்"]);
+அச்சு சமநிலையா(பரிவர்த்தனை);

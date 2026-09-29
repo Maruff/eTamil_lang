@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவணை_வரை_தேவை(மதிப்பிட்ட_வரித்_தொகை, அட்டவணை, தவணை_எண்) — how much should have been paid by that instalment__
+// அத்தவணை வரை செலுத்தியிருக்க வேண்டியது
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+அட்டவணை = முன்வரித்_தவணைகள்();
+
+// __Cumulative: by the third date, three quarters of the year's tax.__
+// திரட்டியது; மூன்றாம் நாளுக்குள் ஆண்டு வரியின் முக்கால் பங்கு
+அச்சு மதிப்பு(தவணை_வரை_தேவை(100000, அட்டவணை, 1));
+அச்சு மதிப்பு(தவணை_வரை_தேவை(100000, அட்டவணை, 3));
+அச்சு மதிப்பு(தவணை_வரை_தேவை(100000, அட்டவணை, 4));
+
+// __An instalment the schedule does not have is a தவறு naming it.__
+// அட்டவணையில் இல்லாத தவணை தவறே
+அச்சு தவறா(தவணை_வரை_தேவை(100000, ஒற்றைத்_தவணை_அட்டவணை(), 1));

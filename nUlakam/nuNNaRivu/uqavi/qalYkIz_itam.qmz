@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைகீழ்_இடம்(இடநிலை) — one over the rank, or nothing if it was not found__
+// இடத்தின் தலைகீழ்; கிடைக்கவில்லையெனில் பூஜ்ஜியம்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __First place is worth one, second a half, tenth a tenth. The curve is steep__
+// __at the top, which is right: the difference between first and second matters__
+// __far more than between ninth and tenth.__
+// முதல் இடம் ஒன்று, இரண்டாம் இடம் அரை; வளைவு உச்சியில் செங்குத்தானது
+அச்சு தலைகீழ்_இடம்(1);
+அச்சு தலைகீழ்_இடம்(2);
+அச்சு தலைகீழ்_இடம்(10);
+
+// __Not found is nothing rather than a very small number, because a result that__
+// __never appeared is not a result that appeared very late.__
+// கிடைக்காதது பூஜ்ஜியமே; மிகச் சிறிய எண் அல்ல
+அச்சு தலைகீழ்_இடம்(0 - 1);

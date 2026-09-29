@@ -5,7 +5,7 @@ needed a systems language, the DSL would not be sufficient for the
 frameworks built on top of it.
 
 ```etamil
-இறக்கு "nUlakam/paNam.qmz";
+இறக்கு "nUlakam/paNam/paNam.qmz";
 
 அச்சு ரூபாய்(12345678.5);        // ₹1,23,45,678.50
 ```
@@ -14,12 +14,12 @@ frameworks built on top of it.
 
 | File | Contents |
 |---|---|
-| `col.qmz` | strings — `துண்டு` `தேடு` `ஒழுங்கு` `தொடங்குகிறதா` `முடிகிறதா` `திரும்பச்செய்` `இடமிருந்து_நிரப்பு` |
-| `kaNiqam.qmz` | math — `முழுமதிப்பு` `சிறியது` `பெரியது` `கூட்டு` `சராசரி` `சதவீதம்` `வர்க்கமூலம்` |
-| `aNi.qmz` | arrays — `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` |
-| `poruL.qmz` | records — `புலம்_உள்ளதா` `புலம்_அல்லது` `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
-| `cOqaZY.qmz` | tests — `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
-| `kOppumuRY.qmz` | the file system — `பாதை_இணை` `அடிப்பெயர்` `கோப்பக_பெயர்` `நீட்சி` `பெயர்_மட்டும்` `பாதை_இயல்பாக்கு` `கோப்பகமா` `கோப்பக_பட்டியல்` `கோப்பக_நட` `நீட்சியால்_கோப்புகள்` `வினாடியை_நாளாக` |
+| `atippatY/col.qmz` | strings — `துண்டு` `தேடு` `ஒழுங்கு` `தொடங்குகிறதா` `முடிகிறதா` `திரும்பச்செய்` `இடமிருந்து_நிரப்பு` |
+| `atippatY/kaNiqam.qmz` | math — `முழுமதிப்பு` `சிறியது` `பெரியது` `கூட்டு` `சராசரி` `சதவீதம்` `வர்க்கமூலம்` |
+| `atippatY/aNi.qmz` | arrays — `உள்ளதா` `இடம்_காண்` `தலைகீழ்` `வெட்டு` `புலம்_எடு` `காலியா` |
+| `atippatY/poruL.qmz` | records — `புலம்_உள்ளதா` `புலம்_அல்லது` `புலங்கள்` `மதிப்பீடுகள்` `காலியா_பதிவேடு` |
+| `cOqaZY/cOqaZY.qmz` | tests — `சோதனை_தொடக்கம்` `உறுதிசெய்` `சமம்` `வேறுபடு` `சேர்_ஓட்டம்` `சோதனை_முடிவு` |
+| `kOppumuRY/kOppumuRY.qmz` | the file system — `பாதை_இணை` `அடிப்பெயர்` `கோப்பக_பெயர்` `நீட்சி` `பெயர்_மட்டும்` `பாதை_இயல்பாக்கு` `கோப்பகமா` `கோப்பக_பட்டியல்` `கோப்பக_நட` `நீட்சியால்_கோப்புகள்` `வினாடியை_நாளாக` |
 | `vaZporuL/vaZporuL.qmz` | hardware, one API for Raspberry Pi, the simulated board and (through artino) Arduino — `பலகை` `முனை_வெளியீடு` `முனை_எழுது` `முனை_படி` `முனை_மாற்று` `ஒப்புமை_படி` `மில்லி_நொடி` `காத்திரு` `தொடர்_திற` `தொடர்_வரி_படி` `தொடர்_வரி_எழுது` `தொடர்_மூடு` `ஒலி_எழுப்பு` `ஒலி_நிறுத்து` `காவல்_தொடங்கு` `காவல்_புதுப்பி`, and `போலி_*` for tests. On the VM: `ETAMIL_BOARD=sim` anywhere, a Raspberry Pi's GPIO, serial ports on Linux and macOS |
 | `vaZporuL/yUnO.qmz` `nAnO.qmz` `mekA.qmz` `pIkO.qmz` `rAspY.qmz` | one board each — Uno, Nano, Mega, Pico and Pico 2, Raspberry Pi: the hardware API plus the board's pin names under the same names everywhere, `விளக்கு_முனை` `ஒப்புமை_0`… `ஒப்புமை_மில்லிவோல்ட்` `USB_துறை` `தொடர்1_துறை`…; the Pi's `தலைப்பு_முனை` maps header pins to BCM. artino refuses a board file that does not match `--board` |
 | `vawki/vatti.qmz` | interest — `எளிய_வட்டி` `நாளாந்த_வட்டி` `கூட்டு_வட்டி` `முதிர்வுத்_தொகை` `அடுக்கு` `நாட்கள்` |
@@ -73,14 +73,31 @@ frameworks built on top of it.
 | `nErativari/oqqivari.qmz` | deferred tax under Ind AS 12 — `தற்காலிக_வேறுபாடு` `வேறுபாட்டு_வகை` `ஒத்திவரிக்_கணக்கு` `அங்கீகரிக்கத்தக்க_சொத்து` `இழப்பின்_ஒத்திவரி` `ஈடுசெய்யலாமா` `ஒத்திவரி_மாற்றம்` `வீத_ஒப்புரவு` |
 | `qittam/qotarpu.qmz` | the four dependency types and lag — `முனை_ஆக்கு` `தொடர்பு_ஆக்கு` `தொடர்பு_வலையைக்_கணக்கிடு` `தொடர்பு_கடுமையானவை` `மொத்தத்_தாமதம்` `முன்னோட்டங்கள்` `தாமதப்_பங்கு` `சுருக்கக்கூடிய_காலம்` |
 | `qittam/oppanqa_vakY.qmz` | contract types — `விற்பவர்_இடர்` `உறுதி_நிலை_லாபம்` `ஊக்கக்_கட்டணம்` `முழுப்_பொறுப்புப்_புள்ளி` `நிலை_விலை_ஊக்கம்` `செலவுடன்_நிலைக்_கட்டணம்` `செலவுடன்_ஊக்கம்` `நேரமும்_பொருளும்` `மிகைச்_செலவின்_விளைவு` |
+| `qittam/nilYmARRam.qmz` | a lifecycle as data — `நிலை_மாற்றம்_ஆக்கு` `நிலை_வரைவு_ஆக்கு` `அடுத்த_நிலைகள்` `மாற்றம்_அனுமதியா` `இறுதி_நிலையா` `நிலையை_நகர்த்து` |
+| `qittam/paNi.qmz` | tasks — `பணி_ஆக்கு` `பணி_முடிந்ததா` `பணி_நிலுவையா` `முன்னுரிமை_தரம்` `நிலைக்கான_நிறைவு` `பூட்டிய_மாற்றம்_சரியா` `திரட்டிய_நிறைவு` `எடையிட்ட_நிறைவு` `பெற்றோர்_முன்_வரிசை` |
+| `qittam/attavaNY.qmz` | the network on the calendar — `மணியிலிருந்து_நாட்கள்` `மீதி_நாட்கள்` `நாட்காட்டியில்_இடு` |
+| `qittam/nalam.qmz` | project health — `மைல்கல்_ஆக்கு` `மைல்கல்_வேறுபாடு` `கழிந்த_சதவீதம்` `திட்ட_நலம்` |
+| `qittam/mARRak_kOrikkY.qmz` | change control — `மாற்றக்_கோரிக்கை_வரைவு` `புதிய_பணிக்கு_அனுமதியா` |
+| `qittam/nilY_aRikkY.qmz` | the status report — `அறிக்கைக்_காலம்` `அறிக்கை_வேட்பாளர்கள்` |
+| `oruwkiNYppu/varYpatam.qmz` | Azure DevOps mapping — `வெளி_நிலை` `உள்_நிலை` `முன்னுரிமை_எண்` `பணியுருப்படி_வகை` `மணியிலிருந்து_நிறைவு` |
+| `oruwkiNYppu/pula_urimY.qmz` | field ownership — `இயல்பு_உரிமைகள்` `உரிமையாளர்` `வரவைப்_பிரி` `அனுப்பவேண்டியவை` |
+| `oruwkiNYppu/mItci.qmz` | retry and backoff — `மீள்_முயலத்தக்கதா` `காத்திருப்பு_நொடிகள்` `கைவிடலாமா` |
+| `oruwkiNYppu/kYrEkY.qmz` | fingerprints — `நிலையான_வடிவம்` `கைரேகை` `ஒருமுறைக்_குறி` `கைரேகை_ஒன்றா` |
+| `oruwkiNYppu/ottu.qmz` | JSON Patch — `புல_ஒட்டு` `திருத்தச்_சோதனை` `பெற்றோர்_ஒட்டு` `குறிச்சொற்களை_இணை` `பணி_ஒட்டுகள்` |
+| `oruwkiNYppu/viZA.qmz` | WIQL — `வினா_மேற்கோள்` `தேடல்_தொடக்க_நாள்` `மாறியவை_வினா` |
+| `oruwkiNYppu/varavu.qmz` | inbound — `வரவு_முடிவு` `கொக்கிச்_சீட்டு_சரியா` `கொக்கி_நிகழ்வைப்_படி` |
+| `oruwkiNYppu/aZuppu_varicY.qmz` | the outbox — `அனுப்பு_உருப்படி_ஆக்கு` `வரிசையில்_உள்ளதா` `அனுப்பத்_தயாரானவை` `அனுப்பியதாகப்_பதி` `தோல்வியைப்_பதி` |
+| `oruwkiNYppu/ajUr.qmz` | the REST client — `அஜூர்_இணைப்பு_ஆக்கு` `பணியுருப்படியைப்_பெறு` `பணியுருப்படியை_உருவாக்கு` `பணியுருப்படியைத்_திருத்து` `வினாவை_ஓட்டு` |
+| `qayArippu/paqippu.qmz` | versions and support life — `பதிப்பைப்_படி` `பதிப்புகளை_ஒப்பிடு` `பதிப்பை_உயர்த்து` `அதே_தளமா` `ஆதரவு_நிலை` |
+| `qayArippu/vAkkuRuqi.qmz` | release commitments — `உரிய_நாள்` `வாக்குறுதி_கடந்ததா` `அறிவிப்பு_தேவையா` `அறிவிப்பு_தாமதமா` `தெரிவித்ததாகப்_பதி` `வாக்குறுதி_எண்ணிக்கைகள்` |
 | `kAppItu/kAppItu.qmz` | insurance — `முனைமம்` `ஆயிரத்திற்கு_முனைமம்` `சராசரி_விதி` `கோரல்_தீர்வு` `கோரல்_இல்லா_சலுகை` `நிலுவைக்_கோரல்கள்` |
 | `cuwkam/cuwkam.qmz` | customs and trade — `மதிப்பிடத்தக்க_மதிப்பு` `சுங்கக்_கணக்கு` `தலைப்பு_சரியா` `பொருந்துமா` `செல்லுபடி_நாட்கள்` `வழிச்சீட்டு_சரிபார்` |
 | `qaLam/retis.qmz` | Redis — `சேமி` `காலத்துடன்_சேமி` `எடு` `இருக்கிறதா` `நீக்கு` `ஒன்று_கூட்டு` `முன்_சேர்` `வரிசைப்_பகுதி` `இல்லையெனில்_இயல்பு` |
-| `paNam.qmz` | money — `ரூபாய்` `காசு_வடிவம்` `காசாக` `லட்சம்` `கோடி` |
-| `kAcu.qmz` | paise-exact money — `ரூபாயும்_பைசாவும்` `ரூபாயாக` `காசு_உரை` `காசு_கூட்டு` `விழுக்காடு_காசு` `சமமாகப்_பிரி` `விகிதத்தில்_பிரி` |
-| `jEcAZ.qmz` | JSON — `ஜேசான்_ஆக்கு` `ஜேசான்_படி` |
-| `kuRiyAkkam.qmz` | encoding — `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` |
-| `AvaNam.qmz` | documents — `ஆவணம்_நிரப்பு` `பொதியை_நிரப்பு` `_pdf_ஆக்கு`, and the `_ODT_வடிவம்` / `_ODS_வடிவம்` / `_DOCX_வடிவம்` / `_XLSX_வடிவம்` shapes |
+| `paNam/paNam.qmz` | money — `ரூபாய்` `காசு_வடிவம்` `காசாக` `லட்சம்` `கோடி` |
+| `paNam/kAcu.qmz` | paise-exact money — `ரூபாயும்_பைசாவும்` `ரூபாயாக` `காசு_உரை` `காசு_கூட்டு` `விழுக்காடு_காசு` `சமமாகப்_பிரி` `விகிதத்தில்_பிரி` |
+| `vativam/jEcAZ.qmz` | JSON — `ஜேசான்_ஆக்கு` `ஜேசான்_படி` |
+| `vativam/kuRiyAkkam.qmz` | encoding — `அறுபத்துநான்கு_ஆக்கு` `அறுபத்துநான்கு_படி` `பதினாறு_ஆக்கு` `பதினாறு_படி` |
+| `vativam/AvaNam.qmz` | documents — `ஆவணம்_நிரப்பு` `பொதியை_நிரப்பு` `_pdf_ஆக்கு`, and the `_ODT_வடிவம்` / `_ODS_வடிவம்` / `_DOCX_வடிவம்` / `_XLSX_வடிவம்` shapes |
 
 ## JSON is written here, not in the host
 
@@ -89,7 +106,7 @@ VM already allows that: `பொருள்[சாவி] = மதிப்ப�
 So `jEcAZ.qmz` is ordinary eTamil, and Layer 0 gains nothing.
 
 ```etamil
-இறக்கு "nUlakam/jEcAZ.qmz";
+இறக்கு "nUlakam/vativam/jEcAZ.qmz";
 
 ப = மதிப்பு(ஜேசான்_படி(request_body));
 அச்சு ப["qokY"] + 1;                       // a number, not text
@@ -142,6 +159,45 @@ produces the field `வரி`. It used to be filed under the English token name
 2. The consequence is that `{வரி: 1}` and `{vari: 1}` are now *different*
 fields, so a program should pick one spelling and keep to it.
 
+## A PMO in three folders
+
+A project-management application is mostly rules that every such application
+writes again: which statuses count as done, when a project turns amber, which
+side of a sync owns a field, how long to wait before retrying. They are split
+by what they are about, not by the application that first needed them:
+
+| Folder | What it knows |
+|---|---|
+| `qittam/` | the project — tasks, the schedule on a real calendar, health, change control, the status report, alongside the costing modules already there |
+| `oruwkiNYppu/` | Azure DevOps — state and priority mapping, field ownership, the outbox, retries, fingerprints, JSON Patch, WIQL, service hooks and the REST client |
+| `qayArippu/` | the product — versions and their support life, and release commitments to customers |
+
+The three meet in two places only. A task's status is held in `நடப்பு_நிலை`,
+the field `qittam/nilYmARRam.qmz` moves, so the same state machine runs a task,
+a change request or an outbox row. And the integration speaks the five task
+statuses of `qittam/paNi.qmz`, so a PMO built on `qittam` can sync without a
+translation layer of its own. Nothing here asks the clock: today's date and the
+current second are arguments, which is what makes every rule testable.
+
+## Worked examples, one per function
+
+Every folder has a `uqavi/` — உதவி, "help" — holding one runnable program for
+each function in it, named after the function it demonstrates. 914 of them, and
+each one shows the ordinary use together with the cases that are easy to get
+wrong: the boundary, the empty input, the failure that is a தவறு rather than a
+crash. The reasoning is in English and Tamil, like the library itself.
+
+They are executed rather than admired. Documentation that is not run stops being
+true, so a sample that no longer matches its function fails:
+
+```
+./scripts/run_samples.sh              # all of them
+./scripts/run_samples.sh paNam upi    # only these folders
+```
+
+They are kept out of `run_examples.sh` and given their own CI job, because each
+costs about a second and the examples gate is on the critical path.
+
 ## Import paths
 
 `இறக்கு` looks beside the importing file, then along `ETAMIL_PATH`, then next
@@ -179,7 +235,7 @@ template *means* is decided in `AvaNam.qmz`: which placeholder gets which
 value, which rows repeat, what has to be escaped.
 
 ```etamil
-இறக்கு "nUlakam/AvaNam.qmz";
+இறக்கு "nUlakam/vativam/AvaNam.qmz";
 
 மதிப்புகள் = [{"குறி": "project.name", "மதிப்பு": "Beak PMO"}];
 தொகுதிகள் = [{"பெயர்": "o",

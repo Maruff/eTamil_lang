@@ -43,7 +43,7 @@ reruns on any change under it.
 | Crate publishable to crates.io | `etamil_compiler/Cargo.toml` (`include`, keywords), `etamil_compiler/README.md`, `scripts/vendor_for_publish.py` |
 | Citable — `CITATION.cff` | repository root |
 | LLVM: whole numbers as `i64`, exact division, globals | `src/codegen.rs`, `src/codegen_limits.rs`, `examples/finance/pYcA_kaNakku.qmz` |
-| Money as whole paise | `nUlakam/kAcu.qmz` |
+| Money as whole paise | `nUlakam/paNam/kAcu.qmz` |
 | LLVM refusal for f64 arithmetic | `etamil_compiler/src/codegen_limits.rs`, `docs/llvm-backend-gaps.md` |
 | Database attempt-and-report; `:memory:` never pooled | `interpreter.rs`, `db/pool.rs` |
 | Insurance, customs and trade | `nUlakam/kAppItu/`, `nUlakam/cuwkam/` |
@@ -54,10 +54,10 @@ reruns on any change under it.
 | UPI addresses, links and states | `nUlakam/upi/` |
 | Fabric via REST gateway | `nUlakam/cawkili/` |
 | Core banking: interest, loans, asset classification | `nUlakam/vawki/` |
-| Tests written in eTamil; `வெளியேறு` | `nUlakam/cOqaZY.qmz` |
+| Tests written in eTamil; `வெளியேறு` | `nUlakam/cOqaZY/cOqaZY.qmz` |
 | REPL (`--repl`) | `src/repl.rs` |
 | mTLS, ECDSA | `src/mtls.rs`, `src/signing.rs` |
-| ODF/OOXML documents | `nUlakam/AvaNam.qmz`, package builtins |
+| ODF/OOXML documents | `nUlakam/vativam/AvaNam.qmz`, package builtins |
 
 ## Next, in the order the user asked for
 
@@ -142,7 +142,7 @@ the other repository. Merge the site's PR first.
 **Run the check before pushing, whenever a nUlakam function or a builtin was
 added or renamed.** An earlier note here guessed the outstanding drift came from
 the wasm session's `interpreter.rs` edits; it did not. It was ten `stdlib`
-entries from `nUlakam/kAcu.qmz`, drifting since `b2de386` — a plain nUlakam
+entries from `nUlakam/paNam/kAcu.qmz`, drifting since `b2de386` — a plain nUlakam
 commit, no builtins involved. Adding a function to nUlakam is enough to fail
 that gate.
 

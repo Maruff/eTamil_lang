@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முழு_முகவரி(நுழைவுப்_பொருள், பாதைப்_படிவம்) — build the full URL for one call__
+// ஒரு அழைப்புக்கான முழு முகவரியைக் கட்டும்
+
+இறக்கு "../fabric.qmz";
+
+நு = நுழைவு("https://gw.example/api", "mychannel", "basic", {});
+
+// __The channel and chaincode are substituted into the template. Kept as a__
+// __template rather than joined by hand, so a missing segment shows up in__
+// __something readable instead of disappearing into a string concatenation.__
+// சேனலும் நிரல்பொருளும் படிவத்துள் பொருத்தப்படும்
+அச்சு முழு_முகவரி(நு, நு["வினவல்_பாதை"]);
+அச்சு முழு_முகவரி(நு, நு["எழுதும்_பாதை"]);

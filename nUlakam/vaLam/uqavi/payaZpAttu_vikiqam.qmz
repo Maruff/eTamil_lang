@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பயன்பாட்டு_விகிதம்(பணிபுரிந்த_மணிகள், கிடைத்த_மணிகள்) — how much of what was available was used__
+// கிடைத்ததில் எவ்வளவு பயன்படுத்தப்பட்டது
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __Twenty-four hours booked out of thirty-two available.__
+// முப்பத்திரண்டில் இருபத்து நான்கு
+அச்சு மதிப்பு(பயன்பாட்டு_விகிதம்(24, 32));
+
+// __With no available hours there is nothing to measure against, and the__
+// __answer is a தவறு rather than a hundred per cent or a division by zero.__
+// கிடைத்த மணிகளே இல்லையெனில் ஒப்பிட ஒன்றுமில்லை
+அச்சு தவறா(பயன்பாட்டு_விகிதம்(24, 0));
+
+// __Over a hundred per cent is allowed and is worth looking at: it means more__
+// __was booked than the person was there for.__
+// நூற்றுக்கு மேலும் வரலாம்; அதுவே கவனிக்க வேண்டிய அறிகுறி
+அச்சு மதிப்பு(பயன்பாட்டு_விகிதம்(40, 32));

@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதிலளிப்பு_பயனுள்ளதா(நன்மை, பதிலளிப்புச்_செலவு) — is the response worth more than it costs?__
+// பதிலளிப்பின் நன்மை செலவை விஞ்சுகிறதா
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __Spending 50,000 to remove 1,00,000 of exposure is worth it.__
+// ஒரு லட்ச வெளிப்பாட்டை நீக்க ஐம்பதாயிரம் செலவழிப்பது பயனுள்ளது
+அச்சு பதிலளிப்பு_பயனுள்ளதா(100000, 50000);
+
+// __Spending 1,50,000 to remove the same 1,00,000 makes the project worse by__
+// __50,000 — and is done constantly, because the spending is a certainty on a__
+// __budget line and the exposure is a probability in a register.__
+// ஒன்றரை லட்சம் செலவழித்து ஒரு லட்சத்தை நீக்குவது திட்டத்தை மோசமாக்கும்
+அச்சு பதிலளிப்பு_பயனுள்ளதா(100000, 150000);
+
+// __Exactly breaking even is not worth doing: the same exposure, and a__
+// __certainty of having spent the money.__
+// சரியாகச் சமமானது பயனுள்ளதல்ல
+அச்சு பதிலளிப்பு_பயனுள்ளதா(100000, 100000);

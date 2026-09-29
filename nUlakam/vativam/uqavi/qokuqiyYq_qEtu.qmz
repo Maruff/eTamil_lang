@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகுதியைத்_தேடு(தொகுதிகள், தேடல்) — the block of rows a loop name refers to__
+// ஒரு வளையப் பெயர் குறிக்கும் வரிசைத் தொகுதி
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+தொகுதிகள் = [{"பெயர்": "வரிகள்", "புலங்கள்": ["பெயர்"], "வரிசைகள்": [{"பெயர்": "அ"}]},
+              {"பெயர்": "வரிகள்2", "புலங்கள்": ["பெயர்"], "வரிசைகள்": []}];
+
+அச்சு தொகுதியைத்_தேடு(தொகுதிகள், "வரிகள்")["பெயர்"];
+
+// __A name that matches nothing answers 0, which is how ஆவணம்_நிரப்பு notices__
+// __that a template asks for a table nobody supplied.__
+// பொருந்தாத பெயருக்கு 0; படிவம் கேட்ட அட்டவணை தரப்படவில்லை என்பது அப்படியே தெரியும்
+அச்சு தொகுதியைத்_தேடு(தொகுதிகள், "இல்லாதது");

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மோதலா(பிழை) — is this the read-write conflict, or a real failure?__
+// இது படிப்பு-எழுத்து மோதலா, அல்லது உண்மையான தோல்வியா
+
+இறக்கு "../fabric.qmz";
+
+// __The one Fabric error worth knowing by name. Two transactions that read the__
+// __same key and both write it cannot both commit; the second is rejected at__
+// __validation, after endorsement and ordering have already succeeded. It means__
+// __that someone got there first, not that this was wrong.__
+// யாரோ முந்திவிட்டார் என்பதே பொருள்; இது தவறானது என்பதல்ல
+அச்சு மோதலா({"விவரம்": "transaction invalidated with status MVCC_READ_CONFLICT"});
+அச்சு மோதலா({"விவரம்": "PHANTOM_READ_CONFLICT at validation"});
+
+// __A chaincode that refused is not a conflict. Retrying it would turn one__
+// __rejection into several, and it would be rejected every time.__
+// நிரல்பொருள் மறுத்தது மோதல் அல்ல; மீண்டும் முயன்றால் மீண்டும் மறுக்கப்படும்
+அச்சு மோதலா({"விவரம்": "caller is not authorised"});
+
+// __And something that is not an error record at all answers பொய் rather than__
+// __failing, so a caller can ask this of anything.__
+// பிழைப் பதிவேடு அல்லாததும் பொய்யே; எதைப் பற்றியும் கேட்கலாம்
+அச்சு மோதலா("just a string");

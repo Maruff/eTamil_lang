@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைப்பு_சரியா(குறியீட்டெண்) — is this a well-formed tariff heading?__
+// இது சரியான வடிவத்தில் உள்ள வரித் தலைப்பா
+
+இறக்கு "../cuwkam.qmz";
+
+// __A chapter is two digits, a heading four, a subheading six, a tariff item__
+// __eight. Nothing in between is a code.__
+// அத்தியாயம் இரண்டு, தலைப்பு நான்கு, உட்தலைப்பு ஆறு, வரிப்பொருள் எட்டு இலக்கம்
+அச்சு தலைப்பு_சரியா("84");
+அச்சு தலைப்பு_சரியா("8471");
+அச்சு தலைப்பு_சரியா("847130");
+அச்சு தலைப்பு_சரியா("84713010");
+அச்சு தலைப்பு_சரியா("847");
+
+// __A dash or a space is how a spreadsheet mangles one, and letters are not a__
+// __code at all. Each is rejected rather than half-read.__
+// கோடும் இடைவெளியும் விரிதாள் செய்யும் சிதைவு; எழுத்துகள் குறியீடே அல்ல
+அச்சு தலைப்பு_சரியா("84-71");
+அச்சு தலைப்பு_சரியா("84 71");
+அச்சு தலைப்பு_சரியா("ABCD");
+அச்சு தலைப்பு_சரியா("");

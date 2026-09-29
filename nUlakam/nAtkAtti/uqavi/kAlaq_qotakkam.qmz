@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலத்_தொடக்கம்() — the epoch every day count is measured from__
+// நாள் கணக்கீடுகளுக்கான தொடக்கப் புள்ளி
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Named rather than written out at each call site, so the one place it could__
+// __be got wrong is here.__
+// ஒவ்வொரு இடத்திலும் எழுதாமல், ஒரே இடத்தில் பெயரிடப்பட்டுள்ளது
+அச்சு காலத்_தொடக்கம்();
+
+// __Which makes it a date like any other: it can be compared, differenced and__
+// __checked with everything else here.__
+// இதுவும் ஒரு நாளே; மற்ற எல்லாவற்றுடனும் ஒப்பிடலாம்
+அச்சு நாள்_செல்லுபடியா(காலத்_தொடக்கம்());
+அச்சு ஆண்டைப்_பெறு(காலத்_தொடக்கம்());

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/pErEtu.qmz — பேரேடு (the ledger)__
+// பேரேடு
 //
 // __Double entry, enforced. A transaction that does not balance is rejected;__
 // __it never reaches the ledger. The ledger itself is append-only: posting__
@@ -10,11 +11,12 @@
 
 இறக்கு "kaNakkukaL.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை)
 // __வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை) — one line of a journal entry__
+// வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை) — நாட்குறிப்புப் பதிவின் ஒரு வரிசை
 //
 // __Both amounts are carried, not a single signed figure with a side flag. A line is conventionally one or the other, but holding both means the totals below add without knowing the convention, and a line that somehow has two is visible rather than silently netted.__
 செயல் வரிசை_ஆக்கு(கணக்கு_குறி, பற்று_தொகை, வரவு_தொகை) {
@@ -26,11 +28,13 @@
 }
 
 // __பற்று(கணக்கு_குறி, தொகை) / வரவு(கணக்கு_குறி, தொகை) — the readable forms__
+// பற்று_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) — பற்று வரிசை
 செயல் பற்று_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) {
     திரும்பு வரிசை_ஆக்கு(கணக்கு_குறி, தொகை_மதிப்பு, 0);
 }
 
 // __வரவு_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) — a credit line__
+// வரவு_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) — வரவு வரிசை
 //
 // __The credit half of the pair with பற்று_வரிசை. Writing the two sides through named helpers rather than positional zeroes is what stops the commonest journal mistake, which is not an unbalanced entry but a balanced one posted the wrong way round.__
 செயல் வரவு_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) {
@@ -39,6 +43,7 @@
 
 // பரிவர்த்தனை_ஆக்கு(ஒரு_எண், நாள், விவரம், வரிசைகள்)
 // __பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், நாள், விவரம், வரிசைகள்) — assemble one transaction__
+// பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், நாள், விவரம், வரிசைகள்) — ஒரு பரிவர்த்தனையை உருவாக்கும்
 //
 // __Builds it; it does not post it. The balance check belongs to posting, so a caller can construct an entry, inspect it and amend it before the ledger ever sees it — and what the ledger accepts is still only what balances.__
 செயல் பரிவர்த்தனை_ஆக்கு(பரிவர்த்தனை_எண், நாள், விவரம், வரிசைகள்) {
@@ -51,6 +56,7 @@
 }
 
 // __மொத்த_பற்று / மொத்த_வரவு over a transaction's lines__
+// மொத்த_பற்று(வரிசைகள்) — ஒரு பரிவர்த்தனையின் பற்றுகள் கூட்டியது
 செயல் மொத்த_பற்று(வரிசைகள்) {
     மொத்தம் = 0;
     ஒவ்வொரு ஒரு_வரிசை இல் வரிசைகள் {
@@ -60,6 +66,7 @@
 }
 
 // __மொத்த_வரவு(வரிசைகள்) — the credits of one transaction, added up__
+// மொத்த_வரவு(வரிசைகள்) — ஒரு பரிவர்த்தனையின் வரவுகள் கூட்டியது
 //
 // __Compared against மொத்த_பற்று to decide whether the entry balances. Computed over the lines as given rather than accumulated as they are added, so the check cannot be fooled by an entry assembled in an unusual order.__
 செயல் மொத்த_வரவு(வரிசைகள்) {
@@ -71,11 +78,13 @@
 }
 
 // __சமநிலையா(பரிவர்த்தனை) — do the two sides agree?__
+// சமநிலையா(பரிவர்த்தனை) — இரு பக்கமும் ஒத்துப்போகிறதா
 செயல் சமநிலையா(பரிவர்த்தனை) {
     திரும்பு மொத்த_பற்று(பரிவர்த்தனை.வரிசைகள்) == மொத்த_வரவு(பரிவர்த்தனை.வரிசைகள்);
 }
 
 // __பதிவிடு(பேரேடு, பரிவர்த்தனை) — post, or refuse__
+// பதிவிடு(பேரேடு, பரிவர்த்தனை) — பேரேட்டில் பதியும்; சமநிலை இல்லையெனில் மறுக்கும்
 //
 // __Exact decimals matter here: with f64 a transaction could be a fraction of__
 // __a paisa out and this equality would fail, or worse, silently pass.__
@@ -109,6 +118,7 @@
 // __Returned in the account's own normal direction, so an asset with more__
 // __debits than credits reads positive, and so does a liability with more__
 // __credits than debits.__
+// கணக்கு_இருப்பு(பேரேடு, கணக்கு_குறி, வகை) — ஒரு கணக்கின் இருப்பு
 செயல் கணக்கு_இருப்பு(பேரேடு, கணக்கு_குறி, கணக்கு_வகை) {
     பற்று_மொத்தம் = 0;
     வரவு_மொத்தம் = 0;
@@ -125,6 +135,7 @@
 }
 
 // __கணக்கு_பதிவுகள்(பேரேடு, கணக்கு_குறி) — the lines for one account__
+// கணக்கு_பதிவுகள்(பேரேடு, கணக்கு_குறி) — ஒரு கணக்கின் வரிசைகள்
 செயல் கணக்கு_பதிவுகள்(பேரேடு, கணக்கு_குறி) {
     திரும்பு புலத்தால்_வடிகட்டு(பேரேடு, "கணக்கு_குறி", கணக்கு_குறி);
 }
@@ -136,6 +147,7 @@
 // __everything up to a date, because it is cumulative by nature.__
 
 // __காலம்_வடிகட்டு(பேரேடு, காலம்) — postings within the period__
+// காலம்_வடிகட்டு(பேரேடு, காலம்) — அக்காலத்துக்குள் உள்ள பதிவுகள்
 செயல் காலம்_வடிகட்டு(பேரேடு, காலம்) {
     விடை = [];
     ஒவ்வொரு பதிவு இல் பேரேடு {
@@ -147,6 +159,7 @@
 }
 
 // __வரை_வடிகட்டு(பேரேடு, நாள்) — everything on or before a date__
+// வரை_வடிகட்டு(பேரேடு, நாள்) — அந்நாள் வரையிலான அனைத்தும்
 செயல் வரை_வடிகட்டு(பேரேடு, வரம்பு_நாள்) {
     விடை = [];
     ஒவ்வொரு பதிவு இல் பேரேடு {
@@ -160,6 +173,7 @@
 // பரிவர்த்தனை_தொகை(பேரேடு, பரிவர்த்தனை_எண், கணக்கு_குறி)
 // __The amount one transaction put on one account, in that account's normal__
 // __direction. Clearing needs this to know what an invoice was worth.__
+// பரிவர்த்தனை_தொகை(பேரேடு, பரிவர்த்தனை_எண், கணக்கு_குறி) — ஒரு பரிவர்த்தனையில் ஒரு கணக்கின் தொகை
 செயல் பரிவர்த்தனை_தொகை(பேரேடு, பரிவர்த்தனை_எண், கணக்கு_குறி, கணக்கு_வகை) {
     பற்று_மொத்தம் = 0;
     வரவு_மொத்தம் = 0;
@@ -178,6 +192,7 @@
 
 // பரிவர்த்தனை_நாள்(பேரேடு, பரிவர்த்தனை_எண்)
 // __பரிவர்த்தனை_நாள்(பேரேடு, பரிவர்த்தனை_எண்) — the date a transaction was posted on__
+// பரிவர்த்தனை_நாள்(பேரேடு, பரிவர்த்தனை_எண்) — பரிவர்த்தனை பதிவான நாள்
 //
 // __சரி with the date, or தவறு for a number that is not in the ledger. Needed because the ledger is append-only and flat: the date lives on the entry, and a period report has to ask rather than assume the order of posting matches the order of dates.__
 செயல் பரிவர்த்தனை_நாள்(பேரேடு, பரிவர்த்தனை_எண்) {
@@ -190,6 +205,7 @@
 }
 
 // __பரிவர்த்தனை_எண்கள்(பேரேடு, கணக்கு_குறி) — distinct transactions touching__
+// பரிவர்த்தனை_எண்கள்(பேரேடு, கணக்கு_குறி) — அக்கணக்கைத் தொடும் வேறுபட்ட பரிவர்த்தனைகள்
 // __an account, in the order they were posted__
 செயல் பரிவர்த்தனை_எண்கள்(பேரேடு, கணக்கு_குறி) {
     விடை = [];

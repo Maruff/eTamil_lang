@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பற்று_இயல்பா(கணக்கு_வகை) — does a debit increase this kind of account?__
+// இவ்வகைக்குப் பற்று கூட்டலா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Assets and expenses, yes. Liabilities, equity and revenue, no. Everything__
+// __else in this folder rests on this one line.__
+// சொத்தும் செலவும் ஆம்; பொறுப்பு, பங்கு, வருவாய் இல்லை
+அச்சு பற்று_இயல்பா(வகை_சொத்து());
+அச்சு பற்று_இயல்பா(வகை_செலவு());
+அச்சு பற்று_இயல்பா(வகை_பொறுப்பு());
+அச்சு பற்று_இயல்பா(வகை_பங்கு());
+அச்சு பற்று_இயல்பா(வகை_வருவாய்());

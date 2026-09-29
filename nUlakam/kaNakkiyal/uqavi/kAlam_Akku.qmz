@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலம்_ஆக்கு(தொடக்கம், முடிவு) — a reporting period, both ends included__
+// ஓர் அறிக்கைக் காலம்; இரு முனைகளும் உள்ளடக்கம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Both ends inclusive, said once here so no report has to decide it again.__
+// __An exclusive end silently drops the last day's trading.__
+// இரு முனைகளும் உள்ளடக்கம்; இல்லையெனில் கடைசி நாளின் வணிகம் விடுபடும்
+காலம் = மதிப்பு(காலம்_ஆக்கு("2026-04-01", "2027-03-31"));
+அச்சு காலம்["தொடக்கம்"];
+அச்சு காலம்["முடிவு"];
+அச்சு காலத்தில்_உள்ளதா("2027-03-31", காலம்);

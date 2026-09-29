@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/aRikkYkaL.qmz — அறிக்கைகள் (financial statements)__
+// நிதி அறிக்கைகள்
 //
 // __Every figure here is derived from the ledger. Nothing is stored twice, so__
 // __a statement cannot disagree with the postings it came from.__
@@ -8,12 +9,13 @@
 இறக்கு "pErEtu.qmz";
 இறக்கு "kaNakkukaL.qmz";
 இறக்கு "kAlam.qmz";
-இறக்கு "../paNam.qmz";
-இறக்கு "../col.qmz";
+இறக்கு "../paNam/paNam.qmz";
+இறக்கு "../atippatY/col.qmz";
 
 // __--- இருப்பாய்வு (trial balance) ---__
 //
 // __இருப்பாய்வு(பேரேடு, கணக்குகள்) — the trial balance__
+// இருப்பாய்வு(பேரேடு, கணக்குகள்) — இருப்பாய்வு
 //
 // __Totals every account's raw debits and credits. The two columns must__
 // __agree; if they do not, the ledger has been damaged, since posting refuses__
@@ -60,6 +62,7 @@
 
 // __--- வருமான அறிக்கை (income statement) ---__
 // __வருமான_அறிக்கை(பேரேடு, கணக்குகள்) — the income statement from the ledger__
+// வருமான_அறிக்கை(பேரேடு, கணக்குகள்) — பேரேட்டிலிருந்து வருமான அறிக்கை
 //
 // __Selects the வருவாய் and செலவு accounts and nets them. Derived from the postings rather than stored, so it cannot disagree with the ledger it came from. Takes the whole ledger: use கால_வருமான_அறிக்கை when a period is meant, since income is a flow and a figure since the ledger began is rarely what was wanted.__
 செயல் வருமான_அறிக்கை(பேரேடு, கணக்குகள்) {
@@ -99,6 +102,7 @@
 //
 // __Retained earnings are the net profit carried in from the income__
 // __statement, which is what makes the sheet balance.__
+// இருப்புநிலை(பேரேடு, கணக்குகள்) — இருப்புநிலைக் குறிப்பு
 செயல் இருப்புநிலை(பேரேடு, கணக்குகள்) {
     மொத்த_சொத்து = 0;
     மொத்த_பொறுப்பு = 0;
@@ -152,6 +156,7 @@
 
 // கால_வருமான_அறிக்கை(பேரேடு, கணக்குகள், காலம்)
 // __கால_வருமான_அறிக்கை(பேரேடு, கணக்குகள், காலம்) — the income statement for one period__
+// கால_வருமான_அறிக்கை(பேரேடு, கணக்குகள், காலம்) — ஒரு காலத்துக்கான வருமான அறிக்கை
 //
 // __Filters the ledger first, then builds the statement, and records the period on the result. Income accounts are flows: reporting them without a period gives a figure since the ledger began, which is a number nobody asked for.__
 செயல் கால_வருமான_அறிக்கை(பேரேடு, கணக்குகள், காலம்) {
@@ -161,6 +166,7 @@
 }
 
 // __நாள்_இருப்புநிலை(பேரேடு, கணக்குகள், நாள்) — as at a date__
+// நாள்_இருப்புநிலை(பேரேடு, கணக்குகள், நாள்) — அந்நாள் நிலவரப்படி இருப்புநிலை
 //
 // __Retained earnings must accumulate from the beginning of time, not from the__
 // __start of a period, so the sheet filters only by the closing date.__
@@ -172,6 +178,7 @@
 
 // கால_இருப்பாய்வு(பேரேடு, கணக்குகள், நாள்)
 // __கால_இருப்பாய்வு(பேரேடு, கணக்குகள், வரம்பு_நாள்) — the trial balance as at a date__
+// கால_இருப்பாய்வு(பேரேடு, கணக்குகள், வரம்பு_நாள்) — அந்நாள் வரையிலான இருப்பாய்வு
 //
 // __Takes everything up to the date rather than a window, because a balance is a position and not a flow. That is the difference between the two period functions here, and it is worth being deliberate about.__
 செயல் கால_இருப்பாய்வு(பேரேடு, கணக்குகள், வரம்பு_நாள்) {
@@ -182,6 +189,7 @@
 //
 // __Every line touching one account, with a running balance — what a customer__
 // __or supplier is sent when they query their account.__
+// கணக்கு_அறிக்கை(பேரேடு, கணக்கு_குறி, கணக்கு_வகை) — ஒரு கணக்கின் விவர அறிக்கை
 செயல் கணக்கு_அறிக்கை(பேரேடு, கணக்கு_குறி, கணக்கு_வகை) {
     வரிகள் = [];
     ஓட்டம் = 0;
@@ -208,6 +216,7 @@
 //
 // __Movement on the cash and bank accounts over a period, split by whether the__
 // __other side of each entry was an operating account or not.__
+// பணப்புழக்க_அறிக்கை(பேரேடு, ரொக்க_கணக்குகள், காலம்) — பணப்புழக்க அறிக்கை
 செயல் பணப்புழக்க_அறிக்கை(பேரேடு, ரொக்க_கணக்குகள், காலம்) {
     உள்ளே = 0;
     வெளியே = 0;
@@ -244,6 +253,7 @@
 // __--- Printing ---__
 
 // __இருப்பாய்வு_அச்சிடு(அறிக்கை) — print a trial balance__
+// இருப்பாய்வு_அச்சிடு(அறிக்கை) — இருப்பாய்வை அச்சிடும்
 //
 // __States the balance check as a mark rather than leaving the reader to add the columns. A trial balance that does not balance is not a formatting matter, so it is said on the face of the report.__
 செயல் இருப்பாய்வு_அச்சிடு(அறிக்கை) {
@@ -262,6 +272,7 @@
 }
 
 // __வருமான_அறிக்கை_அச்சிடு(அறிக்கை) — print an income statement__
+// வருமான_அறிக்கை_அச்சிடு(அறிக்கை) — வருமான அறிக்கையை அச்சிடும்
 //
 // __Revenue lines, expense lines, then totals, with amounts through ரூபாய் so the lakh and crore grouping is the one an Indian reader expects. Printing is kept apart from the functions that compute, so a statement can be tested without asserting on its layout.__
 செயல் வருமான_அறிக்கை_அச்சிடு(அறிக்கை) {
@@ -282,6 +293,7 @@
 }
 
 // __இருப்புநிலை_அச்சிடு(அறிக்கை) — print a balance sheet__
+// இருப்புநிலை_அச்சிடு(அறிக்கை) — இருப்புநிலைக் குறிப்பை அச்சிடும்
 //
 // __Assets on one side, liabilities and equity on the other, and the accounting equation checked on the face of it. The check is worth printing even though the ledger already rejects unbalanced entries: it also catches a classification error, where a real posting has been filed under the wrong root.__
 செயல் இருப்புநிலை_அச்சிடு(அறிக்கை) {

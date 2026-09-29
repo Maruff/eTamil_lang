@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaZporuL/pIkO.qmz — பீகோ: the Raspberry Pi Pico's pins, and the hardware API__
+// பீகோ: ராஸ்பெரி பை பீகோ பலகையின் முனைகளும் வன்பொருள் இடைமுகமும்
 //
 //   __இறக்கு "nUlakam/vaZporuL/pIkO.qmz";__
 //   __etamil --artino --board pico prog.qmz        (or --board pico2)__

@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாநிலங்கள்() — every state and union territory on record__
+// பதிவில் உள்ள எல்லா மாநிலங்களும் ஒன்றியப் பகுதிகளும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE mAnilawkaL (
+             kuRi TEXT NOT NULL, peyar TEXT NOT NULL, vakY TEXT NOT NULL,
+             mUlam TEXT NOT NULL)", [];
+தளம்_செய் "INSERT INTO mAnilawkaL (kuRi, peyar, vakY, mUlam)
+             VALUES (?,?,?,?)", ["33", "தமிழ்நாடு", "மாநிலம்", "எ"];
+தளம்_செய் "INSERT INTO mAnilawkaL (kuRi, peyar, vakY, mUlam)
+             VALUES (?,?,?,?)", ["34", "புதுச்சேரி", "ஒன்றியப் பகுதி", "எ"];
+
+// __For a dropdown, and for validating a code before an invoice is raised.__
+// பட்டியலுக்கும், குறியைச் சரிபார்க்கவும்
+அச்சு நீளம்(மாநிலங்கள்());
+ஒவ்வொரு ஒரு_மாநிலம் இல் மாநிலங்கள்() { அச்சு ஒரு_மாநிலம்["peyar"]; }

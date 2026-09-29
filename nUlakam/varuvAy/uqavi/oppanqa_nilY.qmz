@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்பந்த_நிலை(ஒப்பந்தக்_குறி, அங்கீகரித்த_வருவாய், விலைப்பட்டியலிட்டது) — a contract asset or a contract liability, from the two figures__
+// ஒப்பந்தத்தின் இருப்பு நிலை: சொத்தா, பொறுப்பா
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Earned more than billed is a contract asset: work done and not yet__
+// __invoiced.__
+// ஈட்டியது பில் இட்டதைவிட அதிகம் என்றால் அது ஒப்பந்தச் சொத்து
+சொத்து = ஒப்பந்த_நிலை("C-1", 600000, 450000);
+அச்சு சொத்து["ஒப்பந்தச்_சொத்து"];
+அச்சு சொத்து["ஒப்பந்தப்_பொறுப்பு"];
+
+// __Billed more than earned is a contract liability: money taken for work not__
+// __yet done.__
+// பில் இட்டது ஈட்டியதைவிட அதிகம் என்றால் அது ஒப்பந்தப் பொறுப்பு
+பொறுப்பு = ஒப்பந்த_நிலை("C-2", 300000, 500000);
+அச்சு பொறுப்பு["ஒப்பந்தச்_சொத்து"];
+அச்சு பொறுப்பு["ஒப்பந்தப்_பொறுப்பு"];
+
+// __Only ever one of the two, never both.__
+// இரண்டில் ஒன்றே; இரண்டுமாக ஒருபோதும் இல்லை
+சமம் = ஒப்பந்த_நிலை("C-3", 500000, 500000);
+அச்சு சமம்["ஒப்பந்தச்_சொத்து"];

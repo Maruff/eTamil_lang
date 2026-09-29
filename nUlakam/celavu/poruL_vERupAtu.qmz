@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/celavu/poruL_vERupAtu.qmz — பொருள் வேறுபாடு: material price and usage__
+// பொருள் வேறுபாடு: பொருளின் விலையும் பயன்பாடும்
+//
+// __The total splits into paying a different price and using a different__
+// __quantity. The two add back to the total, which is what makes the split__
+// __worth trusting.__
+
+// பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்)
+//
+// __What the output should have cost in material, less what it did cost. The two__
+// __sub-variances below add to this.__
+// பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்) — பொருளின் மொத்த வேறுபாடு
+செயல் பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம்,
+                              உண்மை_அளவு, உண்மை_வீதம்) {
+    திரும்பு (நியம_அளவு * நியம_வீதம்) - (உண்மை_அளவு * உண்மை_வீதம்);
+}
+
+// பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்)
+//
+// __The price variance: actual quantity × (standard price − actual price). It is__
+// __weighted on *actual* quantity, not standard, because the overpayment was__
+// __made on every unit actually bought.__
+// பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்) — விலை வேறுபட்டதால் வந்த வேறுபாடு
+செயல் பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம், உண்மை_வீதம்) {
+    திரும்பு உண்மை_அளவு * (நியம_வீதம் - உண்மை_வீதம்);
+}
+
+// பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம், நியம_அளவு, உண்மை_அளவு)
+//
+// __The usage variance: standard price × (standard quantity − actual quantity).__
+// __Valued at *standard* price so that a price movement cannot contaminate a__
+// __measure of physical efficiency — the separation the whole technique exists__
+// __to provide.__
+// பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம், நியம_அளவு, உண்மை_அளவு) — அளவு வேறுபட்டதால் வந்த வேறுபாடு
+செயல் பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம், நியம_அளவு, உண்மை_அளவு) {
+    திரும்பு நியம_வீதம் * (நியம_அளவு - உண்மை_அளவு);
+}
+
+// __--- Labour --------------------------------------------------------------__
+
+// பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்)
+//
+// __The two material sub-variances and their total, in one record, so a caller__
+// __can check the reconciliation rather than trusting it.__
+// பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம், உண்மை_அளவு, உண்மை_வீதம்) — பொருள் வேறுபாடுகள் ஒரே பதிவேடாக
+செயல் பொருள்_வேறுபாட்டுத்_தொகுதி(நியம_அளவு, நியம_வீதம்,
+                                  உண்மை_அளவு, உண்மை_வீதம்) {
+    திரும்பு {
+        வீத_வேறுபாடு: பொருள்_வீத_வேறுபாடு(உண்மை_அளவு, நியம_வீதம்,
+                                            உண்மை_வீதம்),
+        பயன்பாட்டு_வேறுபாடு: பொருள்_பயன்பாட்டு_வேறுபாடு(நியம_வீதம்,
+                                                          நியம_அளவு,
+                                                          உண்மை_அளவு),
+        மொத்த_வேறுபாடு: பொருள்_மொத்த_வேறுபாடு(நியம_அளவு, நியம_வீதம்,
+                                                உண்மை_அளவு, உண்மை_வீதம்)
+    };
+}

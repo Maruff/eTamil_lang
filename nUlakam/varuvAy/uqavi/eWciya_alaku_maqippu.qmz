@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எஞ்சிய_அலகு_மதிப்பு(எஞ்சிய_மொத்தம், எஞ்சிய_அலகுகள்) — the blended price per remaining unit__
+// எஞ்சிய ஒரு அலகுக்கான மதிப்பு
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Terminate-and-replace: everything left is priced at one blended rate from__
+// __here on, and nothing already recognised is touched.__
+// இனி வரும் அனைத்தும் ஒரே கலப்பு விலையில்; ஏற்கெனவே அங்கீகரித்தது தொடப்படுவதில்லை
+அச்சு மதிப்பு(எஞ்சிய_அலகு_மதிப்பு(800000, 40));
+
+// __With no units left there is nothing to spread the money over, which is a__
+// __தவறு rather than a division by zero.__
+// அலகுகளே இல்லையெனில் பரப்ப ஒன்றுமில்லை
+அச்சு தவறா(எஞ்சிய_அலகு_மதிப்பு(800000, 0));

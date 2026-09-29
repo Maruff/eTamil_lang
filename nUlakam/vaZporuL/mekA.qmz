@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaZporuL/mekA.qmz — மெகா: the Arduino Mega 2560's pins, and the hardware API__
+// மெகா: ஆர்டுயினோ மெகா பலகையின் முனைகளும் வன்பொருள் இடைமுகமும்
 //
 //   __இறக்கு "nUlakam/vaZporuL/mekA.qmz";__
 //   __etamil --artino --board mega prog.qmz__

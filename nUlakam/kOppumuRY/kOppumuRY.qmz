@@ -1,0 +1,206 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/kOppumuRY.qmz — கோப்புமுறை (the file system)__
+//
+// __Written in eTamil. The host provides only the three things a language__
+// __cannot do for itself — கோப்பகம்_படி, கோப்பு_விவரம், கோப்பு_உள்ளதா — and__
+// __everything here is built from those, from சரம் helpers, and from the date__
+// __arithmetic already in kaNiqam.__
+//
+// __Paths are written with `/` on every platform, the way an இறக்கு is__
+// __written. Windows accepts a forward slash in every call that takes a path,__
+// __so there is one spelling of a path and not two.__
+
+இறக்கு "../atippatY/col.qmz";
+
+// __பாதை_இணை(முதல், இரண்டாவது) — join two path pieces with a single `/`.__
+//
+// __Collapses a trailing or leading separator rather than producing `a//b`.__
+// __An empty piece yields the other one, so folding over a list of segments__
+// __needs no special case for the first.__
+// பாதை_இணை(முதல், இரண்டாவது) — இரு பாதைத் துண்டுகளை ஒரே பிரிப்பானால் இணைக்கும்; ஒன்று வெறுமையானால் மற்றொன்றைத் தரும்
+செயல் பாதை_இணை(முதல், இரண்டாவது) {
+    (நீளம்(முதல்) == 0) எனில் { திரும்பு இரண்டாவது; }
+    (நீளம்(இரண்டாவது) == 0) எனில் { திரும்பு முதல்; }
+
+    இடது = முதல்;
+    (எழுத்து(இடது, நீளம்(இடது) - 1) == "/") சுற்று {
+        இடது = துண்டு(இடது, 0, நீளம்(இடது) - 1);
+    }
+
+    வலது = இரண்டாவது;
+    (எழுத்து(வலது, 0) == "/") சுற்று {
+        வலது = துண்டு(வலது, 1, நீளம்(வலது) - 1);
+    }
+
+    திரும்பு இடது & "/" & வலது;
+}
+
+// __அடிப்பெயர்(பாதை) — the last segment. "a/b/c.qmz" gives "c.qmz".__
+// அடிப்பெயர்(பாதை) — பாதையின் கடைசித் துண்டு
+செயல் அடிப்பெயர்(பாதை) {
+    துண்டுகள் = பிரி(பாதை_இயல்பாக்கு(பாதை), "/");
+    (நீளம்(துண்டுகள்) == 0) எனில் { திரும்பு பாதை; }
+    திரும்பு துண்டுகள்[நீளம்(துண்டுகள்) - 1];
+}
+
+// __கோப்பக_பெயர்(பாதை) — everything before the last segment, or "" at the top.__
+// கோப்பக_பெயர்(பாதை) — கடைசித் துண்டுக்கு முந்தைய பகுதி; மேலிடத்தில் வெற்றுச் சரம்
+செயல் கோப்பக_பெயர்(பாதை) {
+    நேர் = பாதை_இயல்பாக்கு(பாதை);
+    துண்டுகள் = பிரி(நேர், "/");
+    (நீளம்(துண்டுகள்) <= 1) எனில் { திரும்பு ""; }
+
+    விடை = "";
+    இ = 0;
+    (இ < நீளம்(துண்டுகள்) - 1) சுற்று {
+        விடை = பாதை_இணை(விடை, துண்டுகள்[இ]);
+        இ = இ + 1;
+    }
+    திரும்பு விடை;
+}
+
+// __நீட்சி(பாதை) — the extension without its dot, or "" if there is none.__
+//
+// __A dot in a directory name does not count, and a name that begins with a__
+// __dot and has nothing after it — ".gitignore" — has no extension rather than__
+// __an extension of "gitignore". Both are the conventions every other language__
+// __settled on, and getting either wrong shows up as files quietly skipped.__
+// நீட்சி(பாதை) — புள்ளி நீங்கிய நீட்சி; இல்லையேல் வெற்றுச் சரம்
+செயல் நீட்சி(பாதை) {
+    பெயர் = அடிப்பெயர்(பாதை);
+    புள்ளியிடம் = -1;
+    இ = 0;
+    (இ < நீளம்(பெயர்)) சுற்று {
+        (பெயர்[இ] == ".") எனில் { புள்ளியிடம் = இ; }
+        இ = இ + 1;
+    }
+    (புள்ளியிடம் <= 0) எனில் { திரும்பு ""; }
+    திரும்பு துண்டு(பெயர், புள்ளியிடம் + 1, நீளம்(பெயர்) - புள்ளியிடம் - 1);
+}
+
+// __பெயர்_மட்டும்(பாதை) — the base name with its extension removed.__
+// பெயர்_மட்டும்(பாதை) — நீட்சி நீக்கிய அடிப்பெயர்
+செயல் பெயர்_மட்டும்(பாதை) {
+    பெயர் = அடிப்பெயர்(பாதை);
+    நீ = நீட்சி(பாதை);
+    (நீளம்(நீ) == 0) எனில் { திரும்பு பெயர்; }
+    திரும்பு துண்டு(பெயர், 0, நீளம்(பெயர்) - நீளம்(நீ) - 1);
+}
+
+// __பாதை_இயல்பாக்கு(பாதை) — one spelling of a path: backslashes become slashes and__
+// __a trailing separator is dropped.__
+//
+// __Windows hands back backslashes from some places, and a path that differs__
+// __from another only by its separator would otherwise be treated as a__
+// __different file.__
+// பாதை_இயல்பாக்கு(பாதை) — பாதைக்கு ஒரே எழுத்துமுறை; பின்சாய்வுகள் சாய்வாகும், இறுதிப் பிரிப்பான் நீங்கும்
+செயல் பாதை_இயல்பாக்கு(பாதை) {
+    விடை = மாற்று(பாதை, "\\", "/");
+    (நீளம்(விடை) > 1 மற்றும் எழுத்து(விடை, நீளம்(விடை) - 1) == "/") சுற்று {
+        விடை = துண்டு(விடை, 0, நீளம்(விடை) - 1);
+    }
+    திரும்பு விடை;
+}
+
+// __கோப்பகமா(பாதை) — is this a directory? பொய் if it does not exist.__
+// கோப்பகமா(பாதை) — இது கோப்பகமா; இல்லாவிட்டால் பொய்
+செயல் கோப்பகமா(பாதை) {
+    விவரம் = கோப்பு_விவரம்(பாதை);
+    (தவறா(விவரம்)) எனில் { திரும்பு பொய்; }
+    திரும்பு மதிப்பு(விவரம்).வகை == "கோப்பகம்";
+}
+
+// __வினாடியை_நாளாக(வினாடிகள்) — a மாற்றம் time as an ISO date.__
+//
+// __கோப்பு_விவரம் answers in seconds since 1970 because that is the form__
+// __arithmetic works on. This turns it into the ISO text the rest of the__
+// __language uses for dates, which is what sorts chronologically. இன்மை in,__
+// __இன்மை out: a file system that could not say when is not a file from 1970.__
+// வினாடியை_நாளாக(வினாடிகள்) — மாற்ற நேரத்தை ஆண்டு, மாதம், நாள் என்னும் வடிவில் தரும்
+செயல் வினாடியை_நாளாக(வினாடிகள்) {
+    (வினாடிகள் == இன்மை) எனில் { திரும்பு இன்மை; }
+    திரும்பு நாள்_கூட்டு("1970-01-01", தரை(வினாடிகள் / 86400));
+}
+
+// __கோப்பக_பட்டியல்(கோப்பகம்) — the entries of one directory as full paths.__
+//
+// __கோப்பகம்_படி answers with bare names; this joins each onto the directory__
+// __it came from, which is what a caller almost always wants next.__
+// கோப்பக_பட்டியல்(கோப்பகம்) — ஒரு கோப்பகத்தின் உள்ளடக்கம் முழுப் பாதைகளாக
+செயல் கோப்பக_பட்டியல்(கோப்பகம்) {
+    பெயர்கள் = கோப்பகம்_படி(கோப்பகம்);
+    (தவறா(பெயர்கள்)) எனில் { திரும்பு பெயர்கள்; }
+
+    விடை = [];
+    ஒவ்வொரு பெயர் இல் மதிப்பு(பெயர்கள்) {
+        விடை = இணை(விடை, பாதை_இணை(கோப்பகம், பெயர்));
+    }
+    திரும்பு சரி(விடை);
+}
+
+// __கோப்பக_நட(கோப்பகம்) — every file under a directory, at any depth, as full paths.__
+//
+// __Directories are descended into and are not themselves returned; only files__
+// __come back. Iterative rather than recursive: a deep tree would otherwise__
+// __meet the call-depth limit, and the limit exists to catch runaway recursion__
+// __rather than to cap how deep a folder may be.__
+//
+// __A directory that cannot be read is skipped rather than failing the walk.__
+// __One unreadable folder in a tree of thousands should not lose the other__
+// __thousands, and the caller can test any single path with கோப்பகம்_படி if it__
+// __needs to know.__
+// கோப்பக_நட(கோப்பகம்) — கோப்பக மரம் முழுவதையும் சுற்றி வரும்; ஆழமான மரத்திலும் தடையின்றி இயங்க மடக்கமின்றி எழுதப்பட்டது
+செயல் கோப்பக_நட(கோப்பகம்) {
+    மீதம் = [கோப்பகம்];
+    விடை = [];
+
+    (நீளம்(மீதம்) > 0) சுற்று {
+        இப்போது = மீதம்[நீளம்(மீதம்) - 1];
+        மீதம் = துண்டு_அணி(மீதம், 0, நீளம்(மீதம்) - 1);
+
+        உள்ளடக்கம் = கோப்பக_பட்டியல்(இப்போது);
+        (சரியா(உள்ளடக்கம்)) எனில் {
+            ஒவ்வொரு பாதை இல் மதிப்பு(உள்ளடக்கம்) {
+                (கோப்பகமா(பாதை)) எனில் {
+                    மீதம் = இணை(மீதம், பாதை);
+                }
+                இன்றேல் {
+                    விடை = இணை(விடை, பாதை);
+                }
+            }
+        }
+    }
+
+    திரும்பு விடை;
+}
+
+// __நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — every file under a directory with one extension.__
+//
+// __The extension is given without its dot: நீட்சியால்_கோப்புகள்("nUlakam", "qmz").__
+// நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — ஒரு கோப்பகத்தின் கீழ் அந்த நீட்சியுள்ள கோப்புகள் அனைத்தும்; நீட்சி புள்ளியின்றித் தரப்படும்
+செயல் நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) {
+    விடை = [];
+    ஒவ்வொரு பாதை இல் கோப்பக_நட(கோப்பகம்) {
+        (நீட்சி(பாதை) == நீ) எனில் {
+            விடை = இணை(விடை, பாதை);
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __துண்டு_அணி(அணி, தொடக்கம், அளவு) — a slice of an array.__
+//
+// __Here rather than in aNi.qmz because நட needs it and nothing else did.__
+// __Move it if a second caller appears.__
+// துண்டு_அணி(பட்டியல், தொடக்கம், அளவு) — அணியின் ஒரு துண்டு
+செயல் துண்டு_அணி(பட்டியல், தொடக்கம், அளவு) {
+    விடை = [];
+    இ = தொடக்கம்;
+    முடிவு = தொடக்கம் + அளவு;
+    (இ < முடிவு மற்றும் இ < நீளம்(பட்டியல்)) சுற்று {
+        விடை = இணை(விடை, பட்டியல்[இ]);
+        இ = இ + 1;
+    }
+    திரும்பு விடை;
+}

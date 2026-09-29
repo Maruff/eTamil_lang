@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சேவை_நிலையம்_ஆக்கு(நிலையக்_குறி, நேரடிச்_செலவு, பகிர்வுகள்) — a service centre and where its cost goes__
+// ஒரு சேவை நிலையமும் அதன் செலவு செல்லும் இடங்களும்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __The shares can point at another service centre, which is what makes the__
+// __problem circular and interesting.__
+// பங்குகள் மற்றொரு சேவை நிலையத்தையும் சுட்டலாம்; அதுவே சுழற்சியை உருவாக்குகிறது
+நிலையம் = சேவை_நிலையம்_ஆக்கு("S1", 100000,
+    [பகிர்வு_ஆக்கு("P1", 40), பகிர்வு_ஆக்கு("P2", 40), பகிர்வு_ஆக்கு("S2", 20)]);
+
+அச்சு நிலையம்["நேரடிச்_செலவு"];
+அச்சு நீளம்(நிலையம்["பகிர்வுகள்"]);

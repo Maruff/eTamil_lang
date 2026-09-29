@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறும்_பகுதி(கூறுகள்) — the part of the cost that moves with volume__
+// அளவுக்கு ஏற்ப மாறும் பகுதி
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+கூறுகள் = [கூறு_ஆக்கு("நேரடிப் பொருள்", 400000, மெய், மெய்),
+            கூறு_ஆக்கு("தொழிற்சாலை வாடகை", 120000, பொய், பொய்)];
+
+// __The split that contribution costing rests on. It is a different cut from__
+// __direct-versus-indirect, and the two are constantly confused.__
+// பங்களிப்புக் கணக்கீடு இதன்மீதே; இது நேரடி-மறைமுகப் பிரிவு அல்ல
+அச்சு மாறும்_பகுதி(கூறுகள்);
+அச்சு நிலையான_பகுதி(கூறுகள்);

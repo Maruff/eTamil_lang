@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பற்று_வரிசை(கணக்கு_குறி, தொகை_மதிப்பு) — a debit line__
+// பற்று வரிசை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Almost every posting is written with these two rather than with__
+// __வரிசை_ஆக்கு, because a line that is both a debit and a credit is not a__
+// __thing and should not be expressible.__
+// பற்றும் வரவும் ஒரே வரிசையில் இருப்பது சாத்தியமே கூடாது
+அச்சு பற்று_வரிசை("1000", 5000)["பற்று_தொகை"];
+அச்சு பற்று_வரிசை("1000", 5000)["வரவு_தொகை"];

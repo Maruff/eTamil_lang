@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இலக்கு_நிகழ்தகவு(இலக்கு_காலம், மதிப்பீடுகள்) — the chance of finishing by that date__
+// அந்தக் காலத்திற்குள் முடியும் நிகழ்தகவு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __The expected duration is a fifty-fifty date. Committing to it is committing__
+// __to a coin toss, and it is the date most plans are built on.__
+// எதிர்பார்க்கும் காலம் ஐம்பது-ஐம்பது நாளே; பெரும்பாலான திட்டங்கள் இதன்மீதே கட்டப்படுகின்றன
+அச்சு இலக்கு_நிகழ்தகவு(13, பாதை);
+
+// __Two weeks more buys a great deal of certainty; two weeks less costs it.__
+// இரு வாரம் கூடுதல் பெரும் உறுதியைத் தரும்
+அச்சு இலக்கு_நிகழ்தகவு(16, பாதை);
+அச்சு இலக்கு_நிகழ்தகவு(10, பாதை);

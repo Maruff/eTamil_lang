@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தம்_மாறவில்லையா(செயல்பாட்டுத்_தொகைகள், மொத்த_மேல்நிலை) — does the overhead still add up after re-apportioning?__
+// பகிர்ந்த பிறகும் மொத்தம் அதேதானா
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Activity-based costing redistributes overhead between products. If the__
+// __product totals no longer add to the pool, a driver volume is wrong or a__
+// __product was left out.__
+// தயாரிப்புகளின் மொத்தம் தொகுப்புக்குப் பொருந்தாவிட்டால், ஏதோ ஒன்று விடுபட்டுள்ளது
+அச்சு மொத்தம்_மாறவில்லையா([200000, 150000], 350000);
+அச்சு மொத்தம்_மாறவில்லையா([200000, 100000], 350000);

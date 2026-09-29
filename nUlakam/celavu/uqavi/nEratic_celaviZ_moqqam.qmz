@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேரடிச்_செலவின்_மொத்தம்(சேவை_நிலையங்கள்) — what the service centres held before anything moved__
+// பகிர்வதற்கு முன் சேவை நிலையங்களின் சொந்தச் செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+சேவைகள் = [சேவை_நிலையம்_ஆக்கு("S1", 100000, []),
+            சேவை_நிலையம்_ஆக்கு("S2", 60000, [])];
+
+அச்சு நேரடிச்_செலவின்_மொத்தம்(சேவைகள்);
+அச்சு நேரடிச்_செலவின்_மொத்தம்([]);

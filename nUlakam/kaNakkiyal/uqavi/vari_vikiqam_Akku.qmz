@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரி_விகிதம்_ஆக்கு(பெயர், விகிதம், கட்டுப்பாட்டு_கணக்கு) — a tax rate and the account it posts to__
+// ஒரு வரி விகிதமும் அது பதியும் கணக்கும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The account travels with the rate, so a sale at 18% and a sale at 5% cannot__
+// __end up in the same control account by accident.__
+// கணக்கு விகிதத்துடனேயே பயணிக்கிறது
+விகிதம் = வரி_விகிதம்_ஆக்கு("ஜிஎஸ்டி 18", 18, "2200");
+அச்சு விகிதம்["பெயர்"];
+அச்சு விகிதம்["விகிதம்"];
+அச்சு விகிதம்["கட்டுப்பாட்டு_கணக்கு"];

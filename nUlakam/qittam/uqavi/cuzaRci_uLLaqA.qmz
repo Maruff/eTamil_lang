@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சுழற்சி_உள்ளதா(செயல்கள்) — is there a cycle in the network?__
+// வலையில் சுழற்சி உள்ளதா
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+நல்லது = [செயல்_ஆக்கு("A", 3, []), செயல்_ஆக்கு("B", 4, ["A"])];
+அச்சு சுழற்சி_உள்ளதா(நல்லது);
+
+// __Two activities each waiting for the other. The forward pass would never__
+// __settle, so this is asked before it is attempted rather than discovered as__
+// __a loop that does not end.__
+// ஒன்றுக்கொன்று காத்திருக்கும் இரு செயல்கள்; முன்னோக்கு ஒருபோதும் நிலைக்காது
+சுழற்சி = [செயல்_ஆக்கு("A", 3, ["B"]), செயல்_ஆக்கு("B", 4, ["A"])];
+அச்சு சுழற்சி_உள்ளதா(சுழற்சி);

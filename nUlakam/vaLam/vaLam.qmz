@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaLam/vaLam.qmz — வளம், resources and what they cost__
+// வளங்களும் அவற்றின் செலவும்
 //
 // __qittam/Ittu_maqippu.qmz computes cost variance from actual cost, and takes__
 // __actual cost as a number somebody types in. This directory is where that__
@@ -22,8 +23,8 @@
 // __utilisation percentage computed on elapsed days moves every month for__
 // __reasons that have nothing to do with anybody's work.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 இறக்கு "../nAtkAtti/vElYnAL.qmz";
 
 // =========================================================================
@@ -41,6 +42,7 @@
 // __நாள்_மணிகள் is the standard hours in a working day for this resource. A__
 // __machine may run sixteen and a person eight, and capacity is meaningless__
 // __without it.__
+// வளம்_ஆக்கு(வளக்_குறி, பெயர், வள_வகை, நாள்_மணிகள்) — ஒரு வளத்தை உருவாக்கும்
 செயல் வளம்_ஆக்கு(வளக்_குறி, பெயர், வள_வகை, நாள்_மணிகள்) {
     திரும்பு {"குறி": வளக்_குறி,
               "பெயர்": பெயர்,
@@ -57,6 +59,7 @@
 // __A rate that applied from one day to another. Pass "" as அமல்_முடிவு for a__
 // __rate still in force — ISO dates sort, and the empty string sorts before__
 // __every date, so an open end is tested for rather than compared.__
+// விகிதப்_பதிவு(வளக்_குறி, மணி_விகிதம், அமல்_தொடக்கம், அமல்_முடிவு) — ஒரு காலத்திற்கு உரிய மணி விகிதப் பதிவு
 செயல் விகிதப்_பதிவு(வளக்_குறி, மணி_விகிதம், அமல்_தொடக்கம், அமல்_முடிவு) {
     திரும்பு {"வளக்_குறி": வளக்_குறி,
               "மணி_விகிதம்": மணி_விகிதம்,
@@ -77,6 +80,7 @@
 // __Nothing found is a தவறு rather than zero. A resource with no rate is a__
 // __resource nobody has costed, and charging its time at nothing understates a__
 // __project by exactly the amount most worth knowing.__
+// விகிதத்தைத்_தேடு(விகிதங்கள், வளக்_குறி, ஒரு_நாள்) — அந்நாளில் அமலில் இருந்த விகிதம்
 செயல் விகிதத்தைத்_தேடு(விகிதங்கள், வளக்_குறி, ஒரு_நாள்) {
     சிறந்த_விகிதம் = 0;
     சிறந்த_தொடக்கம் = "";
@@ -113,6 +117,7 @@
 // __the hour still counts once towards progress and costs more. Booking overtime__
 // __hours as extra hours inflates progress on a cost-to-cost measure at the same__
 // __time as it inflates cost, and the two errors hide each other.__
+// மேலதிக_விகிதம்(அடிப்படை_விகிதம், மடங்கு) — மிகை நேரத்துக்கான விகிதம்
 செயல் மேலதிக_விகிதம்(அடிப்படை_விகிதம், மடங்கு) {
     திரும்பு வட்டப்_பெருக்கு(அடிப்படை_விகிதம், மடங்கு);
 }
@@ -132,6 +137,7 @@
 // __A utilisation percentage computed on elapsed days moves every month for__
 // __reasons that have nothing to do with anybody's work, and it is always the__
 // __denominator that is wrong.__
+// காலத்_திறன்(நாள்_மணிகள், தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) — ஒரு காலத்தில் கிடைக்கும் மொத்த மணிகள்
 செயல் காலத்_திறன்(நாள்_மணிகள், தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) {
     வேலை_நாட்கள் = வேலை_நாட்களை_எண்ணு(தொடக்கம், முடிவு, ஒரு_நாட்காட்டி);
     திரும்பு வட்டமிடு(வேலை_நாட்கள் * நாள்_மணிகள், 2);
@@ -142,6 +148,7 @@
 // __Capacity less leave. What was actually available, which is the honest__
 // __denominator for utilisation: a person on leave for a fortnight has not__
 // __failed to be utilised.__
+// கிடைக்கும்_மணிகள்(மொத்தத்_திறன், விடுப்பு_மணிகள்) — விடுப்பைக் கழித்தபின் கிடைக்கும் மணிகள்
 செயல் கிடைக்கும்_மணிகள்(மொத்தத்_திறன், விடுப்பு_மணிகள்) {
     திரும்பு குறையாக்_கழி(மொத்தத்_திறன், விடுப்பு_மணிகள்);
 }
@@ -154,6 +161,7 @@
 //
 // __How much of the available time was booked to something. Answered as a__
 // __percentage out of a hundred, following the rates convention.__
+// பயன்பாட்டு_விகிதம்(பணிபுரிந்த_மணிகள், கிடைத்த_மணிகள்) — கிடைத்ததில் எவ்வளவு பயன்படுத்தப்பட்டது
 செயல் பயன்பாட்டு_விகிதம்(பணிபுரிந்த_மணிகள், கிடைத்த_மணிகள்) {
     (கிடைத்த_மணிகள் <= 0) எனில் {
         திரும்பு தவறு("கிடைத்த மணிகள் இல்லை  "
@@ -172,6 +180,7 @@
 // __fixed-price job already past its budget. A business that reports only__
 // __utilisation cannot see that happening, and utilisation is the figure that__
 // __gets reported because it is the flattering one.__
+// கட்டண_விகிதம்(கட்டண_மணிகள், பணிபுரிந்த_மணிகள்) — பணிபுரிந்ததில் எவ்வளவு கட்டணத்துக்கு உரியது
 செயல் கட்டண_விகிதம்(கட்டண_மணிகள், பணிபுரிந்த_மணிகள்) {
     (பணிபுரிந்த_மணிகள் <= 0) எனில் {
         திரும்பு தவறு("பணிபுரிந்த மணிகள் இல்லை  (no hours worked)");
@@ -181,6 +190,7 @@
 
 // வளத்தைத்_தேடு(வளங்கள், வளக்_குறி)
 // __வளத்தைத்_தேடு(வளங்கள், வளக்_குறி) — find one resource by its code__
+// வளத்தைத்_தேடு(வளங்கள், வளக்_குறி) — குறியைக் கொண்டு ஒரு வளத்தைத் தேடும்
 //
 // __சரி with the resource, or தவறு naming the code. A timesheet line against an unknown resource has no rate, and costing it at zero would quietly understate the actual cost that everything downstream is measured against.__
 செயல் வளத்தைத்_தேடு(வளங்கள், வளக்_குறி) {

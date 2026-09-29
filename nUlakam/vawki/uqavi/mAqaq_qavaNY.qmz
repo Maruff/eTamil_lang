@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாதத்_தவணை(கடன்_தொகை, ஆண்டு_விகிதம், எத்தனை_மாதங்கள்) — the level monthly instalment__
+// மாதந்தோறும் ஒரே தவணை
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __Ten lakh at nine per cent over twenty years.__
+// பத்து லட்சம், ஒன்பது சதவீதம், இருபது ஆண்டுகள்
+அச்சு மாதத்_தவணை(1000000, 9, 240);
+
+// __An interest-free loan is the principal divided by the months. Without this__
+// __case the formula divides by zero, and an employer's advance repaid over ten__
+// __months is a real loan that a bank's formula cannot price.__
+// வட்டியில்லாக் கடன் என்றால் அசலை மாதங்களால் வகுத்ததே
+அச்சு மாதத்_தவணை(120000, 0, 10);
+
+// __No months at all is nothing rather than a division by zero.__
+// மாதங்களே இல்லையெனில் பூஜ்ஜியம்; வகுத்தல் நடப்பதில்லை
+அச்சு மாதத்_தவணை(1000000, 9, 0);

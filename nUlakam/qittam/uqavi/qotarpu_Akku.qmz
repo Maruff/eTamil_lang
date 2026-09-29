@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்பு_ஆக்கு(முன்னோடிக்_குறி, பின்தொடர்க்_குறி, தொடர்பு_வகை, தாமதம்) — a dependency, with its type and its lag__
+// இரு முனைகளுக்கு இடையே ஒரு சார்பு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Finish-to-start with no lag is the ordinary one, and the only one most__
+// __tools draw well.__
+// தாமதமில்லா முடிவு-தொடக்கம் என்பதே வழக்கமானது
+வழக்கமானது = தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0);
+அச்சு வழக்கமானது["வகை"];
+
+// __A lag is waiting time that is not work: concrete curing, a permit in the__
+// __post. Modelling it as an activity would give somebody a task to do.__
+// தாமதம் என்பது வேலையல்லாத காத்திருப்பு; செயலாக்கினால் யாரோ ஒருவர் வேலை செய்ய வேண்டியிருக்கும்
+காத்திருப்பு = தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 7);
+அச்சு காத்திருப்பு["தாமதம்"];
+
+// __And a negative lag is a lead: the follower may start before the__
+// __predecessor has finished.__
+// எதிர்மறைத் தாமதம் என்பது முன்னோட்டம்
+அச்சு தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0 - 2)["தாமதம்"];

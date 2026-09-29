@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூட்டு(அணி) — sum of an array__
+// அணியில் உள்ள எண்களின் கூட்டுத்தொகை
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு கூட்டு([10, 20, 30]);
+
+// __The sum of nothing is zero, which is the one safe answer here.__
+// ஒன்றுமில்லாததன் கூட்டுத்தொகை பூஜ்ஜியம்; இங்கே அதுவே பாதுகாப்பான விடை
+அச்சு கூட்டு([]);

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கால_அளவைப்_பெறு(முனைகள், முனைக்_குறி) — one activity's duration, or nothing__
+// ஒரு செயலின் கால அளவு; இல்லையெனில் பூஜ்ஜியம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முனைகள் = [முனை_ஆக்கு("P", "தளம் தயார்", 4)];
+அச்சு கால_அளவைப்_பெறு(முனைகள், "P");
+
+// __Zero for a node that is not there, because the solver asks this of both__
+// __ends of every link and a link naming a node nobody defined should not stop__
+// __the pass — the structural check is where that is caught.__
+// இல்லாத முனைக்குப் பூஜ்ஜியம்; கட்டமைப்புச் சோதனையே அதைப் பிடிக்கிறது
+அச்சு கால_அளவைப்_பெறு(முனைகள், "Z");

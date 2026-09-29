@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறையும்_ஆண்டு(திறப்பு_மதிப்பு, ஆண்டு_விகிதம், எஞ்சிய_மதிப்பு) — one year of reducing-balance depreciation__
+// குறையும் இருப்பு முறையில் ஓராண்டுத் தேய்வு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A percentage of what is left rather than of what it cost, so the charge__
+// __falls every year — which matches how a machine actually loses value.__
+// மிச்சத்தின்மீதே விழுக்காடு; அதனால் தேய்வு ஆண்டுதோறும் குறையும்
+அச்சு குறையும்_ஆண்டு(500000, 20, 50000);
+அச்சு குறையும்_ஆண்டு(400000, 20, 50000);
+
+// __And it stops at the residual rather than going below it: an asset cannot__
+// __be depreciated past what it will be sold for.__
+// எஞ்சிய மதிப்புக்குக் கீழே தேய்வதில்லை
+அச்சு குறையும்_ஆண்டு(55000, 20, 50000);

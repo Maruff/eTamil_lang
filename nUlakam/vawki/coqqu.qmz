@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vawki/coqqu.qmz — சொத்து வகைப்பாடு (asset classification)__
+// சொத்து வகைப்பாடு
 //
 // __Which bucket a loan falls into, and what has to be set aside against it.__
 //
@@ -18,10 +19,11 @@
 //
 // __விதிமுறைகளை_ஏற்று reads them. வகைப்படுத்து and ஒதுக்கீடு apply them.__
 
-இறக்கு "../poruL.qmz";
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __விதிமுறைகளை_ஏற்று(நாள்) — the rules in force on that date__
+// விதிமுறைகளை_ஏற்று(நாள்) — அந்த நாளில் அமலில் இருந்த விதிமுறைகள்
 //
 // __Requires a database to be connected already, which is the caller's business:__
 // __a library that opens its own connection decides for the program where its__
@@ -37,6 +39,7 @@
 }
 
 // __வகைப்படுத்து(விதிமுறைகள், தாமத_நாட்கள்) — the class this account is in__
+// வகைப்படுத்து(விதிமுறைகள், தாமத_நாட்கள்) — இக்கணக்கு சேரும் வகை
 //
 // __The rules are ordered by the day they start at, so the last one whose start__
 // __this account has reached is the one that applies. An account with no rule__
@@ -76,6 +79,7 @@
 // __What must be set aside against this account: the outstanding amount times__
 // __the percentage its class carries. Answers {வகை, விழுக்காடு, ஒதுக்கீடு}, so__
 // __a report can show why the figure is what it is rather than only the figure.__
+// ஒதுக்கீடு(விதிமுறைகள், தாமத_நாட்கள், நிலுவைத்_தொகை) — வகைக்கு ஏற்ப ஒதுக்க வேண்டிய தொகை
 செயல் ஒதுக்கீடு(விதிமுறைகள், தாமத_நாட்கள், நிலுவைத்_தொகை) {
     வகைப்பாடு = வகைப்படுத்து(விதிமுறைகள், தாமத_நாட்கள்);
     (தவறா(வகைப்பாடு)) எனில் { திரும்பு வகைப்பாடு; }
@@ -88,6 +92,7 @@
 }
 
 // __சரிபார்க்கப்படாதவை(விதிமுறைகள்) — the rows nobody has vouched for yet__
+// சரிபார்க்கப்படாதவை(விதிமுறைகள்) — இன்னும் யாரும் உறுதி செய்யாத வரிசைகள்
 //
 // __The table ships with placeholder figures so that the shape can be tested,__
 // __and a placeholder provisioning percentage in a live return is worse than no__
@@ -104,6 +109,7 @@
 }
 
 // __A local prefix test, so this module needs nothing from col.qmz.__
+// தொடங்குகிறதா_எளிது(பாடம், முன்னொட்டு) — இந்த முன்னொட்டுடன் பாடம் தொடங்குகிறதா
 செயல் தொடங்குகிறதா_எளிது(பாடம், முன்னொட்டு) {
     கூறுகள் = பிரி(பாடம், முன்னொட்டு);
     (நீளம்(கூறுகள்) < 2) எனில் { திரும்பு பொய்; }

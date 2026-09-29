@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விலைப்பட்டியல்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், பெறவேண்டிய_கணக்கு, ஒப்பந்தச்_சொத்துக்_கணக்கு, தொகை_மதிப்பு) — billing the customer__
+// வாடிக்கையாளருக்கு விலைப்பட்டியல் இடுதல்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __This moves the contract asset into receivables. It does not touch revenue,__
+// __because nothing was earned by sending the invoice.__
+// இது வருவாயைத் தொடுவதில்லை; விலைப்பட்டியல் அனுப்பியதால் ஒன்றும் ஈட்டப்படவில்லை
+பதிவு = விலைப்பட்டியல்_பதிவு(6, "2026-03-31", "பில்", "DEBTORS",
+                               "CA-SNG", 50000);
+அச்சு சமநிலையா(பதிவு);
+
+// __Billed less than was recognised, or more, and the contract asset carries__
+// __the difference — which is the whole point of keeping it separate.__
+// ஏற்றதைவிடக் குறைவாகவோ அதிகமாகவோ பில் இடலாம்; வேறுபாட்டை ஒப்பந்தச் சொத்து சுமக்கும்
+அச்சு பதிவு["வரிசைகள்"][1]["கணக்கு_குறி"];

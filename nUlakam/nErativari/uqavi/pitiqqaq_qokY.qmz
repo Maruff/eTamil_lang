@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிடித்தத்_தொகை(ஒரு_பிரிவு, இந்தத்_தொகை, முன்பு_செலுத்தியது, முன்பு_பிடித்தது, பயன்_வீதம்) — how much to withhold from this payment__
+// இச்செலுத்தலிலிருந்து பிடிக்க வேண்டிய தொகை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+ஒப்பந்தம் = பிரிவு_ஆக்கு("194C", "ஒப்பந்தக்காரர்", 1, 30000, 100000);
+
+// __An ordinary payment above the per-payment threshold.__
+// எல்லையைத் தாண்டிய வழக்கமான செலுத்தல்
+அச்சு பிடித்தத்_தொகை(ஒப்பந்தம், 35000, 0, 0, 1)["பிடித்தம்"];
+
+// __The payment that crosses the annual threshold charges the whole year and__
+// __then credits what was already withheld, so a payment of 25,000 can carry a__
+// __deduction computed on 1,05,000.__
+// ஆண்டு எல்லையைத் தாண்டும் செலுத்தல் முழு ஆண்டையும் சுமக்கும்
+விளைவு = பிடித்தத்_தொகை(ஒப்பந்தம், 25000, 80000, 0, 1);
+அச்சு விளைவு["அடிப்படை"];
+அச்சு விளைவு["பிடித்தம்"];
+அச்சு விளைவு["முழு_ஆண்டா"];
+
+// __Below the thresholds, nothing.__
+// எல்லைக்குக் கீழே ஒன்றுமில்லை
+அச்சு பிடித்தத்_தொகை(ஒப்பந்தம், 25000, 0, 0, 1)["பிடித்தம்"];

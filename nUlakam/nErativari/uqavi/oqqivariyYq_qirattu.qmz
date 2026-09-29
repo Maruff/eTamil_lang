@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒத்திவரியைத்_திரட்டு(கணக்குகள்) — every deferred tax line, totalled__
+// ஒத்திவரிக் கணக்குகளைத் திரட்டும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+கணக்குகள் = [ஒத்திவரிக்_கணக்கு(800000, 600000, மெய், 25),
+              ஒத்திவரிக்_கணக்கு(500000, 0, பொய், 25),
+              ஒத்திவரிக்_கணக்கு(300000, 200000, மெய், 25)];
+
+// __Assets and liabilities totalled separately, and netted only where the__
+// __offset conditions are met — see ஈடுசெய்யலாமா.__
+// சொத்தும் பொறுப்பும் தனித்தனியே
+திரட்டியது = ஒத்திவரியைத்_திரட்டு(கணக்குகள்);
+அச்சு திரட்டியது["மொத்தச்_சொத்து"];
+அச்சு திரட்டியது["மொத்தப்_பொறுப்பு"];
+அச்சு திரட்டியது["நிகரம்"];

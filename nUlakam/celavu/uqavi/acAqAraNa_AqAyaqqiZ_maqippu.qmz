@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அசாதாரண_ஆதாயத்தின்_மதிப்பு(ஆதாய_அலகுகள், அலகுச்_செலவு, அலகுக்_கழிவு_மதிப்பு) — what an abnormal gain is worth, less the scrap not earned__
+// அசாதாரண ஆதாயத்தின் மதிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Losing less than expected is a gain, and it costs the scrap revenue that__
+// __the normal loss would have earned — which is why the two are netted rather__
+// __than the gain being taken whole.__
+// குறைவாக இழந்தது ஆதாயமே; ஆனால் கிடைத்திருக்க வேண்டிய கழிவு வருவாய் இழக்கப்படுகிறது
+விடை = அசாதாரண_ஆதாயத்தின்_மதிப்பு(200, 51.58, 20);
+அச்சு விடை["மொத்த_மதிப்பு"];
+அச்சு விடை["இழந்த_கழிவு"];
+அச்சு விடை["நிகர_ஆதாயம்"];

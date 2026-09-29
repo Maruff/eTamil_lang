@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்தத்_திருப்பி(அட்டவணை) — everything the borrower hands back__
+// கடன் வாங்கியவர் திருப்பித் தரும் மொத்தம்
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+அட்டவணை = தவணை_அட்டவணை(1000000, 9, 240);
+அச்சு மொத்தத்_திருப்பி(அட்டவணை);
+
+// __Which is the principal and the interest, and the two add back exactly —__
+// __the last instalment having taken up the rounding.__
+// இது அசலும் வட்டியும்; இரண்டும் சரியாகக் கூடும்
+அச்சு 1000000 + மொத்த_வட்டி(அட்டவணை);

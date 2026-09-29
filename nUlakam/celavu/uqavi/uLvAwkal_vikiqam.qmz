@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்வாங்கல்_விகிதம்(மதிப்பிட்ட_மேல்நிலை, மதிப்பிட்ட_அடிப்படை, அடிப்படை_வகை) — the predetermined absorption rate__
+// முன்கூட்டிய உள்வாங்கல் விகிதம்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Predetermined, on estimates, because a job has to be costed when it is done__
+// __rather than at the year end when the actual overhead is known.__
+// மதிப்பீட்டின்மீதே; ஆண்டிறுதிவரை காத்திருக்க முடியாது
+விகிதம் = மதிப்பு(உள்வாங்கல்_விகிதம்(600000, 30000, அடிப்படை_இயந்திர_நேரம்()));
+அச்சு விகிதம்["விகிதப்_பணம்"];
+அச்சு விகிதம்["அடிப்படை_வகை"];
+
+// __With no estimated base there is no rate.__
+// மதிப்பிட்ட அடிப்படை இல்லையெனில் விகிதமும் இல்லை
+அச்சு தவறா(உள்வாங்கல்_விகிதம்(600000, 0, அடிப்படை_இயந்திர_நேரம்()));

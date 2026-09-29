@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலியா(அணி) — does this array hold nothing?__
+// அணியில் ஒன்றும் இல்லையா
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு காலியா([]);
+அச்சு காலியா([0]);
+
+// __An array holding a zero is not empty. The value is nothing;__
+// __the array is not.__
+// பூஜ்ஜியத்தைக் கொண்ட அணி காலியல்ல; மதிப்பு ஒன்றுமில்லை, அணி அல்ல
+அச்சு காலியா([""]);

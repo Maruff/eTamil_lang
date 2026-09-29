@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாளாக_வடிவமை(ஆண்டு_மதிப்பு, மாத_மதிப்பு, நாள்_மதிப்பு) — three numbers as a date string, padded__
+// மூன்று எண்களையும் நாள் உரையாக வடிவமைக்கும்
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __The padding is the point: a month written as 3 rather than 03 sorts before__
+// __every month of every other year, and a report ordered by date comes out__
+// __shuffled.__
+// நிரப்புதலே முக்கியம்; 3 என்று எழுதினால் வரிசை சிதையும்
+அச்சு நாளாக_வடிவமை(2026, 3, 2);
+அச்சு நாளாக_வடிவமை(2026, 12, 31);
+
+// __It formats and does not check, so an impossible date can be built with it.__
+// __Use நாள்_ஆக்கு when the three numbers came from outside.__
+// இது வடிவமைக்கும், சரிபார்க்காது
+அச்சு நாளாக_வடிவமை(2026, 2, 31);

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இழப்புத்_தலைப்புகள்(தலைப்புகள்) — the heads still showing a loss__
+// இன்னும் இழப்பைக் காட்டும் தலைப்புகள்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+தலைப்புகள் = [தலைப்பு_ஆக்கு("சம்பளம்", 1200000),
+               தலைப்பு_ஆக்கு("வீட்டுச்_சொத்து", 0 - 200000),
+               தலைப்பு_ஆக்கு("தொழில்", 0 - 50000)];
+
+// __What is left to carry forward after every set-off has been applied. Each__
+// __carried loss has its own expiry and its own rules on the way back, so they__
+// __are listed rather than totalled.__
+// ஒவ்வொரு கொண்டு செல்லும் இழப்புக்கும் தனி விதிகள்; அதனால் பட்டியலாகவே
+ஒவ்வொரு ஒரு_தலைப்பு இல் இழப்புத்_தலைப்புகள்(தலைப்புகள்) {
+    அச்சு ஒரு_தலைப்பு["வருமான_வகை"];
+}
+அச்சு நீளம்(இழப்புத்_தலைப்புகள்(தலைப்புகள்));

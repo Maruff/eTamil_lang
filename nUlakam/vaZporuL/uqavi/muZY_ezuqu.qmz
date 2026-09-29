@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முனை_எழுது(முனை, இயக்கம்) — drive an output high or low__
+// வெளியீட்டை உயரமாக அல்லது தாழ்வாக இயக்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+முனை_வெளியீடு(13);
+
+// __மெய் is high and பொய் is low, so the call reads as on and off rather than__
+// __as 1 and 0 — which board documentation writes both ways round.__
+// மெய் உயரம், பொய் தாழ்வு; 1, 0 அல்ல
+முனை_எழுது(13, மெய்);
+அச்சு முனை_படி(13);
+
+முனை_எழுது(13, பொய்);
+அச்சு முனை_படி(13);
+
+// __Whether high means the lamp is lit depends on how it is wired. A lamp__
+// __between the pin and the supply lights when the pin goes low.__
+// உயரம் என்றால் விளக்கு எரியும் என்பது இணைப்பைப் பொறுத்தது

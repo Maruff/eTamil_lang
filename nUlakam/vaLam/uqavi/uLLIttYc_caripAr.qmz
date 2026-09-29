@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்ளீட்டைச்_சரிபார்(ஒரு_உள்ளீடு, நாள்_உச்ச_மணிகள்) — is this one line believable?__
+// இப்பதிவு முறையானதா
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+அச்சு சரியா(உள்ளீட்டைச்_சரிபார்(நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 8, மெய்), 12));
+
+// __31 February is refused. This is the check that catches a sheet filled in__
+// __from memory at the end of the month.__
+// பிப்ரவரி 31 மறுக்கப்படும்; நினைவிலிருந்து நிரப்பிய தாளைப் பிடிப்பது இதுவே
+அச்சு தவறா(உள்ளீட்டைச்_சரிபார்(நேர_உள்ளீடு("E1", "2026-02-31", "S2a", 8, மெய்), 12));
+
+// __Zero hours is not an entry, and neither is negative time.__
+// பூஜ்ஜிய மணி பதிவு அல்ல; எதிர்மறை நேரமும் அல்ல
+அச்சு தவறா(உள்ளீட்டைச்_சரிபார்(நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 0, மெய்), 12));
+அச்சு தவறா(உள்ளீட்டைச்_சரிபார்(நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 0 - 4, மெய்), 12));
+
+// __And thirty hours does not fit in a day, whatever the day's limit is set to.__
+// முப்பது மணிகள் ஒரு நாளுக்குள் அடங்காது
+அச்சு தவறா(உள்ளீட்டைச்_சரிபார்(நேர_உள்ளீடு("E1", "2026-03-02", "S2a", 30, மெய்), 12));

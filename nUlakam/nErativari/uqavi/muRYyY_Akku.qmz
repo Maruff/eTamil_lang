@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறையை_ஆக்கு(முறைப்_பெயர், படிகள், மேல்வரிப்_படிகள், தள்ளுபடி_எல்லை, தள்ளுபடி_உச்சம், கழிவு_வீதம், வரிக்குரிய_வருமானம்) — one tax regime, with its own slabs and its own taxable income__
+// ஒரு வரி முறை: தன் படிகளும், தன் வரிக்குரிய வருமானமும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The taxable income is part of the regime, not shared between them. The two__
+// __regimes allow different deductions, so the same person has a different__
+// __taxable income under each — which is exactly what makes the comparison__
+// __worth doing.__
+// ஒவ்வொரு முறைக்கும் வரிக்குரிய வருமானம் வேறு; அதுவே ஒப்பீட்டின் காரணம்
+பழைய_படிகள் = [{"முதல்": 0, "விகிதம்": 0},
+                 {"முதல்": 250000, "விகிதம்": 5},
+                 {"முதல்": 500000, "விகிதம்": 20},
+                 {"முதல்": 1000000, "விகிதம்": 30}];
+
+பழையது = முறையை_ஆக்கு("பழைய முறை", பழைய_படிகள், [], 500000, 12500, 4, 1050000);
+அச்சு பழையது["பெயர்"];
+அச்சு பழையது["வரிக்குரிய_வருமானம்"];

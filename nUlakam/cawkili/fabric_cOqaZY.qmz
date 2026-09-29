@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __fabric சோதனை — tests for the Fabric gateway client__
+// ஃபேப்ரிக் நுழைவாயில் இணைப்பிக்கான சோதனைகள்
 //
 // __Needs a gateway to talk to, so it is not part of the plain example run:__
 //
@@ -13,7 +14,7 @@
 // __The parts that need no gateway — building a URL, telling a conflict from a__
 // __refusal — are tested either way.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "fabric.qmz";
 
 ஓட்டம் = சோதனை_தொடக்கம்("Fabric நுழைவாயில்");

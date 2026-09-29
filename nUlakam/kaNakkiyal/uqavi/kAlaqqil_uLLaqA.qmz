@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலத்தில்_உள்ளதா(நாள், காலம்) — does this date fall inside that period?__
+// இந்நாள் அக்காலத்துக்குள் வருமா
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+காலம் = இந்திய_ஆண்டு(2026);
+
+// __Both ends count, so 1 April and 31 March are both in.__
+// இரு முனைகளும் உள்ளடங்கும்
+அச்சு காலத்தில்_உள்ளதா("2026-04-01", காலம்);
+அச்சு காலத்தில்_உள்ளதா("2027-03-31", காலம்);
+அச்சு காலத்தில்_உள்ளதா("2026-03-31", காலம்);
+அச்சு காலத்தில்_உள்ளதா("2027-04-01", காலம்);

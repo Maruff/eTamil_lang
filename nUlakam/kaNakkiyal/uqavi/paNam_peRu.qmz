@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணம்_பெறு(பரிவர்த்தனை_எண், நாள், விவரம், வங்கி_கணக்கு, வாடிக்கையாளர்_கணக்கு, தொகை_மதிப்பு) — money received against a receivable__
+// பெறத்தக்கதற்கு எதிராகப் பணம் பெறுதல்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __No tax here: the tax was recognised when the invoice was raised, and a__
+// __receipt only moves money.__
+// வரி ஏற்கெனவே விலைப்பட்டியலில் அங்கீகரிக்கப்பட்டது; இது பணம் நகர்வு மட்டுமே
+வரவு = பணம்_பெறு(2, "2026-04-10", "வரவு", "1000", "1100", 11800);
+அச்சு சமநிலையா(வரவு);
+அச்சு நீளம்(வரவு["வரிசைகள்"]);

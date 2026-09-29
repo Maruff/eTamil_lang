@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பதினாறு_ஆக்கு(மூலம்) — encode as hex__
+// பதினாறில் குறியாக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __Two characters to the byte, always. Longer than base64 and far easier to__
+// __read, which is what makes it the right choice for a checksum or an id__
+// __that a person will type or compare by eye.__
+// ஒரு பைட்டுக்கு இரண்டு எழுத்துகள்; படிப்பதற்கு எளிது
+அச்சு பதினாறு_ஆக்கு("Man");
+அச்சு பதினாறு_ஆக்கு("A");
+
+// __On bytes, not characters, so the length tells you the byte length of the__
+// __text — six hex characters to a Tamil letter, three bytes each.__
+// பைட்டுகளின்மீதே; ஒரு தமிழ் எழுத்துக்கு ஆறு பதினாறு-எழுத்துகள்
+அச்சு பதினாறு_ஆக்கு("த");

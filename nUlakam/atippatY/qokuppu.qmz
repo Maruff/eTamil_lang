@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/atippatY/qokuppu.qmz — தொகுப்பு (aggregates): reading one number out of many__
+// தொகுப்பு: பல எண்களிலிருந்து ஒரு எண்
+//
+// __சராசரி, மிகச்சிறியது and மிகப்பெரியது answer தவறு for an empty array__
+// __rather than zero. The least of nothing is not nothing, and a zero that__
+// __means "there was nothing" survives into a report looking like a figure.__
+
+// __கூட்டு(அணி) — sum of an array__
+// கூட்டு(அணி) — அணியில் உள்ள எண்களின் கூட்டுத்தொகை
+செயல் கூட்டு(பட்டியல்) {
+    மொத்தம் = 0;
+    ஒவ்வொரு உறுப்பு இல் பட்டியல் {
+        மொத்தம் = மொத்தம் + உறுப்பு;
+    }
+    திரும்பு மொத்தம்;
+}
+
+// __சராசரி(அணி) — mean; an empty array is an error, not a division by zero__
+// சராசரி(அணி) — சராசரி; காலி அணி தவறு, பூஜ்ஜியத்தால் வகுத்தல் அல்ல
+செயல் சராசரி(பட்டியல்) {
+    எண்ணிக்கை = நீளம்(பட்டியல்);
+    (எண்ணிக்கை == 0) எனில் {
+        திரும்பு தவறு("காலி அணியின் சராசரி இல்லை  (no average of an empty array)");
+    }
+    திரும்பு சரி(கூட்டு(பட்டியல்) / எண்ணிக்கை);
+}
+
+// மிகச்சிறியது(அணி) / மிகப்பெரியது(அணி)
+// மிகச்சிறியது(பட்டியல்) — அணியின் மிகச் சிறிய உறுப்பு
+// __மிகச்சிறியது(பட்டியல்) — the smallest element of an array__
+//
+// __சரி with the value, or தவறு for an empty array. Empty has no minimum, and answering zero would be a lie that survives into a report — the least of nothing is not nothing.__
+செயல் மிகச்சிறியது(பட்டியல்) {
+    (நீளம்(பட்டியல்) == 0) எனில் {
+        திரும்பு தவறு("காலி அணி  (empty array)");
+    }
+    விடை = பட்டியல்[0];
+    ஒவ்வொரு உறுப்பு இல் பட்டியல் {
+        (உறுப்பு < விடை) எனில் { விடை = உறுப்பு; }
+    }
+    திரும்பு சரி(விடை);
+}
+
+// __மிகப்பெரியது(பட்டியல்) — the largest element of an array__
+// மிகப்பெரியது(பட்டியல்) — அணியின் மிகப் பெரிய உறுப்பு
+//
+// __The pair to மிகச்சிறியது, and தவறு on empty for the same reason. Walks the array once rather than sorting it, so the cost is linear and the original order is untouched.__
+செயல் மிகப்பெரியது(பட்டியல்) {
+    (நீளம்(பட்டியல்) == 0) எனில் {
+        திரும்பு தவறு("காலி அணி  (empty array)");
+    }
+    விடை = பட்டியல்[0];
+    ஒவ்வொரு உறுப்பு இல் பட்டியல் {
+        (உறுப்பு > விடை) எனில் { விடை = உறுப்பு; }
+    }
+    திரும்பு சரி(விடை);
+}

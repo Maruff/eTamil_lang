@@ -21,6 +21,29 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
+## 1.4.2 — 2026-09-28
+
+Security updates to two dependencies. The language, and what every program
+means, are unchanged.
+
+### Security
+
+- **rustls 0.23.43 → 0.23.45**, for
+  [RUSTSEC-2026-0285](https://rustsec.org/advisories/RUSTSEC-2026-0285):
+  TLS 1.3 handshake messages were accepted across encryption-level
+  boundaries (medium, 5.3). rustls carries outbound HTTP, as `வலை_பெறு` and
+  the rest, and the optional `rustls` feature. Both the compiler and the
+  Android app update.
+- **rust_decimal 1.42.1 → 1.43.0**, which removes rkyv, and
+  [RUSTSEC-2026-0235](https://rustsec.org/advisories/RUSTSEC-2026-0235) with
+  it, from both lockfiles. rkyv was never compiled into eTamil. It was listed
+  only because rust_decimal's `std` feature named it, and Cargo locks a crate
+  behind a weak dependency feature even when nothing turns that feature on.
+
+`cargo audit` now reports no vulnerabilities.
+
+---
+
 ## 1.4.1 — 2026-09-28
 
 A fix to 1.4.0: reading JSON rounded a number with more than about 17
@@ -96,7 +119,7 @@ benchmarks, and what is still open: namespaced imports and private helpers.
 
 ### The file system, from eTamil
 
-`nUlakam/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
+`nUlakam/kOppumuRY/kOppumuRY.qmz` (கோப்புமுறை) lets a program find its files. It can
 join and split paths, and read a name's extension. It can list a directory,
 walk everything under one, or collect the files with one extension:
 `நீட்சியால்_கோப்புகள்("nUlakam", "qmz")`. It can also turn a modification time
@@ -144,7 +167,7 @@ rounding, an overflow, a division by zero — the board says so once, over
 serial, and carries on. It never gives a different answer silently.
 
 Text and letters are counted as the VM counts them. So are arrays, results and
-`?`, `வடிவம்` records and serial ports. `nUlakam/col.qmz` and `aNi.qmz` compile
+`?`, `வடிவம்` records and serial ports. `nUlakam/atippatY/col.qmz` and `aNi.qmz` compile
 for a board as written. `docs/artino.md` has what compiles, what is refused and
 why, and what each board takes.
 
@@ -301,7 +324,7 @@ on the shape. No inheritance.
 
 ### Map, filter and fold
 
-`nUlakam/aNi.qmz` gains `ஒவ்வொன்றுக்கும்`, `வடிகட்டு` and `மடி`, each taking the
+`nUlakam/atippatY/aNi.qmz` gains `ஒவ்வொன்றுக்கும்`, `வடிகட்டு` and `மடி`, each taking the
 rule it applies as a `செயல்`, with a test suite in `aNi_cOqaZY.qmz`.
 
 ### Also

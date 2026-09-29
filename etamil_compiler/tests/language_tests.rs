@@ -1227,7 +1227,7 @@ fn run_with_stdlib(source: &str) -> Result<VM, String> {
 #[test]
 fn stdlib_trim_handles_empty_and_all_space_strings() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "col.qmz";
+        r#"இறக்கு "atippatY/col.qmz";
            காலி = நீளம்(ஒழுங்கு(""));
            வெளிகள் = நீளம்(ஒழுங்கு("   "));
            ஒன்று = ஒழுங்கு("  வரி  ");
@@ -1241,10 +1241,37 @@ fn stdlib_trim_handles_empty_and_all_space_strings() {
     assert_eq!(text(&vm, "விளிம்பில்லை"), "வரவு");
 }
 
+// The library was one flat directory until its files were grouped by subject.
+// Every program written before that move imports `col.qmz`, not
+// `atippatY/col.qmz`, and those programs have to keep working.
+#[test]
+fn an_import_from_before_the_library_grew_folders_still_resolves() {
+    let vm = run_with_stdlib(
+        r#"இறக்கு "col.qmz";
+           ஒன்று = ஒழுங்கு("  வரி  ");"#,
+    )
+    .expect("the flat name should still find the file");
+
+    assert_eq!(text(&vm, "ஒன்று"), "வரி");
+}
+
+// ..and a path that climbs out of the library is not a name to look harder for.
+#[test]
+fn the_deeper_search_does_not_follow_a_path_out_of_the_library() {
+    let err =
+        run_with_stdlib(r#"இறக்கு "../../col.qmz";"#).expect_err("a climbing path must not resolve");
+
+    assert!(
+        !err.is_empty(),
+        "expected the import to be refused, got: {}",
+        err
+    );
+}
+
 #[test]
 fn stdlib_character_access_is_bounds_safe() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "col.qmz";
+        r#"இறக்கு "atippatY/col.qmz";
            முதல் = எழுத்து("வரவு", 0);
            தாண்டியது = எழுத்து("வரவு", 99);
            எதிர்மறை = எழுத்து("வரவு", 0 - 1);"#,
@@ -1256,14 +1283,14 @@ fn stdlib_character_access_is_bounds_safe() {
     assert_eq!(text(&vm, "எதிர்மறை"), "");
 }
 
-// --- JSON (nUlakam/jEcAZ.qmz) ---------------------------------------------
+// --- JSON (nUlakam/vativam/jEcAZ.qmz) ---------------------------------------------
 // Written in eTamil, not the host: a record key can be computed at runtime,
 // which is the one capability a parser needs to build a record from data.
 
 #[test]
 fn json_serializes_each_kind_of_value() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            எண்ணானது = ஜேசான்_ஆக்கு(1500.5);
            சரமானது = ஜேசான்_ஆக்கு("வரவு");
            ஈர்மம் = ஜேசான்_ஆக்கு(மெய்);
@@ -1283,7 +1310,7 @@ fn json_serializes_each_kind_of_value() {
 #[test]
 fn json_escapes_quotes_and_newlines() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            விடை = ஜேசான்_ஆக்கு("he said \"hi\"\nnext");"#,
     )
     .unwrap();
@@ -1296,7 +1323,7 @@ fn json_escapes_quotes_and_newlines() {
 #[test]
 fn json_writes_record_fields_in_a_stable_order() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            விடை = ஜேசான்_ஆக்கு({vakY: "செலவு", qokY: 250, active: பொய்});"#,
     )
     .unwrap();
@@ -1310,7 +1337,7 @@ fn json_writes_record_fields_in_a_stable_order() {
 #[test]
 fn json_parses_an_object_into_a_usable_record() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            விளைவு = ஜேசான்_படி("{\"vakY\":\"செலவு\",\"qokY\":1500,\"lines\":[1,2,3]}");
            சரியா_இருந்ததா = சரியா(விளைவு);
            ப = மதிப்பு(விளைவு);
@@ -1328,7 +1355,7 @@ fn json_parses_an_object_into_a_usable_record() {
 #[test]
 fn json_survives_a_round_trip() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            மூலம் = "{\"a\":[1,2],\"b\":{\"c\":\"வரி\"},\"d\":null,\"e\":true}";
            மறுபடி = ஜேசான்_ஆக்கு(மதிப்பு(ஜேசான்_படி(மூலம்)));"#,
     )
@@ -1370,7 +1397,7 @@ fn json_reads_numbers_exactly() {
 #[test]
 fn json_refuses_malformed_input() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            முடிவற்றது = தவறா(ஜேசான்_படி("\"abc"));
            மதிப்பற்றது = தவறா(ஜேசான்_படி("{\"a\": }"));
            மீதியுள்ளது = தவறா(ஜேசான்_படி("{} extra"));
@@ -1393,7 +1420,7 @@ fn json_refuses_malformed_input() {
 #[test]
 fn json_reads_an_empty_object_and_array() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            பொருள்_நீளம் = நீளம்(மதிப்பு(ஜேசான்_படி("{}")));
            அணி_நீளம் = நீளம்(மதிப்பு(ஜேசான்_படி("[]")));
            வெண்மையுடன் = ஜேசான்_ஆக்கு(மதிப்பு(ஜேசான்_படி("  {  \"a\" : 1 }  ")));"#,
@@ -1415,7 +1442,7 @@ fn json_reads_an_empty_object_and_array() {
 #[test]
 fn json_reads_a_document_with_windows_line_endings() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            மூலம் = "{\r\n  \"keys\": [\r\n    {\r\n      \"kty\": \"RSA\",\r\n      \"e\": \"AQAB\"\r\n    }\r\n  ]\r\n}\r\n";
            விளைவு = ஜேசான்_படி(மூலம்);
            சரியா_இருந்ததா = சரியா(விளைவு);
@@ -1436,7 +1463,7 @@ fn json_reads_a_document_with_windows_line_endings() {
 #[test]
 fn json_escapes_a_windows_line_ending() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            விடை = ஜேசான்_ஆக்கு({a: "one\r\ntwo"});
            மறுபடி = ஜேசான்_ஆக்கு(மதிப்பு(ஜேசான்_படி(விடை)));"#,
     )
@@ -1558,7 +1585,7 @@ fn a_byte_must_be_a_whole_number_in_range() {
 #[test]
 fn base64_matches_the_published_vectors() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kuRiyAkkam.qmz";
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
            காலி = அறுபத்துநான்கு_ஆக்கு("");
            ஒன்று = அறுபத்துநான்கு_ஆக்கு("f");
            இரண்டு = அறுபத்துநான்கு_ஆக்கு("fo");
@@ -1577,7 +1604,7 @@ fn base64_matches_the_published_vectors() {
 #[test]
 fn base64_round_trips_tamil() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kuRiyAkkam.qmz";
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
            மூலம் = "வணக்கம் உலகம் — ₹1,23,456.78";
            மறுபடி = மதிப்பு(அறுபத்துநான்கு_படி(அறுபத்துநான்கு_ஆக்கு(மூலம்)));
            ஒன்றா = மறுபடி == மூலம்;"#,
@@ -1590,7 +1617,7 @@ fn base64_round_trips_tamil() {
 #[test]
 fn base64_refuses_what_is_not_base64() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kuRiyAkkam.qmz";
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
            குப்பை = தவறா(அறுபத்துநான்கு_படி("!!!"));
            நல்லது = சரியா(அறுபத்துநான்கு_படி("Zm9v"));"#,
     )
@@ -1603,7 +1630,7 @@ fn base64_refuses_what_is_not_base64() {
 #[test]
 fn hex_encodes_and_decodes() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kuRiyAkkam.qmz";
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
            அ = பதினாறு_ஆக்கு("abc");
            தமிழ் = பதினாறு_ஆக்கு("வ");
            மறுபடி = மதிப்பு(பதினாறு_படி("616263"));
@@ -1620,7 +1647,7 @@ fn hex_encodes_and_decodes() {
 #[test]
 fn hex_refuses_bad_input() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kuRiyAkkam.qmz";
+        r#"இறக்கு "vativam/kuRiyAkkam.qmz";
            ஒற்றை = தவறா(பதினாறு_படி("abc"));
            எழுத்து = தவறா(பதினாறு_படி("zz"));"#,
     )
@@ -1636,7 +1663,7 @@ fn hex_refuses_bad_input() {
 #[test]
 fn stdlib_remainder() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "kaNiqam.qmz";
+        r#"இறக்கு "atippatY/kaNiqam.qmz";
            அ = மீதி(17, 5);
            ஆ = மீதி(64, 64);
            இ = மீதி(3, 5);
@@ -1773,7 +1800,7 @@ fn hashing_the_same_password_twice_gives_different_hashes() {
 #[test]
 fn a_token_round_trips_its_claims() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            சுமை = ஜேசான்_ஆக்கு({sub: "user-1", roles: ["kaNakkar"]});
            சீட்டு = சீட்டு_ஆக்கு(சுமை, 3600);
            பகுதிகள் = நீளம்(பிரி(சீட்டு, "."));
@@ -1798,7 +1825,7 @@ fn a_token_round_trips_its_claims() {
 #[test]
 fn a_tampered_or_expired_token_is_refused() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "jEcAZ.qmz";
+        r#"இறக்கு "vativam/jEcAZ.qmz";
            சுமை = ஜேசான்_ஆக்கு({sub: "user-1"});
            நல்லது = சீட்டு_ஆக்கு(சுமை, 3600);
            திருத்தப்பட்டது = தவறா(சீட்டு_சரிபார்(நல்லது & "x"));
@@ -1837,14 +1864,14 @@ fn a_token_payload_must_be_a_record() {
 #[test]
 fn stdlib_files_all_parse() {
     for file in [
-        "col.qmz",
-        "kaNiqam.qmz",
-        "aNi.qmz",
-        "paNam.qmz",
-        "jEcAZ.qmz",
-        "kuRiyAkkam.qmz",
-        "AvaNam.qmz",
-        "poruL.qmz",
+        "atippatY/col.qmz",
+        "atippatY/kaNiqam.qmz",
+        "atippatY/aNi.qmz",
+        "paNam/paNam.qmz",
+        "vativam/jEcAZ.qmz",
+        "vativam/kuRiyAkkam.qmz",
+        "vativam/AvaNam.qmz",
+        "atippatY/poruL.qmz",
     ] {
         let path = stdlib_dir().join(file);
         etamil_compiler::module::load_file(&path)
@@ -1854,7 +1881,7 @@ fn stdlib_files_all_parse() {
 
 #[test]
 fn stdlib_substring_and_search() {
-    let src = r#"இறக்கு "col.qmz";
+    let src = r#"இறக்கு "atippatY/col.qmz";
                  a = துண்டு("வணக்கம் உலகம்", 0, 5);
                  b = தேடு("abcdef", "cd");
                  c = தேடு("abcdef", "zz");
@@ -1870,7 +1897,7 @@ fn stdlib_substring_and_search() {
 
 #[test]
 fn stdlib_trim_split_and_join() {
-    let src = r#"இறக்கு "col.qmz";
+    let src = r#"இறக்கு "atippatY/col.qmz";
                  a = ஒழுங்கு("   ravi   ");
                  parts = பிரி("1,2,3", ",");
                  n = நீளம்(parts);
@@ -1885,7 +1912,7 @@ fn stdlib_trim_split_and_join() {
 
 #[test]
 fn stdlib_math() {
-    let src = r#"இறக்கு "kaNiqam.qmz";
+    let src = r#"இறக்கு "atippatY/kaNiqam.qmz";
                  a = முழுமதிப்பு(0 - 5);
                  b = சிறியது(3, 7);
                  c = பெரியது(3, 7);
@@ -1903,14 +1930,14 @@ fn stdlib_math() {
 
 #[test]
 fn stdlib_average_of_an_empty_array_is_an_error() {
-    let src = r#"இறக்கு "kaNiqam.qmz"; r = சராசரி([]); failed = தவறா(r);"#;
+    let src = r#"இறக்கு "atippatY/kaNiqam.qmz"; r = சராசரி([]); failed = தவறா(r);"#;
     let vm = run_with_stdlib(src).unwrap();
     assert_eq!(vm.variables.get("failed"), Some(&Value::Boolean(true)));
 }
 
 #[test]
 fn stdlib_array_helpers() {
-    let src = r#"இறக்கு "aNi.qmz";
+    let src = r#"இறக்கு "atippatY/aNi.qmz";
                  a = உள்ளதா([1, 2, 3], 2);
                  b = இடம்_காண்(["x", "y"], "y");
                  c = தலைகீழ்([1, 2, 3]);
@@ -1924,8 +1951,8 @@ fn stdlib_array_helpers() {
 
 #[test]
 fn stdlib_plucks_a_column_from_rows() {
-    let src = r#"இறக்கு "aNi.qmz";
-                 இறக்கு "kaNiqam.qmz";
+    let src = r#"இறக்கு "atippatY/aNi.qmz";
+                 இறக்கு "atippatY/kaNiqam.qmz";
                  // Note: a keyword used as a field name is stored under its
                  // token name — {vari: ...} would become the field "Tax", so
                  // that Tamil and romanized spellings agree. Plain names like
@@ -1940,7 +1967,7 @@ fn stdlib_plucks_a_column_from_rows() {
 
 #[test]
 fn stdlib_formats_money_with_indian_grouping() {
-    let src = r#"இறக்கு "paNam.qmz";
+    let src = r#"இறக்கு "paNam/paNam.qmz";
                  a = காசு_வடிவம்(12345678.5);
                  b = காசு_வடிவம்(1000);
                  c = காசு_வடிவம்(999.99);
@@ -1956,7 +1983,7 @@ fn stdlib_formats_money_with_indian_grouping() {
 
 #[test]
 fn stdlib_lakhs_and_crores() {
-    let src = r#"இறக்கு "paNam.qmz"; a = லட்சம்(2500000); b = கோடி(35000000);"#;
+    let src = r#"இறக்கு "paNam/paNam.qmz"; a = லட்சம்(2500000); b = கோடி(35000000);"#;
     let vm = run_with_stdlib(src).unwrap();
     assert_eq!(num(&vm, "a"), dec(25));
     assert_eq!(text(&vm, "b"), "3.5");
@@ -2884,7 +2911,7 @@ fn a_column_counts_written_letters_not_bytes() {
 // --- String escapes -------------------------------------------------------
 // Regression: literals were kept exactly as written, so "a\nb" was four
 // characters and a double quote could not be put in a string at all — which
-// is why nUlakam/jEcAZ.qmz could not have been written before this.
+// is why nUlakam/vativam/jEcAZ.qmz could not have been written before this.
 
 #[test]
 fn escape_sequences_become_the_characters_they_name() {
@@ -2993,7 +3020,7 @@ fn a_response_sent_from_a_function_is_still_visible() {
 }
 
 // --- Text over a whole string ---------------------------------------------
-// மாற்று, பிரி and ஒன்றிணை moved from nUlakam/col.qmz into the host because
+// மாற்று, பிரி and ஒன்றிணை moved from nUlakam/atippatY/col.qmz into the host because
 // the eTamil versions re-segmented the string on every letter read. These
 // assert the semantics the old versions had, so the move is not a change in
 // what a program computes.
@@ -3377,7 +3404,7 @@ fn a_token_signed_by_a_different_key_is_refused() {
     assert_eq!(vm.variables.get("தவறுதானா"), Some(&Value::Boolean(true)));
 }
 
-// --- nUlakam/AvaNam.qmz — the document renderer ----------------------------
+// --- nUlakam/vativam/AvaNam.qmz — the document renderer ----------------------------
 // The renderer is eTamil, not host code: what a template means is decided in
 // the language. These go through the real module rather than a copy of it.
 //
@@ -3399,7 +3426,7 @@ const TEMPLATE: &str = concat!(
 
 fn render(values: &str, groups: &str) -> Result<VM, String> {
     run_with_stdlib(&format!(
-        r#"இறக்கு "AvaNam.qmz";
+        r#"இறக்கு "vativam/AvaNam.qmz";
            மூலம் = "{}";
            விளைவு = ஆவணம்_நிரப்பு(மூலம், _ODT_வடிவம், {}, {});"#,
         TEMPLATE.replace('"', "\\\""),
@@ -3506,7 +3533,7 @@ fn an_empty_group_leaves_no_rows_and_no_tags() {
     assert!(!out.contains("{%tr"), "{}", out);
 }
 
-// --- nUlakam/poruL.qmz — reading a record that may not have the field ------
+// --- nUlakam/atippatY/poruL.qmz — reading a record that may not have the field ------
 // Indexing a record by a field it lacks is an error, which is right for a
 // field a program requires and wrong for one it merely allows. A query string
 // without `status` in it is an ordinary request; a handler that dies on it is
@@ -3526,7 +3553,7 @@ fn a_missing_field_is_still_an_error_when_indexed_directly() {
 #[test]
 fn a_field_that_is_there_is_returned() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "poruL.qmz";
+        r#"இறக்கு "atippatY/poruL.qmz";
            ப = {a: "one", b: "two"};
            விடை = புலம்_அல்லது(ப, "b", "fallback");
            உள்ளதா = புலம்_உள்ளதா(ப, "a");"#,
@@ -3540,7 +3567,7 @@ fn a_field_that_is_there_is_returned() {
 #[test]
 fn a_field_that_is_not_there_gives_the_fallback() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "poruL.qmz";
+        r#"இறக்கு "atippatY/poruL.qmz";
            ப = {a: "one"};
            விடை = புலம்_அல்லது(ப, "status", "");
            உள்ளதா = புலம்_உள்ளதா(ப, "status");"#,
@@ -3554,7 +3581,7 @@ fn a_field_that_is_not_there_gives_the_fallback() {
 #[test]
 fn names_and_values_come_back_in_the_same_order() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "poruL.qmz";
+        r#"இறக்கு "atippatY/poruL.qmz";
            ப = {a: 1, b: 2, c: 3};
            பெயர்கள் = புலங்கள்(ப);
            மதிப்புகள்_பட்டி = மதிப்பீடுகள்(ப);
@@ -3574,7 +3601,7 @@ fn names_and_values_come_back_in_the_same_order() {
 #[test]
 fn an_empty_record_is_recognised_as_empty() {
     let vm = run_with_stdlib(
-        r#"இறக்கு "poruL.qmz";
+        r#"இறக்கு "atippatY/poruL.qmz";
            காலியா = காலியா_பதிவேடு({});
            காலியில்லை = காலியா_பதிவேடு({a: 1});"#,
     )

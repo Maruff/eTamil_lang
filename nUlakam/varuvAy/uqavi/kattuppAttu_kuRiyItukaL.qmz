@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டுப்பாட்டு_குறியீடுகள்(செலுத்த_உரிமை_உண்டா, உரிமம்_மாறியதா, கைவசம்_உள்ளதா, இடர்_பலன்_மாறியதா, ஏற்றுக்கொண்டாரா) — how many of the five point-in-time indicators are present__
+// கட்டுப்பாடு மாறியதைக் காட்டும் குறியீடுகள் எத்தனை
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Indicators, not a test. None of them decides on its own, and there is no__
+// __threshold — this counts them so a judgement can be recorded with the__
+// __evidence beside it rather than asserted.__
+// இவை குறியீடுகளே; சோதனை அல்ல, எல்லையும் இல்லை
+அச்சு கட்டுப்பாட்டு_குறியீடுகள்(மெய், மெய், மெய், மெய், மெய்);
+அச்சு கட்டுப்பாட்டு_குறியீடுகள்(மெய், மெய், பொய், பொய், பொய்);
+அச்சு கட்டுப்பாட்டு_குறியீடுகள்(பொய், பொய், பொய், பொய், பொய்);
+
+// __Legal title without physical possession, and possession without title, are__
+// __both ordinary — which is why neither settles it.__
+// உரிமமும் கைவசமும் தனித்தனியே வருவது சாதாரணம்

@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாநிலப்_பெயர்(மாநிலக்_குறி) — the state a tax code stands for__
+// வரிக் குறி குறிக்கும் மாநிலம்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+தளம்_செய் "CREATE TABLE mAnilawkaL (
+             kuRi TEXT NOT NULL, peyar TEXT NOT NULL, vakY TEXT NOT NULL,
+             mUlam TEXT NOT NULL)", [];
+தளம்_செய் "INSERT INTO mAnilawkaL (kuRi, peyar, vakY, mUlam)
+             VALUES (?,?,?,?)",
+          ["33", "தமிழ்நாடு", "மாநிலம்", "எடுத்துக்காட்டு"];
+
+// __For a report heading and an invoice, so a two-digit code does not have to__
+// __be recognised by eye.__
+// இரண்டு இலக்கக் குறியைக் கண்ணால் அடையாளம் காண வேண்டியதில்லை
+அச்சு மாநிலப்_பெயர்("33");
+
+// __A code nobody has answers with nothing rather than failing, because this is__
+// __a display function.__
+// இல்லாத குறிக்கு வெற்றுச் சரம்; இது காட்சிக்கான செயல்
+அச்சு "[" & மாநிலப்_பெயர்("99") & "]";

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலச்_செயல்திறன்(ஈட்டியது, திட்டமிட்டது) — value earned per rupee planned__
+// காலச் செயல்திறன் குறியீடு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+அச்சு வட்டமிடு(மதிப்பு(காலச்_செயல்திறன்(250000, 300000)), 4);
+
+// __It tends to one as a project finishes, whatever happened: at the end every__
+// __project has earned all of its value and planned all of it. A schedule index__
+// __is at its least useful when a project is most likely to be late.__
+// முடியும்போது இது ஒன்றை நெருங்கும்; அப்போதுதான் இது மிகக் குறைந்த பயனுள்ளது
+அச்சு மதிப்பு(காலச்_செயல்திறன்(1000000, 1000000));
+அச்சு தவறா(காலச்_செயல்திறன்(250000, 0));

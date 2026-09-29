@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரியை_வட்டமிடு(வரித்_தொகை) — round the tax as the statute requires__
+// சட்டம் சொல்லும்படி வரியை வட்டமிடும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __To the nearest ten, unlike the income which rounds down. Two different__
+// __rules in the same computation, and neither is a choice.__
+// வரி அருகிலுள்ள பத்துக்கு; வருமானம் கீழ்நோக்கி — இரண்டும் வெவ்வேறு விதிகள்
+அச்சு வரியை_வட்டமிடு(144303);
+அச்சு வரியை_வட்டமிடு(144306);
+அச்சு வரியை_வட்டமிடு(0);

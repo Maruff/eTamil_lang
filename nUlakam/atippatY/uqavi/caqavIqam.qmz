@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சதவீதம்(தொகை, விகிதம்) — a percentage of an amount, rounded to paise__
+// தொகையின் விகிதச் சதவீதம், பைசா வரை வட்டமிட்டு
+
+இறக்கு "../aNi.qmz";
+இறக்கு "../col.qmz";
+இறக்கு "../poruL.qmz";
+இறக்கு "../kaNiqam.qmz";
+
+அச்சு சதவீதம்(1000, 18);
+
+// __Rounded to two places, because an amount carrying more__
+// __precision than money has will not agree with the ledger.__
+// பைசா வரை வட்டமிடப்படுகிறது; அதிகத் துல்லியம் பேரேட்டுடன் ஒவ்வாது
+அச்சு சதவீதம்(333.33, 18);

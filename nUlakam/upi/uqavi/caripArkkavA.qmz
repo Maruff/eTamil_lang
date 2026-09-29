@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சரிபார்க்கவா(நிலைமை) — must this payment be asked about again?__
+// இந்தப் பணப்பரிமாற்றத்தை மீண்டும் கேட்க வேண்டுமா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __A pending or initiated payment has not settled, so it must be polled.__
+// நிலுவையிலோ தொடங்கியதோ இன்னும் முடியவில்லை; மீண்டும் கேட்க வேண்டும்
+அச்சு சரிபார்க்கவா(நிலுவையில்);
+அச்சு சரிபார்க்கவா(தொடங்கியது);
+
+// __A settled one need not be.__
+// முடிந்ததை மீண்டும் கேட்கத் தேவையில்லை
+அச்சு சரிபார்க்கவா(வெற்றியானது);
+அச்சு சரிபார்க்கவா(தோல்வியானது);
+
+// __And a state nobody recognises is reconciled rather than assumed. The__
+// __safe direction for an unknown state is more work, not less.__
+// தெரியாத நிலைமையை ஊகிக்காமல் சரிபார்ப்பதே பாதுகாப்பான திசை
+அச்சு சரிபார்க்கவா("SOMETHING_ELSE");

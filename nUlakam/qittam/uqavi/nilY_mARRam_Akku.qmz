@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிலை_மாற்றம்_ஆக்கு(இருந்து, செல்லக்கூடியவை) — one row of a machine: a state and where it may go__
+// ஒரு நிலையும் அது செல்லக்கூடிய நிலைகளும்
+
+இறக்கு "../nilYmARRam.qmz";
+
+// __A pull request under review may be merged or sent back to its author.__
+// மதிப்பாய்விலுள்ள இழுகோரிக்கை இணைக்கப்படலாம் அல்லது திருப்பி அனுப்பப்படலாம்
+மதிப்பாய்வு = நிலை_மாற்றம்_ஆக்கு("மதிப்பாய்வில்", ["இணைத்தது", "திருத்தத்தில்"]);
+அச்சு மதிப்பாய்வு.இருந்து;
+அச்சு நீளம்(மதிப்பாய்வு.செல்லக்கூடியவை);
+
+// __An empty list says in so many words that merged is the end of the road.__
+// வெற்றுப் பட்டியல், இணைத்தது இறுதி நிலை என்று வெளிப்படையாகச் சொல்லும்
+இணைப்பு = நிலை_மாற்றம்_ஆக்கு("இணைத்தது", []);
+வரைவு = நிலை_வரைவு_ஆக்கு([மதிப்பாய்வு, இணைப்பு], {});
+அச்சு இறுதி_நிலையா(வரைவு, "இணைத்தது");
+
+// __Leaving a state out gives the same answer, which is the trap: திருத்தத்தில்__
+// __has no row, so the machine reads it as terminal too, and a sent-back pull__
+// __request could never return to review. Give every state its row.__
+// வரிசையில்லாத நிலையும் இறுதியாகவே கருதப்படும்; ஒவ்வொரு நிலைக்கும் வரிசை வேண்டும்
+அச்சு இறுதி_நிலையா(வரைவு, "திருத்தத்தில்");

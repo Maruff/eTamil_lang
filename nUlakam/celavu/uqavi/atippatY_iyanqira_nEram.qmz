@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படை_இயந்திர_நேரம்() — absorb overhead on machine hours__
+// இயந்திர நேரத்தின்மேல் உள்வாங்குதல்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __For a mechanised shop, where most of the overhead is power, depreciation__
+// __and maintenance — all of which follow the machine rather than the worker.__
+// இயந்திரமயமான பட்டறைக்கு; மேல்நிலை இயந்திரத்தையே பின்தொடர்கிறது
+அச்சு அடிப்படை_இயந்திர_நேரம்();
+அச்சு அடிப்படை_செல்லுபடியா(அடிப்படை_இயந்திர_நேரம்());

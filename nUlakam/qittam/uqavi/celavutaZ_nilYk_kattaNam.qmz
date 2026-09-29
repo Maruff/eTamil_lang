@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவுடன்_நிலைக்_கட்டணம்(உண்மைச்_செலவு, நிலையான_கட்டணம்) — cost plus a fee that does not move__
+// செலவுடன் நிலையான கட்டணம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The seller carries no cost risk at all, and has no reason to control cost__
+// __either — which is why this is for work nobody can scope rather than for__
+// __work nobody wants to price.__
+// விற்பவருக்கு இடரும் இல்லை, செலவைக் கட்டுப்படுத்தக் காரணமும் இல்லை
+விடை = செலவுடன்_நிலைக்_கட்டணம்(1100000, 100000);
+அச்சு விடை["விற்பவர்_கட்டணம்"];
+அச்சு விடை["வாங்குபவர்_செலவு"];
+
+// __The fee is the same whatever the cost comes to.__
+// செலவு எதுவானாலும் கட்டணம் அதுவே
+அச்சு செலவுடன்_நிலைக்_கட்டணம்(900000, 100000)["விற்பவர்_கட்டணம்"];

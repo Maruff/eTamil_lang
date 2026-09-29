@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறுகிய_காலமா(வைத்திருந்த_நாட்கள், எல்லை_நாட்கள்) — is this a short-term holding?__
+// இது குறுகிய கால வைத்திருப்பா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The threshold is an argument because it differs by asset: listed shares,__
+// __unlisted shares, immovable property and everything else are each counted__
+// __differently, and the rules change from year to year.__
+// எல்லை அளபுருவே; ஒவ்வொரு சொத்துக்கும் வேறு
+அச்சு குறுகிய_காலமா(300, 365);
+அச்சு குறுகிய_காலமா(400, 365);
+
+// __Exactly the threshold is still short term: it is \"more than\", not__
+// __\"at least\", and a sale on the anniversary is a day early.__
+// சரியாக எல்லையில் இருப்பதும் குறுகிய காலமே
+அச்சு குறுகிய_காலமா(365, 365);
+அச்சு குறுகிய_காலமா(366, 365);

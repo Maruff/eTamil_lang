@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வகை_சொத்து() — the asset element__
+// சொத்து மூலம்: நிறுவனம் கட்டுப்படுத்துவது
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __The five elements are named functions rather than strings written out at__
+// __each call site, so a misspelling is an unknown function rather than an__
+// __account that silently belongs to nothing.__
+// ஐந்து மூலங்களும் பெயரிடப்பட்ட செயல்களே; எழுத்துப்பிழை தெரியாத செயலாகவே வெளிப்படும்
+அச்சு வகை_சொத்து();
+அச்சு பற்று_இயல்பா(வகை_சொத்து());
+அச்சு இருப்புநிலைக்கானதா(வகை_சொத்து());

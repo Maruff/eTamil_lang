@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேறுபாட்டுத்_தொகை(அன்னியத்_தொகை, பழைய_விகிதம், புதிய_விகிதம்) — what the movement in the rate is worth__
+// மாற்று விகித வேறுபாட்டுத் தொகை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A receivable of a thousand dollars booked at 83.20 and still outstanding at__
+// __86.50 is worth 3,300 more, and that gain is real whether or not anyone has__
+// __been paid.__
+// விகிதம் நகர்ந்ததால் ஏற்படும் ஆதாயம்; பணம் வந்ததா என்பது வேறு கேள்வி
+அச்சு வேறுபாட்டுத்_தொகை(1000, 83.20, 86.50);
+
+// __And it goes the other way when the rupee strengthens.__
+// ரூபாய் வலுத்தால் இது மறுதிசையில்
+அச்சு வேறுபாட்டுத்_தொகை(1000, 86.50, 83.20);
+அச்சு வேறுபாட்டுத்_தொகை(1000, 83.20, 83.20);

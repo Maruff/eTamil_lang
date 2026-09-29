@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நீட்சியால்_கோப்புகள்(கோப்பகம், நீ) — every file under a directory with one extension__
+// ஒரு கோப்பகத்தின் கீழ், சொன்ன நீட்சியுள்ள கோப்புகள்
+
+இறக்கு "../kOppumuRY.qmz";
+
+மூலம் = சூழல்("ETAMIL_PATH", ".");
+நூலகம் = பாதை_இணை(மூலம், "nUlakam");
+
+// __The walk, filtered. This is how a corpus is collected, and how a tool__
+// __finds every .qmz in a project without being told where they are.__
+// தொகுப்பு சேகரிக்கவும், ஒரு திட்டத்தின் கோப்புகளைக் கண்டறியவும்
+நிரல்கள் = நீட்சியால்_கோப்புகள்(நூலகம், "qmz");
+அச்சு நீளம்(நிரல்கள்) > 0;
+அச்சு நீளம்(நிரல்கள்) <= நீளம்(கோப்பக_நட(நூலகம்));
+
+// __Without the dot, matching what நீட்சி answers.__
+// புள்ளி இல்லாமல்; நீட்சி தருவதற்கு ஏற்ப
+அச்சு நீளம்(நீட்சியால்_கோப்புகள்(நூலகம், ".qmz"));
+
+// __An extension nothing has finds nothing.__
+// யாருக்கும் இல்லாத நீட்சிக்கு ஒன்றுமில்லை
+அச்சு நீளம்(நீட்சியால்_கோப்புகள்(நூலகம், "exe"));

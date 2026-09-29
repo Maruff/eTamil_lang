@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பங்களிப்பு_விகிதம்(விற்பனை_விலை, மாறும்_செலவு) — contribution as a percentage of price__
+// விலையில் பங்களிப்பின் சதவீதம்
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Comparable between products at different prices, which the absolute figure__
+// __is not.__
+// வெவ்வேறு விலையுள்ள தயாரிப்புகளை ஒப்பிட முடியும்
+அச்சு மதிப்பு(பங்களிப்பு_விகிதம்(500, 300));
+அச்சு மதிப்பு(பங்களிப்பு_விகிதம்(1000, 600));
+அச்சு தவறா(பங்களிப்பு_விகிதம்(0, 300));

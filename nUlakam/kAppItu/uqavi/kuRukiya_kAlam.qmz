@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறுகிய_காலம்(ஆண்டு_முனைமம், நாட்கள், ஆண்டு_நாட்கள்) — premium for a period shorter than a year__
+// ஆண்டுக்கும் குறைவான காலத்திற்கான முனைமம்
+
+இறக்கு "../kAppItu.qmz";
+
+// __Ninety days of a twelve thousand rupee annual policy.__
+// பன்னிரண்டாயிரம் ஆண்டு முனைமத்தில் தொண்ணூறு நாட்கள்
+அச்சு குறுகிய_காலம்(12000, 90, 365);
+
+// __A full year is the full premium, and more than a year is still the full__
+// __premium — cover cannot be bought twice over in one annual policy.__
+// முழு ஆண்டு முழு முனைமம்; அதற்கு மேலும் அதுவே
+அச்சு குறுகிய_காலம்(12000, 365, 365);
+அச்சு குறுகிய_காலம்(12000, 400, 365);
+
+// __No cover, no premium.__
+// காப்பீடு இல்லை, முனைமமும் இல்லை
+அச்சு குறுகிய_காலம்(12000, 0, 365);

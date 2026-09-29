@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/vaZporuL/qotarqquRY.qmz — தொடர்த்துறை: serial ports__
+// தொடர்த்துறை: தொடர் இணைப்புகள்
+//
+// __தொடர்_வரி_படி answers சரி("") when nothing has arrived yet and தவறு only__
+// __when something is wrong. A device that has not spoken is not a fault, and a__
+// __caller that cannot tell the two apart will retry the wrong one.__
+//
+// __A port is named the host's way: "/dev/ttyACM0" on a Pi, "COM5" on Windows,__
+// __"sim:<name>" on the simulated board. Under artino, 0 is the USB port and__
+// __1, 2, 3 are the hardware ports.__
+
+// __தொடர்_திற(சாதனம், வேகம்) — open a serial port at a baud rate: சரி(port) or தவறு(why)__
+// தொடர்_திற(சாதனம், வேகம்) — சொன்ன வேகத்தில் தொடர்த் துறையைத் திறக்கும்
+செயல் தொடர்_திற(சாதனம், வேகம்) {
+    திரும்பு _serialOpen(சாதனம், வேகம்);
+}
+
+// __தொடர்_வரி_படி(துறை, காலம்) — the next whole line, waiting up to காலம் ms: சரி(line), சரி("") if none has arrived yet, or தவறு(why)__
+// தொடர்_வரி_படி(துறை, காலம்) — அடுத்த முழு வரி; சொன்ன காலம் வரை காத்திருக்கும்
+//
+// __காலம் 0 does not wait at all, which is what a firmware loop wants. "No line__
+// __yet" is empty text rather than இன்மை because a board has no இன்மை, and one__
+// __answer on every board is what lets one program run on all of them.__
+செயல் தொடர்_வரி_படி(துறை, காலம்) {
+    விடை = _serialReadLine(துறை, காலம்);
+    ((சரியா(விடை)) மற்றும் (மதிப்பு(விடை) == இன்மை)) எனில் { திரும்பு சரி(""); }
+    திரும்பு விடை;
+}
+
+// __தொடர்_எழுது(துறை, செய்தி) — send text as it is__
+// தொடர்_எழுது(துறை, செய்தி) — உரையை அப்படியே அனுப்பும்
+செயல் தொடர்_எழுது(துறை, செய்தி) {
+    திரும்பு _serialWrite(துறை, செய்தி);
+}
+
+// __தொடர்_வரி_எழுது(துறை, செய்தி) — send text and end the line__
+// தொடர்_வரி_எழுது(துறை, செய்தி) — உரையை அனுப்பி வரியை முடிக்கும்
+செயல் தொடர்_வரி_எழுது(துறை, செய்தி) {
+    திரும்பு _serialWrite(துறை, செய்தி & "\n");
+}
+
+// __தொடர்_மூடு(துறை) — close a port__
+// தொடர்_மூடு(துறை) — துறையை மூடும்
+செயல் தொடர்_மூடு(துறை) {
+    திரும்பு _serialClose(துறை);
+}

@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அலகு_வளத்திற்கு_பங்களிப்பு(விற்பனை_விலை, மாறும்_செலவு, வள_அலகுகள்) — contribution per unit of the scarce resource__
+// அரிய வளத்தின் ஒரு அலகுக்குப் பங்களிப்பு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __When something is scarce — machine hours, a raw material, a licence — the__
+// __product to make more of is the one that earns most per unit of the scarce__
+// __thing, not the one with the highest contribution.__
+// அரிதான வளத்தின் ஒரு அலகுக்கு அதிகம் ஈட்டுவதே சிறந்தது
+அச்சு மதிப்பு(அலகு_வளத்திற்கு_பங்களிப்பு(500, 300, 2));
+அச்சு மதிப்பு(அலகு_வளத்திற்கு_பங்களிப்பு(900, 600, 5));
+
+// __The second product contributes more per unit and less per machine hour, so__
+// __making it would earn less from the same constrained capacity.__
+// இரண்டாவது அலகுக்கு அதிகம், மணிக்குக் குறைவு
+அச்சு தவறா(அலகு_வளத்திற்கு_பங்களிப்பு(500, 300, 0));

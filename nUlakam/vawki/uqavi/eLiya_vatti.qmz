@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எளிய_வட்டி(அசல்_தொகை, ஆண்டு_விகிதம், எத்தனை_நாட்கள், ஆண்டு_நாட்கள்) — interest on the principal alone__
+// அசலின்மீது மட்டும் வட்டி
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __A lakh at twelve per cent for ninety days.__
+// ஒரு லட்சம், பன்னிரண்டு சதவீதம், தொண்ணூறு நாட்கள்
+அச்சு எளிய_வட்டி(100000, 12, 90, உண்மை_365);
+
+// __On the 360-day convention the same loan earns more, because the same rate__
+// __is spread over a shorter year.__
+// 360 நாள் மரபில் அதே கடன் அதிகம் ஈட்டும்
+அச்சு எளிய_வட்டி(100000, 12, 90, உண்மை_360);
+
+// __Nothing lent is nothing earned, and no days is no interest.__
+// கொடுக்காதற்கு ஈட்டமில்லை; நாட்களே இல்லையெனில் வட்டியும் இல்லை
+அச்சு எளிய_வட்டி(100000, 12, 0, உண்மை_365);

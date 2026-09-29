@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேர்கோட்டு_ஆண்டு(கொள்முதல்_மதிப்பு, எஞ்சிய_மதிப்பு, பயன்_ஆண்டுகள்) — one year of straight-line depreciation__
+// நேர்கோட்டு முறையில் ஓராண்டுத் தேய்வு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Cost less residual, over the life. The same every year, which is what makes__
+// __it straight line.__
+// ஒவ்வொரு ஆண்டும் ஒரே தொகை; அதனாலேயே இது நேர்கோடு
+அச்சு நேர்கோட்டு_ஆண்டு(500000, 50000, 5);
+அச்சு நேர்கோட்டு_ஆண்டு(500000, 0, 5);
+அச்சு நேர்கோட்டு_ஆண்டு(500000, 50000, 0);

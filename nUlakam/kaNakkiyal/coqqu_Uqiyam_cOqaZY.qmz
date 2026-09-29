@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __தேய்மானம் மற்றும் ஊதியம் சோதனை — depreciation and payroll__
+// தேய்மானத்துக்கும் ஊதியத்துக்குமான சோதனைகள்
 //
 //   __etamil --vm nUlakam/kaNakkiyal/coqqu_Uqiyam_cOqaZY.qmz__
 //
 // __No rate, ceiling or slab here is a claim about what any statute says. They__
 // __are arguments, chosen so the arithmetic can be checked by hand.__
 
-இறக்கு "../cOqaZY.qmz";
+இறக்கு "../cOqaZY/cOqaZY.qmz";
 இறக்கு "qEymAZam.qmz";
 இறக்கு "Uqiyam.qmz";
 

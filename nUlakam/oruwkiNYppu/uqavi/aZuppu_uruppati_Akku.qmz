@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுப்பு_உருப்படி_ஆக்கு(பொருள்_குறி, பொருள்_வகை, செயல்பாடு, ஆழம், ஒருமுறைக்_குறி) — one outbox row__
+// வெளியனுப்பும் ஒரு வரிசை உருப்படி
+
+இறக்கு "../aZuppu_varicY.qmz";
+
+// __Task PMO-118 was edited; the row is written in the same transaction as the__
+// __edit. Depth 1: it sits under a feature, which must go first.__
+// பணி 118 திருத்தப்பட்டது; அதே பரிமாற்றத்தில் வரிசை உருப்படி எழுதப்படுகிறது
+வரிசை_உருப்படி = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "திருத்து", 1, "fake-key-118");
+
+// __It starts waiting, untried, and due at time 0, so it is ready at once.__
+// காத்திருப்பில், முயற்சி இல்லை, நேரம் 0; உடனே அனுப்பத் தயார்
+அச்சு வரிசை_உருப்படி.நடப்பு_நிலை;
+அச்சு வரிசை_உருப்படி.முயற்சிகள்;
+அச்சு வரிசை_உருப்படி.அடுத்த_முயற்சி;
+
+// __The row names the task and holds none of its fields. The worker reads__
+// __the task again when it sends, so a row queued at 10:00 and sent at 10:05__
+// __sends what the task says at 10:05.__
+// உருப்படி பணியைப் பெயரிடுகிறது, அதன் புலங்களை அல்ல; அனுப்பும்போது மீண்டும் படிக்கப்படும்
+அச்சு புலம்_உள்ளதா(வரிசை_உருப்படி, "தலைப்பு");

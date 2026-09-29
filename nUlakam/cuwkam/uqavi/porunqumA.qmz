@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொருந்துமா(குறியீட்டெண், தலைப்புக்_குறி) — does this code fall under that heading?__
+// இந்தக் குறியீடு அந்தத் தலைப்பின் கீழ் வருமா
+
+இறக்கு "../cuwkam.qmz";
+
+// __An item falls under its heading, under its chapter, and under itself.__
+// ஒரு பொருள் அதன் தலைப்பின் கீழும், அத்தியாயத்தின் கீழும், தன் கீழும் வரும்
+அச்சு பொருந்துமா("84713010", "8471");
+அச்சு பொருந்துமா("84713010", "84");
+அச்சு பொருந்துமா("84713010", "84713010");
+
+// __But not under a different heading.__
+// வேறு தலைப்பின் கீழ் வராது
+அச்சு பொருந்துமா("84713010", "8528");
+
+// __And the relation runs one way only: a heading does not fall under an item__
+// __beneath it. Asking it the wrong way round is how a notification meant for__
+// __one tariff line gets applied to the whole heading.__
+// இது ஒருவழி உறவே; தலைப்பு, தனக்குக் கீழுள்ள பொருளின் கீழ் வராது
+அச்சு பொருந்துமா("8471", "84713010");

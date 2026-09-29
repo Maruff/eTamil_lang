@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நேரமும்_பொருளும்(மணிகள், மணி_விகிதம், பொருள்_செலவு, மீற_இயலா_எல்லை) — time and materials, with a ceiling__
+// நேரமும் பொருளும், மீற இயலா எல்லையுடன்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Hours at a rate, plus materials. Simple to agree and open-ended, which is__
+// __why the ceiling matters.__
+// ஒப்புக்கொள்ள எளிது, முடிவற்றது; அதனாலேயே எல்லை முக்கியம்
+எல்லைக்குள் = நேரமும்_பொருளும்(400, 1500, 50000, 1000000);
+அச்சு எல்லைக்குள்["வசூலிப்பது"];
+அச்சு எல்லைக்குள்["எல்லை_தொட்டதா"];
+
+// __Past the ceiling the seller works on and cannot bill, and the amount they__
+// __cannot bill is reported rather than hidden — a contract that quietly stops__
+// __paying is a contract that quietly stops being worked on.__
+// எல்லையைத் தாண்டியபின் வசூலிக்க இயலாதது, மறைக்கப்படாமல் சொல்லப்படுகிறது
+மீறியது = நேரமும்_பொருளும்(800, 1500, 50000, 1000000);
+அச்சு மீறியது["வசூலிப்பது"];
+அச்சு மீறியது["ஈட்டியது"];
+அச்சு மீறியது["வசூலிக்க_இயலாதது"];

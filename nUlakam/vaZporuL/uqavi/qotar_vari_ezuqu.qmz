@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொடர்_வரி_எழுது(துறை, செய்தி) — write a line, with the newline that ends it__
+// வரியை எழுதும், அதை முடிக்கும் வரி முறிவுடன்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+துறை = மதிப்பு(தொடர்_திற("sim:bus", 19200));
+
+// __What most devices actually want. A line-oriented protocol with the newline__
+// __forgotten does not half-work — the far end simply waits for ever.__
+// பெரும்பாலான சாதனங்கள் எதிர்பார்ப்பது இதுவே
+தொடர்_வரி_எழுது(துறை, "<01,1:N:182*3A");
+தொடர்_வரி_எழுது(துறை, "<02,0:N:000*11");
+
+அச்சு போலி_தொடர்_வெளியீடு("sim:bus");
+
+தொடர்_மூடு(துறை);

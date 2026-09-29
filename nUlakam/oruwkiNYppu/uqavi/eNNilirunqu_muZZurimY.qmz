@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __எண்ணிலிருந்து_முன்னுரிமை(அஜூர்_எண்) — Microsoft.VSTS.Common.Priority as a task priority__
+// அஜூர் எண்ணை முன்னுரிமையாக்கும்
+
+இறக்கு "../varYpatam.qmz";
+
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(1);
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(4);
+
+// __Anything that is not 1, 2 or 4 comes in as the middle priority: 3 itself,__
+// __a field left empty on the board, and a number out of range.__
+// 1, 2, 4 அல்லாத எதுவும் நடுத்தர முன்னுரிமையாக வரும்
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(3);
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(இன்மை);
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(9);
+
+// __So the round trip is exact for the four priorities the PMO uses.__
+// நான்கு முன்னுரிமைகளுக்கும் சுற்றுப் பயணம் மாறாது
+அச்சு எண்ணிலிருந்து_முன்னுரிமை(முன்னுரிமை_எண்("உயர்"));

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/vaLam/nEraqqAL.qmz — நேரத்தாள், the timesheet__
+// நேரத்தாள்
 //
 // __This is where actual cost is born. Everything downstream — the cost variance__
 // __in qittam/Ittu_maqippu.qmz, the progress in varuvAy/muZZERRam.qmz, the margin__
@@ -24,8 +25,8 @@
 // __anybody, and posting it to a project makes the actual cost move backwards__
 // __when it is corrected.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 இறக்கு "../nAtkAtti/nAL.qmz";
 இறக்கு "vaLam.qmz";
 
@@ -40,6 +41,7 @@
 // __account. This module does not care which, and deliberately does not check__
 // __it: the structure of the breakdown is qittam's business and a timesheet that__
 // __refuses unknown codes cannot be entered before the plan is finished.__
+// நேர_உள்ளீடு(வளக்_குறி, ஒரு_நாள், பணிக்_குறி, மணிகள், கட்டணத்துக்குரியதா) — நேரத்தாளில் ஒரு பதிவு
 செயல் நேர_உள்ளீடு(வளக்_குறி, ஒரு_நாள், பணிக்_குறி, மணிகள்,
                     கட்டணத்துக்குரியதா) {
     திரும்பு {"வளக்_குறி": வளக்_குறி,
@@ -63,6 +65,7 @@
 // __in a business that is filled in from memory, and a typed month gets the year__
 // __wrong every January — an entry dated a year earlier is costed at a rate from__
 // __a year earlier and lands in a closed period.__
+// உள்ளீட்டைச்_சரிபார்(ஒரு_உள்ளீடு, நாள்_உச்ச_மணிகள்) — இப்பதிவு முறையானதா
 செயல் உள்ளீட்டைச்_சரிபார்(ஒரு_உள்ளீடு, நாள்_உச்ச_மணிகள்) {
     (இல்லை நாள்_செல்லுபடியா(ஒரு_உள்ளீடு["நாள்"])) எனில் {
         திரும்பு தவறு("செல்லாத நாள்  (not a valid date): "
@@ -83,6 +86,7 @@
 
 // நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்)
 // __நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்) — one person's hours on one day__
+// நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்) — ஒருவரின் ஒரு நாள் மணிகள்
 //
 // __Summed across every activity they touched, which is how an over-booked day is found: eight hours split four ways still totals eight, and twelve does not become visible on any single line.__
 செயல் நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்) {
@@ -106,6 +110,7 @@
 // __which is why both exist. This is the error that inflates actual cost on__
 // __whichever project is easiest to book to, and it is invisible in any report__
 // __that groups by project rather than by person.__
+// மிகைப்_பதிவா(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள், நாள்_உச்ச_மணிகள்) — ஒரு நாளுக்கு உரியதை மீறிப் பதிவாகியுள்ளதா
 செயல் மிகைப்_பதிவா(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள், நாள்_உச்ச_மணிகள்) {
     திரும்பு நாள்_மொத்த_மணிகள்(உள்ளீடுகள், வளக்_குறி, ஒரு_நாள்)
              > நாள்_உச்ச_மணிகள்;
@@ -121,6 +126,7 @@
 // __be sent back to draft as நிராகரித்தது. Nothing goes backwards from ஏற்றது:__
 // __an approved sheet is corrected by a further entry, not by editing the__
 // __original, because the original has already been costed and posted.__
+// நிலை_மாற்றம்_சரியா(இருந்து, க்கு) — இந்நிலை மாற்றம் முறையானதா
 செயல் நிலை_மாற்றம்_சரியா(இருந்து, க்கு) {
     (இருந்து == "வரைவு" மற்றும் க்கு == "சமர்ப்பித்தது") எனில் { திரும்பு மெய்; }
     (இருந்து == "சமர்ப்பித்தது" மற்றும் க்கு == "ஏற்றது") எனில் { திரும்பு மெய்; }
@@ -133,6 +139,7 @@
 
 // நிலையை_மாற்று(ஒரு_உள்ளீடு, புதிய_நிலைமை)
 // __நிலையை_மாற்று(ஒரு_உள்ளீடு, புதிய_நிலைமை) — move a timesheet entry to a new state__
+// நிலையை_மாற்று(ஒரு_உள்ளீடு, புதிய_நிலைமை) — நேரத்தாள் பதிவைப் புதிய நிலைக்கு நகர்த்தும்
 //
 // __Refuses a transition the workflow does not allow, and returns a new entry rather than changing the old one. This is where actual cost is born, so an approved entry that can be edited back to draft is an audit trail that says nothing.__
 செயல் நிலையை_மாற்று(ஒரு_உள்ளீடு, புதிய_நிலைமை) {
@@ -152,6 +159,7 @@
 // ஏற்றவை_மட்டும்(உள்ளீடுகள்)
 //
 // __Only approved time is cost. Everything else is somebody's intention.__
+// ஏற்றவை_மட்டும்(உள்ளீடுகள்) — ஏற்றுக்கொள்ளப்பட்ட பதிவுகள் மட்டும்
 செயல் ஏற்றவை_மட்டும்(உள்ளீடுகள்) {
     விடை = [];
     ஒவ்வொரு ஒரு_உள்ளீடு இல் உள்ளீடுகள் {
@@ -171,6 +179,7 @@
 // __Costs one entry at the rate in force **on that entry's own date**. The date__
 // __comes from the entry and not from the caller, which is the only way the rule__
 // __can be got right by default.__
+// உள்ளீட்டைக்_கணக்கிடு(ஒரு_உள்ளீடு, விகிதங்கள்) — ஒரு பதிவின் செலவைக் கணக்கிடும்
 செயல் உள்ளீட்டைக்_கணக்கிடு(ஒரு_உள்ளீடு, விகிதங்கள்) {
     விகித_விடை = விகிதத்தைத்_தேடு(விகிதங்கள், ஒரு_உள்ளீடு["வளக்_குறி"],
                                     ஒரு_உள்ளீடு["நாள்"]);
@@ -195,6 +204,7 @@
 // __A partial total is the worst possible answer here: it is plausible, it__
 // __reconciles to the lines shown, and it is wrong by exactly the entries nobody__
 // __looked at.__
+// தாளைக்_கணக்கிடு(உள்ளீடுகள், விகிதங்கள்) — நேரத்தாள் முழுவதற்கும் செலவைக் கணக்கிடும்
 செயல் தாளைக்_கணக்கிடு(உள்ளீடுகள், விகிதங்கள்) {
     கணக்கிட்டவை = [];
     மொத்தத்_தொகை = 0;
@@ -224,6 +234,7 @@
 // __qittam/Ittu_maqippu.qmz takes as given. Computing it from timesheets rather__
 // __than accepting it as an input is the difference between an earned value__
 // __report and an earned value calculator.__
+// பணிக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், பணிக்_குறி) — ஒரு பணிக்கான மொத்தம்
 செயல் பணிக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், பணிக்_குறி) {
     தொகைக்_கூட்டல் = 0;
     மணிக்_கூட்டல் = 0;
@@ -243,6 +254,7 @@
 // __Hours booked to something chargeable, for vaLam.qmz's கட்டண_விகிதம். Counted__
 // __separately from the total because the two answer different questions and a__
 // __business that tracks only one of them tracks the wrong one.__
+// கட்டண_மணிகள்(கணக்கிட்ட_உள்ளீடுகள்) — கட்டணத்துக்கு உரிய மணிகள்
 செயல் கட்டண_மணிகள்(கணக்கிட்ட_உள்ளீடுகள்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஒரு_உள்ளீடு இல் கணக்கிட்ட_உள்ளீடுகள் {
@@ -255,6 +267,7 @@
 
 // வளத்துக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், வளக்_குறி)
 // __வளத்துக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், வளக்_குறி) — one person's hours and cost, totalled__
+// வளத்துக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், வளக்_குறி) — ஒருவரின் மணிகளும் செலவும் சேர்த்து
 //
 // __Both figures together, because they are checked against each other: hours times the rate should be the amount, and a mismatch means a rate changed part-way through the period. Rounded only at the end, so the total is not the sum of rounded lines.__
 செயல் வளத்துக்கு_மொத்தம்(கணக்கிட்ட_உள்ளீடுகள், வளக்_குறி) {

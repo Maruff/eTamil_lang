@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நிறைவுப்_பங்கு_நிதியால்(ஈட்டியது, மொத்த_நிதி) — how complete the project is, measured in money__
+// மதிப்பால் அளக்கும் நிறைவுப் பங்கு
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The other direction: given what has been earned, how far along is the__
+// __project. Worth reporting beside a date, because a project that is half__
+// __through its schedule and a quarter through its value is in trouble.__
+// காலத்துடன் சேர்த்து அறிவிக்கத் தக்கது
+அச்சு நிறைவுப்_பங்கு_நிதியால்(250000, 1000000);
+அச்சு நிறைவுப்_பங்கு_நிதியால்(1000000, 1000000);
+
+// __With no budget there is nothing to be a fraction of.__
+// நிதியே இல்லையெனில் பின்னமாக ஒன்றுமில்லை
+அச்சு நிறைவுப்_பங்கு_நிதியால்(250000, 0);

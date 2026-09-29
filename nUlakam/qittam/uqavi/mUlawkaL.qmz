@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மூலங்கள்(கணுக்கள்) — the top-level nodes__
+// மேல்மட்டக் கணுக்கள்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000)];
+
+// __The children of nothing. A well-formed structure has exactly one, and more__
+// __than one means two projects were loaded into the same tree.__
+// பெற்றோர் இல்லாதவையே மூலங்கள்; முறையான கட்டமைப்பில் ஒன்றே இருக்கும்
+அச்சு நீளம்(மூலங்கள்(கணுக்கள்));
+அச்சு மூலங்கள்(கணுக்கள்)[0]["கணு_பெயர்"];

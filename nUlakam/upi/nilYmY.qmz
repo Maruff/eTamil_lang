@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/upi/nilYmY.qmz — where a UPI payment has got to__
+// ஒருங்கிணைந்த பணப்பரிமாற்றம் எந்த நிலையில் உள்ளது
 //
 // __The whole of this file exists for one rule:__
 //
@@ -21,7 +22,7 @@
 //
 // __A state that is neither is unsettled, and unsettled is not a refusal.__
 
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __The states, as the switch reports them.__
 தொடங்கியது = "INITIATED";   // __sent, nothing heard__
@@ -31,11 +32,13 @@
 திருப்பியது = "REVERSED";    // __it moved and then came back__
 
 // __நிலைமைகள்() — every state, for a program that wants to check its own table__
+// நிலைமைகள்() — எல்லா நிலைமைகளும்; தன் பட்டியலைத் தானே சரிபார்க்க விரும்பும் நிரலுக்கு
 செயல் நிலைமைகள்() {
     திரும்பு [தொடங்கியது, நிலுவையில், வெற்றியானது, தோல்வியானது, திருப்பியது];
 }
 
 // __அறியப்பட்டதா(நிலைமை) — is this one of ours?__
+// அறியப்பட்டதா(நிலைமை) — இது நமக்குத் தெரிந்த நிலைமையா
 //
 // __A switch that answers something unrecognised must not be guessed at. An__
 // __unknown state is not a failure and is certainly not a success.__
@@ -49,6 +52,7 @@
 // __--- the two questions ----------------------------------------------------__
 
 // __பணம்_வந்ததா(நிலைமை) — has the money actually arrived?__
+// பணம்_வந்ததா(நிலைமை) — பணம் உண்மையிலேயே வந்துவிட்டதா
 //
 // __The only state that says yes is SUCCESS. Not PENDING, however long it has__
 // __been pending; not INITIATED; and not REVERSED, which arrived and left again.__
@@ -59,6 +63,7 @@
 }
 
 // __சரிபார்க்கவா(நிலைமை) — must this be asked about again?__
+// சரிபார்க்கவா(நிலைமை) — இதை மீண்டும் கேட்டுப் பார்க்க வேண்டுமா
 //
 // __Anything not settled. A pending payment is reconciled until the switch says__
 // __one way or the other; abandoning it is how a real payment ends up recorded__
@@ -69,6 +74,7 @@
 }
 
 // __முடிந்ததா(நிலைமை) — is this settled, either way?__
+// முடிந்ததா(நிலைமை) — இது எப்படியோ ஒரு முடிவுக்கு வந்துவிட்டதா
 செயல் முடிந்ததா(நிலைமை) {
     திரும்பு சரிபார்க்கவா(நிலைமை) == பொய்;
 }
@@ -76,6 +82,7 @@
 // __--- the moves ------------------------------------------------------------__
 //
 // __நகர்வு_சரியா(இருந்து, வரை) — may a payment move between these?__
+// நகர்வு_சரியா(இருந்து, வரை) — இந்த இரு நிலைமைகளுக்கு இடையே நகர்வது முறையா
 //
 // __Settled means settled: a success does not become a failure because a later__
 // __poll was confused, and a failure does not quietly become a success. The one__
@@ -104,6 +111,7 @@
 }
 
 // __நகர்த்து(இருந்து, வரை) — the new state, or a தவறு saying why not__
+// நகர்த்து(இருந்து, வரை) — புதிய நிலைமை; முறையற்றதெனில் ஏன் என்று சொல்லும் தவறு
 //
 // __A result rather than a boolean, so that refusing an impossible move is__
 // __something a caller has to handle rather than something it can overlook.__

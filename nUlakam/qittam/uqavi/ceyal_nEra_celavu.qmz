@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செயல்_நேர_செலவு(செயல்_குறி, இயல்பு_காலம், இயல்பு_செலவு, சுருக்க_காலம், சுருக்கச்_செலவு) — an activity's normal and crashed time and cost__
+// ஒரு செயலின் இயல்பு நிலையும் சுருக்க நிலையும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Two points on a curve: what it costs at its normal duration, and what it__
+// __costs at the shortest it can be done in. Everything in this file is a way__
+// __of reading the line between them.__
+// வளைவின் இரு புள்ளிகள்; இக்கோப்பு முழுவதும் அவற்றுக்கு இடையிலான கோட்டைப் படிப்பதே
+நேரத்_தரவு = செயல்_நேர_செலவு("A", 10, 100000, 7, 130000);
+அச்சு நேரத்_தரவு["இயல்பு_காலம்"];
+அச்சு நேரத்_தரவு["சுருக்க_காலம்"];
+அச்சு நேரத்_தரவு["சுருக்கச்_செலவு"];

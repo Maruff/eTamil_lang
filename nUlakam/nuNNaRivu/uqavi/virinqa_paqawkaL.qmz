@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __virinqa_paqawkaL — the words asked for, plus the other spellings__
+// விரிந்த_பதங்கள் — கேட்ட சொற்களும், அவற்றின் மற்ற வடிவங்களும்
+
+இறக்கு "../colvativam.qmz";
+
+தளம்_இணை சீகுலைட், ":memory:";
+அட்டவணையை_நிரப்பு();
+
+// __This is what lets a romanized question reach a Tamil-script document.__
+// __Without it the Tamil half of a bilingual corpus is not badly ranked — it__
+// __is never a candidate at all.__
+// இதுவே ஆங்கில எழுத்தில் கேட்ட கேள்வியைத் தமிழ் ஆவணத்தை அடையச் செய்கிறது
+ஒவ்வொரு ஒ இல் விரிந்த_பதங்கள்(["accu", "வரவு"]) { அச்சு ஒ; }
+அச்சு "--";
+
+// __Nothing appears twice. Two words of one question can be spellings of the__
+// __same name, and searching for it twice would weight it double.__
+// ஒன்று இருமுறை வராது
+அச்சு நீளம்(விரிந்த_பதங்கள்(["accu", "அச்சு"]));
+
+// __Words that are not names pass through unchanged.__
+// பெயரல்லாத சொற்கள் அப்படியே செல்லும்
+அச்சு நீளம்(விரிந்த_பதங்கள்(["reverse", "array"]));

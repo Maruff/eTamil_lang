@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// ___நம்பிக்கைக்கான_Z(நிகழ்தகவு_சதவீதம்) — how many deviations a given confidence needs__
+// சொன்ன நம்பிக்கைக்கு எத்தனை விலகல்கள் தேவை
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+// __The table read the other way round. Fifty per cent needs none: the mean__
+// __itself is the fifty-fifty date.__
+// அட்டவணையை மறுதிசையில் படிப்பது; ஐம்பது சதவீதத்திற்கு விலகலே தேவையில்லை
+அச்சு _நம்பிக்கைக்கான_Z(50);
+
+// __The familiar ones. Note how little the date moves between 50% and 85%, and__
+// __how much it moves between 95% and 99% — which is the shape of every__
+// __argument about a committed date.__
+// 95-லிருந்து 99 வரை நகரும் தூரமே ஒவ்வொரு கால அவகாசப் பேச்சின் வடிவம்
+அச்சு _நம்பிக்கைக்கான_Z(85);
+அச்சு _நம்பிக்கைக்கான_Z(95);
+அச்சு _நம்பிக்கைக்கான_Z(99);

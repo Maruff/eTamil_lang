@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kAppItu/kAppItu.qmz — காப்பீடு (insurance): policy, premium, claim__
+// காப்பீடு: பாலிசி, முனைமம், கோரல்
 //
 // __Insurance arithmetic is mostly small and one rule is famously not: when a__
 // __property is insured for less than it is worth, the insurer pays only the__
@@ -18,12 +19,13 @@
 // __காப்பீடு, இழப்பு, விலக்கு and பங்கு are all keywords, so the words this__
 // __module most wants are unavailable alone. Compounds it is.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // __--- premium --------------------------------------------------------------__
 //
 // __முனைமம்(காப்பீட்டுத்_தொகை, விகிதம்) — a premium at a percentage rate__
+// முனைமம்(காப்பீட்டுத்_தொகை, விகிதம்) — சதவீத வீதத்தில் முனைமம்
 செயல் முனைமம்(காப்பீட்டுத்_தொகை, விகிதம்) {
     திரும்பு வட்டப்_பங்கு(காப்பீட்டுத்_தொகை, விகிதம்);
 }
@@ -33,6 +35,7 @@
 // __Property is quoted per thousand — "one rupee eighty per mille" — not per__
 // __cent. Writing 1.80 into a percentage function charges a hundred times too__
 // __much, and the number looks plausible either way.__
+// ஆயிரத்திற்கு_முனைமம்(காப்பீட்டுத்_தொகை, ஆயிரத்திற்கு) — ஆயிரத்திற்கு இவ்வளவு என்ற வீதத்தில் முனைமம்
 செயல் ஆயிரத்திற்கு_முனைமம்(காப்பீட்டுத்_தொகை, ஆயிரத்திற்கு) {
     திரும்பு வட்டமிடு(காப்பீட்டுத்_தொகை * ஆயிரத்திற்கு / 1000, 2);
 }
@@ -42,6 +45,7 @@
 // __A loading for risk, a discount for a claim-free record. Both as percentages__
 // __of the base premium, and the loading is applied before the discount because__
 // __that is the order a schedule states them in.__
+// ஏற்ற_இறக்கத்துடன்(அடிப்படை_முனைமம், ஏற்ற_விகிதம், தள்ளுபடி_விகிதம்) — ஏற்றமும் தள்ளுபடியும் சேர்த்த முனைமம்
 செயல் ஏற்ற_இறக்கத்துடன்(அடிப்படை_முனைமம், ஏற்ற_விகிதம், தள்ளுபடி_விகிதம்) {
     ஏற்றியது = அடிப்படை_முனைமம் + சதவீதம்(அடிப்படை_முனைமம், ஏற்ற_விகிதம்);
     திரும்பு வட்டமிடு(ஏற்றியது - சதவீதம்(ஏற்றியது, தள்ளுபடி_விகிதம்), 2);
@@ -51,6 +55,7 @@
 //
 // __A policy for part of a year. Pro rata by days, not by months: a policy__
 // __starting on the fifteenth is not half a month's cover.__
+// குறுகிய_காலம்(ஆண்டு_முனைமம், நாட்கள், ஆண்டு_நாட்கள்) — ஆண்டுக்கும் குறைவான காலத்திற்கான முனைமம்
 செயல் குறுகிய_காலம்(ஆண்டு_முனைமம், நாட்கள், ஆண்டு_நாட்கள்) {
     திரும்பு நாள்_விகிதம்(ஆண்டு_முனைமம், நாட்கள், ஆண்டு_நாட்கள்);
 }
@@ -58,6 +63,7 @@
 // __--- the claim ------------------------------------------------------------__
 //
 // __கழிவுக்குப்_பின்(இழப்புத்_தொகை, கழிவு) — the excess the insured bears__
+// கழிவுக்குப்_பின்(இழப்புத்_தொகை, கழிவு) — காப்பீடு செய்தவர் தாங்கும் கழிவுக்குப் பிறகு மிஞ்சுவது
 //
 // __Applied to the loss before anything else. A loss smaller than the excess is__
 // __not a small payment; it is no payment.__
@@ -76,6 +82,7 @@
 // __overpays every under-insured claim.__
 //
 // __Insured for its full value or more, nothing is scaled back.__
+// சராசரி_விதி(இழப்புத்_தொகை, காப்பீட்டுத்_தொகை, உண்மை_மதிப்பு) — குறைவாகக் காப்பீடு செய்தால் விகிதப்படி குறைக்கும் விதி
 செயல் சராசரி_விதி(இழப்புத்_தொகை, காப்பீட்டுத்_தொகை, உண்மை_மதிப்பு) {
     (உண்மை_மதிப்பு <= 0) எனில் { திரும்பு வட்டமிடு(இழப்புத்_தொகை, 2); }
     (காப்பீட்டுத்_தொகை >= உண்மை_மதிப்பு) எனில் { திரும்பு வட்டமிடு(இழப்புத்_தொகை, 2); }
@@ -83,6 +90,7 @@
 }
 
 // __கோரல்_தீர்வு(விவரங்கள்) — what is actually payable__
+// கோரல்_தீர்வு(இழப்புத்_தொகை, பாலிசி) — கழிவும் சராசரி விதியும் சேர்த்த இறுதிக் கோரல் தொகை
 //
 // __விவரங்கள் carries what the policy says:__
 //   __இழப்பு       what was lost__
@@ -99,6 +107,7 @@
 //
 // __Answers a record rather than a number, so a settlement letter can say how it__
 // __got there — which is what a policyholder disputing it will ask.__
+// கோரல்_தீர்வு(விவரங்கள்) — சராசரி, விலக்கு, கூட்டுக்கட்டணம், உட்பெல்லை, காப்புத்தொகை என்ற வரிசையில் கோரலைத் தீர்த்து, வந்த வழியைச் சொல்லும் பதிவைத் தரும்
 செயல் கோரல்_தீர்வு(விவரங்கள்) {
     இழப்பு_மதிப்பு = புலம்_அல்லது(விவரங்கள், "இழப்பு", 0);
     காப்பீட்டுத்_தொகை = புலம்_அல்லது(விவரங்கள், "காப்பீடு", 0);
@@ -142,6 +151,7 @@
 // __The discount for a claim-free record steps up with each year and stops at a__
 // __maximum. Both the steps and the cap are policy terms, so படிகள் is an array__
 // __of {"ஆண்டு": n, "விகிதம்": r} ordered by year.__
+// கோரல்_இல்லா_சலுகை(ஆண்டு_முனைமம், தொடர்_ஆண்டுகள், படிகள்) — கோரல் இல்லாத ஆண்டுகளுக்கான சலுகை
 செயல் கோரல்_இல்லா_சலுகை(ஆண்டு_முனைமம், தொடர்_ஆண்டுகள், படிகள்) {
     பொருந்தும்_விகிதம் = 0;
     ஒவ்வொரு ஒரு_படி இல் படிகள் {
@@ -158,6 +168,7 @@
 // __--- outstanding claims ---------------------------------------------------__
 //
 // __நிலுவைக்_கோரல்கள்(கோரல்கள்) — what is reported and not yet paid__
+// நிலுவைக்_கோரல்கள்(கோரல்கள்) — தெரிவிக்கப்பட்டு இன்னும் தீர்க்கப்படாதவை
 //
 // __An insurer's largest liability is claims it knows about and has not settled.__
 // __Summing them is arithmetic; deciding what to reserve for claims not yet__

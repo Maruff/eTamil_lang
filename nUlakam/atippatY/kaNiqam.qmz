@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/atippatY/kaNiqam.qmz — கணிதம் (math) helpers__
+// கணிதத்திற்கான துணைச் செயல்கள்
+//
+// __Rounding, floor and ceiling come from the host because they need the__
+// __decimal representation itself. What was built from those is split__
+// __across the three files imported below.__
+
+// __Split into the files below. This one keeps the name so that every__
+// __`இறக்கு` of it still reaches every function it used to.__
+
+இறக்கு "eNkaL.qmz";
+இறக்கு "qokuppu.qmz";
+இறக்கு "vikiqam.qmz";
+
+// __வர்க்கமூலம்(மதிப்பு) is a host builtin now.__
+//
+// __It was Newton's method here, written in eTamil because the host had no__
+// __square root and the arithmetic to build one was all the language gave.__
+// __Forty iterations per call, and it was never quite exact: √25 came back__
+// __as 5.000000000000000000000288615.__
+//
+// __The host computes it on the Decimal itself, not through f64, so it is__
+// __both faster and exact — √25 is 5. A negative input is still a தவறு for__
+// __the reason it always was: the root of a negative variance is a sign__
+// __error upstream, and answering zero hides it inside a confidence figure__
+// __that looks perfectly reasonable.__
+//
+// __A function defined here would shadow the builtin, so it is gone rather__
+// __than delegating.__

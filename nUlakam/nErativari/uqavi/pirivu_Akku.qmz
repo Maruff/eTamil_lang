@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பிரிவு_ஆக்கு(பிரிவுக்_குறி, விவரம், பிடித்த_வீதம், ஒரு_முறை_எல்லை, ஆண்டு_எல்லை) — one withholding-tax section, with both its thresholds__
+// ஒரு மூலவரிப் பிரிவு, அதன் இரு எல்லைகளுடன்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Two thresholds, and either one is enough to bring a payment into charge:__
+// __one large payment, or several small ones that add up.__
+// இரு எல்லைகள்; ஏதேனும் ஒன்று தாண்டினால் போதும்
+ஒப்பந்தம் = பிரிவு_ஆக்கு("194C", "ஒப்பந்தக்காரர்", 1, 30000, 100000);
+வாடகை = பிரிவு_ஆக்கு("194I", "வாடகை", 10, 0, 240000);
+
+அச்சு ஒப்பந்தம்["வீதம்"];
+அச்சு ஒப்பந்தம்["ஒரு_முறை_எல்லை"];
+அச்சு வாடகை["ஒரு_முறை_எல்லை"];
+அச்சு வாடகை["ஆண்டு_எல்லை"];

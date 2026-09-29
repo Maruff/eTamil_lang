@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/celavu/mILpakirvu.qmz — மீள்பகிர்வு, reciprocal service apportionment__
+// பரஸ்பரச் சேவை மீள்பகிர்வு
 //
 // __mElnilY.qmz's சேவையை_மறுபகிர் spreads a service centre's cost over the__
 // __production centres and says, at the point of definition, that two service__
@@ -28,8 +29,8 @@
 //
 // __Percentages are whole numbers out of a hundred, as everywhere else here.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __கட்டமைப்பு — the shape of the problem__
@@ -44,6 +45,7 @@
 // __The percentages should total a hundred. They are not checked here because a__
 // __centre that retains part of its own cost is a real, if unusual, arrangement,__
 // __and பகிர்வு_மொத்தம் lets a caller check when it wants to.__
+// சேவை_நிலையம்_ஆக்கு(நிலையக்_குறி, நேரடிச்_செலவு, பகிர்வுகள்) — ஒரு சேவை நிலையத்தை உருவாக்கும்
 செயல் சேவை_நிலையம்_ஆக்கு(நிலையக்_குறி, நேரடிச்_செலவு, பகிர்வுகள்) {
     திரும்பு {"குறி": நிலையக்_குறி,
               "நேரடிச்_செலவு": நேரடிச்_செலவு,
@@ -51,6 +53,7 @@
 }
 
 // __பகிர்வு_ஆக்கு(க்கு_குறி, விகித_மதிப்பு) — one share of a service centre's cost__
+// பகிர்வு_ஆக்கு(க்கு_குறி, விகித_மதிப்பு) — சேவை நிலையச் செலவின் ஒரு பங்கு
 //
 // __Who receives it, and what proportion. Held as a list per centre rather than as a matrix, because most centres serve a handful of others and a full matrix of mostly zeroes is harder to read and to get right.__
 செயல் பகிர்வு_ஆக்கு(க்கு_குறி, விகித_மதிப்பு) {
@@ -58,6 +61,7 @@
 }
 
 // __பகிர்வு_மொத்தம்(ஒரு_நிலையம்) — the shares of one centre, added up__
+// பகிர்வு_மொத்தம்(ஒரு_நிலையம்) — ஒரு நிலையத்தின் பங்குகள் கூட்டியது
 //
 // __Should come to 1. Worth checking before a run: shares that total less than 1 leave cost stranded in the service centre, and more than 1 create cost that was never incurred — and repeated distribution then fails to converge instead of failing loudly.__
 செயல் பகிர்வு_மொத்தம்(ஒரு_நிலையம்) {
@@ -71,6 +75,7 @@
 // __--- small helpers, named so they cannot collide across nUlakam -----------__
 
 // __உற்பத்தியா(உற்பத்திக்_குறிகள், ஒரு_குறி) — is this a production centre?__
+// உற்பத்தியா(உற்பத்திக்_குறிகள், ஒரு_குறி) — இது உற்பத்தி நிலையமா
 //
 // __The test that stops the recursion. Cost sent to a production centre stays there; cost sent to a service centre has to go round again, which is the reciprocity this module exists for.__
 செயல் உற்பத்தியா(உற்பத்திக்_குறிகள், ஒரு_குறி) {
@@ -81,6 +86,7 @@
 }
 
 // __நிலையத்_தொகையைப்_பெறு(இருப்புகள், ஒரு_குறி) — one centre's running balance__
+// நிலையத்_தொகையைப்_பெறு(இருப்புகள், ஒரு_குறி) — ஒரு நிலையத்தின் நடப்பு இருப்பு
 //
 // __Zero for a centre not in the list, which is the right answer here: a centre that has received nothing yet holds nothing, and distinguishing that from absent would complicate every caller for no gain.__
 செயல் நிலையத்_தொகையைப்_பெறு(இருப்புகள், ஒரு_குறி) {
@@ -94,6 +100,7 @@
 //
 // __Answers a new list rather than changing the old one, because a செயல் cannot__
 // __mutate what it is given. Every accumulation below is a reassignment.__
+// நிலையத்_தொகையைக்_கூட்டு(இருப்புகள், ஒரு_குறி, சேர்க்கும்_தொகை) — ஒரு நிலையத்தின் இருப்புடன் கூட்டும்
 செயல் நிலையத்_தொகையைக்_கூட்டு(இருப்புகள், ஒரு_குறி, சேர்க்கும்_தொகை) {
     விடை = [];
     கிடைத்ததா = பொய்;
@@ -113,6 +120,7 @@
 }
 
 // __இருப்புகளின்_கூட்டல்(இருப்புகள்) — every balance added together__
+// இருப்புகளின்_கூட்டல்(இருப்புகள்) — எல்லா இருப்புகளும் கூட்டியது
 //
 // __The convergence test for repeated distribution: the run stops when what is still sitting in the service centres is immaterial. It is also the audit — the total across all centres must equal the direct cost put in, at every round.__
 செயல் இருப்புகளின்_கூட்டல்(இருப்புகள்) {
@@ -148,6 +156,7 @@
 // __Two centres that send each other everything — a·b = 1 — have no solution,__
 // __because nothing would ever reach production. It is a தவறு rather than a__
 // __division by zero.__
+// இரு_சேவை_ஒரேசமயம்(நிலையங்கள், உற்பத்திக்_குறிகள்) — இரு சேவை நிலையங்களை ஒரேசமயம் தீர்க்கும்
 செயல் இரு_சேவை_ஒரேசமயம்(அ_நேரடி, ஆ_நேரடி, அ_இலிருந்து_ஆ, ஆ_இலிருந்து_அ) {
     அ_பின்னம் = அ_இலிருந்து_ஆ / 100;
     ஆ_பின்னம் = ஆ_இலிருந்து_அ / 100;
@@ -187,6 +196,7 @@
 // __The round limit is a guard and not a tuning knob. Reaching it means the__
 // __service centres pass nearly everything to each other, which is a__
 // __configuration worth failing on rather than truncating.__
+// மீண்டும்_பகிர்(நிலையங்கள், உற்பத்திக்_குறிகள், சுற்றுகள்) — திரும்பத் திரும்பப் பகிர்ந்து ஒன்றுசேரச் செய்யும்
 செயல் மீண்டும்_பகிர்(சேவை_நிலையங்கள், உற்பத்திக்_குறிகள், சுற்று_எல்லை,
                      துல்லியம்) {
     உற்பத்தி_இருப்புகள் = [];
@@ -270,6 +280,7 @@
 // __The order is a parameter because there is no right one. Convention takes the__
 // __centre serving the most others first, which is a rule of thumb and not a__
 // __derivation — and `படிநிலை_வரிசை_வேறுபாடு` exists to show what turns on it.__
+// படிநிலைப்_பகிர்வு(வரிசைப்படுத்திய_நிலையங்கள், உற்பத்திக்_குறிகள்) — ஒரு வரிசையில் ஒருமுறை மட்டும் பகிரும் முறை
 செயல் படிநிலைப்_பகிர்வு(வரிசைப்படுத்திய_நிலையங்கள், உற்பத்திக்_குறிகள்) {
     உற்பத்தி_இருப்புகள் = [];
     ஒவ்வொரு ஓர்_உற்பத்தி இல் உற்பத்திக்_குறிகள் {
@@ -338,6 +349,7 @@
 //
 // __This is the assertion worth making about all three methods, and it holds for__
 // __all three even though two of them disagree about *where* the money goes.__
+// உற்பத்திக்கு_மொத்தம்(விடைப்_பட்டியல்) — உற்பத்தி நிலையங்களுக்குச் சேர்ந்த மொத்தம்
 செயல் உற்பத்திக்கு_மொத்தம்(விடைப்_பட்டியல்) {
     கூட்டல் = 0;
     ஒவ்வொரு ஓர்_இருப்பு இல் விடைப்_பட்டியல் {
@@ -348,6 +360,7 @@
 
 // நேரடிச்_செலவின்_மொத்தம்(சேவை_நிலையங்கள்)
 // __நேரடிச்_செலவின்_மொத்தம்(சேவை_நிலையங்கள்) — the service centres' own cost, before any sharing__
+// நேரடிச்_செலவின்_மொத்தம்(சேவை_நிலையங்கள்) — பகிர்வதற்கு முன் சேவை நிலையங்களின் சொந்தச் செலவு
 //
 // __What the apportionment has to account for exactly. Whichever of the three methods is used, the cost landing on production must equal this: simultaneous and repeated distribution both reach it, and step-down misses it by the reciprocal service it refused to see.__
 செயல் நேரடிச்_செலவின்_மொத்தம்(சேவை_நிலையங்கள்) {
@@ -367,6 +380,7 @@
 // __reconcile to the same money, and the product cost differs — so a unit cost__
 // __arrived at this way depends on a decision nobody records and few would__
 // __recognise as a decision.__
+// படிநிலை_வரிசை_வேறுபாடு(முதல்_வரிசை, இரண்டாம்_வரிசை, உற்பத்திக்_குறிகள், நிலையங்கள்) — வரிசை மாறினால் விடை எவ்வளவு மாறும்
 செயல் படிநிலை_வரிசை_வேறுபாடு(முதல்_வரிசை, இரண்டாம்_வரிசை, உற்பத்திக்_குறிகள்,
                                ஒரு_குறி) {
     முதல் = படிநிலைப்_பகிர்வு(முதல்_வரிசை, உற்பத்திக்_குறிகள்);

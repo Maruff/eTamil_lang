@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_எதிர்பார்ப்பு(இடர்கள்) — the register's net exposure__
+// பதிவேட்டின் நிகர வெளிப்பாடு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+இடர்கள் = [இடர்_ஆக்கு("R1", "தாமதம்", 30, 500000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R2", "அளவு மாற்றம்", 20, 300000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R3", "முன்கூட்டியது", 25, 200000, "வாய்ப்பு", "")];
+
+// __Threats and opportunities together.__
+// அச்சுறுத்தலும் வாய்ப்பும் சேர்ந்து
+அச்சு மொத்த_எதிர்பார்ப்பு(இடர்கள்);
+
+// __A useful number to report and a dangerous one to fund from: see__
+// __தற்செயல்_இருப்பைக்_கணக்கிடு, which deliberately does not use it.__
+// அறிக்கைக்கு உதவும் எண்; ஆனால் இதிலிருந்து நிதி ஒதுக்குவது ஆபத்து
+அச்சு மொத்த_எதிர்பார்ப்பு([]);

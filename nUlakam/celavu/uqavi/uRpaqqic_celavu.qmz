@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உற்பத்திச்_செலவு(தொழிற்சாலை, நிர்வாக_மேல்நிலை) — cost of production__
+// உற்பத்திச் செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+அச்சு உற்பத்திச்_செலவு(810000, 90000);
+
+// __Administration overhead is added here rather than in the factory cost,__
+// __because it is not a cost of making anything — and including it in stock__
+// __valuation is a thing auditors look for.__
+// நிர்வாக மேல்நிலை உற்பத்திச் செலவு அல்ல; இருப்பு மதிப்பீட்டில் சேர்ப்பது தவறு
+அச்சு உற்பத்திச்_செலவு(810000, 0);

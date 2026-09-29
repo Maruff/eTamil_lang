@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அகலம்_ஒத்ததா(பொதிந்த_ஆவணங்கள், கேள்வித்_திசையன்) — do the index and the query come from the same model?__
+// திசையன் அகலங்கள் ஒத்துப்போகின்றனவா
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+ஆவணங்கள் = [பொதிந்த_ஆவணம்("vari.md", [1, 0, 0])];
+
+// __Worth asking once before a search rather than discovering it as an empty__
+// __result: an index built with one model and queried with another returns__
+// __nothing, and nothing looks exactly like a question with no answer.__
+// தேடுவதற்கு முன் ஒருமுறை; இல்லையெனில் காலி விடையே கிடைக்கும்
+அச்சு அகலம்_ஒத்ததா(ஆவணங்கள், [1, 0, 0]);
+அச்சு அகலம்_ஒத்ததா(ஆவணங்கள், [1, 0]);
+அச்சு அகலம்_ஒத்ததா([], [1, 0, 0]);

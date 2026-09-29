@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கழிவு_ஆக்கு(பிரிவுக்_குறி, கோரிய_தொகை, உச்ச_வரம்பு, கூட்டுக்குள்ளா) — one deduction claimed under one section__
+// ஒரு பிரிவின் கீழ் கோரப்படும் ஒரு கழிவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Whether it falls inside the combined ceiling is part of the claim rather__
+// __than something worked out later: it is a property of the section.__
+// கூட்டு வரம்புக்குள் வருமா என்பது பிரிவின் பண்பே
+கழிவுகள் = [கழிவு_ஆக்கு("80C", 200000, 150000, மெய்),
+             கழிவு_ஆக்கு("80CCD1B", 50000, 50000, பொய்)];
+
+அச்சு கழிவுகள்[0]["கோரியது"];
+அச்சு கழிவுகள்[0]["உச்ச_வரம்பு"];
+அச்சு கழிவுகள்[1]["கூட்டுக்குள்ளா"];

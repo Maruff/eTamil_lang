@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறுபத்துநான்கு_எழுத்துகள்() — the base64 alphabet, in order__
+// அறுபத்துநான்கின் எழுத்துகள், வரிசையில்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __Written out once and read by both the encoder and the decoder, so the two__
+// __cannot disagree about which character stands for 62.__
+// ஒரே இடத்தில் எழுதப்பட்டு, குறியாக்கியும் படிப்பானும் இதையே படிக்கின்றன
+அச்சு அறுபத்துநான்கு_எழுத்துகள்();
+அச்சு நீளம்(அறுபத்துநான்கு_எழுத்துகள்());
+
+// __The last two are + and /, which is the standard alphabet and not the__
+// __URL-safe one. A base64 value going into a query string needs escaping.__
+// கடைசி இரண்டு + மற்றும் /; இது வலைமுகவரிக்கு ஏற்றது அல்ல, மறைக்க வேண்டும்
+அச்சு அறுபத்துநான்கு_எழுத்துகள்()[62];
+அச்சு அறுபத்துநான்கு_எழுத்துகள்()[63];

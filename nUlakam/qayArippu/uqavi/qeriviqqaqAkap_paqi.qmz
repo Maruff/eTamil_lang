@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தெரிவித்ததாகப்_பதி(வாக்குறுதி, நாள்) — record that the customer has been told__
+// வாடிக்கையாளருக்குத் தெரிவித்ததைப் பதியும்
+
+இறக்கு "../vAkkuRuqi.qmz";
+
+நழுவியது_ஒன்று = வாக்குறுதி_ஆக்கு("வா-701", "2026-10-15", "2026-11-30", "நழுவியது", "");
+
+// __It returns a new commitment; the one passed in is left as it was.__
+// புதிய வாக்குறுதியைத் தரும்; கொடுத்தது மாறாது
+தெரிவித்தது = தெரிவித்ததாகப்_பதி(நழுவியது_ஒன்று, "2026-10-20");
+அச்சு தெரிவித்தது.தெரிவித்த_நாள்;
+அச்சு நழுவியது_ஒன்று.தெரிவித்த_நாள் == "";
+
+// __Only the first date counts. A reminder recorded later, even with an earlier__
+// __date, cannot overwrite it and turn a late notice into a timely one.__
+// முதல் நாளே நிலைக்கும்; பின்னர் பதிந்தது அதை மாற்றாது
+நினைவூட்டல் = தெரிவித்ததாகப்_பதி(தெரிவித்தது, "2026-10-01");
+அச்சு நினைவூட்டல்.தெரிவித்த_நாள்;
+அச்சு அறிவிப்பு_தாமதமா(நினைவூட்டல், "2026-11-01");

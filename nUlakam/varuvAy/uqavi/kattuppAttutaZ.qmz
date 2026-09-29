@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கட்டுப்பாட்டுடன்(மாறும்_தொகை, சேர்க்கும்_பகுதி) — include only the part that will not have to be reversed__
+// திரும்பப் பெறும் அபாயம் கருதி வரம்பிட்ட மதிப்பு
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __The constraint. Variable consideration goes into the transaction price__
+// __only to the extent that a significant reversal is not likely — so a bonus__
+// __that is genuinely uncertain is not revenue yet, however probable.__
+// திரும்பப் பெறும் அபாயம் இல்லாத அளவே சேர்க்கப்படுகிறது
+அச்சு கட்டுப்பாட்டுடன்(100000, 100);
+அச்சு கட்டுப்பாட்டுடன்(100000, 50);
+அச்சு கட்டுப்பாட்டுடன்(100000, 0);
+
+// __Above a hundred is treated as a hundred: nothing more than the variable__
+// __amount itself can be included.__
+// நூற்றுக்கு மேல் என்பது நூறே
+அச்சு கட்டுப்பாட்டுடன்(100000, 150);

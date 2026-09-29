@@ -17,7 +17,7 @@
 //   `etamil` on the PATH    a separate installation, or a platform this VSIX
 //                           was not built for.
 //
-// `ETAMIL_PATH` matters as much as the binary. `இறக்கு "nUlakam/paNam.qmz"`
+// `ETAMIL_PATH` matters as much as the binary. `இறக்கு "nUlakam/paNam/paNam.qmz"`
 // resolves beside the importing file, then along `ETAMIL_PATH`, then beside
 // the executable; a carried compiler whose library the caller cannot see is a
 // compiler that refuses every import in the standard library.

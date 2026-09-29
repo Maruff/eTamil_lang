@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முறை_0_100(முடிந்ததா) — nothing until it is finished, then everything__
+// முடியும் வரை ஒன்றும் இல்லை, முடிந்ததும் முழுவதும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __The honest rule where partial progress cannot be observed. A package is__
+// __worth nothing until it is done, and then it is worth all of it.__
+// பகுதி முன்னேற்றத்தைக் காண முடியாதபோது இதுவே நேர்மையானது
+அச்சு முறை_0_100(பொய்);
+அச்சு முறை_0_100(மெய்);
+
+// __Which makes progress lumpy and unarguable, and that is the point: nobody__
+// __can report seventy per cent of something nobody can measure.__
+// முன்னேற்றம் படிப்படியானது, வாதிட முடியாதது

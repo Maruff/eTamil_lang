@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைப்பு_முனை(எண்ணிக்கை) — the GPIO number at that physical header pin__
+// அந்த இணைப்புத் தலைப்பு முனையின் முனை எண்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __Raspberry Pi only, and it answers the question you actually have with a__
+// __ribbon cable in your hand: the header pins are numbered 1 to 40 along the__
+// __board, and the GPIO numbers are not in that order at all.__
+// தலைப்பு முனைகள் 1 முதல் 40 வரை; முனை எண்கள் அந்த வரிசையில் இல்லை
+அச்சு தலைப்பு_முனை(7);
+அச்சு தலைப்பு_முனை(8);
+அச்சு தலைப்பு_முனை(40);
+
+// __Power and ground pins have no GPIO number, and answer -1 rather than__
+// __something that would quietly drive the wrong pin.__
+// மின்சாரமும் நிலமும் முனை அல்ல; ஒன்று குறை எனவே திரும்பும்
+அச்சு தலைப்பு_முனை(1);
+அச்சு தலைப்பு_முனை(6);
+
+// __And so does anything outside 1 to 40.__
+// 1-40 க்கு வெளியே உள்ளதும் -1
+அச்சு தலைப்பு_முனை(41);
+அச்சு தலைப்பு_முனை(0);

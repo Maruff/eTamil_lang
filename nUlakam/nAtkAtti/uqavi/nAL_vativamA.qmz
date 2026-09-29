@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நாள்_வடிவமா(நாள்_உரை) — is this shaped like a date?__
+// வடிவம் சரியாக உள்ளதா
+
+இறக்கு "../nAL.qmz";
+இறக்கு "../vAram.qmz";
+இறக்கு "../vElYnAL.qmz";
+
+// __Shape only, and without asking the host — so the same check runs on a board__
+// __with no clock in it.__
+// வடிவம் மட்டுமே; புரவலனைத் தொடாமல், கடிகாரமில்லாத பலகையிலும் இயங்கும்
+அச்சு நாள்_வடிவமா("2026-03-02");
+அச்சு நாள்_வடிவமா("02-03-2026");
+அச்சு நாள்_வடிவமா("2026-3-2");
+
+// __A well-shaped date that does not exist still passes here. That is__
+// __நாள்_செல்லுபடியா's question, not this one.__
+// வடிவம் சரியாக இருந்து, இல்லாத நாளாக இருப்பதும் இங்கே தேறும்
+அச்சு நாள்_வடிவமா("2026-02-31");
+அச்சு நாள்_வடிவமா("");

@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உருவாக்கு(வழங்குநர், தூண்டுதல்) — ask the model, or say why it could not be asked__
+// மாதிரியிடம் கேட்கும்; முடியாவிட்டால் ஏன் என்று சொல்லும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Pointed at a port with nothing on it, so the sample needs no model. What it__
+// __shows is the failure mode: an unreachable model is a தவறு that comes back,__
+// __and a caller can fall back to quoting the documentation.__
+// மாதிரி இல்லாத துறை; தொங்குவதில்லை, தவறாகவே திரும்பும்
+எங்கும்_இல்லை = வழங்குநர்_ஆக்கு("ollama", "http://127.0.0.1:1", "granite3.3:2b", "");
+அச்சு தவறா(உருவாக்கு(எங்கும்_இல்லை, "What is a paisa?"));
+
+// __A provider that needs a key and has none is refused before anything is__
+// __sent, which is a different failure and says so.__
+// திறவுகோல் இல்லாத வழங்குநர், ஒன்றும் அனுப்பப்படுமுன்பே மறுக்கப்படுகிறார்
+திறவுகோலின்றி = வழங்குநர்_ஆக்கு("other", "https://api.example", "m", "");
+அச்சு தவறு_மதிப்பு(உருவாக்கு(திறவுகோலின்றி, "What is a paisa?"));

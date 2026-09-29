@@ -517,7 +517,7 @@ fn a_block_after_a_loop_head_is_still_a_block() {
 
 #[test]
 fn vativam_is_still_an_ordinary_name_where_it_is_not_a_shape() {
-    // nUlakam/AvaNam.qmz has a parameter called வடிவம்.
+    // nUlakam/vativam/AvaNam.qmz has a parameter called வடிவம்.
     let vm = run("செயல் எடு(வடிவம்) { திரும்பு வடிவம்[\"அ\"]; } வ = எடு({அ: 5});").unwrap();
     assert_eq!(num(&vm, "வ"), Decimal::from(5));
 }

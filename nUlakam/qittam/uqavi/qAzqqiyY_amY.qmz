@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தாழ்த்தியை_அமை(தாழ்த்திகள், முனைக்_குறி, புது_முடிவு, கால_அளவு) — write an entry into the backward pass__
+// பின்னோக்கிய கடப்பில் ஒரு பதிவை எழுதும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+தாழ்த்திகள் = [{"குறி": "P", "தொடக்கம்": 0, "முடிவு": 4}];
+
+// __The mirror image: here the finish is given and the start is derived.__
+// இங்கே முடிவு தரப்பட்டு, தொடக்கம் கணக்கிடப்படுகிறது
+புதியது = தாழ்த்தியை_அமை(தாழ்த்திகள், "P", 10, 4);
+அச்சு முந்தியைப்_பெறு(புதியது, "P", "முடிவு");
+அச்சு முந்தியைப்_பெறு(புதியது, "P", "தொடக்கம்");

@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செலவை_ஒப்பிடு(பேரேடு, நடப்புக்_கணக்கு, நேரத்தாள்_தொகை) — does the ledger agree with the timesheets?__
+// பேரேட்டுச் செலவும் நேரத்தாள் தொகையும் ஒத்துப்போகின்றனவா
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+ஏடு = [];
+ஏடு = மதிப்பு(பதிவிடு(ஏடு, உழைப்புப்_பதிவு(1, "2026-03-02", "உழைப்பு",
+                                             நடப்புக்_கணக்கு, "PAYROLL", 25000)));
+
+// __When they agree, there is nothing between them.__
+// ஒத்துப்போனால் இடையே ஒன்றுமில்லை
+ஒத்தது = செலவை_ஒப்பிடு(ஏடு, நடப்புக்_கணக்கு, 25000);
+அச்சு ஒத்தது["ஒத்துப்போகிறதா"];
+அச்சு ஒத்தது["வேறுபாடு"];
+
+// __And when they do not, the control says so and by how much. A project whose__
+// __books and timesheets disagree has an actual cost that depends on who you__
+// __ask.__
+// ஒத்துப்போகாவிட்டால் எவ்வளவு என்பதையும் சொல்லும்
+பிரிந்தது = செலவை_ஒப்பிடு(ஏடு, நடப்புக்_கணக்கு, 17600);
+அச்சு பிரிந்தது["ஒத்துப்போகிறதா"];
+அச்சு பிரிந்தது["வேறுபாடு"];

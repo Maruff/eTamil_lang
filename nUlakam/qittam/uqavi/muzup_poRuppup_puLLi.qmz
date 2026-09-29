@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முழுப்_பொறுப்புப்_புள்ளி(இலக்குச்_செலவு, இலக்குக்_கட்டணம், உச்ச_விலை, வாங்குபவர்_பகிர்வு) — the cost beyond which the seller bears everything__
+// இதற்கு மேல் மிகையை விற்பவரே முழுவதும் சுமப்பார்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Up to this point the overrun is shared; past it the buyer pays no more and__
+// __every further rupee is the seller's. It is the most important number in a__
+// __fixed-price incentive contract and the one least often computed.__
+// இதுவரை மிகை பகிரப்படும்; இதற்குப் பின் முழுவதும் விற்பவருடையது
+புள்ளி = மதிப்பு(முழுப்_பொறுப்புப்_புள்ளி(1000000, 100000, 1250000, 0.5));
+அச்சு புள்ளி;
+
+// __At that cost the price reaches the ceiling exactly.__
+// அந்தச் செலவில் விலை சரியாக உச்சத்தைத் தொடுகிறது
+அச்சு (நிலை_விலை_ஊக்கம்(1000000, 100000, 1250000, 0.5, புள்ளி))["இறுதி_விலை"];

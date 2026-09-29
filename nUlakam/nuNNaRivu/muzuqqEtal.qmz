@@ -1,0 +1,266 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/nuNNaRivu/muzuqqEtal.qmz — முழுத்தேடல், full-text search on an index__
+// முழுத்தேடல்: குறியீட்டு அட்டவணை வழியாகச் சொற்களைத் தேடுதல்
+//
+// __coRqEtal.qmz scores documents it is handed. This one does not hold the__
+// __documents at all: it puts them in an FTS5 table and lets SQLite keep the__
+// __inverted index, so a query touches the postings for its own words instead__
+// __of every document in the collection.__
+//
+// __The arithmetic is the same BM25. The difference is where the work happens,__
+// __and it is the difference between a search that stays fast as a collection__
+// __grows and one that does not. Use coRqEtal.qmz when the documents are__
+// __already in hand and few; use this when there are many and they persist.__
+//
+// __FTS5 and bm25() are built into the SQLite the compiler carries, so this__
+// __needs nothing installed.__
+//
+// __One thing to know about bm25(): SQLite returns it **negative**, and more__
+// __negative means a better match, so that ORDER BY ascending puts the best__
+// __row first. Every function here negates it before handing it back, because__
+// __oRRumY.qmz, qaravaricY.qmz and iNYppu.qmz all take higher to mean better,__
+// __and a score that silently reverses that would combine into nonsense.__
+
+இறக்கு "coRpiri.qmz";
+இறக்கு "../atippatY/col.qmz";
+
+// __பெயர்_சரியா(பெயர்) — is this safe to write into SQL as an identifier?__
+//
+// __A table or column name cannot be a bound parameter — SQL has no such__
+// __placeholder — so it has to be written into the statement. That makes it the__
+// __one place injection is possible here, and the answer is to refuse anything__
+// __that is not a plain name: letters, digits and underscore, starting with a__
+// __letter or underscore. Everything that carries data goes through `?`.__
+// பெயர்_சரியா(பெயர்) — இப்பெயரை அடையாளமாக வினவலில் எழுதுவது பாதுகாப்பானதா
+செயல் பெயர்_சரியா(பெயர்) {
+    (நீளம்(பெயர்) == 0) எனில் { திரும்பு பொய்; }
+    எண்ணி = 0;
+    (எண்ணி < நீளம்(பெயர்)) சுற்று {
+        எ = எழுத்து(பெயர், எண்ணி);
+        ஏற்புடையது = பொய்;
+        (எ >= "a" மற்றும் எ <= "z") எனில் { ஏற்புடையது = மெய்; }
+        (எ >= "A" மற்றும் எ <= "Z") எனில் { ஏற்புடையது = மெய்; }
+        (எ == "_") எனில் { ஏற்புடையது = மெய்; }
+        (எண்ணி > 0 மற்றும் எ >= "0" மற்றும் எ <= "9") எனில் { ஏற்புடையது = மெய்; }
+        (ஏற்புடையது == பொய்) எனில் { திரும்பு பொய்; }
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு மெய்;
+}
+
+// __சொல்_தப்பி(சொல்) — one word as an FTS5 string literal__
+//
+// __Doubling the quote is the whole escape. Wrapping every word in quotes also__
+// __stops FTS5 reading it as syntax: a bare AND, OR, NOT or NEAR is an operator,__
+// __and a question containing the word "not" would otherwise change meaning__
+// __rather than be searched for.__
+// சொல்_தப்பி(சொல்) — ஒரு சொல்லை முழுத்தேடல் சரமாக மாற்றும்; மேற்கோள் இரட்டிப்பே தப்பிக்கும் வழி
+செயல் சொல்_தப்பி(சொல்_ஒன்று) {
+    விடை = "\"";
+    எண்ணி = 0;
+    (எண்ணி < நீளம்(சொல்_ஒன்று)) சுற்று {
+        எ = எழுத்து(சொல்_ஒன்று, எண்ணி);
+        (எ == "\"") எனில் { விடை = விடை & "\"\""; }
+        இன்றேல் { விடை = விடை & எ; }
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு விடை & "\"";
+}
+
+// __முன்னொட்டாக்கு(சொல்) — the prefix form, so a half-typed word still matches__
+//
+// __FTS5 spells this `"word" *` — the star sits outside the quotes, which is__
+// __easy to get wrong and fails as a syntax error rather than as no results.__
+// முன்னொட்டாக்கு(சொல்) — பாதி எழுதிய சொல்லும் பொருந்த முன்னொட்டு வடிவம்
+செயல் முன்னொட்டாக்கு(சொல்_ஒன்று) {
+    திரும்பு சொல்_தப்பி(சொல்_ஒன்று) & " *";
+}
+
+// __வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — one MATCH expression from a question__
+//
+// __The question is never passed through as written. coRpiri.qmz extracts the__
+// __words worth searching for and each is quoted. This joins them with OR, so__
+// __a document matching some of them still answers.__
+//
+// __OR alone is not the best a search can do — it is the widest pass of the__
+// __three that வினவல்_வரிசை builds. Prefer that when you have a question rather__
+// __than a term list; this is the piece it is made of.__
+// வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) — சாதாரணக் கேள்வியிலிருந்து பொருத்த வினவலைக் கட்டும்
+செயல் வினவல்_ஆக்கு(கேள்வி, முன்னொட்டா) {
+    பதங்கள் = தேடல்_பதங்கள்(கேள்வி);
+    (நீளம்(பதங்கள்) == 0) எனில் { திரும்பு ""; }
+
+    விடை = "";
+    ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+        துண்டம் = சொல்_தப்பி(ஒரு_பதம்);
+        (முன்னொட்டா) எனில் { துண்டம் = முன்னொட்டாக்கு(ஒரு_பதம்); }
+        (நீளம்(விடை) == 0) எனில் { விடை = துண்டம்; }
+        இன்றேல் { விடை = விடை & " OR " & துண்டம்; }
+    }
+    திரும்பு விடை;
+}
+
+// __வினவல்_வரிசை(கேள்வி) — the passes to try, narrowest first__
+//
+// __One query is a compromise between precision and recall. Three in order is__
+// __not: ask for every word together, and only if that finds nothing widen to__
+// __any of them, and only then fall back to the longest word as a prefix for__
+// __someone who stopped typing halfway.__
+//
+// __The order is what makes it work. Starting wide means a document sharing__
+// __one common word outranks nothing, because there is no narrower answer left__
+// __to prefer. Starting narrow means the precise answer wins when it exists__
+// __and the loose one is still there when it does not.__
+//
+// __A single-word question has no AND pass — it would be the same as the OR__
+// __one — so it is left out rather than run twice.__
+// வினவல்_வரிசை(கேள்வி) — முயற்சிக்க வேண்டிய வினவல்கள், குறுகியது முதலில்
+செயல் வினவல்_வரிசை(கேள்வி) {
+    பதங்கள் = தேடல்_பதங்கள்(கேள்வி);
+    (நீளம்(பதங்கள்) == 0) எனில் { திரும்பு []; }
+
+    முயற்சிகள் = [];
+
+    (நீளம்(பதங்கள்) > 1) எனில் {
+        குறுகியது = "";
+        ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+            துண்டம் = சொல்_தப்பி(ஒரு_பதம்);
+            (நீளம்(குறுகியது) == 0) எனில் { குறுகியது = துண்டம்; }
+            இன்றேல் { குறுகியது = குறுகியது & " AND " & துண்டம்; }
+        }
+        முயற்சிகள் = இணை(முயற்சிகள், குறுகியது);
+    }
+
+    முயற்சிகள் = இணை(முயற்சிகள், வினவல்_ஆக்கு(கேள்வி, பொய்));
+
+    நீளமானது = "";
+    ஒவ்வொரு ஒரு_பதம் இல் பதங்கள் {
+        (நீளம்(ஒரு_பதம்) > நீளம்(நீளமானது)) எனில் { நீளமானது = ஒரு_பதம்; }
+    }
+    முயற்சிகள் = இணை(முயற்சிகள், முன்னொட்டாக்கு(நீளமானது));
+
+    திரும்பு முயற்சிகள்;
+}
+
+// __அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — make the index__
+//
+// __Answers தவறு rather than aborting when a name would not be safe to write__
+// __into the statement, so a caller building a table from configuration finds__
+// __out rather than running it.__
+// அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) — குறியீட்டு அட்டவணையை உருவாக்கும்
+செயல் அட்டவணை_ஆக்கு(அட்டவணை, நெடுவரிசைகள்) {
+    (பெயர்_சரியா(அட்டவணை) == பொய்) எனில் {
+        திரும்பு தவறு("அட்டவணைப் பெயர் ஏற்புடையதல்ல: " & அட்டவணை);
+    }
+    (நீளம்(நெடுவரிசைகள்) == 0) எனில் {
+        திரும்பு தவறு("நெடுவரிசை ஏதும் தரப்படவில்லை");
+    }
+
+    பட்டி = "";
+    ஒவ்வொரு ஒரு_நெடுவரிசை இல் நெடுவரிசைகள் {
+        (பெயர்_சரியா(ஒரு_நெடுவரிசை) == பொய்) எனில் {
+            திரும்பு தவறு("நெடுவரிசைப் பெயர் ஏற்புடையதல்ல: " & ஒரு_நெடுவரிசை);
+        }
+        (நீளம்(பட்டி) == 0) எனில் { பட்டி = ஒரு_நெடுவரிசை; }
+        இன்றேல் { பட்டி = பட்டி & ", " & ஒரு_நெடுவரிசை; }
+    }
+
+    தளம்_செய் "CREATE VIRTUAL TABLE IF NOT EXISTS " & அட்டவணை &
+              " USING fts5(" & பட்டி & ")", [];
+    திரும்பு சரி(அட்டவணை);
+}
+
+// __ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) — put one document in__
+//
+// __The values are bound, never written into the statement. Only the names are__
+// __interpolated, and they are checked first.__
+// ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) — ஒரு ஆவணத்தை அட்டவணையில் சேர்க்கும்
+செயல் ஆவணம்_இடு(அட்டவணை, நெடுவரிசைகள், மதிப்புகள்) {
+    (பெயர்_சரியா(அட்டவணை) == பொய்) எனில் {
+        திரும்பு தவறு("அட்டவணைப் பெயர் ஏற்புடையதல்ல: " & அட்டவணை);
+    }
+    (நீளம்(நெடுவரிசைகள்) != நீளம்(மதிப்புகள்)) எனில் {
+        திரும்பு தவறு("நெடுவரிசைகளும் மதிப்புகளும் எண்ணிக்கையில் ஒவ்வவில்லை");
+    }
+
+    பட்டி = "";
+    இடங்கள் = "";
+    ஒவ்வொரு ஒரு_நெடுவரிசை இல் நெடுவரிசைகள் {
+        (பெயர்_சரியா(ஒரு_நெடுவரிசை) == பொய்) எனில் {
+            திரும்பு தவறு("நெடுவரிசைப் பெயர் ஏற்புடையதல்ல: " & ஒரு_நெடுவரிசை);
+        }
+        (நீளம்(பட்டி) == 0) எனில் { பட்டி = ஒரு_நெடுவரிசை; இடங்கள் = "?"; }
+        இன்றேல் { பட்டி = பட்டி & ", " & ஒரு_நெடுவரிசை; இடங்கள் = இடங்கள் & ", ?"; }
+    }
+
+    தளம்_செய் "INSERT INTO " & அட்டவணை & "(" & பட்டி & ") VALUES (" & இடங்கள் & ")",
+              மதிப்புகள்;
+    திரும்பு சரி(மெய்);
+}
+
+// __எடைப்_பட்டி(எடைகள்) — the per-column weights bm25() takes after the table__
+//
+// __A word found in a title says more about a document than the same word in__
+// __the body, and this is where that is said. An empty list weights every__
+// __column equally, which is what bm25() does with no weights at all.__
+// எடைப்_பட்டி(எடைகள்) — ஒவ்வொரு நெடுவரிசைக்கும் தரும் எடைகளின் பட்டியல்
+செயல் எடைப்_பட்டி(எடைகள்) {
+    விடை = "";
+    ஒவ்வொரு ஒரு_எடை இல் எடைகள் {
+        விடை = விடை & ", " & ஒரு_எடை;
+    }
+    திரும்பு விடை;
+}
+
+// __முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) — search, best first__
+//
+// __Answers an array of records, each carrying the row's contents and a__
+// __மதிப்பு. The score is bm25 negated, so higher is better and it composes__
+// __with everything else in nuNNaRivu without a caller having to remember that__
+// __SQLite counts the other way.__
+//
+// __The passes of வினவல்_வரிசை are tried narrowest first and the first that__
+// __finds anything wins, so a precise answer is preferred when it exists and a__
+// __loose one is still there when it does not.__
+//
+// __An empty question answers an empty array rather than every document: a__
+// __search for nothing is not a search for everything, and returning the whole__
+// __collection is how a blank input becomes a page of noise.__
+// முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) — சிறந்தது முதலாகப் பொருந்தும் ஆவணங்கள்
+செயல் முழுப்_பொருத்தம்(அட்டவணை, கேள்வி, எடைகள், எண்ணிக்கை) {
+    (பெயர்_சரியா(அட்டவணை) == பொய்) எனில் {
+        திரும்பு தவறு("அட்டவணைப் பெயர் ஏற்புடையதல்ல: " & அட்டவணை);
+    }
+
+    வினவல்கள் = வினவல்_வரிசை(கேள்வி);
+    (நீளம்(வினவல்கள்) == 0) எனில் { திரும்பு சரி([]); }
+
+    தரவரிசை = "bm25(" & அட்டவணை & எடைப்_பட்டி(எடைகள்) & ")";
+    கட்டளை = "SELECT " & அட்டவணை & ".*, " & தரவரிசை & " AS ஆ FROM " & அட்டவணை &
+             " WHERE " & அட்டவணை & " MATCH ? ORDER BY ஆ LIMIT ?";
+
+    ஒவ்வொரு ஒரு_வினவல் இல் வினவல்கள் {
+        தளம்_வினா கட்டளை, [ஒரு_வினவல், எண்ணிக்கை], வரிசைகள்;
+        (நீளம்(வரிசைகள்) > 0) எனில் {
+            விடை = [];
+            ஒவ்வொரு ஒரு_வரிசை இல் வரிசைகள் {
+                ஒரு_வரிசை["மதிப்பு"] = 0 - ஒரு_வரிசை["ஆ"];
+                விடை = இணை(விடை, ஒரு_வரிசை);
+            }
+            திரும்பு சரி(விடை);
+        }
+    }
+    திரும்பு சரி([]);
+}
+
+// __ஆவண_எண்ணிக்கை(அட்டவணை) — how many documents the index holds__
+// ஆவண_எண்ணிக்கை(அட்டவணை) — அட்டவணையில் எத்தனை ஆவணங்கள் உள்ளன
+செயல் ஆவண_எண்ணிக்கை(அட்டவணை) {
+    (பெயர்_சரியா(அட்டவணை) == பொய்) எனில் {
+        திரும்பு தவறு("அட்டவணைப் பெயர் ஏற்புடையதல்ல: " & அட்டவணை);
+    }
+    தளம்_வினா "SELECT COUNT(*) AS எண் FROM " & அட்டவணை, [], வரிசைகள்;
+    ஒவ்வொரு ஒரு_வரிசை இல் வரிசைகள் { திரும்பு சரி(ஒரு_வரிசை["எண்"]); }
+    திரும்பு சரி(0);
+}

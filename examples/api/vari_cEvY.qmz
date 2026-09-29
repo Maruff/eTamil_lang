@@ -7,8 +7,8 @@
 // __Everything outside a வழி block is a prelude: imports and functions are__
 // __compiled into every handler, so routes can use them.__
 
-இறக்கு "../../nUlakam/paNam.qmz";
-இறக்கு "../../nUlakam/kaNiqam.qmz";
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+இறக்கு "../../nUlakam/atippatY/kaNiqam.qmz";
 
 // __வரி_கணக்கு(ஆண்டு_வருமானம்) — income tax under the new regime slabs__
 //

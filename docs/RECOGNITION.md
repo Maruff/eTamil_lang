@@ -90,7 +90,7 @@ manager does not: `cargo install`, `pip install`, `brew install` and a bare
 with `ETAMIL_PATH` unset, the compiler answered
 
 ```
-✗ தொகுதி 'nUlakam/paNam.qmz' கண்டுபிடிக்க முடியவில்லை
+✗ தொகுதி 'nUlakam/paNam/paNam.qmz' கண்டுபிடிக்க முடியவில்லை
 ```
 
 to the first line of the README's own money example. Every package-registry

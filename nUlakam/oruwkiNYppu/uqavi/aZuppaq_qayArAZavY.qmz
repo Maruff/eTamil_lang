@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுப்பத்_தயாரானவை(உருப்படிகள், இப்போது) — the rows to send now, in the order to send them__
+// இப்போது அனுப்ப வேண்டியவை, அனுப்பும் வரிசையில்
+
+இறக்கு "../aZuppu_varicY.qmz";
+
+// __A task queued before its feature, a task backing off after a 503, and a__
+// __row already sent. Time is whole seconds, passed in: here it is 1000.__
+// அம்சத்துக்கு முன் வரிசைப்பட்ட பணி, 503-க்குப் பின் காத்திருக்கும் பணி, அனுப்பிய வரிசை
+குழந்தை = அனுப்பு_உருப்படி_ஆக்கு("PMO-118", "பணி", "உருவாக்கு", 1, "fake-key-118");
+பெற்றோர் = அனுப்பு_உருப்படி_ஆக்கு("PMO-100", "அம்சம்", "உருவாக்கு", 0, "fake-key-100");
+பின்வாங்கியது = தோல்வியைப்_பதி(
+    அனுப்பு_உருப்படி_ஆக்கு("PMO-119", "பணி", "திருத்து", 1, "fake-key-119"),
+    503, "Service Unavailable", 999, 1, 0);
+அனுப்பியது = அனுப்பியதாகப்_பதி(அனுப்பு_உருப்படி_ஆக்கு("PMO-090", "பணி", "திருத்து", 1, "fake-key-090"));
+அனுப்பு_வரிசை = [குழந்தை, பின்வாங்கியது, பெற்றோர், அனுப்பியது];
+
+// __The feature comes out first, whatever order it was queued in: the task's__
+// __parent link needs the feature to exist already. PMO-119 is not due until__
+// __1001 and the sent row is done, so neither is here.__
+// அம்சம் முதலில்; மூன்றாவது பணி 1001 வரை காத்திருக்கும், அனுப்பியது முடிந்தது
+ஒவ்வொரு ஒன்று இல் அனுப்பத்_தயாரானவை(அனுப்பு_வரிசை, 1000) { அச்சு ஒன்று.பொருள்_குறி; }
+
+// __Two seconds later the backoff is over, and PMO-119 is ready too.__
+// இரண்டு நொடிக்குப் பின் காத்திருந்த பணியும் தயார்
+அச்சு நீளம்(அனுப்பத்_தயாரானவை(அனுப்பு_வரிசை, 1002));

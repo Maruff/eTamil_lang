@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தற்செயல்_இருப்பைக்_கணக்கிடு(இடர்கள்) — the contingency reserve for the risks that are known__
+// அறியப்பட்ட இடர்களுக்கான தற்செயல் இருப்பு
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+இடர்கள் = [இடர்_ஆக்கு("R1", "தாமதம்", 30, 500000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R2", "அளவு மாற்றம்", 20, 300000, "அச்சுறுத்தல்", ""),
+            இடர்_ஆக்கு("R3", "முன்கூட்டியது", 25, 200000, "வாய்ப்பு", "")];
+
+// __The expected value of the threats — and deliberately not the net of the__
+// __register. Netting an opportunity against a threat funds a cost that may__
+// __well arrive with a benefit that may well not, and the two will not oblige__
+// __by happening together.__
+// அச்சுறுத்தல்களின் எதிர்பார்ப்பு மட்டுமே; பதிவேட்டின் நிகரம் அல்ல
+அச்சு தற்செயல்_இருப்பைக்_கணக்கிடு(இடர்கள்);
+அச்சு முழுமதிப்பு(மொத்த_எதிர்பார்ப்பு(இடர்கள்));
+
+// __A register with nothing on it needs no contingency, which is exactly why__
+// __the management reserve cannot be derived from one.__
+// காலிப் பதிவேட்டுக்குத் தற்செயல் இருப்பு தேவையில்லை
+அச்சு தற்செயல்_இருப்பைக்_கணக்கிடு([]);

@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ரூபாயாக(ரூபாய்) — whole rupees as paise__
+// முழு ரூபாயைப் பைசாவாக்கும்
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __For the common case where there are no paise at all: a price list, a fee,__
+// __a round figure typed in by hand.__
+// பைசாவே இல்லாத வழக்கமான நிலைக்கு
+அச்சு ரூபாயாக(500);
+
+// __Reading a rupee figure as though it were already paise is the mistake this__
+// __prevents, and it is off by a hundred rather than by a rounding.__
+// ரூபாயைப் பைசா என்று படிப்பதே இது தவிர்க்கும் தவறு; நூறு மடங்கு வித்தியாசம்
+அச்சு காசு_உரை(ரூபாயாக(500));
+அச்சு காசு_உரை(500);

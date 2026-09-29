@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகை_சரியா(தொகை_மதிப்பு) — is this an amount UPI will take?__
+// இது பணப்பரிமாற்றம் ஏற்கும் தொகையா
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __Rupees and paise.__
+// ரூபாயும் பைசாவும்
+அச்சு தொகை_சரியா(249.50);
+
+// __Nothing is not an amount, and neither is less than nothing.__
+// பூஜ்ஜியம் தொகை அல்ல; எதிர்மறையும் அல்ல
+அச்சு தொகை_சரியா(0);
+அச்சு தொகை_சரியா(0 - 5);
+
+// __Three decimal places is not money UPI takes. This is where a computed__
+// __share — a third of a bill, a percentage of a total — fails, and it fails__
+// __here rather than at the payer's app.__
+// மூன்று தசம இடங்கள் பணப்பரிமாற்றம் ஏற்கும் பணம் அல்ல
+அச்சு தொகை_சரியா(1.005);
+
+// __Rounded to paise first, the same figure is payable.__
+// பைசா வரை வட்டமிட்டபின் அதே தொகை செலுத்தத்தக்கது
+அச்சு தொகை_சரியா(வட்டமிடு(100 / 3, 2));

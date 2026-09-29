@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/qittam/kattuppAtu.qmz — கட்டுப்பாட்டுக் கணக்கு (control accounts,__
+// கட்டுப்பாட்டுக் கணக்கும் நிதித் தொகுதியும்
 // __the time-phased budget, and reserves)__
 //
 // __The control account is where project structure meets the ledger: a WBS node__
@@ -29,6 +30,7 @@
 // __on. Keeping them as separate fields rather than one identifier is what lets__
 // __the accounting structure and the work structure be renamed independently,__
 // __which they will be.__
+// கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு(கணக்குக்_குறி, கணு_குறி, உரிமையாளர்) — ஒரு கட்டுப்பாட்டுக் கணக்கை உருவாக்கும்
 செயல் கட்டுப்பாட்டுக்_கணக்கு_ஆக்கு(கணக்குக்_குறி, கணு_குறி, உரிமையாளர்) {
     திரும்பு {
         கணக்குக்_குறி: கணக்குக்_குறி,
@@ -43,11 +45,13 @@
 // __root. Two means the package's cost is counted twice; none means it is__
 // __counted nowhere. Neither shows up in a tree view, and both show up in the__
 // __totals, which is the worst possible combination.__
+// ஒரே_கணக்கா(கணக்குகள், கணுக்கள், கணு_குறி) — இக்கணு ஒரே ஒரு கட்டுப்பாட்டுக் கணக்கின் கீழ் வருகிறதா
 செயல் ஒரே_கணக்கா(கணக்குகள், கணுக்கள், கணு_குறி) {
     திரும்பு பாதையில்_கணக்குகள்(கணக்குகள், கணுக்கள், கணு_குறி) == 1;
 }
 
 // __பாதையில்_கணக்குகள்(கணக்குகள், கணுக்கள், கணு_குறி) — how many control accounts lie on the path to the root__
+// பாதையில்_கணக்குகள்(கணக்குகள், கணுக்கள், கணு_குறி) — மூலம் வரையிலான பாதையில் எத்தனை கட்டுப்பாட்டுக் கணக்குகள்
 //
 // __Walks up the parent chain counting as it goes. More than one is the error worth finding: a WBS branch controlled at two levels has its cost counted twice in the roll-up, and the totals still look plausible because every individual number is right.__
 செயல் பாதையில்_கணக்குகள்(கணக்குகள், கணுக்கள், கணு_குறி) {
@@ -64,6 +68,7 @@
 }
 
 // __கட்டமைப்பை_சரிபார்(கணக்குகள், கணுக்கள்) — every work package, checked__
+// கட்டமைப்பை_சரிபார்(கணக்குகள், கணுக்கள்) — ஒவ்வொரு வேலைத் தொகுப்பையும் சரிபார்க்கும்
 செயல் கட்டமைப்பை_சரிபார்(கணக்குகள், கணுக்கள்) {
     ஒவ்வொரு ஒரு_கணு இல் வேலைத்_தொகுப்புகள்(கணுக்கள்) {
         எத்தனை = பாதையில்_கணக்குகள்(கணக்குகள், கணுக்கள், ஒரு_கணு.கணு_குறி);
@@ -78,6 +83,7 @@
 // __--- The time-phased budget ---------------------------------------------__
 
 // __காலப்_பகிர்வு(காலம்_எண், காலத்_தொகை) — one period's slice of the budget__
+// காலப்_பகிர்வு(காலம்_எண், காலத்_தொகை) — ஒரு காலத்துக்கான நிதிப் பங்கு
 //
 // __A time-phased budget is a list of these. Held as period number and amount rather than as dates, because the phasing is relative to the project and survives the start date moving.__
 செயல் காலப்_பகிர்வு(காலம்_எண், காலத்_தொகை) {
@@ -85,6 +91,7 @@
 }
 
 // __திரட்டிய_நிதி(பகிர்வுகள், காலம்_வரை) — the S-curve read at one period__
+// திரட்டிய_நிதி(பகிர்வுகள், காலம்_வரை) — சொன்ன காலம் வரை திரட்டிய நிதி
 //
 // __This is planned value. It is cumulative by definition: PV at period 10 is__
 // __everything scheduled to be complete by then, not period 10's slice.__
@@ -99,6 +106,7 @@
 }
 
 // __மொத்த_நிதி(பகிர்வுகள்) — the phased budget added back up__
+// மொத்த_நிதி(பகிர்வுகள்) — காலவாரியாகப் பகிர்ந்த நிதியின் கூட்டுத்தொகை
 //
 // __Must equal the budget at completion. The check that phasing has not quietly changed the total: moving money between periods is replanning, and creating or losing some is an error.__
 செயல் மொத்த_நிதி(பகிர்வுகள்) {
@@ -122,6 +130,7 @@
 // __inside it, drawing on the reserve would improve reported performance, which__
 // __is exactly backwards — and is how a project 30% over budget reports itself__
 // __as on plan.__
+// நிதித்_தொகுதி_ஆக்கு(அடிப்படை_நிதி, தற்செயல்_இருப்பு, மேலாண்மை_இருப்பு) — நிதித் தொகுதியை உருவாக்கும்
 செயல் நிதித்_தொகுதி_ஆக்கு(அடிப்படை_நிதி, தற்செயல்_இருப்பு, மேலாண்மை_இருப்பு) {
     திரும்பு {
         அடிப்படை_நிதி: அடிப்படை_நிதி,
@@ -131,11 +140,13 @@
 }
 
 // __அளவீட்டு_அடிப்படை(தொகுதி) — the performance measurement baseline__
+// அளவீட்டு_அடிப்படை(தொகுதி) — செயல்திறன் அளவீட்டுக்கான அடிப்படை
 செயல் அளவீட்டு_அடிப்படை(தொகுதி) {
     திரும்பு தொகுதி.அடிப்படை_நிதி + தொகுதி.தற்செயல்_இருப்பு;
 }
 
 // __அனுமதித்த_நிதி(தொகுதி) — baseline plus management reserve__
+// அனுமதித்த_நிதி(தொகுதி) — அடிப்படையுடன் மேலாண்மை இருப்பும் சேர்த்தது
 செயல் அனுமதித்த_நிதி(தொகுதி) {
     திரும்பு அளவீட்டு_அடிப்படை(தொகுதி) + தொகுதி.மேலாண்மை_இருப்பு;
 }
@@ -146,6 +157,7 @@
 // __create any. The total authorised funding is unchanged by the transfer, which__
 // __is the property the test asserts. A release larger than the reserve is a__
 // __தவறு rather than a silent overdraft.__
+// இருப்பை_விடுவி(தொகுதி, விடுவிக்கும்_தொகை) — மேலாண்மை இருப்பிலிருந்து ஒரு தொகையை விடுவிக்கும்
 செயல் இருப்பை_விடுவி(தொகுதி, விடுவிக்கும்_தொகை) {
     (விடுவிக்கும்_தொகை <= 0) எனில் {
         திரும்பு தவறு("விடுவிப்புத் தொகை பூஜ்யம் அல்லது எதிர்மறை");

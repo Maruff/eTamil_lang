@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அலகுக்கான_செலவு(உறிஞ்ச_வேண்டியது, உள்ளீட்டு_அலகுகள், இயல்பு_இழப்பு) — the correct cost per good unit__
+// ஓர் அலகுக்கான சரியான செலவு
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+// __Divided by input less the NORMAL loss, not by the actual output. That is__
+// __the whole point: the cost of a process does not change because this month__
+// __went badly.__
+// இயல்பு இழப்பு போக மிஞ்சியதால் வகுக்க வேண்டும்; உண்மை வெளியீட்டால் அல்ல
+அச்சு மதிப்பு(அலகுக்கான_செலவு(490000, 10000, 500));
+
+// __A process that loses everything normally has no good units to carry cost.__
+// இயல்பாகவே அனைத்தையும் இழக்கும் செயல்முறையில் நல்ல அலகுகளே இல்லை
+அச்சு தவறா(அலகுக்கான_செலவு(490000, 10000, 10000));

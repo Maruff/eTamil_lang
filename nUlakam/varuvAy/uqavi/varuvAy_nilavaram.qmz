@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வருவாய்_நிலவரம்(ஒதுக்கிய_மதிப்பு, ஏற்பட்ட_செலவு, மொத்த_எதிர்பார்க்கும்_செலவு, முன்பு_அங்கீகரித்தது) — the whole picture for one obligation in one period__
+// ஒரு கடமையின், ஒரு காலத்தின் முழு நிலவரம்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+நிலவரம் = மதிப்பு(வருவாய்_நிலவரம்(1000000, 600000, 1200000, 250000));
+
+அச்சு நிலவரம்["முன்னேற்றம்"];
+அச்சு நிலவரம்["இதுவரை_வருவாய்"];
+அச்சு நிலவரம்["இந்தக்_காலம்"];
+
+// __The expected margin is reported beside the revenue, because a contract__
+// __whose expected margin has gone negative is a contract that needs a__
+// __provision — and nobody looks for one in a revenue report.__
+// எதிர்பார்க்கும் விளிம்பும் சேர்ந்தே; அது எதிர்மறையானால் ஒதுக்கீடு தேவை
+அச்சு நிலவரம்["எதிர்பார்க்கும்_விளிம்பு"];
+அச்சு மதிப்பு(வருவாய்_நிலவரம்(1000000, 600000, 1400000, 250000))["எதிர்பார்க்கும்_விளிம்பு"];

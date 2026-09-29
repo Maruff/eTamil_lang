@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கை_பகுதி(வி_பி_ஏ) — the handle, which says which PSP holds the account__
+// கைப் பகுதி; எந்த வங்கி/செயலி கணக்கை வைத்துள்ளது என்பதைச் சொல்வது
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __What comes after the @. Useful for routing, for reporting by PSP, and for__
+// __noticing that every failed payment this morning was on one handle.__
+// @ குறிக்குப் பின் வருவது; ஒரே கையில் தோல்விகள் குவிவதைக் கவனிக்க உதவும்
+அச்சு கை_பகுதி("shop@okhdfcbank");
+அச்சு கை_பகுதி("ravi@okaxis");
+
+// __An address that is not an address has no handle, and answers with nothing__
+// __rather than with whatever was after the first @.__
+// முகவரியே அல்லாததற்குக் கைப் பகுதி இல்லை
+அச்சு "[" & கை_பகுதி("ravi @okaxis") & "]";

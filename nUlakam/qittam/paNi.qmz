@@ -1,0 +1,237 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qittam/paNi.qmz — பணி (tasks: status, priority, baseline lock, roll-up)__
+// பணி: நிலை, முன்னுரிமை, பூட்டு, திரட்டல்
+//
+// __The WBS in pakuppu.qmz is what the plan is made of; a பணி is what people__
+// __actually work on, and it carries the four facts every task screen, report__
+// __and integration asks about: where it stands, how urgent it is, how much of__
+// __it is done, and whether the baseline still lets anyone move it.__
+//
+// __Five statuses, and two of them count as done:__
+//
+//   __செய்யவேண்டியது   to do__
+//   __நடப்பில்          in progress__
+//   __தீர்ந்தது         resolved — done, awaiting confirmation__
+//   __மூடியது          closed — done__
+//   __கைவிட்டது        cancelled — finished with, but not done__
+//
+// __Cancelled is the one that catches people out. It is terminal, so it is not__
+// __overdue and it is not next week's work; but it is not done either, so it__
+// __must not raise a project's percentage complete. Code that tests "not open"__
+// __where it meant "done" credits the project with work nobody did.__
+//
+// __The status lives in நடப்பு_நிலை, the field nilYmARRam.qmz reads, so a__
+// __task's own lifecycle can be run through the same machine as a change__
+// __request's when a team wants its transitions enforced.__
+//
+// __Tasks are flat, like WBS nodes: each names its parent, and a top-level task__
+// __has the empty string.__
+
+இறக்கு "../atippatY/kaNiqam.qmz";
+
+// __பணி_ஆக்கு(பணி_குறி, பெற்றோர்_குறி, பணி_நிலை, நிறைவு, மதிப்பீட்டு_மணி, இறுதி_நாள்) — one task__
+// பணி_ஆக்கு(பணி_குறி, பெற்றோர்_குறி, பணி_நிலை, நிறைவு, மதிப்பீட்டு_மணி, இறுதி_நாள்) — ஒரு பணியை உருவாக்கும்
+//
+// __நிறைவு is a percentage, 0 to 100. இறுதி_நாள் is an ISO date or "" for a task__
+// __with no due date. Other fields — தொடக்க_நாள், முடிந்த_நாள், பூட்டியதா — are__
+// __read with புலம்_அல்லது where they matter, so a caller adds them only when__
+// __it has them.__
+செயல் பணி_ஆக்கு(பணி_குறி, பெற்றோர்_குறி, பணி_நிலை, நிறைவு, மதிப்பீட்டு_மணி, இறுதி_நாள்) {
+    திரும்பு {
+        பணி_குறி: பணி_குறி,
+        பெற்றோர்_குறி: பெற்றோர்_குறி,
+        நடப்பு_நிலை: பணி_நிலை,
+        நிறைவு: நிறைவு,
+        மதிப்பீட்டு_மணி: மதிப்பீட்டு_மணி,
+        இறுதி_நாள்: இறுதி_நாள்
+    };
+}
+
+// __பணி_நிலைகள்() — the five statuses, in working order__
+// பணி_நிலைகள்() — ஐந்து பணி நிலைகள்
+செயல் பணி_நிலைகள்() {
+    திரும்பு ["செய்யவேண்டியது", "நடப்பில்", "தீர்ந்தது", "மூடியது", "கைவிட்டது"];
+}
+
+// __பணி_முடிந்ததா(பணி_நிலை) — does this status count as done?__
+// பணி_முடிந்ததா(பணி_நிலை) — இந்நிலை முடிந்ததாகக் கணக்கிடப்படுமா
+//
+// __Resolved and closed. Not cancelled — see the note at the top of the file.__
+செயல் பணி_முடிந்ததா(பணி_நிலை) {
+    திரும்பு பணி_நிலை == "தீர்ந்தது" அல்லது பணி_நிலை == "மூடியது";
+}
+
+// __பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்) — is this task overdue?__
+// பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்) — இப்பணி காலம் கடந்ததா
+//
+// __Past its due date, not done and not cancelled. A task with no due date is__
+// __never overdue: it has not been promised for any day, and counting it would__
+// __turn every unscheduled idea on the backlog into a red flag.__
+செயல் பணி_நிலுவையா(ஒரு_பணி, இன்றைய_நாள்) {
+    (ஒரு_பணி.இறுதி_நாள் == "") எனில் { திரும்பு பொய்; }
+    (பணி_முடிந்ததா(ஒரு_பணி.நடப்பு_நிலை)) எனில் { திரும்பு பொய்; }
+    (ஒரு_பணி.நடப்பு_நிலை == "கைவிட்டது") எனில் { திரும்பு பொய்; }
+    திரும்பு ஒரு_பணி.இறுதி_நாள் < இன்றைய_நாள்;
+}
+
+// __முன்னுரிமை_தரம்(முன்னுரிமை) — a priority as a sortable rank__
+// முன்னுரிமை_தரம்(முன்னுரிமை) — முன்னுரிமையை வரிசைப்படுத்தும் எண்ணாக்கும்
+//
+// __மிக_உயர் 0, உயர் 1, நடுத்தர 2, குறைவு 3, and anything else 9. The unknown__
+// __case sorts last rather than failing: a priority nobody set is the least__
+// __urgent thing on the list, not a reason to refuse to show the list.__
+செயல் முன்னுரிமை_தரம்(முன்னுரிமை) {
+    (முன்னுரிமை == "மிக_உயர்") எனில் { திரும்பு 0; }
+    (முன்னுரிமை == "உயர்") எனில் { திரும்பு 1; }
+    (முன்னுரிமை == "நடுத்தர") எனில் { திரும்பு 2; }
+    (முன்னுரிமை == "குறைவு") எனில் { திரும்பு 3; }
+    திரும்பு 9;
+}
+
+// __நிலைக்கான_நிறைவு(புதிய_நிலை, இப்போதைய_நிறைவு) — the percentage a status change implies__
+// நிலைக்கான_நிறைவு(புதிய_நிலை, இப்போதைய_நிறைவு) — நிலை மாறும்போது நிறைவு சதவீதம்
+//
+// __Moving to do resets to 0; resolving or closing sets 100. In progress and__
+// __cancelled keep whatever was there, because only the person doing the work__
+// __knows how far through it they are, and a cancelled task's progress is a__
+// __record of what was done before it was stopped.__
+செயல் நிலைக்கான_நிறைவு(புதிய_நிலை, இப்போதைய_நிறைவு) {
+    (புதிய_நிலை == "செய்யவேண்டியது") எனில் { திரும்பு 0; }
+    (பணி_முடிந்ததா(புதிய_நிலை)) எனில் { திரும்பு 100; }
+    திரும்பு இப்போதைய_நிறைவு;
+}
+
+// __பூட்டிலும்_மாறுபவை() — the fields a baselined task still accepts__
+// பூட்டிலும்_மாறுபவை() — பூட்டிய பணியிலும் மாற்றக்கூடிய புலங்கள்
+//
+// __Once the schedule is baselined, the plan is frozen and only progress moves:__
+// __status, percentage, actuals, priority and which milestone it rolls into.__
+// __Changing a planned date or estimate after that is a change request, which is__
+// __the whole point of having a baseline.__
+செயல் பூட்டிலும்_மாறுபவை() {
+    திரும்பு ["நடப்பு_நிலை", "நிறைவு", "உண்மைத்_தொடக்கம்", "உண்மை_நாட்கள்",
+              "உண்மை_மணி", "முன்னுரிமை", "மைல்கல்_குறி"];
+}
+
+// __பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) — may these changes touch a baselined task?__
+// பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) — பூட்டிய பணியில் இம்மாற்றங்கள் அனுமதியா
+//
+// __மாற்றங்கள் is a record of field → new value. சரி(மாற்றங்கள்) when every field__
+// __is one பூட்டிலும்_மாறுபவை allows; otherwise தவறு naming the first field that__
+// __is not, so the screen can tell the person which edit needs a change request.__
+செயல் பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) {
+    அனுமதித்தவை = பூட்டிலும்_மாறுபவை();
+    ஒவ்வொரு புலப்_பெயர் இல் மாற்றங்கள் {
+        உண்டு = பொய்;
+        ஒவ்வொரு ஒன்று இல் அனுமதித்தவை {
+            (ஒன்று == புலப்_பெயர்) எனில் { உண்டு = மெய்; }
+        }
+        (இல்லை உண்டு) எனில் {
+            திரும்பு தவறு("அடிப்படைத் திட்டம் பூட்டியுள்ளது; " & புலப்_பெயர்
+                           & " மாற்ற மாற்றக் கோரிக்கை தேவை  (the baseline is locked; changing "
+                           & புலப்_பெயர் & " needs a change request)");
+        }
+    }
+    திரும்பு சரி(மாற்றங்கள்);
+}
+
+// __திரட்டிய_நிறைவு(பணிகள், பணி_குறி) — a task's percentage, rolled up from its sub-tasks__
+// திரட்டிய_நிறைவு(பணிகள், பணி_குறி) — துணைப் பணிகளிலிருந்து திரட்டிய நிறைவு
+//
+// __A leaf reports its own நிறைவு. A parent reports the rounded mean of its__
+// __children's rolled-up figures, all the way down, so a parent's number is__
+// __never one somebody typed. An unweighted mean on purpose: a parent's children__
+// __are its steps, and the effort-weighted view belongs to the project as a__
+// __whole — see எடையிட்ட_நிறைவு. A code that is not in the list gives 0.__
+செயல் திரட்டிய_நிறைவு(பணிகள், பணி_குறி) {
+    கூட்டல் = 0;
+    எண்ணிக்கை = 0;
+    ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+        (ஒரு_பணி.பெற்றோர்_குறி == பணி_குறி) எனில் {
+            கூட்டல் = கூட்டல் + திரட்டிய_நிறைவு(பணிகள், ஒரு_பணி.பணி_குறி);
+            எண்ணிக்கை = எண்ணிக்கை + 1;
+        }
+    }
+    (எண்ணிக்கை > 0) எனில் { திரும்பு வட்டமிடு(கூட்டல் / எண்ணிக்கை, 0); }
+    ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+        (ஒரு_பணி.பணி_குறி == பணி_குறி) எனில் { திரும்பு ஒரு_பணி.நிறைவு; }
+    }
+    திரும்பு 0;
+}
+
+// __எடையிட்ட_நிறைவு(பணிகள்) — percentage complete, weighted by estimated effort__
+// எடையிட்ட_நிறைவு(பணிகள்) — மதிப்பீட்டு மணியால் எடையிட்ட நிறைவு
+//
+// __Σ(hours × percentage) ÷ Σ hours, so a finished forty-hour task moves the__
+// __project more than a finished one-hour one. When no task carries an estimate__
+// __the weights are all zero and the formula divides by nothing, so it falls__
+// __back to the plain mean rather than reporting a project as 0% done. Cancelled__
+// __tasks are left out of both sums — see the note at the top of the file — so__
+// __abandoning half-done work neither raises nor lowers the figure. Rounded to a__
+// __whole percentage; a list with nothing but cancelled tasks, or none, is 0.__
+செயல் எடையிட்ட_நிறைவு(பணிகள்) {
+    எடைக்_கூட்டல் = 0;
+    மணிக்_கூட்டல் = 0;
+    வெறுங்_கூட்டல் = 0;
+    எண்ணிக்கை = 0;
+    ஒவ்வொரு ஒரு_பணி இல் பணிகள் {
+        (ஒரு_பணி.நடப்பு_நிலை != "கைவிட்டது") எனில் {
+            எடைக்_கூட்டல் = எடைக்_கூட்டல் + ஒரு_பணி.மதிப்பீட்டு_மணி * ஒரு_பணி.நிறைவு;
+            மணிக்_கூட்டல் = மணிக்_கூட்டல் + ஒரு_பணி.மதிப்பீட்டு_மணி;
+            வெறுங்_கூட்டல் = வெறுங்_கூட்டல் + ஒரு_பணி.நிறைவு;
+            எண்ணிக்கை = எண்ணிக்கை + 1;
+        }
+    }
+    (மணிக்_கூட்டல் > 0) எனில் { திரும்பு வட்டமிடு(எடைக்_கூட்டல் / மணிக்_கூட்டல், 0); }
+    (எண்ணிக்கை == 0) எனில் { திரும்பு 0; }
+    திரும்பு வட்டமிடு(வெறுங்_கூட்டல் / எண்ணிக்கை, 0);
+}
+
+// __பெற்றோர்_முன்_வரிசை(பதிவுகள், குறிப்_புலம், பெற்றோர்_புலம்) — order a flat tree parents first__
+// பெற்றோர்_முன்_வரிசை(பதிவுகள், குறிப்_புலம், பெற்றோர்_புலம்) — பெற்றோரை முதலில் வைத்து வரிசைப்படுத்தும்
+//
+// __Anything that creates a tree somewhere else — tasks from an approved change__
+// __request, work items in Azure DevOps — must create a parent before its__
+// __children, because the child's link needs the parent's new id. This orders__
+// __any flat list of records by that rule, with the two field names given so it__
+// __serves tasks, WBS nodes and work items alike.__
+//
+// __A record whose parent is not in the list counts as a root: its parent__
+// __already exists elsewhere. The list is swept repeatedly, and each sweep takes,__
+// __in input order, every record whose parent is already placed — so a child__
+// __listed after its parent can follow it in the same sweep, while one listed__
+// __before it waits for the next. Parents always come first; the order among__
+// __unrelated records is the sweep order, not the input order. A cycle__
+// __has no parents-first order, so it is தவறு.__
+செயல் பெற்றோர்_முன்_வரிசை(பதிவுகள், குறிப்_புலம், பெற்றோர்_புலம்) {
+    எல்லாக்_குறிகள் = [];
+    ஒவ்வொரு ஒரு_பதிவு இல் பதிவுகள் {
+        எல்லாக்_குறிகள் = இணை(எல்லாக்_குறிகள், ஒரு_பதிவு[குறிப்_புலம்]);
+    }
+    வைத்தவை = [];
+    வைத்த_குறிகள் = [];
+    முன்னேற்றம் = மெய்;
+    (முன்னேற்றம்) சுற்று {
+        முன்னேற்றம் = பொய்;
+        ஒவ்வொரு ஒரு_பதிவு இல் பதிவுகள் {
+            குறி = ஒரு_பதிவு[குறிப்_புலம்];
+            பெற்றோர் = ஒரு_பதிவு[பெற்றோர்_புலம்];
+            ஏற்கனவே = பொய்;
+            ஒவ்வொரு ஒன்று இல் வைத்த_குறிகள் { (ஒன்று == குறி) எனில் { ஏற்கனவே = மெய்; } }
+            பெற்றோர்_உள்ளே = பொய்;
+            ஒவ்வொரு ஒன்று இல் எல்லாக்_குறிகள் { (ஒன்று == பெற்றோர்) எனில் { பெற்றோர்_உள்ளே = மெய்; } }
+            பெற்றோர்_வைத்தது = இல்லை பெற்றோர்_உள்ளே;
+            ஒவ்வொரு ஒன்று இல் வைத்த_குறிகள் { (ஒன்று == பெற்றோர்) எனில் { பெற்றோர்_வைத்தது = மெய்; } }
+            ((இல்லை ஏற்கனவே) மற்றும் பெற்றோர்_வைத்தது) எனில் {
+                வைத்தவை = இணை(வைத்தவை, ஒரு_பதிவு);
+                வைத்த_குறிகள் = இணை(வைத்த_குறிகள், குறி);
+                முன்னேற்றம் = மெய்;
+            }
+        }
+    }
+    (நீளம்(வைத்தவை) < நீளம்(பதிவுகள்)) எனில் {
+        திரும்பு தவறு("பெற்றோர் தொடர்பில் சுழற்சி உள்ளது  (the parent links form a cycle)");
+    }
+    திரும்பு சரி(வைத்தவை);
+}

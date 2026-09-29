@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/kaNakkiyal/kAlam.qmz — காலம் (reporting periods)__
+// அறிக்கைக் காலங்கள்
 //
 // __Dates are ISO-8601 text, which sorts chronologically, so "is this posting__
 // __within the period" needs nothing but a string comparison. Only arithmetic__
@@ -12,6 +13,7 @@
 
 // காலம்_ஆக்கு(தொடக்கம், முடிவு)
 // __காலம்_ஆக்கு(தொடக்கம், முடிவு) — one reporting period, start and end inclusive__
+// காலம்_ஆக்கு(தொடக்கம், முடிவு) — ஓர் அறிக்கைக் காலம்; இரு முனைகளும் உள்ளடக்கம்
 //
 // __தவறு when the end precedes the start, because a backwards period does not report nothing — it reports nothing while looking like a period, and every statement built on it is quietly empty. Both bounds are inclusive: a posting on the last day is in the year.__
 செயல் காலம்_ஆக்கு(தொடக்கம், முடிவு) {
@@ -23,6 +25,7 @@
 }
 
 // __இந்திய_ஆண்டு(ஆண்டு) — the Indian financial year, 1 April to 31 March__
+// இந்திய_ஆண்டு(ஆண்டு) — இந்திய நிதியாண்டு, ஏப்ரல் முதல் மார்ச் வரை
 செயல் இந்திய_ஆண்டு(ஆண்டு) {
     அடுத்தது = ஆண்டு + 1;
     திரும்பு மதிப்பு(காலம்_ஆக்கு(
@@ -33,6 +36,7 @@
 
 // நாட்காட்டி_ஆண்டு(ஆண்டு)
 // __நாட்காட்டி_ஆண்டு(ஆண்டு) — the calendar year as a period__
+// நாட்காட்டி_ஆண்டு(ஆண்டு) — நாட்காட்டி ஆண்டு ஒரு காலமாக
 //
 // __January to December. A financial year that runs April to March is காலம்_ஆக்கு with those dates; this is named for the calendar year precisely so the two cannot be confused in a report heading.__
 செயல் நாட்காட்டி_ஆண்டு(ஆண்டு) {
@@ -44,6 +48,7 @@
 
 // காலத்தில்_உள்ளதா(நாள், காலம்)
 // __காலத்தில்_உள்ளதா(நாள், காலம்) — does this date fall in the period?__
+// காலத்தில்_உள்ளதா(நாள், காலம்) — இந்நாள் அக்காலத்துக்குள் வருமா
 //
 // __Two string comparisons and no arithmetic, because ISO-8601 text sorts chronologically. Inclusive at both ends, which is what makes consecutive periods partition the year without a gap or an overlap on the boundary days.__
 செயல் காலத்தில்_உள்ளதா(நாள், காலம்) {
@@ -51,12 +56,14 @@
 }
 
 // __வரையிலா(நாள், வரம்பு_நாள்) — on or before, for as-at reporting__
+// வரையிலா(நாள், வரம்பு_நாள்) — அந்நாளிலோ அதற்கு முன்போ
 செயல் வரையிலா(நாள், வரம்பு_நாள்) {
     திரும்பு நாள் <= வரம்பு_நாள்;
 }
 
 // காலம்_விவரம்(காலம்)
 // __காலம்_விவரம்(காலம்) — the period as a line of report Tamil__
+// காலம்_விவரம்(காலம்) — காலத்தை அறிக்கை வரியாகக் காட்டும்
 //
 // __For a statement heading. Both dates in full rather than a month name, so a period that is not a whole month still reads correctly.__
 செயல் காலம்_விவரம்(காலம்) {

@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேல்நிலைப்_பதிவு(பரிவர்த்தனை_எண், ஒரு_நாள், விவரம், நடப்புக்_கணக்கு, உள்வாங்கல்_கணக்கு, தொகை_மதிப்பு) — overhead absorbed onto the project__
+// திட்டத்தின்மேல் ஏற்றப்பட்ட மேல்நிலைச் செலவு
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+நடப்புக்_கணக்கு = நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+
+// __The credit goes to an absorption account rather than to the expense itself,__
+// __which is what makes over- and under-absorption visible at the year end.__
+// வரவு உள்வாங்கல் கணக்குக்கே; அதனால் ஆண்டிறுதியில் மிகை/குறை உள்வாங்கல் தெரியும்
+பதிவு = மேல்நிலைப்_பதிவு(4, "2026-04-02", "மேல்நிலை", நடப்புக்_கணக்கு,
+                           "OH-ABS", 5000);
+அச்சு சமநிலையா(பதிவு);

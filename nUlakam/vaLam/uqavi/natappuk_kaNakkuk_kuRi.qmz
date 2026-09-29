@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நடப்புக்_கணக்குக்_குறி(திட்டக்_குறி, கட்டுப்பாட்டுக்_குறி) — the work-in-progress account for one control account__
+// ஒரு கட்டுப்பாட்டுக் கணக்குக்கான நடப்புக் கணக்குக் குறி
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __One account per control account, built to a pattern rather than looked up.__
+// __A project's chart of accounts that has to be maintained by hand is a chart__
+// __that is out of date by the second control account.__
+// ஒரு கட்டுப்பாட்டுக் கணக்குக்கு ஒரு கணக்கு; வடிவத்தின்படியே கட்டப்படுகிறது
+அச்சு நடப்புக்_கணக்குக்_குறி("SNG", "S2");
+அச்சு நடப்புக்_கணக்குக்_குறி("SNG", "S1");
+அச்சு நடப்புக்_கணக்குக்_குறி("CHN", "S2");

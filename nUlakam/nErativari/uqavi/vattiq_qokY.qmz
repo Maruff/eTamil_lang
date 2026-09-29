@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வட்டித்_தொகை(அடிப்படை, மாத_வீதம், மாதங்கள்) — simple interest, by the month__
+// மாதவாரியான எளிய வட்டி
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Simple and monthly, which is how the Act computes it — not compounded and__
+// __not daily.__
+// எளிய வட்டி, மாதவாரி; கூட்டு வட்டியும் அல்ல, நாளாந்தமும் அல்ல
+அச்சு வட்டித்_தொகை(100000, 1, 6);
+
+// __Nothing owed or no months, no interest.__
+// நிலுவையோ மாதங்களோ இல்லையெனில் வட்டியும் இல்லை
+அச்சு வட்டித்_தொகை(0, 1, 6);
+அச்சு வட்டித்_தொகை(100000, 1, 0);

@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சம்பள_வருமானம்(மொத்தச்_சம்பளத்_தொகை, விலக்குப்_பெற்றவை, நியமக்_கழிவு, தொழில்_வரித்_தொகை) — salary income after the exemptions and the standard deduction__
+// கழிவுகளுக்குப் பின் சம்பளத் தலைப்பு வருமானம்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Exemptions come off first, then the standard deduction, then professional__
+// __tax. The order matters because the standard deduction is capped at what is__
+// __left rather than at the gross.__
+// விலக்குகள் முதலில், பின் நியமக் கழிவு, பின் தொழில் வரி
+அச்சு சம்பள_வருமானம்(1200000, 150000, 50000, 2500);
+
+// __A small salary cannot be deducted below nothing: the standard deduction__
+// __is limited to the taxable part, not carried as a loss.__
+// சிறு சம்பளம் பூஜ்ஜியத்திற்குக் கீழ் செல்வதில்லை
+அச்சு சம்பள_வருமானம்(40000, 0, 50000, 0);
+அச்சு சம்பள_வருமானம்(100000, 120000, 50000, 0);

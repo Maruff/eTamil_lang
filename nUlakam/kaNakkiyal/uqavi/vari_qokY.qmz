@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரி_தொகை(அடிப்படை, விகிதம்) — the tax on a net amount__
+// நிகரத் தொகைமேல் வரி, பைசா வரை
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+அச்சு வரி_தொகை(10000, 18);
+அச்சு வரி_தொகை(10000, 0);
+
+// __Rounded to paise here rather than at the invoice total, because the tax on__
+// __each line is what gets reported, and rounding the total instead leaves the__
+// __lines not adding up to it.__
+// ஒவ்வொரு வரியின் வரியே அறிவிக்கப்படுகிறது; மொத்தத்தை வட்டமிட்டால் வரிகள் பொருந்தா
+அச்சு வரி_தொகை(333.33, 18);

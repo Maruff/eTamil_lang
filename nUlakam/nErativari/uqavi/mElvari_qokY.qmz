@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேல்வரி_தொகை(வரிக்குரிய_வரி, மேல்வரி_வீதம்) — the surcharge amount__
+// மேல்வரித் தொகை
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A tax on the tax, not on the income — which is why a small rise in income__
+// __can produce a large rise in the surcharge.__
+// இது வரியின்மீதான வரி; வருமானத்தின்மீது அல்ல
+அச்சு மேல்வரி_தொகை(1350000, 10);
+அச்சு மேல்வரி_தொகை(1350000, 0);

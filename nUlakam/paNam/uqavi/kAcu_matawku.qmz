@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காசு_மடங்கு(மொத்த_பைசா, எண்ணிக்கை) — an amount, so many times over__
+// ஒரு தொகை, இத்தனை மடங்கு
+
+இறக்கு "../kAcu.qmz";
+இறக்கு "../paNam.qmz";
+
+// __A unit price and a quantity. Whole paise times a whole count stays whole,__
+// __so nothing needs rounding here and nothing is lost.__
+// அலகு விலையும் எண்ணிக்கையும்; வட்டமிடல் தேவையில்லை
+அச்சு காசு_உரை(காசு_மடங்கு(ரூபாயும்_பைசாவும்(12, 50), 8));
+
+// __A count of nothing is nothing, not an error: an order line with no items__
+// __is a line worth nothing.__
+// எண்ணிக்கை பூஜ்ஜியம் என்றால் தொகையும் பூஜ்ஜியமே
+அச்சு காசு_உரை(காசு_மடங்கு(ரூபாயாக(99), 0));

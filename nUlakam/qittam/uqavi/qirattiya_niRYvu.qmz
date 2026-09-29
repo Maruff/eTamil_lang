@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திரட்டிய_நிறைவு(பணிகள், பணி_குறி) — a task's percentage, rolled up from its sub-tasks__
+// துணைப் பணிகளிலிருந்து திரட்டிய நிறைவு
+
+இறக்கு "../paNi.qmz";
+
+// __The payments epic has two stories; the second has two sub-tasks. The epic's__
+// __own 90 was typed by somebody optimistic.__
+// கொடுப்பனவுப் பணிக்கு இரு கதைகள்; இரண்டாவதற்கு இரு துணைப் பணிகள்
+பணிகள் = [பணி_ஆக்கு("P", "", "நடப்பில்", 90, 0, ""),
+          பணி_ஆக்கு("P.1", "P", "மூடியது", 100, 40, ""),
+          பணி_ஆக்கு("P.2", "P", "நடப்பில்", 0, 0, ""),
+          பணி_ஆக்கு("P.2.1", "P.2", "மூடியது", 100, 4, ""),
+          பணி_ஆக்கு("P.2.2", "P.2", "நடப்பில்", 20, 36, "")];
+
+// __P.2 is the mean of 100 and 20; P is the mean of 100 and 60. The typed 90 is__
+// __ignored, because a parent's number is never one somebody typed.__
+// பெற்றோரின் நிறைவு குழந்தைகளின் சராசரி; தட்டச்சிட்ட 90 புறக்கணிக்கப்படும்
+அச்சு திரட்டிய_நிறைவு(பணிகள், "P.2");
+அச்சு திரட்டிய_நிறைவு(பணிகள், "P");
+
+// __The mean is unweighted: P.2.1 is four hours and P.2.2 is thirty-six, yet__
+// __they count the same. For the effort view use எடையிட்ட_நிறைவு.__
+// சராசரி எடையற்றது; முயற்சிக் கணக்குக்கு எடையிட்ட_நிறைவு
+அச்சு திரட்டிய_நிறைவு(பணிகள், "P.2.2");
+
+// __A code that is not in the list quietly gives 0, not an error.__
+// பட்டியலில் இல்லாத குறிக்கு 0
+அச்சு திரட்டிய_நிறைவு(பணிகள், "Q");

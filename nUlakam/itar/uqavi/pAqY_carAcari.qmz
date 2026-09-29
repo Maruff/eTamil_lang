@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதை_சராசரி(மதிப்பீடுகள்) — the expected duration of a whole path__
+// பாதையின் எதிர்பார்க்கும் மொத்தக் காலம்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __Expected durations do add, which is the one thing about a path that works__
+// __the way intuition says it should.__
+// எதிர்பார்க்கும் காலங்கள் நேரடியாகக் கூடும்
+அச்சு பாதை_சராசரி(பாதை);

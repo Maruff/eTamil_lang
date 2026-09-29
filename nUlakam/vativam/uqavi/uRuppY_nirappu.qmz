@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உறுப்பை_நிரப்பு(படிவம், மாற்றுப்_பெயர், புலங்கள், உறுப்பு) — fill one row template from one record__
+// ஒரு படிவ வரிசையை ஒரு பதிவேட்டிலிருந்து நிரப்பும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+படிவம் = "<w:tr>{{ வரி.பெயர் }} — {{ வரி.தொகை }}</w:tr>";
+
+// __The fields are listed rather than discovered, so a record carrying more__
+// __than the template asks for does not leak the rest of itself into the file.__
+// புலங்கள் பட்டியலிடப்படுகின்றன; பதிவேட்டில் உள்ள மற்றவை ஆவணத்துள் கசிவதில்லை
+அச்சு உறுப்பை_நிரப்பு(படிவம், "வரி", ["பெயர்", "தொகை"],
+                       {"பெயர்": "குமார்", "தொகை": "2,500.00", "ரகசியம்": "x"});
+
+// __Every value is XML-escaped on the way in.__
+// ஒவ்வொரு மதிப்பும் உள்ளே செல்லும்போது மறைக்கப்படுகிறது
+அச்சு உறுப்பை_நிரப்பு(படிவம், "வரி", ["பெயர்", "தொகை"],
+                       {"பெயர்": "Raja & Sons", "தொகை": "100"});

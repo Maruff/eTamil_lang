@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இதுவரை_வருவாய்(ஒதுக்கிய_மதிப்பு, முன்னேற்றம்) — the revenue earned to date on this obligation__
+// இக்கடமையில் இதுவரை ஈட்டிய வருவாய்
+
+இறக்கு "../oppanqam.qmz";
+இறக்கு "../muZZERRam.qmz";
+இறக்கு "../mARRam.qmz";
+இறக்கு "../mukavar.qmz";
+இறக்கு "../iruppukaL.qmz";
+இறக்கு "../oppanqac_celavu.qmz";
+
+// __Cumulative, always. Recognising a period's revenue directly makes every__
+// __past period's error permanent; recomputing to date and taking the__
+// __difference corrects them all.__
+// எப்போதும் இதுவரைத் தொகையே; காலத்துக்குக் காலம் நேரடியாகக் கணக்கிடுவதில்லை
+அச்சு இதுவரை_வருவாய்(1000000, 0.25);
+அச்சு இதுவரை_வருவாய்(1000000, 0.60);
+
+// __Progress outside zero and one is clamped on the way in, so a cost overrun__
+// __cannot recognise more than the contract.__
+// வரம்புக்கு வெளியே உள்ள முன்னேற்றம் உள்ளேயே நிறுத்தப்படுகிறது
+அச்சு இதுவரை_வருவாய்(1000000, 1.4);

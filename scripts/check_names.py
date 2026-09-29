@@ -66,6 +66,8 @@ ALLOW = {
     # Field names on somebody else's wire format, which cannot be renamed:
     # "embeddings" is what Ollama calls the vectors it returns.
     "embeddings",
+    # "category" is the state category Azure DevOps returns with each state.
+    "category",
 }
 
 # ISO 15919 spellings that survive the round trip because their letters are all

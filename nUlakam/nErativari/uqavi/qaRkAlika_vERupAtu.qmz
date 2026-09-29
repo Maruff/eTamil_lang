@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தற்காலிக_வேறுபாடு(புத்தக_மதிப்பு, வரி_அடிப்படை) — the difference between the books and the tax base__
+// புத்தக மதிப்புக்கும் வரி அடிப்படைக்கும் உள்ள வேறுபாடு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Temporary, because it reverses: the total deduction over the asset's life__
+// __is the same either way, and only the timing differs.__
+// இது தற்காலிகமே; காலப்போக்கில் தானாகவே மாறும்
+அச்சு தற்காலிக_வேறுபாடு(800000, 600000);
+அச்சு தற்காலிக_வேறுபாடு(500000, 0);
+
+// __No difference at all is the ordinary case and needs no deferred tax.__
+// வேறுபாடே இல்லையெனில் ஒத்திவரியும் இல்லை
+அச்சு தற்காலிக_வேறுபாடு(800000, 800000);

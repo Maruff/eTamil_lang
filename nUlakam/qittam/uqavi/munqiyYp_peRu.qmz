@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முந்தியைப்_பெறு(முந்திகள், முனைக்_குறி, புலப்_பெயர்) — a field of the forward pass__
+// முன்னோக்கிய கடப்பின் ஒரு புலம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+முந்திகள் = [{"குறி": "P", "தொடக்கம்": 0, "முடிவு": 4}];
+அச்சு முந்தியைப்_பெறு(முந்திகள், "P", "தொடக்கம்");
+அச்சு முந்தியைப்_பெறு(முந்திகள், "P", "முடிவு");
+அச்சு முந்தியைப்_பெறு(முந்திகள், "Z", "தொடக்கம்");

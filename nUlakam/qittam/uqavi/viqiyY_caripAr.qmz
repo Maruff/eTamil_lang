@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விதியை_சரிபார்(கணுக்கள்) — the first node that breaks the rule, if any__
+// விதியை மீறும் முதல் கணு; இல்லையெனில் சரி
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+நல்லது = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+           கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000),
+           கணு_ஆக்கு("1.2", "1", "கட்டுமானம்", 600000)];
+அச்சு சரியா(விதியை_சரிபார்(நல்லது));
+
+// __The first violation, named. Reporting every one of them at once is less__
+// __useful than it sounds: fixing the top of a tree usually fixes what is__
+// __under it.__
+// முதல் மீறலே; மேலிருப்பதைச் சரிசெய்தால் கீழுள்ளவையும் சரியாகும்
+குறைவானவை = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+               கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000)];
+அச்சு தவறு_மதிப்பு(விதியை_சரிபார்(குறைவானவை));

@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தேவையான_தொடக்கம்(ஒரு_தொடர்பு, முன்னோடி_தொடக்கம், முன்னோடி_முடிவு, பின்தொடர்_கால_அளவு) — the earliest start a dependency permits__
+// சார்பு கோரும் மிகச் சீக்கிரத் தொடக்கம்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+// __Finish-to-start: after the predecessor finishes, plus the lag.__
+// முடிவு-தொடக்கம்: முன்னோடி முடிந்தபின், தாமதமும் சேர்த்து
+அச்சு தேவையான_தொடக்கம்(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 0), 0, 4, 6);
+அச்சு தேவையான_தொடக்கம்(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_தொடக்கம்", 2), 0, 4, 6);
+
+// __Start-to-start: the two run together, offset by the lag. This is how__
+// __overlapping work is modelled honestly.__
+// தொடக்கம்-தொடக்கம்: இரண்டும் சேர்ந்தே நடக்கும்
+அச்சு தேவையான_தொடக்கம்(தொடர்பு_ஆக்கு("P", "Q", "தொடக்கம்_தொடக்கம்", 2), 0, 4, 6);
+
+// __Finish-to-finish: the follower may not finish before the predecessor does,__
+// __so its start is pushed back by its own duration.__
+// முடிவு-முடிவு: பின்தொடர்பவன் முன்னோடிக்கு முன் முடிய முடியாது
+அச்சு தேவையான_தொடக்கம்(தொடர்பு_ஆக்கு("P", "Q", "முடிவு_முடிவு", 0), 0, 4, 6);

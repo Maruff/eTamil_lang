@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __விற்பனை_பரிவர்த்தனை(பரிவர்த்தனை_எண், நாள், விவரம், வாடிக்கையாளர்_கணக்கு, வருவாய்_கணக்கு, வரி_கணக்கு, அடிப்படை, விகிதம்) — a credit sale, with its tax__
+// கடன் விற்பனைப் பதிவு
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __Three lines: the customer owes the total, revenue is the base, and the tax__
+// __is a liability to the government.__
+// மூன்று வரிசைகள்; வரி என்பது அரசுக்குச் செலுத்த வேண்டிய பொறுப்பு
+விற்பனை = விற்பனை_பரிவர்த்தனை(1, "2026-04-01", "விலைப்பட்டியல் 1",
+                                "1100", "4000", "2200", 10000, 18);
+அச்சு சமநிலையா(விற்பனை);
+அச்சு நீளம்(விற்பனை["வரிசைகள்"]);
+
+// __At a rate of nothing there is no tax line at all, rather than a line of__
+// __zero that clutters every report.__
+// வரி இல்லையெனில் வரி வரிசையே இல்லை
+அச்சு நீளம்(விற்பனை_பரிவர்த்தனை(2, "2026-04-01", "விலக்கு",
+    "1100", "4000", "2200", 10000, 0)["வரிசைகள்"]);

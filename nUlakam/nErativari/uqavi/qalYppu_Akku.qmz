@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைப்பு_ஆக்கு(வருமான_வகை, தொகை_மதிப்பு) — one head of income, with its amount__
+// ஒரு தலைப்பும் அதன் தொகையும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The unit a computation is assembled from: each head separately, because__
+// __the set-off rules are about heads rather than about a total.__
+// ஒவ்வொரு தலைப்பும் தனித்தனியே; ஈட்டு விதிகள் தலைப்புகளைப் பற்றியவை
+தலைப்புகள் = [தலைப்பு_ஆக்கு("சம்பளம்", 1200000),
+               தலைப்பு_ஆக்கு("வீட்டுச்_சொத்து", 0 - 200000),
+               தலைப்பு_ஆக்கு("பிற", 50000)];
+
+அச்சு தலைப்புகள்[0]["வருமான_வகை"];
+அச்சு தலைப்புகள்[0]["தொகை"];
+அச்சு தலைப்புகள்[1]["தொகை"];

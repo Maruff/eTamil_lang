@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __குறியீட்டுச்_செலவு(கொள்முதல்_மதிப்பு, கொள்முதல்_குறியீடு, விற்ற_ஆண்டு_குறியீடு) — the cost of acquisition restated for inflation__
+// பணவீக்கக் குறியீட்டால் சரிசெய்த கொள்முதல் செலவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __A house bought for 10 lakh in 2005 and sold in 2024 did not gain the whole__
+// __difference: much of it is the rupee, not the house.__
+// லாபத்தின் ஒரு பகுதி வீட்டினுடையது அல்ல, ரூபாயினுடையது
+அச்சு மதிப்பு(குறியீட்டுச்_செலவு(1000000, 117, 363));
+
+// __Without an index for the year of acquisition there is nothing to restate__
+// __against, and that is a தவறு rather than the unindexed cost — which would__
+// __quietly tax the inflation.__
+// கொள்முதல் ஆண்டின் குறியீடு இல்லையெனில் தவறே
+அச்சு தவறா(குறியீட்டுச்_செலவு(1000000, 0, 363));

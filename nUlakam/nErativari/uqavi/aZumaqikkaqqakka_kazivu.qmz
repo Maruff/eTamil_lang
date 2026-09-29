@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அனுமதிக்கத்தக்க_கழிவு(கோரிய_மொத்தம், கழிவுக்குரியது) — the deduction actually allowed__
+// உண்மையில் அனுமதிக்கப்படும் கழிவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Deductions cannot create a loss. They are limited to the income they are__
+// __set against, and anything over is simply lost.__
+// கழிவுகள் இழப்பை உருவாக்குவதில்லை
+அச்சு அனுமதிக்கத்தக்க_கழிவு(200000, 800000);
+அச்சு அனுமதிக்கத்தக்க_கழிவு(200000, 150000);
+அச்சு அனுமதிக்கத்தக்க_கழிவு(0, 800000);

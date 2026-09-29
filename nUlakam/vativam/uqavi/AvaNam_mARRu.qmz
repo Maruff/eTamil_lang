@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// ___pdf_ஆக்கு(நிரல், ஆவணக்_கோப்பு, சேமிப்பிடம்) — convert a filled document to PDF through LibreOffice__
+// நிரப்பிய ஆவணத்தை மாற்றி நிரல் வழியாக அச்சு ஆவணமாக்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+இறக்கு "../jEcAZ.qmz";
+இறக்கு "../AvaNam.qmz";
+
+// __The converter is named by the caller rather than searched for: the binary__
+// __is soffice on one machine and libreoffice on another, and guessing wrong__
+// __fails at the end of a long report rather than at its configuration.__
+// நிரலின் பெயர் அழைப்பவரிடமிருந்தே வருகிறது; தேடப்படுவதில்லை
+விளைவு = _pdf_ஆக்கு("etamil-no-such-converter", "அறிக்கை.docx", ".");
+
+// __A converter that is not installed is a தவறு, not a crash, so a report can__
+// __fall back to handing over the .docx it already made.__
+// நிறுவப்படாத நிரல் தவறே; நிரல் விழுவதில்லை
+அச்சு தவறா(விளைவு);
+
+// __It runs headless and is given two minutes, which is generous for one file__
+// __and short enough that a converter waiting on a dialogue box does not hold__
+// __a nightly run open until morning.__
+// தலையில்லாமல் இயங்கும்; இரு நிமிடக் கால எல்லை

@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வரவைப்_பிரி(உரிமைகள், மாற்றங்கள்) — split an incoming change into what to apply and what to refuse__
+// வந்த மாற்றத்தை ஏற்பவை, மறுப்பவை எனப் பிரிக்கும்
+
+இறக்கு "../pula_urimY.qmz";
+
+// __A developer moved the card to in progress, logged five hours, and also__
+// __pulled the due date in. A field nobody has mapped came along too.__
+// உருவாக்குநர் நிலையை மாற்றி, மணிகளைப் பதிந்து, இறுதி நாளையும் மாற்றினார்
+வந்தவை = {
+    "நடப்பு_நிலை": "நடப்பில்",
+    "உண்மை_மணி": 5,
+    "இறுதி_நாள்": "2026-10-15",
+    "கதைப்_புள்ளிகள்": 3
+};
+பிரித்தது = வரவைப்_பிரி(இயல்பு_உரிமைகள்(), வந்தவை);
+
+// __Status is shared and hours are theirs, so both are applied.__
+// நிலை இருவருடையது, மணிகள் அவர்களுடையவை; இரண்டும் ஏற்கப்படும்
+அச்சு பிரித்தது.ஏற்பவை;
+
+// __The due date is the PMO's plan and the unmapped field is nobody's, so both__
+// __are refused. The names go to the sync log: a refusal nobody can see looks__
+// __exactly like a sync that is broken.__
+// இறுதி நாள் திட்டம், வரைபடமில்லாப் புலம் யாருடையதுமல்ல; இரண்டும் மறுக்கப்பட்டுப் பதியப்படும்
+அச்சு பிரித்தது.மறுப்பவை;

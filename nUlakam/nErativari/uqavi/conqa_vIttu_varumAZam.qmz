@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சொந்த_வீட்டு_வருமானம்(கடன்_வட்டித்_தொகை, வட்டி_உச்ச_வரம்பு) — income from a self-occupied house, which is usually a loss__
+// சொந்தமாகக் குடியிருக்கும் வீட்டின் வருமானம், பெரும்பாலும் இழப்பே
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The annual value of a house you live in is nothing, so the interest is the__
+// __whole of it and the answer is always negative or zero.__
+// நீங்கள் குடியிருக்கும் வீட்டின் ஆண்டு மதிப்பு பூஜ்ஜியம்
+அச்சு சொந்த_வீட்டு_வருமானம்(250000, 200000);
+அச்சு சொந்த_வீட்டு_வருமானம்(150000, 200000);
+
+// __With no cap given, the whole interest is allowed.__
+// உச்ச வரம்பு சொல்லப்படவில்லையெனில் முழு வட்டியும் அனுமதிக்கப்படும்
+அச்சு சொந்த_வீட்டு_வருமானம்(250000, 0);

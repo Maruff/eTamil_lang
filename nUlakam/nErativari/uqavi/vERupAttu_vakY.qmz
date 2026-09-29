@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வேறுபாட்டு_வகை(வேறுபாட்டுத்_தொகை, சொத்தா) — taxable or deductible — and it depends which side it is on__
+// வரிக்குரிய வேறுபாடா, கழிக்கத்தக்க வேறுபாடா
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __The same sign means opposite things on an asset and on a liability, which__
+// __is the single most confusing thing about deferred tax.__
+// ஒரே குறி, சொத்திலும் பொறுப்பிலும் எதிரெதிர் பொருள்
+அச்சு வேறுபாட்டு_வகை(200000, மெய்);
+அச்சு வேறுபாட்டு_வகை(200000, பொய்);
+அச்சு வேறுபாட்டு_வகை(0 - 200000, மெய்);
+அச்சு வேறுபாட்டு_வகை(0 - 200000, பொய்);
+
+// __No difference, no classification.__
+// வேறுபாடு இல்லையெனில் வகையும் இல்லை
+அச்சு "[" & வேறுபாட்டு_வகை(0, மெய்) & "]";

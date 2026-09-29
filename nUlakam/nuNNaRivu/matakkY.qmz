@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/matakkY.qmz — மடக்கை, logarithms__
+// மடக்கைகள்
 //
 // __Here because relevance scoring needs one and the language has none. The__
 // __host offers rounding, floor and ceiling; வர்க்கமூலம் in kaNiqam is built__
@@ -16,13 +17,14 @@
 // __while a word in nine hundred is barely distinguished from one in a__
 // __thousand. Nothing algebraic has that shape.__
 
-இறக்கு "../kaNiqam.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
 
 // __இரண்டின்_மடக்கை — ln 2, to the precision a Decimal can carry__
 //
 // __A constant rather than a computation: it is needed on every call to fold__
 // __the exponent back in, and deriving it each time would be the slowest part__
 // __of the function.__
+// இரண்டின்_மடக்கை() — இரண்டின் இயற்கை மடக்கை, மாறிலியாக
 செயல் இரண்டின்_மடக்கை() {
     திரும்பு 0.693147180559945309417232121458;
 }
@@ -46,6 +48,7 @@
 // __a base-10 logarithm of its own, which answers 3.__
 
 // __இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) — base 2__
+// இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) — இரண்டை அடிப்படையாகக் கொண்ட மடக்கை
 செயல் இரண்டின்_அடிப்படை_மடக்கை(மதிப்பு) {
     இயற்கை = இயற்கை_மடக்கை(மதிப்பு);
     (தவறா(இயற்கை)) எனில் { திரும்பு இயற்கை; }

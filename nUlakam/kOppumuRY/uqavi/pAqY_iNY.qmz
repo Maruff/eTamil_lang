@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பாதை_இணை(முதல், இரண்டாவது) — join two path pieces with exactly one separator__
+// இரு பாதைத் துண்டுகளை ஒரே பிரிப்பானால் இணைக்கும்
+
+இறக்கு "../kOppumuRY.qmz";
+
+// __Written with `/` on every platform, the way an இறக்கு is.__
+// எல்லா இயங்குதளங்களிலும் `/` ஆலேயே; இறக்கு எழுதப்படுவதைப் போலவே
+அச்சு பாதை_இணை("nUlakam", "atippatY");
+
+// __A trailing separator on the left does not double, and neither does a__
+// __leading one on the right. Joining by hand with & gives \"a//b\" the moment__
+// __one of the two pieces came from somewhere that added a slash.__
+// இடதுபுறத் தொடர் சாய்வோ, வலதுபுறத் தொடக்கச் சாய்வோ இரட்டிப்பதில்லை
+அச்சு பாதை_இணை("nUlakam/", "atippatY");
+அச்சு பாதை_இணை("nUlakam", "/atippatY");
+
+// __An empty piece yields the other one, so a path can be built up in a loop__
+// __from an empty string without a special case for the first step.__
+// காலித் துண்டு என்றால் மற்றொன்றே; வளையத்தில் கட்ட முதல் படிக்குத் தனி நிபந்தனை தேவையில்லை
+அச்சு பாதை_இணை("", "atippatY");
+அச்சு பாதை_இணை("nUlakam", "");

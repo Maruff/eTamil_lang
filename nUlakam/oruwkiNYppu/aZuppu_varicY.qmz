@@ -1,0 +1,95 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oruwkiNYppu/aZuppu_varicY.qmz — அனுப்பு வரிசை (the outbox)__
+// வெளியனுப்பும் வரிசை
+//
+// __A change is not sent to Azure DevOps the moment it is saved. It is written__
+// __to an outbox in the same transaction as the change itself, and a worker sends__
+// __it afterwards. That one step buys three things: saving never waits on a__
+// __remote service, a crash between save and send loses nothing, and a failed__
+// __send is retried from a record rather than from someone's memory.__
+//
+// __An outbox row moves through:__
+//
+//   __காத்திருப்பு   waiting to be sent, now or at அடுத்த_முயற்சி__
+//   __அனுப்பியது     sent__
+//   __தேங்கியது      given up on — a permanent failure, or too many attempts;__
+//                 __a person must look at it__
+//
+// __Rows are sent shallowest first — ஆழம் 0 before 1 — because a child's parent__
+// __link needs the parent to exist on the other side already. Time is whole__
+// __seconds from any fixed origin, supplied by the caller; this file never asks__
+// __the clock, so every decision it makes can be replayed in a test.__
+
+இறக்கு "mItci.qmz";
+
+// __அனுப்பு_உருப்படி_ஆக்கு(பொருள்_குறி, பொருள்_வகை, செயல்பாடு, ஆழம், ஒருமுறைக்_குறி) — one outbox row__
+// அனுப்பு_உருப்படி_ஆக்கு(பொருள்_குறி, பொருள்_வகை, செயல்பாடு, ஆழம், ஒருமுறைக்_குறி) — வெளியனுப்பும் ஒரு வரிசை உருப்படி
+//
+// __செயல்பாடு is what to do remotely — "உருவாக்கு" or "திருத்து". The row names__
+// __the record rather than carrying its content: the worker re-reads the record__
+// __when it sends, so a row queued at 10:00 and sent at 10:05 sends what the__
+// __record says at 10:05.__
+செயல் அனுப்பு_உருப்படி_ஆக்கு(பொருள்_குறி, பொருள்_வகை, செயல்பாடு, ஆழம், ஒருமுறைக்_குறி) {
+    திரும்பு {
+        பொருள்_குறி: பொருள்_குறி, பொருள்_வகை: பொருள்_வகை, செயல்பாடு: செயல்பாடு,
+        ஆழம்: ஆழம், ஒருமுறைக்_குறி: ஒருமுறைக்_குறி,
+        நடப்பு_நிலை: "காத்திருப்பு", முயற்சிகள்: 0, அடுத்த_முயற்சி: 0, கடைசிப்_பிழை: ""
+    };
+}
+
+// __வரிசையில்_உள்ளதா(உருப்படிகள், ஒருமுறைக்_குறி) — is this job already waiting?__
+// வரிசையில்_உள்ளதா(உருப்படிகள், ஒருமுறைக்_குறி) — இவ்வேலை ஏற்கனவே காத்திருக்கிறதா
+//
+// __Only a waiting row counts. A sent or parked row with the same key is history,__
+// __and the same change made again later is a new job.__
+செயல் வரிசையில்_உள்ளதா(உருப்படிகள், ஒருமுறைக்_குறி) {
+    ஒவ்வொரு ஒன்று இல் உருப்படிகள் {
+        (ஒன்று.ஒருமுறைக்_குறி == ஒருமுறைக்_குறி மற்றும் ஒன்று.நடப்பு_நிலை == "காத்திருப்பு") எனில் {
+            திரும்பு மெய்;
+        }
+    }
+    திரும்பு பொய்;
+}
+
+// __அனுப்பத்_தயாரானவை(உருப்படிகள், இப்போது) — the rows to send now, in the order to send them__
+// அனுப்பத்_தயாரானவை(உருப்படிகள், இப்போது) — இப்போது அனுப்ப வேண்டியவை, அனுப்பும் வரிசையில்
+செயல் அனுப்பத்_தயாரானவை(உருப்படிகள், இப்போது) {
+    தயார் = [];
+    ஒவ்வொரு ஒன்று இல் உருப்படிகள் {
+        (ஒன்று.நடப்பு_நிலை == "காத்திருப்பு" மற்றும் ஒன்று.அடுத்த_முயற்சி <= இப்போது) எனில் {
+            தயார் = இணை(தயார், ஒன்று);
+        }
+    }
+    திரும்பு புலத்தால்_வரிசையாக்கு(தயார், "ஆழம்", பொய்);
+}
+
+// __அனுப்பியதாகப்_பதி(உருப்படி) — record a successful send__
+// அனுப்பியதாகப்_பதி(உருப்படி) — வெற்றிகரமாக அனுப்பியதைப் பதியும்
+செயல் அனுப்பியதாகப்_பதி(உருப்படி) {
+    புதியது = உருப்படி;
+    புதியது["நடப்பு_நிலை"] = "அனுப்பியது";
+    புதியது["முயற்சிகள்"] = உருப்படி.முயற்சிகள் + 1;
+    புதியது["கடைசிப்_பிழை"] = "";
+    திரும்பு புதியது;
+}
+
+// __தோல்வியைப்_பதி(உருப்படி, நிலைக்_குறி, பிழைச்_செய்தி, இப்போது, நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — record a failed send__
+// தோல்வியைப்_பதி(உருப்படி, நிலைக்_குறி, பிழைச்_செய்தி, இப்போது, நடுக்கம், மீண்டும்_முயல்_நொடிகள்) — தோல்வியுற்ற அனுப்புதலைப் பதியும்
+//
+// __A failure worth retrying, with attempts left, is scheduled with__
+// __mItci.qmz's backoff. Anything else is parked, with the error kept so the__
+// __person who looks at it does not have to reproduce it first.__
+செயல் தோல்வியைப்_பதி(உருப்படி, நிலைக்_குறி, பிழைச்_செய்தி, இப்போது, நடுக்கம், மீண்டும்_முயல்_நொடிகள்) {
+    புதியது = உருப்படி;
+    முயற்சிகள் = உருப்படி.முயற்சிகள் + 1;
+    புதியது["முயற்சிகள்"] = முயற்சிகள்;
+    புதியது["கடைசிப்_பிழை"] = பிழைச்_செய்தி;
+    (மீள்_முயலத்தக்கதா(நிலைக்_குறி) மற்றும் இல்லை கைவிடலாமா(முயற்சிகள்)) எனில் {
+        புதியது["அடுத்த_முயற்சி"] = இப்போது
+            + காத்திருப்பு_நொடிகள்(முயற்சிகள், நடுக்கம், மீண்டும்_முயல்_நொடிகள்);
+    } இன்றேல் {
+        புதியது["நடப்பு_நிலை"] = "தேங்கியது";
+    }
+    திரும்பு புதியது;
+}

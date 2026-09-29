@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செல்லுபடி_நாட்கள்(தூரம், ஒரு_நாள்_தூரம்) — how many days an e-way bill stays valid__
+// தூரத்திற்கு ஏற்ப வழிச்சீட்டு செல்லுபடியாகும் நாட்கள்
+
+இறக்கு "../cuwkam.qmz";
+
+// __A short journey is one day, and exactly one band is still one day.__
+// குறுகிய பயணம் ஒரு நாள்; சரியாக ஒரு கட்டமும் ஒரு நாளே
+அச்சு செல்லுபடி_நாட்கள்(100, 200);
+அச்சு செல்லுபடி_நாட்கள்(200, 200);
+
+// __A single kilometre past it earns the extra day. The bands round up, not__
+// __to nearest: a lorry 201 km out cannot be asked to arrive within one day.__
+// ஒரு கிலோமீட்டர் தாண்டினாலும் கூடுதல் நாள்; கட்டங்கள் மேல்நோக்கியே வட்டமிடும்
+அச்சு செல்லுபடி_நாட்கள்(201, 200);
+அச்சு செல்லுபடி_நாட்கள்(1000, 200);
+
+// __And never less than a day, whatever the distance is given as.__
+// தூரம் எதுவானாலும் ஒரு நாளுக்குக் குறையாது
+அச்சு செல்லுபடி_நாட்கள்(0, 200);
+அச்சு செல்லுபடி_நாட்கள்(500, 0);

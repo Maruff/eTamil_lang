@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பணியுருப்படியைப்_பெறு(இணைப்பு, பணியுருப்படி_எண்) — read one work item, with its relations__
+// ஒரு பணியுருப்படியை அதன் இணைப்புகளுடன் படிக்கும்
+
+இறக்கு "../ajUr.qmz";
+
+// __A closed local port and a fake token: nothing leaves the machine.__
+// மூடிய உள்ளூர்த் துறை, போலிச் சீட்டு; எதுவும் வெளியே போவதில்லை
+இணைப்பு = அஜூர்_இணைப்பு_ஆக்கு("http://127.0.0.1:9", "PMO Portal", "PAT", "fake-pat-000");
+விடை = பணியுருப்படியைப்_பெறு(இணைப்பு, 118);
+
+// __Against a real organisation this is சரி, and பதில்_உடல் holds the item:__
+// __id, rev, fields keyed by reference name, and relations with its parent.__
+// __Here it is the uniform failure, and a caller branches on it like this.__
+// உண்மையில் சரி, பதில்_உடல்-இல் உருப்படி; இங்கே ஒரே வடிவத் தோல்வி
+(தவறா(விடை)) எனில் {
+    தோல்வி = தவறு_மதிப்பு(விடை);
+    (தோல்வி.நிலைக்_குறி == 404) எனில் {
+        அச்சு "உருப்படி நீக்கப்பட்டது; இணைப்பைத் துண்டி";
+    } இன்றேல் {
+        அச்சு "படிக்க முடியவில்லை, நிலைக் குறி " & சொல்லாக்கு(தோல்வி.நிலைக்_குறி);
+    }
+} இன்றேல் {
+    அச்சு புலம்_அல்லது(மதிப்பு(விடை).பதில்_உடல், "rev", 0);
+}
+
+// __A 404 is worth telling apart: the item was deleted on the board, and__
+// __retrying will not bring it back. Status 0 is only the network.__
+// 404 என்றால் உருப்படி நீக்கப்பட்டது; மீண்டும் முயன்றால் வராது

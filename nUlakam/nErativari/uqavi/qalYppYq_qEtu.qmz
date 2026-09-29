@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தலைப்பைத்_தேடு(தலைப்புகள், வருமான_வகை) — one head's amount, if it is there__
+// ஒரு தலைப்பின் தொகை; இல்லையெனில் தவறு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+தலைப்புகள் = [தலைப்பு_ஆக்கு("சம்பளம்", 1200000),
+               தலைப்பு_ஆக்கு("பிற", 50000)];
+
+அச்சு மதிப்பு(தலைப்பைத்_தேடு(தலைப்புகள், "சம்பளம்"));
+
+// __A head that is not in the computation is a தவறு naming it, rather than__
+// __zero — because zero income under a head and no such head are different,__
+// __and only one of them needs a return filed for it.__
+// இல்லாத தலைப்புக்கு பூஜ்ஜியம் அல்ல, தவறே
+அச்சு தவறு_மதிப்பு(தலைப்பைத்_தேடு(தலைப்புகள், "தொழில்"));

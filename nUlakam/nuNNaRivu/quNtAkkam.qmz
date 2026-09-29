@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nuNNaRivu/quNtAkkam.qmz — துண்டாக்கம், splitting documents for indexing__
+// துண்டாக்கம்: ஆவணங்களைத் துண்டுகளாகப் பிரித்தல்
 //
 // __Whole documents are the wrong unit to search. A page answering forty__
 // __questions matches all forty weakly, and returning it answers none of them:__
@@ -15,10 +16,11 @@
 // __paragraphs whole; breaking at a fixed character count cuts sentences in__
 // __half and leaves both halves meaning less than the whole did.__
 
-இறக்கு "../col.qmz";
-இறக்கு "../aNi.qmz";
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/aNi.qmz";
 
 // __பத்திகளாக(சரம்) — split on blank lines, keeping paragraphs intact__
+// பத்திகளாக(சரம்) — வெற்று வரிகளில் பிரித்து, பத்திகளை முழுமையாக வைக்கும்
 //
 // __The preferred split, because the author already decided where the breaks__
 // __belong. Empty results are dropped, so runs of blank lines do not produce__
@@ -36,6 +38,7 @@
 }
 
 // __வரிகளாக(சரம்) — split on single newlines__
+// வரிகளாக(சரம்) — ஒவ்வொரு வரியாகப் பிரிக்கும்
 செயல் வரிகளாக(சரம்) {
     கூறுகள் = பிரி(சரம், "\n");
     விடை = [];
@@ -49,6 +52,7 @@
 }
 
 // __அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — fixed-size chunks that overlap__
+// அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — நிலையான அளவில், சிறிது மேற்பொருந்தும்படித் துண்டாக்கும்
 //
 // __The fallback for text with no paragraph structure. மேற்பொருந்தல் is how__
 // __many characters each chunk repeats from the one before, so a sentence__
@@ -58,6 +62,7 @@
 // __below the size rather than trusted — the failure would be an endless loop__
 // __producing an ever-growing array, which is a poor way to learn about a__
 // __mistake in a configuration value.__
+// அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) — பத்திப் பிரிவில்லாத உரையை அளவுக்கேற்பத் துண்டாக்கும்; மேற்பொருந்தல் எல்லையில் விழும் தொடரைக் காக்கும்
 செயல் அளவுக்கேற்பத்_துண்டாக்கு(சரம், அளவு, மேற்பொருந்தல்) {
     (அளவு <= 0) எனில் { திரும்பு [சரம்]; }
     பாதுகாப்பான_மேற்பொருந்தல் = மேற்பொருந்தல்;
@@ -78,6 +83,7 @@
 }
 
 // __பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) — merge short paragraphs up to a size__
+// பத்திகளை_ஒன்றிணை(பத்திகள், அதிகபட்ச_அளவு) — சிறு பத்திகளைச் சொன்ன அளவு வரை ஒன்றாக்கும்
 //
 // __Paragraph splitting alone leaves one-line paragraphs — a heading, a single__
 // __sentence — that carry too little to be matched on their own. This packs__
@@ -105,6 +111,7 @@
 }
 
 // __ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) — the recommended pipeline__
+// ஆவணத்தைத்_துண்டாக்கு(சரம், அதிகபட்ச_அளவு) — பரிந்துரைக்கப்படும் முழு துண்டாக்க வரிசை
 //
 // __Paragraphs first, merged up to the limit, and anything still oversized cut__
 // __to length. Structure is respected where it exists and imposed only where it__

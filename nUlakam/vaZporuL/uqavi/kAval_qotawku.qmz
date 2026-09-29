@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காவல்_தொடங்கு(மில்லி) — start the watchdog: restart the board if it goes quiet__
+// காவலைத் தொடங்கும்: பலகை அமைதியானால் மீண்டும் தொடங்கும்
+
+இறக்கு "../vaZporuL.qmz";
+இறக்கு "../rAspY.qmz";
+
+// __The board restarts itself if காவல்_புதுப்பி is not called within this__
+// __many milliseconds. For anything left running unattended: a program stuck in__
+// __a loop is indistinguishable from a working one to everything outside it.__
+// சொன்ன நேரத்திற்குள் புதுப்பிக்கப்படாவிட்டால் பலகை தானே மீண்டும் தொடங்கும்
+காவல்_தொடங்கு(8000);
+அச்சு "காவல் தொடங்கியது";
+
+// __Choose it longer than the slowest thing the main loop legitimately does,__
+// __or the board will restart in the middle of working properly.__
+// முதன்மை வளையத்தின் மெதுவான வேலையைவிட நீளமாக இருக்க வேண்டும்

@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __இயல்பு_ஆதரவு_மாதங்கள்() — how long a superseded version stays supported__
+// மாற்றப்பட்ட பதிப்புக்கு ஆதரவு தொடரும் மாதங்கள்
+
+இறக்கு "../paqippu.qmz";
+
+அச்சு இயல்பு_ஆதரவு_மாதங்கள்();
+
+// __It is only the default. ஆதரவு_நிலை takes the months as an argument, so a__
+// __customer with a longer contract is given its own figure, not a changed default.__
+// இது இயல்பு மட்டுமே; நீண்ட ஒப்பந்தமுள்ள வாடிக்கையாளருக்குத் தனி மாதங்களைத் தரலாம்
+அச்சு ஆதரவு_நிலை("2025-06-01", "2026-09-28", இயல்பு_ஆதரவு_மாதங்கள்());
+அச்சு ஆதரவு_நிலை("2025-06-01", "2026-09-28", 24);

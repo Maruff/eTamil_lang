@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கூட்டுக்_கழிவுகள்(கழிவுப்_பட்டியல், கூட்டு_உச்ச_வரம்பு) — the sections inside one combined ceiling, and those outside it__
+// ஒரே கூட்டு வரம்புக்குள் வரும் கழிவுகளும், வெளியே உள்ளவையும்
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+கழிவுகள் = [கழிவு_ஆக்கு("80C", 200000, 150000, மெய்),
+             கழிவு_ஆக்கு("80CCC", 40000, 0, மெய்),
+             கழிவு_ஆக்கு("80CCD1B", 50000, 50000, பொய்)];
+
+// __Two ceilings apply in turn: the section's own, then the combined one. A__
+// __claim of 2,40,000 across the combined sections still yields 1,50,000.__
+// இரு வரம்புகள் வரிசையாக; பிரிவின் சொந்த வரம்பு, பின் கூட்டு வரம்பு
+விளைவு = கூட்டுக்_கழிவுகள்(கழிவுகள், 150000);
+அச்சு விளைவு["கூட்டுக்குள்"];
+
+// __And the section outside the ceiling is untouched by it, which is exactly__
+// __why it is worth claiming: it is the only 50,000 that is additional.__
+// கூட்டு வரம்புக்கு வெளியே உள்ளது அதனால் தொடப்படுவதில்லை
+அச்சு விளைவு["கூட்டுக்கு_வெளியே"];
+அச்சு விளைவு["மொத்தம்"];

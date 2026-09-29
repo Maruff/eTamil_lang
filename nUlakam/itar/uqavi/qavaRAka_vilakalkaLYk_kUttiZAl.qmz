@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தவறாக_விலகல்களைக்_கூட்டினால்(மதிப்பீடுகள்) — what adding the deviations instead would give__
+// விலகல்களைக் கூட்டும் தவறு என்ன விளைவைத் தரும் என்பதைக் காட்டும்
+
+இறக்கு "../itar.qmz";
+இறக்கு "../mUZRuppuLLi.qmz";
+
+பாதை = [மதிப்பு(முப்புள்ளி_ஆக்கு(2, 4, 6)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(3, 5, 13)),
+         மதிப்பு(முப்புள்ளி_ஆக்கு(1, 2, 9))];
+
+// __Here on purpose: the mistake is common enough to be worth showing next to__
+// __the right answer.__
+// இது வேண்டுமென்றே இங்கே உள்ளது; இந்தத் தவறு பரவலானது
+அச்சு தவறாக_விலகல்களைக்_கூட்டினால்(பாதை);
+அச்சு மதிப்பு(பாதை_விலகல்(பாதை));
+
+// __It is always the larger of the two. A schedule made to look less certain__
+// __than it is — and nobody ever queries a range that is too wide.__
+// இது எப்போதும் பெரிதாகவே இருக்கும்; அகலமான வரம்பை யாரும் கேள்வி கேட்பதில்லை
+அச்சு தவறாக_விலகல்களைக்_கூட்டினால்(பாதை) > மதிப்பு(பாதை_விலகல்(பாதை));

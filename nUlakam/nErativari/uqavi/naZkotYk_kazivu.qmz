@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நன்கொடைக்_கழிவு(நன்கொடைத்_தொகை, தகுதி_விகிதம், சரிசெய்த_வருமானம், எல்லை_விகிதம்) — the deduction a donation earns__
+// நன்கொடைக்கு அனுமதிக்கப்படும் கழிவு
+
+இறக்கு "../varumAZam.qmz";
+இறக்கு "../kazivukaL.qmz";
+இறக்கு "../varikkaNakku.qmz";
+இறக்கு "../mUlavari.qmz";
+இறக்கு "../muZvari.qmz";
+இறக்கு "../oqqivari.qmz";
+
+// __Two separate limits, applied in order. First the qualifying amount is__
+// __capped at a percentage of adjusted income, then only a percentage of that__
+// __is deductible — so a 50% donation subject to a 10% cap is not 50%.__
+// இரு வரம்புகள் வரிசையாக; தகுதித் தொகை முதலில், பின் தகுதி விகிதம்
+அச்சு நன்கொடைக்_கழிவு(100000, 50, 800000, 10);
+
+// __With no income cap, the whole donation qualifies and only the rate bites.__
+// வருமான வரம்பு இல்லையெனில் முழு நன்கொடையும் தகுதியானது
+அச்சு நன்கொடைக்_கழிவு(100000, 50, 800000, 0);
+அச்சு நன்கொடைக்_கழிவு(100000, 100, 800000, 0);
+அச்சு நன்கொடைக்_கழிவு(0, 100, 800000, 0);

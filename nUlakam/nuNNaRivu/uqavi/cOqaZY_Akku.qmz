@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சோதனை_ஆக்கு(கேள்வி_உரை, எதிர்பார்த்த_குறி) — one question and the document that should answer it__
+// ஒரு கேள்வியும், அதற்கு விடை தர வேண்டிய ஆவணமும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __A retrieval system cannot be improved without a set of questions whose__
+// __answers are known. Judging by eye rewards whichever change was made last.__
+// விடை தெரிந்த கேள்விகள் இல்லாமல் தேடலை மேம்படுத்த முடியாது
+சோதனைகள் = [சோதனை_ஆக்கு("வரி எப்படிக் கணக்கிடப்படுகிறது?", "vari.md"),
+             சோதனை_ஆக்கு("பணம் எப்படிச் சேமிக்கப்படுகிறது?", "paNam.md")];
+அச்சு சோதனைகள்[0]["கேள்வி"];
+அச்சு சோதனைகள்[0]["எதிர்பார்ப்பு"];

@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __காலத்_திறன்(நாள்_மணிகள், தொடக்கம், முடிவு, ஒரு_நாட்காட்டி) — the hours a period actually holds__
+// ஒரு காலத்தில் உண்மையில் கிடைக்கும் மொத்த மணிகள்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __Working days, not elapsed days. A calendar with weekends and one holiday.__
+// __A week is four working days here, not seven.__
+// கழிந்த நாட்கள் அல்ல, வேலை நாட்களே
+நாட்காட்டி = நாட்காட்டி_ஆக்கு([0, 6], ["2026-03-05"]);
+அச்சு காலத்_திறன்(8, "2026-03-02", "2026-03-08", நாட்காட்டி);
+
+// __Counting elapsed days instead would give 56 hours for the same week — a__
+// __plan that is a third longer than the team it is built on.__
+// கழிந்த நாட்களை எண்ணினால் 56 மணிகள்; அது இல்லாத உழைப்பு
+அச்சு 7 * 8;
+
+// __And the weekend adds nothing, so a period that ends on a Friday holds the__
+// __same capacity as one that ends on the Sunday after it.__
+// வார இறுதி ஒன்றும் சேர்ப்பதில்லை
+அச்சு காலத்_திறன்(8, "2026-03-02", "2026-03-06", நாட்காட்டி);

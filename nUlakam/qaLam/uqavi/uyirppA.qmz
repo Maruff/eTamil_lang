@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உயிர்ப்பா() — is the service alive?__
+// சேவை உயிரோடு இருக்கிறதா என்று பார்க்கும்
+
+இறக்கு "../retis.qmz";
+
+முகவரி = சூழல்("ETAMIL_REDIS", "");
+(முகவரி != "") எனில் { ரெடிஸ்_இணை(முகவரி); }
+
+// __The one call worth making before a health endpoint answers, and the one__
+// __that makes it safe to start a process whose cache may not be up yet.__
+// நலச் சோதனை பதிலளிக்கும் முன் செய்யத்தக்க ஒரே அழைப்பு
+(சரியா(உயிர்ப்பா())) எனில் { அச்சு "ரெடிஸ் உயிரோடு உள்ளது"; }
+இன்றேல் { அச்சு "ரெடிஸ் இல்லை"; }

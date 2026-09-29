@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __வெளி_நிலை(பணி_நிலை, வகையின்_நிலைகள்) — the state to send for a task status__
+// ஒரு பணி நிலைக்கு அனுப்ப வேண்டிய வெளி நிலை
+
+இறக்கு "../varYpatam.qmz";
+
+// __The states of an Agile User Story, as _apis/wit/workitemtypes returns them.__
+// அஜைல் பயனர் கதையின் நிலைகள்
+கதை_நிலைகள் = [
+    { "name": "New", "category": "Proposed" },
+    { "name": "Active", "category": "InProgress" },
+    { "name": "Resolved", "category": "Resolved" },
+    { "name": "Closed", "category": "Completed" },
+    { "name": "Removed", "category": "Removed" }
+];
+அச்சு வெளி_நிலை("நடப்பில்", கதை_நிலைகள்);
+அச்சு வெளி_நிலை("மூடியது", கதை_நிலைகள்);
+
+// __A team that renamed Active to Building matches no name on the list, and__
+// __the category still finds it.__
+// நடப்பு நிலையின் பெயரை மாற்றினாலும் வகைமை அதைக் கண்டுபிடிக்கும்
+மாற்றிய_நிலைகள் = [
+    { "name": "New", "category": "Proposed" },
+    { "name": "Building", "category": "InProgress" },
+    { "name": "Done", "category": "Completed" }
+];
+அச்சு வெளி_நிலை("நடப்பில்", மாற்றிய_நிலைகள்);
+
+// __But that type has no Resolved state at all, so resolved cannot be sent.__
+// __The error names the status, so someone can add a state or change the map.__
+// தீர்ந்த நிலையே இல்லாத வகைக்குத் தவறு; அது பணி நிலையைப் பெயரிட்டுச் சொல்லும்
+அச்சு வெளி_நிலை("தீர்ந்தது", மாற்றிய_நிலைகள்);

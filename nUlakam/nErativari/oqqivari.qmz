@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
 // __nUlakam/nErativari/oqqivari.qmz — ஒத்திவரி, deferred tax under Ind AS 12__
+// ஒத்திவரி
 //
 // __Tax is computed on taxable profit and reported against accounting profit,__
 // __and the two are not the same number. Deferred tax is the accounting for the__
@@ -37,8 +38,8 @@
 // __income exempt for ever — no reversal, no temporary difference, no deferred__
 // __tax. They belong in the effective-rate reconciliation and nowhere else.__
 
-இறக்கு "../kaNiqam.qmz";
-இறக்கு "../poruL.qmz";
+இறக்கு "../atippatY/kaNiqam.qmz";
+இறக்கு "../atippatY/poruL.qmz";
 
 // =========================================================================
 // __தற்காலிக வேறுபாடு — the temporary difference__
@@ -51,6 +52,7 @@
 // __base equals the carrying amount — so there is no temporary difference, which__
 // __is the standard's own way of saying that untaxed benefits need no deferred__
 // __tax.__
+// வரி_அடிப்படை_சொத்து(புத்தக_மதிப்பு, எதிர்கால_கழிவு, வரிக்குரியதா) — ஒரு சொத்தின் வரி அடிப்படை
 செயல் வரி_அடிப்படை_சொத்து(புத்தக_மதிப்பு, எதிர்கால_கழிவு, வரிக்குரியதா) {
     (இல்லை வரிக்குரியதா) எனில் { திரும்பு வட்டமிடு(புத்தக_மதிப்பு, 2); }
     திரும்பு வட்டமிடு(எதிர்கால_கழிவு, 2);
@@ -63,6 +65,7 @@
 // __has a tax base of nil and its whole carrying amount is a deductible__
 // __temporary difference — the commonest deferred tax asset in an Indian__
 // __balance sheet.__
+// வரி_அடிப்படை_பொறுப்பு(புத்தக_மதிப்பு, எதிர்கால_கழிவு) — ஒரு பொறுப்பின் வரி அடிப்படை
 செயல் வரி_அடிப்படை_பொறுப்பு(புத்தக_மதிப்பு, எதிர்கால_கழிவு) {
     திரும்பு வட்டக்_கழி(புத்தக_மதிப்பு, எதிர்கால_கழிவு);
 }
@@ -72,6 +75,7 @@
 // __Carrying amount less tax base. Signed, and the sign carries meaning that__
 // __depends on what is being measured — which is வேறுபாட்டு_வகை's job and not__
 // __this one's.__
+// தற்காலிக_வேறுபாடு(புத்தக_மதிப்பு, வரி_அடிப்படை) — புத்தக மதிப்புக்கும் வரி அடிப்படைக்கும் உள்ள வேறுபாடு
 செயல் தற்காலிக_வேறுபாடு(புத்தக_மதிப்பு, வரி_அடிப்படை) {
     திரும்பு வட்டக்_கழி(புத்தக_மதிப்பு, வரி_அடிப்படை);
 }
@@ -93,6 +97,7 @@
 //
 // __Answers "" for no difference, so that a caller can distinguish nil from__
 // __either kind without inspecting an amount.__
+// வேறுபாட்டு_வகை(வேறுபாட்டுத்_தொகை, சொத்தா) — வரிக்குரிய வேறுபாடா, கழிக்கத்தக்க வேறுபாடா
 செயல் வேறுபாட்டு_வகை(வேறுபாட்டுத்_தொகை, சொத்தா) {
     (வேறுபாட்டுத்_தொகை == 0) எனில் { திரும்பு ""; }
     (சொத்தா) எனில் {
@@ -121,6 +126,7 @@
 // __Both outputs are returned as positive magnitudes. A deferred tax asset__
 // __carried as a negative liability is arithmetically identical and reads wrong__
 // __in every statement it appears in.__
+// ஒத்திவரிக்_கணக்கு(வேறுபாட்டுத்_தொகை, வரி_வீதம், சொத்தா) — ஒத்திவரிச் சொத்தா பொறுப்பா, எவ்வளவு
 செயல் ஒத்திவரிக்_கணக்கு(புத்தக_மதிப்பு, வரி_அடிப்படை, சொத்தா,
                           எதிர்பார்க்கும்_வீதம்) {
     வேறுபாட்டுத்_தொகை = தற்காலிக_வேறுபாடு(புத்தக_மதிப்பு, வரி_அடிப்படை);
@@ -145,6 +151,7 @@
 // __Every item's deferred tax, summed into a gross asset and a gross liability.__
 // __Gross, not netted — offsetting is a presentation question with conditions of__
 // __its own, and ஈடுசெய்யலாமா answers it separately.__
+// ஒத்திவரியைத்_திரட்டு(கணக்குகள்) — ஒத்திவரிக் கணக்குகளைத் திரட்டும்
 செயல் ஒத்திவரியைத்_திரட்டு(கணக்குகள்) {
     சொத்துக்_கூட்டல் = 0;
     பொறுப்புக்_கூட்டல் = 0;
@@ -178,6 +185,7 @@
 // __does not disappear. It is disclosed, and it is recognised later if the__
 // __prospects improve — a fact that makes a subsequent year's tax charge__
 // __negative for reasons that have nothing to do with that year's trading.__
+// அங்கீகரிக்கத்தக்க_சொத்து(ஒத்திவரிச்_சொத்து, எதிர்பார்க்கும்_வரி_லாபம்) — அங்கீகரிக்கக்கூடிய ஒத்திவரிச் சொத்து எவ்வளவு
 செயல் அங்கீகரிக்கத்தக்க_சொத்து(கணக்கிட்ட_சொத்து, எதிர்பார்க்கும்_வரி_லாபம்,
                                   எதிர்பார்க்கும்_வீதம்) {
     (கணக்கிட்ட_சொத்து <= 0) எனில் {
@@ -207,6 +215,7 @@
 // __Which is the difficulty exactly. The asset arises from losing money, and it__
 // __is recognised on a forecast of making money, produced by the people who lost__
 // __it.__
+// இழப்பின்_ஒத்திவரி(முன்_கொண்டுசென்ற_இழப்பு, எதிர்பார்க்கும்_வரி_லாபம், வரி_வீதம்) — முன் கொண்டு செல்லப்பட்ட இழப்புக்கான ஒத்திவரிச் சொத்து
 செயல் இழப்பின்_ஒத்திவரி(முன்_கொண்டுசென்ற_இழப்பு, எதிர்பார்க்கும்_வரி_லாபம்,
                           எதிர்பார்க்கும்_வீதம்) {
     (முன்_கொண்டுசென்ற_இழப்பு <= 0) எனில் {
@@ -229,6 +238,7 @@
 // __offset is deferred. Two subsidiaries in the same group, in the same country,__
 // __filing separately, cannot offset — and a consolidated balance sheet that__
 // __nets them has overstated neither total and understated both.__
+// ஈடுசெய்யலாமா(சட்ட_உரிமை_உள்ளதா, ஒரே_அதிகாரமா) — ஒத்திவரிச் சொத்தையும் பொறுப்பையும் ஈடுசெய்யலாமா
 செயல் ஈடுசெய்யலாமா(சட்ட_உரிமை_உள்ளதா, ஒரே_அதிகாரமா) {
     திரும்பு சட்ட_உரிமை_உள்ளதா மற்றும் ஒரே_அதிகாரமா;
 }
@@ -245,6 +255,7 @@
 // __three-fold overstatement of this year's tax.__
 //
 // __Signed: positive is a charge, negative a credit.__
+// ஒத்திவரி_மாற்றம்(தொடக்கத்_தொகை, இறுதித்_தொகை) — காலத்தில் ஏற்பட்ட ஒத்திவரி மாற்றம்
 செயல் ஒத்திவரி_மாற்றம்(தொடக்கத்_தொகை, இறுதித்_தொகை) {
     திரும்பு வட்டமிடு(இறுதித்_தொகை - தொடக்கத்_தொகை, 2);
 }
@@ -254,6 +265,7 @@
 // __Tax expense is current plus deferred. Two components, disclosed separately,__
 // __and the reason a company can report a tax charge in a year it paid no tax__
 // __and paid tax in a year it reported a credit.__
+// மொத்த_வரிச்_செலவு(நடப்பு_வரி, ஒத்திவரி_மாற்றத்_தொகை) — நடப்பு வரியும் ஒத்திவரியும் சேர்ந்த மொத்தச் செலவு
 செயல் மொத்த_வரிச்_செலவு(நடப்பு_வரி, ஒத்திவரி_மாற்றத்_தொகை) {
     திரும்பு வட்டமிடு(நடப்பு_வரி + ஒத்திவரி_மாற்றத்_தொகை, 2);
 }
@@ -267,6 +279,7 @@
 // __The tax effect of a permanent difference. It never becomes deferred tax —__
 // __there is no reversal to defer — and it shows up only here, as the thing that__
 // __makes the effective rate differ from the statutory one.__
+// நிரந்தர_தாக்கம்(நிரந்தர_வேறுபாடு, சட்ட_வீதம்) — நிரந்தர வேறுபாட்டின் வரித் தாக்கம்
 செயல் நிரந்தர_தாக்கம்(நிரந்தர_வேறுபாடு, சட்ட_வீதம்) {
     திரும்பு வட்டப்_பங்கு(நிரந்தர_வேறுபாடு, சட்ட_வீதம்);
 }
@@ -290,6 +303,7 @@
 // __adjustment, so it cannot fail to add up — which is exactly why the__
 // __adjustments have to be named. A reconciliation whose last line is "other"__
 // __has explained nothing.__
+// வீத_ஒப்புரவு(கணக்கு_லாபம், சட்ட_வீதம், நிரந்தர_வேறுபாடுகள்) — சட்ட வீதத்துக்கும் உண்மை வீதத்துக்கும் இடையிலான ஒப்புரவு
 செயல் வீத_ஒப்புரவு(கணக்கு_லாபம், சட்ட_வீதம், நிரந்தர_வேறுபாடுகள்,
                      பிற_சரிசெய்தல்கள்) {
     எதிர்பார்த்த_வரி = வட்டமிடு(சதவீதம்(கணக்கு_லாபம், சட்ட_வீதம்), 2);

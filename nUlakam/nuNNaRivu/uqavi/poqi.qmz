@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பொதி(இணையவழி, மாதிரி, உரைகள்) — embed a batch of texts__
+// ஒரு தொகுதி உரைகளை உட்பொதிக்கும்
+
+இறக்கு "../coRpiri.qmz";
+இறக்கு "../eNNikkY.qmz";
+இறக்கு "../coRqEtal.qmz";
+இறக்கு "../qaravaricY.qmz";
+இறக்கு "../qicYyaZ.qmz";
+இறக்கு "../oRRumY.qmz";
+இறக்கு "../iNYppu.qmz";
+இறக்கு "../matakkY.qmz";
+இறக்கு "../quNtAkkam.qmz";
+இறக்கு "../kELvi.qmz";
+இறக்கு "../aLavItu.qmz";
+இறக்கு "../urYyAkkam.qmz";
+இறக்கு "../utpoqippu.qmz";
+
+// __Against a port with nothing on it, so the sample runs anywhere. What it__
+// __shows is that an absent service is a தவறு rather than a hang or a batch of__
+// __empty vectors — the second of which would build an index that matches__
+// __everything equally.__
+// சேவை இல்லையெனில் தவறே; காலித் திசையன்கள் அல்ல
+அச்சு தவறா(பொதி("http://127.0.0.1:1", "all-minilm", ["முதல்", "இரண்டாம்"]));

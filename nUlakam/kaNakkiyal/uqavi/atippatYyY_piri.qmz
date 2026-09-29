@@ -1,0 +1,27 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அடிப்படையை_பிரி(மொத்தம், விகிதம்) — split a tax-inclusive total back into base and tax__
+// மொத்தத்திலிருந்து வரியைப் பிரிக்கும்
+
+இறக்கு "../kaNakkukaL.qmz";
+இறக்கு "../pErEtu.qmz";
+இறக்கு "../kAlam.qmz";
+இறக்கு "../aRikkYkaL.qmz";
+இறக்கு "../mutippu.qmz";
+இறக்கு "../oqukkItu.qmz";
+இறக்கு "../niRuvaZam.qmz";
+இறக்கு "../qEymAZam.qmz";
+இறக்கு "../Uqiyam.qmz";
+இறக்கு "../vari.qmz";
+இறக்கு "../vari_vikiqam.qmz";
+
+// __A retail price is quoted with tax in it, and the books need the two apart.__
+// __Dividing by 1.18 and rounding is the step that is most often done by hand__
+// __and most often done wrong.__
+// சில்லறை விலையில் வரி உள்ளடக்கம்; கணக்கில் இரண்டும் தனித்தனியே வேண்டும்
+அச்சு அடிப்படையை_பிரி(11800, 18);
+
+// __And it round-trips: the base plus its tax comes back to the total.__
+// அடிப்படையும் அதன் வரியும் மொத்தத்திற்கே திரும்பும்
+அச்சு வரியுடன்_மொத்தம்(அடிப்படையை_பிரி(11800, 18), 18);
+அச்சு அடிப்படையை_பிரி(11800, 0);

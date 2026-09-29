@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உள்வாங்கியது(விகிதத்_தொகுதி, உண்மை_அடிப்படை) — the overhead charged on actual activity__
+// உண்மைச் செயல்பாட்டின்மேல் ஏற்றப்பட்ட மேல்நிலை
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+விகிதம் = மதிப்பு(உள்வாங்கல்_விகிதம்(600000, 30000, அடிப்படை_இயந்திர_நேரம்()));
+
+// __At the estimated rate on the actual hours. Working fewer hours than planned__
+// __absorbs less overhead, and the overhead does not get smaller for it.__
+// மதிப்பிட்ட விகிதம், உண்மை நேரத்தின்மேல்
+அச்சு உள்வாங்கியது(விகிதம், 28000);
+அச்சு உள்வாங்கியது(விகிதம், 30000);

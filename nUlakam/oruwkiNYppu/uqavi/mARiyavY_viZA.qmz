@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மாறியவை_வினா(திட்டப்_பெயர், முதல்_நாள், பகுதிப்_பாதை) — the WIQL for "changed since"__
+// இந்நாளுக்குப் பின் மாறியவற்றுக்கான வினா
+
+இறக்கு "../viZA.qmz";
+
+முதல்_நாள் = தேடல்_தொடக்க_நாள்("2026-09-27", "2026-09-28");
+
+// __The whole project. Ids only, oldest change first, so items are applied in__
+// __the order they were edited.__
+// முழுத் திட்டமும்; எண்கள் மட்டும், பழைய மாற்றம் முதலில்
+அச்சு மாறியவை_வினா("PMO Portal", முதல்_நாள், "");
+
+// __A PMO that shares an Azure DevOps project with other teams narrows the__
+// __sweep to its own area, and UNDER takes in every area below it.__
+// பகிர்ந்த திட்டத்தில் தன் பகுதியை மட்டும்; அதன் கீழுள்ள எல்லாப் பகுதிகளும் சேரும்
+அச்சு மாறியவை_வினா("Shared Platform", முதல்_நாள், "Shared Platform\\PMO");
+
+// __Every value goes through the WIQL quoting, so a quote in a name is safe.__
+// ஒவ்வொரு மதிப்பும் மேற்கோளிடப்படுவதால் பெயரில் உள்ள மேற்கோள் பாதுகாப்பானது
+அச்சு மாறியவை_வினா("O'Brien Portal", முதல்_நாள், "");

@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மொத்த_வட்டி(அட்டவணை) — the whole cost of the loan in interest__
+// கடனுக்காகச் செலுத்தும் மொத்த வட்டி
+
+இறக்கு "../vatti.qmz";
+இறக்கு "../kataZ.qmz";
+இறக்கு "../coqqu.qmz";
+
+// __A twenty-year home loan pays back roughly twice what it borrowed. Worth__
+// __printing next to the instalment, which on its own looks affordable.__
+// இருபதாண்டுக் கடன் வாங்கியதற்கு இரு மடங்கு திருப்பிச் செலுத்தும்
+நீண்டது = தவணை_அட்டவணை(1000000, 9, 240);
+அச்சு மொத்த_வட்டி(நீண்டது);
+
+// __The same amount over ten years costs far less in interest, at a larger__
+// __instalment — which is the trade the borrower is actually being offered.__
+// அதே தொகை பத்தாண்டில் மிகக் குறைந்த வட்டியே; தவணை மட்டும் பெரியது
+குறுகியது = தவணை_அட்டவணை(1000000, 9, 120);
+அச்சு மொத்த_வட்டி(குறுகியது);
+அச்சு மாதத்_தவணை(1000000, 9, 120);

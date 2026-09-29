@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __உரை_மறை(மூலப்_பாடம்) — escape a value so it cannot end the parameter it is in__
+// ஒரு மதிப்பு தன் அளபுருவை முடித்துவிடாதபடி மறைக்கும்
+
+இறக்கு "../vilAcam.qmz";
+இறக்கு "../nilYmY.qmz";
+
+// __The ampersand is the one that matters. A shop called "Raja & Sons" put__
+// __into a link unescaped ends the payee-name parameter and starts one called__
+// __" Sons", and the payer sees a different name than the sticker says.__
+// & குறியே முக்கியம்; மறைக்கப்படாவிட்டால் அளபுருவை அங்கேயே முடித்துவிடும்
+அச்சு உரை_மறை("Raja & Sons");
+
+// __The percent sign is escaped first, so an already-escaped value is not__
+// __quietly decoded by the escaping itself.__
+// விழுக்காட்டுக் குறியே முதலில் மறைக்கப்படுகிறது
+அச்சு உரை_மறை("50% off");
+அச்சு உரை_மறை("a=b?c#d");

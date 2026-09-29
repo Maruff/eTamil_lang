@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __நுகர்வு_ஆக்கு(செயல்பாட்டுக்_குறி, நுகர்ந்த_அளவு) — how much of an activity a product consumed__
+// ஒரு தயாரிப்பு ஒரு செயல்பாட்டை எவ்வளவு நுகர்ந்தது
+
+இறக்கு "../nilYyam.qmz";
+இறக்கு "../celavu_qAL.qmz";
+இறக்கு "../pawkaLippu.qmz";
+இறக்கு "../mElnilY.qmz";
+இறக்கு "../mILpakirvu.qmz";
+இறக்கு "../ceyalpAtu.qmz";
+இறக்கு "../ceyalmuRY.qmz";
+இறக்கு "../niyamam.qmz";
+
+நுகர்வுகள் = [நுகர்வு_ஆக்கு("A1", 100), நுகர்வு_ஆக்கு("A2", 400)];
+
+அச்சு நுகர்வுகள்[0]["செயல்பாடு"];
+அச்சு நுகர்வுகள்[0]["அளவு"];

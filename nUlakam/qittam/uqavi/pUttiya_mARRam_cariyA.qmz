@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __பூட்டிய_மாற்றம்_சரியா(மாற்றங்கள்) — may these edits touch a baselined task?__
+// பூட்டிய பணியில் இம்மாற்றங்கள் அனுமதியா
+
+இறக்கு "../paNi.qmz";
+
+// __Logging progress on a baselined task is fine, and the edits come back as given.__
+// பூட்டிய பணியில் முன்னேற்றத்தைப் பதிவது சரி
+சரியானவை = பூட்டிய_மாற்றம்_சரியா({நடப்பு_நிலை: "நடப்பில்", நிறைவு: 60, உண்மை_மணி: 14});
+அச்சு தவறா(சரியானவை);
+அச்சு மதிப்பு(சரியானவை).நிறைவு;
+
+// __Moving the due date is not. The message names the field, so the screen can__
+// __point the person at the change request form.__
+// இறுதி நாளை மாற்றுவது மறுக்கப்படும்; செய்தி அப்புலத்தைக் குறிக்கும்
+மறுப்பு = பூட்டிய_மாற்றம்_சரியா({நிறைவு: 60, இறுதி_நாள்: "2026-11-01"});
+அச்சு தவறா(மறுப்பு);
+அச்சு தவறு_மதிப்பு(மறுப்பு);
+
+// __One bad field refuses the whole set; the good progress edit riding with it__
+// __is not saved on its own.__
+// ஒரு தவறான புலம் முழுத் தொகுதியையும் மறுக்கும்
+அச்சு தவறா(பூட்டிய_மாற்றம்_சரியா({நிறைவு: 80, மதிப்பீட்டு_மணி: 40}));
+
+// __No edits at all is allowed.__
+// மாற்றமே இல்லையெனில் அனுமதி
+அச்சு தவறா(பூட்டிய_மாற்றம்_சரியா({}));

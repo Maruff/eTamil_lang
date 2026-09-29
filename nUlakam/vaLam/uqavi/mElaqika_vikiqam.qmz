@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __மேலதிக_விகிதம்(அடிப்படை_விகிதம், மடங்கு) — the overtime rate__
+// மிகை நேரத்துக்கான விகிதம்
+
+இறக்கு "../vaLam.qmz";
+இறக்கு "../nEraqqAL.qmz";
+இறக்கு "../paqivu.qmz";
+
+// __A multiple of the base rate, and the multiple is an argument because it is__
+// __set by an agreement rather than by arithmetic.__
+// அடிப்படை விகிதத்தின் மடங்கு; மடங்கு ஒப்பந்தத்தால் தீர்மானிக்கப்படுகிறது
+அச்சு மேலதிக_விகிதம்(500, 2);
+அச்சு மேலதிக_விகிதம்(500, 1.5);
+
+// __A multiple of one is the base rate, so a resource with no overtime premium__
+// __needs no special case.__
+// ஒரு மடங்கு என்றால் அடிப்படை விகிதமே
+அச்சு மேலதிக_விகிதம்(500, 1);

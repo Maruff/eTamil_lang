@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __கணு_தேடு(கணுக்கள், கணு_குறி) — find a node by its code__
+// குறியைக் கொண்டு ஒரு கணுவைத் தேடும்
+
+இறக்கு "../pakuppu.qmz";
+இறக்கு "../pAqY.qmz";
+இறக்கு "../qotarpu.qmz";
+இறக்கு "../curukkal.qmz";
+இறக்கு "../kattuppAtu.qmz";
+இறக்கு "../Ittu_maqippu.qmz";
+இறக்கு "../oppanqa_vakY.qmz";
+
+கணுக்கள் = [கணு_ஆக்கு("1", "", "திட்டம்", 1000000),
+             கணு_ஆக்கு("1.1", "1", "வடிவமைப்பு", 400000)];
+
+அச்சு மதிப்பு(கணு_தேடு(கணுக்கள், "1.1"))["கணு_பெயர்"];
+
+// __A code nobody has is a தவறு naming it, so a typo in a structure of two__
+// __hundred nodes is found where it was made.__
+// இல்லாத குறி, குறியைப் பெயரிட்டுச் சொல்லும் தவறே
+அச்சு தவறா(கணு_தேடு(கணுக்கள், "9.9"));
