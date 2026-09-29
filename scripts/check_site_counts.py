@@ -64,7 +64,9 @@ SKIP_DIRS = {"node_modules", "_site_preview", ".git", "worktrees", ".jekyll-cach
 SKIP_FILES = {"CHANGELOG.md"}
 HISTORICAL = "up from"
 
-SUFFIXES = {".md", ".html"}
+# .wikitext is the source of the Wikipedia article, kept here and edited onto
+# the site by hand. It states the same figures and nothing was checking them.
+SUFFIXES = {".md", ".html", ".wikitext"}
 
 
 def counts() -> dict[str, int]:
@@ -142,6 +144,13 @@ PATTERNS: list[tuple[re.Pattern[str], tuple[str, ...]]] = [
     (
         re.compile(r"Of the (\d+) keywords, \*\*(\d+) are reserved and (\d+) are"),
         ("tokens", "reserved", "usable"),
+    ),
+    # The Wikipedia article's own wording. Deliberately narrow: the same file
+    # says the vocabulary "grew from 157 to 196 keywords", which is history and
+    # must not be matched.
+    (
+        re.compile(r"has (\d+) keywords, accepted in (\d+) spellings"),
+        ("tokens", "spellings"),
     ),
     (re.compile(r"(\d+) builtins"), ("builtins",)),
     (re.compile(r"(\d+) `nUlakam` functions"), ("stdlib",)),
