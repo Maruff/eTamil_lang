@@ -194,6 +194,30 @@ pub fn fresh_key() -> Result<String, String> {
     Ok(encoded)
 }
 
+/// SHA-256 of `message`, as the digest's own bytes.
+///
+/// Bytes rather than hex, because what a caller does next is almost always
+/// encode them and hex would have to be undone first. PKCE, for one, wants
+/// base64url of the digest. `nUlakam/vativam/kuRiyAkkam.qmz` encodes an array
+/// of bytes in eTamil, so the host stops where the language actually stops: a
+/// digest is bit operations, and eTamil has none.
+pub fn sha256(message: &str) -> Vec<u8> {
+    use sha2::{Digest, Sha256};
+    Sha256::digest(message.as_bytes()).to_vec()
+}
+
+/// `count` bytes from the operating system's randomness.
+///
+/// There was no way to obtain an unguessable value from eTamil before this. A
+/// program needing one — an OAuth `state`, a `nonce`, a PKCE verifier — had the
+/// clock and nothing else, and a value derived from the clock is a value an
+/// attacker can derive too.
+pub fn random_bytes(count: usize) -> Result<Vec<u8>, String> {
+    let mut buffer = vec![0u8; count];
+    random(&mut buffer)?;
+    Ok(buffer)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

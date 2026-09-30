@@ -70,6 +70,12 @@ ALLOW = {
     "category",
     # "fields" holds a work item's fields; "path" is a JSON Patch operation's.
     "fields", "path",
+    # OAuth 2.0 writes these, and RFC 6749 decides how they are spelled.
+    # "Authorization" is the HTTP header; "code" is the query parameter the
+    # authorization server redirects back with. The rest of the protocol's
+    # names — state, scope, error, access_token — are on-scheme by accident
+    # and need no entry here.
+    "Authorization", "code",
 }
 
 # ISO 15919 spellings that survive the round trip because their letters are all

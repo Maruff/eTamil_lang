@@ -1,0 +1,299 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/oppuqal/oppuqal.qmz — OAuth 2.0, client side__
+// ஒப்புதல் — OAuth 2.0 வாடிக்கையாளர் தரப்பு
+//
+// __Authorization code with PKCE, refresh, and client credentials: the three__
+// __grants anything current should use. Implicit and password grants are not__
+// __here and are not coming — both are withdrawn in OAuth 2.1, and a library__
+// __that still offers them invites their use.__
+//
+// __Nothing here reads the clock or makes up a random number behind your back.__
+// __`இப்போது_நொடி` is an argument and the unguessable values come from named__
+// __functions you call yourself, so a whole flow can be replayed in a test with__
+// __fixed inputs and still be the same flow. That is the rule oruwkiNYppu__
+// __states and it matters more here: a token library whose expiry decisions__
+// __cannot be tested is one whose expiry decisions are not tested.__
+
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../vativam/kuRiyAkkam.qmz";
+
+// __--- percent-encoding ------------------------------------------------------__
+//
+// __RFC 3986's unreserved set, and everything else escaped. upi/vilAcam.qmz has__
+// __a deliberately smaller உரை_மறை — it escapes six characters so a pay link__
+// __still reads well in a payer's app. That is the right call there and the__
+// __wrong one here: a redirect_uri is full of `:` and `/`, and `+` means a space__
+// __to a form parser, so anything less than the full set corrupts the request.__
+// விடுவி(மூலப்_பாடம்) — RFC 3986 படி விடுவிக்கும்
+செயல் விடுவி(மூலப்_பாடம்) {
+    காக்கப்படுபவை = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+    மூலம் = சொல்லாக்கு(மூலப்_பாடம்);
+    விடை = "";
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(மூலம்);
+    (எண்ணி < மொத்தம்) சுற்று {
+        ஒரெழுத்து = மூலம்[எண்ணி];
+        (கொண்டுள்ளதா(காக்கப்படுபவை, ஒரெழுத்து)) எனில் {
+            விடை = விடை & ஒரெழுத்து;
+        } இன்றேல் {
+            // __A Tamil letter is several bytes, and each byte is escaped on its__
+            // __own. பதினாறு_ஆக்கு gives the hex of all of them at once.__
+            பதினாறு = மேல்_எழுத்து(பதினாறு_ஆக்கு(ஒரெழுத்து));
+            உள்ளிடம் = 0;
+            (உள்ளிடம் < நீளம்(பதினாறு)) சுற்று {
+                விடை = விடை & "%" & பதினாறு[உள்ளிடம்] & பதினாறு[உள்ளிடம் + 1];
+                உள்ளிடம் = உள்ளிடம் + 2;
+            }
+        }
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு விடை;
+}
+
+// __--- unguessable values ----------------------------------------------------__
+
+// __எழுமாற்றுச்_சரம்(எத்தனை) — that many random bytes, as base64url text__
+// எழுமாற்றுச்_சரம்(எத்தனை) — ஊகிக்க முடியாத சரம்
+செயல் எழுமாற்றுச்_சரம்(எத்தனை) {
+    திரும்பு அறுபத்துநான்கு_உரலி(எழுமாற்று(எத்தனை));
+}
+
+// __காவல்_குறியை_ஆக்கு() — OAuth's `state`__
+// காவல்_குறியை_ஆக்கு() — திருப்பத்தை இந்தக் கோரிக்கையுடன் பிணைக்கும் குறி
+//
+// __Named காவல்_குறி rather than நிலைக்_குறி because வலை_பெறு already answers__
+// __with நிலைக்_குறி meaning an HTTP status, and two different things under one__
+// __name in the same program is how the wrong one gets compared.__
+//
+// __It exists to tie the redirect you receive to the request you sent. Without__
+// __it, anyone can hand your user a link that completes a login into someone__
+// __else's account. 32 bytes, because guessable is the only way it fails.__
+செயல் காவல்_குறியை_ஆக்கு() { திரும்பு எழுமாற்றுச்_சரம்(32); }
+
+// __சரிபார்ப்பானை_ஆக்கு() — a PKCE code verifier__
+// சரிபார்ப்பானை_ஆக்கு() — PKCE சரிபார்ப்பான்
+//
+// __RFC 7636 wants 43 to 128 characters; 32 bytes of base64url is 43.__
+செயல் சரிபார்ப்பானை_ஆக்கு() { திரும்பு எழுமாற்றுச்_சரம்(32); }
+
+// __சவால்_ஆக்கு(சரிபார்ப்பான்) — the S256 challenge for that verifier__
+// சவால்_ஆக்கு(சரிபார்ப்பான்) — சரிபார்ப்பானுக்கான S256 சவால்
+//
+// __base64url(SHA-256(verifier)), unpadded. The `plain` method is also in the__
+// __RFC and is not offered here: it sends the verifier itself, which is the one__
+// __thing PKCE exists to avoid sending.__
+செயல் சவால்_ஆக்கு(சரிபார்ப்பான்) {
+    திரும்பு அறுபத்துநான்கு_உரலி(சுருக்கம்_256(சரிபார்ப்பான்));
+}
+
+// __--- the client ------------------------------------------------------------__
+
+// __வாடிக்கையாளர்_ஆக்கு(...) — everything about one registered client__
+// வாடிக்கையாளர்_ஆக்கு(...) — பதிவுசெய்யப்பட்ட வாடிக்கையாளரின் விவரங்கள்
+//
+// __A public client — a phone app, a single-page app — has no secret it can__
+// __keep, so pass "" and rely on PKCE. That is the supported shape, not a__
+// __degraded one.__
+செயல் வாடிக்கையாளர்_ஆக்கு(அடையாளம், ரகசியம், திருப்பு_முகவரி,
+                              அங்கீகார_முகவரி, சீட்டு_முகவரி) {
+    திரும்பு {
+        "அடையாளம்": அடையாளம்,
+        "ரகசியம்": ரகசியம்,
+        "திருப்பு_முகவரி": திருப்பு_முகவரி,
+        "அங்கீகார_முகவரி": அங்கீகார_முகவரி,
+        "சீட்டு_முகவரி": சீட்டு_முகவரி
+    };
+}
+
+// __--- the authorization request ---------------------------------------------__
+
+// __அங்கீகார_முகவரியை_ஆக்கு(...) — the URL to send the user to__
+// அங்கீகார_முகவரியை_ஆக்கு(...) — பயனரை அனுப்ப வேண்டிய முகவரி
+//
+// __Always response_type=code and always S256. A library that lets the caller__
+// __choose the weaker option is a library whose weaker option gets chosen.__
+செயல் அங்கீகார_முகவரியை_ஆக்கு(வாடிக்கையாளர், நோக்கம், காவல்_குறி, சவால்) {
+    திரும்பு வாடிக்கையாளர்["அங்கீகார_முகவரி"]
+        & "?response_type=code"
+        & "&client_id=" & விடுவி(வாடிக்கையாளர்["அடையாளம்"])
+        & "&redirect_uri=" & விடுவி(வாடிக்கையாளர்["திருப்பு_முகவரி"])
+        & "&scope=" & விடுவி(நோக்கம்)
+        & "&state=" & விடுவி(காவல்_குறி)
+        & "&code_challenge=" & விடுவி(சவால்)
+        & "&code_challenge_method=S256";
+}
+
+// __--- the redirect back -----------------------------------------------------__
+
+// __வினவலைப்_படி(வினவல்_சரம்) — a query string as a record__
+// வினவலைப்_படி(வினவல்_சரம்) — வினவல் சரத்தைப் பதிவேடாக்கும்
+//
+// __Takes what follows the `?`, with or without the `?`. Values are left__
+// __percent-encoded: decoding needs the reverse of விடுவி and every escape a__
+// __server might have used, which is more than this claims to do.__
+செயல் வினவலைப்_படி(வினவல்_சரம்) {
+    உரைப்பு = சொல்லாக்கு(வினவல்_சரம்);
+    (தொடங்குகிறதா(உரைப்பு, "?")) எனில் { உரைப்பு = துண்டு(உரைப்பு, 1, நீளம்(உரைப்பு) - 1); }
+    விடை = {};
+    ஒவ்வொரு ஒரிணை இல் பிரி(உரைப்பு, "&") {
+        இரண்டு = பிரி(ஒரிணை, "=");
+        (நீளம்(இரண்டு) == 2) எனில் { விடை[இரண்டு[0]] = இரண்டு[1]; }
+    }
+    திரும்பு விடை;
+}
+
+// __திருப்பத்தைப்_படி(வினவல்_சரம், எதிர்பார்த்த_காவல்_குறி) — the code, or why not__
+// திருப்பத்தைப்_படி(...) — திருப்பத்தில் வந்த அனுமதிக் குறியைத் தரும்
+//
+// __Three things can come back and only one is a code. An `error` parameter is__
+// __the server refusing. A `state` that does not match is the reason `state`__
+// __exists: this redirect belongs to a request that was not yours, and the__
+// __check has to happen before the code is spent, not after.__
+செயல் திருப்பத்தைப்_படி(வினவல்_சரம், எதிர்பார்த்த_காவல்_குறி) {
+    வந்தவை = வினவலைப்_படி(வினவல்_சரம்);
+
+    (புலம்_உள்ளதா(வந்தவை, "error")) எனில் {
+        திரும்பு தவறு("அங்கீகாரம் மறுக்கப்பட்டது: " & வந்தவை["error"]
+                      & "  (the authorization server refused)");
+    }
+    (புலம்_உள்ளதா(வந்தவை, "state") == பொய்) எனில் {
+        திரும்பு தவறு("காவல்_குறி இல்லை  (no state came back, so this redirect cannot be trusted)");
+    }
+    (வந்தவை["state"] != எதிர்பார்த்த_காவல்_குறி) எனில் {
+        திரும்பு தவறு("காவல்_குறி பொருந்தவில்லை  (the state does not match the one sent)");
+    }
+    (புலம்_உள்ளதா(வந்தவை, "code") == பொய்) எனில் {
+        திரும்பு தவறு("அனுமதிக் குறி இல்லை  (no code in the redirect)");
+    }
+    திரும்பு சரி(வந்தவை["code"]);
+}
+
+// __--- what gets posted to the token endpoint --------------------------------__
+
+// __அனுமதிக்_கோரிக்கை(...) — exchange the code for a token__
+// அனுமதிக்_கோரிக்கை(...) — அனுமதிக் குறியைச் சீட்டாக மாற்றும் கோரிக்கை
+செயல் அனுமதிக்_கோரிக்கை(வாடிக்கையாளர், அனுமதிக்_குறி, சரிபார்ப்பான்) {
+    திரும்பு "grant_type=authorization_code"
+        & "&code=" & விடுவி(அனுமதிக்_குறி)
+        & "&redirect_uri=" & விடுவி(வாடிக்கையாளர்["திருப்பு_முகவரி"])
+        & "&client_id=" & விடுவி(வாடிக்கையாளர்["அடையாளம்"])
+        & "&code_verifier=" & விடுவி(சரிபார்ப்பான்);
+}
+
+// __புதுப்பிப்புக்_கோரிக்கை(...) — a new access token from a refresh token__
+// புதுப்பிப்புக்_கோரிக்கை(...) — புதுப்பிப்புச் சீட்டைக் கொண்டு புதிய சீட்டு
+செயல் புதுப்பிப்புக்_கோரிக்கை(வாடிக்கையாளர், புதுப்பிப்புச்_சீட்டு) {
+    திரும்பு "grant_type=refresh_token"
+        & "&refresh_token=" & விடுவி(புதுப்பிப்புச்_சீட்டு)
+        & "&client_id=" & விடுவி(வாடிக்கையாளர்["அடையாளம்"]);
+}
+
+// __வாடிக்கையாளர்_சான்றுக்_கோரிக்கை(...) — machine to machine, no user at all__
+// வாடிக்கையாளர்_சான்றுக்_கோரிக்கை(...) — பயனர் இல்லாத, சேவை-க்கு-சேவை கோரிக்கை
+செயல் வாடிக்கையாளர்_சான்றுக்_கோரிக்கை(வாடிக்கையாளர், நோக்கம்) {
+    திரும்பு "grant_type=client_credentials&scope=" & விடுவி(நோக்கம்);
+}
+
+// __சீட்டுத்_தலைப்புகள்(வாடிக்கையாளர்) — the headers a token request needs__
+// சீட்டுத்_தலைப்புகள்(வாடிக்கையாளர்) — சீட்டுக் கோரிக்கையின் தலைப்புகள்
+//
+// __A confidential client authenticates with HTTP Basic, which RFC 6749 §2.3.1__
+// __prefers over putting the secret in the body. A public client has no secret__
+// __and sends none — PKCE is what stands in its place.__
+செயல் சீட்டுத்_தலைப்புகள்(வாடிக்கையாளர்) {
+    தலைப்புகள் = {"Content-Type": "application/x-www-form-urlencoded"};
+    (வாடிக்கையாளர்["ரகசியம்"] != "") எனில் {
+        சேர்க்கை = வாடிக்கையாளர்["அடையாளம்"] & ":" & வாடிக்கையாளர்["ரகசியம்"];
+        தலைப்புகள்["Authorization"] = "Basic " & அறுபத்துநான்கு_ஆக்கு(சேர்க்கை);
+    }
+    திரும்பு தலைப்புகள்;
+}
+
+// __--- the token -------------------------------------------------------------__
+
+// __சீட்டைப்_படி(ஜேசான்_பாடம், இப்போது_நொடி) — a token response, as a record__
+// சீட்டைப்_படி(ஜேசான்_பாடம், இப்போது_நொடி) — சீட்டுப் பதிலைப் படிக்கும்
+//
+// __`expires_in` is a duration, and a duration stops being true the moment it is__
+// __stored. It is turned into an absolute second here, against the `இப்போது_நொடி`__
+// __you pass, so every later question is a comparison rather than arithmetic__
+// __over how long ago the answer arrived.__
+செயல் சீட்டைப்_படி(ஜேசான்_பாடம், இப்போது_நொடி) {
+    படித்தது = ஜேசான்_படி(ஜேசான்_பாடம்);
+    (தவறா(படித்தது)) எனில் {
+        திரும்பு தவறு("சீட்டுப் பதிலைப் படிக்க முடியவில்லை  (the token response is not JSON)");
+    }
+    விவரம் = மதிப்பு(படித்தது);
+
+    (புலம்_உள்ளதா(விவரம், "error")) எனில் {
+        திரும்பு தவறு("சீட்டு மறுக்கப்பட்டது: " & விவரம்["error"]
+                      & "  (the token endpoint refused)");
+    }
+    (புலம்_உள்ளதா(விவரம், "access_token") == பொய்) எனில் {
+        திரும்பு தவறு("access_token இல்லை  (no access token in the response)");
+    }
+
+    // __expires_in is optional. Absent means the server did not say, and the__
+    // __honest record of that is no expiry rather than a guessed one.__
+    காலாவதி_நொடி = 0;
+    (புலம்_உள்ளதா(விவரம், "expires_in")) எனில் {
+        காலாவதி_நொடி = இப்போது_நொடி + விவரம்["expires_in"];
+    }
+
+    திரும்பு சரி({
+        "சீட்டு": விவரம்["access_token"],
+        "வகைமை": புலம்_அல்லது(விவரம், "token_type", "Bearer"),
+        "புதுப்பிப்புச்_சீட்டு": புலம்_அல்லது(விவரம், "refresh_token", ""),
+        "நோக்கம்": புலம்_அல்லது(விவரம், "scope", ""),
+        "காலாவதி_நொடி": காலாவதி_நொடி
+    });
+}
+
+// __காலாவதியானதா(சீட்டு, இப்போது_நொடி) — is it past its expiry?__
+// காலாவதியானதா(சீட்டு, இப்போது_நொடி) — காலாவதியாகிவிட்டதா
+//
+// __A token with no stated expiry answers பொய். The server did not say, so__
+// __neither does this; find out by using it and reading the 401.__
+செயல் காலாவதியானதா(சீட்டு, இப்போது_நொடி) {
+    (சீட்டு["காலாவதி_நொடி"] == 0) எனில் { திரும்பு பொய்; }
+    திரும்பு இப்போது_நொடி >= சீட்டு["காலாவதி_நொடி"];
+}
+
+// __புதுப்பிக்கவா(சீட்டு, இப்போது_நொடி, முன்கூட்டியே_நொடிகள்) — refresh yet?__
+// புதுப்பிக்கவா(...) — இப்போதே புதுப்பிக்க வேண்டுமா
+//
+// __Early, by the margin you give. A token that is valid for one more second is__
+// __one that expires while the request carrying it is in flight, and the clocks__
+// __at the two ends were never the same anyway. Sixty seconds is a common__
+// __margin; it is an argument because the right one depends on the call.__
+செயல் புதுப்பிக்கவா(சீட்டு, இப்போது_நொடி, முன்கூட்டியே_நொடிகள்) {
+    (சீட்டு["காலாவதி_நொடி"] == 0) எனில் { திரும்பு பொய்; }
+    திரும்பு (இப்போது_நொடி + முன்கூட்டியே_நொடிகள்) >= சீட்டு["காலாவதி_நொடி"];
+}
+
+// __தாங்கித்_தலைப்பு(சீட்டு) — the Authorization header for an API call__
+// தாங்கித்_தலைப்பு(சீட்டு) — API அழைப்புக்கான Authorization தலைப்பு
+செயல் தாங்கித்_தலைப்பு(சீட்டு) {
+    திரும்பு சீட்டு["வகைமை"] & " " & சீட்டு["சீட்டு"];
+}
+
+// __--- actually sending it ---------------------------------------------------__
+
+// __சீட்டைக்_கோரு(வாடிக்கையாளர், உடலுரை, இப்போது_நொடி) — post it and read the reply__
+// சீட்டைக்_கோரு(...) — சீட்டு முனையத்திற்கு அனுப்பி, பதிலைப் படிக்கும்
+//
+// __The one function here that touches the network, kept apart from the ones__
+// __that build what it sends so those stay testable without one. A non-2xx__
+// __answer is reported with its status, because a token endpoint says why in__
+// __the body and swallowing that leaves nothing to debug with.__
+செயல் சீட்டைக்_கோரு(வாடிக்கையாளர், உடலுரை, இப்போது_நொடி) {
+    பதிலளிப்பு = வலை_பதி(வாடிக்கையாளர்["சீட்டு_முகவரி"], உடலுரை,
+                          சீட்டுத்_தலைப்புகள்(வாடிக்கையாளர்));
+
+    (பதிலளிப்பு["நிலைக்_குறி"] >= 400) எனில் {
+        திரும்பு தவறு("சீட்டு முனையம் " & சொல்லாக்கு(பதிலளிப்பு["நிலைக்_குறி"])
+                      & " என்றது: " & பதிலளிப்பு["உடலுரை"]);
+    }
+    திரும்பு சீட்டைப்_படி(பதிலளிப்பு["உடலுரை"], இப்போது_நொடி);
+}

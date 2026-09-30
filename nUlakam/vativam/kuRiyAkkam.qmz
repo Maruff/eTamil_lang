@@ -33,6 +33,17 @@
     திரும்பு "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 }
 
+// __அறுபத்துநான்கு_உரலி_எழுத்துகள்() — the URL-safe alphabet__
+// அறுபத்துநான்கு_உரலி_எழுத்துகள்() — உரலியில் பாதுகாப்பான எழுத்துத் தொகுதி
+//
+// __RFC 4648 §5. The same sixty-four values, with minus and underscore where__
+// __the standard alphabet has plus and slash — both of which mean something__
+// __else inside a URL, so a token encoded the standard way arrives changed.__
+// __JWTs and PKCE challenges use this one.__
+செயல் அறுபத்துநான்கு_உரலி_எழுத்துகள்() {
+    திரும்பு "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+}
+
 // __பதினாறு_எழுத்துகள்() — the hex alphabet, lowercase__
 // பதினாறு_எழுத்துகள்() — பதினாறு அடிப்படைக் குறியாக்கத்தின் எழுத்துத் தொகுதி, சிறிய எழுத்தில்
 //
@@ -48,8 +59,33 @@
 // __same arithmetic written differently.__
 // அறுபத்துநான்கு_ஆக்கு(மூலம்) — உரையை அறுபத்துநான்கு அடிப்படையில் குறியாக்கும்
 செயல் அறுபத்துநான்கு_ஆக்கு(மூலம்) {
-    எழுத்துகள் = அறுபத்துநான்கு_எழுத்துகள்();
-    பைட்டு_அணி = பைட்டுகள்(சொல்லாக்கு(மூலம்));
+    திரும்பு _அறுபத்துநான்கு(பைட்டுகள்(சொல்லாக்கு(மூலம்)),
+                              அறுபத்துநான்கு_எழுத்துகள்(), மெய்);
+}
+
+// __அறுபத்துநான்கு_பைட்டுகளில்(பைட்டு_அணி) — base64 of bytes that are not text__
+// அறுபத்துநான்கு_பைட்டுகளில்(பைட்டு_அணி) — உரையல்லாத பைட்டுகளைக் குறியாக்கும்
+//
+// __A digest is thirty-two arbitrary bytes and almost never valid UTF-8, so it__
+// __cannot travel through a string on the way here. சுருக்கம்_256 hands back an__
+// __array for that reason, and this is what encodes it.__
+செயல் அறுபத்துநான்கு_பைட்டுகளில்(பைட்டு_அணி) {
+    திரும்பு _அறுபத்துநான்கு(பைட்டு_அணி, அறுபத்துநான்கு_எழுத்துகள்(), மெய்);
+}
+
+// __அறுபத்துநான்கு_உரலி(பைட்டு_அணி) — base64url, unpadded__
+// அறுபத்துநான்கு_உரலி(பைட்டு_அணி) — உரலிக்கான வடிவம், நிரப்பு எழுத்து இன்றி
+//
+// __What a JWT segment and a PKCE code challenge are written in: the URL-safe__
+// __alphabet, and no `=` padding — RFC 7636 asks for it without.__
+செயல் அறுபத்துநான்கு_உரலி(பைட்டு_அணி) {
+    திரும்பு _அறுபத்துநான்கு(பைட்டு_அணி, அறுபத்துநான்கு_உரலி_எழுத்துகள்(), பொய்);
+}
+
+// __The encoder both forms share. Three bytes carry 24 bits, which divide into__
+// __four 6-bit groups; without a shift operator the groups come out by division__
+// __and remainder, which is the same arithmetic written differently.__
+செயல் _அறுபத்துநான்கு(பைட்டு_அணி, எழுத்துகள், நிரப்பவா) {
     மொத்தம் = நீளம்(பைட்டு_அணி);
 
     விடை = "";
@@ -78,8 +114,13 @@
             விடை = விடை & எழுத்துகள்[இ] & எழுத்துகள்[ஈ];
         }
         இன்றேல் {
-            (உள்ளது == 2) எனில் { விடை = விடை & எழுத்துகள்[இ] & "="; }
-            இன்றேல் { விடை = விடை & "=="; }
+            (உள்ளது == 2) எனில் {
+                விடை = விடை & எழுத்துகள்[இ];
+                (நிரப்பவா) எனில் { விடை = விடை & "="; }
+            }
+            இன்றேல் {
+                (நிரப்பவா) எனில் { விடை = விடை & "=="; }
+            }
         }
 
         இடம்_எண் = இடம்_எண் + 3;

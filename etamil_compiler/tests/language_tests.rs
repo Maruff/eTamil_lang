@@ -1546,6 +1546,44 @@ fn bytes_are_the_utf8_of_the_text() {
 }
 
 #[test]
+fn the_digest_is_sha256_and_comes_back_as_bytes() {
+    // SHA-256("abc"), the vector every implementation is checked against.
+    let vm = run(r#"சு = சுருக்கம்_256("abc");
+           நீ = நீளம்(சு);
+           ஒன்று = சு[0];
+           இரண்டு = சு[1];
+           கடைசி = சு[31];"#)
+    .unwrap();
+
+    assert_eq!(num(&vm, "நீ"), dec(32));
+    assert_eq!(num(&vm, "ஒன்று"), dec(0xba));
+    assert_eq!(num(&vm, "இரண்டு"), dec(0x78));
+    assert_eq!(num(&vm, "கடைசி"), dec(0xad));
+}
+
+#[test]
+fn randomness_is_the_length_asked_for_and_is_not_the_same_twice() {
+    let vm = run(r#"அ = எழுமாற்று(32);
+           ஆ = எழுமாற்று(32);
+           நீ = நீளம்(அ);
+           வேறா = அ != ஆ;"#)
+    .unwrap();
+
+    assert_eq!(num(&vm, "நீ"), dec(32));
+    // Two draws colliding has probability 2^-256. A failure here means the
+    // bytes are not random at all, which is the only outcome worth testing for.
+    assert_eq!(vm.variables.get("வேறா"), Some(&Value::Boolean(true)));
+}
+
+#[test]
+fn randomness_refuses_a_length_it_cannot_honour() {
+    // Zero bytes is not a token, and a caller asking for a megabyte of
+    // randomness for a nonce has made a mistake worth hearing about.
+    assert!(run("அ = எழுமாற்று(0);").is_err());
+    assert!(run("அ = எழுமாற்று(4096);").is_err());
+}
+
+#[test]
 fn bytes_round_trip_through_a_string() {
     let vm = run(r#"மூலம் = "வணக்கம் உலகம்";
            மறுபடி = மதிப்பு(பைட்டுச்_சரம்(பைட்டுகள்(மூலம்)));

@@ -2069,6 +2069,45 @@ impl VM {
                     &args[2].to_string(),
                 )))
             }
+            // சுருக்கம்_256(செய்தி) — the SHA-256 digest, as bytes
+            //
+            // Bytes, not hex: kuRiyAkkam.qmz turns an array of bytes into
+            // base64 or hex in eTamil, so the host does only the part the
+            // language cannot — the digest is bit work and eTamil has no bit
+            // operators.
+            "சுருக்கம்_256" | "curukkam_256" | "_sha256" => {
+                Self::expect_args(name, &args, 1)?;
+                let digest = crate::crypt::sha256(&args[0].to_string())
+                    .into_iter()
+                    .map(|byte| Value::Number(Decimal::from(byte)))
+                    .collect();
+                Ok(Value::Array(digest))
+            }
+            // எழுமாற்று(எத்தனை) — that many unguessable bytes
+            //
+            // The clock was the only source of variety an eTamil program had,
+            // and a value derived from the clock is one an attacker derives
+            // too. A state, a nonce and a PKCE verifier all have to be
+            // unguessable or the flow they protect is decoration.
+            "எழுமாற்று" | "ezumARRu" | "_randomBytes" => {
+                Self::expect_args(name, &args, 1)?;
+                let count = args[0].to_number();
+                let count = rust_decimal::prelude::ToPrimitive::to_usize(&count).ok_or_else(|| {
+                    "எழுமாற்று ஒரு முழு எண்ணை எதிர்பார்க்கிறது                       (எழுமாற்று wants a whole number of bytes)"
+                        .to_string()
+                })?;
+                if count == 0 || count > 1024 {
+                    return Err(format!(
+                        "எழுமாற்று 1 முதல் 1024 பைட்டுகள் வரை; {} கேட்கப்பட்டது                           (எழுமாற்று gives between 1 and 1024 bytes, asked for {})",
+                        count, count
+                    ));
+                }
+                let bytes = crate::crypt::random_bytes(count)?
+                    .into_iter()
+                    .map(|byte| Value::Number(Decimal::from(byte)))
+                    .collect();
+                Ok(Value::Array(bytes))
+            }
             // --- Outbound HTTP ---
             // வலை_பெறு(உரலி, தலைப்புகள்)
             "வலை_பெறு" | "valY_peRu" | "_httpGet" => {

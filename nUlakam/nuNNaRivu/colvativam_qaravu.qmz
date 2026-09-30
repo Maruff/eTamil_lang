@@ -311,6 +311,8 @@
         ["மறை_விசை", "maRY_vicY", "_encryptionKey"],
         ["கையொப்பம்", "kYyoppam", "_sign"],
         ["கையொப்பம்_சரியா", "kYyoppam_cariyA", "_verifySignature"],
+        ["சுருக்கம்_256", "curukkam_256", "_sha256"],
+        ["எழுமாற்று", "ezumARRu", "_randomBytes"],
         ["வலை_பெறு", "valY_peRu", "_httpGet"],
         ["வலை_பதி", "valY_paqi", "_httpPost"],
         ["வலை_அனுப்பு", "valY_aZuppu", "_httpRequest"]

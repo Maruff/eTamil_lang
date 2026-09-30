@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திருப்பத்தைப்_படி(...) — the check that has to happen before the code is spent__
+// திருப்பத்தில் வந்ததைப் படித்து, காவல் குறியைச் சரிபார்க்கும்
+
+இறக்கு "../oppuqal.qmz";
+
+// __The ordinary case: the state matches the one sent, so this redirect belongs__
+// __to the request we began, and the code is ours to exchange.__
+// காவல் குறி பொருந்துகிறது — இது நாம் தொடங்கிய கோரிக்கையின் திருப்பம்
+அச்சு மதிப்பு(திருப்பத்தைப்_படி("?code=abc&state=st8", "st8"));
+
+// __A state that does not match. Somebody handed our user a link that finishes__
+// __a login into an account that is not theirs, and the only moment to catch it__
+// __is before the code is exchanged.__
+// பொருந்தாத காவல் குறி — குறியைப் பயன்படுத்துவதற்கு முன்பே மறுக்கப்படுகிறது
+அச்சு திருப்பத்தைப்_படி("?code=abc&state=somebody-elses", "st8");
+
+// __No state at all is the same problem wearing a different hat.__
+// காவல் குறியே இல்லாதது
+அச்சு திருப்பத்தைப்_படி("?code=abc", "st8");
+
+// __The server refusing. `error=access_denied` is what a user pressing Cancel__
+// __looks like, and it is a தவறு rather than an empty code.__
+// பயனர் மறுத்தால் access_denied வரும்
+அச்சு திருப்பத்தைப்_படி("?error=access_denied&state=st8", "st8");

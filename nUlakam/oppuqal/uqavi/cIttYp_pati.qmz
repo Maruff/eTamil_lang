@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __சீட்டைப்_படி(ஜேசான்_பாடம், இப்போது_நொடி) — a token response, and when it dies__
+// சீட்டுப் பதிலைப் படித்து, காலாவதி நேரத்தைக் கணக்கிடும்
+
+இறக்கு "../oppuqal.qmz";
+
+// __`expires_in` is a duration, and a duration stops being true the moment it__
+// __is written down. It becomes an absolute second here, against the நொடி you__
+// __pass, so every later question is a comparison.__
+// கால அளவு அல்ல — முழுமையான நொடியாக மாற்றப்படுகிறது
+சீட்டு = மதிப்பு(சீட்டைப்_படி(
+    "{\"access_token\":\"AT\",\"expires_in\":3600,\"refresh_token\":\"RT\"}", 1000));
+அச்சு சீட்டு;
+அச்சு தாங்கித்_தலைப்பு(சீட்டு);
+
+// __The boundary, stated rather than assumed.__
+// எல்லை
+அச்சு காலாவதியானதா(சீட்டு, 4599);
+அச்சு காலாவதியானதா(சீட்டு, 4600);
+
+// __A server that states no expiry gets none invented for it: the honest record__
+// __of "it did not say" is no expiry, not a guess that will be wrong.__
+// சேவையகம் சொல்லாவிட்டால், ஊகிக்கப்படுவதில்லை
+காலமற்றது = மதிப்பு(சீட்டைப்_படி("{\"access_token\":\"AT\"}", 1000));
+அச்சு காலாவதியானதா(காலமற்றது, 99999);
+
+// __An error response is a தவறு. A token library that returned an empty string__
+// __here would put an empty Bearer header on the next request.__
+// பிழைப் பதில் தவறாகவே திரும்பும்
+அச்சு சீட்டைப்_படி("{\"error\":\"invalid_grant\"}", 1000);

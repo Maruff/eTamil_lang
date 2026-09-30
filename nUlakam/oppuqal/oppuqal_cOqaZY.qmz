@@ -1,0 +1,142 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒப்புதல் சோதனை — OAuth 2.0, client side__
+// OAuth 2.0 வாடிக்கையாளர் தரப்புச் சோதனைகள்
+//
+//   __etamil --vm nUlakam/oppuqal/oppuqal_cOqaZY.qmz__
+//
+// __Every flow here runs with fixed inputs and no network. The clock is an__
+// __argument and the unguessable values are made by named functions, so a test__
+// __exercises the same code a real flow does rather than a testable copy of it.__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "oppuqal.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("ஒப்புதல் (OAuth 2.0)");
+
+வாடிக்கையாளர் = வாடிக்கையாளர்_ஆக்கு("app-1", "s3cret", "https://a.example/cb",
+                                        "https://id.example/authorize",
+                                        "https://id.example/token");
+பொது_வாடிக்கையாளர் = வாடிக்கையாளர்_ஆக்கு("phone-1", "", "com.example.app:/cb",
+                                             "https://id.example/authorize",
+                                             "https://id.example/token");
+
+// __--- percent-encoding -----------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("abc-._~"), "abc-._~", "the unreserved set is left alone");
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("a b"), "a%20b", "a space is escaped, not turned into +");
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("https://a.example/cb"), "https%3A%2F%2Fa.example%2Fcb",
+              "a redirect_uri is mostly reserved characters");
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("a+b"), "a%2Bb",
+              "plus is escaped — a form parser reads a bare one as a space");
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("a&b=c"), "a%26b%3Dc", "and separators cannot pass through");
+// __A Tamil letter is three bytes, and each byte is escaped on its own.__
+ஓட்டம் = சமம்(ஓட்டம், விடுவி("அ"), "%E0%AE%85", "a Tamil letter escapes byte by byte");
+
+// __--- PKCE -----------------------------------------------------------------__
+// __RFC 7636 Appendix B's own vector, so this agrees with the specification__
+// __rather than with itself.__
+ஓட்டம் = சமம்(ஓட்டம், சவால்_ஆக்கு("dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"),
+              "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+              "the S256 challenge is RFC 7636's worked example");
+
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(சரிபார்ப்பானை_ஆக்கு()), 43,
+              "a verifier is 43 characters, the shortest the RFC allows");
+ஓட்டம் = வேறுபடு(ஓட்டம், காவல்_குறியை_ஆக்கு(), காவல்_குறியை_ஆக்கு(),
+                  "two states are not the same state");
+ஓட்டம் = வேறுபடு(ஓட்டம், சரிபார்ப்பானை_ஆக்கு(), சரிபார்ப்பானை_ஆக்கு(),
+                  "nor are two verifiers");
+
+// __--- the authorization request --------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், அங்கீகார_முகவரியை_ஆக்கு(வாடிக்கையாளர், "openid profile", "st8", "ch9"),
+              "https://id.example/authorize?response_type=code&client_id=app-1"
+              & "&redirect_uri=https%3A%2F%2Fa.example%2Fcb&scope=openid%20profile"
+              & "&state=st8&code_challenge=ch9&code_challenge_method=S256",
+              "the whole authorization URL, with S256 always");
+
+// __--- the redirect back ----------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(திருப்பத்தைப்_படி("?code=abc&state=st8", "st8")), "abc",
+              "the code comes back when the state matches");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(திருப்பத்தைப்_படி("code=abc&state=st8", "st8")), "abc",
+              "with or without the leading question mark");
+
+// __The check that has to happen before the code is spent. A redirect whose__
+// __state does not match belongs to a request that was not yours.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(திருப்பத்தைப்_படி("?code=abc&state=other", "st8")),
+                    "a state that does not match is refused");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(திருப்பத்தைப்_படி("?code=abc", "st8")),
+                    "and so is a redirect with no state at all");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(திருப்பத்தைப்_படி("?error=access_denied&state=st8", "st8")),
+                    "the server refusing is a தவறு, not an empty code");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(திருப்பத்தைப்_படி("?state=st8", "st8")),
+                    "a matching state with no code is still nothing to spend");
+
+// __--- what gets posted -----------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், அனுமதிக்_கோரிக்கை(வாடிக்கையாளர், "code-9", "ver-1"),
+              "grant_type=authorization_code&code=code-9"
+              & "&redirect_uri=https%3A%2F%2Fa.example%2Fcb&client_id=app-1"
+              & "&code_verifier=ver-1",
+              "the code exchange carries the verifier");
+ஓட்டம் = சமம்(ஓட்டம், புதுப்பிப்புக்_கோரிக்கை(வாடிக்கையாளர், "rt-7"),
+              "grant_type=refresh_token&refresh_token=rt-7&client_id=app-1",
+              "a refresh names the token and the client");
+ஓட்டம் = சமம்(ஓட்டம், வாடிக்கையாளர்_சான்றுக்_கோரிக்கை(வாடிக்கையாளர், "api.read"),
+              "grant_type=client_credentials&scope=api.read",
+              "client credentials has no user and no redirect");
+
+// __A confidential client authenticates with HTTP Basic; a public one has no__
+// __secret to send and must not send an empty one.__
+ஓட்டம் = சமம்(ஓட்டம், சீட்டுத்_தலைப்புகள்(வாடிக்கையாளர்)["Authorization"],
+              "Basic YXBwLTE6czNjcmV0", "a secret becomes a Basic header");
+ஓட்டம் = உறுதிசெய்(ஓட்டம்,
+                    புலம்_உள்ளதா(சீட்டுத்_தலைப்புகள்(பொது_வாடிக்கையாளர்), "Authorization") == பொய்,
+                    "a public client sends no Authorization header");
+ஓட்டம் = சமம்(ஓட்டம், சீட்டுத்_தலைப்புகள்(பொது_வாடிக்கையாளர்)["Content-Type"],
+              "application/x-www-form-urlencoded", "and always says what the body is");
+
+// __--- reading the token ----------------------------------------------------__
+நல்ல_பதிலளிப்பு = "{\"access_token\":\"AT\",\"token_type\":\"Bearer\","
+                    & "\"expires_in\":3600,\"refresh_token\":\"RT\",\"scope\":\"api.read\"}";
+சீட்டு = மதிப்பு(சீட்டைப்_படி(நல்ல_பதிலளிப்பு, 1000));
+
+ஓட்டம் = சமம்(ஓட்டம், சீட்டு["சீட்டு"], "AT", "the access token is read out");
+ஓட்டம் = சமம்(ஓட்டம், சீட்டு["புதுப்பிப்புச்_சீட்டு"], "RT", "and the refresh token with it");
+ஓட்டம் = சமம்(ஓட்டம், சீட்டு["நோக்கம்"], "api.read", "the scope the server actually granted");
+
+// __expires_in is a duration, and a duration stops being true once stored. It__
+// __is turned into an absolute second against the நொடி passed in.__
+ஓட்டம் = சமம்(ஓட்டம், சீட்டு["காலாவதி_நொடி"], 4600,
+              "expires_in becomes an absolute second: 1000 + 3600");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(சீட்டைப்_படி("{\"error\":\"invalid_grant\"}", 1000)),
+                    "an error response is a தவறு, not a token with an empty string");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(சீட்டைப்_படி("{\"token_type\":\"Bearer\"}", 1000)),
+                    "and so is a response with no access_token");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(சீட்டைப்_படி("not json at all", 1000)),
+                    "a body that is not JSON is reported, not parsed into nothing");
+
+// __A server that states no expiry gets none invented for it.__
+காலமற்றது = மதிப்பு(சீட்டைப்_படி("{\"access_token\":\"AT\"}", 1000));
+ஓட்டம் = சமம்(ஓட்டம், காலமற்றது["காலாவதி_நொடி"], 0, "no expires_in means no expiry recorded");
+ஓட்டம் = சமம்(ஓட்டம், காலமற்றது["வகைமை"], "Bearer", "and token_type defaults to Bearer");
+
+// __--- expiry ---------------------------------------------------------------__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், காலாவதியானதா(சீட்டு, 4599) == பொய், "one second before, still valid");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், காலாவதியானதா(சீட்டு, 4600), "at the expiry second, expired");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், காலாவதியானதா(காலமற்றது, 99999) == பொய்,
+                    "a token with no stated expiry never claims to have expired");
+
+// __Refreshing early, by the margin given. A token valid for one more second__
+// __is one that expires while the request carrying it is in flight.__
+// __Expiry is 4600, so a 60-second margin makes 4540 the first second at which__
+// __a refresh is due — and 4539 the last at which it is not.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், புதுப்பிக்கவா(சீட்டு, 4540, 60),
+                    "at the margin, refresh: 4540 + 60 reaches 4600");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், புதுப்பிக்கவா(சீட்டு, 4539, 60) == பொய்,
+                    "one second earlier, do not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், புதுப்பிக்கவா(காலமற்றது, 99999, 60) == பொய்,
+                    "and a token with no expiry is never due for refresh");
+
+ஓட்டம் = சமம்(ஓட்டம், தாங்கித்_தலைப்பு(சீட்டு), "Bearer AT",
+              "the Authorization header an API call carries");
+
+சோதனை_முடிவு(ஓட்டம்);

@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அங்கீகார_முகவரியை_ஆக்கு(...) — where the whole flow starts__
+// பயனரை அனுப்ப வேண்டிய அங்கீகார முகவரி
+
+இறக்கு "../oppuqal.qmz";
+
+வாடிக்கையாளர் = வாடிக்கையாளர்_ஆக்கு("app-1", "s3cret", "https://a.example/cb",
+                                        "https://id.example/authorize",
+                                        "https://id.example/token");
+
+// __Two unguessable values are made first, and both have to outlive the__
+// __redirect: the state is compared when the user comes back, and the verifier__
+// __is sent to the token endpoint. Put them in the session, not in the URL.__
+// இரண்டும் திருப்பம் வரும்வரை சேமிக்கப்பட வேண்டும்
+காவல்_குறி = காவல்_குறியை_ஆக்கு();
+சரிபார்ப்பான் = சரிபார்ப்பானை_ஆக்கு();
+
+// __Only the challenge travels. That is the point of PKCE: what goes over the__
+// __wire cannot be replayed by whoever intercepts it, because proving you began__
+// __the flow needs the verifier, which never left.__
+// சவால் மட்டுமே செல்கிறது; சரிபார்ப்பான் வெளியே செல்வதில்லை
+அச்சு அங்கீகார_முகவரியை_ஆக்கு(வாடிக்கையாளர், "openid profile",
+                                  காவல்_குறி, சவால்_ஆக்கு(சரிபார்ப்பான்));
+
+// __A public client — a phone app with no secret it can keep — builds exactly__
+// __the same URL. PKCE is what stands in place of the secret, not a weaker__
+// __substitute for it.__
+// ரகசியம் இல்லாத வாடிக்கையாளருக்கும் இதே முகவரிதான்
+பொது = வாடிக்கையாளர்_ஆக்கு("phone-1", "", "com.example.app:/cb",
+                              "https://id.example/authorize", "https://id.example/token");
+அச்சு அங்கீகார_முகவரியை_ஆக்கு(பொது, "openid", "st-2", "ch-2");
