@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஏற்கப்பட்டதா(குறி) — did the money actually move?__
+// பரிவர்த்தனை ஏற்கப்பட்டதா
+
+இறக்கு "../attY.qmz";
+
+// __The approvals, and there are only four of them.__
+// ஏற்புக் குறிகள் நான்கே
+அச்சு ஏற்கப்பட்டதா("00");
+அச்சு ஏற்கப்பட்டதா("10");
+
+// __Everything else is a decline, including codes this table has never seen.__
+// __Treating an unknown code as success is how a shop ships goods that were__
+// __never paid for — the same mistake upi/nilYmY.qmz exists to prevent.__
+// தெரியாத குறியை வெற்றி என எடுத்துக்கொள்வது பொருளை இழக்கச் செய்யும்
+அச்சு ஏற்கப்பட்டதா("51");
+அச்சு ஏற்கப்பட்டதா("ZZ");
+
+// __And what to tell the person at the counter.__
+// வாடிக்கையாளரிடம் சொல்ல வேண்டியது
+அச்சு பதில்_விளக்கம்("51");
+அச்சு பதில்_விளக்கம்("55");
+அச்சு பதில்_விளக்கம்("91");

@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __செய்தியை_ஆக்கு(செய்தி_வகை, புலங்கள்) — a 0200, built and read back__
+// புலங்களிலிருந்து ISO 8583 செய்தியைக் கட்டும்
+
+இறக்கு "../attY.qmz";
+
+// __A purchase of ₹123.45 at one terminal. The amount is twelve digits with no__
+// __decimal point: the currency in field 49 says where it goes, and 356 is the__
+// __rupee, which has two.__
+// தொகை பன்னிரண்டு இலக்கம்; புள்ளி இல்லை — நாணயம் அதைச் சொல்கிறது
+புலங்கள் = {"3": "000000", "4": "000000012345", "7": "0930120000",
+              "11": "000123", "41": "TERM0001", "49": "356"};
+
+செய்தி = மதிப்பு(செய்தியை_ஆக்கு("0200", புலங்கள்));
+அச்சு செய்தி;
+
+// __Fields go out in numeric order, which the standard requires and which a__
+// __record does not give on its own.__
+// புலங்கள் எண் வரிசையில் செல்கின்றன
+அச்சு மதிப்பு(செய்தியைப்_படி(செய்தி))["புலங்கள்"];
+
+// __A variable-length field carries its own length in front of it. A 16-digit__
+// __card number goes out as 16 then the digits.__
+// மாறும் நீளப் புலம் தன் நீளத்தைத் தானே சுமக்கிறது
+அச்சு மதிப்பு(செய்தியை_ஆக்கு("0100", {"2": "4111111111111111", "3": "000000",
+                                          "4": "000000005000"}));
+
+// __An amount longer than its field is refused rather than truncated. A__
+// __truncated amount is a different amount, and it would be authorized.__
+// நீளம் மீறும் தொகை வெட்டப்படுவதில்லை — மறுக்கப்படுகிறது
+அச்சு செய்தியை_ஆக்கு("0200", {"4": "0000000123456789"});

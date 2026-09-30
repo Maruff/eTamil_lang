@@ -1,0 +1,114 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அட்டை சோதனை — ISO 8583__
+// ISO 8583 செய்திகளுக்கான சோதனைகள்
+//
+//   __etamil --vm nUlakam/attY/attY_cOqaZY.qmz__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "attY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("அட்டை (ISO 8583)");
+
+// __--- the message type -----------------------------------------------------__
+படித்த_வகை = மதிப்பு(செய்தி_வகையைப்_படி("0200"));
+ஓட்டம் = சமம்(ஓட்டம், படித்த_வகை["வகுப்பு"], "நிதி  (financial)", "0200 is a financial message");
+ஓட்டம் = சமம்(ஓட்டம், படித்த_வகை["செயல்பாடு"], "கோரிக்கை  (request)", "and it is a request");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(செய்தி_வகையைப்_படி("0800"))["வகுப்பு"],
+              "வலையமைப்பு நிர்வாகம்  (network management)", "0800 is network management");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தி_வகையைப்_படி("020")), "three digits is not a message type");
+
+// __The third digit is odd for an answer. An advice read as an authorization is__
+// __a transaction authorized twice.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், பதிலா("0210"), "0210 answers 0200");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், பதிலா("0110"), "0110 answers 0100");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், பதிலா("0200") == பொய், "0200 is the request, not the answer");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், பதிலா("0220") == பொய், "and 0220 is an advice");
+
+// __--- the bitmap -----------------------------------------------------------__
+// __Worked by hand: fields 3 and 4 are bits 3 and 4 of the first hex digit__
+// __(0011 = 3), field 7 is the second digit (0010 = 2), field 11 the third__
+// __(0010 = 2), field 41 the eleventh (1000 = 8) and field 49 the thirteenth.__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பிட்_வரைபடத்தை_ஆக்கு([3, 4, 7, 11, 41, 49])),
+              "3220000000808000", "the bitmap those six fields need");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பிட்_வரைபடத்தைப்_படி("3220000000808000")),
+              [3, 4, 7, 11, 41, 49], "and reading it back gives the same six");
+
+// __A field above 64 sets bit 1 and makes the bitmap 32 characters. The library__
+// __sets that bit itself: a message whose bit 1 disagrees with its own length is__
+// __one a switch rejects without saying why.__
+இரட்டை = மதிப்பு(பிட்_வரைபடத்தை_ஆக்கு([3, 70]));
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(இரட்டை), 32, "a field over 64 makes the bitmap 32 characters");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பிட்_வரைபடத்தைப்_படி(இரட்டை)), [1, 3, 70],
+              "and bit 1 is set, which is what says the second half is there");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பிட்_வரைபடத்தைப்_படி("322000")),
+                    "a bitmap is 16 or 32 characters, not six");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பிட்_வரைபடத்தைப்_படி("322000000080800G")),
+                    "and G is not a hex character");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பிட்_வரைபடத்தை_ஆக்கு([3, 129])),
+                    "there is no field 129");
+
+// __--- the field table ------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புல_விவரம்(4))["அளவு"], 12, "the amount is twelve digits");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புல_விவரம்(2))["வகைமை"], "இரண்டு",
+              "the PAN carries a two-digit length prefix");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புல_விவரம்(55))["வகைமை"], "மூன்று",
+              "and chip data a three-digit one");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(புல_விவரம்(6)),
+                    "a field this table does not define is said so, not guessed");
+
+// __--- a whole message ------------------------------------------------------__
+புலங்கள் = {"3": "000000", "4": "000000012345", "7": "0930120000",
+              "11": "000123", "41": "TERM0001", "49": "356"};
+கட்டியது = மதிப்பு(செய்தியை_ஆக்கு("0200", புலங்கள்));
+
+ஓட்டம் = சமம்(ஓட்டம், கட்டியது,
+              "020032200000008080000000000000000123450930120000000123TERM0001356",
+              "a 0200 for ₹123.45 at one terminal");
+
+// __Fields are written in numeric order, which the standard requires and which__
+// __a record does not give on its own.__
+திரும்ப = மதிப்பு(செய்தியைப்_படி(கட்டியது));
+ஓட்டம் = சமம்(ஓட்டம், திரும்ப["புலங்கள்"], புலங்கள், "and it reads back as what went in");
+ஓட்டம் = சமம்(ஓட்டம், திரும்ப["செய்தி_வகை"], "0200", "with its message type");
+ஓட்டம் = சமம்(ஓட்டம், திரும்ப["மீதம்"], "", "and nothing left over");
+
+// __A variable-length field carries its own length, so the two-digit prefix has__
+// __to be written and read back the same way.__
+உடன்_அட்டை = {"2": "4111111111111111", "3": "000000", "4": "000000005000"};
+அட்டைச்_செய்தி = மதிப்பு(செய்தியை_ஆக்கு("0100", உடன்_அட்டை));
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(அட்டைச்_செய்தி, "164111111111111111"),
+                    "a 16-digit PAN is written as 16 then the digits");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(செய்தியைப்_படி(அட்டைச்_செய்தி))["புலங்கள்"], உடன்_அட்டை,
+              "and a variable field round-trips");
+
+// __--- what it refuses ------------------------------------------------------__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியைப்_படி("0200")), "too short to be a message");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியை_ஆக்கு("020", புலங்கள்)),
+                    "a message type is four digits");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியை_ஆக்கு("0200", {"4": "0000000123456789"})),
+                    "an amount longer than its field is refused, not truncated");
+
+// __A message that ends inside a field is reported rather than half-read. In a__
+// __settlement file, guessing here mis-reads every transaction after it.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியைப்_படி("02003220000000808000000000")),
+                    "a message that stops inside a field is refused");
+
+// __--- the answer -----------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், பதில்_விளக்கம்("00"), "ஏற்கப்பட்டது  (approved)", "00 is approved");
+ஓட்டம் = சமம்(ஓட்டம், பதில்_விளக்கம்("51"), "நிலுவை போதவில்லை  (insufficient funds)",
+              "51 is the one everybody knows");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(பதில்_விளக்கம்("ZZ"), "தெரியாத"),
+                    "an unrecognised code says so");
+
+// __Only four codes are approvals. Treating an unknown one as success is how a__
+// __shop ships goods that were never paid for.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஏற்கப்பட்டதா("00"), "00 approved");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஏற்கப்பட்டதா("10"), "10 is a partial approval, still an approval");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஏற்கப்பட்டதா("51") == பொய், "51 is not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஏற்கப்பட்டதா("05") == பொய், "nor is 05");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், ஏற்கப்பட்டதா("ZZ") == பொய்,
+                    "and an unknown code is a decline, never an approval");
+
+சோதனை_முடிவு(ஓட்டம்);

@@ -1,0 +1,28 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகையைப்_படி(சரம்) — the comma, which is the whole point__
+// SWIFT தொகையின் காற்புள்ளி
+
+இறக்கு "../qanqi.qmz";
+
+// __SWIFT writes the decimal mark as a comma and never groups thousands.__
+// காற்புள்ளியே தசமப் புள்ளி; ஆயிரம் பிரிப்பு கிடையாது
+அச்சு மதிப்பு(தொகையைப்_படி("1234,56"));
+
+// __The comma is mandatory, so a whole amount still carries one.__
+// முழு எண்ணாக இருந்தாலும் காற்புள்ளி வேண்டும்
+அச்சு மதிப்பு(தொகையைப்_படி("1234,"));
+அச்சு தொகையை_எழுது(1234);
+அச்சு தொகையை_எழுது(1234.56);
+
+// __A point is refused outright. Here it is neither a decimal mark nor a__
+// __thousands mark, so reading 1234.56 as a number would be guessing which one__
+// __somebody meant — and guessing wrong turns ₹1,234.56 into ₹123,456.__
+// முற்றுப்புள்ளி மறுக்கப்படுகிறது — ஊகித்தால் தொகையே மாறிவிடும்
+அச்சு தொகையைப்_படி("1234.56");
+அச்சு தொகையைப்_படி("1234");
+
+// __And it round-trips, which is what makes it safe to store as a number and__
+// __write back out.__
+// சென்று திரும்பினால் அதே தொகை
+அச்சு மதிப்பு(தொகையைப்_படி(தொகையை_எழுது(99.05)));

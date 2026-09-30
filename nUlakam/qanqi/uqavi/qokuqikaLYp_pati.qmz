@@ -1,0 +1,38 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தொகுதிகளைப்_படி(மூலம்) — an MT103, taken apart__
+// SWIFT செய்தியின் தொகுதிகளைப் பிரிக்கும்
+
+இறக்கு "../qanqi.qmz";
+
+மூலம் = "{1:F01BANKINBBAXXX0000000000}{2:I103BANKDEFFXXXXN}{3:{108:MT103REF}}{4:\n"
+    & ":20:REF123456\n:23B:CRED\n:32A:260930INR1234,56\n"
+    & ":50K:/1234567890\nRAJA AND SONS\nCHENNAI\n"
+    & ":59:/0987654321\nBENEFICIARY LTD\n:71A:SHA\n-}{5:{CHK:123456789ABC}}";
+
+தொகுதிகள் = மதிப்பு(தொகுதிகளைப்_படி(மூலம்));
+
+// __Who it is between, and what kind of message it is.__
+// யாருக்கு யார், எந்த வகை
+அச்சு மதிப்பு(அனுப்புநர்(தொகுதிகள்));
+அச்சு மதிப்பு(பெறுநர்(தொகுதிகள்));
+அச்சு மதிப்பு(செய்தி_வகை(தொகுதிகள்));
+
+// __Blocks 3 and 5 hold braces of their own, so the end of a block is found by__
+// __counting depth. Stopping at the first closing brace cuts block 3 in half.__
+// உள்ளே உள்ள அடைப்புகள் — ஆழம் எண்ணித்தான் முடிவு காணப்படுகிறது
+அச்சு தொகுதிகள்["3"];
+அச்சு தொகுதிகள்["5"];
+
+// __The fields of block 4, in the order they were sent. A value that runs over__
+// __several lines keeps all of them: an ordering customer is a name and an__
+// __address, not one line.__
+// பல வரிகளில் நீளும் புலம் முழுமையாகத் திரும்பும்
+புலங்கள் = புலங்களைப்_படி(தொகுதிகள்["4"]);
+அச்சு நீளம்(புலங்கள்);
+அச்சு மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "20"));
+அச்சு மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "50K"));
+
+// __Field 32A is a value date, a currency and an amount, stuck together.__
+// 32A — நாள், நாணயம், தொகை
+அச்சு மதிப்பு(நாள்_நாணயம்_தொகை(மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "32A"))));

@@ -1,0 +1,126 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தந்தி சோதனை — SWIFT MT__
+// SWIFT MT செய்திகளுக்கான சோதனைகள்
+//
+//   __etamil --vm nUlakam/qanqi/qanqi_cOqaZY.qmz__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "qanqi.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("தந்தி (SWIFT MT)");
+
+ஒரு_நூற்றுமூன்று = "{1:F01BANKINBBAXXX0000000000}{2:I103BANKDEFFXXXXN}{3:{108:MT103REF}}{4:\n"
+    & ":20:REF123456\n:23B:CRED\n:32A:260930INR1234,56\n"
+    & ":50K:/1234567890\nRAJA AND SONS\nCHENNAI\n"
+    & ":59:/0987654321\nBENEFICIARY LTD\n:71A:SHA\n-}{5:{CHK:123456789ABC}}";
+
+தொகுதிகள் = மதிப்பு(தொகுதிகளைப்_படி(ஒரு_நூற்றுமூன்று));
+
+// __--- the blocks -----------------------------------------------------------__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், புலம்_உள்ளதா(தொகுதிகள், "1"), "block 1 is found");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், புலம்_உள்ளதா(தொகுதிகள், "4"), "and so is block 4");
+
+// __Blocks 3 and 5 hold braces of their own, so the end of a block is found by__
+// __counting depth. Stopping at the first `}` would cut block 3 in half.__
+ஓட்டம் = சமம்(ஓட்டம், தொகுதிகள்["3"], "{108:MT103REF}",
+              "a nested block survives, braces and all");
+ஓட்டம் = சமம்(ஓட்டம், தொகுதிகள்["5"], "{CHK:123456789ABC}", "and so does the trailer");
+
+// __Block 4 ends with `-}`. The dash terminates the block rather than belonging__
+// __to it, so it is not part of the content.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், முடிகிறதா(தொகுதிகள்["4"], "-") == பொய்,
+                    "the block 4 terminator is not left in the content");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தொகுதிகளைப்_படி("no braces here at all")),
+                    "something with no blocks is not an MT message");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தொகுதிகளைப்_படி("{4:never closed")),
+                    "a block that never closes is refused");
+
+// __--- who it is between ----------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(அனுப்புநர்(தொகுதிகள்)), "BANKINBBAXXX",
+              "the sender's twelve-character address");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பெறுநர்(தொகுதிகள்)), "BANKDEFFXXXX", "and the receiver's");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(செய்தி_வகை(தொகுதிகள்)), "103", "an MT103");
+
+// __An output message carries the sender's input reference in block 2 instead,__
+// __in a different layout. Reading twelve characters from the same place would__
+// __return a plausible BIC that is not the receiver.__
+வெளியிலிருந்து = மதிப்பு(தொகுதிகளைப்_படி(
+    "{1:F01BANKINBBAXXX0000000000}{2:O1031200010103BANKBEBBAXXX22221234560101031201N}{4:\n:20:X\n-}"));
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பெறுநர்(வெளியிலிருந்து)),
+                    "an output message says it has no receiver here, rather than guessing");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(செய்தி_வகை(வெளியிலிருந்து)), "103",
+              "though the message type is in the same place either way");
+
+// __--- the fields -----------------------------------------------------------__
+புலங்கள் = புலங்களைப்_படி(தொகுதிகள்["4"]);
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(புலங்கள்), 6, "six fields in this MT103");
+ஓட்டம் = சமம்(ஓட்டம், புலங்கள்[0]["குறி"], "20", "and they come back in the order sent");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "20")), "REF123456", "the reference");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "71A")), "SHA", "and who pays the charges");
+
+// __A field's value may run over several lines — an ordering customer is a name__
+// __and an address — so a line that does not open with a tag belongs above it.__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "50K")),
+              "/1234567890\nRAJA AND SONS\nCHENNAI",
+              "a multi-line field keeps all of its lines");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(புலத்தைத்_தேடு(புலங்கள், "77B")),
+                    "a field that is not there says so");
+
+// __A statement repeats :61: once per entry, which is why the fields are an__
+// __array. A record would keep the last one and lose the rest of the month.__
+அறிக்கை = "{4:\n:20:ST1\n:61:2609300930C100,00NTRFREF1\n:61:2609300930D50,00NTRFREF2\n"
+            & ":61:2610010001C25,50NTRFREF3\n:62F:C261001INR1075,50\n-}";
+அறிக்கைப்_புலங்கள் = புலங்களைப்_படி(மதிப்பு(தொகுதிகளைப்_படி(அறிக்கை))["4"]);
+ஓட்டம் = சமம்(ஓட்டம், நீளம்(எல்லாப்_புலங்களும்(அறிக்கைப்_புலங்கள், "61")), 3,
+              "all three statement lines, not just the last");
+ஓட்டம் = சமம்(ஓட்டம், எல்லாப்_புலங்களும்(அறிக்கைப்_புலங்கள், "61")[1],
+              "2609300930D50,00NTRFREF2", "and in the order they were sent");
+
+// __--- amounts --------------------------------------------------------------__
+//
+// __SWIFT writes the decimal mark as a comma and never groups thousands. Read__
+// __by something expecting a point, 1234,56 becomes either an error or 123456.__
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(தொகையைப்_படி("1234,56")), 1234.56, "a comma is the decimal mark");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(தொகையைப்_படி("1234,")), 1234,
+              "and a trailing comma is a whole number");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தொகையைப்_படி("1234.56")),
+                    "a point is refused — here it is neither decimal nor thousands");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தொகையைப்_படி("1234")),
+                    "and the comma is mandatory, so a bare number is not an amount");
+
+ஓட்டம் = சமம்(ஓட்டம், தொகையை_எழுது(1234.56), "1234,56", "writing one back");
+ஓட்டம் = சமம்(ஓட்டம், தொகையை_எழுது(1234), "1234,",
+              "a whole amount still carries its comma");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(தொகையைப்_படி(தொகையை_எழுது(99.05))), 99.05, "and it round-trips");
+
+// __--- field 32A ------------------------------------------------------------__
+முப்பத்திரண்டு = மதிப்பு(நாள்_நாணயம்_தொகை(மதிப்பு(புலத்தைத்_தேடு(புலங்கள், "32A"))));
+ஓட்டம் = சமம்(ஓட்டம், முப்பத்திரண்டு["நாள்"], "260930", "the value date");
+ஓட்டம் = சமம்(ஓட்டம், முப்பத்திரண்டு["நாணயம்"], "INR", "the currency");
+ஓட்டம் = சமம்(ஓட்டம், முப்பத்திரண்டு["தொகை"], 1234.56, "and the amount as a number");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(நாள்_நாணயம்_தொகை("260930INR")),
+                    "a 32A with no amount is refused");
+
+// __--- writing one ----------------------------------------------------------__
+கட்டியது = மதிப்பு(செய்தியை_ஆக்கு("BANKINBBAXXX", "BANKDEFFXXXX", "103",
+    [{"குறி": "20", "பெறுமானம்": "REF9"},
+     {"குறி": "32A", "பெறுமானம்": "260930INR" & தொகையை_எழுது(500)},
+     {"குறி": "71A", "பெறுமானம்": "OUR"}]));
+
+மீள்_தொகுதிகள் = மதிப்பு(தொகுதிகளைப்_படி(கட்டியது));
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(அனுப்புநர்(மீள்_தொகுதிகள்)), "BANKINBBAXXX",
+              "what was built reads back: the sender");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(பெறுநர்(மீள்_தொகுதிகள்)), "BANKDEFFXXXX", "the receiver");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(செய்தி_வகை(மீள்_தொகுதிகள்)), "103", "the type");
+ஓட்டம் = சமம்(ஓட்டம், மதிப்பு(புலத்தைத்_தேடு(புலங்களைப்_படி(மீள்_தொகுதிகள்["4"]), "32A")),
+              "260930INR500,", "and an amount written the way SWIFT writes it");
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியை_ஆக்கு("SHORT", "BANKDEFFXXXX", "103", [])),
+                    "an address is twelve characters");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(செய்தியை_ஆக்கு("BANKINBBAXXX", "BANKDEFFXXXX", "10", [])),
+                    "and a message type is three digits");
+
+சோதனை_முடிவு(ஓட்டம்);

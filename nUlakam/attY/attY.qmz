@@ -1,0 +1,440 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/attY/attY.qmz — ISO 8583 card messages__
+// அட்டை — ISO 8583 செய்திகள்
+//
+// __The message every card transaction in the country is carried in: a four__
+// __digit type, a bitmap saying which fields are present, and the fields.__
+//
+// __This reads and writes the ASCII variant — a hex bitmap and decimal digits as__
+// __text — which is what an acquirer or a switch normally presents. The binary__
+// __and BCD packings of the same standard are not here; they are the same field__
+// __table over a different encoding, and pretending to handle a packing that has__
+// __not been tested against a real switch would be worse than saying so.__
+//
+// __Nothing here talks to a network. A message is text in and text out, so a__
+// __test is a message, and so is a production log line.__
+
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/eNkaL.qmz";
+
+// __--- the message type ------------------------------------------------------__
+//
+// __Four digits, and each one means something. 0100 is an authorization request,__
+// __0110 the answer to it; 0200 a financial request, 0210 its answer; 0800 a__
+// __network management request such as an echo or a key change.__
+
+செயல் _வகுப்புகள்() {
+    திரும்பு {"1": "அங்கீகாரம்  (authorization)",
+              "2": "நிதி  (financial)",
+              "3": "கோப்புச் செயல்  (file action)",
+              "4": "மீள்பெறல்  (reversal)",
+              "5": "ஒப்புரவு  (reconciliation)",
+              "6": "நிர்வாகம்  (administrative)",
+              "7": "கட்டணம்  (fee collection)",
+              "8": "வலையமைப்பு நிர்வாகம்  (network management)"};
+}
+
+செயல் _செயல்பாடுகள்() {
+    திரும்பு {"0": "கோரிக்கை  (request)",
+              "1": "கோரிக்கைப் பதில்  (request response)",
+              "2": "அறிவிப்பு  (advice)",
+              "3": "அறிவிப்புப் பதில்  (advice response)",
+              "4": "அறிவிப்பு  (notification)",
+              "8": "பதில் கேட்பு  (response pending)"};
+}
+
+// __செய்தி_வகையைப்_படி(நால்_இலக்கம்) — what those four digits say__
+// செய்தி_வகையைப்_படி(நால்_இலக்கம்) — செய்தி வகையின் பொருள்
+செயல் செய்தி_வகையைப்_படி(நால்_இலக்கம்) {
+    (நீளம்(நால்_இலக்கம்) != 4) எனில் {
+        திரும்பு தவறு("செய்தி வகை நான்கு இலக்கம்  (a message type is four digits)");
+    }
+    திரும்பு சரி({
+        "பதிப்பு": நால்_இலக்கம்[0],
+        "வகுப்பு": புலம்_அல்லது(_வகுப்புகள்(), நால்_இலக்கம்[1], "தெரியாதது  (unknown)"),
+        "செயல்பாடு": புலம்_அல்லது(_செயல்பாடுகள்(), நால்_இலக்கம்[2], "தெரியாதது  (unknown)"),
+        "மூலம்": நால்_இலக்கம்[3]
+    });
+}
+
+// __பதிலா(செய்தி_வகை) — is this an answer rather than a request?__
+// பதிலா(செய்தி_வகை) — இது பதிலா
+//
+// __The third digit is odd for a response. Worth a function because reading it__
+// __off by eye is how an advice gets treated as an authorization.__
+செயல் பதிலா(செய்தி_வகை) {
+    (நீளம்(செய்தி_வகை) != 4) எனில் { திரும்பு பொய்; }
+    திரும்பு கொண்டுள்ளதா("13579", செய்தி_வகை[2]);
+}
+
+// __--- the bitmap ------------------------------------------------------------__
+//
+// __Sixty-four bits as sixteen hex characters, one bit per field. Bit 1 is not a__
+// __field: it says a secondary bitmap follows, carrying fields 65 to 128.__
+//
+// __eTamil has no bit operators, so a hex digit becomes a number and its four__
+// __bits come out by division and remainder — the same arithmetic a shift would__
+// __do, written the way this language can write it.__
+
+செயல் _பதினாறு_மதிப்பு(எழுத்தொன்று) {
+    அட்டவணை = {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7,
+                "8": 8, "9": 9, "a": 10, "b": 11, "c": 12, "d": 13, "e": 14, "f": 15,
+                "A": 10, "B": 11, "C": 12, "D": 13, "E": 14, "F": 15};
+    திரும்பு புலம்_அல்லது(அட்டவணை, எழுத்தொன்று, 0 - 1);
+}
+
+செயல் _பதினாறு_எழுத்து(பெறுமானம்) {
+    திரும்பு "0123456789ABCDEF"[பெறுமானம்];
+}
+
+// __பிட்_வரைபடத்தைப்_படி(பதினாறுச்_சரம்) — which fields it says are present__
+// பிட்_வரைபடத்தைப்_படி(பதினாறுச்_சரம்) — எந்தப் புலங்கள் உள்ளன
+//
+// __Answers the field numbers in order. A 16-character bitmap describes fields 1__
+// __to 64; a 32-character one describes 1 to 128 and its bit 1 is expected to be__
+// __set, because that is what said the second half was coming.__
+செயல் பிட்_வரைபடத்தைப்_படி(பதினாறுச்_சரம்) {
+    மொத்த_எழுத்து = நீளம்(பதினாறுச்_சரம்);
+    (மொத்த_எழுத்து != 16 மற்றும் மொத்த_எழுத்து != 32) எனில் {
+        திரும்பு தவறு("பிட் வரைபடம் 16 அல்லது 32 எழுத்து  "
+                       & "(a bitmap is 16 or 32 hex characters)");
+    }
+
+    உள்ளவை = [];
+    எண்ணி = 0;
+    (எண்ணி < மொத்த_எழுத்து) சுற்று {
+        பெறுமானம் = _பதினாறு_மதிப்பு(பதினாறுச்_சரம்[எண்ணி]);
+        (பெறுமானம் < 0) எனில் {
+            திரும்பு தவறு("பிட் வரைபடத்தில் பதினாறு அல்லாத எழுத்து: "
+                          & பதினாறுச்_சரம்[எண்ணி] & "  (not a hex character)");
+        }
+        // __Four bits per hex digit, most significant first.__
+        உள்நிலை = 0;
+        (உள்நிலை < 4) சுற்று {
+            வகுப்பான் = 8;
+            (உள்நிலை == 1) எனில் { வகுப்பான் = 4; }
+            (உள்நிலை == 2) எனில் { வகுப்பான் = 2; }
+            (உள்நிலை == 3) எனில் { வகுப்பான் = 1; }
+            (மீதி(தரை(பெறுமானம் / வகுப்பான்), 2) == 1) எனில் {
+                உள்ளவை = இணை(உள்ளவை, எண்ணி * 4 + உள்நிலை + 1);
+            }
+            உள்நிலை = உள்நிலை + 1;
+        }
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(உள்ளவை);
+}
+
+// __பிட்_வரைபடத்தை_ஆக்கு(புல_எண்கள்) — the bitmap those fields need__
+// பிட்_வரைபடத்தை_ஆக்கு(புல_எண்கள்) — அந்தப் புலங்களுக்கான பிட் வரைபடம்
+//
+// __Bit 1 is set here, not by the caller: any field above 64 means a secondary__
+// __bitmap, and a message whose bit 1 disagrees with its own length is one a__
+// __switch rejects without saying why.__
+செயல் பிட்_வரைபடத்தை_ஆக்கு(புல_எண்கள்) {
+    இரண்டாம்_தேவையா = பொய்;
+    ஒவ்வொரு ஒரெண் இல் புல_எண்கள் {
+        (ஒரெண் > 128 அல்லது ஒரெண் < 2) எனில் {
+            திரும்பு தவறு("புல எண் 2 முதல் 128 வரை; " & சொல்லாக்கு(ஒரெண்)
+                          & "  (a field number runs from 2 to 128)");
+        }
+        (ஒரெண் > 64) எனில் { இரண்டாம்_தேவையா = மெய்; }
+    }
+
+    பிட்டுகள் = 64;
+    (இரண்டாம்_தேவையா) எனில் { பிட்டுகள் = 128; }
+
+    விடை = "";
+    எண்ணி = 0;
+    (எண்ணி < பிட்டுகள் / 4) சுற்று {
+        கூட்டல் = 0;
+        உள்நிலை = 0;
+        (உள்நிலை < 4) சுற்று {
+            இந்தப்_பிட் = எண்ணி * 4 + உள்நிலை + 1;
+            உள்ளதா_இது = பொய்;
+            (இந்தப்_பிட் == 1 மற்றும் இரண்டாம்_தேவையா) எனில் { உள்ளதா_இது = மெய்; }
+            ஒவ்வொரு ஒரெண் இல் புல_எண்கள் {
+                (ஒரெண் == இந்தப்_பிட்) எனில் { உள்ளதா_இது = மெய்; }
+            }
+            (உள்ளதா_இது) எனில் {
+                வகுப்பான் = 8;
+                (உள்நிலை == 1) எனில் { வகுப்பான் = 4; }
+                (உள்நிலை == 2) எனில் { வகுப்பான் = 2; }
+                (உள்நிலை == 3) எனில் { வகுப்பான் = 1; }
+                கூட்டல் = கூட்டல் + வகுப்பான்;
+            }
+            உள்நிலை = உள்நிலை + 1;
+        }
+        விடை = விடை & _பதினாறு_எழுத்து(கூட்டல்);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(விடை);
+}
+
+// __--- the fields ------------------------------------------------------------__
+//
+// __What each data element is and how long. `வகைமை` is how the length is__
+// __carried: நிலையான is fixed, இரண்டு is a two-digit length prefix (LLVAR) and__
+// __மூன்று a three-digit one (LLLVAR). `அளவு` is the fixed length, or the most a__
+// __variable field may carry.__
+//
+// __Not all 128. These are the elements an acquirer interface actually sends,__
+// __and a field with no entry is carried as-is rather than guessed at — see__
+// __செய்தியைப்_படி, which stops rather than inventing a length.__
+செயல் புல_விவரம்(எண்ணிக்கை) {
+    அட்டவணை = {
+        "2": {"பெயர்": "அட்டை எண்  (primary account number)", "வகைமை": "இரண்டு", "அளவு": 19},
+        "3": {"பெயர்": "செயல் குறி  (processing code)", "வகைமை": "நிலையான", "அளவு": 6},
+        "4": {"பெயர்": "தொகை  (amount, transaction)", "வகைமை": "நிலையான", "அளவு": 12},
+        "7": {"பெயர்": "அனுப்பிய நாளும் நேரமும்  (transmission date and time)",
+              "வகைமை": "நிலையான", "அளவு": 10},
+        "11": {"பெயர்": "கண்காணிப்பு எண்  (systems trace audit number)",
+               "வகைமை": "நிலையான", "அளவு": 6},
+        "12": {"பெயர்": "உள்ளூர் நேரம்  (local transaction time)", "வகைமை": "நிலையான", "அளவு": 6},
+        "13": {"பெயர்": "உள்ளூர் நாள்  (local transaction date)", "வகைமை": "நிலையான", "அளவு": 4},
+        "14": {"பெயர்": "காலாவதி  (expiration date)", "வகைமை": "நிலையான", "அளவு": 4},
+        "18": {"பெயர்": "வணிக வகை  (merchant type)", "வகைமை": "நிலையான", "அளவு": 4},
+        "22": {"பெயர்": "நுழைவு முறை  (POS entry mode)", "வகைமை": "நிலையான", "அளவு": 3},
+        "25": {"பெயர்": "நிலைமைக் குறி  (POS condition code)", "வகைமை": "நிலையான", "அளவு": 2},
+        "32": {"பெயர்": "பெறும் நிறுவனம்  (acquiring institution)", "வகைமை": "இரண்டு", "அளவு": 11},
+        "35": {"பெயர்": "இரண்டாம் தடம்  (track 2 data)", "வகைமை": "இரண்டு", "அளவு": 37},
+        "37": {"பெயர்": "மீட்பு எண்  (retrieval reference number)", "வகைமை": "நிலையான", "அளவு": 12},
+        "38": {"பெயர்": "அங்கீகாரக் குறி  (authorization identification response)",
+               "வகைமை": "நிலையான", "அளவு": 6},
+        "39": {"பெயர்": "பதில் குறி  (response code)", "வகைமை": "நிலையான", "அளவு": 2},
+        "41": {"பெயர்": "முனைய அடையாளம்  (card acceptor terminal identification)",
+               "வகைமை": "நிலையான", "அளவு": 8},
+        "42": {"பெயர்": "வணிகர் அடையாளம்  (card acceptor identification code)",
+               "வகைமை": "நிலையான", "அளவு": 15},
+        "43": {"பெயர்": "வணிகர் பெயரும் இடமும்  (card acceptor name and location)",
+               "வகைமை": "நிலையான", "அளவு": 40},
+        "49": {"பெயர்": "நாணயம்  (currency code, transaction)", "வகைமை": "நிலையான", "அளவு": 3},
+        "52": {"பெயர்": "கடவு எண்  (PIN data)", "வகைமை": "நிலையான", "அளவு": 16},
+        "54": {"பெயர்": "கூடுதல் தொகைகள்  (additional amounts)", "வகைமை": "மூன்று", "அளவு": 120},
+        "55": {"பெயர்": "சிப் தரவு  (ICC data)", "வகைமை": "மூன்று", "அளவு": 999},
+        "70": {"பெயர்": "வலையமைப்புக் குறி  (network management information code)",
+               "வகைமை": "நிலையான", "அளவு": 3}
+    };
+    திறவுகோல் = சொல்லாக்கு(எண்ணிக்கை);
+    (புலம்_உள்ளதா(அட்டவணை, திறவுகோல்)) எனில் { திரும்பு சரி(அட்டவணை[திறவுகோல்]); }
+    திரும்பு தவறு("புலம் " & திறவுகோல் & " இந்த அட்டவணையில் இல்லை  "
+                   & "(no definition for that data element)");
+}
+
+// __--- reading a message -----------------------------------------------------__
+
+// __செய்தியைப்_படி(மூலம்) — a whole ISO 8583 message, as a record__
+// செய்தியைப்_படி(மூலம்) — செய்தியைப் படித்துப் பதிவேடாக்கும்
+//
+// __Stops at the first thing it cannot account for rather than returning a__
+// __partial message. A field this table does not define has an unknown length,__
+// __and guessing one silently mis-reads everything after it — which in a__
+// __settlement file means every transaction after the first odd one.__
+செயல் செய்தியைப்_படி(மூலம்) {
+    (நீளம்(மூலம்) < 20) எனில் {
+        திரும்பு தவறு("செய்தி மிகச் சிறியது  (too short to be a message)");
+    }
+
+    செய்தி_வகை = துண்டு(மூலம், 0, 4);
+    முதல்_வரைபடம் = துண்டு(மூலம், 4, 16);
+
+    // __Bit 1 of the primary bitmap says whether a second one follows.__
+    முதல்_மதிப்பு = _பதினாறு_மதிப்பு(முதல்_வரைபடம்[0]);
+    (முதல்_மதிப்பு < 0) எனில் {
+        திரும்பு தவறு("பிட் வரைபடம் பதினாறு அடிப்படையில் இல்லை  (the bitmap is not hex)");
+    }
+    வரைபடம் = முதல்_வரைபடம்;
+    இடம்_எண் = 20;
+    (மீதி(தரை(முதல்_மதிப்பு / 8), 2) == 1) எனில் {
+        (நீளம்(மூலம்) < 36) எனில் {
+            திரும்பு தவறு("இரண்டாம் வரைபடம் அறிவிக்கப்பட்டது, ஆனால் இல்லை  "
+                           & "(a secondary bitmap is declared but missing)");
+        }
+        வரைபடம் = முதல்_வரைபடம் & துண்டு(மூலம், 20, 16);
+        இடம்_எண் = 36;
+    }
+
+    படித்த_வரைபடம் = பிட்_வரைபடத்தைப்_படி(வரைபடம்);
+    (தவறா(படித்த_வரைபடம்)) எனில் { திரும்பு படித்த_வரைபடம்; }
+
+    புலங்கள் = {};
+    ஒவ்வொரு ஒரெண் இல் மதிப்பு(படித்த_வரைபடம்) {
+        // __Bit 1 is the secondary bitmap flag, already acted on.__
+        (ஒரெண் != 1) எனில் {
+            விவரம் = புல_விவரம்(ஒரெண்);
+            (தவறா(விவரம்)) எனில் { திரும்பு விவரம்; }
+            வ = மதிப்பு(விவரம்);
+
+            நீளம்_இலக்கம் = 0;
+            (வ["வகைமை"] == "இரண்டு") எனில் { நீளம்_இலக்கம் = 2; }
+            (வ["வகைமை"] == "மூன்று") எனில் { நீளம்_இலக்கம் = 3; }
+
+            இந்த_நீளம் = வ["அளவு"];
+            (நீளம்_இலக்கம் > 0) எனில் {
+                (நீளம்(மூலம்) < இடம்_எண் + நீளம்_இலக்கம்) எனில் {
+                    திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்)
+                                  & " இன் நீளம் வாசிக்கக் கிடைக்கவில்லை  "
+                                     & "(the message ends inside a length prefix)");
+                }
+                படித்த_நீளம் = எண்ணாக்கு(துண்டு(மூலம், இடம்_எண், நீளம்_இலக்கம்));
+                (தவறா(படித்த_நீளம்)) எனில் {
+                    திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்)
+                                  & " இன் நீள முன்னொட்டு இலக்கங்கள் அல்ல  "
+                                  & "(a length prefix that is not digits)");
+                }
+                இந்த_நீளம் = மதிப்பு(படித்த_நீளம்);
+                இடம்_எண் = இடம்_எண் + நீளம்_இலக்கம்;
+                (இந்த_நீளம் > வ["அளவு"]) எனில் {
+                    திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்) & " அனுமதிக்கப்பட்டதை விட நீளம்  "
+                                   & "(a variable field declares more than its maximum)");
+                }
+            }
+
+            (நீளம்(மூலம்) < இடம்_எண் + இந்த_நீளம்) எனில் {
+                திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்) & " இல் செய்தி முடிந்துவிட்டது  "
+                               & "(the message ends inside a field)");
+            }
+            புலங்கள்[சொல்லாக்கு(ஒரெண்)] = துண்டு(மூலம், இடம்_எண், இந்த_நீளம்);
+            இடம்_எண் = இடம்_எண் + இந்த_நீளம்;
+        }
+    }
+
+    திரும்பு சரி({
+        "செய்தி_வகை": செய்தி_வகை,
+        "வரைபடம்": வரைபடம்,
+        "புலங்கள்": புலங்கள்,
+        "மீதம்": துண்டு(மூலம், இடம்_எண், நீளம்(மூலம்) - இடம்_எண்)
+    });
+}
+
+// __--- writing one -----------------------------------------------------------__
+
+// __செய்தியை_ஆக்கு(செய்தி_வகை, புலங்கள்) — the message those fields make__
+// செய்தியை_ஆக்கு(செய்தி_வகை, புலங்கள்) — புலங்களிலிருந்து செய்தியைக் கட்டும்
+//
+// __Fields are written in numeric order, which the standard requires and which__
+// __a record does not give on its own. A fixed field shorter than its length is__
+// __padded — digits on the left, text on the right — because that is what the__
+// __field types mean, and a switch reading an unpadded amount reads a different__
+// __amount rather than an error.__
+செயல் செய்தியை_ஆக்கு(செய்தி_வகை, புலங்கள்) {
+    (நீளம்(செய்தி_வகை) != 4) எனில் {
+        திரும்பு தவறு("செய்தி வகை நான்கு இலக்கம்  (a message type is four digits)");
+    }
+
+    எண்கள் = [];
+    ஒவ்வொரு திறவுகோல் இல் புலங்கள் {
+        படித்த_எண் = எண்ணாக்கு(திறவுகோல்);
+        (தவறா(படித்த_எண்)) எனில் {
+            திரும்பு தவறு("புலத் திறவுகோல் ஒரு எண் அல்ல: " & திறவுகோல்
+                          & "  (a field key must be a data element number)");
+        }
+        எண்கள் = இணை(எண்கள், மதிப்பு(படித்த_எண்));
+    }
+    வரிசைப்படுத்தியவை = வரிசையாக்கு(எண்கள்);
+
+    வரைபடம் = பிட்_வரைபடத்தை_ஆக்கு(வரிசைப்படுத்தியவை);
+    (தவறா(வரைபடம்)) எனில் { திரும்பு வரைபடம்; }
+
+    உடற்பகுதி = "";
+    ஒவ்வொரு ஒரெண் இல் வரிசைப்படுத்தியவை {
+        விவரம் = புல_விவரம்(ஒரெண்);
+        (தவறா(விவரம்)) எனில் { திரும்பு விவரம்; }
+        வ = மதிப்பு(விவரம்);
+        பெறுமானம் = சொல்லாக்கு(புலங்கள்[சொல்லாக்கு(ஒரெண்)]);
+
+        (வ["வகைமை"] == "நிலையான") எனில் {
+            (நீளம்(பெறுமானம்) > வ["அளவு"]) எனில் {
+                திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்) & " நீளம் மீறுகிறது  "
+                               & "(a fixed field is longer than its definition)");
+            }
+            உடற்பகுதி = உடற்பகுதி & _நிரப்பு(பெறுமானம், வ["அளவு"]);
+        } இன்றேல் {
+            நீளம்_இலக்கம் = 2;
+            (வ["வகைமை"] == "மூன்று") எனில் { நீளம்_இலக்கம் = 3; }
+            (நீளம்(பெறுமானம்) > வ["அளவு"]) எனில் {
+                திரும்பு தவறு("புலம் " & சொல்லாக்கு(ஒரெண்) & " அனுமதிக்கப்பட்டதை விட நீளம்  "
+                               & "(a variable field is longer than its maximum)");
+            }
+            உடற்பகுதி = உடற்பகுதி & இடமிருந்து_நிரப்பு(சொல்லாக்கு(நீளம்(பெறுமானம்)), நீளம்_இலக்கம், "0")
+                        & பெறுமானம்;
+        }
+    }
+
+    திரும்பு சரி(செய்தி_வகை & மதிப்பு(வரைபடம்) & உடற்பகுதி);
+}
+
+// __A fixed field that is all digits is padded on the left with zeros, and__
+// __anything else on the right with spaces. That is what `n` and `ans` mean in__
+// __the standard, and getting it the wrong way round changes an amount.__
+செயல் _நிரப்பு(பெறுமானம், அளவு) {
+    (இலக்கங்களா(பெறுமானம்)) எனில் {
+        திரும்பு இடமிருந்து_நிரப்பு(பெறுமானம், அளவு, "0");
+    }
+    விடை = பெறுமானம்;
+    (நீளம்(விடை) < அளவு) சுற்று { விடை = விடை & " "; }
+    திரும்பு விடை;
+}
+
+// __இலக்கங்களா(சரம்) — is every letter a digit?__
+// இலக்கங்களா(சரம்) — எல்லாம் இலக்கங்களா
+செயல் இலக்கங்களா(சரம்) {
+    (நீளம்(சரம்) == 0) எனில் { திரும்பு பொய்; }
+    ஒவ்வொரு ஒரெழுத்து இல் _எழுத்துகளாக(சரம்) {
+        (கொண்டுள்ளதா("0123456789", ஒரெழுத்து) == பொய்) எனில் { திரும்பு பொய்; }
+    }
+    திரும்பு மெய்;
+}
+
+செயல் _எழுத்துகளாக(சரம்) {
+    விடை = [];
+    எண்ணி = 0;
+    (எண்ணி < நீளம்(சரம்)) சுற்று {
+        விடை = இணை(விடை, சரம்[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு விடை;
+}
+
+// __--- what the answer means -------------------------------------------------__
+
+// __பதில்_விளக்கம்(குறி) — what a response code says__
+// பதில்_விளக்கம்(குறி) — பதில் குறியின் பொருள்
+செயல் பதில்_விளக்கம்(குறி) {
+    அட்டவணை = {
+        "00": "ஏற்கப்பட்டது  (approved)",
+        "01": "வழங்குநரைத் தொடர்பு கொள்ளவும்  (refer to card issuer)",
+        "03": "செல்லாத வணிகர்  (invalid merchant)",
+        "04": "அட்டையைப் பறிமுதல் செய்க  (pick up card)",
+        "05": "ஏற்கப்படவில்லை  (do not honour)",
+        "12": "செல்லாத பரிவர்த்தனை  (invalid transaction)",
+        "13": "செல்லாத தொகை  (invalid amount)",
+        "14": "செல்லாத அட்டை எண்  (invalid card number)",
+        "30": "வடிவப் பிழை  (format error)",
+        "41": "தொலைந்த அட்டை  (lost card)",
+        "43": "திருடப்பட்ட அட்டை  (stolen card)",
+        "51": "நிலுவை போதவில்லை  (insufficient funds)",
+        "54": "காலாவதியான அட்டை  (expired card)",
+        "55": "தவறான கடவு எண்  (incorrect PIN)",
+        "57": "அட்டைக்கு அனுமதி இல்லாத பரிவர்த்தனை  (transaction not permitted to cardholder)",
+        "61": "தொகை வரம்பை மீறுகிறது  (exceeds withdrawal amount limit)",
+        "62": "தடைசெய்யப்பட்ட அட்டை  (restricted card)",
+        "65": "எண்ணிக்கை வரம்பை மீறுகிறது  (exceeds withdrawal frequency limit)",
+        "91": "வழங்குநர் கிடைக்கவில்லை  (issuer or switch inoperative)",
+        "92": "சேருமிடம் காணப்படவில்லை  (no routing to destination)",
+        "94": "நகல் அனுப்புதல்  (duplicate transmission)",
+        "96": "அமைப்புச் செயலிழப்பு  (system malfunction)"
+    };
+    திரும்பு புலம்_அல்லது(அட்டவணை, குறி, "தெரியாத பதில் குறி  (unknown response code)");
+}
+
+// __ஏற்கப்பட்டதா(குறி) — did the money move?__
+// ஏற்கப்பட்டதா(குறி) — பரிவர்த்தனை ஏற்கப்பட்டதா
+//
+// __Only 00, 08, 10 and 11 are approvals. Everything else is a decline, and__
+// __treating an unrecognised code as success is how a shop ships goods that were__
+// __never paid for — the same mistake UPI's nilYmY.qmz exists to prevent.__
+செயல் ஏற்கப்பட்டதா(குறி) {
+    திரும்பு குறி == "00" அல்லது குறி == "08" அல்லது குறி == "10" அல்லது குறி == "11";
+}

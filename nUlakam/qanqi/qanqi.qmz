@@ -1,0 +1,305 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qanqi/qanqi.qmz — SWIFT MT messages__
+// தந்தி — SWIFT MT செய்திகள்
+//
+// __The format interbank payments still travel in. தந்தி is the old word for a__
+// __telegram, which is what MT descends from and still looks like: blocks in__
+// __braces, and inside block 4 a list of `:tag:value` lines.__
+//
+// __This reads and writes the block and field structure — the part every MT__
+// __shares. It does not validate an MT103 against its network rules; that is a__
+// __rulebook per message type and several hundred pages of it, and a library__
+// __that half-validated would be trusted for the half it does not do.__
+//
+// __MX — ISO 20022 XML — is a different format under the same name and is not__
+// __here.__
+
+இறக்கு "../atippatY/col.qmz";
+இறக்கு "../atippatY/poruL.qmz";
+
+// __--- the blocks ------------------------------------------------------------__
+
+// __தொகுதிகளைப்_படி(மூலம்) — the braces, as a record from id to content__
+// தொகுதிகளைப்_படி(மூலம்) — தொகுதிகளைப் பதிவேடாக்கும்
+//
+// __Blocks 3 and 5 hold nested braces of their own — `{3:{108:MT103}}` — so the__
+// __end of a block is found by counting depth rather than by the next `}`.__
+// __Block 4 ends with `-}`, and the `-` is dropped here: it terminates the block__
+// __rather than belonging to it.__
+செயல் தொகுதிகளைப்_படி(மூலம்) {
+    விடை = {};
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(மூலம்);
+
+    (எண்ணி < மொத்தம்) சுற்று {
+        (மூலம்[எண்ணி] == "{") எனில் {
+            // __The id is what sits before the first colon.__
+            முடிவிடம் = எண்ணி + 1;
+            (முடிவிடம் < மொத்தம் மற்றும் மூலம்[முடிவிடம்] != ":") சுற்று {
+                முடிவிடம் = முடிவிடம் + 1;
+            }
+            (முடிவிடம் >= மொத்தம்) எனில் {
+                திரும்பு தவறு("தொகுதிக்கு முற்றுப்புள்ளி இல்லை  "
+                              & "(a block opens and never names itself)");
+            }
+            அடையாளம் = துண்டு(மூலம், எண்ணி + 1, முடிவிடம் - எண்ணி - 1);
+
+            ஆழம் = 1;
+            உள்ளடக்கத்_தொடக்கம் = முடிவிடம் + 1;
+            நகர்வு = உள்ளடக்கத்_தொடக்கம்;
+            (நகர்வு < மொத்தம் மற்றும் ஆழம் > 0) சுற்று {
+                (மூலம்[நகர்வு] == "{") எனில் { ஆழம் = ஆழம் + 1; }
+                (மூலம்[நகர்வு] == "}") எனில் { ஆழம் = ஆழம் - 1; }
+                (ஆழம் > 0) எனில் { நகர்வு = நகர்வு + 1; }
+            }
+            (ஆழம் != 0) எனில் {
+                திரும்பு தவறு("தொகுதி " & அடையாளம் & " மூடப்படவில்லை  "
+                              & "(a block is never closed)");
+            }
+
+            உள்ளடக்கம் = துண்டு(மூலம், உள்ளடக்கத்_தொடக்கம்,
+                                  நகர்வு - உள்ளடக்கத்_தொடக்கம்);
+            (முடிகிறதா(உள்ளடக்கம், "-")) எனில் {
+                உள்ளடக்கம் = துண்டு(உள்ளடக்கம், 0, நீளம்(உள்ளடக்கம்) - 1);
+            }
+            விடை[அடையாளம்] = உள்ளடக்கம்;
+            எண்ணி = நகர்வு + 1;
+        } இன்றேல் {
+            எண்ணி = எண்ணி + 1;
+        }
+    }
+
+    (காலியா_பதிவேடு(விடை)) எனில் {
+        திரும்பு தவறு("தொகுதிகள் எதுவும் இல்லை  (nothing here looks like an MT message)");
+    }
+    திரும்பு சரி(விடை);
+}
+
+// __--- who it is between ------------------------------------------------------__
+
+// __அனுப்புநர்(தொகுதிகள்) — the sender's address, from block 1__
+// அனுப்புநர்(தொகுதிகள்) — அனுப்புநரின் முகவரி
+//
+// __Block 1 is `F01` then a twelve-character logical terminal address, then the__
+// __session and sequence numbers. The first eight of those twelve are the BIC.__
+செயல் அனுப்புநர்(தொகுதிகள்) {
+    (புலம்_உள்ளதா(தொகுதிகள், "1") == பொய்) எனில் {
+        திரும்பு தவறு("தொகுதி 1 இல்லை  (no block 1, so no sender)");
+    }
+    ஒன்று = தொகுதிகள்["1"];
+    (நீளம்(ஒன்று) < 15) எனில் {
+        திரும்பு தவறு("தொகுதி 1 மிகச் சிறியது  (block 1 is too short to hold an address)");
+    }
+    திரும்பு சரி(துண்டு(ஒன்று, 3, 12));
+}
+
+// __பெறுநர்(தொகுதிகள்) — the receiver's address, from block 2__
+// பெறுநர்(தொகுதிகள்) — பெறுநரின் முகவரி
+//
+// __Only for an input message, whose block 2 begins `I`. An output block 2__
+// __begins `O` and carries the sender's input reference instead, in a different__
+// __layout — so this says it cannot answer rather than reading the wrong twelve__
+// __characters and returning a plausible BIC.__
+செயல் பெறுநர்(தொகுதிகள்) {
+    (புலம்_உள்ளதா(தொகுதிகள், "2") == பொய்) எனில் {
+        திரும்பு தவறு("தொகுதி 2 இல்லை  (no block 2, so no receiver)");
+    }
+    இரண்டு = தொகுதிகள்["2"];
+    (தொடங்குகிறதா(இரண்டு, "I") == பொய்) எனில் {
+        திரும்பு தவறு("வெளிச்செல்லும் செய்தி அல்ல  "
+                      & "(block 2 is not an input message, so it carries no receiver here)");
+    }
+    (நீளம்(இரண்டு) < 16) எனில் {
+        திரும்பு தவறு("தொகுதி 2 மிகச் சிறியது  (block 2 is too short)");
+    }
+    திரும்பு சரி(துண்டு(இரண்டு, 4, 12));
+}
+
+// __செய்தி_வகை(தொகுதிகள்) — 103, 202, 940 and so on__
+// செய்தி_வகை(தொகுதிகள்) — செய்தியின் வகை
+செயல் செய்தி_வகை(தொகுதிகள்) {
+    (புலம்_உள்ளதா(தொகுதிகள், "2") == பொய்) எனில் {
+        திரும்பு தவறு("தொகுதி 2 இல்லை  (no block 2, so no message type)");
+    }
+    இரண்டு = தொகுதிகள்["2"];
+    (நீளம்(இரண்டு) < 4) எனில் {
+        திரும்பு தவறு("தொகுதி 2 மிகச் சிறியது  (block 2 is too short)");
+    }
+    திரும்பு சரி(துண்டு(இரண்டு, 1, 3));
+}
+
+// __--- the fields, in block 4 --------------------------------------------------__
+
+// __புலங்களைப்_படி(நான்காம்) — the :tag:value entries, in order__
+// புலங்களைப்_படி(நான்காம்) — நான்காம் தொகுதியின் புலங்கள்
+//
+// __An array rather than a record, on purpose. A statement repeats `:61:` once__
+// __per entry, and a record would keep the last one and silently lose the rest__
+// __of the month.__
+//
+// __A field's value may run over several lines — `:50K:` carries a name and an__
+// __address — so a line that does not open with a tag belongs to the field above__
+// __it.__
+செயல் புலங்களைப்_படி(நான்காம்) {
+    விடை = [];
+    நடப்புக்_குறி = "";
+    நடப்புப்_பெறுமானம் = "";
+    தொடங்கியதா = பொய்;
+
+    ஒவ்வொரு ஒரு_வரி இல் பிரி(நான்காம், "\n") {
+        சுத்தம் = _வலது_ஒழுங்கு(ஒரு_வரி);
+        புதுக்_குறி = _குறியைப்_பிரி(சுத்தம்);
+
+        (புதுக்_குறி != "") எனில் {
+            (தொடங்கியதா) எனில் {
+                விடை = இணை(விடை, {"குறி": நடப்புக்_குறி, "பெறுமானம்": நடப்புப்_பெறுமானம்});
+            }
+            நடப்புக்_குறி = புதுக்_குறி;
+            நடப்புப்_பெறுமானம் = துண்டு(சுத்தம், நீளம்(புதுக்_குறி) + 2,
+                                          நீளம்(சுத்தம்) - நீளம்(புதுக்_குறி) - 2);
+            தொடங்கியதா = மெய்;
+        } இன்றேல் {
+            (தொடங்கியதா மற்றும் சுத்தம் != "") எனில் {
+                நடப்புப்_பெறுமானம் = நடப்புப்_பெறுமானம் & "\n" & சுத்தம்;
+            }
+        }
+    }
+    (தொடங்கியதா) எனில் {
+        விடை = இணை(விடை, {"குறி": நடப்புக்_குறி, "பெறுமானம்": நடப்புப்_பெறுமானம்});
+    }
+    திரும்பு விடை;
+}
+
+// __A tag is `:` then letters and digits then `:`. Anything else is not a tag,__
+// __which is what lets an address line beginning with a colon stay an address.__
+செயல் _குறியைப்_பிரி(ஒரு_வரி) {
+    (தொடங்குகிறதா(ஒரு_வரி, ":") == பொய்) எனில் { திரும்பு ""; }
+    எண்ணி = 1;
+    (எண்ணி < நீளம்(ஒரு_வரி) மற்றும் ஒரு_வரி[எண்ணி] != ":") சுற்று {
+        (கொண்டுள்ளதா("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", ஒரு_வரி[எண்ணி]) == பொய்) எனில் {
+            திரும்பு "";
+        }
+        எண்ணி = எண்ணி + 1;
+    }
+    (எண்ணி >= நீளம்(ஒரு_வரி)) எனில் { திரும்பு ""; }
+    (எண்ணி == 1) எனில் { திரும்பு ""; }
+    திரும்பு துண்டு(ஒரு_வரி, 1, எண்ணி - 1);
+}
+
+செயல் _வலது_ஒழுங்கு(சரம்) {
+    விடை = சரம்;
+    (நீளம்(விடை) > 0 மற்றும் முடிகிறதா(விடை, "\r")) சுற்று {
+        விடை = துண்டு(விடை, 0, நீளம்(விடை) - 1);
+    }
+    திரும்பு விடை;
+}
+
+// __புலத்தைத்_தேடு(புலங்கள், குறி) — the first field with that tag__
+// புலத்தைத்_தேடு(புலங்கள், குறி) — அந்தக் குறியுடைய முதல் புலம்
+செயல் புலத்தைத்_தேடு(புலங்கள், குறி) {
+    ஒவ்வொரு ஒரு_புலம் இல் புலங்கள் {
+        (ஒரு_புலம்["குறி"] == குறி) எனில் { திரும்பு சரி(ஒரு_புலம்["பெறுமானம்"]); }
+    }
+    திரும்பு தவறு("புலம் :" & குறி & ": இல்லை  (no such field in this message)");
+}
+
+// __எல்லாப்_புலங்களும்(புலங்கள், குறி) — every field with that tag__
+// எல்லாப்_புலங்களும்(புலங்கள், குறி) — அந்தக் குறியுடைய அனைத்துப் புலங்களும்
+//
+// __For `:61:` in a statement, where the answer is a month of entries and taking__
+// __the first would be taking one day of it.__
+செயல் எல்லாப்_புலங்களும்(புலங்கள், குறி) {
+    விடை = [];
+    ஒவ்வொரு ஒரு_புலம் இல் புலங்கள் {
+        (ஒரு_புலம்["குறி"] == குறி) எனில் { விடை = இணை(விடை, ஒரு_புலம்["பெறுமானம்"]); }
+    }
+    திரும்பு விடை;
+}
+
+// __--- amounts ---------------------------------------------------------------__
+//
+// __SWIFT writes the decimal mark as a comma, always present, and never groups__
+// __thousands. `1234,56` is one thousand two hundred and thirty-four rupees and__
+// __fifty-six paise; read as a number by anything expecting a point it becomes__
+// __either an error or, worse, 123456.__
+
+// __தொகையைப்_படி(சரம்) — a SWIFT amount as a number__
+// தொகையைப்_படி(சரம்) — SWIFT தொகையை எண்ணாக்கும்
+செயல் தொகையைப்_படி(சரம்) {
+    (கொண்டுள்ளதா(சரம், ",") == பொய்) எனில் {
+        திரும்பு தவறு("தொகையில் காற்புள்ளி இல்லை  "
+                      & "(a SWIFT amount always carries its decimal comma)");
+    }
+    (கொண்டுள்ளதா(சரம், ".")) எனில் {
+        திரும்பு தவறு("தொகையில் முற்றுப்புள்ளி  "
+                      & "(a point is not a decimal mark here, and not a thousands mark either)");
+    }
+    புள்ளியாக = மாற்று(சரம், ",", ".");
+    (முடிகிறதா(புள்ளியாக, ".")) எனில் {
+        புள்ளியாக = துண்டு(புள்ளியாக, 0, நீளம்(புள்ளியாக) - 1);
+    }
+    திரும்பு எண்ணாக்கு(புள்ளியாக);
+}
+
+// __தொகையை_எழுது(எண்_மதிப்பு) — a number as SWIFT writes it__
+// தொகையை_எழுது(எண்_மதிப்பு) — எண்ணை SWIFT வடிவில் எழுதும்
+//
+// __The comma is mandatory even when there are no paise, so a whole number comes__
+// __out as `1234,` rather than `1234`.__
+செயல் தொகையை_எழுது(எண்_மதிப்பு) {
+    உரைப்பு = சொல்லாக்கு(எண்_மதிப்பு);
+    (கொண்டுள்ளதா(உரைப்பு, ".")) எனில் { திரும்பு மாற்று(உரைப்பு, ".", ","); }
+    திரும்பு உரைப்பு & ",";
+}
+
+// __நாள்_நாணயம்_தொகை(சரம்) — field 32A, taken apart__
+// நாள்_நாணயம்_தொகை(சரம்) — 32A புலத்தைப் பிரிக்கும்
+//
+// __`260930INR1234,56` is a value date of 30 September 2026, in rupees. Six__
+// __digits of date, three letters of currency, then the amount.__
+செயல் நாள்_நாணயம்_தொகை(சரம்) {
+    (நீளம்(சரம்) < 11) எனில் {
+        திரும்பு தவறு("32A மிகச் சிறியது  (a 32A carries a date, a currency and an amount)");
+    }
+    தொகைப்_பகுதி = துண்டு(சரம், 9, நீளம்(சரம்) - 9);
+    படித்த_தொகை = தொகையைப்_படி(தொகைப்_பகுதி);
+    (தவறா(படித்த_தொகை)) எனில் { திரும்பு படித்த_தொகை; }
+
+    திரும்பு சரி({
+        "நாள்": துண்டு(சரம், 0, 6),
+        "நாணயம்": துண்டு(சரம், 6, 3),
+        "தொகை": மதிப்பு(படித்த_தொகை)
+    });
+}
+
+// __--- writing one -----------------------------------------------------------__
+
+// __செய்தியை_ஆக்கு(அனுப்புநர், பெறுநர், வகை, புலங்கள்) — an input message__
+// செய்தியை_ஆக்கு(...) — வெளிச்செல்லும் செய்தியைக் கட்டும்
+//
+// __Blocks 1, 2 and 4 only. Block 3 carries the user reference and block 5 the__
+// __checksum a network adds; neither is invented here, because a checksum this__
+// __library computed would be a checksum over what this library thinks it sent.__
+செயல் செய்தியை_ஆக்கு(அனுப்புநர்_முகவரி, பெறுநர்_முகவரி, வகைமை, புலங்கள்) {
+    (நீளம்(அனுப்புநர்_முகவரி) != 12) எனில் {
+        திரும்பு தவறு("அனுப்புநர் முகவரி பன்னிரண்டு எழுத்து  "
+                      & "(a logical terminal address is twelve characters)");
+    }
+    (நீளம்(பெறுநர்_முகவரி) != 12) எனில் {
+        திரும்பு தவறு("பெறுநர் முகவரி பன்னிரண்டு எழுத்து  "
+                      & "(a logical terminal address is twelve characters)");
+    }
+    (நீளம்(வகைமை) != 3) எனில் {
+        திரும்பு தவறு("செய்தி வகை மூன்று இலக்கம்  (a message type is three digits)");
+    }
+
+    உடற்பகுதி = "";
+    ஒவ்வொரு ஒரு_புலம் இல் புலங்கள் {
+        உடற்பகுதி = உடற்பகுதி & "\n:" & ஒரு_புலம்["குறி"] & ":" & ஒரு_புலம்["பெறுமானம்"];
+    }
+
+    திரும்பு சரி("{1:F01" & அனுப்புநர்_முகவரி & "0000000000}"
+                 & "{2:I" & வகைமை & பெறுநர்_முகவரி & "N}"
+                 & "{4:" & உடற்பகுதி & "\n-}");
+}
