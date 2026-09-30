@@ -299,6 +299,11 @@ jobs:
   pkcs11-token:
     name: PKCS#11 against a token
     runs-on: ubuntu-latest
+    # The package's own token directory is /var/lib/softhsm/tokens, owned by
+    # root, and the runner is not root. Every step needs the same config, so it
+    # is set for the job rather than repeated in each.
+    env:
+      SOFTHSM2_CONF: ${{ github.workspace }}/.softhsm/softhsm2.conf
     steps:
       - uses: actions/checkout@v4
 
@@ -317,8 +322,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y softhsm2 opensc
+          mkdir -p "${{ github.workspace }}/.softhsm/tokens"
+          {
+            echo "directories.tokendir = ${{ github.workspace }}/.softhsm/tokens"
+            echo "objectstore.backend = file"
+          } > "$SOFTHSM2_CONF"
           softhsm2-util --init-token --free --label etamil --pin 1234 --so-pin 1234
-          pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so             --login --pin 1234 --keypairgen --key-type EC:prime256v1 --label cIttu
+          pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so --login --pin 1234 --keypairgen --key-type EC:prime256v1 --label cIttu --usage-sign
+          softhsm2-util --show-slots
 
       # `-- --ignored` on purpose: these are #[ignore] rather than gated on an
       # environment variable, so a machine without a token reports them ignored
