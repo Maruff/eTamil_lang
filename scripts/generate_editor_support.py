@@ -65,6 +65,19 @@ NULAKAM = ROOT / "nUlakam"
 #
 # ETAMIL_EXTENSION points it somewhere else, for a checkout kept elsewhere.
 EXT = Path(os.environ.get("ETAMIL_EXTENSION") or (ROOT / "eTamil_Code"))
+
+
+def _name(path: Path) -> str:
+    """A path to show a reader, whether or not it sits under this repository.
+
+    ETAMIL_EXTENSION may point at a checkout kept anywhere, and relative_to
+    raises rather than giving up when it does -- which made the option crash
+    at the moment it was used for the thing it exists for.
+    """
+    try:
+        return path.relative_to(ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
 GRAMMAR_OUT = EXT / "syntaxes" / "etamil.tmLanguage.json"
 DATA_OUT = EXT / "src" / "generated" / "language-data.ts"
 PYGMENTS_OUT = (
@@ -1532,7 +1545,7 @@ def main() -> int:
         for path, expected in outputs:
             actual = path.read_text(encoding="utf-8") if path.exists() else None
             if actual != expected:
-                stale.append(path.relative_to(ROOT).as_posix())
+                stale.append(_name(path))
         if stale:
             print(
                 "editor support is out of date with the compiler:\n  "
@@ -1552,14 +1565,14 @@ def main() -> int:
         path.write_text(contents, encoding="utf-8", newline="\n")
 
     reserved = sum(1 for t in tokens if t["reserved"])
-    print(f"wrote {GRAMMAR_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {DATA_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {PYGMENTS_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {ROUGE_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {HIGHLIGHTJS_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {TREESITTER_OUT.relative_to(ROOT).as_posix()}")
-    print(f"wrote {TREESITTER_QUERIES.relative_to(ROOT).as_posix()}")
-    print(f"wrote {SPELLINGS_OUT.relative_to(ROOT).as_posix()}")
+    print(f"wrote {_name(GRAMMAR_OUT)}")
+    print(f"wrote {_name(DATA_OUT)}")
+    print(f"wrote {_name(PYGMENTS_OUT)}")
+    print(f"wrote {_name(ROUGE_OUT)}")
+    print(f"wrote {_name(HIGHLIGHTJS_OUT)}")
+    print(f"wrote {_name(TREESITTER_OUT)}")
+    print(f"wrote {_name(TREESITTER_QUERIES)}")
+    print(f"wrote {_name(SPELLINGS_OUT)}")
     print(
         f"  {len(tokens)} keywords ({reserved} reserved, "
         f"{len(tokens) - reserved} usable as names), "
