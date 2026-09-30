@@ -8,6 +8,24 @@ The base64 functions come in pairs: one that speaks text and one that speaks byt
 
 `jEcAZ.qmz` is mostly gone: its parser and writer are host builtins now, because a recursive descent parser written in eTamil paid the language's string and record costs on every character and could not finish a 624 KB document. What is left is `ஜேசான்_சரம்`, which quotes one string and is not on any hot path.
 
+## The PDF path shapes, and that is now checked
+
+`_pdf_ஆக்கு` converts through LibreOffice, which shapes with HarfBuzz. That has always been the answer to "does eTamil produce correct Tamil PDFs", and until now it was an answer nobody had tested — the kind of claim that stays true until a font or a version changes and then stays *stated* for a year, because a PDF with wrongly-ordered Tamil still opens, still prints, and still extracts back to the right characters.
+
+`scripts/check_pdf_shaping.py` reads the glyphs out of the page's content stream instead of the text, and asks two questions that are properties of the writing systems rather than of any font:
+
+| Written | Glyphs | What it shows |
+|---|---|---|
+| `க` | `01` | — |
+| `கெ` | `02 01` | the vowel sign is drawn *before* the consonant |
+| `கொ` | `02 01 03` | ொ split in two and the consonant went between them |
+| `س` | `01` | — |
+| `سسس` | `02 03 04` | one letter, three positions, three glyphs |
+
+Unshaped output would put க first in `கொ` and draw `سسس` as `01 01 01`. The script's `--self-test` runs both of those past the checks to confirm they are caught, because a check nothing has ever failed is a check that has not been shown to be able to fail. CI runs it on every push.
+
+A native shaper was considered and is not being written. HarfBuzz is what every correct implementation uses, LibreOffice already calls it, and a second one here would be weeks of work to arrive somewhere worse.
+
 ## Files
 
 | File | What it holds | Functions |

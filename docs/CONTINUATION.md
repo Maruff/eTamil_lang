@@ -33,6 +33,7 @@ reruns on any change under it.
 
 | Area | Where |
 |---|---|
+| PDF output proved to shape Tamil and Arabic, not assumed to | `scripts/check_pdf_shaping.py` |
 | PKCS#11: signing with a key that stays in the device | `src/pkcs11.rs`, `docs/backend/PKCS11.md` |
 | XML Signature: the envelope, the enveloped transform, verify | `nUlakam/muqqirY/`, `src/xmlsig.rs` |
 | Canonical XML 1.0 and Exclusive C14N 1.0 | `etamil_compiler/src/xmlsig.rs` |

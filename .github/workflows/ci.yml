@@ -296,6 +296,27 @@ jobs:
         working-directory: etamil_compiler
         run: cargo test --features mongodb
 
+  pdf-shaping:
+    name: PDF output is shaped
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # LibreOffice is what _pdf_ஆக்கு converts through, and it shapes with
+      # HarfBuzz. The fonts matter as much as the converter: without Tamil and
+      # Arabic coverage LibreOffice substitutes, and the check says so rather
+      # than reporting a shaping failure it cannot tell apart from a font one.
+      - name: LibreOffice, and fonts for both scripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-noto-core
+
+      - name: The check can fail
+        run: python scripts/check_pdf_shaping.py --self-test
+
+      - name: Tamil reorders and Arabic joins
+        run: python scripts/check_pdf_shaping.py
+
   pkcs11-token:
     name: PKCS#11 against a token
     runs-on: ubuntu-latest
