@@ -81,6 +81,7 @@ declare -A SIM_BOARD=(
 # the temp directory below, so it runs anywhere.
 declare -A NEEDS_SERVER=(
     ["examples/db_samples/mYcIkul_qaLam.qmz"]="ETAMIL_TEST_MYSQL"
+    ["examples/crypto_samples/vaZcAvi_muqqirY.qmz"]="ETAMIL_TEST_PKCS11"
 )
 
 WORK="$(mktemp -d)"

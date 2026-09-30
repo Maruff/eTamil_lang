@@ -43,11 +43,27 @@ Inclusive canonicalization is available in `நேர்வடிவம்` but 
 
 | File | What it holds | Functions |
 |---|---|---|
-| `muqqirY.qmz` | XML Signature, enveloped | `சுருக்கக்_குறிப்பு` `முத்திரையை_நீக்கு` `குறிப்பை_ஆக்கு` `கையொப்பத்_தகவலை_ஆக்கு` `முத்திரையைச்_சேர்` `முத்திரையிடு` `முத்திரையைச்_சரிபார்` |
-| `muqqirY_cOqaZY.qmz` | 37 tests | — |
+| `muqqirY.qmz` | XML Signature, enveloped | `சுருக்கக்_குறிப்பு` `முத்திரையை_நீக்கு` `குறிப்பை_ஆக்கு` `கையொப்பத்_தகவலை_ஆக்கு` `முத்திரையைச்_சேர்` `கையொப்பமிட_வேண்டியது` `முத்திரையை_முடி` `முத்திரையிடு` `வன்சாவியால்_முத்திரையிடு` `முத்திரையைச்_சரிபார்` |
+| `muqqirY_cOqaZY.qmz` | 42 tests | — |
 | `uqavi/muqqirYyitu.qmz` | sign a document, then check it | — |
 | `uqavi/uRYpoqi_mARRam.qmz` | the enveloped transform on its own | — |
 | `uqavi/AqAr_paqil.qmz` | an Aadhaar-shaped response, signed by `Id` | — |
+
+## Signing with a key that is not here
+
+`முத்திரையிடு` takes a private key in hexadecimal, which means the key is in this process — and for anything that matters it should not be. So the three steps are separable:
+
+| Step | Knows the key? |
+|---|---|
+| `கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்)` | no — returns the SignedInfo and the canonical bytes to sign |
+| a signature over those bytes | yes, and only this one |
+| `முத்திரையை_முடி(ஆவணம், வேண்டியது, பைட்டுகள்)` | no — assembles the signed document |
+
+`முத்திரையிடு` is those three with `வளைவு_நேர்_கையொப்பம்` in the middle. `வன்சாவியால்_முத்திரையிடு` is the same three with `வன்சாவி_கையொப்பம்`, and the private key never leaves the HSM. The two differ in one line, which is what moving a signing key into a device ought to cost.
+
+That works because `CKM_ECDSA` returns r and s side by side — the same encoding XML Signature specifies — so a signature from a device and a signature from a hex string are indistinguishable downstream. Verification is the ordinary `முத்திரையைச்_சரிபார்` either way, with no device present: a counterparty checking a signed invoice has no token and needs none. `docs/backend/PKCS11.md` has the rest, including why `CKM_ECDSA` and not `CKM_ECDSA_SHA256`.
+
+There is a test for the seam itself: doing the three steps by hand must produce the same SignedInfo as `முத்திரையிடு` does, or `வன்சாவியால்_முத்திரையிடு` is a second implementation wearing the same name.
 
 ## Verified against something else
 

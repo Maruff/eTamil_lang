@@ -179,12 +179,16 @@
 
 // __--- signing ---------------------------------------------------------------__
 
-// __முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — the signed document__
-// முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — ஆவணத்தில் முத்திரையிட்டுத் திருப்பும்
+// __கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்) — everything up to the bytes to sign__
+// கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்) — கையொப்பமிட வேண்டிய பாடத்தை உருவாக்கும்
 //
-// __அடையாளம் is "" for the whole document, or the Id of one element. தனிச்சாவி is__
-// __a P-256 private key in hexadecimal, as வளைவு_சாவிகள் hands one back.__
-செயல் முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) {
+// __Returns the SignedInfo element and its canonical form. The second is what__
+// __gets signed, and this function is where the signing key is *not*: that is__
+// __the whole reason it exists apart. A key in an HSM never comes out, so the__
+// __only shape that works there is "here are the bytes, hand back a signature",__
+// __and a library whose signing step is buried inside a function that also takes__
+// __a private key cannot offer that shape at all.__
+செயல் கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்) {
     // __A second signature over a document that already carries one would digest__
     // __the first one away, and the result would be indistinguishable from a__
     // __replacement. Refusing is the only answer that is not a guess about which__
@@ -202,15 +206,62 @@
     நேர்_தகவல் = நேர்வடிவம்(தகவல், "", "விலக்கு");
     (தவறா(நேர்_தகவல்)) எனில் { திரும்பு நேர்_தகவல்; }
 
-    கையொப்பப்_பைட்டுகள் = வளைவு_நேர்_கையொப்பம்(மதிப்பு(நேர்_தகவல்), தனிச்சாவி);
-    (தவறா(கையொப்பப்_பைட்டுகள்)) எனில் { திரும்பு கையொப்பப்_பைட்டுகள்; }
+    திரும்பு சரி({"தகவல்": தகவல், "நேர்வடிவம்": மதிப்பு(நேர்_தகவல்)});
+}
 
+// __முத்திரையை_முடி(ஆவணம், வேண்டியது, கையொப்பப்_பைட்டுகள்) — the signed document__
+// முத்திரையை_முடி(ஆவணம், வேண்டியது, கையொப்பப்_பைட்டுகள்) — கையொப்பத்தை ஆவணத்தில் சேர்க்கும்
+//
+// __The sixty-four bytes are r and s side by side, whoever produced them. That__
+// __is the encoding XML Signature specifies, and it is also what PKCS#11's__
+// __CKM_ECDSA hands back — so a key in an HSM and a key in a hex string reach__
+// __this function looking identical, which is the point.__
+செயல் முத்திரையை_முடி(ஆவணம், வேண்டியது, கையொப்பப்_பைட்டுகள்) {
     முத்திரை_உறுப்பு = "<Signature xmlns=\"" & _பெயர்வெளி() & "\">"
-        & தகவல்
-        & "<SignatureValue>" & அறுபத்துநான்கு_பைட்டுகளில்(மதிப்பு(கையொப்பப்_பைட்டுகள்)) & "</SignatureValue>"
+        & வேண்டியது["தகவல்"]
+        & "<SignatureValue>" & அறுபத்துநான்கு_பைட்டுகளில்(கையொப்பப்_பைட்டுகள்) & "</SignatureValue>"
         & "</Signature>";
 
     திரும்பு முத்திரையைச்_சேர்(ஆவணம், முத்திரை_உறுப்பு);
+}
+
+// __முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — the signed document__
+// முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — ஆவணத்தில் முத்திரையிட்டுத் திருப்பும்
+//
+// __அடையாளம் is "" for the whole document, or the Id of one element. தனிச்சாவி is__
+// __a P-256 private key in hexadecimal, as வளைவு_சாவிகள் hands one back — which__
+// __means the key is in this process, and for anything that matters it should__
+// __not be. வன்சாவியால்_முத்திரையிடு is the same three steps with the key in an__
+// __HSM instead.__
+செயல் முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) {
+    வேண்டியது = கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்);
+    (தவறா(வேண்டியது)) எனில் { திரும்பு வேண்டியது; }
+    வேலை = மதிப்பு(வேண்டியது);
+
+    கையொப்பப்_பைட்டுகள் = வளைவு_நேர்_கையொப்பம்(வேலை["நேர்வடிவம்"], தனிச்சாவி);
+    (தவறா(கையொப்பப்_பைட்டுகள்)) எனில் { திரும்பு கையொப்பப்_பைட்டுகள்; }
+
+    திரும்பு முத்திரையை_முடி(ஆவணம், வேலை, மதிப்பு(கையொப்பப்_பைட்டுகள்));
+}
+
+// __வன்சாவியால்_முத்திரையிடு(ஆவணம், அடையாளம், அமர்வு, சாவிப்_பெயர்) — signed by an HSM__
+// வன்சாவியால்_முத்திரையிடு(...) — வன்பொருள் சாவியைக் கொண்டு முத்திரையிடும்
+//
+// __The same document, the same SignedInfo, the same canonical bytes — and the__
+// __private key never in this process. The difference between this and__
+// __முத்திரையிடு is one line, which is what moving a signing key into an HSM__
+// __ought to cost.__
+//
+// __Needs a compiler built with --features pkcs11; without it the call says so.__
+செயல் வன்சாவியால்_முத்திரையிடு(ஆவணம், அடையாளம், அமர்வு, சாவிப்_பெயர்) {
+    வேண்டியது = கையொப்பமிட_வேண்டியது(ஆவணம், அடையாளம்);
+    (தவறா(வேண்டியது)) எனில் { திரும்பு வேண்டியது; }
+    வேலை = மதிப்பு(வேண்டியது);
+
+    கையொப்பப்_பைட்டுகள் = வன்சாவி_கையொப்பம்(அமர்வு, சாவிப்_பெயர், வேலை["நேர்வடிவம்"]);
+    (தவறா(கையொப்பப்_பைட்டுகள்)) எனில் { திரும்பு கையொப்பப்_பைட்டுகள்; }
+
+    திரும்பு முத்திரையை_முடி(ஆவணம், வேலை, மதிப்பு(கையொப்பப்_பைட்டுகள்));
 }
 
 // __--- verifying -------------------------------------------------------------__

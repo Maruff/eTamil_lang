@@ -158,6 +158,11 @@ webpki-roots = { version = "0.26", optional = true }
 # The sync feature is what makes it usable here: the VM is synchronous, and the
 # async client would need a runtime driven from inside an interpreter loop.
 mongodb = { version = "3.8.1", default-features = false, features = ["sync", "rustls-tls", "bson-3", "compat-3-3-0"], optional = true }
+
+# PKCS#11, for a key that lives in an HSM and never comes out. cryptoki opens
+# the vendor library at runtime rather than linking it, so this builds on a
+# machine with no HSM and no vendor SDK — only the tests need one.
+cryptoki = { version = "0.12.1", optional = true }
 chacha20poly1305 = "0.11"
 argon2 = "0.5"
 base64 = "0.22"
@@ -225,6 +230,7 @@ rustls = ["dep:rustls"]
 rustls-pemfile = ["dep:rustls-pemfile"]
 webpki-roots = ["dep:webpki-roots"]
 mongodb = ["dep:mongodb"]
+pkcs11 = ["dep:cryptoki"]
 
 [profile.dev]
 # Line tables, not full debug info. The default, `debug = true`, produced a

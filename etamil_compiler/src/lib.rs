@@ -89,6 +89,11 @@ pub mod runtime;
 // roxmltree is pure Rust and parses from a string, so it builds for wasm32
 // alongside everything else here.
 pub mod xmlsig;
+// PKCS#11, behind a feature: cryptoki opens the vendor library at runtime, so
+// this links nothing, but a build that will never see an HSM should not carry
+// it. No browser has a PKCS#11 device to reach.
+#[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+pub mod pkcs11;
 // Documents, behind a feature like the other non-bundled drivers.
 #[cfg(all(feature = "mongodb", not(target_family = "wasm")))]
 pub mod mongo;

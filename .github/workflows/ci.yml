@@ -296,6 +296,44 @@ jobs:
         working-directory: etamil_compiler
         run: cargo test --features mongodb
 
+  pkcs11-token:
+    name: PKCS#11 against a token
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: etamil_compiler
+
+      # SoftHSM2 is a PKCS#11 token in a file. It is not an HSM — nothing here
+      # is tamper-resistant and the key is on disk — but it is the same
+      # interface, and the interface is what these tests are about: whether a
+      # signature made through C_Sign verifies with the same code a signature
+      # made in-process verifies with.
+      - name: A token to talk to
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y softhsm2 opensc
+          softhsm2-util --init-token --free --label etamil --pin 1234 --so-pin 1234
+          pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so             --login --pin 1234 --keypairgen --key-type EC:prime256v1 --label cIttu
+
+      # `-- --ignored` on purpose: these are #[ignore] rather than gated on an
+      # environment variable, so a machine without a token reports them ignored
+      # instead of reporting five green tests over code that never ran.
+      - name: The FFI, against the token
+        working-directory: etamil_compiler
+        run: cargo test --features pkcs11 --test pkcs11 -- --ignored
+
+      - name: An XML signature made by the token
+        working-directory: etamil_compiler
+        run: cargo build --release --features pkcs11
+
+      - name: Sign and verify through eTamil
+        run: ./etamil_compiler/target/release/etamil --vm examples/crypto_samples/vaZcAvi_muqqirY.qmz
+
   # The browser build, which nothing here checked until it broke twice in one
   # afternoon and neither failure showed up on a native build.
   #

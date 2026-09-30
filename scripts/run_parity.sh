@@ -155,6 +155,7 @@ declare -A SKIP=(
 # the same list run_examples.sh keeps, for the same reason.
 declare -A NEEDS_SERVER=(
     ["examples/db_samples/mYcIkul_qaLam.qmz"]="ETAMIL_TEST_MYSQL"
+    ["examples/crypto_samples/vaZcAvi_muqqirY.qmz"]="ETAMIL_TEST_PKCS11"
 )
 
 # Every program below gets this on stdin, and gets it identically on both

@@ -191,4 +191,36 @@
 ஓட்டம் = சமம்(ஓட்டம், உள்ளிருந்து, நேரடி,
               "SignedInfo canonicalizes the same alone as it does inside the Signature");
 
+// __--- the seam an HSM needs ------------------------------------------------__
+//
+// __முத்திரையிடு is கையொப்பமிட_வேண்டியது, a signature, and முத்திரையை_முடி. The__
+// __middle step is the only one that touches a key, so it is the only one that__
+// __changes when the key moves into an HSM. Doing the three by hand here must__
+// __produce exactly what doing them together produces — otherwise__
+// __வன்சாவியால்_முத்திரையிடு is a second implementation wearing the same name.__
+வேண்டியது = கையொப்பமிட_வேண்டியது(எளிய_ஆவணம், "");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(வேண்டியது), "the bytes to sign come back on their own");
+வேலை = மதிப்பு(வேண்டியது);
+
+ஓட்டம் = சமம்(ஓட்டம், வேலை["நேர்வடிவம்"], மதிப்பு(நேர்வடிவம்(வேலை["தகவல்"], "", "விலக்கு")),
+              "and they are the canonical form of the SignedInfo beside them");
+
+கைப்பட = மதிப்பு(முத்திரையை_முடி(எளிய_ஆவணம், வேலை,
+                                  மதிப்பு(வளைவு_நேர்_கையொப்பம்(வேலை["நேர்வடிவம்"], தனிச்சாவி))));
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(முத்திரையைச்_சரிபார்(கைப்பட, பொதுச்சாவி)),
+                    "signing the three steps by hand verifies");
+
+// __The SignedInfo is identical either way. The SignatureValue is not, and__
+// __cannot be: ECDSA picks a fresh nonce, so two signatures over the same bytes__
+// __with the same key differ. Comparing the whole document would be a test that__
+// __fails for the wrong reason.__
+ஓட்டம் = சமம்(ஓட்டம்,
+              மதிப்பு(உறுப்பைத்_தேடு(கைப்பட, "SignedInfo", "விலக்கு"))["நேர்வடிவம்"],
+              மதிப்பு(உறுப்பைத்_தேடு(முத்திரையிட்டது, "SignedInfo", "விலக்கு"))["நேர்வடிவம்"],
+              "and produces the same SignedInfo as முத்திரையிடு does");
+
+// __The refusals belong to the first step, so they are refusals for both paths.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கையொப்பமிட_வேண்டியது(முத்திரையிட்டது, "")),
+                    "an already-signed document is refused before any key is reached");
+
 சோதனை_முடிவு(ஓட்டம்);

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __An XML signature made by a key that is not in this process__
+// வன்பொருள் சாவியால் இடப்பட்ட XML முத்திரை
+//
+// __The point of an HSM is that the private key never leaves it. So there is no__
+// __step here that fetches a key: the document is prepared, the canonical bytes__
+// __go to the device, and the signature comes back. `முத்திரையிடு` and__
+// __`வன்சாவியால்_முத்திரையிடு` differ in exactly that one call.__
+//
+// __Needs a build with the driver and a token:__
+//
+//   __cargo build --release --features pkcs11__
+//   __softhsm2-util --init-token --free --label etamil --pin 1234 --so-pin 1234__
+//   __pkcs11-tool --module /usr/lib/softhsm/libsofthsm2.so \__
+//   __  --login --pin 1234 --keypairgen --key-type EC:prime256v1 --label cIttu__
+//   __etamil --vm examples/crypto_samples/vaZcAvi_muqqirY.qmz__
+//
+// __SoftHSM2 is a token in a file, not tamper-resistant hardware. What it shares__
+// __with an HSM is the interface, and the interface is what this shows.__
+// __docs/backend/PKCS11.md says how to point it at a real device instead.__
+
+இறக்கு "../../nUlakam/muqqirY/muqqirY.qmz";
+
+நூலகம் = "/usr/lib/softhsm/libsofthsm2.so";
+டோக்கன் = "etamil";
+முள் = "1234";
+சாவிப்_பெயர் = "cIttu";
+
+// __--- opening the token -----------------------------------------------------__
+//
+// __The token is named by its label, not a slot number: a slot number changes__
+// __when a device is re-plugged or another is added, and a program that signs__
+// __with whatever is in slot 0 signs with whatever is in slot 0.__
+// __இடம் எண் அல்ல, பெயரால் தேர்வு__
+திறந்தது = வன்சாவி_திற(நூலகம், டோக்கன், முள்);
+(தவறா(திறந்தது)) எனில் {
+    அச்சு தவறு_மதிப்பு(திறந்தது);
+    வெளியேறு(1);
+}
+அமர்வு = மதிப்பு(திறந்தது);
+
+அச்சு வன்சாவி_சாவிகள்(அமர்வு);
+
+// __--- signing ---------------------------------------------------------------__
+
+ஆவணம் = "<Invoice xmlns=\"urn:etamil:example\"><Irn>a1b2c3</Irn>"
+        & "<Total>1180.00</Total></Invoice>";
+
+முடிவு = வன்சாவியால்_முத்திரையிடு(ஆவணம், "", அமர்வு, சாவிப்_பெயர்);
+(தவறா(முடிவு)) எனில் {
+    அச்சு தவறு_மதிப்பு(முடிவு);
+    வன்சாவி_மூடு(அமர்வு);
+    வெளியேறு(1);
+}
+முத்திரையிட்டது = மதிப்பு(முடிவு);
+
+// __--- verifying, with no device at all --------------------------------------__
+//
+// __This is the claim worth demonstrating. The public half comes out of the__
+// __token as the same SEC1 hexadecimal `வளைவு_பொதுச்சாவி` produces, so checking__
+// __the signature is ordinary `முத்திரையைச்_சரிபார்` — the verifier neither knows__
+// __nor needs to know that an HSM was involved. A counterparty verifying this__
+// __invoice has no token and does not need one.__
+// __சரிபார்ப்பதற்கு வன்பொருள் தேவையில்லை__
+பொதுச்சாவி = மதிப்பு(வன்சாவி_பொதுச்சாவி(அமர்வு, சாவிப்_பெயர்));
+
+அச்சு சரியா(முத்திரையைச்_சரிபார்(முத்திரையிட்டது, பொதுச்சாவி));
+
+// __And a change to the invoice is caught, as it would be either way.__
+// __மாற்றப்பட்ட ஆவணம் பிடிபடும்__
+திருத்தியது = மாற்று(முத்திரையிட்டது, "1180.00", "1.00");
+அச்சு முத்திரையைச்_சரிபார்(திருத்தியது, பொதுச்சாவி);
+
+வன்சாவி_மூடு(அமர்வு);

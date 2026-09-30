@@ -2212,6 +2212,95 @@ impl VM {
                     Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
                 }
             }
+            // --- PKCS#11: a key that is not in this process ---
+            //
+            // An HSM's whole proposition is that the private key never leaves
+            // it, so there is no builtin here that returns one and nowhere to
+            // put it if there were. You hand the device something to sign and
+            // take back the signature.
+            //
+            // What comes back is r and s side by side, which is what XML
+            // Signature specifies — so வன்சாவி_கையொப்பம் and
+            // வளைவு_நேர்_கையொப்பம் are interchangeable, and முத்திரையிடு takes
+            // either. That is the point of the pair: moving a signing key into
+            // an HSM should change which function is called and nothing else.
+            //
+            // Behind --features pkcs11. Sessions belong to the thread that
+            // opened them; see src/pkcs11.rs.
+
+            // வன்சாவி_திற(நூலகம், டோக்கன், முள்) — open a session and log in
+            #[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+            "வன்சாவி_திற" | "vaZcAvi_qiRa" | "_hsmOpen" => {
+                Self::expect_args(name, &args, 3)?;
+                match crate::pkcs11::open(
+                    &args[0].to_string(),
+                    &args[1].to_string(),
+                    &args[2].to_string(),
+                ) {
+                    Ok(handle) => Ok(Value::Ok(Box::new(Value::Number(Decimal::from(handle))))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வன்சாவி_மூடு(அமர்வு) — log out and close
+            #[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+            "வன்சாவி_மூடு" | "vaZcAvi_mUtu" | "_hsmClose" => {
+                Self::expect_args(name, &args, 1)?;
+                let handle =
+                    rust_decimal::prelude::ToPrimitive::to_i64(&args[0].to_number()).unwrap_or(0);
+                match crate::pkcs11::close(handle) {
+                    Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வன்சாவி_சாவிகள்(அமர்வு) — the labels this session can sign with
+            #[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+            "வன்சாவி_சாவிகள்" | "vaZcAvi_cAvikaL" | "_hsmKeys" => {
+                Self::expect_args(name, &args, 1)?;
+                let handle =
+                    rust_decimal::prelude::ToPrimitive::to_i64(&args[0].to_number()).unwrap_or(0);
+                match crate::pkcs11::keys(handle) {
+                    Ok(labels) => Ok(Value::Ok(Box::new(Value::Array(
+                        labels.into_iter().map(Value::String).collect(),
+                    )))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வன்சாவி_பொதுச்சாவி(அமர்வு, பெயர்) — the public half, as hex
+            #[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+            "வன்சாவி_பொதுச்சாவி" | "vaZcAvi_poquccAvi" | "_hsmPublicKey" => {
+                Self::expect_args(name, &args, 2)?;
+                let handle =
+                    rust_decimal::prelude::ToPrimitive::to_i64(&args[0].to_number()).unwrap_or(0);
+                match crate::pkcs11::public_key(handle, &args[1].to_string()) {
+                    Ok(hex) => Ok(Value::Ok(Box::new(Value::String(hex)))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வன்சாவி_கையொப்பம்(அமர்வு, பெயர், செய்தி) — sign, as sixty-four bytes
+            #[cfg(all(feature = "pkcs11", not(target_family = "wasm")))]
+            "வன்சாவி_கையொப்பம்" | "vaZcAvi_kYyoppam" | "_hsmSign" => {
+                Self::expect_args(name, &args, 3)?;
+                let handle =
+                    rust_decimal::prelude::ToPrimitive::to_i64(&args[0].to_number()).unwrap_or(0);
+                match crate::pkcs11::sign(handle, &args[1].to_string(), &args[2].to_string()) {
+                    Ok(bytes) => Ok(Value::Ok(Box::new(Value::Array(
+                        bytes.into_iter().map(|b| Value::Number(Decimal::from(b))).collect(),
+                    )))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // Built without the feature: say so, rather than leaving someone to
+            // hunt for a typo in a name that is spelled correctly.
+            #[cfg(not(all(feature = "pkcs11", not(target_family = "wasm"))))]
+            "வன்சாவி_திற" | "vaZcAvi_qiRa" | "_hsmOpen" | "வன்சாவி_மூடு" | "vaZcAvi_mUtu"
+            | "_hsmClose" | "வன்சாவி_சாவிகள்" | "vaZcAvi_cAvikaL" | "_hsmKeys"
+            | "வன்சாவி_பொதுச்சாவி" | "vaZcAvi_poquccAvi" | "_hsmPublicKey"
+            | "வன்சாவி_கையொப்பம்" | "vaZcAvi_kYyoppam" | "_hsmSign" => Err(
+                "PKCS#11 ஆதரவு இல்லாமல் கட்டப்பட்டது  \
+                 (this build has no PKCS#11 support): rebuild with --features pkcs11"
+                    .to_string(),
+            ),
+
             // --- Outbound HTTP ---
             // வலை_பெறு(உரலி, தலைப்புகள்)
             "வலை_பெறு" | "valY_peRu" | "_httpGet" => {
