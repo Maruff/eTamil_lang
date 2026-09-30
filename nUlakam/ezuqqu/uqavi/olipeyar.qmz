@@ -1,0 +1,37 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ஒலிபெயர்(சரம்) — a Tamil word in the romanization eTamil is written in__
+// தமிழ்ச் சொல்லை உரோம எழுத்தில் தரும்
+
+இறக்கு "../ezuqqu.qmz";
+
+// __The ordinary case. One Latin letter per Tamil letter, which is why the__
+// __result is the same length in letters as the word it came from.__
+// ஒரு தமிழ் எழுத்துக்கு ஒரு உரோம எழுத்து
+அச்சு ஒலிபெயர்("வணக்கம்");
+அச்சு ஒலிபெயர்("கணக்கு");
+
+// __The three nasals, which is where romanizations usually go wrong. ண is N,__
+// __ந is n, ன is Z — three different letters, three different sounds, and a__
+// __scheme that wrote them all as n could not turn the word back into Tamil.__
+// மூன்று ன-வகை எழுத்துகள்: ண = N, ந = n, ன = Z
+அச்சு ஒலிபெயர்("ஆவணம்");
+அச்சு ஒலிபெயர்("வினா");
+அச்சு ஒலிபெயர்("நிறுவனம்");
+
+// __A consonant carrying no vowel sign carries அ, so ம is `ma`; a consonant__
+// __with a pulli is bare, so ம் is `m`.__
+// புள்ளியிட்ட மெய் தனித்து நிற்கும்; இல்லையேல் அ சேரும்
+அச்சு ஒலிபெயர்("மேல்");
+
+// __க்ஷ is one letter in the scheme, written x, though it takes two clusters__
+// __on the screen. ட் followed by ச is not க்ஷ and must not become one.__
+// க்ஷ ஒரு எழுத்து — x; ட்+ச வேறு
+அச்சு ஒலிபெயர்("க்ஷ");
+அச்சு ஒலிபெயர்("லட்சம்");
+
+// __Anything the scheme never assigned passes through as itself. That is what__
+// __makes this usable for checking a name: whatever comes back unchanged is__
+// __something the scheme does not cover.__
+// திட்டத்தில் இல்லாதவை அப்படியே வரும்
+அச்சு ஒலிபெயர்("வரி_2026");

@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __தமிழாக்கு(சரம்) — romanized back into Tamil, the inverse of ஒலிபெயர்__
+// உரோம எழுத்தைத் தமிழாக்கும்
+
+இறக்கு "../ezuqqu.qmz";
+
+// __The ordinary case, and the reason the scheme is one letter per letter: it__
+// __inverts exactly, so a name typed in ASCII can be shown in Tamil.__
+// ஒவ்வொரு எழுத்துக்கும் ஒன்று என்பதால் சரியாகத் திரும்பும்
+அச்சு தமிழாக்கு("vaNakkam");
+அச்சு தமிழாக்கு("nUlakam");
+
+// __A capital is a different letter, not emphasis. N is ண and Z is ன, so__
+// __these two are different words — which is the whole reason for the scheme.__
+// பெரிய எழுத்து வேறு எழுத்து; N = ண, Z = ன
+அச்சு தமிழாக்கு("AvaNam");
+அச்சு தமிழாக்கு("viZA");
+
+// __A consonant with no vowel letter after it is bare, and bare means pulli.__
+// __So `mEl` ends in ல் rather than in ல.__
+// உயிர் தொடராத மெய்க்குப் புள்ளி
+அச்சு தமிழாக்கு("mEl");
+
+// __A Latin letter the scheme never assigned — b, d, f, g — has no Tamil to__
+// __become, so it stays as itself. Seeing one sitting inside Tamil output is__
+// __how you find a name that was never in the scheme.__
+// திட்டத்தில் இல்லாத எழுத்து அப்படியே நிற்கும் — அதுவே அடையாளம்
+அச்சு தமிழாக்கு("bank");
+
+// __Round trip. A word that does not survive both directions unchanged is a__
+// __bug in the tables, which is why the tests check it on every shape of word.__
+// இருபுறமும் சென்று திரும்பினால் சொல் மாறக்கூடாது
+அச்சு தமிழாக்கு(ஒலிபெயர்("ஒன்றுமில்லை"));
+அச்சு தமிழாக்கு(ஒலிபெயர்("தொகை"));

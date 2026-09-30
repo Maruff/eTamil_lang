@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __திட்டப்படியா(தமிழ், உரோமம்) — is that romanization the one the scheme gives?__
+// அந்த உரோம எழுத்து திட்டத்தின்படி உள்ளதா
+
+இறக்கு "../ezuqqu.qmz";
+
+// __The question an audit asks. scripts/check_names.py asks it of every module,__
+// __table and column name in the repository; a program can now ask it of a name__
+// __a user has just typed.__
+// சோதனை கேட்கும் கேள்வி — இப்போது நிரலும் கேட்கலாம்
+அச்சு திட்டப்படியா("வணக்கம்", "vaNakkam");
+அச்சு திட்டப்படியா("நூலகம்", "nUlakam");
+
+// __The two mistakes that have actually been made in this repository, both__
+// __found by exactly this question.__
+//
+// __`vinA` for வினா writes ன as n. n is ந, a different letter.__
+// __`toqai` for தொகை has ட and த the wrong way round: த is q, ட is t.__
+// இவ்விரு தவறுகளும் இந்தக் களஞ்சியத்தில் நிகழ்ந்தவை
+அச்சு திட்டப்படியா("வினா", "vinA");
+அச்சு திட்டப்படியா("தொகை", "toqai");
+
+// __What they should have been.__
+// சரியான வடிவம்
+அச்சு திட்டப்படியா("வினா", "viZA");
+அச்சு திட்டப்படியா("தொகை", "qokY");
+
+// __Answering false is only half an answer, so when it matters, show what the__
+// __scheme would have given instead.__
+// தவறெனில் திட்டம் தரும் வடிவத்தையும் காட்டு
+சொல்லுக்கு = "வினா";
+தரப்பட்டது = "vinA";
+(திட்டப்படியா(சொல்லுக்கு, தரப்பட்டது) == பொய்) எனில் {
+    அச்சு தரப்பட்டது & " should be " & ஒலிபெயர்(சொல்லுக்கு);
+}

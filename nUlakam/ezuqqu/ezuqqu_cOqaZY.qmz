@@ -1,0 +1,81 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ezuqqu சோதனை — the scheme both ways__
+// எழுத்துப்பெயர்ப்புச் சோதனைகள்
+//
+//   __etamil --vm nUlakam/ezuqqu/ezuqqu_cOqaZY.qmz__
+//
+// __Every expected value here is what scripts/transliterate.py produces. That__
+// __script is the scheme's existing implementation and the one CI audits the__
+// __keyword table with, so agreeing with it is the point: two implementations__
+// __that disagree would mean the language and its own audit disagree.__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "ezuqqu.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("ezuqqu");
+
+// __--- தமிழ் to ezuqqu ------------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("வணக்கம்"), "vaNakkam", "the word everything starts with");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("எழுத்து"), "ezuqqu", "the scheme spells its own name");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("நூலகம்"), "nUlakam", "the library's name");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("கணக்கு"), "kaNakku", "an account");
+
+// __The three nasals are the part that gets written wrong: ண is N, ந is n,__
+// __ன is Z. A scheme that blurs them cannot round-trip a Tamil word at all.__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("வினா"), "viZA", "ன is Z");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("ஆவணம்"), "AvaNam", "ண is N");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("நிறுவனம்"), "niRuvaZam", "ந is n and ன is Z, in one word");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("ஒன்றுமில்லை"), "oZRumillY", "and again, with ற");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("வருமானவரி"), "varumAZavari", "income tax");
+
+// __A bare consonant is the letter alone; a consonant with a vowel sign is the__
+// __letter and the vowel; a consonant carrying nothing carries அ.__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("தொகை"), "qokY", "த is q, ஐ is Y, and ொ is o");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("மேல்"), "mEl", "a bare consonant ends the word");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("பங்கு"), "pawku", "ங is w, not n");
+
+// __ஔ and ஃ, which most romanizations leave out.__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("ஔவை"), "VvY", "ஔ is V");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("ஃபைல்"), "hpYl", "ஃ is h");
+
+// __க்ஷ is one letter in the scheme and two grapheme clusters on the screen,__
+// __which is the only place the walk has to look ahead.__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("க்ஷ"), "xa", "க்ஷ is x, carrying அ");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("க்ஷா"), "xA", "and it takes a vowel sign like any letter");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("லட்சம்"), "latcam", "ட் followed by ச is not க்ஷ");
+
+// __Anything the scheme does not assign comes through untouched. That is what__
+// __makes this usable as an audit: whatever comes back unchanged was never__
+// __covered by the scheme.__
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்("வரி_2026"), "vari_2026", "digits and underscore pass through");
+ஓட்டம் = சமம்(ஓட்டம், ஒலிபெயர்(""), "", "nothing transliterates to nothing");
+
+// __--- ezuqqu back to தமிழ் --------------------------------------------------__
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("vaNakkam"), "வணக்கம்", "and back again");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("nUlakam"), "நூலகம்", "the library's name returns");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("qokY"), "தொகை", "a vowel sign is rebuilt");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("viZA"), "வினா", "Z becomes ன, not ண");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("ezuqqu"), "எழுத்து", "the scheme's own name returns");
+
+// __A Latin letter the scheme never assigned has no Tamil to become, so it__
+// __stays as itself — visible, inside Tamil output, which is the point.__
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு("vaNakkam2"), "வணக்கம்2", "a digit stays a digit");
+
+// __--- the round trip -------------------------------------------------------__
+// __One Latin letter per Tamil letter is what makes the scheme invertible, so__
+// __a word that does not survive the round trip is a bug in the tables.__
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு(ஒலிபெயர்("வணக்கம்")), "வணக்கம்", "round trip: வணக்கம்");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு(ஒலிபெயர்("நிறுவனம்")), "நிறுவனம்", "round trip: all three nasals");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு(ஒலிபெயர்("ஒன்றுமில்லை")), "ஒன்றுமில்லை", "round trip: a long word");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு(ஒலிபெயர்("தொகை")), "தொகை", "round trip: a vowel sign");
+ஓட்டம் = சமம்(ஓட்டம், தமிழாக்கு(ஒலிபெயர்("மேல்")), "மேல்", "round trip: a bare consonant");
+
+// __--- the audit question ---------------------------------------------------__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், திட்டப்படியா("வணக்கம்", "vaNakkam"), "the scheme's own spelling passes");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், திட்டப்படியா("வினா", "vinA") == பொய்,
+                    "vinA is the spelling the compiler rejects — ன is Z");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், திட்டப்படியா("தொகை", "toqai") == பொய்,
+                    "and toqai has ட and த the wrong way round");
+
+சோதனை_முடிவு(ஓட்டம்);

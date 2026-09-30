@@ -1,0 +1,170 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/ezuqqu/ezuqqu.qmz — the ezuqqu scheme itself__
+// எழுத்து — தமிழ் எழுத்துக்கும் உரோம எழுத்துக்கும் இடையிலான மாற்றம்
+//
+// __ezuqqu is the romanization eTamil is written in: one Latin letter per Tamil__
+// __letter, so it inverts exactly. It has lived in scripts/transliterate.py,__
+// __which means the language's own scheme was the one thing a program written in__
+// __the language could not use. This is that scheme, in eTamil.__
+//
+// __The three nasals are the part people get wrong: ண is N, ந is n, ன is Z.__
+//
+// __Written in eTamil. The only host primitives are நீளம், indexing,__
+// __புலம்_உள்ளதா and புலம்_அல்லது.__
+
+இறக்கு "../atippatY/col.qmz";
+
+// __A Tamil letter is one grapheme cluster, so சரம்[இ] yields கா whole rather__
+// __than க and ா separately — which is why the tables below are keyed by the__
+// __cluster and built by joining, instead of walking code points the way the__
+// __Python does.__
+புள்ளி = "்";
+ஆய்தம் = "ஃ";
+
+// __உயிர் — the twelve that stand alone__
+_உயிர்கள் = {"அ": "a", "ஆ": "A", "இ": "i", "ஈ": "I", "உ": "u", "ஊ": "U",
+            "எ": "e", "ஏ": "E", "ஐ": "Y", "ஒ": "o", "ஓ": "O", "ஔ": "V"};
+
+// __The same vowels as they attach to a consonant. அ has no sign: a consonant__
+// __carrying nothing already carries it.__
+_சார்புகள் = {"ா": "A", "ி": "i", "ீ": "I", "ு": "u", "ூ": "U",
+             "ெ": "e", "ே": "E", "ை": "Y", "ொ": "o", "ோ": "O", "ௌ": "V"};
+
+// __The eighteen, then the four Grantha letters for borrowed sounds.__
+_ஒற்றுகள் = {"க": "k", "ங": "w", "ச": "c", "ஞ": "W", "ட": "t", "ண": "N",
+            "த": "q", "ந": "n", "ப": "p", "ம": "m", "ய": "y", "ர": "r",
+            "ல": "l", "வ": "v", "ழ": "z", "ள": "L", "ற": "R", "ன": "Z",
+            "ஜ": "j", "ஷ": "S", "ஸ": "s", "ஹ": "H"};
+
+// __Every cluster that has a romanization, built from the three tables above__
+// __rather than written out again. There are some three hundred of them, and a__
+// __second copy of the mapping is a second thing to keep in step.__
+_எழுத்துகள் = {};
+
+ஒவ்வொரு உயிரெழுத்து இல் _உயிர்கள் {
+    _எழுத்துகள்[உயிரெழுத்து] = _உயிர்கள்[உயிரெழுத்து];
+}
+
+_எழுத்துகள்[ஆய்தம்] = "h";
+
+ஒவ்வொரு ஒற்றெழுத்து இல் _ஒற்றுகள் {
+    ஒலி = _ஒற்றுகள்[ஒற்றெழுத்து];
+    _எழுத்துகள்[ஒற்றெழுத்து & புள்ளி] = ஒலி;
+    _எழுத்துகள்[ஒற்றெழுத்து] = ஒலி & "a";
+    ஒவ்வொரு சார்பெழுத்து இல் _சார்புகள் {
+        _எழுத்துகள்[ஒற்றெழுத்து & சார்பெழுத்து] = ஒலி & _சார்புகள்[சார்பெழுத்து];
+    }
+}
+
+// __The reverse tables, derived the same way and for the same reason.__
+_எதிர்_உயிர் = {};
+ஒவ்வொரு உயிரெழுத்து இல் _உயிர்கள் {
+    _எதிர்_உயிர்[_உயிர்கள்[உயிரெழுத்து]] = உயிரெழுத்து;
+}
+
+_எதிர்_சார்பு = {};
+ஒவ்வொரு சார்பெழுத்து இல் _சார்புகள் {
+    _எதிர்_சார்பு[_சார்புகள்[சார்பெழுத்து]] = சார்பெழுத்து;
+}
+// __a is the vowel a consonant already carries, so it adds no sign at all.__
+_எதிர்_சார்பு["a"] = "";
+
+_எதிர்_ஒற்று = {};
+ஒவ்வொரு ஒற்றெழுத்து இல் _ஒற்றுகள் {
+    _எதிர்_ஒற்று[_ஒற்றுகள்[ஒற்றெழுத்து]] = ஒற்றெழுத்து;
+}
+_எதிர்_ஒற்று["x"] = "க" & புள்ளி & "ஷ";
+
+_கஒற்று = "க" & புள்ளி;
+
+// __ஒலிபெயர்(சரம்) — Tamil to ezuqqu__
+// ஒலிபெயர்(சரம்) — தமிழ்ச் சொல்லை உரோம எழுத்தில் தரும்
+//
+// __A letter the scheme does not assign — a digit, an ASCII letter, an__
+// __underscore, punctuation — is passed through as itself. That is deliberate:__
+// __run a name through this and anything that comes back unchanged is something__
+// __the scheme never covered.__
+செயல் ஒலிபெயர்(சரம்) {
+    விடை = "";
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(சரம்);
+    (எண்ணி < மொத்தம்) சுற்று {
+        கூட்டம் = சரம்[எண்ணி];
+        நகர்வு = 1;
+        ஒலி = புலம்_அல்லது(_எழுத்துகள், கூட்டம், "");
+
+        // __க்ஷ is one letter in the scheme and two clusters on the screen, so__
+        // __it is the one place this has to look ahead. The next cluster's__
+        // __romanization starting with S is what says the ஷ is there, whatever__
+        // __vowel it carries.__
+        (கூட்டம் == _கஒற்று மற்றும் எண்ணி + 1 < மொத்தம்) எனில் {
+            அடுத்தஒலி = புலம்_அல்லது(_எழுத்துகள், சரம்[எண்ணி + 1], "");
+            (தொடங்குகிறதா(அடுத்தஒலி, "S")) எனில் {
+                ஒலி = "x" & துண்டு(அடுத்தஒலி, 1, நீளம்(அடுத்தஒலி) - 1);
+                நகர்வு = 2;
+            }
+        }
+
+        (ஒலி == "") எனில் {
+            விடை = விடை & கூட்டம்;
+        } இன்றேல் {
+            விடை = விடை & ஒலி;
+        }
+        எண்ணி = எண்ணி + நகர்வு;
+    }
+    திரும்பு விடை;
+}
+
+// __தமிழாக்கு(சரம்) — ezuqqu to Tamil, the inverse of ஒலிபெயர்__
+// தமிழாக்கு(சரம்) — உரோம எழுத்தைத் தமிழாக்கும்
+//
+// __A Latin letter the scheme never assigned — b, d, f, g, D — has no Tamil to__
+// __become, so it is passed through. A stray one sitting inside Tamil output is__
+// __a letter that was never in the scheme, which is the point.__
+செயல் தமிழாக்கு(சரம்) {
+    விடை = "";
+    எண்ணி = 0;
+    மொத்தம் = நீளம்(சரம்);
+    (எண்ணி < மொத்தம்) சுற்று {
+        எழுத்தொன்று = சரம்[எண்ணி];
+        (புலம்_உள்ளதா(_எதிர்_ஒற்று, எழுத்தொன்று)) எனில் {
+            அடிப்படை = _எதிர்_ஒற்று[எழுத்தொன்று];
+            அடுத்தது = "";
+            (எண்ணி + 1 < மொத்தம்) எனில் {
+                அடுத்தது = சரம்[எண்ணி + 1];
+            }
+            (அடுத்தது != "" மற்றும் புலம்_உள்ளதா(_எதிர்_சார்பு, அடுத்தது)) எனில் {
+                விடை = விடை & அடிப்படை & _எதிர்_சார்பு[அடுத்தது];
+                எண்ணி = எண்ணி + 2;
+            } இன்றேல் {
+                // __A consonant with no vowel letter after it is a bare__
+                // __consonant, and bare means pulli.__
+                விடை = விடை & அடிப்படை & புள்ளி;
+                எண்ணி = எண்ணி + 1;
+            }
+        } இன்றேல் {
+            (புலம்_உள்ளதா(_எதிர்_உயிர், எழுத்தொன்று)) எனில் {
+                விடை = விடை & _எதிர்_உயிர்[எழுத்தொன்று];
+            } இன்றேல் {
+                (எழுத்தொன்று == "h") எனில் {
+                    விடை = விடை & ஆய்தம்;
+                } இன்றேல் {
+                    விடை = விடை & எழுத்தொன்று;
+                }
+            }
+            எண்ணி = எண்ணி + 1;
+        }
+    }
+    திரும்பு விடை;
+}
+
+// __திட்டப்படியா(தமிழ், உரோமம்) — is that spelling the one the scheme gives?__
+// திட்டப்படியா(தமிழ், உரோமம்) — அந்த உரோம எழுத்து திட்டத்தின்படி உள்ளதா
+//
+// __What an audit asks. `scripts/check_names.py` asks it of every module, table__
+// __and column name in the repository; a program can now ask it of a name a user__
+// __just typed.__
+செயல் திட்டப்படியா(தமிழ், உரோமம்) {
+    திரும்பு ஒலிபெயர்(தமிழ்) == உரோமம்;
+}
