@@ -162,6 +162,7 @@ chacha20poly1305 = "0.11"
 argon2 = "0.5"
 base64 = "0.22"
 zeroize = "1.8"
+roxmltree = "0.21.1"
 
 # --- Native-only dependencies ---
 # Everything here needs an operating system: sockets, a filesystem, threads, or

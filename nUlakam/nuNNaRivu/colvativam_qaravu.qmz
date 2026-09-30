@@ -313,6 +313,10 @@
         ["கையொப்பம்_சரியா", "kYyoppam_cariyA", "_verifySignature"],
         ["சுருக்கம்_256", "curukkam_256", "_sha256"],
         ["எழுமாற்று", "ezumARRu", "_randomBytes"],
+        ["நேர்வடிவம்", "nErvativam", "_canonicalXml"],
+        ["உறுப்பைத்_தேடு", "uRuppYq_qEtu", "_xmlElement"],
+        ["வளைவு_நேர்_கையொப்பம்", "vaLYvu_nEr_kYyoppam", "_ecSignFixed"],
+        ["வளைவு_நேர்_சரிபார்", "vaLYvu_nEr_caripAr", "_ecVerifyFixed"],
         ["வலை_பெறு", "valY_peRu", "_httpGet"],
         ["வலை_பதி", "valY_paqi", "_httpPost"],
         ["வலை_அனுப்பு", "valY_aZuppu", "_httpRequest"]

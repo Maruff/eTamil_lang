@@ -85,6 +85,7 @@ pub mod signing;
 // no OS beyond stdout, and the `cdylib` has to export it on any machine that
 // might link an `output.ll`.
 pub mod runtime;
+pub mod xmlsig;
 // Documents, behind a feature like the other non-bundled drivers.
 #[cfg(all(feature = "mongodb", not(target_family = "wasm")))]
 pub mod mongo;

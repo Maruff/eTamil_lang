@@ -2108,6 +2108,102 @@ impl VM {
                     .collect();
                 Ok(Value::Array(bytes))
             }
+            // நேர்வடிவம்(XML, அடையாளம், வடிவம்) — canonical XML
+            //
+            // An XML signature is not over the bytes that arrived: two
+            // documents a parser calls identical can differ in attribute
+            // order, in <a/> against <a></a>, in where a namespace is
+            // declared. So it is over a canonical serialisation, and both
+            // ends must produce the same one or nothing verifies.
+            //
+            // அடையாளம் is the Id the Reference names, or "" for the whole
+            // document. வடிவம் is "விலக்கு" for Exclusive — what SAML and
+            // Aadhaar use, and what lets a signed subtree be moved — or
+            // "உள்ளடக்கு" for Inclusive.
+            "நேர்வடிவம்" | "nErvativam" | "_canonicalXml" => {
+                Self::expect_args(name, &args, 3)?;
+                let source = args[0].to_string();
+                let id = args[1].to_string();
+                let form = match args[2].to_string().as_str() {
+                    "விலக்கு" | "vilakku" | "exclusive" => crate::xmlsig::Form::Exclusive,
+                    "உள்ளடக்கு" | "uLLatakku" | "inclusive" => crate::xmlsig::Form::Inclusive,
+                    other => {
+                        return Ok(Value::Err(Box::new(Value::String(format!(
+                            "'{}' ஒரு நேர்வடிவ முறை அல்ல  ('{}' is not a canonicalization form)",
+                            other, other
+                        )))));
+                    }
+                };
+                let wanted = if id.is_empty() { None } else { Some(id.as_str()) };
+                match crate::xmlsig::canonicalize(&source, wanted, form) {
+                    Ok(text) => Ok(Value::Ok(Box::new(Value::String(text)))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // உறுப்பைத்_தேடு(XML, பெயர், வடிவம்) — an element, canonical and as text
+            //
+            // Verifying means reading values back out: the SignedInfo the
+            // signature covers, the DigestValue to compare against. Matched on
+            // local name, because which prefix a document picked for the XML
+            // Signature namespace is its own business.
+            "உறுப்பைத்_தேடு" | "uRuppYq_qEtu" | "_xmlElement" => {
+                Self::expect_args(name, &args, 3)?;
+                let form = match args[2].to_string().as_str() {
+                    "விலக்கு" | "vilakku" | "exclusive" => crate::xmlsig::Form::Exclusive,
+                    "உள்ளடக்கு" | "uLLatakku" | "inclusive" => crate::xmlsig::Form::Inclusive,
+                    other => {
+                        return Ok(Value::Err(Box::new(Value::String(format!(
+                            "'{}' ஒரு நேர்வடிவ முறை அல்ல  ('{}' is not a canonicalization form)",
+                            other, other
+                        )))));
+                    }
+                };
+                match crate::xmlsig::find_element(&args[0].to_string(), &args[1].to_string(), form) {
+                    Ok((canonical, text)) => {
+                        let mut record = HashMap::with_capacity(2);
+                        record.insert("நேர்வடிவம்".to_string(), Value::String(canonical));
+                        record.insert("உரைப்பு".to_string(), Value::String(text));
+                        Ok(Value::Ok(Box::new(Value::Map(record.into()))))
+                    }
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வளைவு_நேர்_கையொப்பம்(செய்தி, தனிச்சாவி) — sign, as sixty-four bytes
+            //
+            // The same signature வளைவு_கையொப்பம் makes, in the encoding XML
+            // Signature specifies: r and s side by side, each padded to the
+            // curve size. Bytes rather than text, so the caller chooses base64
+            // or hex — kuRiyAkkam.qmz does either.
+            "வளைவு_நேர்_கையொப்பம்" | "vaLYvu_nEr_kYyoppam" | "_ecSignFixed" => {
+                Self::expect_args(name, &args, 2)?;
+                match crate::signing::sign_fixed(&args[0].to_string(), &args[1].to_string()) {
+                    Ok(bytes) => Ok(Value::Ok(Box::new(Value::Array(
+                        bytes.into_iter().map(|b| Value::Number(Decimal::from(b))).collect(),
+                    )))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // வளைவு_நேர்_சரிபார்(செய்தி, பைட்டுகள், பொதுச்சாவி) — verify one
+            "வளைவு_நேர்_சரிபார்" | "vaLYvu_nEr_caripAr" | "_ecVerifyFixed" => {
+                Self::expect_args(name, &args, 3)?;
+                let bytes: Vec<u8> = match &args[1] {
+                    Value::Array(items) => items
+                        .iter()
+                        .map(|item| {
+                            rust_decimal::prelude::ToPrimitive::to_u8(&item.to_number()).unwrap_or(0)
+                        })
+                        .collect(),
+                    _ => Vec::new(),
+                };
+                match crate::signing::verify_fixed(
+                    &args[0].to_string(),
+                    &bytes,
+                    &args[2].to_string(),
+                ) {
+                    Ok(answer) => Ok(Value::Boolean(answer)),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
             // --- Outbound HTTP ---
             // வலை_பெறு(உரலி, தலைப்புகள்)
             "வலை_பெறு" | "valY_peRu" | "_httpGet" => {

@@ -106,6 +106,34 @@ pub fn sign(message: &str, private_hex: &str) -> Result<String, String> {
 /// verify — that is an ordinary outcome and a program has to handle it. A key
 /// or a signature that is not well formed at all is a different thing, and
 /// says so.
+/// Sign, as the fixed-width r||s pair rather than DER.
+///
+/// The same signature over the same message; only the encoding differs. DER is
+/// what most things mean by an ECDSA signature, and XML Signature is not one of
+/// them: it specifies the IEEE P1363 form, sixty-four bytes with r and s each
+/// padded to the curve size. A DER SignatureValue verifies against itself and
+/// against nothing else, which is the failure that gets found by a
+/// counterparty rather than by a test.
+pub fn sign_fixed(message: &str, private_hex: &str) -> Result<Vec<u8>, String> {
+    let key_bytes = from_hex(private_hex)?;
+    let signing = SigningKey::from_slice(&key_bytes)
+        .map_err(|_| "தனிச் சாவி செல்லாதது  (not a valid private key)".to_string())?;
+    let signature: Signature = signing.sign(message.as_bytes());
+    Ok(signature.to_bytes().to_vec())
+}
+
+/// Verify a fixed-width r||s signature.
+pub fn verify_fixed(message: &str, signature: &[u8], public_hex: &str) -> Result<bool, String> {
+    let key_bytes = from_hex(public_hex)?;
+    let verifying = VerifyingKey::from_sec1_bytes(&key_bytes)
+        .map_err(|_| "பொதுச் சாவி செல்லாதது  (not a valid public key)".to_string())?;
+    let parsed = match Signature::from_slice(signature) {
+        Ok(value) => value,
+        Err(_) => return Ok(false),
+    };
+    Ok(verifying.verify(message.as_bytes(), &parsed).is_ok())
+}
+
 pub fn verify(message: &str, signature_hex: &str, public_hex: &str) -> Result<bool, String> {
     let key_bytes = from_hex(public_hex)?;
     let verifying = VerifyingKey::from_sec1_bytes(&key_bytes).map_err(|_| {
