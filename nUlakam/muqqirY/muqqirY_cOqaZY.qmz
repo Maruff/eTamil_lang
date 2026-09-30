@@ -1,0 +1,194 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முத்திரை சோதனை — XML Signature, enveloped__
+// XML கையொப்பச் சோதனைகள்
+//
+//   __etamil --vm nUlakam/muqqirY/muqqirY_cOqaZY.qmz__
+//
+// __The private key is RFC 6979's own P-256 example key, so it is a published__
+// __value rather than one invented here, and every run signs with the same one.__
+// __ECDSA still picks a fresh nonce each time, so a SignatureValue cannot be__
+// __pinned — the tests that care about it sign and verify in one breath, and the__
+// __tests that pin a value pin the digest, which is deterministic.__
+
+இறக்கு "../cOqaZY/cOqaZY.qmz";
+இறக்கு "muqqirY.qmz";
+
+ஓட்டம் = சோதனை_தொடக்கம்("முத்திரை (XML Signature)");
+
+தனிச்சாவி = "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721";
+பொதுச்சாவி = மதிப்பு(வளைவு_பொதுச்சாவி(தனிச்சாவி));
+
+எளிய_ஆவணம் = "<Resp code=\"y\"><Name>Esan</Name></Resp>";
+
+// __--- the digest ------------------------------------------------------------__
+//
+// __SHA-256 of the empty string is a published value, and base64 of it is one__
+// __anything else computing this will agree on. It pins both halves at once.__
+ஓட்டம் = சமம்(ஓட்டம், சுருக்கக்_குறிப்பு(""),
+              "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+              "the digest of nothing, which is a published value");
+
+ஓட்டம் = சமம்(ஓட்டம், சுருக்கக்_குறிப்பு("abc"),
+              "ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0=",
+              "and the digest of abc");
+
+// __--- the envelope ----------------------------------------------------------__
+
+குறிப்பு = குறிப்பை_ஆக்கு("", "ZGlnZXN0");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(குறிப்பு, "URI=\"\""),
+                    "an empty அடையாளம் is URI=\"\", the whole document");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(குறிப்பை_ஆக்கு("x", "ZGlnZXN0"), "URI=\"#x\""),
+                    "a named one is URI=\"#x\"");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(குறிப்பு, "enveloped-signature"),
+                    "and it always declares the enveloped-signature transform");
+
+// __Empty elements are written long, so the source and its canonical form differ__
+// __in one place fewer. `<Transform ... />` would be the same XML and a different__
+// __string, and every difference between the two is somewhere a mistake can hide.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(குறிப்பு, "</Transform>"),
+                    "empty elements are written long, as canonical XML writes them");
+
+தகவல் = கையொப்பத்_தகவலை_ஆக்கு(குறிப்பு);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(தகவல், "xmlns=\"http://www.w3.org/2000/09/xmldsig#\""),
+                    "SignedInfo declares the namespace itself");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(தகவல், "ecdsa-sha256"),
+                    "and names ECDSA over SHA-256 as the signature method");
+
+// __--- signing ---------------------------------------------------------------__
+
+முடிவு = முத்திரையிடு(எளிய_ஆவணம், "", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(முடிவு), "a document signs");
+முத்திரையிட்டது = மதிப்பு(முடிவு);
+
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(முத்திரையிட்டது, "<SignatureValue>"),
+                    "and comes back carrying a SignatureValue");
+
+// __The signature goes inside the root, not after it — a sibling of the root is__
+// __not a document at all.__
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(முத்திரையிட்டது, "</Signature></Resp>"),
+                    "the signature is the last child of the root, inside it");
+
+// __This is the property everything else rests on. Take the signature back out__
+// __and the bytes are the ones that were digested — not a document that parses__
+// __the same, the same bytes. Anything less and the digest is over something the__
+// __signer never saw.__
+ஓட்டம் = சமம்(ஓட்டம், முத்திரையை_நீக்கு(முத்திரையிட்டது), எளிய_ஆவணம்,
+              "removing the signature restores the document byte for byte");
+
+ஓட்டம் = சமம்(ஓட்டம், முத்திரையை_நீக்கு(எளிய_ஆவணம்), எளிய_ஆவணம்,
+              "and an unsigned document comes back untouched");
+
+// __--- verifying -------------------------------------------------------------__
+
+சரிபார்ப்பு = முத்திரையைச்_சரிபார்(முத்திரையிட்டது, பொதுச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(சரிபார்ப்பு), "the signature verifies");
+
+// __Any change to the signed content has to be caught, including one that leaves__
+// __the document the same length and well-formed.__
+திருத்தியது = மாற்று(முத்திரையிட்டது, "<Name>Esan</Name>", "<Name>Esaz</Name>");
+கெட்டது = முத்திரையைச்_சரிபார்(திருத்தியது, பொதுச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(கெட்டது),
+                    "a changed document does not");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(தவறு_மதிப்பு(கெட்டது), "changed after it was signed"),
+                    "and says the document changed, not that the key was wrong");
+
+// __Changing the DigestValue to match the altered document does not help: the__
+// __digest now agrees and the signature over SignedInfo does not, which is why__
+// __the signature is checked first.__
+சுருக்கம் = _உள்ளுரை(_குறிப்பின்_சுருக்கம்(முத்திரையிட்டது));
+புதிய_சுருக்கம் = சுருக்கக்_குறிப்பு("<Resp code=\"y\"><Name>Esaz</Name></Resp>");
+பொய்யாக்கியது = மாற்று(திருத்தியது, சுருக்கம், புதிய_சுருக்கம்);
+பொய்_முடிவு = முத்திரையைச்_சரிபார்(பொய்யாக்கியது, பொதுச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(பொய்_முடிவு),
+                    "and neither does correcting the digest to match");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(தவறு_மதிப்பு(பொய்_முடிவு), "not signed by this key"),
+                    "which fails at the signature, because that is checked first");
+
+// __A different key must not verify. The whole point.__
+வேறு_தனி = "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20";
+வேறு_பொது = மதிப்பு(வளைவு_பொதுச்சாவி(வேறு_தனி));
+வேறு_முடிவு = முத்திரையைச்_சரிபார்(முத்திரையிட்டது, வேறு_பொது);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(வேறு_முடிவு), "another key does not verify it");
+
+// __--- an element by Id ------------------------------------------------------__
+//
+// __What a SAML assertion and an Aadhaar response do: sign one element rather__
+// __than the document, named by its Id. The document around it is untouched, and__
+// __indentation inside it is part of what is signed.__
+கூடு_ஆவணம் = "<Auth>\n  <Data Id=\"payload\" x=\"2\" a=\"1\">\n    <V>ok</V>\n  </Data>\n</Auth>";
+கூடு_முடிவு = முத்திரையிடு(கூடு_ஆவணம், "payload", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(கூடு_முடிவு), "an element signs by Id");
+கூடு_முத்திரை = மதிப்பு(கூடு_முடிவு);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(கூடு_முத்திரை, "URI=\"#payload\""),
+                    "and the Reference names it");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(முத்திரையைச்_சரிபார்(கூடு_முத்திரை, பொதுச்சாவி)),
+                    "and it verifies");
+
+// __Changing something outside the signed element leaves the signature standing.__
+// __That is not a hole — a Reference states what it covers, and a verifier that__
+// __refused this would be refusing what the standard says is valid. What matters__
+// __is that the caller knows only `Data` was signed.__
+வெளியே_மாற்றியது = மாற்று(கூடு_முத்திரை, "<Auth>", "<Auth extra=\"1\">");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், சரியா(முத்திரையைச்_சரிபார்(வெளியே_மாற்றியது, பொதுச்சாவி)),
+                    "a change outside the signed element leaves it valid, as the Reference says");
+
+உள்ளே_மாற்றியது = மாற்று(கூடு_முத்திரை, "<V>ok</V>", "<V>no</V>");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(முத்திரையைச்_சரிபார்(உள்ளே_மாற்றியது, பொதுச்சாவி)),
+                    "and a change inside it does not");
+
+// __--- what it refuses -------------------------------------------------------__
+
+மறு_முத்திரை = முத்திரையிடு(முத்திரையிட்டது, "", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(மறு_முத்திரை),
+                    "signing a document that already carries a signature is refused");
+
+காலி_வேர் = முத்திரையிடு("<Resp/>", "", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(காலி_வேர்),
+                    "and so is an empty root, which has no inside to put one in");
+
+தவறான_XML = முத்திரையிடு("<Resp><Name></Resp>", "", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தவறான_XML), "XML that does not parse is refused");
+
+இல்லாத_அடையாளம் = முத்திரையிடு(எளிய_ஆவணம், "nowhere", தனிச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(இல்லாத_அடையாளம்),
+                    "and an Id no element carries is refused rather than signing the document instead");
+
+தவறான_சாவி = முத்திரையிடு(எளிய_ஆவணம், "", "not-a-key");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(தவறான_சாவி), "a key that is not a key is refused");
+
+முத்திரையற்றது = முத்திரையைச்_சரிபார்(எளிய_ஆவணம், பொதுச்சாவி);
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(முத்திரையற்றது),
+                    "verifying an unsigned document says there is no signature");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், கொண்டுள்ளதா(தவறு_மதிப்பு(முத்திரையற்றது), "no SignedInfo"),
+                    "rather than answering பொய், which reads like a failed check");
+
+// __An external Reference is not fetched. A verifier that went to the network to__
+// __find what it was checking would be one an attacker chooses the target of.__
+வெளி_குறிப்பு = மாற்று(முத்திரையிட்டது, "URI=\"\"", "URI=\"http://elsewhere/x\"");
+ஓட்டம் = உறுதிசெய்(ஓட்டம், தவறா(முத்திரையைச்_சரிபார்(வெளி_குறிப்பு, பொதுச்சாவி)),
+                    "an external Reference is refused rather than fetched");
+
+// __--- the pieces underneath -------------------------------------------------__
+
+ஓட்டம் = சமம்(ஓட்டம், _உள்ளுரை("<DigestValue>abc=</DigestValue>"), "abc=",
+              "_உள்ளுரை reads the text between the tags");
+ஓட்டம் = சமம்(ஓட்டம், _உள்ளுரை("<A x=\"1\"></A>"), "",
+              "and an empty element has none");
+ஓட்டம் = சமம்(ஓட்டம், _முதலை_நீக்கு("#payload"), "payload",
+              "_முதலை_நீக்கு drops the first letter");
+ஓட்டம் = சமம்(ஓட்டம், _முதலை_நீக்கு("#"), "", "and of one letter leaves nothing");
+
+// __The two canonical forms of SignedInfo have to be the same bytes: the one__
+// __signed standalone, and the one read back out of the signed document. If they__
+// __ever differ, every signature this produces verifies nowhere else — and it__
+// __would still pass every other test above, because both sides would be wrong__
+// __in the same way. This is the one that would catch it.__
+நேரடி = மதிப்பு(நேர்வடிவம்(தகவல், "", "விலக்கு"));
+சேர்த்தது = "<Signature xmlns=\"http://www.w3.org/2000/09/xmldsig#\">" & தகவல்
+            & "<SignatureValue>AA==</SignatureValue></Signature>";
+உள்ளிருந்து = மதிப்பு(உறுப்பைத்_தேடு(சேர்த்தது, "SignedInfo", "விலக்கு"))["நேர்வடிவம்"];
+ஓட்டம் = சமம்(ஓட்டம், உள்ளிருந்து, நேரடி,
+              "SignedInfo canonicalizes the same alone as it does inside the Signature");
+
+சோதனை_முடிவு(ஓட்டம்);

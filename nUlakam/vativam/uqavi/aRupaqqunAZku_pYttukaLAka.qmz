@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __அறுபத்துநான்கு_பைட்டுகளாக(குறியிட்டது) — decode base64 to bytes, not to text__
+// அறுபத்துநான்கு அடிப்படையிலிருந்து உரையல்லாத பைட்டுகளாக மீட்கும்
+
+இறக்கு "../kuRiyAkkam.qmz";
+
+// __The ordinary case, where the bytes happen to be text: both answers agree.__
+// பைட்டுகள் உரையாக இருக்கும்போது, இரண்டும் ஒன்றே
+அச்சு மதிப்பு(அறுபத்துநான்கு_பைட்டுகளாக("TWFu"));
+அச்சு மதிப்பு(அறுபத்துநான்கு_படி("TWFu"));
+
+// __The case this exists for. A SHA-256 digest is thirty-two arbitrary bytes and__
+// __an ECDSA signature sixty-four, and almost none of those byte strings are__
+// __valid UTF-8 — so அறுபத்துநான்கு_படி, which ends in பைட்டுச்_சரம், has to__
+// __refuse them. It is not wrong to refuse: it was asked for a string.__
+// சுருக்கமும் கையொப்பமும் உரை அல்ல
+சுருக்கம் = அறுபத்துநான்கு_பைட்டுகளில்(சுருக்கம்_256("abc"));
+அச்சு சுருக்கம்;
+அச்சு நீளம்(மதிப்பு(அறுபத்துநான்கு_பைட்டுகளாக(சுருக்கம்)));
+
+// __Round trip: encode the bytes, decode them, and get the same numbers back.__
+// மீள்பயணம்
+அச்சு (மதிப்பு(அறுபத்துநான்கு_பைட்டுகளாக(சுருக்கம்)) == சுருக்கம்_256("abc"));
+
+// __Padding contributes no bits, which is what makes a short final group work.__
+// நிரப்பு எழுத்துகள் பிட்டுகளைச் சேர்ப்பதில்லை
+அச்சு நீளம்(மதிப்பு(அறுபத்துநான்கு_பைட்டுகளாக("TQ==")));
+அச்சு நீளம்(மதிப்பு(அறுபத்துநான்கு_பைட்டுகளாக("TWE=")));
+
+// __A character that is not in the alphabet is refused rather than skipped.__
+// __Skipping it would decode to something shorter that looks plausible.__
+// அறுபத்துநான்கில் இல்லாத எழுத்து மறுக்கப்படும்
+அச்சு அறுபத்துநான்கு_பைட்டுகளாக("TW F!");

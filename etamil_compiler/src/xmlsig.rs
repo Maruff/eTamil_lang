@@ -90,7 +90,7 @@ pub fn find_element(
     source: &str,
     local_name: &str,
     form: Form,
-) -> Result<(String, String), String> {
+) -> Result<(String, String, String), String> {
     let document = roxmltree::Document::parse(source).map_err(|why| {
         format!(
             "XML படிக்க முடியவில்லை: {}  (the XML does not parse: {})",
@@ -108,7 +108,15 @@ pub fn find_element(
         .filter(roxmltree::Node::is_text)
         .filter_map(|node| node.text())
         .collect();
-    Ok((canonical, text))
+
+    // The element's own bytes, exactly as they sit in the source. An enveloped
+    // signature has to be taken back out of the document before the document is
+    // digested, and cutting this substring out is the only way to do that which
+    // leaves the remaining bytes untouched — re-serializing the rest would
+    // canonicalize whitespace that was there when it was signed.
+    let original = source.get(found.range()).unwrap_or_default().to_string();
+
+    Ok((canonical, text, original))
 }
 
 fn by_local_name<'a>(
@@ -428,5 +436,33 @@ mod tests {
     #[test]
     fn xml_that_does_not_parse_is_refused() {
         assert!(canonicalize("<a>", None, Form::Exclusive).is_err());
+    }
+
+    /// The third value is the element's own bytes, not a re-serialization of
+    /// it. Cutting that substring out of the document is the whole of the
+    /// enveloped-signature transform, so it has to come back byte for byte —
+    /// here the source writes `<gap/>` short and single-quotes an attribute,
+    /// both of which canonical form rewrites.
+    #[test]
+    fn the_source_form_is_the_bytes_that_were_there() {
+        let document = "<doc>
+  <sig a='1'><gap/></sig>
+</doc>";
+        let (canonical, _, original) = find_element(document, "sig", Form::Exclusive).unwrap();
+        assert_eq!(original, "<sig a='1'><gap/></sig>");
+        assert_eq!(canonical, r#"<sig a="1"><gap></gap></sig>"#);
+        assert_eq!(
+            document.replace(&original, ""),
+            "<doc>
+  
+</doc>"
+        );
+    }
+
+    /// What `உரைப்பு` is: the text inside, with the markup gone.
+    #[test]
+    fn the_text_form_is_the_characters_inside() {
+        let (_, text, _) = find_element("<a><b>x</b><c>y</c></a>", "a", Form::Exclusive).unwrap();
+        assert_eq!(text, "xy");
     }
 }

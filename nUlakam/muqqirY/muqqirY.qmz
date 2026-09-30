@@ -1,0 +1,299 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/muqqirY/muqqirY.qmz — XML Signature, enveloped__
+// முத்திரை — XML கையொப்பம், ஆவணத்திற்குள் இருப்பது
+//
+// __An XML signature is not over the bytes that arrived. It is over a canonical__
+// __serialisation of them, and `நேர்வடிவம்` produces that. What is here is the__
+// __envelope the standard wraps around it: Reference, DigestValue, SignedInfo,__
+// __SignatureValue — and the enveloped-signature transform, which is what an__
+// __Aadhaar response, a GSTN acknowledgement and a SAML assertion all use.__
+//
+// __The transform sounds harder than it is. A signature that sits inside the__
+// __document it signs cannot be part of what it signs, so before digesting, the__
+// __Signature element is removed. That is one substitution here, and it is exact__
+// __because `உறுப்பைத்_தேடு` hands back the element source text alongside its__
+// __canonical form. Removing it restores the bytes that were signed.__
+//
+// __Nothing here reads the clock. Signing takes the private key as an argument,__
+// __and `வளைவு_நேர்_கையொப்பம்` is the one call whose output varies between runs —__
+// __so every test below either signs and verifies in one breath, or pins a value__
+// __that does not depend on it.__
+
+இறக்கு "../vativam/kuRiyAkkam.qmz";
+
+// __--- what the standard names things ----------------------------------------__
+//
+// __These are URIs in a specification, not choices. They are functions rather__
+// __than constants because eTamil has no constant, and a function returning a__
+// __literal is the honest way to say "this is fixed".__
+
+செயல் _பெயர்வெளி() { திரும்பு "http://www.w3.org/2000/09/xmldsig#"; }
+செயல் _நேர்வடிவ_முறை() { திரும்பு "http://www.w3.org/2001/10/xml-exc-c14n#"; }
+செயல் _உறைபொதி_மாற்றம்() { திரும்பு "http://www.w3.org/2000/09/xmldsig#enveloped-signature"; }
+செயல் _சுருக்க_முறை() { திரும்பு "http://www.w3.org/2001/04/xmlenc#sha256"; }
+செயல் _கையொப்ப_முறை() { திரும்பு "http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256"; }
+
+// __--- reading a simple element ----------------------------------------------__
+
+// ___உள்ளுரை(உறுப்பு_உரை) — the text between one element's tags__
+// _உள்ளுரை(உறுப்பு_உரை) — ஒரு உறுப்பின் குறிகளுக்கு இடையிலான பாடம்
+//
+// __Only ever used on DigestValue and SignatureValue, which hold base64 and no__
+// __markup. It is deliberately not a general XML reader: one that looked general__
+// __would get used on elements it cannot handle, and this one cannot be.__
+செயல் _உள்ளுரை(உறுப்பு_உரை) {
+    பகுதிகள் = பிரி(உறுப்பு_உரை, ">");
+    (நீளம்(பகுதிகள்) < 2) எனில் { திரும்பு ""; }
+    மீதம் = பகுதிகள்[1];
+    துண்டுகள் = பிரி(மீதம், "<");
+    திரும்பு துண்டுகள்[0];
+}
+
+// ___முதலை_நீக்கு(சரம்) — everything after the first letter__
+// _முதலை_நீக்கு(சரம்) — முதல் எழுத்தை நீக்கிய மீதம்
+செயல் _முதலை_நீக்கு(சரம்) {
+    எழுத்துகள் = சொல்லாக்கு(சரம்);
+    மொத்தம் = நீளம்(எழுத்துகள்);
+    சேர்ப்பு = [];
+    எண்ணி = 1;
+    (எண்ணி < மொத்தம்) சுற்று {
+        சேர்ப்பு = இணை(சேர்ப்பு, எழுத்துகள்[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு ஒன்றிணை(சேர்ப்பு, "");
+}
+
+// __--- the digest ------------------------------------------------------------__
+
+// __சுருக்கக்_குறிப்பு(நேர்வடிவ_உரை) — a DigestValue: base64 of SHA-256__
+// சுருக்கக்_குறிப்பு(நேர்வடிவ_உரை) — நேர்வடிவப் பாடத்தின் சுருக்கம், அறுபத்துநான்கில்
+//
+// __The argument is canonical text, not a document. Digesting anything else is__
+// __the mistake this whole scheme exists to prevent, so the caller has to have__
+// __canonicalized before arriving here.__
+செயல் சுருக்கக்_குறிப்பு(நேர்வடிவ_உரை) {
+    திரும்பு அறுபத்துநான்கு_பைட்டுகளில்(சுருக்கம்_256(நேர்வடிவ_உரை));
+}
+
+// __முத்திரையை_நீக்கு(ஆவணம்) — the document as it was before it was signed__
+// முத்திரையை_நீக்கு(ஆவணம்) — கையொப்ப உறுப்பை நீக்கிய ஆவணம்
+//
+// __The enveloped-signature transform, and the whole of it. `உறுப்பைத்_தேடு`__
+// __hands back the element's own bytes in `மூலம்`, so this cuts out exactly what__
+// __was added and leaves every other byte alone — which is what makes the__
+// __document digest to the same value it did before it was signed. An unsigned__
+// __document comes back untouched.__
+செயல் முத்திரையை_நீக்கு(ஆவணம்) {
+    கண்டது = உறுப்பைத்_தேடு(ஆவணம், "Signature", "விலக்கு");
+    (தவறா(கண்டது)) எனில் { திரும்பு ஆவணம்; }
+    உறுப்பு = மதிப்பு(கண்டது);
+    திரும்பு மாற்று(ஆவணம், உறுப்பு["மூலம்"], "");
+}
+
+// ___உறைபொதிச்_சுருக்கம்(ஆவணம், அடையாளம்) — what the Reference is a digest of__
+// _உறைபொதிச்_சுருக்கம்(ஆவணம், அடையாளம்) — உறைபொதி மாற்றத்திற்குப் பின்னான சுருக்கம்
+//
+// __Signing and verifying both come through here, which is the point: a digest__
+// __computed in two places is a digest computed wrong in one of them.__
+செயல் _உறைபொதிச்_சுருக்கம்(ஆவணம், அடையாளம்) {
+    நீக்கியது = முத்திரையை_நீக்கு(ஆவணம்);
+    நேர்வடிவு = நேர்வடிவம்(நீக்கியது, அடையாளம், "விலக்கு");
+    (தவறா(நேர்வடிவு)) எனில் { திரும்பு நேர்வடிவு; }
+    திரும்பு சரி(சுருக்கக்_குறிப்பு(மதிப்பு(நேர்வடிவு)));
+}
+
+// __--- the envelope ----------------------------------------------------------__
+
+// __குறிப்பை_ஆக்கு(அடையாளம், சுருக்கம்) — a Reference element__
+// குறிப்பை_ஆக்கு(அடையாளம், சுருக்கம்) — Reference உறுப்பை உருவாக்கும்
+//
+// __An empty அடையாளம் means the whole document, which is URI="" and what an__
+// __Aadhaar response uses. A name means URI="#name", matched against an element__
+// __Id attribute.__
+//
+// __Empty elements are written long — `<Transform ...></Transform>` rather than__
+// __`<Transform .../>` — because canonical XML writes them long, so the source__
+// __and its canonical form differ in one place fewer.__
+செயல் குறிப்பை_ஆக்கு(அடையாளம், சுருக்கம்) {
+    குறிப்பு_உரலி = "";
+    (அடையாளம் != "") எனில் { குறிப்பு_உரலி = "#" & அடையாளம்; }
+    திரும்பு "<Reference URI=\"" & குறிப்பு_உரலி & "\">"
+        & "<Transforms>"
+        & "<Transform Algorithm=\"" & _உறைபொதி_மாற்றம்() & "\"></Transform>"
+        & "<Transform Algorithm=\"" & _நேர்வடிவ_முறை() & "\"></Transform>"
+        & "</Transforms>"
+        & "<DigestMethod Algorithm=\"" & _சுருக்க_முறை() & "\"></DigestMethod>"
+        & "<DigestValue>" & சுருக்கம் & "</DigestValue>"
+        & "</Reference>";
+}
+
+// __கையொப்பத்_தகவலை_ஆக்கு(குறிப்பு) — a SignedInfo element__
+// கையொப்பத்_தகவலை_ஆக்கு(குறிப்பு) — SignedInfo உறுப்பை உருவாக்கும்
+//
+// __SignedInfo carries the namespace declaration itself, even though the__
+// __Signature element it ends up inside declares the same one. That repetition is__
+// __deliberate, and it is what makes the scheme work: this element is__
+// __canonicalized on its own when signing, and again as a subtree of the document__
+// __when verifying, and those two have to be the same bytes. A standalone__
+// __SignedInfo without the declaration would not be a well-formed document at__
+// __all, and one canonicalized without it would not match the other.__
+செயல் கையொப்பத்_தகவலை_ஆக்கு(குறிப்பு) {
+    திரும்பு "<SignedInfo xmlns=\"" & _பெயர்வெளி() & "\">"
+        & "<CanonicalizationMethod Algorithm=\"" & _நேர்வடிவ_முறை() & "\"></CanonicalizationMethod>"
+        & "<SignatureMethod Algorithm=\"" & _கையொப்ப_முறை() & "\"></SignatureMethod>"
+        & குறிப்பு
+        & "</SignedInfo>";
+}
+
+// __முத்திரையைச்_சேர்(ஆவணம், முத்திரை_உறுப்பு) — put it inside the root element__
+// முத்திரையைச்_சேர்(ஆவணம், முத்திரை_உறுப்பு) — வேர் உறுப்பின் கடைசிச் சேயாகச் சேர்க்கும்
+//
+// __Last child of the root, immediately before its closing tag and with nothing__
+// __added around it — so removing it again restores the document byte for byte,__
+// __which is the property the whole verification rests on.__
+செயல் முத்திரையைச்_சேர்(ஆவணம், முத்திரை_உறுப்பு) {
+    துண்டுகள் = பிரி(ஆவணம், "<");
+    மொத்தம் = நீளம்(துண்டுகள்);
+    (மொத்தம் < 2) எனில் {
+        திரும்பு தவறு("XML ஆவணம் அல்ல  (this is not an XML document)");
+    }
+
+    கடைசி = துண்டுகள்[மொத்தம் - 1];
+    கடைசி_எழுத்துகள் = சொல்லாக்கு(கடைசி);
+    (நீளம்(கடைசி_எழுத்துகள்) == 0) எனில் {
+        திரும்பு தவறு("வேர் உறுப்பு முடியவில்லை  (the document does not end in a closing tag)");
+    }
+    (கடைசி_எழுத்துகள்[0] != "/") எனில் {
+        திரும்பு தவறு("வேர் உறுப்பு காலியானது  (the root element is empty, so there is nowhere inside it for a signature)");
+    }
+
+    முன்பகுதி = [];
+    எண்ணி = 0;
+    (எண்ணி < மொத்தம் - 1) சுற்று {
+        முன்பகுதி = இணை(முன்பகுதி, துண்டுகள்[எண்ணி]);
+        எண்ணி = எண்ணி + 1;
+    }
+    திரும்பு சரி(ஒன்றிணை(முன்பகுதி, "<") & முத்திரை_உறுப்பு & "<" & கடைசி);
+}
+
+// __--- signing ---------------------------------------------------------------__
+
+// __முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — the signed document__
+// முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) — ஆவணத்தில் முத்திரையிட்டுத் திருப்பும்
+//
+// __அடையாளம் is "" for the whole document, or the Id of one element. தனிச்சாவி is__
+// __a P-256 private key in hexadecimal, as வளைவு_சாவிகள் hands one back.__
+செயல் முத்திரையிடு(ஆவணம், அடையாளம், தனிச்சாவி) {
+    // __A second signature over a document that already carries one would digest__
+    // __the first one away, and the result would be indistinguishable from a__
+    // __replacement. Refusing is the only answer that is not a guess about which__
+    // __of those was meant.__
+    ஏற்கனவே = உறுப்பைத்_தேடு(ஆவணம், "Signature", "விலக்கு");
+    (சரியா(ஏற்கனவே)) எனில் {
+        திரும்பு தவறு("ஆவணம் ஏற்கனவே முத்திரையிடப்பட்டது  (this document already carries a signature)");
+    }
+
+    சுருக்கம் = _உறைபொதிச்_சுருக்கம்(ஆவணம், அடையாளம்);
+    (தவறா(சுருக்கம்)) எனில் { திரும்பு சுருக்கம்; }
+
+    தகவல் = கையொப்பத்_தகவலை_ஆக்கு(குறிப்பை_ஆக்கு(அடையாளம், மதிப்பு(சுருக்கம்)));
+
+    நேர்_தகவல் = நேர்வடிவம்(தகவல், "", "விலக்கு");
+    (தவறா(நேர்_தகவல்)) எனில் { திரும்பு நேர்_தகவல்; }
+
+    கையொப்பப்_பைட்டுகள் = வளைவு_நேர்_கையொப்பம்(மதிப்பு(நேர்_தகவல்), தனிச்சாவி);
+    (தவறா(கையொப்பப்_பைட்டுகள்)) எனில் { திரும்பு கையொப்பப்_பைட்டுகள்; }
+
+    முத்திரை_உறுப்பு = "<Signature xmlns=\"" & _பெயர்வெளி() & "\">"
+        & தகவல்
+        & "<SignatureValue>" & அறுபத்துநான்கு_பைட்டுகளில்(மதிப்பு(கையொப்பப்_பைட்டுகள்)) & "</SignatureValue>"
+        & "</Signature>";
+
+    திரும்பு முத்திரையைச்_சேர்(ஆவணம், முத்திரை_உறுப்பு);
+}
+
+// __--- verifying -------------------------------------------------------------__
+
+// ___குறிப்பின்_அடையாளம்(ஆவணம்) — the Id the Reference names, or ""__
+// _குறிப்பின்_அடையாளம்(ஆவணம்) — Reference சுட்டும் அடையாளம்
+செயல் _குறிப்பின்_அடையாளம்(ஆவணம்) {
+    கண்டது = உறுப்பைத்_தேடு(ஆவணம், "Reference", "விலக்கு");
+    (தவறா(கண்டது)) எனில் {
+        திரும்பு தவறு("Reference இல்லை  (the signature names nothing to digest)");
+    }
+    உறுப்பு = மதிப்பு(கண்டது);
+    பகுதிகள் = பிரி(உறுப்பு["நேர்வடிவம்"], "URI=\"");
+    (நீளம்(பகுதிகள்) < 2) எனில் {
+        திரும்பு தவறு("Reference இல் URI இல்லை  (the Reference states no URI)");
+    }
+    மீதம் = பிரி(பகுதிகள்[1], "\"");
+    குறிப்பு_உரலி = மீதம்[0];
+
+    (குறிப்பு_உரலி == "") எனில் { திரும்பு சரி(""); }
+
+    எழுத்துகள் = சொல்லாக்கு(குறிப்பு_உரலி);
+    (எழுத்துகள்[0] != "#") எனில் {
+        திரும்பு தவறு("ஆவணத்திற்கு வெளியேயான Reference: " & குறிப்பு_உரலி
+                      & "  (nothing is fetched to check an external reference)");
+    }
+    திரும்பு சரி(_முதலை_நீக்கு(குறிப்பு_உரலி));
+}
+
+// ___குறிப்பின்_சுருக்கம்(ஆவணம்) — the DigestValue element, canonical__
+// _குறிப்பின்_சுருக்கம்(ஆவணம்) — DigestValue உறுப்பின் நேர்வடிவம்
+செயல் _குறிப்பின்_சுருக்கம்(ஆவணம்) {
+    கண்டது = உறுப்பைத்_தேடு(ஆவணம், "DigestValue", "விலக்கு");
+    (தவறா(கண்டது)) எனில் { திரும்பு ""; }
+    உறுப்பு = மதிப்பு(கண்டது);
+    திரும்பு உறுப்பு["நேர்வடிவம்"];
+}
+
+// __முத்திரையைச்_சரிபார்(ஆவணம், பொதுச்சாவி) — does the signature hold?__
+// முத்திரையைச்_சரிபார்(ஆவணம், பொதுச்சாவி) — முத்திரை சரியானதா என்பதைச் சரிபார்க்கும்
+//
+// __Two questions, in an order that is not arbitrary. First: was SignedInfo__
+// __signed by the holder of this key? Until that answers yes, the DigestValue__
+// __inside SignedInfo is a number an attacker chose, and comparing the document__
+// __against it proves nothing. Only then: does the document still digest to it?__
+//
+// __சரி(மெய்) is the only success. Each failure says which of the two gave way,__
+// __because "not signed by this key" and "altered after signing" call for__
+// __different actions.__
+செயல் முத்திரையைச்_சரிபார்(ஆவணம், பொதுச்சாவி) {
+    தகவல்_கண்டது = உறுப்பைத்_தேடு(ஆவணம், "SignedInfo", "விலக்கு");
+    (தவறா(தகவல்_கண்டது)) எனில் {
+        திரும்பு தவறு("SignedInfo இல்லை  (no SignedInfo, so there is no signature here)");
+    }
+    தகவல் = மதிப்பு(தகவல்_கண்டது);
+
+    மதிப்புக்_கண்டது = உறுப்பைத்_தேடு(ஆவணம், "SignatureValue", "விலக்கு");
+    (தவறா(மதிப்புக்_கண்டது)) எனில் {
+        திரும்பு தவறு("SignatureValue இல்லை  (no SignatureValue)");
+    }
+    கையொப்ப_உறுப்பு = மதிப்பு(மதிப்புக்_கண்டது);
+    கையொப்பப்_பைட்டுகள் = அறுபத்துநான்கு_பைட்டுகளாக(_உள்ளுரை(கையொப்ப_உறுப்பு["நேர்வடிவம்"]));
+    (தவறா(கையொப்பப்_பைட்டுகள்)) எனில் { திரும்பு கையொப்பப்_பைட்டுகள்; }
+
+    // __வளைவு_நேர்_சரிபார் answers with a plain மெய்/பொய், and தவறு only when the__
+    // __key itself could not be read. A key that cannot be read and a signature__
+    // __that does not match are different problems, so they stay apart here.__
+    பொருந்தியதா = வளைவு_நேர்_சரிபார்(தகவல்["நேர்வடிவம்"], மதிப்பு(கையொப்பப்_பைட்டுகள்), பொதுச்சாவி);
+    (தவறா(பொருந்தியதா)) எனில் { திரும்பு பொருந்தியதா; }
+    (பொருந்தியதா == பொய்) எனில் {
+        திரும்பு தவறு("கையொப்பம் பொருந்தவில்லை  (SignedInfo was not signed by this key)");
+    }
+
+    அடையாளம் = _குறிப்பின்_அடையாளம்(ஆவணம்);
+    (தவறா(அடையாளம்)) எனில் { திரும்பு அடையாளம்; }
+
+    சுருக்கம் = _உறைபொதிச்_சுருக்கம்(ஆவணம், மதிப்பு(அடையாளம்));
+    (தவறா(சுருக்கம்)) எனில் { திரும்பு சுருக்கம்; }
+
+    சொன்ன_சுருக்கம் = _உள்ளுரை(_குறிப்பின்_சுருக்கம்(ஆவணம்));
+    (மதிப்பு(சுருக்கம்) != சொன்ன_சுருக்கம்) எனில் {
+        திரும்பு தவறு("சுருக்கம் பொருந்தவில்லை  (the document changed after it was signed)");
+    }
+
+    திரும்பு சரி(மெய்);
+}

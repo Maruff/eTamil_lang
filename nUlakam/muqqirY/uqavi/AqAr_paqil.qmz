@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __An Aadhaar-shaped response: one element signed by Id__
+// ஆதார் வடிவப் பதில் — அடையாளத்தால் சுட்டப்பட்ட ஒரு உறுப்பு மட்டும்
+
+இறக்கு "../muqqirY.qmz";
+
+// __The shape UIDAI's authentication response takes: a root with attributes, and__
+// __the part that matters carrying an Id the Reference names. Signing the element__
+// __rather than the document is what lets the response be quoted inside a larger__
+// __message later without the signature breaking.__
+//
+// __This is a made-up response with a made-up key. It is the shape, not a real__
+// __one, and nothing here talks to UIDAI.__
+// வடிவம் மட்டுமே; உண்மையான ஆதாரப் பதில் அல்ல
+
+தனிச்சாவி = "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721";
+பொதுச்சாவி = மதிப்பு(வளைவு_பொதுச்சாவி(தனிச்சாவி));
+
+ஆதாரப்_பதில் = "<AuthRes xmlns=\"http://www.uidai.gov.in/authentication/uid-auth-response/2.0\">"
+        & "<Payload Id=\"res\" ret=\"y\" code=\"a1b2c3\" txn=\"UKC:001\">"
+        & "<Info>ok</Info>"
+        & "</Payload>"
+        & "</AuthRes>";
+
+முத்திரையிட்டது = மதிப்பு(முத்திரையிடு(ஆதாரப்_பதில், "res", தனிச்சாவி));
+
+அச்சு கொண்டுள்ளதா(முத்திரையிட்டது, "URI=\"#res\"");
+அச்சு சரியா(முத்திரையைச்_சரிபார்(முத்திரையிட்டது, பொதுச்சாவி));
+
+// __The Reference says what it covers, and it covers Payload. A change to the__
+// __envelope around it leaves the signature standing — correctly, because that is__
+// __what the Reference states. A caller that treats the whole response as signed__
+// __because the signature verified has read it wrong.__
+// குறிப்பு சொல்வது Payload மட்டுமே
+வெளியே = மாற்று(முத்திரையிட்டது, "<AuthRes ", "<AuthRes extra=\"1\" ");
+அச்சு சரியா(முத்திரையைச்_சரிபார்(வெளியே, பொதுச்சாவி));
+
+// __Inside it, nothing survives.__
+// உள்ளே எதுவும் மாற முடியாது
+உள்ளே = மாற்று(முத்திரையிட்டது, "ret=\"y\"", "ret=\"n\"");
+அச்சு முத்திரையைச்_சரிபார்(உள்ளே, பொதுச்சாவி);
+
+// __An Id nothing carries is refused rather than quietly signing the whole__
+// __document instead — which would verify, and cover something else.__
+// இல்லாத அடையாளம் மறுக்கப்படும்
+அச்சு முத்திரையிடு(ஆதாரப்_பதில், "missing", தனிச்சாவி);

@@ -1,0 +1,45 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முத்திரையை_நீக்கு — the enveloped-signature transform, on its own__
+// உறைபொதி மாற்றம் — கையொப்ப உறுப்பை நீக்கிச் சுருக்கம் கணக்கிடுதல்
+
+இறக்கு "../muqqirY.qmz";
+
+// __A signature that sits inside the document it signs cannot be part of what it__
+// __signs. So before digesting, the Signature element comes out — and it has to__
+// __come out exactly, leaving every other byte where it was. That is the whole__
+// __transform, and this is what it looks like with nothing else happening.__
+// கையொப்பம் தான் காக்கும் ஆவணத்திற்குள் இருக்க முடியாது
+
+தனிச்சாவி = "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721";
+
+// __Indented, because indentation is character data and character data is signed.__
+// __A transform that re-serialized the document instead of cutting the signature__
+// __out would tidy this whitespace and digest something the signer never saw.__
+// இடைவெளியும் கையொப்பமிடப்படுகிறது
+ஆவணம் = "<Auth>\n  <Data>\n    <V>ok</V>\n  </Data>\n</Auth>";
+
+முத்திரையிட்டது = மதிப்பு(முத்திரையிடு(ஆவணம், "", தனிச்சாவி));
+
+// __Out again, byte for byte.__
+// மீண்டும் நீக்கினால், அதே பைட்டுகள்
+அச்சு (முத்திரையை_நீக்கு(முத்திரையிட்டது) == ஆவணம்);
+
+// __An unsigned document has nothing to remove, so it comes back as it was.__
+// முத்திரையில்லாத ஆவணம் அப்படியே திரும்பும்
+அச்சு (முத்திரையை_நீக்கு(ஆவணம்) == ஆவணம்);
+
+// __Which is why the digest in the Reference is the digest of the original: the__
+// __same number, arrived at twice by different routes.__
+// குறிப்பில் உள்ள சுருக்கம், மூல ஆவணத்தின் சுருக்கமே
+அச்சு _உள்ளுரை(_குறிப்பின்_சுருக்கம்(முத்திரையிட்டது));
+அச்சு சுருக்கக்_குறிப்பு(மதிப்பு(நேர்வடிவம்(ஆவணம், "", "விலக்கு")));
+
+// __Canonicalization is what the digest is over, not the source. These two are__
+// __the same document and different bytes — attributes reordered, an empty__
+// __element written short — and they digest to the same value.__
+// நேர்வடிவம் ஒன்றாக இருந்தால், சுருக்கமும் ஒன்றே
+முதல் = "<A x=\"2\" a=\"1\"><B/></A>";
+இரண்டாம் = "<A a=\"1\" x=\"2\"><B></B></A>";
+அச்சு (சுருக்கக்_குறிப்பு(மதிப்பு(நேர்வடிவம்(முதல், "", "விலக்கு")))
+       == சுருக்கக்_குறிப்பு(மதிப்பு(நேர்வடிவம்(இரண்டாம், "", "விலக்கு"))));

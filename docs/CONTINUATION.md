@@ -33,6 +33,9 @@ reruns on any change under it.
 
 | Area | Where |
 |---|---|
+| XML Signature: the envelope, the enveloped transform, verify | `nUlakam/muqqirY/`, `src/xmlsig.rs` |
+| Canonical XML 1.0 and Exclusive C14N 1.0 | `etamil_compiler/src/xmlsig.rs` |
+| OAuth 2.0 client: PKCE, refresh, client credentials | `nUlakam/oppuqal/` |
 | Line tables rather than full debug info in the dev profile | `etamil_compiler/Cargo.toml` |
 | `script_spans`, so the browser and the extension read the script marks from the compiler rather than from two copies of the rule | `src/wasm.rs`, `eTamil_site/ide/src/etamil-font.js` |
 | Rule 2's `__` opens a region across a comment block, in the scanner, the grammar and the CodeMirror parser | `eTamil_Code/src/marks.ts`, `scripts/generate_editor_support.py`, `docs/reference/SCRIPT_RULES.md` |

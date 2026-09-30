@@ -2140,12 +2140,19 @@ impl VM {
                     Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
                 }
             }
-            // உறுப்பைத்_தேடு(XML, பெயர், வடிவம்) — an element, canonical and as text
+            // உறுப்பைத்_தேடு(XML, பெயர், வடிவம்) — an element three ways
             //
             // Verifying means reading values back out: the SignedInfo the
             // signature covers, the DigestValue to compare against. Matched on
             // local name, because which prefix a document picked for the XML
             // Signature namespace is its own business.
+            //
+            // நேர்வடிவம் is the canonical form, உரைப்பு the text it contains,
+            // and மூலம் the element's own bytes out of the source. That last one
+            // is what the enveloped-signature transform needs: an enveloped
+            // signature is removed from the document before the document is
+            // digested, and removing this exact substring is what leaves every
+            // other byte as it was when it was signed.
             "உறுப்பைத்_தேடு" | "uRuppYq_qEtu" | "_xmlElement" => {
                 Self::expect_args(name, &args, 3)?;
                 let form = match args[2].to_string().as_str() {
@@ -2159,10 +2166,11 @@ impl VM {
                     }
                 };
                 match crate::xmlsig::find_element(&args[0].to_string(), &args[1].to_string(), form) {
-                    Ok((canonical, text)) => {
-                        let mut record = HashMap::with_capacity(2);
+                    Ok((canonical, text, original)) => {
+                        let mut record = HashMap::with_capacity(3);
                         record.insert("நேர்வடிவம்".to_string(), Value::String(canonical));
                         record.insert("உரைப்பு".to_string(), Value::String(text));
+                        record.insert("மூலம்".to_string(), Value::String(original));
                         Ok(Value::Ok(Box::new(Value::Map(record.into()))))
                     }
                     Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),

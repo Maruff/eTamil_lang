@@ -1,0 +1,42 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __முத்திரையிடு / முத்திரையைச்_சரிபார் — sign a document, then check it__
+// ஒரு ஆவணத்தில் முத்திரையிட்டு, அதைச் சரிபார்க்கும்
+
+இறக்கு "../muqqirY.qmz";
+
+// __RFC 6979's own P-256 example key, so this runs the same everywhere. A real__
+// __one comes from வளைவு_சாவிகள் and does not live in a file anyone can read.__
+// RFC 6979 இன் எடுத்துக்காட்டுச் சாவி
+தனிச்சாவி = "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721";
+பொதுச்சாவி = மதிப்பு(வளைவு_பொதுச்சாவி(தனிச்சாவி));
+
+ஆவணம் = "<Resp code=\"y\"><Name>Esan</Name></Resp>";
+
+முத்திரையிட்டது = மதிப்பு(முத்திரையிடு(ஆவணம், "", தனிச்சாவி));
+
+// __The SignatureValue is different every run — ECDSA picks a fresh nonce — so__
+// __what is printed here is what does not change.__
+// ஒவ்வொரு முறையும் கையொப்பம் வேறுபடும்; மாறாதவை மட்டுமே அச்சிடப்படுகின்றன
+அச்சு _உள்ளுரை(_குறிப்பின்_சுருக்கம்(முத்திரையிட்டது));
+அச்சு கொண்டுள்ளதா(முத்திரையிட்டது, "</Signature></Resp>");
+
+// __And it verifies.__
+அச்சு சரியா(முத்திரையைச்_சரிபார்(முத்திரையிட்டது, பொதுச்சாவி));
+
+// __Change one letter of what was signed and it stops verifying. The error says__
+// __which of the two checks gave way, because "altered" and "signed by someone__
+// __else" call for different actions.__
+// ஒரு எழுத்து மாறினாலும் முத்திரை நிற்காது
+திருத்தியது = மாற்று(முத்திரையிட்டது, "Esan", "Esaz");
+அச்சு முத்திரையைச்_சரிபார்(திருத்தியது, பொதுச்சாவி);
+
+// __A different key does not verify it either.__
+// வேறு சாவியும் ஏற்காது
+வேறு = மதிப்பு(வளைவு_பொதுச்சாவி("0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"));
+அச்சு முத்திரையைச்_சரிபார்(முத்திரையிட்டது, வேறு);
+
+// __Signing twice is refused. A second signature would digest the first one away__
+// __and the result would be indistinguishable from a replacement.__
+// இரண்டாம் முறை முத்திரையிட முடியாது
+அச்சு முத்திரையிடு(முத்திரையிட்டது, "", தனிச்சாவி);

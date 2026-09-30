@@ -85,6 +85,9 @@ pub mod signing;
 // no OS beyond stdout, and the `cdylib` has to export it on any machine that
 // might link an `output.ll`.
 pub mod runtime;
+// Canonical XML, which is what an XML signature is actually over. Portable:
+// roxmltree is pure Rust and parses from a string, so it builds for wasm32
+// alongside everything else here.
 pub mod xmlsig;
 // Documents, behind a feature like the other non-bundled drivers.
 #[cfg(all(feature = "mongodb", not(target_family = "wasm")))]
