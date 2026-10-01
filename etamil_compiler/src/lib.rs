@@ -89,6 +89,10 @@ pub mod runtime;
 // roxmltree is pure Rust and parses from a string, so it builds for wasm32
 // alongside everything else here.
 pub mod xmlsig;
+// AMQP 0-9-1, the protocol implemented here for the reason redis.rs gives.
+// No browser has a broker to reach, and no socket to reach it with.
+#[cfg(not(target_family = "wasm"))]
+pub mod amqp;
 // PKCS#11, behind a feature: cryptoki opens the vendor library at runtime, so
 // this links nothing, but a build that will never see an HSM should not carry
 // it. No browser has a PKCS#11 device to reach.

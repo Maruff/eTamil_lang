@@ -1,0 +1,95 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __ceyqi_varicY.qmz — a work queue, end to end__
+// செய்தி வரிசை: அனுப்புதல், எடுத்தல், ஏற்பு — முழுமையாக
+//
+// __Run it against a broker:__
+//
+//   __docker run -d -p 5672:5672 rabbitmq:3__
+//   __etamil --vm examples/api/ceyqi_varicY.qmz__
+//
+// __ETAMIL_AMQP points it elsewhere. docs/backend/AMQP.md has the rest.__
+
+இறக்கு "../../nUlakam/qaLam/ceyqi.qmz";
+
+முகவரி = சூழல்("ETAMIL_AMQP");
+(முகவரி == "") எனில் { முகவரி = "amqp://localhost"; }
+
+இணைப்பு = செய்தி_இணை(முகவரி);
+(தவறா(இணைப்பு)) எனில் {
+    அச்சு தவறு_மதிப்பு(இணைப்பு);
+    வெளியேறு(1);
+}
+
+வரிசைப்_பெயர் = "etamil-uqAraNam";
+
+// __An exchange, a queue and the binding, all durable. A queue that disappears__
+// __when the broker restarts is a queue whose durability is discovered in__
+// __production.__
+// __நிலையான பரிமாற்றி, வரிசை, பிணைப்பு — மூன்றும் ஒரே அழைப்பில்__
+தயாரிப்பு = வரிசையைத்_தயாரி(வரிசைப்_பெயர், "etamil-utpatikaL", "direct", "paqivu");
+(தவறா(தயாரிப்பு)) எனில் {
+    அச்சு தவறு_மதிப்பு(தயாரிப்பு);
+    வெளியேறு(1);
+}
+
+// __--- sending ---------------------------------------------------------------__
+//
+// __செய்தி_அனுப்பு answers சரி only when the broker has confirmed the message__
+// __*and* it reached a queue. Those are two different failures, and neither is__
+// __visible from a write to a socket that succeeded.__
+// __சரி என்றால்: தரகர் ஏற்றது, வரிசையையும் சென்றடைந்தது__
+அனுப்பியது = ஜேசானாக_அனுப்பு("etamil-utpatikaL", "paqivu",
+                               {"irn": "a1b2c3", "moqqam": "1180.00"}, "cey-1");
+அச்சு சரியா(அனுப்பியது);
+
+// __Nothing is bound to this key, so the exchange accepts the message and drops__
+// __it — and acknowledges. Publisher confirms alone would call that a success;__
+// __this does not, because every publish is mandatory.__
+// __பிணைப்பு இல்லாத திறவுகோல்: ஏற்கப்பட்டாலும் சென்றடையவில்லை__
+அச்சு ஜேசானாக_அனுப்பு("etamil-utpatikaL", "yArumillY", {"a": 1}, "cey-2");
+
+// __--- taking one off --------------------------------------------------------__
+//
+// __The message is the broker's responsibility until it is acknowledged, and__
+// __ஒன்றைச்_செயலாக்கு acknowledges only after the work returned சரி. A program__
+// __that stops half way leaves the message to be delivered again rather than__
+// __having thrown it away.__
+// __வேலை முடிந்த பிறகே ஏற்பு__
+செயல் பதிவைச்_சேமி(செய்தி) {
+    உள்ளடக்கம் = ஜேசான்_படி(செய்தி["உடல்"]);
+    (தவறா(உள்ளடக்கம்)) எனில் {
+        திரும்பு தவறு("ஜேசான் அல்ல  (the body is not JSON)");
+    }
+    திரும்பு சரி(மதிப்பு(உள்ளடக்கம்)["irn"]);
+}
+
+முடிவு = ஒன்றைச்_செயலாக்கு(வரிசைப்_பெயர், பதிவைச்_சேமி, மெய்);
+அச்சு மதிப்பு(முடிவு);
+
+// __An empty queue is சரி(இன்மை): there was nothing to do, which is not an error__
+// __and not an empty message either. A poller has to tell those apart.__
+// __காலி வரிசை — பிழை அல்ல__
+அச்சு மதிப்பு(ஒன்றைச்_செயலாக்கு(வரிசைப்_பெயர், பதிவைச்_சேமி, மெய்));
+
+// __--- rejecting -------------------------------------------------------------__
+//
+// __Work that fails rejects the message. With மீண்டுமா as மெய் it goes back for__
+// __another attempt — right for a failure that will pass later, and a loop that__
+// __never ends for one that will not. The caller chooses, because this cannot.__
+// __மறுத்தால் மீண்டும் வரிசையில்__
+ஜேசானாக_அனுப்பு("etamil-utpatikaL", "paqivu", {"irn": "d4e5f6"}, "cey-3");
+
+செயல் எப்போதும்_தோல்வி(செய்தி) {
+    திரும்பு தவறு("இந்த வேலை இப்போது முடியாது  (not now)");
+}
+
+அச்சு ஒன்றைச்_செயலாக்கு(வரிசைப்_பெயர், எப்போதும்_தோல்வி, மெய்);
+
+// __And it is back, marked as having been seen before.__
+// __மீண்டும் வந்தது, முன்பு பார்க்கப்பட்டதாகக் குறிக்கப்பட்டு__
+மீண்டும் = மதிப்பு(செய்தி_பெறு(வரிசைப்_பெயர்));
+அச்சு மீண்டும்["மீண்டும்_வந்ததா"];
+செய்தி_ஏற்பு(மீண்டும்["குறிச்சொல்"]);
+
+செய்தி_பிரி();

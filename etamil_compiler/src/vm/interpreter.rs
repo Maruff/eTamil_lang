@@ -164,6 +164,11 @@ pub struct VM {
     /// a transaction the way two requests sharing a SQL connection do. The fix
     /// is an exclusive lease, which the SQL side has and this does not yet.
     pub cache: Option<crate::redis::Connection>,
+    /// The broker, held for the life of the program for the reason `cache`
+    /// is: a channel carries per-channel state, so sharing one between two
+    /// requests has the hazard of sharing a transaction.
+    #[cfg(not(target_family = "wasm"))]
+    pub broker: Option<crate::amqp::Connection>,
 }
 
 impl Default for VM {
@@ -183,6 +188,8 @@ impl VM {
             #[cfg(feature = "mongodb")]
             documents: None,
             cache: None,
+            #[cfg(not(target_family = "wasm"))]
+            broker: None,
             frames: Vec::new(),
             connections: Connections::default(),
         }
@@ -2212,6 +2219,205 @@ impl VM {
                     Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
                 }
             }
+            // --- AMQP: a message broker, and what "sent" means ---
+            //
+            // The channel runs in confirm mode and every publish is mandatory,
+            // so செய்தி_அனுப்பு answering சரி means the broker has taken
+            // responsibility for the message *and* it reached a queue. Those
+            // are two different failures and neither is visible from a write
+            // that succeeded, which is what a publish without confirms tells
+            // you. src/amqp.rs has the reasoning.
+            //
+            // One connection, held on the VM, as ரெடிஸ்_இணை does — a channel
+            // has per-channel state and sharing one has the hazard of sharing
+            // a transaction.
+
+            // செய்தி_இணை(உரலி) — amqp://user:pass@host:port/vhost
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_இணை" | "ceyqi_iNY" | "_mqConnect" => {
+                Self::expect_args(name, &args, 1)?;
+                let url = args[0].to_string();
+                match crate::amqp::Connection::open(&url) {
+                    Ok(connection) => {
+                        self.broker = Some(connection);
+                        Ok(Value::Ok(Box::new(Value::String(url))))
+                    }
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+            // செய்தி_வரிசை(பெயர், நிலையானதா) — declare a queue, and say how
+            // many messages are waiting in it
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_வரிசை" | "ceyqi_varicY" | "_mqQueue" => {
+                Self::expect_args(name, &args, 2)?;
+                let (queue, durable) = (args[0].to_string(), args[1].is_truthy());
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.declare_queue(&queue, durable) {
+                        Ok(waiting) => {
+                            Ok(Value::Ok(Box::new(Value::Number(Decimal::from(waiting)))))
+                        }
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_பரிமாற்றி(பெயர், வகை, நிலையானதா) — direct, topic, fanout, headers
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_பரிமாற்றி" | "ceyqi_parimARRi" | "_mqExchange" => {
+                Self::expect_args(name, &args, 3)?;
+                let (exchange, kind, durable) =
+                    (args[0].to_string(), args[1].to_string(), args[2].is_truthy());
+                match self.broker.as_mut() {
+                    Some(connection) => {
+                        match connection.declare_exchange(&exchange, &kind, durable) {
+                            Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                            Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                        }
+                    }
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_பிணை(வரிசை, பரிமாற்றி, திறவுகோல்)
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_பிணை" | "ceyqi_piNY" | "_mqBind" => {
+                Self::expect_args(name, &args, 3)?;
+                let (queue, exchange, key) =
+                    (args[0].to_string(), args[1].to_string(), args[2].to_string());
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.bind(&queue, &exchange, &key) {
+                        Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_அனுப்பு(பரிமாற்றி, திறவுகோல், உடல், பண்புகள்)
+            //
+            // Returns சரி only when the broker has confirmed it and it routed
+            // somewhere. A message an exchange accepted and dropped comes back
+            // தவறு naming the routing key, because "published successfully"
+            // and "nothing is listening" look identical from the socket.
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_அனுப்பு" | "ceyqi_aZuppu" | "_mqPublish" => {
+                Self::expect_args(name, &args, 4)?;
+                let (exchange, key, body) =
+                    (args[0].to_string(), args[1].to_string(), args[2].to_string());
+                let (content_type, correlation, message_id) = match &args[3] {
+                    Value::Map(fields) => crate::amqp::properties(fields),
+                    _ => (String::new(), String::new(), String::new()),
+                };
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.publish(
+                        &exchange,
+                        &key,
+                        body.as_bytes(),
+                        &content_type,
+                        &correlation,
+                        &message_id,
+                    ) {
+                        Ok(crate::amqp::Published::Confirmed) => {
+                            Ok(Value::Ok(Box::new(Value::Boolean(true))))
+                        }
+                        Ok(crate::amqp::Published::Nacked) => Ok(Value::Err(Box::new(
+                            Value::String(
+                                "தரகர் செய்தியை ஏற்கவில்லை  \
+                                 (the broker refused responsibility for the message)"
+                                    .to_string(),
+                            ),
+                        ))),
+                        Ok(crate::amqp::Published::Returned { code, text }) => {
+                            Ok(Value::Err(Box::new(Value::String(format!(
+                                "'{}' திறவுகோலுக்கு வரிசை இல்லை ({}: {})  \
+                                 (nothing is bound to route '{}', so it was discarded)",
+                                key, code, text, key
+                            )))))
+                        }
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_பெறு(வரிசை) — one message, or இன்மை if the queue is empty
+            //
+            // Not acknowledged by taking it: it stays the broker's
+            // responsibility until செய்தி_ஏற்பு, so a program that reads one
+            // and then fails leaves it to be delivered again.
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_பெறு" | "ceyqi_peRu" | "_mqGet" => {
+                Self::expect_args(name, &args, 1)?;
+                let queue = args[0].to_string();
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.get(&queue) {
+                        Ok(None) => Ok(Value::Ok(Box::new(Value::Null))),
+                        Ok(Some(delivery)) => {
+                            Ok(Value::Ok(Box::new(Self::delivery_value(&delivery))))
+                        }
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_ஏற்பு(குறிச்சொல்) — done with it
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_ஏற்பு" | "ceyqi_ERpu" | "_mqAck" => {
+                Self::expect_args(name, &args, 1)?;
+                let tag = rust_decimal::prelude::ToPrimitive::to_u64(&args[0].to_number())
+                    .unwrap_or_default();
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.ack(tag) {
+                        Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_மறு(குறிச்சொல், மீண்டுமா) — not done with it
+            //
+            // மீண்டுமா puts it back for another attempt. Without it the message
+            // is dead-lettered if the queue says where and dropped if it does
+            // not, so rejecting from a queue with no dead-letter exchange
+            // discards — worth knowing before rejecting anything.
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_மறு" | "ceyqi_maRu" | "_mqNack" => {
+                Self::expect_args(name, &args, 2)?;
+                let tag = rust_decimal::prelude::ToPrimitive::to_u64(&args[0].to_number())
+                    .unwrap_or_default();
+                let requeue = args[1].is_truthy();
+                match self.broker.as_mut() {
+                    Some(connection) => match connection.nack(tag, requeue) {
+                        Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                        Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                    },
+                    None => Ok(Self::no_broker()),
+                }
+            }
+            // செய்தி_பிரி() — close politely, rather than letting the socket go
+            #[cfg(not(target_family = "wasm"))]
+            "செய்தி_பிரி" | "ceyqi_piri" | "_mqClose" => {
+                Self::expect_args(name, &args, 0)?;
+                match self.broker.as_mut() {
+                    Some(connection) => {
+                        let answer = connection.close();
+                        self.broker = None;
+                        match answer {
+                            Ok(()) => Ok(Value::Ok(Box::new(Value::Boolean(true)))),
+                            Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                        }
+                    }
+                    None => Ok(Self::no_broker()),
+                }
+            }
+
+            // No socket in a browser, so no broker to reach with one. Said
+            // rather than reported as an unknown name, for the reason the
+            // MongoDB arm below gives.
+            #[cfg(target_family = "wasm")]
+            "செய்தி_இணை" | "ceyqi_iNY" | "_mqConnect" | "செய்தி_வரிசை" | "ceyqi_varicY" | "_mqQueue" | "செய்தி_பரிமாற்றி" | "ceyqi_parimARRi" | "_mqExchange" | "செய்தி_பிணை" | "ceyqi_piNY" | "_mqBind" | "செய்தி_அனுப்பு" | "ceyqi_aZuppu" | "_mqPublish" | "செய்தி_பெறு" | "ceyqi_peRu" | "_mqGet" | "செய்தி_ஏற்பு" | "ceyqi_ERpu" | "_mqAck" | "செய்தி_மறு" | "ceyqi_maRu" | "_mqNack" | "செய்தி_பிரி" | "ceyqi_piri" | "_mqClose" => Err(
+                "உலாவியில் தரகர் இல்லை  \
+                 (a browser has no socket to reach a message broker with)"
+                    .to_string(),
+            ),
+
             // --- PKCS#11: a key that is not in this process ---
             //
             // An HSM's whole proposition is that the private key never leaves
@@ -2574,6 +2780,60 @@ impl VM {
         }
         rust_decimal::prelude::ToPrimitive::to_i64(&number)
             .ok_or_else(|| format!("{} மிகப் பெரியது  ({} is too large: {})", what, what, number))
+    }
+
+    /// Said rather than panicked: a program that forgot செய்தி_இணை gets the
+    /// name of the thing it forgot, not a missing-value error from inside.
+    #[cfg(not(target_family = "wasm"))]
+    fn no_broker() -> Value {
+        Value::Err(Box::new(Value::String(
+            "தரகருடன் இணைப்பு இல்லை  (no broker connection): use செய்தி_இணை first".to_string(),
+        )))
+    }
+
+    /// A delivery as a record. The tag is what செய்தி_ஏற்பு and செய்தி_மறு
+    /// take, so it is the field a program cannot do without; the rest is what
+    /// the broker said about where the message came from.
+    #[cfg(not(target_family = "wasm"))]
+    fn delivery_value(delivery: &crate::amqp::Delivery) -> Value {
+        let mut record = HashMap::with_capacity(8);
+        record.insert(
+            "குறிச்சொல்".to_string(),
+            Value::Number(Decimal::from(delivery.tag)),
+        );
+        record.insert(
+            "உடல்".to_string(),
+            Value::String(String::from_utf8_lossy(&delivery.body).into_owned()),
+        );
+        record.insert(
+            "மீண்டும்_வந்ததா".to_string(),
+            Value::Boolean(delivery.redelivered),
+        );
+        record.insert(
+            "பரிமாற்றி".to_string(),
+            Value::String(delivery.exchange.clone()),
+        );
+        record.insert(
+            "திறவுகோல்".to_string(),
+            Value::String(delivery.routing_key.clone()),
+        );
+        record.insert(
+            "காத்திருப்பவை".to_string(),
+            Value::Number(Decimal::from(delivery.waiting)),
+        );
+        record.insert(
+            "வகை".to_string(),
+            Value::String(delivery.content_type.clone()),
+        );
+        record.insert(
+            "தொடர்பு".to_string(),
+            Value::String(delivery.correlation_id.clone()),
+        );
+        record.insert(
+            "அடையாளம்".to_string(),
+            Value::String(delivery.message_id.clone()),
+        );
+        Value::Map(record.into())
     }
 
     fn expect_args(name: &str, args: &[Value], want: usize) -> Result<(), String> {

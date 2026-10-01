@@ -1,0 +1,99 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in>
+// __nUlakam/qaLam/ceyqi.qmz — a message broker, the three things most callers do__
+// செய்தி — தரகருடன் பழகும் வழக்கமான மூன்று செயல்கள்
+//
+// __The builtins are the protocol: declare, bind, publish, get, acknowledge.__
+// __What is here is the handful of shapes a program actually writes, so the__
+// __acknowledgement discipline is written once rather than once per caller.__
+// __`retis.qmz` stands in the same relation to `ரெடிஸ்_கட்டளை`.__
+//
+// __Nothing here opens the connection. `செய்தி_இணை` is a call with a password in__
+// __it and it belongs where the rest of a program's configuration is, not buried__
+// __in a helper that looks like it only publishes.__
+
+இறக்கு "../vativam/jEcAZ.qmz";
+
+// __வரிசையைத்_தயாரி(வரிசைப்_பெயர், பரிமாற்றி, பரிமாற்றி_வகை, திறவுகோல்) — the three declarations__
+// வரிசையைத்_தயாரி(...) — பரிமாற்றி, வரிசை, பிணைப்பு — மூன்றையும் ஒரே இடத்தில்
+//
+// __An exchange, a queue and the binding between them, all durable. Durable__
+// __because the alternative is a queue that disappears when the broker restarts,__
+// __and a program that discovers this discovers it in production.__
+//
+// __An empty பரிமாற்றி is the default exchange, which routes by queue name and__
+// __needs no binding — so that case declares the queue and stops. It is the right__
+// __answer for a work queue and the wrong one for anything with two consumers of__
+// __different kinds, which is what a named exchange is for.__
+செயல் வரிசையைத்_தயாரி(வரிசைப்_பெயர், பரிமாற்றி, பரிமாற்றி_வகை, திறவுகோல்) {
+    (பரிமாற்றி != "") எனில் {
+        பரிமாற்றி_விளைவு = செய்தி_பரிமாற்றி(பரிமாற்றி, பரிமாற்றி_வகை, மெய்);
+        (தவறா(பரிமாற்றி_விளைவு)) எனில் { திரும்பு பரிமாற்றி_விளைவு; }
+    }
+
+    வரிசை_விளைவு = செய்தி_வரிசை(வரிசைப்_பெயர், மெய்);
+    (தவறா(வரிசை_விளைவு)) எனில் { திரும்பு வரிசை_விளைவு; }
+
+    (பரிமாற்றி != "") எனில் {
+        பிணைப்பு = செய்தி_பிணை(வரிசைப்_பெயர், பரிமாற்றி, திறவுகோல்);
+        (தவறா(பிணைப்பு)) எனில் { திரும்பு பிணைப்பு; }
+    }
+
+    திரும்பு வரிசை_விளைவு;
+}
+
+// __ஜேசானாக_அனுப்பு(பரிமாற்றி, திறவுகோல், பதிவேடு, அடையாளம்) — a record, as JSON__
+// ஜேசானாக_அனுப்பு(...) — பதிவேட்டை ஜேசானாக மாற்றி அனுப்பும்
+//
+// __The content type is set, which matters more than it looks: a consumer in__
+// __another language reads it to decide how to parse, and a message that says__
+// __nothing gets guessed at.__
+//
+// __அடையாளம் is the message id, and it is an argument rather than something__
+// __invented here because `oruwkiNYppu` states the rule: nothing in nUlakam reads__
+// __the clock or makes up a random number. A message id is exactly the kind of__
+// __value that would be invented from one, and a caller that wants an idempotency__
+// __key needs it to be *its* key — the one it will recognise on a retry.__
+செயல் ஜேசானாக_அனுப்பு(பரிமாற்றி, திறவுகோல், பதிவேடு, அடையாளம்) {
+    திரும்பு செய்தி_அனுப்பு(பரிமாற்றி, திறவுகோல், ஜேசான்_ஆக்கு(பதிவேடு),
+                             {"வகை": "application/json", "அடையாளம்": அடையாளம்});
+}
+
+// __ஒன்றைச்_செயலாக்கு(வரிசைப்_பெயர், செயலி, மீண்டுமா) — take one message and answer for it__
+// ஒன்றைச்_செயலாக்கு(...) — ஒரு செய்தியை எடுத்து, செயலியை ஓட்டி, ஏற்பு அல்லது மறுப்பு
+//
+// __The acknowledgement discipline, in one place. `செயலி` is handed the delivery__
+// __and returns a முடிவு: சரி acknowledges, தவறு rejects. Nothing is acknowledged__
+// __before the work is done, so a program that stops half way leaves the message__
+// __to be delivered again rather than having thrown it away.__
+//
+// __மீண்டுமா decides what a rejection means, and the two answers are genuinely__
+// __different. மெய் puts the message back, which is right for a failure that will__
+// __pass later — the database was down. பொய் sends it to the dead-letter exchange__
+// __if the queue names one, and **discards it** if the queue does not. A message__
+// __that fails every time and is always requeued is a loop that never ends, and a__
+// __queue with no dead-letter exchange is a bin; neither is a default this can__
+// __choose for a caller.__
+//
+// __Answers சரி(இன்மை) for an empty queue. That is not an error and not an empty__
+// __message: "there was nothing to do" and "there was something and it was blank"__
+// __are different, and a poller needs to tell them apart.__
+செயல் ஒன்றைச்_செயலாக்கு(வரிசைப்_பெயர், செயல் செயலி, மீண்டுமா) {
+    பெற்றது = செய்தி_பெறு(வரிசைப்_பெயர்);
+    (தவறா(பெற்றது)) எனில் { திரும்பு பெற்றது; }
+
+    செய்தி = மதிப்பு(பெற்றது);
+    (வகை(செய்தி) == "nil") எனில் { திரும்பு சரி(இன்மை); }
+
+    விளைவு = செயலி(செய்தி);
+
+    (தவறா(விளைவு)) எனில் {
+        மறுப்பு = செய்தி_மறு(செய்தி["குறிச்சொல்"], மீண்டுமா);
+        (தவறா(மறுப்பு)) எனில் { திரும்பு மறுப்பு; }
+        திரும்பு விளைவு;
+    }
+
+    ஏற்பு = செய்தி_ஏற்பு(செய்தி["குறிச்சொல்"]);
+    (தவறா(ஏற்பு)) எனில் { திரும்பு ஏற்பு; }
+    திரும்பு விளைவு;
+}

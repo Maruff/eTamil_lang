@@ -54,6 +54,7 @@ Both pages carry a status banner; read it first.
 | [HTTP Server](backend/HTTP_SERVER_QUICKREF.md) | Server usage. `வழி` routes and a worker pool now work; `--async` is still an alias for `--server` |
 | [Database Commands](backend/DATABASE_COMMANDS_GUIDE.md) | Database syntax. SQLite executes; queries are always parameterised. Other engines report that they are unsupported |
 | [PKCS#11](backend/PKCS11.md) | Signing with a key that is not in the process. Behind `--features pkcs11`; the signature is the same shape `வளைவு_நேர்_கையொப்பம்` makes, so verification needs no device |
+| [AMQP](backend/AMQP.md) | A message broker. Publisher confirms and `mandatory` are always on, so `செய்தி_அனுப்பு` answering `சரி` means the broker has it *and* it reached a queue |
 
 ## Planning
 

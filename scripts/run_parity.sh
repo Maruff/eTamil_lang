@@ -156,6 +156,7 @@ declare -A SKIP=(
 declare -A NEEDS_SERVER=(
     ["examples/db_samples/mYcIkul_qaLam.qmz"]="ETAMIL_TEST_MYSQL"
     ["examples/crypto_samples/vaZcAvi_muqqirY.qmz"]="ETAMIL_TEST_PKCS11"
+    ["examples/api/ceyqi_varicY.qmz"]="ETAMIL_TEST_AMQP"
 )
 
 # Every program below gets this on stdin, and gets it identically on both

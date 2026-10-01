@@ -296,6 +296,47 @@ jobs:
         working-directory: etamil_compiler
         run: cargo test --features mongodb
 
+  amqp-broker:
+    name: AMQP against a broker
+    runs-on: ubuntu-latest
+    # The decisive check for src/amqp.rs. tests/amqp_loopback.rs drives the
+    # client against a peer this repository also wrote, which catches framing
+    # mistakes and cannot catch a misreading of the specification -- the same
+    # reading would be on both sides of that socket. RabbitMQ has not read this
+    # repository.
+    services:
+      rabbitmq:
+        image: rabbitmq:3
+        ports:
+          - 5672:5672
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: etamil_compiler
+
+      # `-- --ignored` on purpose: these are #[ignore] rather than gated on an
+      # environment variable, so a machine without a broker reports them
+      # ignored instead of reporting nine green tests over code that never ran.
+      - name: The protocol, against RabbitMQ
+        working-directory: etamil_compiler
+        run: cargo test --test amqp -- --ignored
+
+      - name: Build with the examples' compiler
+        working-directory: etamil_compiler
+        run: cargo build --release
+
+      - name: A work queue, end to end, through eTamil
+        run: ./etamil_compiler/target/release/etamil --vm examples/api/ceyqi_varicY.qmz
+
   pdf-shaping:
     name: PDF output is shaped
     runs-on: ubuntu-latest
