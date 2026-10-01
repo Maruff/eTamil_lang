@@ -17,6 +17,15 @@ them — points cargo at it, and runs `cargo check --features llvm`.
     python scripts/check_llvm_backend.py
     python scripts/check_llvm_backend.py --clean     # if it was interrupted
 
+The shim is generated from every llvm-sys module this repository uses, found by
+reading the imports rather than from a list. It was `core` and the crate root
+for a long time, and then `src/artino/emit.rs` arrived using `target`,
+`target_machine`, `analysis`, `error` and `transforms::pass_builder` -- and the
+script stopped working everywhere, including on Ubuntu, while
+`docs/CONTINUATION.md` went on saying it worked on Windows. A hardcoded list of
+modules goes stale exactly the way the hardcoded list of *sources* above it
+already did once.
+
 What this catches: every type error and every borrow error, in the whole file.
 What it cannot catch: invalid IR, and a wrong answer. Those need Ubuntu and
 `scripts/run_parity.sh`. Do not read a clean run here as "the backend works".
@@ -113,17 +122,51 @@ def symbols_used():
     return names
 
 
+def module_path(relative):
+    """`target_machine.rs` -> `target_machine`; `transforms/pass_builder.rs` ->
+    `transforms::pass_builder`; `lib.rs` -> the crate root."""
+    parts = relative.replace("\\", "/").split("/")
+    if parts[-1] == "mod.rs":
+        parts = parts[:-1]
+    else:
+        parts[-1] = parts[-1][:-3]
+    if parts == ["lib"]:
+        return ""
+    return "::".join(parts)
+
+
+def read_llvm_modules(source):
+    """Every llvm-sys module, as (module path -> its source text)."""
+    root = os.path.join(source, "src")
+    modules = {}
+    for base, _, files in os.walk(root):
+        for name in files:
+            if not name.endswith(".rs"):
+                continue
+            full = os.path.join(base, name)
+            relative = os.path.relpath(full, root)
+            modules[module_path(relative)] = io.open(full, encoding="utf-8").read()
+    return modules
+
+
+DECLARATION = re.compile(r"pub fn (LLVM\w+)\((?:[^;]*?)\)(?:\s*->\s*[^;]+?)?;", re.S)
+
+
 def generate(source):
-    core = io.open(os.path.join(source, "src/core.rs"), encoding="utf-8").read()
-    lib = io.open(os.path.join(source, "src/lib.rs"), encoding="utf-8").read()
-
-    declarations = {}
-    for match in re.finditer(
-        r"pub fn (LLVM\w+)\((?:[^;]*?)\)(?:\s*->\s*[^;]+?)?;", core, re.S
-    ):
-        declarations.setdefault(match.group(1), match.group(0))
-
+    modules = read_llvm_modules(source)
+    lib = modules.get("", "")
     wanted = symbols_used()
+
+    # Where each function is declared, and what it looks like.
+    declarations = {}
+    home = {}
+    for path, text in sorted(modules.items()):
+        for match in DECLARATION.finditer(text):
+            name = match.group(1)
+            if name not in declarations:
+                declarations[name] = match.group(0)
+                home[name] = path
+
     keep = {name for name in wanted if name in declarations}
     # A signature may name another declared function as a callback parameter.
     for _ in range(3):
@@ -132,22 +175,41 @@ def generate(source):
                 if other in declarations:
                     keep.add(other)
 
-    # The aliases live in llvm-sys's own `prelude`, so they name their targets
-    # through `super::`. At crate root they must not.
-    aliases = []
-    for name in ALIASES:
-        match = re.search(r"pub type %s = [^;]+;" % name, lib)
-        if match:
-            aliases.append(match.group(0).replace("super::", ""))
-    opaque = sorted({re.search(r"\*mut (\w+)", a).group(1) for a in aliases})
+    # Types: the aliases and enums named by anything kept, plus the ones listed
+    # below. Every one is emitted at the crate root and re-exported from the
+    # module llvm-sys declares it in, so both `llvm_sys::LLVMLinkage` and
+    # `llvm_sys::target::LLVMTargetDataRef` resolve without the shim having to
+    # model llvm-sys's own `use` graph.
+    mentioned = set(ALIASES) | set(ENUMS)
+    for name in keep:
+        mentioned.update(re.findall(r"\bLLVM\w+", declarations[name]))
+    mentioned.update(wanted)
+    # The header writes LLVMBool itself, so collecting llvm-sys's own
+    # declaration of it defines the name twice.
+    mentioned.discard("LLVMBool")
 
-    enums = []
-    for name in ENUMS:
-        match = re.search(r"pub enum %s \{.*?\n\}" % name, lib, re.S)
-        if match:
-            enums.append(
-                "#[repr(C)]\n#[derive(Clone, Copy, Debug, PartialEq)]\n" + match.group(0)
-            )
+    aliases = {}
+    enums = {}
+    for path, text in sorted(modules.items()):
+        for name in sorted(mentioned):
+            if name in aliases or name in enums:
+                continue
+            alias = re.search(r"pub type %s = [^;]+;" % name, text)
+            if alias:
+                aliases[name] = (path, alias.group(0).replace("super::", ""))
+                continue
+            enum = re.search(r"pub enum %s \{.*?\n\}" % name, text, re.S)
+            if enum:
+                enums[name] = (path, enum.group(0))
+
+    opaque = sorted(
+        {
+            found.group(1)
+            for _, body in aliases.values()
+            for found in [re.search(r"\*mut (\w+)", body)]
+            if found
+        }
+    )
 
     out = [
         "//! A stand-in for llvm-sys 180: the same signatures, nothing behind them.",
@@ -160,21 +222,64 @@ def generate(source):
         "pub type LLVMBool = ::libc::c_int;",
     ]
     out += ["pub enum %s {}" % name for name in opaque]
-    out += [""] + aliases + [""] + enums + [""]
+    out += [""]
+    out += [body for _, body in sorted(aliases.values())]
+    out += [""]
+    out += [
+        "#[repr(C)]\n#[derive(Clone, Copy, Debug, PartialEq)]\n" + body
+        for _, body in sorted(enums.values())
+    ]
+    out += [""]
+
+    prelude = sorted(name for name in aliases if name in set(ALIASES))
     out += [
         "pub mod prelude {",
-        "    pub use super::{LLVMBool, %s};"
-        % ", ".join(sorted(re.search(r"pub type (\w+)", a).group(1) for a in aliases)),
+        "    pub use super::{LLVMBool, %s};" % ", ".join(prelude),
         "}",
         "",
-        "pub mod core {",
-        "    use super::prelude::*;",
-        "    use super::*;",
-        '    extern "C" {',
     ]
-    for name in sorted(keep):
-        out += ["        " + line.strip() for line in declarations[name].splitlines()]
-    out += ["    }", "}", ""]
+
+    # One module per llvm-sys module that contributes something, nested where
+    # llvm-sys nests them.
+    used_modules = sorted({home[name] for name in keep} | {p for p, _ in aliases.values()}
+                          | {p for p, _ in enums.values()})
+    tree = {}
+    for path in used_modules:
+        if path == "":
+            continue
+        node = tree
+        for part in path.split("::"):
+            node = node.setdefault(part, {})
+
+    def emit(node, prefix, depth):
+        lines = []
+        for part in sorted(node):
+            here = (prefix + "::" + part) if prefix else part
+            pad = "    " * depth
+            lines.append("%spub mod %s {" % (pad, part))
+            own_types = sorted(
+                [n for n, (p, _) in aliases.items() if p == here]
+                + [n for n, (p, _) in enums.items() if p == here]
+            )
+            if own_types:
+                lines.append("%s    pub use crate::{%s};" % (pad, ", ".join(own_types)))
+            own_functions = sorted(n for n in keep if home[n] == here)
+            if own_functions:
+                lines.append("%s    #[allow(unused_imports)]" % pad)
+                lines.append("%s    use crate::prelude::*;" % pad)
+                lines.append("%s    #[allow(unused_imports)]" % pad)
+                lines.append("%s    use crate::*;" % pad)
+                lines.append('%s    extern "C" {' % pad)
+                for name in own_functions:
+                    for line in declarations[name].splitlines():
+                        lines.append(pad + "        " + line.strip())
+                lines.append("%s    }" % pad)
+            lines += emit(node[part], here, depth + 1)
+            lines.append("%s}" % pad)
+        return lines
+
+    out += emit(tree, "", 0)
+    out += [""]
 
     os.makedirs(os.path.join(SHIM, "src"), exist_ok=True)
     io.open(os.path.join(SHIM, "src/lib.rs"), "w", encoding="utf-8", newline="\n").write(
@@ -184,13 +289,17 @@ def generate(source):
         CARGO_TOML
     )
 
+    # An enum variant is not a declaration and never will be: it arrives with
+    # its enum. The test is against the emitted *bodies*, not the names they are
+    # keyed by — `aliases` and `enums` are maps now, and checking the keys
+    # quietly reported every variant as missing while the build was fine.
+    bodies = [body for _, body in aliases.values()] + [body for _, body in enums.values()]
     missing = sorted(
         name
         for name in wanted
         if name not in declarations
         and name not in opaque
-        and not any(name in a for a in aliases)
-        and not any(name in e for e in enums)
+        and not any(name in body for body in bodies)
     )
     return len(keep), missing
 
