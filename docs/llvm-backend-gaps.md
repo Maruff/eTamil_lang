@@ -62,7 +62,7 @@ call per operation and buys three things, none of them a coincidence:
 2. **Formatting cannot drift**, because printing calls `Value::to_string`, the
    function the VM prints through. Trailing zeros are trimmed in one place, not
    two: `1000 * 18%` is `180.00` by scale and prints as `180` on both sides.
-3. **All fifty-nine builtins work at once**, because `etamil_call` dispatches
+3. **Every builtin works at once**, because `etamil_call` dispatches
    through `VM::invoke_builtin` — the interpreter's own table. `நீளம்` is not
    reimplemented, so it cannot disagree.
 

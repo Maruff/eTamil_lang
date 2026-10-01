@@ -23,7 +23,7 @@
 //! 2. **Formatting cannot drift**, because printing calls `Value::to_string`,
 //!    the function the VM prints through. Trailing zeros are trimmed in one
 //!    place, not two.
-//! 3. **All fifty-nine builtins work at once**, because `etamil_call` goes
+//! 3. **Every builtin works at once**, because `etamil_call` goes
 //!    through `VM::invoke_builtin` — the dispatch the bytecode interpreter
 //!    uses. `நீளம்` is not reimplemented here, so it cannot disagree.
 //!
@@ -816,7 +816,7 @@ pub unsafe extern "C" fn etamil_call_method(
 
 // --- Builtins and output --------------------------------------------------
 
-/// Any of the fifty-nine, by name, through the interpreter's own dispatch.
+/// Any builtin, by name, through the interpreter's own dispatch.
 ///
 /// # Safety
 ///

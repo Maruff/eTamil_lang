@@ -535,9 +535,9 @@ impl VM {
     ///
     /// `call_builtin` below takes them off the stack because that is what the
     /// bytecode gives it. The LLVM backend has them as values, and calls this:
-    /// the point is that both backends reach the *same* fifty-nine builtins, so
-    /// a compiled program cannot answer differently from an interpreted one
-    /// because someone reimplemented நீளம் slightly differently.
+    /// the point is that both backends reach the *same* builtins, so a compiled
+    /// program cannot answer differently from an interpreted one because someone
+    /// reimplemented நீளம் slightly differently.
     pub fn invoke_builtin(&mut self, name: &str, args: Vec<Value>) -> Result<Value, String> {
         let argc = args.len();
         for argument in args {

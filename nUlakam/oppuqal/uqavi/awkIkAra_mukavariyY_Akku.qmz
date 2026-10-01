@@ -16,12 +16,35 @@
 காவல்_குறி = காவல்_குறியை_ஆக்கு();
 சரிபார்ப்பான் = சரிபார்ப்பானை_ஆக்கு();
 
+// __Their values are not printed, and that is not squeamishness. They come from__
+// __`எழுமாற்று`, so they differ every run — and `run_parity.sh` runs each program__
+// __under both backends and diffs the output. Printing them made it report that__
+// __the two backends disagreed, every run, for ever. A gate that is always red is__
+// __a gate nobody reads, and it was hiding behind the one message this project__
+// __most needs to be able to trust.__
+//
+// __So what is printed is what is true of them every time: how long they are, and__
+// __that two calls never agree. The second is the property that actually matters,__
+// __and the one a fixed value in a sample would quietly fail to have.__
+// மதிப்புகள் அல்ல — ஓட்டத்திற்கு ஓட்டம் மாறாத பண்புகள் மட்டுமே
+அச்சு நீளம்(சொல்லாக்கு(காவல்_குறி));
+அச்சு (காவல்_குறியை_ஆக்கு() != காவல்_குறி);
+அச்சு (சரிபார்ப்பானை_ஆக்கு() != சரிபார்ப்பான்);
+
+// __The challenge is a SHA-256 digest in base64url, so it is 43 characters__
+// __whatever the verifier was — which is the form RFC 7636 asks for, unpadded.__
+// சவால் எப்போதும் 43 எழுத்துகள்
+அச்சு நீளம்(சொல்லாக்கு(சவால்_ஆக்கு(சரிபார்ப்பான்)));
+
 // __Only the challenge travels. That is the point of PKCE: what goes over the__
 // __wire cannot be replayed by whoever intercepts it, because proving you began__
 // __the flow needs the verifier, which never left.__
+//
+// __The URL is built from fixed values here so the whole of it can be read on the__
+// __page. In a real flow these two are the ones made above, and they go into the__
+// __session before the redirect.__
 // சவால் மட்டுமே செல்கிறது; சரிபார்ப்பான் வெளியே செல்வதில்லை
-அச்சு அங்கீகார_முகவரியை_ஆக்கு(வாடிக்கையாளர், "openid profile",
-                                  காவல்_குறி, சவால்_ஆக்கு(சரிபார்ப்பான்));
+அச்சு அங்கீகார_முகவரியை_ஆக்கு(வாடிக்கையாளர், "openid profile", "st-1", "ch-1");
 
 // __A public client — a phone app with no secret it can keep — builds exactly__
 // __the same URL. PKCE is what stands in place of the secret, not a weaker__

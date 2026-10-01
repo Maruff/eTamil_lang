@@ -33,7 +33,7 @@
 # The emitted IR is not self-contained. Every eTamil value in it is a handle
 # into an arena in `crate::runtime`, and every operation on one is a call into
 # the cdylib that Cargo already builds beside the binary — which is what makes
-# decimals exact and all fifty-nine builtins reachable. So the link needs it,
+# decimals exact and every builtin reachable. So the link needs it,
 # and needs an rpath so the built program can find it again when it runs.
 
 set -uo pipefail
@@ -101,6 +101,14 @@ if [[ "${1:-}" == "--diff" ]]; then
         echo "error: no such file: ${2}"
         exit 2
     fi
+    # Absolute from here on. The LLVM run below does its work in a temporary
+    # directory, so a relative path stops resolving the moment it cds there --
+    # and the failure was not "file not found" but "The backend refuses this
+    # program", with an empty list of reasons, because that branch is reached by
+    # any non-zero exit. Diagnosing a missing file as a refused program is the
+    # worst answer this script could give: it accuses the backend of the one
+    # thing the script exists to detect.
+    target="$(cd "$(dirname "$target")" && pwd)/$(basename "$target")"
 
     vm_out="$(cd "$(dirname "$target")" && echo "0" | "$BIN" --vm "$target" 2>&1)"
     vm_body="$(sed -n '/=== Execution Output ===/,$p' <<<"$vm_out" \
@@ -109,8 +117,16 @@ if [[ "${1:-}" == "--diff" ]]; then
     work="$(mktemp -d)"
     llvm_out="$(cd "$work" && echo "0" | "$BIN" --llvm "$target" 2>&1)"
     if [[ $? -ne 0 ]]; then
-        echo "The backend refuses this program, so there is nothing to compare:"
-        grep -E '^    - ' <<<"$llvm_out" | sed 's/^    - /  /'
+        reasons="$(grep -E '^    - ' <<<"$llvm_out" | sed 's/^    - /  /')"
+        if [[ -n "$reasons" ]]; then
+            echo "The backend refuses this program, so there is nothing to compare:"
+            printf '%s\n' "$reasons"
+        else
+            # No reasons means this was not a refusal at all. Printing the
+            # backend's own words beats inventing a diagnosis for it.
+            echo "The backend did not produce IR, and did not say it was refusing:"
+            printf '%s\n' "$llvm_out" | tail -20
+        fi
         rm -rf "$work"
         exit 0
     fi

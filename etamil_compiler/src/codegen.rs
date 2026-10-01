@@ -17,9 +17,13 @@
 //! `0.3333333333333333333333333333` on the VM, and no register holds that.
 //!
 //! Handles cost a call per operation and buy the whole language, plus exact
-//! decimals, plus formatting that cannot drift from the VM's, plus all
-//! fifty-nine builtins. See `src/runtime.rs` for why each of those follows
-//! rather than being implemented twice.
+//! decimals, plus formatting that cannot drift from the VM's, plus every
+//! builtin there is. Not a number, deliberately: this said "fifty-nine" for
+//! long enough to become wrong twice over, and the count was never the
+//! point. Nothing here knows one builtin from another, so a builtin added
+//! to the interpreter is reachable from compiled code without this file
+//! being touched. See `src/runtime.rs` for why each of those follows rather
+//! than being implemented twice.
 //!
 //! ## The consequence for linking
 //!
@@ -1522,9 +1526,9 @@ impl Compiler {
         }
     }
 
-    /// A call: the author's `செயல்` first, then any of the fifty-nine builtins
-    /// through the runtime, which dispatches them with the interpreter's own
-    /// table. That order is the VM's order.
+    /// A call: the author's `செயல்` first, then any builtin at all through
+    /// the runtime, which dispatches them with the interpreter's own table.
+    /// That order is the VM's order.
     fn compile_call(&mut self, name: &str, args: &[Expr]) -> LLVMValueRef {
         // `கடன்(பதிவு)` — a shape's name called makes a record of that shape
         // out of a plain one, as a result, through `vm::shape::convert`.
