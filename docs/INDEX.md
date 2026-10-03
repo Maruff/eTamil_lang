@@ -11,6 +11,7 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 | Page | What it covers |
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
+| [eTamil in CI](getting-started/CI.md) | Ready-made GitHub Actions, GitLab CI and shell templates: install, `--check`, run |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
 
 ## Libraries
