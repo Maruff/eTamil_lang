@@ -2,6 +2,7 @@
 
 # Rust build artifacts
 etamil_compiler/target/
+etamil_lsp/target/
 scripts/bench/compare/rust/target/
 
 # Benchmark build artifacts

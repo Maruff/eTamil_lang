@@ -1,0 +1,37 @@
+# etamil_lsp: the eTamil language server.
+#
+# A separate package rather than a feature of etamil_compiler: the compiler
+# crate keeps its dependency list to what the compiler itself uses, and the
+# wasm build must never see these crates. It links the compiler as a library
+# without its default features (no SQLite, no TLS stack), because the language
+# server only reads source; it never runs a program.
+
+[package]
+name = "etamil_lsp"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+authors = ["Esan Maruff <esan@etamil.in>"]
+description = "Language server for eTamil: diagnostics, completion, hover and go to definition"
+license = "AGPL-3.0-or-later"
+repository = "https://github.com/Maruff/eTamil_lang"
+homepage = "https://etamil.in"
+
+[[bin]]
+name = "etamil-lsp"
+path = "src/main.rs"
+
+[dependencies]
+etamil_compiler = { path = "../etamil_compiler", default-features = false }
+# Synchronous stdio transport (the one rust-analyzer uses); no async runtime.
+lsp-server = "0.7"
+lsp-types = "0.94"
+serde_json = "1"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true
+
+[dev-dependencies]
+serde = "1"
