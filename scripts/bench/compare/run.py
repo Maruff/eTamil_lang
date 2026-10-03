@@ -39,6 +39,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import platform
 import shutil
 import statistics
@@ -310,10 +311,29 @@ def calibrate(impl: Impl, target_ms: float, ceiling: int) -> int:
     return ceiling
 
 
+def find_php() -> str | None:
+    """PHP, from PATH or from where winget's zip install puts it.
+
+    The winget package edits PATH but an already-running shell does not see it,
+    so looking only at PATH finds nothing until the machine is logged out and
+    back in. The Packages directory is checked second for that reason.
+    """
+    found = shutil.which("php")
+    if found:
+        return found
+    packages = Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft" / "WinGet" / "Packages"
+    if packages.is_dir():
+        for candidate in sorted(packages.glob("PHP.PHP*/php.exe"), reverse=True):
+            return str(candidate)
+    return None
+
+
 def build_impls() -> list[Impl]:
     python = sys.executable
     node = shutil.which("node")
     dotnet = shutil.which("dotnet")
+    java = shutil.which("java")
+    php = find_php()
 
     def b(stem: str) -> Path:
         return BIN / f"{stem}{EXE}"
@@ -342,6 +362,11 @@ def build_impls() -> list[Impl]:
             note="hand-scaled integers",
         ),
         Impl(
+            "C++ — int64 paisa", "exact", "MSVC 19.44, /O2 /EHsc",
+            lambda n: [b("tax_int_cpp"), n], lambda: [b("empty_cpp")],
+            note="same loop as the C row, compiled as C++",
+        ),
+        Impl(
             "Python — Decimal", "exact", "CPython 3.14",
             lambda n: [python, "tax_decimal.py", n], lambda: [python, "empty.py"],
             note="stdlib decimal",
@@ -357,8 +382,34 @@ def build_impls() -> list[Impl]:
             note="hand-scaled BigInt",
         ),
         Impl(
+            "PHP — int paisa", "exact", "PHP 8.4 CLI",
+            lambda n: [php, "tax_int.php", n], lambda: [php, "empty.php"],
+            note="hand-scaled integers, PHP_INT_SIZE 8",
+        ),
+        Impl(
+            "PHP — bcmath", "exact", "PHP 8.4 CLI",
+            lambda n: [php, "tax_bcmath.php", n], lambda: [php, "empty.php"],
+            note="arbitrary precision over decimal strings",
+        ),
+        Impl(
+            "Java — BigDecimal", "exact", "OpenJDK 21, C2",
+            lambda n: [java, "-cp", str(HERE / "java"), "Tax", "bigdecimal", n],
+            lambda: [java, "-cp", str(HERE / "java"), "Tax", "empty"],
+            note="stdlib arbitrary-precision decimal",
+        ),
+        Impl(
+            "Java — long paisa", "exact", "OpenJDK 21, C2",
+            lambda n: [java, "-cp", str(HERE / "java"), "Tax", "long", n],
+            lambda: [java, "-cp", str(HERE / "java"), "Tax", "empty"],
+            note="hand-scaled integers",
+        ),
+        Impl(
             "C — double", "float", "MSVC 19.44, /O2",
             lambda n: [b("tax_double_c"), n], lambda: [b("empty_c")],
+        ),
+        Impl(
+            "C++ — double", "float", "MSVC 19.44, /O2 /EHsc",
+            lambda n: [b("tax_double_cpp"), n], lambda: [b("empty_cpp")],
         ),
         Impl(
             "Rust — f64", "float", "rustc, opt-level 3 + LTO",
@@ -377,6 +428,15 @@ def build_impls() -> list[Impl]:
             "Python — float", "float", "CPython 3.14",
             lambda n: [python, "tax_float.py", n], lambda: [python, "empty.py"],
         ),
+        Impl(
+            "PHP — float", "float", "PHP 8.4 CLI",
+            lambda n: [php, "tax_float.php", n], lambda: [php, "empty.php"],
+        ),
+        Impl(
+            "Java — double", "float", "OpenJDK 21, C2",
+            lambda n: [java, "-cp", str(HERE / "java"), "Tax", "double", n],
+            lambda: [java, "-cp", str(HERE / "java"), "Tax", "empty"],
+        ),
     ]
 
     for impl in impls:
@@ -391,6 +451,16 @@ def build_impls() -> list[Impl]:
             "tax_int_c" if "int64" in impl.name else "tax_double_c"
         ).exists():
             missing = "C not built — see README"
+        elif impl.name.startswith("C++") and not b(
+            "tax_int_cpp" if "int64" in impl.name else "tax_double_cpp"
+        ).exists():
+            missing = "C++ not built — see README"
+        elif impl.name.startswith("PHP") and not php:
+            missing = "php not on PATH"
+        elif impl.name.startswith("Java") and (
+            not java or not (HERE / "java" / "Tax.class").exists()
+        ):
+            missing = "java not on PATH" if not java else "javac java/Tax.java"
         elif impl.name.startswith("Rust") and not b("tax_decimal").exists():
             missing = "cd rust && cargo build --release"
         if missing:
@@ -407,6 +477,16 @@ def main() -> int:
     parser.add_argument("--ceiling", type=int, default=400_000_000)
     parser.add_argument("--json", type=Path)
     args = parser.parse_args()
+
+    # The report is written in en dashes, × and ⚠︎, and a Windows console is
+    # cp1252 by default, which cannot encode any of them. Printing the first
+    # per-iteration row then raised UnicodeEncodeError and killed the run after
+    # all the measuring was done but before the JSON was written — the whole
+    # benchmark lost to the last step. UTF-8 with replacement keeps the numbers
+    # even where the console cannot draw the characters.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
 
     pinning = pin_to_one_core()
 

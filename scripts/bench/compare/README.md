@@ -64,9 +64,42 @@ table isolates that.
 | `tax_decimal.py` `tax_int.py` `tax_float.py` | Python — `Decimal`, scaled `int`, `float` |
 | `tax_bigint.js` `tax_float.js` | Node — `BigInt`, `number` |
 | `tax_int.c` `tax_double.c` | C — `int64` scaled, `double` |
+| `tax_int.cpp` `tax_double.cpp` | C++ — the same loops at the same `/O2` |
+| `tax_int.php` `tax_bcmath.php` `tax_float.php` | PHP — scaled `int`, `bcmath`, `float` |
+| `java/Tax.java` | Java — `BigDecimal`, scaled `long`, `double`, by argument |
 | `rust/src/bin/*.rs` | Rust — `rust_decimal`, `f64` |
 | `csharp/Program.cs` | C# — `decimal` and `double`, selected by argument |
 | `empty.*` | Startup only, so it can be subtracted |
+
+C++ is a separate row from C rather than an assumed equivalent. For this loop
+the two should compile to the same instructions, but "should" is the kind of
+claim a benchmark directory exists to settle, so both are built and both are
+timed.
+
+Java and C# put their whole program behind a mode argument instead of a file
+each. The empty program has to start the same runtime as the timed ones for the
+subtraction to mean anything, and a separate class or assembly would load
+something different from what is being measured.
+
+## Getting the runtimes
+
+`node`, `dotnet` and `python` are found on `PATH`. The rest:
+
+| Runtime | Windows |
+|---|---|
+| C, C++ | `build_c.bat` — needs MSVC Build Tools |
+| Rust | `cd rust && cargo build --release` |
+| PHP | `winget install PHP.PHP.8.4` — zip-based, no administrator needed |
+| Java | a JDK on `PATH`, then `javac java/Tax.java` |
+
+The JDK is the awkward one: every winget JDK package is a machine-scope MSI and
+wants elevation. The Temurin `.zip` from <https://adoptium.net> needs none —
+unpack it anywhere and put its `bin` on `PATH`. Verify its SHA-256 against the
+one the Adoptium API publishes before unpacking it.
+
+PHP's winget package edits `PATH`, but a shell that was already running does
+not see the change, so `run.py` also looks in `%LOCALAPPDATA%\Microsoft\WinGet\
+Packages` before deciding PHP is missing.
 
 Every program prints `0.05 × N(N−1)/2`. The runner checks that they agree
 before it reports a timing, because a benchmark that computes the wrong thing

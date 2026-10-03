@@ -9,6 +9,7 @@ scripts/bench/compare/csharp/bin/
 scripts/bench/compare/csharp/obj/
 *.exe
 *.pdb
+*.class
 
 # Compiled binaries
 etamil_program
