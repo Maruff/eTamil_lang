@@ -89,6 +89,26 @@ The version is not lost: it is in `README.txt` inside the archive, in the releas
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
 
+## The Docker image
+
+`packaging/Dockerfile` unpacks the Linux package on Alpine; nothing is compiled
+in it, so the image holds exactly the binary published as the Linux archives. It
+runs as a non-root user with `/work` as the working directory and
+`ETAMIL_PATH` pointing at the bundled library.
+
+```bash
+bash packaging/build.sh        # needs dist/etamil-linux-<arch>.tar.gz
+docker build -f packaging/Dockerfile -t etamil .
+docker run --rm -v "$PWD:/work" etamil program.qmz
+```
+
+A local build is single-architecture, because `build.sh` builds only the current
+machine. The release workflow's `docker` job builds amd64 and arm64 from both
+archives and pushes `ghcr.io/<owner>/etamil` with the version and `latest` tags
+on a `v*` tag; a manual run builds and smoke-tests without pushing. The
+registry package is private until it is made public once in the GitHub package
+settings.
+
 ## Publishing
 
 Attach the archives to a GitHub release. Do not commit them — a binary in git
