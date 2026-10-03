@@ -103,10 +103,51 @@ jobs:
             dist/${{ matrix.package }}.sha256
           if-no-files-found: error
 
+  # Debian/Ubuntu packages, assembled from the Linux archives rather than
+  # compiled again. The amd64 one is installed and run here, which is the only
+  # real test of the package; the arm64 one is built and inspected.
+  deb:
+    name: deb packages
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-linux-*
+          path: dist
+          merge-multiple: true
+
+      - name: Build packages
+        run: |
+          bash packaging/build-deb.sh dist/etamil-linux-x64.tar.gz
+          bash packaging/build-deb.sh dist/etamil-linux-arm64.tar.gz
+
+      - name: Inspect
+        run: |
+          for f in dist/*.deb; do dpkg-deb --info "$f"; dpkg-deb --contents "$f" | head -20; done
+
+      - name: Install and run (amd64)
+        run: |
+          sudo apt-get install -y ./dist/etamil_*_amd64.deb
+          etamil --version
+          test -d /usr/share/etamil/nUlakam
+          sudo apt-get remove -y etamil
+          ! command -v etamil
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb-packages
+          path: |
+            dist/*.deb
+            dist/*.deb.sha256
+          if-no-files-found: error
+
   publish:
     name: publish release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: package
+    needs: [package, deb]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
