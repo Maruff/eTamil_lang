@@ -1,6 +1,6 @@
 # The eTamil droplet
 
-`201.79.9.90` — DigitalOcean, 2 vCPU, 3.8 GiB RAM, 77 G disk, Ubuntu 24.04.4 LTS.
+`201.79.9.90` — DigitalOcean, 2 vCPU, 3.8 GiB RAM, 77 G disk, Ubuntu 24.04.5 LTS.
 Hostname `eTamil-paRY`.
 
 Every figure below was measured on the machine, not estimated. Where something
@@ -52,7 +52,7 @@ for a long build, where someone might use the assistant halfway through.
 
 ```bash
 systemctl stop ollama
-cd /root/src/etamil_compiler
+cd /srv/etamil/eTamil/etamil_compiler
 LLVM_SYS_180_PREFIX=/usr/lib/llvm-18 cargo build --release --features llvm -j2
 systemctl start ollama
 ```
@@ -60,7 +60,7 @@ systemctl start ollama
 One line, from your own machine:
 
 ```bash
-ssh root@201.79.9.90 'bash -lc "systemctl stop ollama && cd /root/src/etamil_compiler && LLVM_SYS_180_PREFIX=/usr/lib/llvm-18 cargo build --release --features llvm -j2; systemctl start ollama"'
+ssh root@201.79.9.90 'bash -lc "systemctl stop ollama && cd /srv/etamil/eTamil/etamil_compiler && LLVM_SYS_180_PREFIX=/usr/lib/llvm-18 cargo build --release --features llvm -j2; systemctl start ollama"'
 ```
 
 The `;` before the restart rather than `&&` is deliberate: Ollama comes back
