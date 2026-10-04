@@ -1,0 +1,41 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in> -->
+<!-- The `etamil` .NET tool: dotnet tool install -g etamil -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Runs on .NET 8 and anything newer. -->
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>etamil</AssemblyName>
+    <RootNamespace>Etamil.Tool</RootNamespace>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>etamil</ToolCommandName>
+    <PackageId>etamil</PackageId>
+    <Version Condition="'$(Version)' == ''">0.0.0-local</Version>
+    <Authors>Mohammed Maruff (Esan Maruff)</Authors>
+    <Description>The eTamil compiler: a Tamil-vocabulary language for Indian accounting, tax and FinTech. Installs the prebuilt binary for your platform.</Description>
+    <PackageTags>etamil;tamil;compiler;fintech</PackageTags>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://etamil.in</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Maruff/eTamil_lang</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>false</IncludeSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Launcher.cs" Link="Launcher.cs" />
+    <None Include="../README.md" Link="README.md" Pack="true" PackagePath="/" />
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>binary</_Parameter1>
+      <_Parameter2>etamil</_Parameter2>
+    </AssemblyAttribute>
+    <!-- build-nuget.py fills staging/etamil/ with bin/<rid>/etamil[.exe] for each
+         platform and lib/nUlakam once; they land beside the launcher in the package. -->
+    <Content Include="../staging/etamil/**" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Pack="false" />
+  </ItemGroup>
+</Project>

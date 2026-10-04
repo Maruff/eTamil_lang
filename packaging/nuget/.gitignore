@@ -1,0 +1,6 @@
+staging/
+nupkgs/
+bin/
+obj/
+**/bin/
+**/obj/

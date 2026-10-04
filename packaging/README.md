@@ -89,6 +89,28 @@ The version is not lost: it is in `README.txt` inside the archive, in the releas
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
 
+## The NuGet tool packages
+
+`packaging/nuget` builds two .NET global tools, `etamil` and `etamil-lsp`
+(`dotnet tool install -g etamil`). A tool package carries one command, so the
+language server is its own package. Each holds the real binary for every platform
+plus a small launcher that picks the right one, makes it executable (a NuGet
+package does not keep the execute bit), and runs it with the caller's arguments,
+standard streams and exit code. The `etamil` package also carries the standard
+library once and points `ETAMIL_PATH` at it. Nothing is compiled: the script
+unpacks the release archives.
+
+```bash
+python packaging/nuget/build-nuget.py          # needs all five archives in dist/
+python packaging/nuget/build-nuget.py --allow-partial   # whichever are there, for local testing
+```
+
+The version is the compiler's own (`etamil_compiler/Cargo.toml`). The release
+workflow's `nuget` job builds both, installs them as tools on Linux and runs them,
+and pushes them to nuget.org on a `v*` tag; it needs a `NUGET_API_KEY` repository
+secret. One project per folder: two project files in one folder share `obj/` and
+produce a package with the wrong command.
+
 ## Publishing
 
 Attach the archives to a GitHub release. Do not commit them — a binary in git
