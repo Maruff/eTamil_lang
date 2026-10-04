@@ -76,6 +76,14 @@ jobs:
       - name: Initialise pgrx against this PostgreSQL
         run: cargo pgrx init --pg${{ matrix.pg }}=/usr/lib/postgresql/${{ matrix.pg }}/bin/pg_config
 
+      # pgrx installs the extension into the PostgreSQL it was pointed at, and for the
+      # system one those directories belong to root. The first run built the extension
+      # and then failed to copy it ("failed copying libetamil_pg.so to /usr/lib/postgresql").
+      - name: Let the runner install into this PostgreSQL
+        run: |
+          pg_config=/usr/lib/postgresql/${{ matrix.pg }}/bin/pg_config
+          sudo chmod a+rwx "$($pg_config --pkglibdir)" "$($pg_config --sharedir)/extension"
+
       - name: Build and test inside PostgreSQL
         working-directory: eTamil_pg
         run: |
