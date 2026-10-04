@@ -43,9 +43,12 @@ Then connect it:
 4. On the **Mappings** tab, add a *File name pattern* `*.qmz` with the language
    id `etamil`.
 5. Open a `.qmz` file. Errors are underlined with the compiler's own
-   bilingual messages; hover shows a name's signature or type; Ctrl+click
+   bilingual messages; hover shows a name's signature or type, or the
+   documentation of a keyword, builtin or standard library function; Ctrl+click
    (Cmd+click) goes to where a name is first written; completion offers the
-   names in scope.
+   names in scope, eTamil's keywords in Tamil and Latin spellings (with a
+   statement template for each that has one), and the builtin and standard
+   library functions, which add their `இறக்கு` import for you.
 
 LSP4IJ has a **Language Servers** tool window that shows whether the server is
 running and its log, which is the first place to look if nothing appears.
@@ -69,10 +72,9 @@ your system environment. The release packages' installers set it for you.
 
 ## What this does not give you
 
-- **Keyword completion.** The language server offers the names in your file,
-  not eTamil's keywords or the standard library's functions. The VS Code
-  extension offers both from its own tables; there is nothing equivalent here
-  yet.
+- **Signature help** (the parameter hint that follows you inside a call's
+  parentheses). Completion inserts the parameters as tab stops, and hover shows
+  the signature, but nothing tracks the argument you are typing.
 - **A debugger**, and a run configuration with its own tool window. Run output
   appears in the External Tools console.
 - **Semantic highlighting.** TextMate colours by pattern, so an identifier is

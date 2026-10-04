@@ -45,13 +45,15 @@ the extension, the `PATH`, then `%LOCALAPPDATA%\Programs\eTamil` and
 retrying on every file.
 
 Errors are underlined with the compiler's own bilingual messages; hover shows a
-name's signature or type; F12 goes to where a name is first written; completion
-offers the names in scope.
+name's signature or type, or the documentation of a keyword, builtin or standard
+library function; F12 goes to where a name is first written; completion offers the
+names in scope, eTamil's keywords in Tamil and Latin spellings, and the builtin
+and standard library functions, which add their import for you.
 
 ## What this does not give you
 
-- **Keyword completion.** The server offers the names in your file, not eTamil's
-  keywords or the standard library's functions.
+- **Signature help** while typing a call's arguments. Completion inserts the
+  parameters as tab stops, and hover shows the signature.
 - **A debugger or a project system.** Run a file from a terminal with
   `etamil file.qmz`, or add an **External Tool** (Tools → External Tools).
 - **Semantic highlighting.** TextMate colours by pattern.

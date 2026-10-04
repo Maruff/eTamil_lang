@@ -80,6 +80,7 @@ def _name(path: Path) -> str:
         return path.as_posix()
 GRAMMAR_OUT = EXT / "syntaxes" / "etamil.tmLanguage.json"
 DATA_OUT = EXT / "src" / "generated" / "language-data.ts"
+LSP_DATA_OUT = ROOT / "etamil_lsp" / "data" / "language-data.json"
 PYGMENTS_OUT = (
     ROOT / "eTamil_Pygments" / "etamil_pygments" / "_etamil_builtins.py"
 )
@@ -806,7 +807,12 @@ def build_grammar(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) 
 # --------------------------------------------------------------------------
 # TypeScript data
 # --------------------------------------------------------------------------
-def build_data(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) -> str:
+def data_lists(
+    tokens: list[dict], builtins: list[dict], stdlib: list[dict]
+) -> tuple[list[dict], list[dict]]:
+    """The keyword and function entries that completions, hover and the language
+    server are built from. One place, so the TypeScript data and the server's JSON
+    cannot disagree."""
     keywords = []
     for entry in tokens:
         tamil_snippet, latin_snippet = SNIPPETS.get(entry["token"], (None, None))
@@ -848,6 +854,24 @@ def build_data(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) -> 
         }
         for f in stdlib
     ]
+    return keywords, functions
+
+
+def build_lsp_data(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) -> str:
+    """The same entries as a compact JSON file, compiled into etamil-lsp."""
+    keywords, functions = data_lists(tokens, builtins, stdlib)
+    return (
+        json.dumps(
+            {"keywords": keywords, "functions": functions},
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
+        + "\n"
+    )
+
+
+def build_data(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) -> str:
+    keywords, functions = data_lists(tokens, builtins, stdlib)
 
     def dump(value) -> str:
         return json.dumps(value, ensure_ascii=False, indent=2)
@@ -1518,6 +1542,7 @@ def main() -> int:
         build_grammar(tokens, builtins, stdlib), ensure_ascii=False, indent=2
     ) + "\n"
     data = build_data(tokens, builtins, stdlib)
+    lsp_data = build_lsp_data(tokens, builtins, stdlib)
 
     pygments_words = build_pygments_words(tokens, builtins, stdlib)
     groups = pygments_groups(tokens, builtins, stdlib)
@@ -1534,6 +1559,7 @@ def main() -> int:
         (TREESITTER_OUT, treesitter),
         (TREESITTER_QUERIES, ts_queries),
         (SPELLINGS_OUT, spellings),
+        (LSP_DATA_OUT, lsp_data),
     ]
 
     # Only when the extension is checked out beside this repository.
@@ -1573,6 +1599,7 @@ def main() -> int:
     print(f"wrote {_name(TREESITTER_OUT)}")
     print(f"wrote {_name(TREESITTER_QUERIES)}")
     print(f"wrote {_name(SPELLINGS_OUT)}")
+    print(f"wrote {_name(LSP_DATA_OUT)}")
     print(
         f"  {len(tokens)} keywords ({reserved} reserved, "
         f"{len(tokens) - reserved} usable as names), "
