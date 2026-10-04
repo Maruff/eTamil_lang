@@ -1,8 +1,28 @@
 # PL/eTamil spike
 
 **Status: a spike, to answer the questions in `docs/architecture/DATABASE_EXTENSIONS.md`.**
-It is not a release and not a procedural language yet. What it is: a PostgreSQL extension
-with two SQL functions that run eTamil inside a backend.
+It is not a release. Step one (verified in CI on PostgreSQL 14, 16 and 17) was two SQL functions that
+run eTamil inside a backend. **Step two adds the language itself**, `LANGUAGE pletamil`, with typed
+arguments and a typed result; it has passed its native tests but **has not yet run in PostgreSQL**:
+the first CI run after it is pushed is its first real test.
+
+```sql
+CREATE EXTENSION etamil_pg;
+
+CREATE FUNCTION gst_total(amount numeric, rate numeric) RETURNS numeric LANGUAGE pletamil AS $$
+    திரும்பு amount * (1 + rate / 100);
+$$;
+
+SELECT gst_total(250.50, 18);                                -- 295.59, an exact numeric
+SELECT sum(gst_total(amount, 18)) FROM invoices;             -- exact: no float on the way
+```
+
+The body is the eTamil; the argument names are its variables (unnamed arguments are `arg1`, `arg2`).
+Supported types: `numeric`, `integer`, `bigint`, `smallint`, `double precision`, `real`, `text`,
+`character varying` and `boolean`, and SQL `NULL` is eTamil's null. Not supported, and refused by
+name: other types, set-returning functions, and `OUT`, `INOUT` and `VARIADIC` arguments.
+
+Step one's functions are still there:
 
 ```sql
 CREATE EXTENSION etamil_pg;
@@ -16,6 +36,8 @@ SELECT etamil_eval('இறக்கு "nUlakam/paNam/paNam.qmz";');   -- ERROR:
 
 | Path | What it is |
 |---|---|
+| `eval/src/function.rs` | A body and its argument names, prepared and called: the part of the language that needs no PostgreSQL. |
+| `src/handler.rs` | The call handler: reads the definition from `pg_proc`, converts each argument and the result. |
 | `eval/` | A plain Rust crate: runs an eTamil program that may only compute, and refuses one that reaches outside. **No PostgreSQL, builds and tests anywhere**, including Windows. |
 | `src/lib.rs` | The extension, built with `pgrx` 0.19.3: turns arguments and results into SQL values and a failure into a SQL error. Linux only, since `pgrx` does not build on Windows. |
 | `.github/workflows/pg-spike.yml` | Builds and tests it inside PostgreSQL 14, 16 and 17. |
@@ -84,9 +106,12 @@ the tests, not in the extension.)
 
 ## What this is not
 
-- **Not a procedural language.** `CREATE LANGUAGE pletamil` needs a call handler that receives the
-  function's arguments, binds them to names in the program, and turns a returned value back into
-  a SQL value. This spike only runs a program and returns its printed text.
+- **Not finished as a language.** There is no validator, so a mistake in a body is reported when the
+  function is first *called*, not when it is created. The definition is read from `pg_proc` on every
+  call and the body is compiled on every call (about five microseconds natively, plus one catalog read
+  per call): there is no cache, because `CREATE OR REPLACE` keeps a function's OID and a cache keyed
+  on it would run the old body. There are no `OUT` parameters, no set-returning functions, no arrays,
+  no composite types, and no transactions inside a function.
 - **Not trusted.** `etamil_pg.control` says `superuser = true, trusted = false`. The allowlist is
   tested, but it has not had the review a *trusted* language needs: PostgreSQL lets any user
   create a function in one. Things still open are listed below.
@@ -95,9 +120,9 @@ the tests, not in the extension.)
 
 ## Open questions this raises
 
-1. **Return values.** A function wants `RETURNS numeric`, not text. The VM prints; it does not
-   hand back a value. A call handler needs either a way to read the returned value or the
-   convention that a function body ends with `திரும்பு`, wrapped as a eTamil function and called.
+1. ~~**Return values.**~~ **Settled in step two:** the body is wrapped as an eTamil function and called, so
+   `திரும்பு` returns the value, which is converted to the declared SQL type. A result that does not fit
+   the declared type (`1.5` for an `integer`) or is of the wrong kind is a clear SQL error.
 2. **A variable named like a builtin.** `Variable(name)` is refused if `name` is a forbidden
    builtin, even when the program defined its own variable of that name. Conservative, and
    it may surprise: `_env = 1;` is refused.

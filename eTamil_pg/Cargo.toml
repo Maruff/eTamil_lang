@@ -28,6 +28,8 @@ pgrx = "=0.19.3"
 # Everything about running a program lives here, so it is built and tested without
 # PostgreSQL (and on Windows, where pgrx does not build).
 etamil_pg_eval = { path = "eval" }
+# The compiler's decimal type, to turn a numeric into an eTamil number and back.
+rust_decimal = "1.37"
 
 [dev-dependencies]
 pgrx-tests = "=0.19.3"

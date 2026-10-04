@@ -12,3 +12,6 @@ publish = false
 # opening a connection of its own.
 [dependencies]
 etamil_compiler = { path = "../../etamil_compiler", default-features = false }
+
+[dev-dependencies]
+rust_decimal = "1.37"

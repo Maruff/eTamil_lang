@@ -739,6 +739,7 @@ dependencies = [
  "etamil_pg_eval",
  "pgrx",
  "pgrx-tests",
+ "rust_decimal",
 ]
 
 [[package]]

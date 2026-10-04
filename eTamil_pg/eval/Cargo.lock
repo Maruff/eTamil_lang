@@ -468,6 +468,7 @@ name = "etamil_pg_eval"
 version = "0.0.1"
 dependencies = [
  "etamil_compiler",
+ "rust_decimal",
 ]
 
 [[package]]

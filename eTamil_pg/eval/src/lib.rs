@@ -20,6 +20,9 @@ use etamil_compiler::vm::{self, host};
 
 include!(concat!(env!("OUT_DIR"), "/allowed_builtins.rs"));
 
+pub mod function;
+pub use etamil_compiler::vm::Value;
+
 /// Instructions one call may retire. The browser allows ten million; a database
 /// function runs inside someone's query, so it gets a tenth of that.
 pub const STEP_LIMIT: u64 = 1_000_000;
