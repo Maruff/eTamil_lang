@@ -235,6 +235,46 @@ jobs:
       - name: Run every example
         run: ./scripts/run_examples.sh
 
+  # The Emacs mode is Lisp that nothing else compiles or runs, so CI is where it is
+  # loaded for the first time: byte-compiled with warnings as errors, then its ERT
+  # tests run under the oldest Emacs it claims to support, a middle one and the
+  # newest. A failure is also written as annotations, so it can be read from the
+  # run's summary without opening the log.
+  emacs:
+    name: emacs ${{ matrix.emacs }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs: ['27.2', '29.4', '30.1']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs }}
+
+      - name: Byte-compile without warnings
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs --eval '(setq byte-compile-error-on-warn t)' \
+               -f batch-byte-compile eTamil_Emacs/etamil-words.el eTamil_Emacs/etamil-mode.el > compile.txt 2>&1; then
+            cat compile.txt
+            head -20 compile.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
+      - name: Run the tests
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs -l ert -l eTamil_Emacs/etamil-mode-tests.el \
+               -f ert-run-tests-batch-and-exit > ert.txt 2>&1; then
+            cat ert.txt
+            grep -E 'FAILED|failed|rror|Test |should|Warning' ert.txt | head -20 \
+              | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          tail -3 ert.txt
+
   # The uqavi/ samples are the library's documentation: one runnable program
   # per function. They are a separate job rather than another step in the one
   # above because there are hundreds and each costs about a second — as a step

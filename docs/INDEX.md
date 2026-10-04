@@ -12,6 +12,7 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
+| [Emacs](../eTamil_Emacs/README.md) | `etamil-mode`: highlighting, indentation, run and check, and Eglot |
 
 ## Libraries
 
