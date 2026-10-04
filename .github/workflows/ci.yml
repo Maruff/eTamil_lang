@@ -191,6 +191,28 @@ jobs:
         working-directory: tree-sitter-etamil
         run: npx tree-sitter test
 
+      # Every keyword the grammar uses must appear in a hand-written corpus case,
+      # so a rule nobody pinned cannot change or break unnoticed.
+      - name: Every keyword the grammar uses is in the corpus
+        working-directory: tree-sitter-etamil
+        run: node test/keyword-coverage.mjs --check
+
+      # `npm ci` above built the Node addon. These check that it loads, parses, keeps
+      # Tamil node names intact (a Windows build once turned them into '?'), and that
+      # the highlight and locals queries compile through it.
+      - name: Node binding
+        working-directory: tree-sitter-etamil
+        run: node --test bindings/node/binding_test.js
+
+      # The Rust crate: it parses, and all four query files compile against the
+      # grammar. The dry run packages it as crates.io would and rebuilds from the
+      # package, so a missing file shows up here and not at publish time.
+      - name: Rust binding and crate packaging
+        working-directory: tree-sitter-etamil
+        run: |
+          cargo test
+          cargo publish --dry-run --allow-dirty
+
       # The blunt check: parse every real eTamil program in the repository.
       # This is what found the multi-line string literals, the database
       # statements and the interval block, none of which any hand-written
