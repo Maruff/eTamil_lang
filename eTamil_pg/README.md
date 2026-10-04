@@ -106,8 +106,9 @@ the tests, not in the extension.)
 
 ## What this is not
 
-- **Not finished as a language.** There is no validator, so a mistake in a body is reported when the
-  function is first *called*, not when it is created. The definition is read from `pg_proc` on every
+- **Not finished as a language.** A validator refuses a body that cannot run (a syntax error, a forbidden
+  builtin, a bad argument name) at `CREATE FUNCTION`; it is skipped when `check_function_bodies` is off, as
+  in a dump restore. Errors that depend on values are still reported when the function is *called*. The definition is read from `pg_proc` on every
   call and the body is compiled on every call (about five microseconds natively, plus one catalog read
   per call): there is no cache, because `CREATE OR REPLACE` keeps a function's OID and a cache keyed
   on it would run the old body. There are no `OUT` parameters, no set-returning functions, no arrays,
