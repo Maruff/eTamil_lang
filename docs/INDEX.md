@@ -12,6 +12,7 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
 | [eTamil in JetBrains IDEs](getting-started/JETBRAINS.md) | TextMate bundle and the language server through LSP4IJ, no plugin needed |
+| [eTamil in Visual Studio](getting-started/VISUALSTUDIO.md) | Language-support VSIX (highlighting, comments, brackets) and the language server extension |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
 
 ## Libraries
