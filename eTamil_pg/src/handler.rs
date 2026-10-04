@@ -57,6 +57,9 @@ unsafe impl BoxRet for Reply {
     }
 }
 
+// The hand-written `CREATE FUNCTION` above decides the SQL; this only satisfies the type check.
+pgrx::pgrx_sql_entity_graph::metadata::impl_sql_translatable!(Reply, "language_handler");
+
 extension_sql!(
     r#"
 CREATE LANGUAGE pletamil HANDLER pletamil_call_handler;
