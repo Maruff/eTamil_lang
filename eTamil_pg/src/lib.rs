@@ -188,6 +188,25 @@ mod tests {
         let _ = Spi::get_one::<String>("SELECT leak()");
     }
 
+    // The validator refuses a bad body when the function is created, not when it is first called.
+    #[pg_test]
+    fn a_bad_body_is_refused_at_create_function() {
+        let raised = PgTryBuilder::new(|| {
+            Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு ; $$").unwrap();
+            false
+        })
+        .catch_others(|_| true)
+        .execute();
+        assert!(raised, "a syntax error must be refused by CREATE FUNCTION");
+    }
+
+    // pg_dump output turns the check off so a restore does not re-check every body.
+    #[pg_test]
+    fn the_check_can_be_turned_off() {
+        Spi::run("SET check_function_bodies = off").unwrap();
+        Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு ; $$").unwrap();
+    }
+
     #[pg_test(error = "pletamil: argument 1 has type jsonb, which is not supported")]
     fn an_unsupported_argument_type_is_refused_by_name() {
         Spi::run("CREATE FUNCTION j(a jsonb) RETURNS text LANGUAGE pletamil AS $$ திரும்பு \"x\"; $$").unwrap();

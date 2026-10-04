@@ -46,6 +46,29 @@ unsafe fn pletamil_call_handler(fcinfo: pg_sys::FunctionCallInfo) -> Reply {
     }
 }
 
+/// Run by `CREATE FUNCTION`, so a body that cannot run (a syntax error, a forbidden builtin, a bad
+/// argument name) is refused when it is written, not when it is first called.
+///
+/// PostgreSQL calls a validator before the new `pg_proc` row is visible to a query, and the
+/// definition is read with queries, so the command counter is advanced first. Skipped when
+/// `check_function_bodies` is off, which is how `pg_dump` output asks for a restore that does not
+/// re-check every body.
+#[pg_extern(sql = "
+CREATE FUNCTION pletamil_validator(oid) RETURNS void
+    LANGUAGE c AS 'MODULE_PATHNAME', '@FUNCTION_NAME@';
+")]
+fn pletamil_validator(fn_oid: pg_sys::Oid) {
+    // SAFETY: reading a plain configuration flag, and advancing the command counter in a backend.
+    if !unsafe { pg_sys::check_function_bodies } {
+        return;
+    }
+    unsafe { pg_sys::CommandCounterIncrement() };
+    let outcome = read_definition(fn_oid).and_then(|d| function::prepare(&d.names, &d.body).map(|_| ()));
+    if let Err(message) = outcome {
+        error!("{}", message);
+    }
+}
+
 /// What the handler hands back: a datum, or `None` for SQL NULL. `pgrx` 0.19 only lets a function
 /// return a type it knows how to box, so the raw datum is wrapped in one.
 struct Reply(Option<pg_sys::Datum>);
@@ -62,11 +85,11 @@ pgrx::pgrx_sql_entity_graph::metadata::impl_sql_translatable!(Reply, "language_h
 
 extension_sql!(
     r#"
-CREATE LANGUAGE pletamil HANDLER pletamil_call_handler;
+CREATE LANGUAGE pletamil HANDLER pletamil_call_handler VALIDATOR pletamil_validator;
 COMMENT ON LANGUAGE pletamil IS 'PL/eTamil: eTamil functions that only compute (a spike)';
 "#,
     name = "pletamil_language",
-    requires = [pletamil_call_handler]
+    requires = [pletamil_call_handler, pletamil_validator]
 );
 
 /// What `pg_proc` says about a function.
