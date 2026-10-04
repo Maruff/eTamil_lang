@@ -77,19 +77,28 @@ mod tests {
         assert_eq!(out.as_deref(), Some("ab"));
     }
 
-    #[pg_test(error = "a database function may not use")]
+    // pgrx compares the message with `error = ` exactly, not as a prefix.
+    #[pg_test(error = "a database function may not use this statement (Import)")]
     fn an_import_is_refused() {
         let _ = Spi::get_one::<String>("SELECT etamil_eval('இறக்கு \"nUlakam/paNam/paNam.qmz\";')");
     }
 
-    #[pg_test(error = "a database function may not use `_env`")]
+    #[pg_test(error = "a database function may not use `_env`: it reaches outside the database")]
     fn reading_the_environment_is_refused() {
         let _ = Spi::get_one::<String>("SELECT etamil_eval('அச்சு(_env(\"HOME\"));')");
     }
 
-    #[pg_test(error = "")]
+    // The parser's message is bilingual and carries a position; what matters is that it is a
+    // SQL error and not a crash, so it is caught rather than matched.
+    #[pg_test]
     fn a_syntax_error_is_a_sql_error() {
-        let _ = Spi::get_one::<String>("SELECT etamil_eval('அச்சு(')");
+        let raised = PgTryBuilder::new(|| {
+            let _ = Spi::get_one::<String>("SELECT etamil_eval('அச்சு(')");
+            false
+        })
+        .catch_others(|_| true)
+        .execute();
+        assert!(raised, "a syntax error must raise a SQL error");
     }
 }
 
