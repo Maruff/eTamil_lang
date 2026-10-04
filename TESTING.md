@@ -546,6 +546,25 @@ can find it.
 
 ---
 
+## Dependency audit
+
+The dependencies are checked for known advisories by `.github/workflows/audit.yml`: on every
+change to a lockfile, and weekly, because an advisory can appear against a version nobody has
+touched. To run the same checks by hand, with `cargo install cargo-audit` once:
+
+```bash
+cd etamil_compiler && cargo audit --deny warnings      # also android/rust
+cd eTamil_HighlightJS && npm audit --omit=dev --audit-level=high     # also tree-sitter-etamil
+```
+
+`--deny warnings` makes an unsound, unmaintained or yanked crate a failure as well as a
+vulnerability. The few advisories that are accepted are listed, each with its reason and what
+would close it, in `etamil_compiler/.cargo/audit.toml` and `android/rust/.cargo/audit.toml`.
+Add to them only with a reason. The benchmark harness in `scripts/bench/compare/rust` is not
+audited: it is not shipped.
+
+---
+
 ## Troubleshooting
 
 **`linker 'cc' not found`** — install `build-essential`.

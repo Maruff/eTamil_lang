@@ -1,0 +1,87 @@
+# Dependency audit.
+#
+# A new advisory can appear against a version this repository already uses, with no
+# change here, so this runs weekly as well as when a lockfile or an audit config
+# changes. It fails on any advisory not listed, with its reason, in the crate's
+# .cargo/audit.toml: a vulnerability, an unsound or unmaintained crate, or a yanked
+# one. A failure is also written as annotations, so it can be read from the run's
+# summary without opening the log.
+#
+# Not audited: scripts/bench/compare/rust, a benchmark harness that is not shipped.
+
+name: Dependency audit
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  push:
+    branches: [main]
+    paths:
+      - '**/Cargo.lock'
+      - '**/package-lock.json'
+      - '**/audit.toml'
+      - '.github/workflows/audit.yml'
+  pull_request:
+    paths:
+      - '**/Cargo.lock'
+      - '**/package-lock.json'
+      - '**/audit.toml'
+      - '.github/workflows/audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cargo:
+    name: cargo audit ${{ matrix.dir }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [etamil_compiler, android/rust]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+
+      - name: Audit
+        working-directory: ${{ matrix.dir }}
+        run: |
+          if ! cargo audit --deny warnings > audit.txt 2>&1; then
+            cat audit.txt
+            grep -E '^(Crate|Version|Warning|Title|ID):' audit.txt | head -24 \
+              | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          tail -3 audit.txt
+
+  npm:
+    name: npm audit ${{ matrix.dir }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [eTamil_HighlightJS, tree-sitter-etamil]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # What ships, not the build and test tools: a vulnerability in a test runner does
+      # not reach a user.
+      - name: Audit
+        working-directory: ${{ matrix.dir }}
+        run: |
+          if ! npm audit --omit=dev --audit-level=high > audit.txt 2>&1; then
+            cat audit.txt
+            head -20 audit.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+          tail -3 audit.txt
