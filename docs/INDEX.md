@@ -11,6 +11,7 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 | Page | What it covers |
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
+| [eTamil in JetBrains IDEs](getting-started/JETBRAINS.md) | TextMate bundle and the language server through LSP4IJ, no plugin needed |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
 
 ## Libraries
