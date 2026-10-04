@@ -1,0 +1,46 @@
+# Spike: eTamil functions in SQLite queries. The crate is pure Rust over a bundled SQLite, so
+# unlike the PostgreSQL spike it needs nothing installed; this runs it on Linux and macOS as well
+# as the Windows machine it was written on. Runs on a push to any branch that touches it.
+
+name: SQLite functions spike
+
+on:
+  push:
+    paths:
+      - 'eTamil_sqlite/**'
+      - 'eTamil_pg/eval/**'
+      - 'etamil_compiler/src/**'
+      - '.github/workflows/sqlite-fn-spike.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: eTamil_sqlite
+      - name: Test
+        working-directory: eTamil_sqlite
+        shell: bash
+        run: |
+          if ! cargo test > test.txt 2>&1; then
+            cat test.txt
+            grep -E 'panicked|FAILED|failed|error(\[|:)' test.txt | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          grep -E '^test result' test.txt
+      - name: Cost per row
+        working-directory: eTamil_sqlite
+        shell: bash
+        run: cargo test --release -- --ignored --nocapture per_row_cost 2>&1 | grep TIMING
