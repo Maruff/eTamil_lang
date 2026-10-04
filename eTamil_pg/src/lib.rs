@@ -192,7 +192,7 @@ mod tests {
     #[pg_test]
     fn a_bad_body_is_refused_at_create_function() {
         let raised = PgTryBuilder::new(|| {
-            Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு ; $$").unwrap();
+            Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ x = ; $$").unwrap();
             false
         })
         .catch_others(|_| true)
@@ -204,7 +204,7 @@ mod tests {
     #[pg_test]
     fn the_check_can_be_turned_off() {
         Spi::run("SET check_function_bodies = off").unwrap();
-        Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு ; $$").unwrap();
+        Spi::run("CREATE FUNCTION bad() RETURNS integer LANGUAGE pletamil AS $$ x = ; $$").unwrap();
     }
 
     #[pg_test(error = "pletamil: argument 1 has type jsonb, which is not supported")]
