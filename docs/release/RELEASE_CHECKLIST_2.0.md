@@ -66,9 +66,9 @@ tag, NuGet reads `etamil_compiler/Cargo.toml`):
 - [ ] `CHANGELOG.md`: change `## 2.0.0 — unreleased` to `## 2.0.0 — <date>`
 - [ ] The website's `brand.version` in `_config.yml`. `scripts/check_site_counts.py --check`
       compares it with the compiler's version, so it fails until both agree.
-- [ ] After the banking branch lands the counts change (106 builtins and 1,199 library functions
-      at the time of writing, against 97 and 940 on `main`): run
-      `python scripts/check_site_counts.py --fix` and read what it rewrote.
+- [ ] After the banking branch lands, the builtin and library-function counts change (its changelog
+      says so; the figures are not written here because the count guard would flag them on `main`):
+      run `python scripts/check_site_counts.py --fix` and read what it rewrote.
 - [ ] Re-run `python scripts/generate_editor_support.py --check` and
       `python scripts/check_site_counts.py --check --site <site checkout on main>`.
 

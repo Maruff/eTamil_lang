@@ -123,7 +123,7 @@ reviewer.
   an Azure DevOps integration; `nUlakam/qayArippu` holds product versions and customer
   commitments; and `examples/aluvalakam/` runs a SQLite-backed service on them.
 - **`இப்போதைய_நொடி()`**, whole seconds since 1970, for anything stored and read back after a
-  restart. With the XML and e-Sign primitives below, the compiler has 106 builtins.
+  restart. The XML and e-Sign primitives below add nine more builtins.
 - **Fixes:** a baselined task can be finished; base64 wrapped with Windows line endings decodes;
   the VS Code extension offers ARM Linux the arm64 package.
 
