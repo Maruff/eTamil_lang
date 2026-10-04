@@ -155,6 +155,14 @@ jobs:
       - name: Generated editor data matches the compiler
         run: python scripts/generate_editor_support.py --check
 
+      # The published grammar is the tree-sitter grammar printed as EBNF; change
+      # grammar.js without regenerating and this says so.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Published grammar matches tree-sitter-etamil/grammar.js
+        run: node scripts/generate_ebnf.mjs --check
+
 
   # Everything that renders eTamil outside VS Code: the tree-sitter grammar
   # (Neovim, Helix, Zed, GitHub code navigation) and the highlight.js

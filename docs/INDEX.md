@@ -26,6 +26,7 @@ Both are written in eTamil, not Rust.
 
 | Page | What it covers |
 |---|---|
+| [Language specification](reference/LANGUAGE_SPEC.md) | Lexical structure, the EBNF grammar ([`etamil.ebnf`](reference/etamil.ebnf)) and operator precedence — generated from the tree-sitter grammar |
 | [Keywords](reference/KEYWORDS.md) | Every keyword in all three spellings, with its token name — generated from the lexer |
 | [Commands](reference/COMMANDS.md) | CLI flags, exit codes, environment variables |
 | [Tamil Letter Equivalents](reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md) | How the ezuqqu romanization is derived |
