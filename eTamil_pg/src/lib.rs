@@ -182,6 +182,23 @@ mod tests {
         assert_eq!(Spi::get_one::<i32>("SELECT f()").unwrap(), Some(2));
     }
 
+    // The cache is keyed on the row version, so every replace must be seen, including several in
+    // one transaction (same xmin, a new row each time). A rolled-back replace is not tested: SPI
+    // cannot run a SAVEPOINT.
+    #[pg_test]
+    fn a_replaced_function_is_never_served_from_the_cache() {
+        Spi::run("CREATE FUNCTION g() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு 1; $$").unwrap();
+        assert_eq!(Spi::get_one::<i32>("SELECT g()").unwrap(), Some(1));
+        assert_eq!(Spi::get_one::<i32>("SELECT g()").unwrap(), Some(1));
+        for n in 2..=4 {
+            Spi::run(&format!("CREATE OR REPLACE FUNCTION g() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு {n}; $$")).unwrap();
+            assert_eq!(Spi::get_one::<i32>("SELECT g()").unwrap(), Some(n));
+        }
+        // And a different function with the same arguments is not confused with it.
+        Spi::run("CREATE FUNCTION h() RETURNS integer LANGUAGE pletamil AS $$ திரும்பு 100; $$").unwrap();
+        assert_eq!(Spi::get_one::<i32>("SELECT g() + h()").unwrap(), Some(104));
+    }
+
     #[pg_test(error = "a database function may not use `_env`: it reaches outside the database")]
     fn a_function_body_that_reaches_outside_is_refused() {
         Spi::run(r#"CREATE FUNCTION leak() RETURNS text LANGUAGE pletamil AS $$ திரும்பு _env("HOME"); $$"#).unwrap();

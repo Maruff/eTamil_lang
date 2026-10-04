@@ -15,10 +15,14 @@
 //! has to be PostgreSQL: reading the function's definition from the catalog, turning each
 //! argument into an eTamil value, and the result back into a PostgreSQL one.
 //!
-//! The definition is read from `pg_proc` on every call, not cached: `CREATE OR REPLACE FUNCTION`
-//! keeps the function's OID, so a cache keyed on it would go on running the old body. A cache
-//! would need invalidating on a catalog change, which is its own piece of work.
+//! A prepared function is cached for the life of the backend, keyed on the function's OID *and* the
+//! version of its `pg_proc` row (`xmin` and `ctid`). `CREATE OR REPLACE FUNCTION` keeps the OID but
+//! writes a new row version, so a replaced body is a cache miss, and so is a rolled-back replace
+//! (the old version is current again). Each call still makes one catalog query, for that version.
 
+use std::cell::RefCell;
+use std::collections::HashMap;
+use std::rc::Rc;
 use std::str::FromStr;
 
 use etamil_pg_eval::function;
@@ -139,17 +143,53 @@ fn read_definition(fn_oid: pg_sys::Oid) -> Result<Definition, String> {
     Ok(Definition { body, names, types, returns })
 }
 
-unsafe fn call_function(fn_oid: pg_sys::Oid, fcinfo: pg_sys::FunctionCallInfo) -> Result<Reply, String> {
+/// A function that has been read, parsed, checked and compiled, and the row version it came from.
+struct Prepared {
+    version: String,
+    function: function::Function,
+    types: Vec<String>,
+    returns: String,
+}
+
+thread_local! {
+    // A backend is one thread, so no lock; each backend has its own.
+    static CACHE: RefCell<HashMap<u32, Rc<Prepared>>> = RefCell::new(HashMap::new());
+}
+
+/// Past this many functions the cache is emptied rather than grown without limit.
+const CACHE_LIMIT: usize = 256;
+
+fn prepared(fn_oid: pg_sys::Oid) -> Result<Rc<Prepared>, String> {
+    let oid = fn_oid.to_u32();
+    let version = ask::<String>(oid, "xmin::text || '/' || ctid::text")?.ok_or("pletamil: the function no longer exists")?;
+
+    if let Some(hit) = CACHE.with(|cache| cache.borrow().get(&oid).filter(|p| p.version == version).cloned()) {
+        return Ok(hit);
+    }
+
     let definition = read_definition(fn_oid)?;
     let function = function::prepare(&definition.names, &definition.body)?;
+    let entry = Rc::new(Prepared { version, function, types: definition.types, returns: definition.returns });
+    CACHE.with(|cache| {
+        let mut cache = cache.borrow_mut();
+        if cache.len() >= CACHE_LIMIT {
+            cache.clear();
+        }
+        cache.insert(oid, entry.clone());
+    });
+    Ok(entry)
+}
 
-    let mut args = Vec::with_capacity(definition.types.len());
-    for (index, ty) in definition.types.iter().enumerate() {
+unsafe fn call_function(fn_oid: pg_sys::Oid, fcinfo: pg_sys::FunctionCallInfo) -> Result<Reply, String> {
+    let prepared = prepared(fn_oid)?;
+
+    let mut args = Vec::with_capacity(prepared.types.len());
+    for (index, ty) in prepared.types.iter().enumerate() {
         args.push(unsafe { argument(fcinfo, index, ty)? });
     }
 
-    let value = function::call(&function, args)?;
-    result(&definition.returns, value)
+    let value = function::call(&prepared.function, args)?;
+    result(&prepared.returns, value)
 }
 
 /// Argument `index` as an eTamil value. A SQL NULL is eTamil's null.
