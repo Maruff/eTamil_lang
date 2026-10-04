@@ -35,7 +35,7 @@ can start without it, and one of them already exists.
 The browser build cannot import anything. `module.rs`, which reads imported files, is
 compiled out of the wasm build (`lib.rs`), along with databases, sockets and files. So
 **the standard library (`nUlakam/`) does not run in the browser**: an `இறக்கு` fails
-with the message that the program needs a machine of its own. The browser editor can
+at run time with "not implemented in the VM yet". The browser editor can
 honestly offer keywords, statement templates and the host builtins, and should say
 so for library functions rather than offer something that cannot run.
 
