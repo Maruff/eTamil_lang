@@ -86,6 +86,8 @@ jobs:
 
       - name: Build and test inside PostgreSQL
         working-directory: eTamil_pg
+        env:
+          RUST_TEST_NOCAPTURE: "1"
         run: |
           if ! cargo pgrx test pg${{ matrix.pg }} --no-default-features --features "pg${{ matrix.pg }} pg_test" > pgrx.txt 2>&1; then
             tail -80 pgrx.txt
@@ -93,3 +95,4 @@ jobs:
             exit 1
           fi
           grep -E 'test result|^test ' pgrx.txt | tail -15
+          grep BENCH pgrx.txt | while IFS= read -r line; do echo "::notice::$line"; done

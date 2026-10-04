@@ -87,6 +87,23 @@ mod tests {
         let _ = Spi::get_one::<String>("SELECT etamil_eval('இறக்கு \"nUlakam/paNam/paNam.qmz\";')");
     }
 
+    // Not an assertion about speed (a shared runner is too noisy for that): it prints the cost of a
+    // call so the workflow can show it. The sum is checked, so the loop cannot be optimised away.
+    #[pg_test]
+    fn bench_cost_per_call() {
+        Spi::run("CREATE FUNCTION dbl(n integer) RETURNS integer LANGUAGE pletamil AS $$ திரும்பு n * 2; $$").unwrap();
+        let rows = 20_000;
+        let time = |sql: &str| {
+            let start = std::time::Instant::now();
+            let sum = Spi::get_one::<i64>(sql).unwrap().unwrap();
+            (start.elapsed().as_secs_f64() * 1e6 / rows as f64, sum)
+        };
+        let (plain, expect) = time("SELECT sum(i * 2)::bigint FROM generate_series(1, 20000) AS i");
+        let (called, sum) = time("SELECT sum(dbl(i))::bigint FROM generate_series(1, 20000) AS i");
+        assert_eq!(sum, expect);
+        eprintln!("BENCH pletamil call: {called:.1} us/row; plain SQL baseline: {plain:.2} us/row; {rows} rows");
+    }
+
     #[pg_test(error = "a database function may not use `_env`: it reaches outside the database")]
     fn reading_the_environment_is_refused() {
         let _ = Spi::get_one::<String>("SELECT etamil_eval('அச்சு(_env(\"HOME\"));')");
