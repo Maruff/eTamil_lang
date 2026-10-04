@@ -22,8 +22,10 @@ file type.
 
 ## 2. Diagnostics, completion, hover and go to definition
 
-The language server is `etamil-lsp`. Until it is published in the release
-packages, build it from this repository:
+The language server is `etamil-lsp`. It is in the release packages, and the
+eTamil installers put it beside `etamil`, so installing eTamil installs it (a
+package from before it existed does not have it). To build it from this
+repository instead:
 
 ```bash
 cd etamil_lsp

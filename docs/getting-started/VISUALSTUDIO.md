@@ -26,7 +26,10 @@ Extension** and make sure `.qmz` is not mapped to another editor.
 
 ## 2. Language server (diagnostics, completion, hover, definition)
 
-This extension is built with the .NET SDK, and needs the server binary:
+This extension is built with the .NET SDK, and needs the server binary. The eTamil
+release package and installer already provide it (`etamil-lsp.exe`, beside
+`etamil.exe`), and the extension finds it on the `PATH`. To carry it inside the
+extension instead, take it from a release package or build it:
 
 ```bash
 cd etamil_lsp && cargo build --release          # target/release/etamil-lsp.exe
