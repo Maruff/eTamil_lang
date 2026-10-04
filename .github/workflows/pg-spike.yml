@@ -89,7 +89,7 @@ jobs:
         run: |
           if ! cargo pgrx test pg${{ matrix.pg }} --no-default-features --features "pg${{ matrix.pg }} pg_test" > pgrx.txt 2>&1; then
             tail -80 pgrx.txt
-            grep -E 'panicked|FAILED|failed|error(\[|:)|test .*\.\.\. (FAILED|ok)' pgrx.txt | head -24 | while IFS= read -r line; do echo "::error::$line"; done
+            grep -v -E '\.\.\. ok$' pgrx.txt | grep -v -E '^\s*(Compiling|Downloaded|Downloading)' | tail -30 | while IFS= read -r line; do echo "::error::$line"; done
             exit 1
           fi
           grep -E 'test result|^test ' pgrx.txt | tail -15
