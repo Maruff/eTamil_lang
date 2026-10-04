@@ -3,8 +3,8 @@
 **Status: a spike, to answer the questions in `docs/architecture/DATABASE_EXTENSIONS.md`.**
 It is not a release. Step one (verified in CI on PostgreSQL 14, 16 and 17) was two SQL functions that
 run eTamil inside a backend. **Step two adds the language itself**, `LANGUAGE pletamil`, with typed
-arguments and a typed result; it has passed its native tests but **has not yet run in PostgreSQL**:
-the first CI run after it is pushed is its first real test.
+arguments and a typed result; it passed its native tests and then **CI** (run 37204035163, commit `b1fd665`, 2026-10-04): it builds and
+its in-database tests pass on PostgreSQL 14, 16 and 17.
 
 ```sql
 CREATE EXTENSION etamil_pg;
