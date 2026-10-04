@@ -46,7 +46,9 @@ SELECT etamil_eval('இறக்கு "nUlakam/paNam/paNam.qmz";');   -- ERROR:
     index and field assignment, expressions, `அச்சு`, conditions and loops. Imports, input, files,
     databases, routes and servers are refused, **and so is any statement kind the language
     gains later**, until someone reads it.
-  - Builtins: **40 of the 97 are allowed (120 spellings, Tamil included) and 57 are refused**.
+  - Builtins: **40 of the 97 on `main` are allowed (120 spellings, Tamil included) and 57 are refused**.
+    The A1 banking work adds nine more (XML and e-Sign primitives); they are refused by default until
+    someone reads them and adds them to the list.
     The list is in `eval/build.rs`, grouped by why each is left out: files and the web, other
     databases, the host (`_env`, `_exit`, `_run`, `_sleepMs`), hardware, keys and secrets. A
     builtin the compiler gains later is refused until it is added there, and the build fails if
