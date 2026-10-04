@@ -76,7 +76,9 @@ your system environment. The release packages' installers set it for you.
 - **Semantic highlighting.** TextMate colours by pattern, so an identifier is
   coloured the same whether it is a function or a variable.
 
-A bundled plugin that wires all of this up in one install is planned.
+A plugin that wires highlighting and the language server up in one install is in
+`packaging/jetbrains/plugin/` (see its README); it is built and verified but not
+published, so the manual steps above still apply until it is.
 
 ## Keeping the bundle current
 
