@@ -40,6 +40,10 @@ PKG="$WORK/$SRC"
 
 mkdir -p "$STAGE/DEBIAN" "$STAGE/usr/bin" "$STAGE/usr/share/etamil" "$STAGE/usr/share/doc/etamil"
 install -m 0755 "$PKG/etamil" "$STAGE/usr/bin/etamil"
+# The language server, in every archive built since it existed.
+if [ -f "$PKG/etamil-lsp" ]; then
+    install -m 0755 "$PKG/etamil-lsp" "$STAGE/usr/bin/etamil-lsp"
+fi
 cp -r "$PKG/nUlakam" "$PKG/examples" "$STAGE/usr/share/etamil/"
 
 cat >"$STAGE/usr/share/doc/etamil/copyright" <<'EOF'

@@ -30,6 +30,7 @@ RUN --mount=type=bind,source=dist,target=/dist \
     tar -xzf "/dist/etamil-linux-$arch.tar.gz" -C /tmp; \
     pkg="/tmp/etamil-linux-$arch"; \
     install -m 0755 "$pkg/etamil" /usr/local/bin/etamil; \
+    if [ -f "$pkg/etamil-lsp" ]; then install -m 0755 "$pkg/etamil-lsp" /usr/local/bin/etamil-lsp; fi; \
     mkdir -p /usr/local/lib/etamil; \
     cp -r "$pkg/nUlakam" "$pkg/examples" /usr/local/lib/etamil/; \
     rm -rf "$pkg"; \
