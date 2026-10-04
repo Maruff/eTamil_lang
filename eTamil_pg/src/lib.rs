@@ -87,7 +87,7 @@ mod tests {
         let _ = Spi::get_one::<String>("SELECT etamil_eval('இறக்கு \"nUlakam/paNam/paNam.qmz\";')");
     }
 
-    // Not an assertion about speed (a shared runner is too noisy for that): it prints the cost of a
+    // Not an assertion about speed (a shared runner is too noisy for that): it records the cost of a
     // call so the workflow can show it. The sum is checked, so the loop cannot be optimised away.
     #[pg_test]
     fn bench_cost_per_call() {
@@ -101,7 +101,10 @@ mod tests {
         let (plain, expect) = time("SELECT sum(i * 2)::bigint FROM generate_series(1, 20000) AS i");
         let (called, sum) = time("SELECT sum(dbl(i))::bigint FROM generate_series(1, 20000) AS i");
         assert_eq!(sum, expect);
-        eprintln!("BENCH pletamil call: {called:.1} us/row; plain SQL baseline: {plain:.2} us/row; {rows} rows");
+        // The harness swallows a test's output, so the workflow reads this file.
+        let line = format!("BENCH pletamil call: {called:.1} us/row; plain SQL baseline: {plain:.2} us/row; {rows} rows
+");
+        std::fs::write("/tmp/pletamil-bench.txt", line).unwrap();
     }
 
     #[pg_test(error = "a database function may not use `_env`: it reaches outside the database")]
