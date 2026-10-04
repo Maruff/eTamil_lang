@@ -3,7 +3,8 @@
   "version": "1.4.2",
   "description": "The eTamil compiler: a Tamil-vocabulary language for Indian accounting, tax and FinTech. Installs the prebuilt binary for your platform.",
   "bin": {
-    "etamil": "bin/etamil.js"
+    "etamil": "bin/etamil.js",
+    "etamil-lsp": "bin/etamil-lsp.js"
   },
   "scripts": {
     "postinstall": "node scripts/install.js"
