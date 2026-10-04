@@ -63,6 +63,11 @@ src="$work/etamil-$platform"
 mkdir -p "$PREFIX/bin" "$PREFIX/lib/etamil"
 cp "$src/etamil" "$PREFIX/bin/etamil"
 chmod 755 "$PREFIX/bin/etamil"
+# The language server, in every package built since it existed.
+if [ -f "$src/etamil-lsp" ]; then
+    cp "$src/etamil-lsp" "$PREFIX/bin/etamil-lsp"
+    chmod 755 "$PREFIX/bin/etamil-lsp"
+fi
 rm -rf "$PREFIX/lib/etamil/nUlakam"
 cp -r "$src/nUlakam" "$PREFIX/lib/etamil/nUlakam"
 
