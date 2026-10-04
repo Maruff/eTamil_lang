@@ -11,6 +11,7 @@ One archive per platform, holding everything eTamil needs to run:
 | | |
 |---|---|
 | `etamil` / `etamil.exe` | the compiler, one binary |
+| `etamil-lsp` / `etamil-lsp.exe` | the language server editors talk to (VS Code, JetBrains IDEs, Visual Studio, Neovim); built from `etamil_lsp/`, installed beside `etamil` |
 | `nUlakam/` | the standard library and the accounting framework, written in eTamil |
 | `examples/` | every example from the repository |
 | `install.ps1` / `install.sh` | the installer |

@@ -13,6 +13,8 @@ Write-Host "Installing eTamil to $target"
 
 New-Item -ItemType Directory -Force $target | Out-Null
 Copy-Item "$here\etamil.exe" $target -Force
+# The language server, for editors; packages from before it existed lack it.
+if (Test-Path "$here\etamil-lsp.exe") { Copy-Item "$here\etamil-lsp.exe" $target -Force }
 foreach ($dir in "nUlakam", "examples") {
     if (Test-Path "$here\$dir") {
         Remove-Item "$target\$dir" -Recurse -Force -ErrorAction SilentlyContinue

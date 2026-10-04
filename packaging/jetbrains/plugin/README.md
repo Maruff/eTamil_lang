@@ -18,8 +18,9 @@ It targets IDE builds 242 and later (2024.2+).
    `build/distributions/etamil-jetbrains-0.1.0.zip`.
 3. Make `etamil-lsp` findable: put it on the `PATH`, or set the `ETAMIL_LSP`
    environment variable to its full path. It is also looked for in `~/.local/bin`
-   and, on Windows, `%LOCALAPPDATA%\Programs\eTamil\bin`. Build it with
-   `cargo build --release` in `etamil_lsp/` until it ships in the release packages.
+   and, on Windows, `%LOCALAPPDATA%\Programs\eTamil`. It is in the
+   release packages (the eTamil installers put it beside `etamil`); to build it yourself,
+   run `cargo build --release` in `etamil_lsp/`.
 4. Restart the IDE and open a `.qmz` file.
 
 ## Build

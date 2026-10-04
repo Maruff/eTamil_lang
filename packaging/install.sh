@@ -17,6 +17,8 @@ echo "Installing eTamil to $PREFIX"
 
 mkdir -p "$BIN" "$LIB"
 install -m 755 "$HERE/etamil" "$BIN/etamil"
+# The language server, for editors; packages from before it existed lack it.
+[ -f "$HERE/etamil-lsp" ] && install -m 755 "$HERE/etamil-lsp" "$BIN/etamil-lsp"
 
 for dir in nUlakam examples; do
     if [ -d "$HERE/$dir" ]; then
@@ -26,6 +28,7 @@ for dir in nUlakam examples; do
 done
 
 echo "  binary   $BIN/etamil"
+[ -f "$BIN/etamil-lsp" ] && echo "  server   $BIN/etamil-lsp  (the language server, for editors)"
 echo "  library  $LIB/nUlakam"
 echo
 
@@ -51,4 +54,4 @@ echo "Done. Open a new shell, then:"
 echo "    etamil --version"
 echo "    etamil --vm $LIB/examples/basic_samples/example.qmz"
 echo
-echo "To uninstall: rm -f $BIN/etamil && rm -rf $LIB"
+echo "To uninstall: rm -f $BIN/etamil $BIN/etamil-lsp && rm -rf $LIB"

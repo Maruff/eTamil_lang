@@ -62,9 +62,25 @@ fi
 BUILT="target/${TARGET:+$TARGET/}release/etamil$EXE"
 [ -f "$BUILT" ] || { echo "error: $BUILT not produced"; exit 1; }
 
+# The language server rides in the same package, built the same way, so editors
+# find it beside the compiler. It links the compiler library without its default
+# features, so the cargo features above do not apply to it.
+echo "Building etamil-lsp"
+(
+    cd "$ROOT/etamil_lsp"
+    if [ "$OS" = windows ]; then
+        RUSTFLAGS="-C target-feature=+crt-static" cargo build --release ${TARGET:+--target "$TARGET"}
+    else
+        cargo build --release ${TARGET:+--target "$TARGET"}
+    fi
+)
+LSP_BUILT="$ROOT/etamil_lsp/target/${TARGET:+$TARGET/}release/etamil-lsp$EXE"
+[ -f "$LSP_BUILT" ] || { echo "error: $LSP_BUILT not produced"; exit 1; }
+
 rm -rf "$STAGE"
 mkdir -p "$STAGE"
 cp "$BUILT" "$STAGE/etamil$EXE"
+cp "$LSP_BUILT" "$STAGE/etamil-lsp$EXE"
 cp -r "$ROOT/nUlakam" "$STAGE/nUlakam"
 cp -r "$ROOT/examples" "$STAGE/examples"
 cp "$ROOT/packaging/README.txt" "$STAGE/README.txt"

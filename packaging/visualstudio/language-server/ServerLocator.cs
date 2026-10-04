@@ -55,7 +55,7 @@ internal static class ServerLocator
         string? localAppData = environment("LOCALAPPDATA");
         if (!string.IsNullOrEmpty(localAppData))
         {
-            installFolders.Add(Path.Combine(localAppData, "Programs", "eTamil", "bin"));
+            installFolders.Add(Path.Combine(localAppData, "Programs", "eTamil"));
         }
 
         foreach (string folder in installFolders)

@@ -52,6 +52,17 @@ class ServerLocatorTest {
     }
 
     @Test
+    fun theWindowsInstallerFolderIsTheLastResort() {
+        val installed = Path.of("C:\\Users\\me\\AppData\\Local").resolve("Programs").resolve("eTamil").resolve("etamil-lsp.exe")
+        val found = locate(
+            mapOf("Path" to "C:\\Windows", "LOCALAPPDATA" to "C:\\Users\\me\\AppData\\Local"),
+            true,
+            installed,
+        )
+        assertEquals(installed.toString(), found)
+    }
+
+    @Test
     fun windowsSplitsThePathOnSemicolonsAndLooksForTheExe() {
         val exe = Path.of("C:\\tools").resolve("etamil-lsp.exe")
         val found = locate(mapOf("Path" to "C:\\Windows;C:\\tools"), true, exe)

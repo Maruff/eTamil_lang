@@ -124,6 +124,27 @@ else
     esac
 fi
 
+# The language server must start and answer the protocol handshake. Close stdin
+# after the initialize request: the reply is already written by then, and the
+# server stops when its input ends.
+LSP="$DIR/etamil-lsp"
+if [ -f "$LSP.exe" ]; then
+    LSP="$LSP.exe"
+fi
+[ -x "$LSP" ] || { echo "FAIL  no runnable language server at $LSP"; failures=$((failures + 1)); }
+if [ -x "$LSP" ]; then
+    request='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"capabilities":{},"rootUri":null}}'
+    reply="$(printf 'Content-Length: %s\r\n\r\n%s' "${#request}" "$request" | "$LSP" 2>/dev/null || true)"
+    case "$reply" in
+        *'"capabilities"'*'"hoverProvider"'*) echo "ok    the language server answers initialize" ;;
+        *)
+            echo "FAIL  the language server did not answer initialize"
+            echo "$reply" | sed 's/^/        /'
+            failures=$((failures + 1))
+            ;;
+    esac
+fi
+
 echo
 if [ "$failures" -eq 0 ]; then
     echo "$BASE works"

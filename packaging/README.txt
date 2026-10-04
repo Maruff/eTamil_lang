@@ -51,6 +51,9 @@ WHAT IS IN THE BOX
 
 etamil          the compiler; runs programs on its bytecode VM, and serves
                 HTTP with --server
+etamil-lsp      the language server: gives editors (VS Code, JetBrains IDEs,
+                Visual Studio, Neovim) diagnostics, completion, hover and
+                go to definition. You do not run it yourself; an editor does.
 nUlakam/        the standard library — strings, maths, arrays, money — and
                 kaNakkiyal/, an accounting framework with double entry, GST
                 and the three financial statements. Written in eTamil, so

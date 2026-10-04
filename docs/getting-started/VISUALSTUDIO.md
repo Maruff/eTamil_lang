@@ -37,7 +37,7 @@ dotnet build -c Release                         # produces the .vsix
 
 Install the resulting `.vsix` the same way. If you skip the copy, the extension
 looks for the server in this order: the `ETAMIL_LSP` environment variable, beside
-the extension, the `PATH`, then `%LOCALAPPDATA%\Programs\eTamil\bin` and
+the extension, the `PATH`, then `%LOCALAPPDATA%\Programs\eTamil` and
 `~\.local\bin`. If it cannot start the server it turns itself off rather than
 retrying on every file.
 

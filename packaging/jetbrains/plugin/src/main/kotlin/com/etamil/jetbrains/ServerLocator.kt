@@ -39,7 +39,7 @@ object ServerLocator {
         val installDirectories = buildList {
             add(home.resolve(".local").resolve("bin"))
             if (windows) {
-                env["LOCALAPPDATA"]?.let { add(Path.of(it).resolve("Programs").resolve("eTamil").resolve("bin")) }
+                env["LOCALAPPDATA"]?.let { add(Path.of(it).resolve("Programs").resolve("eTamil")) }
             }
         }
         for (directory in installDirectories) {

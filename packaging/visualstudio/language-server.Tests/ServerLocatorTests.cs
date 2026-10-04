@@ -66,7 +66,7 @@ public class ServerLocatorTests
     [Fact]
     public void TheInstallersFoldersAreTheLastResort()
     {
-        var installed = Path.Combine(@"C:\Users\me\AppData\Local", "Programs", "eTamil", "bin", "etamil-lsp.exe");
+        var installed = Path.Combine(@"C:\Users\me\AppData\Local", "Programs", "eTamil", "etamil-lsp.exe");
         Assert.Equal(installed, Locate(new() { ["PATH"] = @"C:\Windows", ["LOCALAPPDATA"] = @"C:\Users\me\AppData\Local" }, installed));
     }
 }
