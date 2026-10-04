@@ -23,7 +23,9 @@ use std::str::FromStr;
 
 use etamil_pg_eval::function;
 use etamil_pg_eval::Value;
-use pgrx::fcinfo::{pg_getarg, pg_return_null};
+use pgrx::callconv::{BoxRet, FcInfo};
+use pgrx::datum::Datum;
+use pgrx::fcinfo::pg_getarg;
 use pgrx::pg_sys;
 use pgrx::prelude::*;
 use rust_decimal::prelude::ToPrimitive;
@@ -35,12 +37,23 @@ use rust_decimal::Decimal;
 CREATE FUNCTION pletamil_call_handler() RETURNS language_handler
     LANGUAGE c AS 'MODULE_PATHNAME', '@FUNCTION_NAME@';
 ")]
-unsafe fn pletamil_call_handler(fcinfo: pg_sys::FunctionCallInfo) -> pg_sys::Datum {
+unsafe fn pletamil_call_handler(fcinfo: pg_sys::FunctionCallInfo) -> Reply {
     // SAFETY: PostgreSQL gives a call handler a valid call info, with its function info set.
     let fn_oid = unsafe { (*(*fcinfo).flinfo).fn_oid };
     match unsafe { call_function(fn_oid, fcinfo) } {
         Ok(datum) => datum,
         Err(message) => error!("{}", message),
+    }
+}
+
+/// What the handler hands back: a datum, or `None` for SQL NULL. `pgrx` 0.19 only lets a function
+/// return a type it knows how to box, so the raw datum is wrapped in one.
+struct Reply(Option<pg_sys::Datum>);
+
+// SAFETY: the datum is one `result` made for the function's declared return type.
+unsafe impl BoxRet for Reply {
+    unsafe fn box_into<'fcx>(self, fcinfo: &mut FcInfo<'fcx>) -> Datum<'fcx> {
+        unsafe { fcinfo.return_optional_datum(self.0) }
     }
 }
 
@@ -100,7 +113,7 @@ fn read_definition(fn_oid: pg_sys::Oid) -> Result<Definition, String> {
     Ok(Definition { body, names, types, returns })
 }
 
-unsafe fn call_function(fn_oid: pg_sys::Oid, fcinfo: pg_sys::FunctionCallInfo) -> Result<pg_sys::Datum, String> {
+unsafe fn call_function(fn_oid: pg_sys::Oid, fcinfo: pg_sys::FunctionCallInfo) -> Result<Reply, String> {
     let definition = read_definition(fn_oid)?;
     let function = function::prepare(&definition.names, &definition.body)?;
 
@@ -110,7 +123,7 @@ unsafe fn call_function(fn_oid: pg_sys::Oid, fcinfo: pg_sys::FunctionCallInfo) -
     }
 
     let value = function::call(&function, args)?;
-    unsafe { result(fcinfo, &definition.returns, value) }
+    result(&definition.returns, value)
 }
 
 /// Argument `index` as an eTamil value. A SQL NULL is eTamil's null.
@@ -151,14 +164,14 @@ fn whole(value: &Decimal, ty: &str) -> Result<i64, String> {
 }
 
 /// The function's value as a PostgreSQL datum of the declared return type.
-unsafe fn result(fcinfo: pg_sys::FunctionCallInfo, ty: &str, value: Value) -> Result<pg_sys::Datum, String> {
+fn result(ty: &str, value: Value) -> Result<Reply, String> {
     let value = match value {
         Value::Ok(inner) => *inner,
         Value::Err(inner) => return Err(format!("pletamil: the function returned a தவறு: {inner}")),
         other => other,
     };
     if matches!(value, Value::Null) {
-        return Ok(pg_return_null(fcinfo));
+        return Ok(Reply(None));
     }
 
     let datum = match (ty, &value) {
@@ -177,11 +190,7 @@ unsafe fn result(fcinfo: pg_sys::FunctionCallInfo, ty: &str, value: Value) -> Re
         }
         (other, _) => return Err(format!("pletamil: the return type {other} is not supported")),
     };
-    datum_or_null(fcinfo, datum)
-}
-
-fn datum_or_null(fcinfo: pg_sys::FunctionCallInfo, datum: Option<pg_sys::Datum>) -> Result<pg_sys::Datum, String> {
-    Ok(datum.unwrap_or_else(|| pg_return_null(fcinfo)))
+    Ok(Reply(datum))
 }
 
 fn describe(value: &Value) -> &'static str {
