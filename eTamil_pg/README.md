@@ -65,18 +65,22 @@ SELECT etamil_eval('இறக்கு "nUlakam/paNam/paNam.qmz";');   -- ERROR:
   leaking state between rows); the cost that matters is the program's own work. Inside PostgreSQL
   and on Linux the numbers will differ.
 
-**Not checked: needs PostgreSQL on Linux, so only the CI workflow can tell:**
+**Checked in CI** (run 37201767152, commit `b661e18`, 2026-10-04): the extension builds with `cargo pgrx`
+against **PostgreSQL 14, 16 and 17**, and all eight `#[pg_test]` tests pass inside a real backend: a program
+run, exact decimals, a Tamil text round trip, one call per row of a query, no shared output between calls,
+an import refused, `_env` refused, and a syntax error raised as a SQL error. So the compiler, with its
+thread-local state and linked `tokio`, loads into a backend and runs. (The first run built the extension
+but could not install it into the system PostgreSQL's directories, and the second had three tests whose
+expected error messages were prefixes where `pgrx` matches exactly; both were mistakes in the workflow and
+the tests, not in the extension.)
 
-- That `cargo pgrx` builds this crate at all, against PostgreSQL 14, 16 and 17.
-- That the eight `#[pg_test]` tests pass inside a real backend: a program run, exact decimals,
-  Tamil text round trip, one call per row of a query, no shared output between calls, an import
-  refused, `_env` refused, a syntax error raised as a SQL error.
-- That the extension loads and a backend survives the compiler's thread-local state, its linked
-  `tokio`, and allocation through two allocators (Rust's and PostgreSQL's `palloc`).
+**Still not checked:**
 
-The workflow runs on a push to any branch that touches `eTamil_pg/` or the compiler's source, so
-pushing this branch starts it. A first run may well fail on something small (a package name, a
-`pgrx` macro detail) that was written from `pgrx`'s own templates and never compiled.
+- Behaviour under load or over a long session: memory use across many calls, and a backend that runs
+  programs for hours. The compiler allocates through Rust's allocator, not `palloc`, so memory a program
+  uses is invisible to PostgreSQL's memory accounting and limits.
+- PostgreSQL 13, 15 and 18, and anything but Linux x86-64.
+- Concurrency: tests run one backend at a time.
 
 ## What this is not
 
