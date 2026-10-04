@@ -4,13 +4,16 @@ package com.etamil.jetbrains
 
 import java.nio.file.Path
 
-/** Where the `etamil-lsp` binary is: `ETAMIL_LSP`, then the `PATH`, then the installer folders. */
-object ServerLocator {
-    const val ENV_VAR = "ETAMIL_LSP"
+/**
+ * Where the `etamil` compiler is: `ETAMIL_BIN` (the variable the project's scripts
+ * already use for it), then the `PATH`, then the installer folders.
+ */
+object CompilerLocator {
+    const val ENV_VAR = "ETAMIL_BIN"
 
-    fun binaryName(windows: Boolean) = if (windows) "etamil-lsp.exe" else "etamil-lsp"
+    fun binaryName(windows: Boolean) = if (windows) "etamil.exe" else "etamil"
 
-    /** The full path to the server, or `null` if it is nowhere we know to look. */
+    /** The full path to the compiler, or `null` if it is nowhere we know to look. */
     fun locate(
         env: Map<String, String>,
         windows: Boolean,
