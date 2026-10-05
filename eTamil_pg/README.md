@@ -85,7 +85,15 @@ SELECT etamil_eval('இறக்கு "nUlakam/paNam/paNam.qmz";');   -- ERROR:
   5 microseconds** for a trivial expression, and about **221 microseconds** for a 100-iteration loop
   that calls a function. So there is no case for caching a VM between calls (which would also risk
   leaking state between rows); the cost that matters is the program's own work. Inside PostgreSQL
-  and on Linux the numbers will differ.
+  and on Linux the numbers differ, and are far higher: see the next paragraph.
+
+**Cost of a call inside PostgreSQL** (run 37246147749, commit `1b8b019`, 2026-10-05; one run each, on a shared
+GitHub runner, so rough): a `LANGUAGE pletamil` function called over 20,000 rows costs **38.9 microseconds
+a row on PostgreSQL 14, 49.8 on 16 and 78.5 on 17**, against about 0.15 to 0.18 for plain SQL doing the same
+arithmetic. That is roughly ten times the native figure above even with the cache. I have not profiled it;
+the likely cause is the per-call catalog query for the row version (a query planned and run through SPI on
+every call), then argument conversion. Fine for a function called per business rule, not for one called
+per row of a large scan. (The spread across versions is as likely runner noise as a version difference.)
 
 **Checked in CI** (run 37201767152, commit `b661e18`, 2026-10-04): the extension builds with `cargo pgrx`
 against **PostgreSQL 14, 16 and 17**, and all eight `#[pg_test]` tests pass inside a real backend: a program
