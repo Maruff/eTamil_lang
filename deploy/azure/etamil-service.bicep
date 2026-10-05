@@ -52,6 +52,9 @@ param maxReplicas int = 1
 param identityResourceId string = ''
 
 @description('Key Vault secret URL (https://<vault>.vault.azure.net/secrets/<name>) whose value is the JWT signing secret. It is given to the program as ETAMIL_JWT_SECRET, which keeps it out of the template and the app definition. Requires identityResourceId.')
+// The linter reads "Secret" in the name as a secret value. This is only the address of one in
+// Key Vault; the value is never in the template.
+#disable-next-line secure-secrets-in-params
 param jwtSecretKeyVaultUrl string = ''
 
 @description('The registry the image comes from, for example myregistry.azurecr.io. Leave empty for a public image. With identityResourceId and no registryUsername, the managed identity pulls from it (Azure Container Registry).')
