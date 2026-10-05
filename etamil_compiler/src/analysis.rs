@@ -106,8 +106,8 @@ pub fn function_ranges(tokens: &[Spanned]) -> Vec<Scope> {
 
         let mut depth = 0usize;
         let mut close = None;
-        for i in open..tokens.len() {
-            match tokens[i].token {
+        for (i, token) in tokens.iter().enumerate().skip(open) {
+            match token.token {
                 Token::LBrace => depth += 1,
                 Token::RBrace => {
                     depth -= 1;
