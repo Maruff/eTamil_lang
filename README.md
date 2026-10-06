@@ -50,6 +50,25 @@ echo "950000" | etamil --vm examples/basic_samples/example.qmz
 
 ---
 
+## What is new in 2.0
+
+eTamil 2.0 puts the language where you already work. The language and the standard library
+carry on from 1.4; the release adds ways to get it and to use it:
+
+- **Retail banking, in eTamil:** libraries for loans, deposits, mandates, Aadhaar e-Sign, KYC and a
+  GL mapping, with XML and the signing primitives in the compiler. See the release notes.
+- **Install it your way:** Homebrew, apt, rpm, Docker, npm, .NET, a GitHub Action, or the plain
+  archive. See [Installation](#installation).
+- **Edit it anywhere:** a language server, plugins for VS Code (and Cursor and Windsurf), JetBrains
+  IDEs and Visual Studio, an Emacs mode, and tree-sitter for Neovim, Helix and Zed. See
+  [Editors and tools](#editors-and-tools).
+- **Run it in a notebook:** a Jupyter kernel.
+- **Read what the language is:** a [specification](docs/reference/LANGUAGE_SPEC.md) and an
+  [EBNF grammar](docs/reference/etamil.ebnf).
+- **Deploy it on AWS** with a CloudFormation template.
+
+[Release notes](docs/release/RELEASE_NOTES_2.0.0.md) · [Changelog](CHANGELOG.md)
+
 ## Project status
 
 eTamil runs backend programs today: functions, collections, error handling, modules, a SQLite database layer, a concurrent HTTP server with routing, and an accounting framework written in the language itself. This table is the honest state of the code.
@@ -112,6 +131,18 @@ eTamil runs backend programs today: functions, collections, error handling, modu
 | Tests in eTamil (`nUlakam/cOqaZY/cOqaZY.qmz`) | ✅ Working | assertions, a summary, and a non-zero exit when anything fails, so a suite gates CI. `kaNakkiyal/vari_cOqaZY.qmz` is fifteen of them about GST arithmetic. `வெளியேறு(நிலை)` is what ends the process with a status |
 | Interactive shell (`--repl`) | ✅ Working | variables persist between lines, a செயல் can be typed across several, `இறக்கு` works, and a bare expression is answered rather than refused — `0.1 + 0.2` prints `0.3`. `:vars` shows what the session holds |
 | VS Code extension | ✅ Working | [`Maruff/eTamil_vsCode`](https://github.com/Maruff/eTamil_vsCode) — highlighting for all 203 keywords in every spelling, completions for 97 builtins and 940 `nUlakam` functions, and errors from `--check` as you type. Carries the compiler, the standard library, the examples and the eTamil font, so installing it is the whole installation. Grammar and completion data are **generated** from `lexer.rs`; CI fails if they drift |
+| Retail banking libraries (`nUlakam/vawki`, `miZkYyoppam`, `kataZqakaval`) | 🟡 Written, with tests and a worked example for every public function; nothing run against an e-Sign provider's sandbox or a bureau | loans, deposits, UPI AutoPay and NACH mandates, Aadhaar e-Sign, KYC and consent, and a GL mapping. Rates and thresholds are parameters, never written into a library |
+| Language server (`etamil-lsp`) | 🟡 Built and tested; not tried in a live editor | the compiler's own diagnostics in both languages, completion of keywords (with statement templates), builtins and standard-library functions (which add their `இறக்கு`), hover, go to definition. In every release package |
+| JetBrains plugin (`packaging/jetbrains/`) | 🟡 Built; verified against IDEA 2024.2; not tried in a live IDE | highlighting, the language server through LSP4IJ, and a run configuration (run, check only, or serve). No debugger: the compiler has none to attach to |
+| Visual Studio extensions (`packaging/visualstudio/`) | 🟡 Built; not installed in Visual Studio | the language, and the language server |
+| Emacs mode (`eTamil_Emacs/`) | 🟡 Written, with tests; not yet run in Emacs | highlighting from word lists generated from the lexer, indentation, run and check, Eglot |
+| Jupyter kernel (`eTamil_Jupyter/`) | 🟡 Tested against the real compiler; not run in a real Jupyter | a cell runs in the compiler's own shell, so variables and functions persist; a cell stops at its first error |
+| Language specification (`docs/reference/`) | ✅ Working | the grammar is generated from the tree-sitter grammar and accepts every program in `nUlakam/` and `examples/`. It is not shown to *reject* exactly what the compiler rejects: `--check` is the judge |
+| Homebrew tap | ✅ Working | installs, passes `brew audit --strict` and `brew test`, and runs a Tamil program on macOS (Apple Silicon and Intel) and Linux (x64 and arm64) |
+| GitHub Action (`Maruff/setup-etamil`) | ✅ Working | passes on Linux (x64 and arm64), macOS and Windows against a real release, and with a pinned version |
+| Docker image, `.deb`, `.rpm`, apt repository, npm and NuGet packages | 🟡 Written, and built by the release workflow, which has not yet run for them | each is checked on a clean machine before a release names it |
+| AWS template (`deploy/aws/`) | 🟡 Passes `cfn-lint`; never deployed to an AWS account | |
+| Dependency audit | 🟡 Written; its first run is pending | `cargo audit` and `npm audit` on every lockfile change and weekly; accepted advisories are listed with reasons |
 
 Anything marked "not implemented" **fails with an explicit message** rather than quietly doing nothing. That is deliberate: silent no-ops in a tax calculator are worse than errors.
 
@@ -213,6 +244,39 @@ Uninstalling is deleting a directory: `%LOCALAPPDATA%\Programs\eTamil` on
 Windows, `~/.local/{bin/etamil,lib/etamil}` on Linux and macOS.
 
 To build the packages yourself, see [`packaging/`](packaging/).
+
+### Package managers, containers and CI
+
+Each of these installs the same compiler, standard library and examples as the archives above.
+
+| Where | Command |
+|---|---|
+| **Homebrew** (macOS, Linux) | `brew install Maruff/etamil/etamil` |
+| **apt** (Debian, Ubuntu) | add the repository below, then `sudo apt install etamil` |
+| **rpm** (Fedora, RHEL, openSUSE) | `sudo dnf install ./etamil-<version>-1.x86_64.rpm` (or `aarch64`), from the [release page](https://github.com/Maruff/eTamil_lang/releases/latest) |
+| **Docker** | `docker run --rm -v "$PWD":/work ghcr.io/maruff/etamil --vm hello.qmz` |
+| **npm** | `npx etamil hello.qmz`, or `npm install -g etamil` |
+| **.NET** | `dotnet tool install -g etamil` (and `etamil-lsp` for the language server) |
+| **GitHub Actions** | `uses: Maruff/setup-etamil@v1` |
+
+**apt.** The repository is on the release page, signed with a key published beside it:
+
+```bash
+sudo curl -fsSL https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-archive-keyring.gpg \
+    -o /usr/share/keyrings/etamil.gpg
+echo "deb [signed-by=/usr/share/keyrings/etamil.gpg] https://github.com/Maruff/eTamil_lang/releases/latest/download ./" \
+    | sudo tee /etc/apt/sources.list.d/etamil.list
+sudo apt update && sudo apt install etamil
+```
+
+It holds the newest release only, so `apt upgrade` moves to the next one; to stay on a version, install
+that release's `.deb` directly. The `.rpm` files are not in a repository: install a newer one over the old.
+
+**Docker.** The image runs `etamil` as a non-root user with `/work` as its working directory, so mount
+your folder there. Tag it with a release, such as `ghcr.io/maruff/etamil:2.0.0`, rather than relying on
+`latest`. To run a program as a service, build your own image `FROM` it.
+
+How each package is built, and why, is in [`packaging/`](packaging/).
 
 ### Build from source (all platforms)
 
@@ -323,6 +387,24 @@ python scripts/check_llvm_backend.py
 ```
 
 ---
+
+## Editors and tools
+
+| For | How to get it |
+|---|---|
+| **VS Code, Cursor, Windsurf, VSCodium** | Install "eTamil" from the Visual Studio Marketplace, or from Open VSX in the forks. The extension carries the compiler, so there is nothing else to install. Source: [`Maruff/eTamil_vsCode`](https://github.com/Maruff/eTamil_vsCode). |
+| **JetBrains IDEs** (2024.2 and later) | The plugin in [`packaging/jetbrains/`](packaging/jetbrains/): highlighting, the language server (through the LSP4IJ plugin) and a run configuration. Built with Gradle and installed from disk. |
+| **Visual Studio** | The extensions in [`packaging/visualstudio/`](packaging/visualstudio/): the language, and the language server. |
+| **Emacs** | [`eTamil_Emacs/`](eTamil_Emacs/): `etamil-mode`, with Eglot set up for the server. |
+| **Neovim, Helix, Zed** | [`tree-sitter-etamil/`](tree-sitter-etamil/): the grammar, highlight, locals, tags and injections queries, and C, Node and Rust bindings. |
+| **Any editor that speaks LSP** | `etamil-lsp`, in every release package: diagnostics in Tamil and English, completion, hover and go to definition. |
+| **Jupyter** | [`eTamil_Jupyter/`](eTamil_Jupyter/): `pip install ./eTamil_Jupyter`, then `python -m etamil_kernel install`. |
+| **Highlighting on a website or in docs** | [`eTamil_Pygments/`](eTamil_Pygments/), [`eTamil_Rouge/`](eTamil_Rouge/) and [`eTamil_HighlightJS/`](eTamil_HighlightJS/). |
+| **What the language is** | The [specification](docs/reference/LANGUAGE_SPEC.md) and the [EBNF grammar](docs/reference/etamil.ebnf). |
+| **Deploying on AWS** | [`deploy/aws/`](deploy/aws/): a CloudFormation template for ECS Fargate behind a load balancer. |
+
+The [status table](#project-status) says which of these have been tried in a live editor or deployed, and
+which are built and tested but not yet.
 
 ## Quick start
 

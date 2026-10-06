@@ -1,14 +1,14 @@
 # Changelog
 
 Releases of the eTamil compiler, standard library and editor support. The
-extension's version tracks the language's, so both are 1.1.0 here.
+extension's version tracks the language's, so one number covers both.
 
 Every release is tagged `vN.N.N`, which is what builds the platform packages.
 GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
-## Unreleased
+## 2.0.0 — unreleased
 
 ### Added
 
@@ -38,6 +38,50 @@ GitHub's generated notes list the commits; this file says what they add up to.
   after a restart — an outbox row's next attempt — meant nothing. Also
   `ippOqYya_noti` and `_nowSeconds`. 97 builtins now.
 
+- **Install it from a package manager.** `brew install Maruff/etamil/etamil`
+  on macOS (Apple Silicon and Intel) and Linux; an apt repository on the
+  release page for Debian and Ubuntu, so `apt upgrade` finds the next release;
+  `.rpm` packages for Fedora, RHEL and openSUSE; a Docker image for
+  `linux/amd64` and `linux/arm64`; `npx etamil`; `dotnet tool install -g
+  etamil`; and the GitHub Action `Maruff/setup-etamil@v1`. Every one installs
+  the same static compiler, the standard library and the examples, and sets
+  `ETAMIL_PATH`. `packaging/README.md` says how each is built.
+
+- **A language server, and editors that use it.** `etamil-lsp` gives any editor
+  that speaks the Language Server Protocol the compiler's own diagnostics in
+  Tamil and English, completion of keywords (with a statement template for
+  each), builtins and standard-library functions (which add their `இறக்கு`
+  line), hover documentation, and go to definition. It ships in every release
+  package. The VS Code extension can use it (opt in); a JetBrains plugin does,
+  through LSP4IJ, and adds a run configuration for `.qmz` files (run, check
+  only, or serve); two Visual Studio extensions do; and `etamil-mode` is a
+  major mode for Emacs, with Eglot set up. The tree-sitter grammar gains
+  `locals.scm`, `tags.scm` and `injections.scm` queries and C, Node and Rust
+  bindings, for Neovim, Helix and Zed.
+
+- **VS Code, Cursor, Windsurf and VSCodium.** The extension is built for all
+  five platforms from a release and can be published to the Visual Studio
+  Marketplace and to Open VSX, which is where Cursor, Windsurf and VSCodium
+  look.
+
+- **eTamil in a notebook.** `pip install ./eTamil_Jupyter` and `python -m
+  etamil_kernel install` add an eTamil kernel to Jupyter. A cell runs in the
+  compiler's own shell, so variables and functions persist between cells, a
+  cell stops at its first error, and a cell with an unclosed `{` is refused
+  rather than half run.
+
+- **A language specification.** `docs/reference/LANGUAGE_SPEC.md` describes
+  the lexical structure, the grammar and the operator precedence, and
+  `docs/reference/etamil.ebnf` is the grammar. Both are generated from the
+  tree-sitter grammar, which takes its keywords from the lexer and parses every
+  program in `nUlakam/` and `examples/`, and CI fails if they drift.
+
+- **Deploy on AWS.** `deploy/aws/etamil-service.yaml` is a CloudFormation
+  template that runs an eTamil HTTP program on ECS Fargate behind a load
+  balancer, with health checks, rolling deploys that roll back on failure,
+  optional HTTPS, and optional secrets from Secrets Manager. `deploy/aws/`
+  explains how to build the image and create the stack.
+
 ### Fixed
 
 - **A baselined task can be finished.** `qittam/paNi.qmz`'s list of fields a
@@ -54,6 +98,27 @@ GitHub's generated notes list the commits; this file says what they add up to.
   archive, which cannot run there. It now picks by architecture, as it already
   did on macOS. `scripts/package_extension.py --from-release` also builds a
   `linux-arm64` VSIX that carries the arm64 compiler.
+
+### Security
+
+- **The dependencies are audited.** A workflow runs `cargo audit` on the
+  compiler and the Android library and `npm audit` on the two published
+  JavaScript packages, on every lockfile change and weekly, and fails on any
+  advisory that is not accepted with a written reason in `.cargo/audit.toml`.
+  On the code as it stood before the banking libraries, the first run found
+  no vulnerability. It led to updating
+  `anyhow` (an unsound `downcast_mut`) in the compiler, and two crates in the
+  Android library whose locked versions had been yanked. Accepted for now:
+  `rustls-pemfile`, which is unmaintained and needs a code change to replace,
+  and two `lru` advisories reached only through the optional `mysql` driver.
+
+### For contributors
+
+- **The Emacs word lists are generated.** `scripts/generate_editor_support.py`
+  writes `eTamil_Emacs/etamil-words.el` with the other editors' data, and
+  `--check` covers it. New CI jobs lint the AWS template with `cfn-lint`, test
+  the Jupyter kernel against a freshly built compiler, and byte-compile and
+  test the Emacs mode under Emacs 27.2, 29.4 and 30.1.
 
 ---
 
