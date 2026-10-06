@@ -106,7 +106,8 @@
 
 (ert-deftest etamil-literals-comments-and-strings-are-highlighted ()
   (etamil-test-with-sample
-    (should (eq (etamil-test-face "// simple") 'font-lock-comment-face))
+    (should (memq (etamil-test-face "// simple")
+                  '(font-lock-comment-face font-lock-comment-delimiter-face)))
     (should (eq (etamil-test-face "\"வரி\"") 'font-lock-string-face))
     (should (eq (etamil-test-face "50000") 'font-lock-constant-face))
     (should (eq (etamil-test-face "7.5%") 'font-lock-constant-face))

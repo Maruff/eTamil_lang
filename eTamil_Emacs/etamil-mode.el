@@ -117,8 +117,8 @@ inside either is left alone.")
 
 (defun etamil--indentation ()
   "The column the line at point should start at.
-One level per open bracket, and a line that begins with a closing bracket sits one
-level out."
+One level per open bracket, and a line that begins with a
+closing bracket sits one level out."
   (save-excursion
     (back-to-indentation)
     (let ((depth (car (syntax-ppss))))
@@ -186,6 +186,7 @@ A line that begins inside a string, which can span lines, is left as written."
   (setq-local comment-start "// ")
   (setq-local comment-end "")
   (setq-local comment-start-skip "//+\\s-*")
+  (setq-local indent-tabs-mode nil)
   (setq-local font-lock-defaults '(etamil-font-lock-keywords))
   (setq-local indent-line-function #'etamil-indent-line)
   (setq-local electric-indent-chars
