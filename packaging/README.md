@@ -48,8 +48,8 @@ TARGET=x86_64-unknown-linux-musl ./packaging/build.sh
 
 The Linux archive is a single-click installer for Ubuntu, Debian, Fedora, and
 other x86_64 Linux distributions. Debian and Ubuntu users can also take the
-`.deb` (below); there is no `.rpm`, because the same self-contained archive works
-on Fedora and the rest.
+`.deb` and Fedora, RHEL and openSUSE users the `.rpm` (both below); the archive
+itself works on any other distribution.
 The macOS and Windows archives are built on native CI runners because their
 SDKs and linkers are not available on Linux. Those files are created only when
 the release workflow runs for a version tag; they are not present in a normal
@@ -106,6 +106,24 @@ The release workflow's `deb` job builds both architectures, installs the amd64
 one and runs it, then attaches them to the release. They are not in an apt
 repository, so `apt update` will not upgrade them; install a newer `.deb` over
 the old one.
+
+## The RPM package
+
+`packaging/build-rpm.sh` repackages a Linux archive as an `.rpm`, the same way: it
+compiles nothing, so the aarch64 package builds on an x86-64 machine, and it
+depends on no other package. It needs `rpmbuild` (`apt install rpm` on Debian and
+Ubuntu, `dnf install rpm-build` on Fedora).
+
+```bash
+bash packaging/build-rpm.sh dist/etamil-linux-x64.tar.gz
+sudo dnf install ./dist/etamil-<version>-1.x86_64.rpm
+```
+
+A pre-release version such as `1.5.0-rc1` is written `1.5.0~rc1`, because RPM does
+not allow `-` in a version. The release workflow's `rpm` job builds both
+architectures, installs the x86_64 one in a Fedora container and runs it, then
+attaches them to the release. As with the `.deb`, there is no repository, so a
+newer package is installed over the old one.
 
 ## The Docker image
 
