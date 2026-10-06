@@ -107,6 +107,42 @@ one and runs it, then attaches them to the release. They are not in an apt
 repository, so `apt update` will not upgrade them; install a newer `.deb` over
 the old one.
 
+### An apt repository
+
+Each release also carries the index files of a flat apt repository, so Debian and
+Ubuntu can install and upgrade with `apt`:
+
+```bash
+sudo curl -fsSL https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-archive-keyring.gpg     -o /usr/share/keyrings/etamil.gpg
+echo "deb [signed-by=/usr/share/keyrings/etamil.gpg] https://github.com/Maruff/eTamil_lang/releases/latest/download ./"     | sudo tee /etc/apt/sources.list.d/etamil.list
+sudo apt update && sudo apt install etamil
+```
+
+The address is the newest release's assets, so the repository holds one version, the
+latest, and `apt upgrade` moves to the next release when it is published. A
+pre-release is not "latest" on GitHub and is not offered. To stay on a version, install
+its `.deb` directly.
+
+`packaging/make-apt-index.py` writes `Packages`, `Packages.gz` and `Release` from the
+`.deb` files in a directory. It is plain Python with no dependency on dpkg, and has
+its own tests (`python3 -m unittest packaging/test_make_apt_index.py`). The workflow's
+`apt` job signs `Release` into `InRelease` and `Release.gpg`, exports the public key as
+`etamil-archive-keyring.gpg`, and installs the package from the result in a Debian
+container before anything is published.
+
+**One-time setup (the owner).** Make a signing key without a passphrase, used for
+nothing else, and store its private half as the repository secret
+`APT_GPG_PRIVATE_KEY`:
+
+```bash
+gpg --batch --passphrase '' --quick-generate-key "eTamil packages <esan@etamil.in>" rsa3072 sign never
+gpg --armor --export-secret-keys "eTamil packages" # paste this into the secret
+```
+
+Without the secret the job still builds and tests an unsigned index, but a version tag
+fails, so an unsigned repository is never published. Losing or replacing the key means
+every user must fetch the new keyring.
+
 ## The RPM package
 
 `packaging/build-rpm.sh` repackages a Linux archive as an `.rpm`, the same way: it
