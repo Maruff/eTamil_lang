@@ -52,6 +52,11 @@ running and its log, which is the first place to look if nothing appears.
 
 ## 3. Running a file
 
+With the eTamil plugin (`packaging/jetbrains/plugin/`) installed, skip the External
+Tools below: **Run | Run 'file.qmz'** (Ctrl+Shift+F10) makes an eTamil run
+configuration for the file, with run, check and server modes, and Tamil output
+reads correctly. Without the plugin, set it up by hand:
+
 Add two External Tools (Settings → **Tools → External Tools** → **+**), with the
 program set to the path of `etamil`, and the working directory `$FileDir$`:
 
@@ -73,7 +78,7 @@ your system environment. The release packages' installers set it for you.
   not eTamil's keywords or the standard library's functions. The VS Code
   extension offers both from its own tables; there is nothing equivalent here
   yet.
-- **A debugger**, and a run configuration with its own tool window. Run output
+- **A debugger.** The compiler has none to attach to. Without the plugin, run output
   appears in the External Tools console.
 - **Semantic highlighting.** TextMate colours by pattern, so an identifier is
   coloured the same whether it is a function or a variable.
