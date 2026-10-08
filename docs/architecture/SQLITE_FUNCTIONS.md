@@ -7,14 +7,15 @@ changes nothing in it) into a feature of the compiler.
 What the user gets:
 
 ```
-செயல் gst_total(amount, rate) {
-    திரும்பு amount * (1 + rate / 100);
+செயல் moqqam_vari(qokY, vikiqam) {
+    திரும்பு qokY * (1 + vikiqam / 100);
 }
 
 தளம்_இணை "SQLite" ":memory:"
-தளம்_செயல்_பதிவு("gst_total", gst_total, 2)
-rows = தளம்_வினவு("SELECT id, gst_total(amount, 18) AS total FROM invoices")
+தளம்_செயல்_பதிவு("moqqam_vari", moqqam_vari, 2)
+rows = தளம்_வினவு("SELECT eN, moqqam_vari(qokY, 18) AS moqqam FROM paRRuccIttu")
 ```
+
 
 The spike measured **about 5.8 microseconds a row** and showed exact decimals, Tamil names, runtime
 errors becoming SQL errors, and the step limit all work. What is left is the compiler plumbing.
@@ -65,6 +66,15 @@ It is checked the same way the others are: `scripts/check_script_rules.py` for t
 rules, `generate_editor_support.py --check` so the editors' completion lists include it, and
 `scripts/check_site_counts.py --check` for the builtin count. The Tamil word choice is still for a
 Tamil reader to confirm before it merges, and it is cheap to change until the count is committed.
+
+## Names of files, folders, tables and fields
+
+The sample, its file and folder names, the database, its tables and their columns use the
+ezuqqu romanization, as the rest of the project does: `qokY` (தொகை, amount), `vikiqam` (விகிதம்,
+rate), `moqqam` (மொத்தம், total), `paRRuccIttu` (பற்றுச்சீட்டு, invoice), `eN` (எண், number),
+each produced with `scripts/transliterate.py`. The audit is `scripts/check_names.py --check`, which
+runs in CI and must stay at 0 names off-scheme; names that are English by necessity are listed in
+its `ALLOW` list, not renamed.
 
 ## Rules the spike found, kept as they are
 
