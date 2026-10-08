@@ -114,6 +114,7 @@ pub mod http;
 // interpreter's input and output go through vm::host, which has a browser
 // implementation. The archive and subprocess helpers inside it are gated
 // individually.
+pub mod purity;
 pub mod vm;
 
 // --- Browser bindings ---
