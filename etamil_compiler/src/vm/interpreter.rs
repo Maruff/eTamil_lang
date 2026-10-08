@@ -164,6 +164,12 @@ pub struct VM {
     /// a transaction the way two requests sharing a SQL connection do. The fix
     /// is an exclusive lease, which the SQL side has and this does not yet.
     pub cache: Option<crate::redis::Connection>,
+    /// The program being run, kept so that something outside the instruction
+    /// loop can call one of its functions later. A function value is only a name
+    /// and what it captured; its body lives here, in `Bytecode::functions`. Set
+    /// when `execute` starts and shared, not copied, so keeping it costs one
+    /// reference count.
+    program: Option<std::sync::Arc<Bytecode>>,
 }
 
 impl Default for VM {
@@ -185,7 +191,13 @@ impl VM {
             cache: None,
             frames: Vec::new(),
             connections: Connections::default(),
+            program: None,
         }
+    }
+
+    /// The program this VM is running or last ran, if any.
+    pub fn program(&self) -> Option<std::sync::Arc<Bytecode>> {
+        self.program.clone()
     }
 
     /// The connection to use for a query. There is one per database type, and
@@ -2668,6 +2680,8 @@ impl VM {
     }
 
     fn run(&mut self, bytecode: Bytecode, max_steps: Option<u64>) -> Result<(), String> {
+        let bytecode = std::sync::Arc::new(bytecode);
+        self.program = Some(bytecode.clone());
         let mut steps: u64 = 0;
         while self.instruction_pointer < bytecode.instructions.len() {
             if let Some(limit) = max_steps {
