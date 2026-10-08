@@ -12,7 +12,7 @@ What the user gets:
 }
 
 தளம்_இணை "SQLite" ":memory:"
-தளம்_செயல்_பதிவு("gst_total", gst_total, 2)     // working name: see "Names"
+தளம்_செயல்_பதிவு("gst_total", gst_total, 2)
 rows = தளம்_வினவு("SELECT id, gst_total(amount, 18) AS total FROM invoices")
 ```
 
@@ -52,10 +52,19 @@ Each is a separate commit with its own tests, so any one can be reviewed or drop
 
 ## Names
 
-The builtin needs a Tamil name and an English-script spelling, as every builtin has. The working
-name is `தளம்_செயல்_பதிவு` (database, function, register). **This is a language-naming decision for
-the owner and a Tamil reader to confirm before it merges**; it is cheap to change until the
-count is committed.
+The builtin follows the same standard as every other: **three spellings**, in the form the
+database builtins already use (`தளம்_செய்_முயற்சி | qaLam_cey_muyaRci | _tryExecute`).
+
+| Spelling | Name | Where it comes from |
+|---|---|---|
+| Tamil | `தளம்_செயல்_பதிவு` (database, function, register) | the `தளம்_` prefix of the database builtins, and `செயல்`, the keyword for a function |
+| Latin transliteration | `qaLam_ceyal_paqivu` | the output of `scripts/transliterate.py`, not written by hand |
+| English | `_registerFunction` | a leading `_` and camelCase, as `_tryExecute`, `_tryQuery` and `_redisConnect` have; the underscore marks it as English (`docs/reference/SCRIPT_RULES.md`) |
+
+It is checked the same way the others are: `scripts/check_script_rules.py` for the underscore
+rules, `generate_editor_support.py --check` so the editors' completion lists include it, and
+`scripts/check_site_counts.py --check` for the builtin count. The Tamil word choice is still for a
+Tamil reader to confirm before it merges, and it is cheap to change until the count is committed.
 
 ## Rules the spike found, kept as they are
 
