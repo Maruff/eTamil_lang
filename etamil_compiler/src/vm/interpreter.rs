@@ -253,6 +253,61 @@ impl VM {
         self.connection_for(None)
     }
 
+    /// `தளம்_செயல்_பதிவு`: check its arguments, check the function may be given to a
+    /// database, and register it on the open connection.
+    fn register_row_function(&mut self, args: &[Value]) -> Result<(), String> {
+        use crate::db::Numbers;
+        use rust_decimal::prelude::ToPrimitive;
+
+        let name = match &args[0] {
+            Value::String(name) if !name.is_empty() && !name.contains('\0') => name.clone(),
+            _ => return Err("the name must be text, and not empty".to_string()),
+        };
+        let function = match &args[1] {
+            Value::Function(function) => (**function).clone(),
+            other => {
+                return Err(format!(
+                    "the second argument must be a function, not {}",
+                    Self::type_name(other)
+                ));
+            }
+        };
+        // SQLite allows at most 127 arguments to a function.
+        let arity = match &args[2] {
+            Value::Number(n) => n
+                .to_i32()
+                .filter(|a| (0..=127).contains(a) && Decimal::from(*a) == *n),
+            _ => None,
+        }
+        .ok_or("the number of arguments must be a whole number from 0 to 127")?;
+        let numbers = match args.get(3) {
+            None => Numbers::ExactText,
+            Some(Value::String(mode)) if mode == "exact" => Numbers::ExactText,
+            Some(Value::String(mode)) if mode == "numeric" => Numbers::Native,
+            Some(_) => {
+                return Err("the fourth argument must be \"exact\" or \"numeric\"".to_string());
+            }
+        };
+
+        let program = self
+            .program()
+            .ok_or("there is no running program to take the function from")?;
+        crate::purity::check_value(&program, &function)?;
+        if let Some(info) = program.functions.get(&function.name)
+            && info.params.len() != arity as usize
+        {
+            return Err(format!(
+                "the function takes {} argument(s), but it was registered for {}",
+                info.params.len(),
+                arity
+            ));
+        }
+
+        let row = crate::db::function::row_function(&program, function, arity as usize);
+        self.connection_mut()?
+            .register_function(&name, arity, numbers, row)
+    }
+
     /// Read a name: the current call's locals shadow globals.
     fn get_var(&self, name: &str) -> Option<Value> {
         if let Some(frame) = self.frames.last()
@@ -1914,6 +1969,27 @@ impl VM {
                 }
             }
 
+            // தளம்_செயல்_பதிவு(பெயர், செயல், எண்ணிக்கை) — let queries on the
+            // open database call a செயல் of this program by that name, once per
+            // row: a சரி, or a தவறு saying why not.
+            //
+            // An optional fourth argument says how a number result goes into the
+            // database: "exact" (the default, as text, so no digit is lost) or
+            // "numeric" (a whole number or a float, so comparisons and SUM
+            // behave). The function may only compute: crate::purity refuses one
+            // that could reach outside the database, and refuses it here, before
+            // anything is registered. The registration lasts as long as the
+            // connection is lent to this program, not longer.
+            "தளம்_செயல்_பதிவு" | "qaLam_ceyal_paqivu" | "_registerFunction" => {
+                if args.len() != 4 {
+                    Self::expect_args(name, &args, 3)?;
+                }
+                match self.register_row_function(&args) {
+                    Ok(()) => Ok(Value::Ok(Box::new(Value::Null))),
+                    Err(why) => Ok(Value::Err(Box::new(Value::String(why)))),
+                }
+            }
+
             // --- Authentication ---
             // bcrypt, HMAC-SHA256, base64 and randomness are not expressible
             // in eTamil, so they live in the host. Everything above them —
@@ -2665,7 +2741,23 @@ impl VM {
     }
 
     pub fn execute(&mut self, bytecode: Bytecode) -> Result<(), String> {
-        self.run(bytecode, None)
+        self.run(std::sync::Arc::new(bytecode), None)
+    }
+
+    /// Run a program that is already shared, starting at `start` instead of the
+    /// beginning, with an optional ceiling on the instructions run.
+    ///
+    /// For a caller that owns the program and runs part of it many times, as a
+    /// database does with a function it was given: it builds a VM, sets the
+    /// variables that part reads, and enters at the instruction that reads them.
+    pub fn execute_shared(
+        &mut self,
+        program: std::sync::Arc<Bytecode>,
+        start: usize,
+        max_steps: Option<u64>,
+    ) -> Result<(), String> {
+        self.instruction_pointer = start;
+        self.run(program, max_steps)
     }
 
     /// Execute, but give up after `max_steps` instructions.
@@ -2676,11 +2768,14 @@ impl VM {
     /// callers use `execute`, which has no ceiling -- a long-running report is
     /// a legitimate thing for a server to do.
     pub fn execute_limited(&mut self, bytecode: Bytecode, max_steps: u64) -> Result<(), String> {
-        self.run(bytecode, Some(max_steps))
+        self.run(std::sync::Arc::new(bytecode), Some(max_steps))
     }
 
-    fn run(&mut self, bytecode: Bytecode, max_steps: Option<u64>) -> Result<(), String> {
-        let bytecode = std::sync::Arc::new(bytecode);
+    fn run(
+        &mut self,
+        bytecode: std::sync::Arc<Bytecode>,
+        max_steps: Option<u64>,
+    ) -> Result<(), String> {
         self.program = Some(bytecode.clone());
         let mut steps: u64 = 0;
         while self.instruction_pointer < bytecode.instructions.len() {
