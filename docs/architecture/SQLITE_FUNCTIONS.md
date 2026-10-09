@@ -1,8 +1,13 @@
 # eTamil functions in SQLite queries: the plan for the compiler
 
-**Status: a plan, with no code yet.** WBS 1.20, wanted in 2.0. It turns the spike on
+**Status: built** (WBS 1.20, in 2.0), in the order below. It turns the spike on
 `spike/sqlite-functions` (`eTamil_sqlite/`, which uses only the compiler's public API and
-changes nothing in it) into a feature of the compiler.
+changes nothing in it) into a feature of the compiler. The builtin is `தளம்_செயல்_பதிவு`,
+the code is `src/purity.rs`, `src/db/function.rs` and the `register_function` hook in
+`src/db/`, the tests are `tests/sqlite_functions.rs`, and the sample is
+`examples/db_samples/qaLam_ceyal_paqivu.qmz`. **Still open:** a Tamil reader's review of
+the builtin's name and of the Tamil text in its error messages (the messages from the
+purity check are English only), and PostgreSQL and MySQL, which refuse.
 
 What the user gets:
 
