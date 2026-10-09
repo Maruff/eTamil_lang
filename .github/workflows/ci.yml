@@ -235,6 +235,40 @@ jobs:
       - name: Run every example
         run: ./scripts/run_examples.sh
 
+  # The Neovim plugin is only ever used inside an editor, so a mistake in it would be
+  # found by whoever first opens an eTamil file. Neovim runs headless here: file type
+  # detection, the buffer settings, the language server's registration, and the highlight
+  # query against the real grammar, compiled in this job from the committed parser.c.
+  # It cannot run a real editing session or nvim-treesitter's :TSInstall. A failure is
+  # also written as annotations, so it can be read from the run's summary.
+  neovim:
+    name: neovim (${{ matrix.version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [v0.10.4, stable]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: ${{ matrix.version }}
+
+      - name: Build the grammar
+        run: cc -shared -fPIC -O1 -I tree-sitter-etamil/src tree-sitter-etamil/src/parser.c -o "$RUNNER_TEMP/etamil.so"
+
+      - name: Test the plugin
+        run: |
+          if ! ETAMIL_PARSER="$RUNNER_TEMP/etamil.so" nvim --headless -u NONE -l eTamil_Neovim/tests/run.lua > nvim.txt 2>&1; then
+            cat nvim.txt
+            grep -v '^ok ' nvim.txt | head -20 | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+          cat nvim.txt
+
   # The uqavi/ samples are the library's documentation: one runnable program
   # per function. They are a separate job rather than another step in the one
   # above because there are hundreds and each costs about a second — as a step
