@@ -8,8 +8,8 @@
 //! message text, which comes straight from each error type's `Display`.
 //!
 //! Two things are reachable from here: `lexer` -> `parser` -> `check`, for
-//! diagnostics and the symbol queries, and `vm`, for `run` and
-//! `run_with_input`. What the VM cannot do in a browser it refuses explicitly
+//! diagnostics and the symbol queries, and `vm`, for `run`,
+//! `run_with_input` and `run_project`. What the VM cannot do in a browser it refuses explicitly
 //! rather than silently: the modules behind databases, sockets and `உள்ளிடு`
 //! are gated out of a wasm build, so a program that reaches for one gets a
 //! message saying it needs a machine of its own. See lib.rs.
@@ -24,13 +24,14 @@
 //! | `script_spans` | which ASCII is eTamil script rather than English |
 //! | `run` | the program, on the bytecode VM |
 //! | `run_with_input` | the same, with stdin supplied |
+//! | `run_project` | several sources that import each other, as JSON, with stdin supplied |
 //! | `version` | the compiler version |
 //!
 //! `scripts/check_wasm_boundary.py` fails if an export is missing from that
 //! table, because this comment went stale twice before anyone noticed.
 //!
 //! Every entry point returns a `String` rather than a `JsValue` -- JSON for
-//! the six that carry structure, plain text for `version`. That keeps the
+//! the seven that carry structure, plain text for `version`. That keeps the
 //! dependency list at `wasm-bindgen` alone -- no `serde-wasm-bindgen`, no
 //! `js-sys` -- and the payloads are small enough that one `JSON.parse` on the
 //! JavaScript side costs nothing measurable.
@@ -507,6 +508,58 @@ pub fn run_with_input(source: &str, input: &str) -> String {
     })
 }
 
+/// Compile and run a project: several sources that import each other, as JSON.
+///
+/// `files_json` is an object from path to source, for example
+/// `{"main.qmz": "...", "vari.qmz": "..."}`; `entry` names the one to run. An
+/// `இறக்கு "vari.qmz"` in a source finds `vari.qmz` among the others, relative to the
+/// importing file, as on disk. The browser has no files to read, so everything an
+/// import may reach has to be in the object: a page that wants the standard library
+/// to work (`இறக்கு "nUlakam/paNam/paNam.qmz"`) puts its sources in too, under those
+/// paths. `input` is as for `run_with_input`.
+#[wasm_bindgen]
+pub fn run_project(files_json: &str, entry: &str, input: &str) -> String {
+    let result = execute_project(files_json, entry, input);
+    serde_json::to_string(&result).unwrap_or_else(|_| {
+        r#"{"ok":false,"output":"","error":"result could not be encoded","stage":"run","files":[]}"#
+            .to_string()
+    })
+}
+
+fn execute_project(files_json: &str, entry: &str, input: &str) -> RunResult {
+    host::reset();
+    for line in input.lines() {
+        host::push_input(line);
+    }
+
+    let failed = |stage: &'static str, error: String| RunResult {
+        ok: false,
+        output: host::take_output(),
+        error: Some(error),
+        stage: Some(stage),
+        files: host::file_names(),
+    };
+
+    let files: std::collections::HashMap<String, String> = match serde_json::from_str(files_json) {
+        Ok(files) => files,
+        Err(e) => {
+            return failed(
+                "parse",
+                format!(
+                    "the project's files could not be read (an object from path to source was expected): {e}"
+                ),
+            );
+        }
+    };
+
+    // Lexing, parsing and resolving imports are one stage to a caller: either the
+    // program could be assembled, or it could not.
+    match crate::project::load(&files, entry) {
+        Ok(statements) => run_statements(statements, &failed),
+        Err(e) => failed("parse", e),
+    }
+}
+
 fn execute(source: &str, input: &str) -> RunResult {
     // Nothing carries over between runs: last run's output and files are gone
     // before this one starts.
@@ -544,6 +597,15 @@ fn execute(source: &str, input: &str) -> RunResult {
         Err(e) => return failed("parse", e.to_string()),
     };
 
+    run_statements(statements, &failed)
+}
+
+/// Check, compile and run a program that has been parsed (and, for a project, had its
+/// imports resolved). Shared by a single source and by a project.
+fn run_statements(
+    statements: Vec<Stmt>,
+    failed: &dyn Fn(&'static str, String) -> RunResult,
+) -> RunResult {
     // A program that does not type-check is not run, which is what the command
     // line does too -- running it anyway would produce a second, more confusing
     // error somewhere further along.
