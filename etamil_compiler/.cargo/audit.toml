@@ -1,0 +1,29 @@
+# Advisories accepted for now, each with the reason and what would close it.
+# `cargo audit --deny warnings` (see .github/workflows/audit.yml) fails on anything
+# not listed here, so a new advisory is a failure, not a line in a log.
+
+[advisories]
+ignore = [
+    # rustls-pemfile is unmaintained. It is a direct dependency, used only to read
+    # PEM certificates for mutual TLS (src/mtls.rs, behind the http-client feature).
+    # The advisory's replacement is rustls-pki-types' PemObject; migrating is a code
+    # change, not a version bump. Close this by making that change.
+    "RUSTSEC-2025-0134",
+
+    # lru 0.12.5 is unsound in IterMut and in LruCache::pop. It comes only through
+    # the mysql driver (optional, --features mysql), which pins lru 0.12; a fixed lru
+    # needs a new mysql release. The driver uses the cache for prepared statements and
+    # does not call IterMut. Close this by updating mysql when it moves off lru 0.12.
+    "RUSTSEC-2026-0002",
+    "RUSTSEC-2026-0253",
+
+    # rsa 0.9.x: the Marvin attack. Timing differences in the private-key operation can
+    # leak the key (severity 5.9, medium), and no fixed release exists; 0.10 is still a
+    # release candidate. The crate arrives with the e-Sign work, where it is used only by
+    # esign::rsa_sign, to sign the XML-DSig envelope of an e-Sign request. That is native
+    # only, never in the browser build, and it signs with a random source, which turns on
+    # blinding so the operation's time does not depend on the key. Mitigated, not fixed.
+    # Accepted by the owner on 2026-10-08. Close this by moving to an rsa release that
+    # fixes the advisory.
+    "RUSTSEC-2023-0071",
+]
