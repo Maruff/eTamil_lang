@@ -84,6 +84,22 @@ These block anything beyond Phase 0.
 5. **Accounts.** Saving projects across devices, role management (WBS 2.7), and
    anything multi-user need sign-in, which nothing has today.
 
+## Decisions taken, 2026-10-11
+
+The owner accepted the recommendation on each of the five.
+
+| # | Decision | Taken |
+|---|---|---|
+| 1 | Which Studio, and in what order | **The IDE first, with low-code built on top as a generator.** |
+| 2 | Untrusted programs on a server | **Browser only.** The VM runs in the page under a step limit, and since `run_project` it runs whole projects and the standard library. A server-side run is not planned; nothing visitors write runs on the droplet that serves the production domains. |
+| 3 | The AI assistant's model | **No generation for now.** Later, as an opt-in and clearly experimental feature, **bring your own key**: the user's own provider key, kept in their browser, with the page running the compiler's check on what comes back. No hosted model, no key held by the project. |
+| 4 | What a form compiles to | **A first slice that generates an eTamil program and an HTML form, running in the browser, with no storage.** A generated backend over PostgreSQL stays the destination, after the slice works. |
+| 5 | Accounts | **None.** Projects stay in the browser, with export and import. GitHub sign-in, with projects in the user's own GitHub, is the later option. |
+
+What follows from them: Phase 4's form builder starts, as a browser-only first slice (a form with fields,
+calculations and checks, whose calculations are real eTamil run by the real VM), and Phases 2 and 3 as
+written here do not start.
+
 ## Later phases, if the decisions go that way
 
 | Phase | What | Entry condition |
