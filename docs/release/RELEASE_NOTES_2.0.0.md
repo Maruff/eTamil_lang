@@ -23,6 +23,7 @@ bug: please report it.
 | **Homebrew** (macOS, Linux) | `brew install Maruff/etamil/etamil` |
 | **Debian, Ubuntu** (apt) | Add the repository and its key, then `sudo apt install etamil` (steps in `packaging/README.md`). `apt upgrade` finds later releases. |
 | **Fedora, RHEL, openSUSE** | `sudo dnf install ./etamil-2.0.0-1.x86_64.rpm` (or `aarch64`), from the files on this page. |
+| **Android** (in [qos](https://qos.ae) or Termux) | qos installs it. In Termux: download `etamil-android-arm64.tar.gz` from this page and run its `install.sh`. |
 | **Docker** | `docker run --rm -v "$PWD":/work ghcr.io/maruff/etamil:2.0.0 --vm hello.qmz` |
 | **npm** | `npx etamil hello.qmz`, or `npm install -g etamil` |
 | **.NET** | `dotnet tool install -g etamil` (and `etamil-lsp` for the language server) |
@@ -30,7 +31,7 @@ bug: please report it.
 | **VS Code, Cursor, Windsurf, VSCodium** | Search for "eTamil" in the extensions view. The extension carries the compiler: nothing else to install. |
 
 Every package is the same static compiler (musl on Linux, so it does not depend on your
-glibc), the standard library `nUlakam/` and the examples, with `ETAMIL_PATH` set so
+glibc; on Android, Android's own libc, so a program reaches websites by name there), the standard library `nUlakam/` and the examples, with `ETAMIL_PATH` set so
 `இறக்கு "nUlakam/..."` resolves from any directory. Each archive has a `.sha256` beside it.
 
 ## What is new
@@ -124,6 +125,10 @@ reviewer.
   commitments; and `examples/aluvalakam/` runs a SQLite-backed service on them.
 - **`இப்போதைய_நொடி()`**, whole seconds since 1970, for anything stored and read back after a
   restart. The XML and e-Sign primitives below add nine more builtins.
+- **An Android package**, `etamil-android-arm64.tar.gz`, built with the NDK for Android 7.0 and
+  later. The Linux arm64 package runs on Android too, but cannot look host names up there, so
+  `வலை_பெறு` could not reach an API by name. A workflow runs the same build in Android 9 and 14
+  emulators, including a request to a website by name.
 - **Fixes:** a baselined task can be finished; base64 wrapped with Windows line endings decodes;
   the VS Code extension offers ARM Linux the arm64 package.
 
