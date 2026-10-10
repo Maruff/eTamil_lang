@@ -47,8 +47,9 @@ TARGET=x86_64-unknown-linux-musl ./packaging/build.sh
 ```
 
 The Linux archive is a single-click installer for Ubuntu, Debian, Fedora, and
-other x86_64 Linux distributions. It is intentionally not a distro-specific
-`.deb` or `.rpm`; the same self-contained archive works across those systems.
+other x86_64 Linux distributions. Debian and Ubuntu users can also take the
+`.deb` (below); there is no `.rpm`, because the same self-contained archive works
+on Fedora and the rest.
 The macOS and Windows archives are built on native CI runners because their
 SDKs and linkers are not available on Linux. Those files are created only when
 the release workflow runs for a version tag; they are not present in a normal
@@ -88,6 +89,43 @@ mean editing all four every release, and a stale link is worse than no link.
 The version is not lost: it is in `README.txt` inside the archive, in the release
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
+
+## The Debian package
+
+`packaging/build-deb.sh` repackages a Linux archive as a `.deb`; it compiles
+nothing, so the arm64 package builds on an x86-64 machine. The package depends on
+no others, because the binary is static musl, and it finds the library in
+`/usr/share/etamil` by itself.
+
+```bash
+bash packaging/build-deb.sh dist/etamil-linux-x64.tar.gz
+sudo apt install ./dist/etamil_<version>_amd64.deb
+```
+
+The release workflow's `deb` job builds both architectures, installs the amd64
+one and runs it, then attaches them to the release. They are not in an apt
+repository, so `apt update` will not upgrade them; install a newer `.deb` over
+the old one.
+
+## The Docker image
+
+`packaging/Dockerfile` unpacks the Linux package on Alpine; nothing is compiled
+in it, so the image holds exactly the binary published as the Linux archives. It
+runs as a non-root user with `/work` as the working directory and
+`ETAMIL_PATH` pointing at the bundled library.
+
+```bash
+bash packaging/build.sh        # needs dist/etamil-linux-<arch>.tar.gz
+docker build -f packaging/Dockerfile -t etamil .
+docker run --rm -v "$PWD:/work" etamil program.qmz
+```
+
+A local build is single-architecture, because `build.sh` builds only the current
+machine. The release workflow's `docker` job builds amd64 and arm64 from both
+archives and pushes `ghcr.io/<owner>/etamil` with the version and `latest` tags
+on a `v*` tag; a manual run builds and smoke-tests without pushing. The
+registry package is private until it is made public once in the GitHub package
+settings.
 
 ## Publishing
 

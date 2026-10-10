@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 jobs:
   package:
@@ -102,10 +103,51 @@ jobs:
             dist/${{ matrix.package }}.sha256
           if-no-files-found: error
 
+  # Debian/Ubuntu packages, assembled from the Linux archives rather than
+  # compiled again. The amd64 one is installed and run here, which is the only
+  # real test of the package; the arm64 one is built and inspected.
+  deb:
+    name: deb packages
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-linux-*
+          path: dist
+          merge-multiple: true
+
+      - name: Build packages
+        run: |
+          bash packaging/build-deb.sh dist/etamil-linux-x64.tar.gz
+          bash packaging/build-deb.sh dist/etamil-linux-arm64.tar.gz
+
+      - name: Inspect
+        run: |
+          for f in dist/*.deb; do dpkg-deb --info "$f"; dpkg-deb --contents "$f" | head -20; done
+
+      - name: Install and run (amd64)
+        run: |
+          sudo apt-get install -y ./dist/etamil_*_amd64.deb
+          etamil --version
+          test -d /usr/share/etamil/nUlakam
+          sudo apt-get remove -y etamil
+          ! command -v etamil
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: deb-packages
+          path: |
+            dist/*.deb
+            dist/*.deb.sha256
+          if-no-files-found: error
+
   publish:
     name: publish release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: package
+    needs: [package, deb]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -121,3 +163,56 @@ jobs:
           files: dist/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+  # The container image is assembled from the Linux archives built above, not
+  # compiled again: the image holds exactly the binary people download. Pushed to
+  # GitHub Container Registry on version tags only; a manual run builds and
+  # smoke-tests it without publishing.
+  docker:
+    name: docker image
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-linux-*
+          path: dist
+          merge-multiple: true
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/etamil
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+
+      # Single-arch, loaded locally, so the image can actually be run.
+      - name: Build and smoke-test (amd64)
+        run: |
+          docker buildx build -f packaging/Dockerfile --platform linux/amd64 --load -t etamil:test .
+          docker run --rm etamil:test --version
+
+      - name: Build and push (amd64, arm64)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: packaging/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

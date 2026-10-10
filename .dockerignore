@@ -1,0 +1,4 @@
+# The image is assembled from the release archives only. Sending the repository
+# (target/ alone is gigabytes) as build context would be slow and pointless.
+*
+!dist/etamil-linux-*.tar.gz
