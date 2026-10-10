@@ -42,6 +42,7 @@ Both are written in eTamil, not Rust.
 |---|---|
 | [Module Overview](architecture/OVERVIEW.md) | How the crate is organized |
 | [VM Implementation](architecture/VM_IMPLEMENTATION_SUMMARY.md) | Bytecode format and interpreter |
+| [Database extensions](architecture/DATABASE_EXTENSIONS.md) | Design note, for a decision: PL/eTamil for PostgreSQL and a SQLite extension |
 
 The pipeline is `lexer.rs` → `parser.rs` → `vm/bytecode/compiler.rs` → `vm/interpreter.rs`. `codegen.rs` is an optional LLVM backend replacing the last two stages.
 
