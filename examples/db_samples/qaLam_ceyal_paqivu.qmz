@@ -1,0 +1,48 @@
+// __தளம்_செயல்_பதிவு — a function of the program, called by a query__
+//
+// __A SQL query can call a function you wrote here, once per row. The function__
+// __may only compute: one that could read a file, reach the network or another__
+// __database is refused when it is registered, before any row reaches it.__
+//
+// __Two things to know about numbers. A result goes back to SQLite as exact__
+// __text by default, so no digit is lost; but SQLite orders text after every__
+// __number, so comparing an exact result with > or < is wrong for every row.__
+// __Register the function with "numeric" when you want to compare or sort on it.__
+// __SUM over exact text is also a float in SQLite: to total exactly, sum in eTamil.__
+
+இறக்கு "../../nUlakam/paNam/paNam.qmz";
+
+செயல் moqqam_vari(qokY, vikiqam) {
+    திரும்பு qokY * (1 + vikiqam / 100);
+}
+
+தளம்_இணை சீகுலைட், ":memory:";
+
+தளம்_செய் "CREATE TABLE paRRuccIttu (ilakkam INTEGER, qokY TEXT)", [];
+தளம்_செய் "INSERT INTO paRRuccIttu VALUES (?, ?)", [1, 1000];
+தளம்_செய் "INSERT INTO paRRuccIttu VALUES (?, ?)", [2, 250.50];
+தளம்_செய் "INSERT INTO paRRuccIttu VALUES (?, ?)", [3, 100];
+
+// __Each answers a சரி, or a தவறு saying why not (here, neither fails).__
+_exact = தளம்_செயல்_பதிவு("moqqam_vari", moqqam_vari, 2);
+_numeric = தளம்_செயல்_பதிவு("moqqam_vari_eN", moqqam_vari, 2, "numeric");
+
+தளம்_வினா "SELECT ilakkam, moqqam_vari(qokY, 18) AS moqqam FROM paRRuccIttu ORDER BY ilakkam",
+          [], வரிசைகள்;
+
+அச்சு "வரியுடன் மொத்தம் (18%)";
+அச்சு "---------------------------------";
+ஒவ்வொரு பதிவு இல் வரிசைகள் {
+    அச்சு "  " & பதிவு.ilakkam & " — " & ரூபாய்(பதிவு.moqqam);
+}
+
+// __The trap, shown: every row passes the exact version of > 500 ...__
+தளம்_வினா "SELECT ilakkam FROM paRRuccIttu WHERE moqqam_vari(qokY, 18) > 500", [], தவறான;
+// __... and only the invoice that is really over 500 passes the numeric one.__
+தளம்_வினா "SELECT ilakkam FROM paRRuccIttu WHERE moqqam_vari_eN(qokY, 18) > 500", [], சரியான;
+
+அச்சு "";
+அச்சு "500 ஐ விட அதிகம் — exact text : " & நீளம்(தவறான) & " வரிசைகள் (தவறு)";
+அச்சு "500 ஐ விட அதிகம் — numeric    : " & நீளம்(சரியான) & " வரிசை";
+
+தளம்_பிரி சீகுலைட்;
