@@ -121,3 +121,49 @@ jobs:
           files: dist/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+  # The `etamil` and `etamil-lsp` .NET tool packages, wrapped around the binaries in
+  # the archives built above (nothing is compiled again). The Linux runner installs
+  # them as tools and runs them, which is also the first real test of the launcher
+  # restoring the execute bit that a NuGet package does not keep. Pushed to nuget.org
+  # on version tags only; needs a NUGET_API_KEY repository secret.
+  nuget:
+    name: NuGet tool packages
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-*
+          path: dist
+          merge-multiple: true
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build the packages
+        run: python3 packaging/nuget/build-nuget.py --out nupkgs
+
+      - name: Install them as tools and run them
+        run: |
+          dotnet tool install --tool-path "$RUNNER_TEMP/tools" --add-source nupkgs etamil
+          dotnet tool install --tool-path "$RUNNER_TEMP/tools" --add-source nupkgs etamil-lsp
+          "$RUNNER_TEMP/tools/etamil" --version
+          printf 'இறக்கு "nUlakam/paNam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.5);\n' > money.qmz
+          "$RUNNER_TEMP/tools/etamil" --vm money.qmz | grep -F '1,23,45,678.50'
+          test -x "$RUNNER_TEMP/tools/etamil-lsp"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: nupkgs/*.nupkg
+          if-no-files-found: error
+
+      - name: Push to nuget.org
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
