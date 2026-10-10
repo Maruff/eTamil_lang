@@ -12,6 +12,15 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ### Added
 
+- **Imports in the browser build.** `run_project(files_json, entry, input)` takes several
+  sources as JSON, a path to each source, and runs one of them. `இறக்கு "vari.qmz";` finds
+  `vari.qmz` among the others, relative to the importing file, with the same rules as on disk:
+  each import is spliced in ahead of the importer, a file imported twice is included once, a
+  cycle stops, and two modules defining one name is an error. The standard library runs too,
+  once the page supplies its sources under their `nUlakam/...` paths. The loader is
+  `src/project.rs`, and the path arithmetic it shares with the built-in library is `src/vpath.rs`.
+  Nothing changes for the command line, which still reads files.
+
 - **A function of your program, called by a SQLite query.** `தளம்_செயல்_பதிவு`
   (`qaLam_ceyal_paqivu`, `_registerFunction`) registers a செயல் on the open database
   under a name, and a query then calls it once per row: `SELECT moqqam_vari(qokY, 18)

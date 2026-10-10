@@ -14,6 +14,9 @@
 
 include!(concat!(env!("OUT_DIR"), "/embedded_stdlib.rs"));
 
+// The path arithmetic is shared with the browser build's projects, so it lives in `vpath`.
+pub use crate::vpath::{join, normalise, parent};
+
 /// The source of an embedded module, addressed as it would be on disk.
 pub fn source(virtual_path: &str) -> Option<&'static str> {
     let key = normalise(virtual_path);
@@ -26,47 +29,6 @@ pub fn source(virtual_path: &str) -> Option<&'static str> {
 /// Is this path one the embedded library carries?
 pub fn contains(virtual_path: &str) -> bool {
     source(virtual_path).is_some()
-}
-
-/// The virtual directory holding `virtual_path`, for resolving its own imports.
-pub fn parent(virtual_path: &str) -> String {
-    let normalised = normalise(virtual_path);
-    match normalised.rfind('/') {
-        Some(cut) => normalised[..cut].to_string(),
-        None => String::new(),
-    }
-}
-
-/// Join a relative import onto a virtual directory.
-///
-/// The library imports its neighbours relatively — `../kaNiqam.qmz` appears
-/// eleven times — so resolving inside the embedded tree needs real path
-/// arithmetic, not string concatenation. There is no filesystem here to
-/// canonicalize against, so `.` and `..` are folded here.
-pub fn join(base: &str, relative: &str) -> String {
-    if relative.starts_with('/') {
-        return normalise(relative);
-    }
-
-    let mut parts: Vec<&str> = Vec::new();
-    for segment in base.split('/').chain(relative.split('/')) {
-        match segment {
-            "" | "." => {}
-            ".." => {
-                // Climbing above the root is not an error to report here; it
-                // simply cannot name an embedded module, and the caller falls
-                // through to "module not found" like any other bad path.
-                parts.pop();
-            }
-            other => parts.push(other),
-        }
-    }
-    parts.join("/")
-}
-
-/// Fold `.`, `..` and duplicate or backslash separators into one plain form.
-fn normalise(path: &str) -> String {
-    join("", &path.replace('\\', "/"))
 }
 
 /// How many modules are built in. Used by the tests and by `--version`.

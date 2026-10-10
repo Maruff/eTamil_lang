@@ -110,9 +110,15 @@ pub mod artino;
 // The server behind வழி and the routing around it. Needs to bind a socket.
 #[cfg(not(target_family = "wasm"))]
 pub mod http;
+// Portable: a project, a set of named sources that import each other, assembled
+// into a program. What the browser build uses in place of `module`, which reads files.
+pub mod project;
 // Portable: a walk over compiled code that decides which functions a database
 // may be given to call. It touches nothing outside the program it is given.
 pub mod purity;
+// Portable: path arithmetic for a virtual file tree, shared by the built-in
+// library and by projects. It touches nothing outside the strings it is given.
+pub mod vpath;
 // Portable: the bytecode compiler and value layer touch no OS at all, and the
 // interpreter's input and output go through vm::host, which has a browser
 // implementation. The archive and subprocess helpers inside it are gated

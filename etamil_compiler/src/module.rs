@@ -11,23 +11,8 @@
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
-use crate::lexer;
-use crate::parser::{Parser, Stmt};
-
-/// Parse one source string into statements, with lexical errors reported.
-fn parse_source(source: &str) -> Result<Vec<Stmt>, String> {
-    let tokens = lexer::tokenize(source).map_err(|errors| {
-        errors
-            .iter()
-            .map(|e| e.to_string())
-            .collect::<Vec<_>>()
-            .join("\n  ")
-    })?;
-    let mut parser = Parser::new(tokens.iter());
-    // Parse errors carry a line and column now, so the message a caller sees
-    // says where to look rather than only what was wrong.
-    parser.parse().map_err(|error| error.to_string())
-}
+use crate::parser::Stmt;
+use crate::project::parse_source;
 
 /// Load a program from disk, resolving its imports.
 pub fn load_file(path: &Path) -> Result<Vec<Stmt>, String> {
@@ -252,13 +237,7 @@ fn resolve_from(
             && let Some(earlier) = defined.insert(name.clone(), label.to_string())
             && earlier != label
         {
-            return Err(format!(
-                "'{}' இரண்டு தொகுதிகளில் வரையறுக்கப்பட்டுள்ளது: '{}' மற்றும் '{}'  \
-                 ('{}' is defined in two modules, '{}' and '{}'. Imports are \
-                 flattened, so one would silently replace the other — rename one \
-                 of them.)",
-                name, earlier, label, name, earlier, label
-            ));
+            return Err(crate::project::collision(name, &earlier, label));
         }
         match statement {
             Stmt::Import(relative) => {
