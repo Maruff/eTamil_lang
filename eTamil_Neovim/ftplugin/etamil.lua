@@ -12,7 +12,7 @@ vim.bo.softtabstop = 4
 vim.bo.tabstop = 4
 
 -- Carry the comment leader onto a new line, and let gq reflow a comment.
-vim.opt_local.formatoptions:append({ "c", "r", "o", "q" })
+vim.cmd("setlocal formatoptions+=croq")
 
 vim.b.undo_ftplugin = table.concat({
   "setlocal commentstring< comments< expandtab< shiftwidth< softtabstop< tabstop< formatoptions<",

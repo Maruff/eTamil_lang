@@ -70,7 +70,10 @@ test("setup with no language server on the PATH does nothing and does not fail",
 end)
 
 test("setup registers the server when its command exists", function()
-  -- Neovim itself is a command that exists wherever this runs.
+  -- Neovim itself is a command that exists wherever this runs. Close every buffer first:
+  -- Neovim 0.11 attaches a newly enabled server to the buffers already open, and an
+  -- eTamil buffer left by an earlier test would start `nvim` as a language server.
+  vim.cmd("silent! %bwipeout!")
   local started = require("etamil").setup({ cmd = { "nvim" }, treesitter = false })
   eq(started, true, "started")
   if vim.lsp.config ~= nil and vim.lsp.enable ~= nil then
