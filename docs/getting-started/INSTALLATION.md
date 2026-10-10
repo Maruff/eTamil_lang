@@ -9,6 +9,7 @@ Each release publishes a package that needs neither Rust nor a C toolchain:
 | Windows x64 | `etamil-windows-x64.zip` |
 | Linux x64 | `etamil-linux-x64.tar.gz` |
 | Linux arm64 — Raspberry Pi 4/5 on 64-bit Raspberry Pi OS | `etamil-linux-arm64.tar.gz` |
+| Android arm64 — in qos or Termux | `etamil-android-arm64.tar.gz` |
 | macOS Apple Silicon | `etamil-macos-arm64.tar.gz` |
 | macOS Intel | `etamil-macos-x64.tar.gz` |
 
@@ -24,7 +25,17 @@ tar -xzf etamil-linux-arm64.tar.gz
 ```
 
 Both Linux packages are static musl binaries with the PostgreSQL and MySQL
-drivers built in. The [README](../../README.md#installation) covers Windows and
+drivers built in.
+
+The Android package is built against Android's own libc, so a program reaches
+websites and APIs by name through Android's resolver; the Linux arm64 binary
+runs on Android too, but cannot look names up there. [qos](https://qos.ae)
+installs it for you. In Termux, `install.sh` installs into `$PREFIX`:
+
+```bash
+tar -xzf etamil-android-arm64.tar.gz
+./etamil-android-arm64/install.sh
+``` The [README](../../README.md#installation) covers Windows and
 macOS, including the macOS quarantine step.
 
 The rest of this page is for building from source. It takes one command once

@@ -1,0 +1,108 @@
+# The etamil command for Android, run on Android.
+#
+# release.yml publishes etamil-android-arm64, which no GitHub runner can
+# execute. This builds the same package for x86_64 the same way, starts an
+# Android emulator, and runs packaging/smoke-test.sh inside it with Android's
+# own shell, including the check the package exists for: reaching a website by
+# name, which the static musl Linux binary cannot do on Android.
+#
+# Two Android versions: 9 (API 28) and 14 (API 34). The binary is linked for
+# API 24, Android 7.0, the oldest qos supports.
+name: Android CLI
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'etamil_compiler/**'
+      - 'packaging/**'
+      - '.github/workflows/android-cli.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'etamil_compiler/**'
+      - 'packaging/**'
+      - '.github/workflows/android-cli.yml'
+
+env:
+  CARGO_TERM_COLOR: always
+  TARGET: x86_64-linux-android
+  PACKAGE: etamil-android-x64.tar.gz
+
+jobs:
+  build:
+    name: build (x86_64 Android)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ env.TARGET }}
+
+      # Pinned with android.yml and release.yml.
+      - name: Install the Android NDK
+        id: ndk
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27c
+          local-cache: false
+
+      - name: Link with the NDK's clang
+        run: bash packaging/android-env.sh "${{ steps.ndk.outputs.ndk-path }}" "$TARGET" >> "$GITHUB_ENV"
+
+      # The same features as the published packages.
+      - name: Build package
+        env:
+          FEATURES: postgres,mysql
+        run: bash packaging/build.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE }}
+          path: dist/${{ env.PACKAGE }}
+          if-no-files-found: error
+
+  emulator:
+    name: run on Android ${{ matrix.api-level }}
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [28, 34]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PACKAGE }}
+          path: dist
+
+      # The emulator needs hardware acceleration; GitHub's Linux runners have
+      # KVM, but only root can open it until this rule is in place.
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      # Each script line runs as its own command. adb shell passes the remote
+      # exit status back (Android 7 and later), so a failed check fails the job.
+      # The emulator reports booted before its network is up, so wait until it
+      # can look up a name itself. ping exits 2 only when the name does not
+      # resolve (the emulator's network passes no ICMP, so a reply is not
+      # expected). If it never resolves, the emulator's DNS settings are printed,
+      # so a network problem is not mistaken for eTamil's.
+      - name: Run the smoke test on Android
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb shell 'n=0; while :; do ping -c 1 -W 2 example.com > /dev/null 2>&1; [ $? -ne 2 ] && break; n=$((n + 1)); if [ $n -ge 45 ]; then echo "the emulator cannot resolve names"; getprop | grep -i dns; exit 1; fi; sleep 2; done; echo "the emulator resolves names"'
+            adb push dist/${{ env.PACKAGE }} packaging/smoke-test.sh /data/local/tmp/
+            adb shell "cd /data/local/tmp && ETAMIL_SMOKE_NET=1 sh smoke-test.sh ${{ env.PACKAGE }}"

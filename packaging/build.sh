@@ -26,6 +26,16 @@ case "$(uname -s)" in
 esac
 
 TARGET="${TARGET:-}"
+
+# An Android target is its own OS: the binary links against Android's libc
+# (bionic), so it is built on Linux but runs only on Android, where it resolves
+# host names through the system resolver. The Linux musl binary runs there too,
+# but musl looks for /etc/resolv.conf, which Android does not have, so a program
+# calling an API by name cannot reach it. The NDK's clang must be the linker;
+# the release workflow sets that up.
+case "$TARGET" in
+    *-linux-android*) OS=android ;;
+esac
 # Neither the archive nor the directory inside it carries the version, so that
 # every published instruction — the website, the VS Code extension, this repo's
 # README — stays correct across releases without being edited. The version is
