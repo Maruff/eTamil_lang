@@ -1273,6 +1273,9 @@ def build_treesitter_keywords(tokens: list[dict]) -> str:
 
 TREESITTER_GRAMMAR = ROOT / "tree-sitter-etamil" / "grammar.js"
 TREESITTER_QUERIES = ROOT / "tree-sitter-etamil" / "queries" / "highlights.scm"
+# The Neovim plugin carries its own copy, because a plugin on the runtimepath reads
+# queries/<language>/highlights.scm and cannot reach into the grammar's folder.
+NEOVIM_QUERIES = ROOT / "eTamil_Neovim" / "queries" / "etamil" / "highlights.scm"
 SPELLINGS_OUT = ROOT / "nUlakam" / "nuNNaRivu" / "colvativam_qaravu.qmz"
 
 
@@ -1533,6 +1536,7 @@ def main() -> int:
         (HIGHLIGHTJS_OUT, highlightjs),
         (TREESITTER_OUT, treesitter),
         (TREESITTER_QUERIES, ts_queries),
+        (NEOVIM_QUERIES, ts_queries),
         (SPELLINGS_OUT, spellings),
     ]
 
@@ -1572,6 +1576,7 @@ def main() -> int:
     print(f"wrote {_name(HIGHLIGHTJS_OUT)}")
     print(f"wrote {_name(TREESITTER_OUT)}")
     print(f"wrote {_name(TREESITTER_QUERIES)}")
+    print(f"wrote {_name(NEOVIM_QUERIES)}")
     print(f"wrote {_name(SPELLINGS_OUT)}")
     print(
         f"  {len(tokens)} keywords ({reserved} reserved, "

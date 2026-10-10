@@ -1,0 +1,7 @@
+// __cOqaZY — a small program the plugin's tests are run on__
+செயல் moqqam_vari(qokY, vikiqam) {
+    திரும்பு qokY * (1 + vikiqam / 100);
+}
+
+அச்சு "வணக்கம்";
+அச்சு moqqam_vari(1000, 18);
