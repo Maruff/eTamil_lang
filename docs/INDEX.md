@@ -12,6 +12,7 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
+| [Deploying on AWS](../deploy/aws/README.md) | Run an eTamil service on ECS Fargate behind a load balancer, from a CloudFormation template |
 
 ## Libraries
 
