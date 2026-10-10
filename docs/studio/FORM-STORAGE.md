@@ -105,6 +105,25 @@ account number) puts the person who runs the app under data-protection duties. T
 such fields, and does not encrypt anything. Whether it should warn, or refuse, is a policy for you, and for
 whoever advises you on it.
 
+## Decisions taken, 2026-10-11
+
+The owner accepted the recommendation on each of the five: **SQLite first**, PostgreSQL second from the same
+generator (and the PostgreSQL driver is not put in the release archives yet); **inputs and results both stored**;
+**ASCII names when storage is on**; **append-only**; **no sign-in, local only, and said so**.
+
+## What building it changed
+
+- **`nEram` is the Unix time in seconds (UTC), not an ISO 8601 string.** eTamil has the clock as seconds
+  (`_nowSeconds`) and no builtin that writes a date and time, so the column holds what the language has. A reader
+  converts it.
+- **A decimal's trailing zeros are not kept.** `250.50` is stored and read back as `250.5`: the value is exact, the
+  way it was written is not.
+- **The CSV follows the form's own order** (fields, then calculations), whatever order the table grew in, and covers
+  the latest 1000 records; the JSON list covers the latest 100.
+- **A column the form no longer has stays in the table** and in the JSON list, and is left out of the CSV.
+- A **type change** (a field that was text and becomes a number) is not detected: in SQLite every such column is
+  `TEXT` already, so nothing needs refusing. It would matter for PostgreSQL's `NUMERIC`.
+
 ## How it will be tested
 
 As the slice before it was, with a real `etamil`, not a stand-in:
