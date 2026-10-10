@@ -1,0 +1,220 @@
+================================================================================
+Every type keyword, in Tamil
+================================================================================
+பின்னம் வீதம் = 7.5;
+சொல் பெயர் = "ரவி";
+ஈர்ம முடிந்தது = மெய்;
+உரை குறிப்பு = "ஒன்று";
+அணி பட்டியல் = [1, 2];
+பொருள் பதிவு;
+தேதி நாள்;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (declaration
+    (type)
+    (identifier)
+    (number))
+  (declaration
+    (type)
+    (identifier)
+    (string))
+  (declaration
+    (type)
+    (identifier)
+    (boolean))
+  (declaration
+    (type)
+    (identifier)
+    (string))
+  (declaration
+    (type)
+    (identifier)
+    (array
+      (number)
+      (number)))
+  (declaration
+    (type)
+    (identifier))
+  (declaration
+    (type)
+    (identifier)))
+
+================================================================================
+Booleans and null
+================================================================================
+ஆம் = மெய்;
+இல்லாதது = பொய்;
+காலி = இன்மை;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier)
+    (boolean))
+  (assignment
+    (identifier)
+    (boolean))
+  (assignment
+    (identifier)
+    (null)))
+
+================================================================================
+Not, and, or
+================================================================================
+முடிவு = (அ > 1) மற்றும் (ஆ < 2) அல்லது இல்லை (இ == 3);
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (assignment
+    (identifier)
+    (logical_expression
+      (logical_expression
+        (parenthesized_expression
+          (comparison_expression
+            (identifier)
+            (number)))
+        (parenthesized_expression
+          (comparison_expression
+            (identifier)
+            (number))))
+      (unary_not
+        (parenthesized_expression
+          (comparison_expression
+            (identifier)
+            (number)))))))
+
+================================================================================
+Reading a value from the user
+================================================================================
+உள்ளிடு வருவாய்;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (input_statement
+    (identifier)))
+
+================================================================================
+Every HTTP method that is not GET, as a route
+================================================================================
+வழி பதி, "/அ" { அச்சு 1; }
+வழி இடு, "/ஆ" { அச்சு 1; }
+வழி அழி, "/இ" { அச்சு 1; }
+வழி ஒட்டு, "/ஈ" { அச்சு 1; }
+வழி தெரிவு, "/உ" { அச்சு 1; }
+வழி தலை, "/ஊ" { அச்சு 1; }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number))))
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number))))
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number))))
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number))))
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number))))
+  (route_statement
+    (http_method)
+    (string)
+    (block
+      (print_statement
+        (number)))))
+
+================================================================================
+Every database backend, connected and disconnected
+================================================================================
+தளம்_இணை போச்குரசீகுல், "இணைப்பு";
+தளம்_இணை மைசீகுல், "இணைப்பு";
+தளம்_இணை மாங்கோடிபி, "இணைப்பு";
+தளம்_இணை ரெடிஸ், "இணைப்பு";
+தளம்_இணை ஜேசான், "இணைப்பு";
+தளம்_இணை கவி_மொழி, "இணைப்பு";
+தளம்_இணை தேடு_மொழி, "இணைப்பு";
+தளம்_பிரி போச்குரசீகுல்;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)
+    (string))
+  (database_statement
+    (database_backend)))
+
+================================================================================
+Reading a file, and writing a CSV row
+================================================================================
+கோப்பு_படி "a.txt", உள்ளடக்கம்;
+தரவுரை_எழுது "a.csv", [1, 2];
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (file_statement
+    (string)
+    (identifier))
+  (csv_statement
+    (string)
+    (array
+      (number)
+      (number))))
+
+================================================================================
+Starting and stopping the server
+================================================================================
+வழங்கி_தொடங்கு "127.0.0.1", 8080;
+வழங்கி_நிறுத்து;
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (server_statement
+    (string)
+    (number))
+  (server_statement))
