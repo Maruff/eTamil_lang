@@ -8,7 +8,7 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ---
 
-## Unreleased
+## 1.5.0 — 2026-10-11
 
 ### Added
 
