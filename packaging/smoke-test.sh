@@ -124,6 +124,17 @@ else
     esac
 fi
 
+# Reaching a website by name: off unless asked for, so a release does not fail
+# because the network blinked. The Android emulator run turns it on, because
+# name lookup is the one thing that package exists to get right.
+if [ "${ETAMIL_SMOKE_NET:-0}" = 1 ]; then
+    printf '%s\n' \
+        'விடை = வலை_பெறு("https://example.com", இன்மை);' \
+        '(தவறா(விடை)) எனில் { அச்சு "வலை தோல்வி: " & தவறு_மதிப்பு(விடை); }' \
+        'அச்சு "வலை நிலை " & மதிப்பு(விடை).நிலைக்_குறி;' > net.qmz
+    expect "reaches a website by name" "வலை நிலை 200" "" "$BIN" --vm net.qmz
+fi
+
 echo
 if [ "$failures" -eq 0 ]; then
     echo "$BASE works"
