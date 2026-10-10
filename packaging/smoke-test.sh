@@ -28,7 +28,10 @@ cd "$WORK"
 
 case "$BASE" in
     *.zip)    unzip -q "$ARCHIVE" ;;
-    *.tar.gz) tar xzf "$ARCHIVE" ;;
+    # -o: do not restore the archive's owner. A non-root user cannot, and
+    # Android's tar fails the whole extraction trying; GNU tar and macOS's
+    # bsdtar read -o the same way.
+    *.tar.gz) tar -x -z -o -f "$ARCHIVE" ;;
     *)        echo "unrecognized archive: $BASE" >&2; exit 2 ;;
 esac
 

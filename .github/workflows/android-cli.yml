@@ -89,6 +89,11 @@ jobs:
 
       # Each script line runs as its own command. adb shell passes the remote
       # exit status back (Android 7 and later), so a failed check fails the job.
+      # The emulator reports booted before its network is up, so wait until it
+      # can look up a name itself. ping exits 2 only when the name does not
+      # resolve (the emulator's network passes no ICMP, so a reply is not
+      # expected). If it never resolves, the emulator's DNS settings are printed,
+      # so a network problem is not mistaken for eTamil's.
       - name: Run the smoke test on Android
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -98,5 +103,6 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
+            adb shell 'n=0; while :; do ping -c 1 -W 2 example.com > /dev/null 2>&1; [ $? -ne 2 ] && break; n=$((n + 1)); if [ $n -ge 45 ]; then echo "the emulator cannot resolve names"; getprop | grep -i dns; exit 1; fi; sleep 2; done; echo "the emulator resolves names"'
             adb push dist/${{ env.PACKAGE }} packaging/smoke-test.sh /data/local/tmp/
             adb shell "cd /data/local/tmp && ETAMIL_SMOKE_NET=1 sh smoke-test.sh ${{ env.PACKAGE }}"
