@@ -1,0 +1,17 @@
+[package]
+name = "etamil_pg_eval"
+version = "0.0.1"
+edition = "2024"
+rust-version = "1.88"
+description = "Runs an eTamil program that has no side effects, for the PL/eTamil spike"
+license = "AGPL-3.0-or-later"
+publish = false
+
+# The compiler, from this checkout, without its default features: no SQLite and no
+# HTTP client. It builds that way (checked), and a database function has no business
+# opening a connection of its own.
+[dependencies]
+etamil_compiler = { path = "../../etamil_compiler", default-features = false }
+
+[dev-dependencies]
+rust_decimal = "1.37"
