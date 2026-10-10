@@ -300,6 +300,7 @@
         ["மொங்கோ_நீக்கு", "mowkO_nIkku", "_mongoDelete"],
         ["தளம்_செய்_முயற்சி", "qaLam_cey_muyaRci", "_tryExecute"],
         ["தளம்_வினா_முயற்சி", "qaLam_viZA_muyaRci", "_tryQuery"],
+        ["தளம்_செயல்_பதிவு", "qaLam_ceyal_paqivu", "_registerFunction"],
         ["கடவுச்சொல்_மறை", "kataveuccol_maRY", "_hashPassword"],
         ["கடவுச்சொல்_சரியா", "kataveuccol_cariyA", "_verifyPassword"],
         ["சீட்டு_ஆக்கு", "cIttu_Akku", "_issueToken"],

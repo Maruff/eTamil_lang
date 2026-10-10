@@ -12,6 +12,18 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ### Added
 
+- **A function of your program, called by a SQLite query.** `தளம்_செயல்_பதிவு`
+  (`qaLam_ceyal_paqivu`, `_registerFunction`) registers a செயல் on the open database
+  under a name, and a query then calls it once per row: `SELECT moqqam_vari(qokY, 18)
+  FROM paRRuccIttu`. It answers a சரி, or a தவறு saying why not. The function may only
+  compute: one that could read a file, use the network, another database or the
+  environment is refused when it is registered, by a check on the compiled code, and
+  each call runs in a fresh VM under a step limit. A registration lasts only as long
+  as the connection is lent to the program, so a pooled connection never carries one
+  to the next request. A number result goes back as exact text by default; SQLite
+  orders text after every number, so pass `"numeric"` as a fourth argument to compare
+  or sort on it. SQLite only. See `examples/db_samples/qaLam_ceyal_paqivu.qmz`.
+
 - **Libraries for building a project office.** `nUlakam/qittam` gains the rules
   a PMO application runs on: task status and roll-up, the critical path on a
   working calendar and rescheduling a project under way on its actuals, RAG
