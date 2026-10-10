@@ -1,0 +1,26 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in> -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>12</LangVersion>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <RootNamespace>EtamilLanguageServer</RootNamespace>
+    <AssemblyName>EtamilLanguageServer</AssemblyName>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 17.14 is the current release of the out-of-process extensibility model. -->
+    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Sdk" Version="17.14.40608" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Extensibility.Build" Version="17.14.40608" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Carry the server in the extension when it has been copied here: build
+       etamil_lsp with cargo in release mode and copy etamil-lsp.exe next to
+       this file. Without it, the extension looks for the server on the PATH. -->
+  <ItemGroup Condition="Exists('.\etamil-lsp.exe')">
+    <Content Include="etamil-lsp.exe" />
+  </ItemGroup>
+</Project>

@@ -34,6 +34,7 @@
 //! ```
 
 // --- Front end: portable, and the whole of what a browser build exposes ---
+pub mod analysis;
 pub mod check;
 pub mod lexer;
 pub mod parser;
