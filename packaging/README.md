@@ -89,6 +89,23 @@ The version is not lost: it is in `README.txt` inside the archive, in the releas
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
 
+## The npm package
+
+`packaging/npm` is the `etamil` package: `npx etamil` and `npm install -g etamil`.
+It carries no binary. Its install script downloads the release archive for the
+package's own version and the current platform, checks it against the published
+`.sha256`, and unpacks it into `vendor/`. For that reason the package version
+must equal a release tag (`1.4.2` for `v1.4.2`); the workflow's `npm` job sets
+it from the tag and runs only after the release assets are published.
+
+```bash
+cd packaging/npm && npm pack                      # build the tarball
+ETAMIL_RELEASE_BASE=http://127.0.0.1:8765 npm install ./etamil-*.tgz   # test against a local mirror
+```
+
+Newer npm versions ask users to approve install scripts; `npm rebuild etamil`
+runs it afterwards. The publish job needs an `NPM_TOKEN` secret in the repository.
+
 ## Publishing
 
 Attach the archives to a GitHub release. Do not commit them — a binary in git

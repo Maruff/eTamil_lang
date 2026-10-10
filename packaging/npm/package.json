@@ -1,0 +1,42 @@
+{
+  "name": "etamil",
+  "version": "1.4.2",
+  "description": "The eTamil compiler: a Tamil-vocabulary language for Indian accounting, tax and FinTech. Installs the prebuilt binary for your platform.",
+  "bin": {
+    "etamil": "bin/etamil.js",
+    "etamil-lsp": "bin/etamil-lsp.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/install.js"
+  },
+  "files": [
+    "bin/",
+    "scripts/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "keywords": [
+    "etamil",
+    "tamil",
+    "compiler",
+    "fintech"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://etamil.in",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Maruff/eTamil_lang",
+    "directory": "packaging/npm"
+  }
+}
