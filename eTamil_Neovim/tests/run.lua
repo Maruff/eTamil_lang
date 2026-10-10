@@ -104,7 +104,15 @@ if parser == nil or parser == "" then
   print("skipped the highlight query test: ETAMIL_PARSER is not set")
 else
   test("the highlight query is valid for the grammar and marks keywords, strings and comments", function()
-    vim.treesitter.language.add("etamil", { path = parser })
+    -- The committed parser is built for tree-sitter's ABI 15, which Neovim 0.11 loads and
+    -- Neovim 0.10 (ABI 13 and 14) refuses. That is a fact about the version, not a defect in
+    -- the plugin, so it is reported and not failed. Everything else is still tested there.
+    local loaded, why = pcall(vim.treesitter.language.add, "etamil", { path = parser })
+    if not loaded and tostring(why):find("ABI version mismatch", 1, true) then
+      print("skipped the highlight query test: this Neovim cannot load the grammar (" .. tostring(why) .. ")")
+      return
+    end
+    assert(loaded, why)
     local lines = vim.fn.readfile(plugin .. "/tests/cOqaZY.qmz")
     local source = table.concat(lines, "\n") .. "\n"
     local tree = vim.treesitter.get_string_parser(source, "etamil"):parse()[1]

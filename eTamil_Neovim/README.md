@@ -3,8 +3,8 @@
 File type detection, buffer settings, tree-sitter highlighting and the language server
 for eTamil (`.qmz`) in Neovim 0.9 or newer.
 
-**What is checked:** CI runs the plugin's tests under Neovim 0.10 and the current stable
-release. They cover file type detection, the buffer settings, the language server's
+**What is checked:** CI runs the plugin's tests under Neovim 0.10.4 and the current stable
+release (the highlight query test only on a Neovim that can load the grammar, 0.11 or newer). They cover file type detection, the buffer settings, the language server's
 registration, and the highlight query against the real grammar, built in the job.
 **What is not checked:** a real editing session, `:TSInstall etamil` through
 nvim-treesitter, and the language server started by Neovim. Those follow the documented
@@ -37,6 +37,10 @@ File type detection and the buffer settings work as soon as the folder is on the
 runtimepath. `setup()` adds the grammar to nvim-treesitter and starts the language server.
 
 ## Highlighting
+
+**Needs Neovim 0.11 or newer.** The grammar's committed parser is built for tree-sitter's ABI 15, which Neovim
+0.11 loads and Neovim 0.10 refuses ("ABI version mismatch"). File type detection, the buffer settings, the language
+server and `:checkhealth` work from 0.9.
 
 With nvim-treesitter, after `setup()`:
 
