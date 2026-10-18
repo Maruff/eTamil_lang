@@ -235,6 +235,32 @@ jobs:
       - name: Run every example
         run: ./scripts/run_examples.sh
 
+  # The Azure template is only ever used by someone with an Azure subscription, so a mistake
+  # in it would be found at their first deployment. The Bicep compiler and linter catch bad
+  # references, wrong types and unused or misnamed parameters; they cannot replace a deployment.
+  # Findings are also written as annotations, so they can be read from the run's summary.
+  bicep:
+    name: bicep
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and lint the Azure template
+        run: |
+          az bicep install
+          if ! az bicep lint --file deploy/azure/etamil-service.bicep > lint.txt 2>&1; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+          # `lint` reports warnings without failing; a warning here is a defect to fix.
+          if grep -q -i 'warning' lint.txt; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
   # The uqavi/ samples are the library's documentation: one runnable program
   # per function. They are a separate job rather than another step in the one
   # above because there are hundreds and each costs about a second — as a step
