@@ -1,10 +1,10 @@
-# Publish packages for Windows, Linux and macOS.
+# Publish packages for Windows, Linux, macOS and Android.
 #
 #   git tag v0.3.0 && git push origin v0.3.0
 #
 # Each platform builds on its own runner. Nothing is cross-compiled except the
 # musl targets, which are what let the Linux binaries run on distributions older
-# than the one that built them.
+# than the one that built them, and Android, which has no runner of its own.
 name: Release packages
 
 on:
@@ -55,6 +55,14 @@ jobs:
             target: x86_64-pc-windows-msvc
             package: etamil-windows-x64.zip
             setup: native
+          # Android phones and tablets, for qos. Cross-compiled with the NDK
+          # against Android's own libc, so host names resolve through Android's
+          # resolver. It cannot run here; android-cli.yml runs the same build
+          # for x86_64 in an emulator instead.
+          - os: ubuntu-latest
+            target: aarch64-linux-android
+            package: etamil-android-arm64.tar.gz
+            setup: android
 
     steps:
       - uses: actions/checkout@v4
@@ -66,6 +74,19 @@ jobs:
       - name: Install musl toolchain
         if: matrix.setup == 'musl'
         run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+      # Pinned with android.yml: an NDK bump is a thing to do deliberately.
+      - name: Install the Android NDK
+        if: matrix.setup == 'android'
+        id: ndk
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27c
+          local-cache: false
+
+      - name: Link with the NDK's clang
+        if: matrix.setup == 'android'
+        run: bash packaging/android-env.sh "${{ steps.ndk.outputs.ndk-path }}" "${{ matrix.target }}" >> "$GITHUB_ENV"
 
       # Enabled for the packages only: someone downloading a binary cannot add
       # a cargo feature to it later. LLVM stays out — it needs LLVM present on
@@ -91,6 +112,7 @@ jobs:
       # workflow's quoting and impossible to test without pushing a tag. As a
       # script it runs locally exactly as it runs here.
       - name: Run the packaged binary
+        if: matrix.setup != 'android'
         shell: bash
         run: bash packaging/smoke-test.sh "dist/${{ matrix.package }}"
 
