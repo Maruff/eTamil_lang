@@ -1,0 +1,96 @@
+# PL/eTamil spike: does the compiler build into a PostgreSQL extension, and does a
+# program run inside a backend?
+#
+# Unlike ci.yml this also runs on a push to any branch that touches the spike, so
+# pushing the branch is enough to start it. The extension is Linux-only: pgrx does
+# not build on Windows, which is why everything that can be tested without PostgreSQL
+# lives in eTamil_pg/eval and is tested on its own first.
+#
+# A failure is also written as annotations, so it can be read from the run's summary.
+
+name: PL/eTamil spike
+
+on:
+  push:
+    paths:
+      - 'eTamil_pg/**'
+      - 'etamil_compiler/src/**'
+      - '.github/workflows/pg-spike.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    name: eval crate (no PostgreSQL)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: eTamil_pg/eval
+      - name: Test
+        working-directory: eTamil_pg/eval
+        run: |
+          if ! cargo test > test.txt 2>&1; then
+            cat test.txt
+            grep -E 'panicked|FAILED|failed|error(\[|:)' test.txt | head -20 | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          tail -5 test.txt
+
+  pgrx:
+    name: PostgreSQL ${{ matrix.pg }}
+    runs-on: ubuntu-latest
+    needs: eval
+    strategy:
+      fail-fast: false
+      matrix:
+        pg: [14, 16, 17]
+    steps:
+      - uses: actions/checkout@v4
+
+      # pgrx 0.19 needs Rust 1.96; stable is newer.
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: eTamil_pg
+
+      # From the PostgreSQL project's own apt repository, so every major version is there.
+      - name: Install PostgreSQL ${{ matrix.pg }} and its headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl ca-certificates gnupg lsb-release libclang-dev
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y postgresql-${{ matrix.pg }} postgresql-server-dev-${{ matrix.pg }}
+
+      - name: Install cargo-pgrx
+        run: cargo install cargo-pgrx --version =0.19.3 --locked
+
+      - name: Initialise pgrx against this PostgreSQL
+        run: cargo pgrx init --pg${{ matrix.pg }}=/usr/lib/postgresql/${{ matrix.pg }}/bin/pg_config
+
+      # pgrx installs the extension into the PostgreSQL it was pointed at, and for the
+      # system one those directories belong to root. The first run built the extension
+      # and then failed to copy it ("failed copying libetamil_pg.so to /usr/lib/postgresql").
+      - name: Let the runner install into this PostgreSQL
+        run: |
+          pg_config=/usr/lib/postgresql/${{ matrix.pg }}/bin/pg_config
+          sudo chmod a+rwx "$($pg_config --pkglibdir)" "$($pg_config --sharedir)/extension"
+
+      - name: Build and test inside PostgreSQL
+        working-directory: eTamil_pg
+        run: |
+          if ! cargo pgrx test pg${{ matrix.pg }} --no-default-features --features "pg${{ matrix.pg }} pg_test" > pgrx.txt 2>&1; then
+            tail -80 pgrx.txt
+            grep -v -E '\.\.\. ok$' pgrx.txt | grep -v -E '^\s*(Compiling|Downloaded|Downloading)' | tail -30 | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          grep -E 'test result|^test ' pgrx.txt | tail -15
+          while IFS= read -r line; do echo "::notice::$line"; done < /tmp/pletamil-bench.txt

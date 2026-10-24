@@ -175,7 +175,7 @@ uuid = { version = "1.6", features = ["v4", "serde"] }
 # .odt and .ods are zip archives. Only Stored and Deflate are needed -- an ODF
 # package uses no other method -- so the bzip2/zstd/lzma/AES backends are left
 # out rather than carried.
-zip = { version = "8", default-features = false, features = ["deflate"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }
 p256 = { version = "0.14.0", features = ["ecdsa"] }
 # Randomness for key generation, taken straight from the OS.
 getrandom = "0.3"
@@ -246,4 +246,4 @@ strip = true
 
 [dev-dependencies]
 # Building a package fixture for the பொதி_* tests.
-zip = { version = "8", default-features = false, features = ["deflate"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }

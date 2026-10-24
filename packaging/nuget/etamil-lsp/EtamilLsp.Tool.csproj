@@ -1,0 +1,39 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<!-- Copyright (C) 2026 Mohammed Maruff (Esan Maruff) <esan@etamil.in> -->
+<!-- The `etamil-lsp` .NET tool: dotnet tool install -g etamil-lsp
+     A tool package carries one command, so the language server is its own package. -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>etamil-lsp</AssemblyName>
+    <RootNamespace>Etamil.Tool</RootNamespace>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>etamil-lsp</ToolCommandName>
+    <PackageId>etamil-lsp</PackageId>
+    <Version Condition="'$(Version)' == ''">0.0.0-local</Version>
+    <Authors>Mohammed Maruff (Esan Maruff)</Authors>
+    <Description>The eTamil language server, for editors: diagnostics, completion, hover and go to definition for .qmz files. An editor runs it; you do not.</Description>
+    <PackageTags>etamil;tamil;lsp;language-server</PackageTags>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://etamil.in</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Maruff/eTamil_lang</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeSymbols>false</IncludeSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../Launcher.cs" Link="Launcher.cs" />
+    <None Include="../README.md" Link="README.md" Pack="true" PackagePath="/" />
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>binary</_Parameter1>
+      <_Parameter2>etamil-lsp</_Parameter2>
+    </AssemblyAttribute>
+    <Content Include="../staging/etamil-lsp/**" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Pack="false" />
+  </ItemGroup>
+</Project>

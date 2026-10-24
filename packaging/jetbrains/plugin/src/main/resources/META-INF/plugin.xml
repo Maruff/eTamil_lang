@@ -8,6 +8,8 @@
     accounting, tax and FinTech.
     <ul>
       <li>Syntax highlighting, comment toggling and bracket pairing for <code>.qmz</code> files.</li>
+      <li>A run configuration: run, check or serve a <code>.qmz</code> file from the Run menu or
+          Ctrl+Shift+F10.</li>
       <li>Diagnostics, completion of names in scope, hover and go to definition, from the eTamil
           language server (<code>etamil-lsp</code>) through LSP4IJ.</li>
     </ul>
@@ -21,6 +23,8 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <textmate.bundleProvider implementation="com.etamil.jetbrains.ETamilBundleProvider"/>
+    <configurationType implementation="com.etamil.jetbrains.ETamilRunConfigurationType"/>
+    <runConfigurationProducer implementation="com.etamil.jetbrains.ETamilRunConfigurationProducer"/>
   </extensions>
 
   <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
