@@ -85,6 +85,6 @@ export JAVA_TOOL_OPTIONS="-Djdk.net.unixdomain.tmpdir=D:/tools/tmp"
 - A settings page for the server path (today: `PATH` or `ETAMIL_LSP`).
 - A debugger hook. The compiler has no debugger or debug-adapter protocol to attach
   to, so there is nothing to hook yet.
-- Keyword and standard-library completion, which the server does not offer.
+- Signature help while typing a call's arguments.
 - Signing and publishing to the JetBrains Marketplace, and verifying against newer
   IDE builds (`create(...)` or `recommended()` in `build.gradle.kts`).
