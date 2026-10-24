@@ -127,9 +127,10 @@ else
     esac
 fi
 
-# The language server must start and answer the protocol handshake. Close stdin
-# after the initialize request: the reply is already written by then, and the
-# server stops when its input ends.
+# The language server must start and answer the protocol handshake. Stdin stays
+# open for a second after the request: the server stops as soon as its input
+# ends, and closing it at once can end the process before the reply is written,
+# which a slow machine (the Android emulator) does lose.
 LSP="$DIR/etamil-lsp"
 if [ -f "$LSP.exe" ]; then
     LSP="$LSP.exe"
@@ -137,7 +138,7 @@ fi
 [ -x "$LSP" ] || { echo "FAIL  no runnable language server at $LSP"; failures=$((failures + 1)); }
 if [ -x "$LSP" ]; then
     request='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"capabilities":{},"rootUri":null}}'
-    reply="$(printf 'Content-Length: %s\r\n\r\n%s' "${#request}" "$request" | "$LSP" 2>/dev/null || true)"
+    reply="$({ printf 'Content-Length: %s\r\n\r\n%s' "${#request}" "$request"; sleep 1; } | "$LSP" 2>/dev/null || true)"
     case "$reply" in
         *'"capabilities"'*'"hoverProvider"'*) echo "ok    the language server answers initialize" ;;
         *)
