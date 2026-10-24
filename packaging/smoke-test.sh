@@ -127,10 +127,11 @@ else
     esac
 fi
 
-# The language server must start and answer the protocol handshake. Stdin stays
-# open for a second after the request: the server stops as soon as its input
-# ends, and closing it at once can end the process before the reply is written,
-# which a slow machine (the Android emulator) does lose.
+# The language server must start and answer the protocol handshake. It stops when
+# its input ends, and on a slow machine (the Android emulator) closing the input
+# straight after the request can cut the reply off, even in the middle. So the
+# input is held open, the reply is read from a file, and the server is stopped
+# once the reply is there or the wait runs out.
 LSP="$DIR/etamil-lsp"
 if [ -f "$LSP.exe" ]; then
     LSP="$LSP.exe"
@@ -138,7 +139,17 @@ fi
 [ -x "$LSP" ] || { echo "FAIL  no runnable language server at $LSP"; failures=$((failures + 1)); }
 if [ -x "$LSP" ]; then
     request='{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"processId":null,"capabilities":{},"rootUri":null}}'
-    reply="$({ printf 'Content-Length: %s\r\n\r\n%s' "${#request}" "$request"; sleep 1; } | "$LSP" 2>/dev/null || true)"
+    : > lsp.out
+    { printf 'Content-Length: %s\r\n\r\n%s' "${#request}" "$request"; sleep 12; } </dev/null 2>/dev/null | "$LSP" > lsp.out 2>/dev/null &
+    lsp_pid=$!
+    n=0
+    while [ "$n" -lt 12 ]; do
+        case "$(cat lsp.out)" in *'"hoverProvider"'*) break ;; esac
+        n=$((n + 1))
+        sleep 1
+    done
+    kill "$lsp_pid" 2>/dev/null || true
+    reply="$(cat lsp.out)"
     case "$reply" in
         *'"capabilities"'*'"hoverProvider"'*) echo "ok    the language server answers initialize" ;;
         *)
