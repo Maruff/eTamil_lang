@@ -3290,7 +3290,7 @@ fn rewriting_a_package_leaves_the_other_entries_alone() {
 
     // Order, and the two rules ODF imposes on the first entry.
     let names: Vec<String> = (0..archive.len())
-        .map(|i| archive.by_index(i).unwrap().name().to_string())
+        .map(|i| archive.by_index(i).unwrap().name().unwrap().into_owned())
         .collect();
     assert_eq!(names, vec!["mimetype", "content.xml", "Pictures/one.png"]);
     assert_eq!(

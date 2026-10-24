@@ -2657,7 +2657,7 @@ impl VM {
             .map(|index| {
                 archive
                     .by_index(index)
-                    .map(|entry| entry.name().to_string())
+                    .and_then(|entry| entry.name().map(|name| name.into_owned()))
             })
             .collect::<Result<_, _>>()
             .map_err(|e| format!("பொதியைப் படிக்க முடியவில்லை  (cannot read the package): {}", e))?;
@@ -2685,7 +2685,10 @@ impl VM {
             let entry = archive.by_index(index).map_err(|e| {
                 format!("பொதியைப் படிக்க முடியவில்லை  (cannot read the package): {}", e)
             })?;
-            let entry_name = entry.name().to_string();
+            let entry_name = entry
+                .name()
+                .map_err(|e| format!("பொதியைப் படிக்க முடியவில்லை  (cannot read the package): {}", e))?
+                .into_owned();
 
             match changes.get(&entry_name) {
                 Some(replacement) => {
