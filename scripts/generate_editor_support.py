@@ -1276,6 +1276,63 @@ TREESITTER_QUERIES = ROOT / "tree-sitter-etamil" / "queries" / "highlights.scm"
 SPELLINGS_OUT = ROOT / "nUlakam" / "nuNNaRivu" / "colvativam_qaravu.qmz"
 
 
+EMACS_OUT = ROOT / "eTamil_Emacs" / "etamil-words.el"
+
+# Which Emacs face family each highlighter group belongs to. The groups are the
+# ones Pygments, Rouge and highlight.js share (see pygments_groups), so the Emacs
+# mode colours a word the same way they do.
+EMACS_FACES = {
+    "etamil-keywords": ["DECLARE_FUNCTION", "IMPORT", "CONTROL", "RESERVED", "LOGICAL"],
+    "etamil-types": ["TYPE", "DOMAIN"],
+    "etamil-constants": ["CONSTANT", "NAMED_CONSTANT"],
+    "etamil-builtins": ["BUILTIN"],
+}
+
+EMACS_DOC = {
+    "etamil-keywords": "Keywords: control flow, declarations, imports, and the reserved statement words.",
+    "etamil-types": "Type names, and the domain types.",
+    "etamil-constants": "Constants: booleans, null, and the named HTTP and database constants.",
+    "etamil-builtins": "Built-in and standard-library function names.",
+}
+
+
+def build_emacs(groups: dict[str, list[str]]) -> str:
+    """The word lists for etamil-mode, as Emacs Lisp.
+
+    Only the vocabulary, as with tree-sitter's keywords.js: the mode itself
+    (syntax table, indentation, commands) is written by hand and reads these.
+    """
+
+    def lisp(text: str) -> str:
+        return '"' + text.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+    lines = [
+        f";;; etamil-words.el --- eTamil vocabulary  -*- lexical-binding: t -*-",
+        "",
+        f";; {BANNER}",
+        ";;",
+        ";; Every spelling the compiler accepts, grouped as the other highlighters",
+        ";; group them. etamil-mode.el turns these into faces, so the mode cannot miss",
+        ";; a word the compiler accepts, and CI fails if this file drifts.",
+        "",
+        ";;; Code:",
+        "",
+    ]
+    seen: set[str] = set()
+    for name, members in EMACS_FACES.items():
+        words = sorted({form for member in members for form in groups[member]})
+        duplicated = seen.intersection(words)
+        if duplicated:
+            die(f"emacs: {sorted(duplicated)[:3]} fall in two word lists")
+        seen.update(words)
+        lines.append(f"(defconst {name}")
+        lines.append("  '(" + "\n    ".join(lisp(word) for word in words) + ")")
+        lines.append(f"  {lisp(EMACS_DOC[name])})")
+        lines.append("")
+    lines += ["(provide 'etamil-words)", "", ";;; etamil-words.el ends here", ""]
+    return "\n".join(lines)
+
+
 def build_treesitter_queries(tokens: list[dict], builtins: list[dict], stdlib: list[dict]) -> str:
     """Highlight queries for Neovim, Helix and Zed.
 
@@ -1526,6 +1583,7 @@ def main() -> int:
     ts_queries = build_treesitter_queries(tokens, builtins, stdlib)
     highlightjs = build_highlightjs(groups)
     spellings = build_spellings(tokens, builtins, stdlib)
+    emacs = build_emacs(groups)
 
     outputs = [
         (PYGMENTS_OUT, pygments_words),
@@ -1534,6 +1592,7 @@ def main() -> int:
         (TREESITTER_OUT, treesitter),
         (TREESITTER_QUERIES, ts_queries),
         (SPELLINGS_OUT, spellings),
+        (EMACS_OUT, emacs),
     ]
 
     # Only when the extension is checked out beside this repository.
@@ -1573,6 +1632,7 @@ def main() -> int:
     print(f"wrote {_name(TREESITTER_OUT)}")
     print(f"wrote {_name(TREESITTER_QUERIES)}")
     print(f"wrote {_name(SPELLINGS_OUT)}")
+    print(f"wrote {_name(EMACS_OUT)}")
     print(
         f"  {len(tokens)} keywords ({reserved} reserved, "
         f"{len(tokens) - reserved} usable as names), "
