@@ -128,7 +128,7 @@ ureq = { version = "2.10", default-features = false, features = ["tls", "gzip"],
 # Blocking drivers throughout, which suit a synchronous VM behind a
 # thread-per-request server. "bundled" compiles SQLite itself so there is no
 # system dependency.
-rusqlite = { version = "0.32", features = ["bundled"], optional = true }
+rusqlite = { version = "0.32", features = ["bundled", "functions"], optional = true }
 postgres = { version = "0.19", optional = true }
 # "minimal" leaves out TLS and the compression backends: a driver pulling in
 # OpenSSL would put a C build back in the way of a plain `cargo build`, which

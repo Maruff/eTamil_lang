@@ -179,6 +179,18 @@ def stage_binary(key: str, source: Path) -> None:
     size = destination.stat().st_size / (1024 * 1024)
     print(f"  bin/{key}/{name}  {size:.1f} MB")
 
+    # The language server travels beside the compiler in every package built
+    # since it existed, and the extension looks for it exactly there. An older
+    # archive simply has none, and the extension falls back to its built-in checks.
+    server_name = "etamil-lsp.exe" if key.startswith("win32") else "etamil-lsp"
+    server = source.parent / server_name
+    if server.exists():
+        shutil.copyfile(server, directory / server_name)
+        if not key.startswith("win32"):
+            (directory / server_name).chmod(0o755)
+        server_size = (directory / server_name).stat().st_size / (1024 * 1024)
+        print(f"  bin/{key}/{server_name}  {server_size:.1f} MB")
+
 
 def from_dist(key: str) -> Path | None:
     """The binary `packaging/build.sh` left in `dist/`, if it is there."""
