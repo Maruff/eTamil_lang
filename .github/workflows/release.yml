@@ -271,6 +271,57 @@ jobs:
           generate_release_notes: true
           fail_on_unmatched_files: true
 
+  # Point the Homebrew tap at the release just published: the version and the four
+  # archive checksums, read from the .sha256 files that publish attached. It runs
+  # only for a version tag, after publish, so the files it reads exist. A missing
+  # token or a pre-release tag skips it with a notice rather than failing a release
+  # that has already gone out; the tap can then be updated by hand with
+  # scripts/update-formula.sh in the tap repository.
+  #
+  # HOMEBREW_TAP_TOKEN is a fine-grained personal access token limited to the tap
+  # repository, with Contents: read and write.
+  homebrew:
+    name: update the Homebrew tap
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether to update
+        id: gate
+        env:
+          TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) echo "::notice::$GITHUB_REF_NAME is a pre-release; the tap is left alone"; echo "run=false" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::HOMEBREW_TAP_TOKEN is not set; the tap was not updated"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          repository: ${{ github.repository_owner }}/homebrew-etamil
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Update the formula and push
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          bash scripts/update-formula.sh "$VERSION"
+          git diff --stat
+          if git diff --quiet; then
+            echo "The formula is already at $VERSION"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "etamil $VERSION"
+          git push
+
   # The container image is assembled from the Linux archives built above, not
   # compiled again: the image holds exactly the binary people download. Pushed to
   # GitHub Container Registry on version tags only; a manual run builds and
