@@ -235,6 +235,102 @@ jobs:
       - name: Run every example
         run: ./scripts/run_examples.sh
 
+  # The Jupyter kernel drives `etamil --repl`, so its tests run against the compiler
+  # this commit builds: a change to the shell's prompts or error format fails here
+  # rather than in someone's notebook.
+  jupyter-kernel:
+    name: jupyter kernel
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: etamil_compiler
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build (release)
+        working-directory: etamil_compiler
+        run: cargo build --release
+
+      - name: Test the kernel
+        working-directory: eTamil_Jupyter
+        env:
+          ETAMIL_BIN: ${{ github.workspace }}/etamil_compiler/target/release/etamil
+        run: python -W error::ResourceWarning -m unittest discover -s tests -v
+
+  # The Emacs mode is Lisp that nothing else compiles or runs, so CI is where it is
+  # loaded for the first time: byte-compiled with warnings as errors, then its ERT
+  # tests run under the oldest Emacs it claims to support, a middle one and the
+  # newest. A failure is also written as annotations, so it can be read from the
+  # run's summary without opening the log.
+  emacs:
+    name: emacs ${{ matrix.emacs }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs: ['27.2', '29.4', '30.1']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs }}
+
+      - name: Byte-compile without warnings
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs --eval '(setq byte-compile-error-on-warn t)' \
+               -f batch-byte-compile eTamil_Emacs/etamil-words.el eTamil_Emacs/etamil-mode.el > compile.txt 2>&1; then
+            cat compile.txt
+            head -20 compile.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
+      - name: Run the tests
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs -l ert -l eTamil_Emacs/etamil-mode-tests.el \
+               -f ert-run-tests-batch-and-exit > ert.txt 2>&1; then
+            cat ert.txt
+            grep -E 'FAILED|failed|rror|Test |should|Warning' ert.txt | head -20 \
+              | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          tail -3 ert.txt
+
+  # The Azure template is only ever used by someone with an Azure subscription, so a mistake
+  # in it would be found at their first deployment. The Bicep compiler and linter catch bad
+  # references, wrong types and unused or misnamed parameters; they cannot replace a deployment.
+  # Findings are also written as annotations, so they can be read from the run's summary.
+  bicep:
+    name: bicep
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and lint the Azure template
+        run: |
+          az bicep install
+          if ! az bicep lint --file deploy/azure/etamil-service.bicep > lint.txt 2>&1; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+          # `lint` reports warnings without failing; a warning here is a defect to fix.
+          if grep -q -i 'warning' lint.txt; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
   # The AWS template is only ever used by someone with an AWS account, so a mistake
   # in it would be found at their first deploy. A linter cannot replace a deploy but
   # does catch bad references, wrong property names and invalid conditions. Findings
