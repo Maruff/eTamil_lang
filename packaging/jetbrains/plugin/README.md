@@ -62,6 +62,6 @@ export JAVA_TOOL_OPTIONS="-Djdk.net.unixdomain.tmpdir=D:/tools/tmp"
 - A settings page for the server path (today: `PATH` or `ETAMIL_LSP`).
 - A run configuration and a debugger hook. External Tools cover running a file
   (see `docs/getting-started/JETBRAINS.md`).
-- Keyword and standard-library completion, which the server does not offer.
+- Signature help while typing a call's arguments.
 - Signing and publishing to the JetBrains Marketplace, and verifying against newer
   IDE builds (`create(...)` or `recommended()` in `build.gradle.kts`).
