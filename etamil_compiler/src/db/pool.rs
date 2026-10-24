@@ -111,6 +111,10 @@ impl Drop for Lease {
         // the difference, and there is nothing to do about it either way.
         let _ = handle.execute("ROLLBACK", &[]);
 
+        // A function registered for this request would otherwise be the next
+        // request's, still running this request's program.
+        handle.unregister_functions();
+
         if let Ok(mut cache) = cache().lock() {
             let idle = cache.entry(key).or_default();
             if idle.len() < idle_cap() {
@@ -221,6 +225,32 @@ mod tests {
             assert_eq!(idle_count("SQLite", &path), 0, "taken from the cache");
         }
         assert_eq!(idle_count("SQLite", &path), 1);
+    }
+
+    /// A function registered for one request must not run, with that request's
+    /// program, for the next one to borrow the same connection.
+    #[test]
+    fn a_registered_function_does_not_follow_the_connection() {
+        use crate::db::{Numbers, RowFunction};
+        use crate::vm::Value;
+
+        let path = temp_db("function");
+        let _ = std::fs::remove_file(&path);
+        let function = || -> RowFunction { Box::new(|_: &[Value]| Ok(Value::Null)) };
+
+        {
+            let mut lease = checkout("SQLite", &path).unwrap();
+            let db = lease.connection();
+            db.register_function("veRRu", 0, Numbers::Native, function())
+                .unwrap();
+            assert!(db.query("SELECT veRRu()", &[]).is_ok());
+        }
+
+        // The same connection comes back out of the cache, without the function.
+        assert_eq!(idle_count("SQLite", &path), 1);
+        let mut lease = checkout("SQLite", &path).unwrap();
+        let error = lease.connection().query("SELECT veRRu()", &[]).unwrap_err();
+        assert!(error.contains("no such function"), "{error}");
     }
 
     /// The reason a lease is exclusive. If a handler opens a transaction and
