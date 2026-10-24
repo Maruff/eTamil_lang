@@ -11,8 +11,13 @@ What changed in a release, and what it adds up to: [CHANGELOG](../CHANGELOG.md).
 | Page | What it covers |
 |---|---|
 | [Installation](getting-started/INSTALLATION.md) | Prerequisites, building from source, verifying, troubleshooting |
+| [eTamil in JetBrains IDEs](getting-started/JETBRAINS.md) | TextMate bundle and the language server through LSP4IJ, no plugin needed |
+| [eTamil in Visual Studio](getting-started/VISUALSTUDIO.md) | Language-support VSIX (highlighting, comments, brackets) and the language server extension |
 | [eTamil in CI](getting-started/CI.md) | Ready-made GitHub Actions, GitLab CI and shell templates: install, `--check`, run |
 | [Quick Start](getting-started/QUICKSTART.md) | Your first program, through to files and a server |
+| [Jupyter notebooks](../eTamil_Jupyter/README.md) | Run eTamil in a notebook: install the kernel, how a cell behaves, limits |
+| [Emacs](../eTamil_Emacs/README.md) | `etamil-mode`: highlighting, indentation, run and check, and Eglot |
+| [Deploying on AWS](../deploy/aws/README.md) | Run an eTamil service on ECS Fargate behind a load balancer, from a CloudFormation template |
 
 ## Libraries
 
@@ -27,6 +32,7 @@ Both are written in eTamil, not Rust.
 
 | Page | What it covers |
 |---|---|
+| [Language specification](reference/LANGUAGE_SPEC.md) | Lexical structure, the EBNF grammar ([`etamil.ebnf`](reference/etamil.ebnf)) and operator precedence — generated from the tree-sitter grammar |
 | [Keywords](reference/KEYWORDS.md) | Every keyword in all three spellings, with its token name — generated from the lexer |
 | [Commands](reference/COMMANDS.md) | CLI flags, exit codes, environment variables |
 | [Tamil Letter Equivalents](reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md) | How the ezuqqu romanization is derived |

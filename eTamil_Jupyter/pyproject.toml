@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etamil-kernel"
+version = "0.1.0"
+description = "A Jupyter kernel for eTamil, a programming language whose keywords are Tamil words"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "AGPL-3.0-or-later"
+authors = [{ name = "Mohammed Maruff (Esan Maruff)", email = "esan@etamil.in" }]
+keywords = ["jupyter", "kernel", "notebook", "etamil", "tamil"]
+dependencies = ["ipykernel>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/Maruff/eTamil_lang"
+
+[tool.setuptools]
+packages = ["etamil_kernel"]
