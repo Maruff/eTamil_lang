@@ -144,10 +144,57 @@ jobs:
             dist/*.deb.sha256
           if-no-files-found: error
 
+  # RPM packages, assembled from the same Linux archives. As with the .deb, the
+  # x86_64 one is installed and run, here in a Fedora container, and the aarch64
+  # one is built and inspected.
+  rpm:
+    name: rpm packages
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-linux-*
+          path: dist
+          merge-multiple: true
+
+      - name: Install rpmbuild
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Build packages
+        run: |
+          bash packaging/build-rpm.sh dist/etamil-linux-x64.tar.gz
+          bash packaging/build-rpm.sh dist/etamil-linux-arm64.tar.gz
+
+      - name: Inspect
+        run: |
+          for f in dist/*.rpm; do rpm -qpi "$f"; rpm -qpl "$f" | head -20; done
+
+      - name: Install and run (x86_64, Fedora)
+        run: |
+          docker run --rm -v "$PWD/dist:/dist:ro" fedora:latest sh -c '
+            set -e
+            dnf install -y /dist/etamil-*.x86_64.rpm
+            etamil --version
+            test -d /usr/share/etamil/nUlakam
+            dnf remove -y etamil
+            ! command -v etamil
+          '
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpm-packages
+          path: |
+            dist/*.rpm
+            dist/*.rpm.sha256
+          if-no-files-found: error
+
   publish:
     name: publish release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [package, deb]
+    needs: [package, deb, rpm]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
