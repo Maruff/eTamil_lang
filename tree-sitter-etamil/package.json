@@ -31,11 +31,27 @@
     "binding.gyp"
   ],
   "scripts": {
+    "install": "node-gyp-build",
+    "prebuildify": "prebuildify --napi --strip",
     "generate": "tree-sitter generate",
-    "test": "tree-sitter test",
+    "test": "tree-sitter test && node test/keyword-coverage.mjs --check && node --test bindings/node/binding_test.js",
     "parse:corpus": "node test/parse-corpus.mjs"
   },
+  "dependencies": {
+    "node-addon-api": "^8.2.1",
+    "node-gyp-build": "^4.8.4"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.25.0"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "prebuildify": "^6.0.1",
+    "tree-sitter": "^0.25.0",
     "tree-sitter-cli": "^0.25.0"
   },
   "tree-sitter": [
@@ -44,7 +60,10 @@
       "file-types": [
         "qmz"
       ],
-      "highlights": "queries/highlights.scm"
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "locals": "queries/locals.scm",
+      "tags": "queries/tags.scm"
     }
   ]
 }

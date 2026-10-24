@@ -1,0 +1,5 @@
+// __add: adds two numbers__
+ceyal add(a, b) { qirumpu a + b; }
+//    ^ definition.function
+total = add(1, 2);
+//      ^ reference.call
