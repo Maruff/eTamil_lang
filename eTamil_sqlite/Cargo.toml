@@ -1,0 +1,19 @@
+[package]
+name = "etamil_sqlite_fn"
+version = "0.0.1"
+edition = "2024"
+rust-version = "1.88"
+description = "Spike: call eTamil functions from SQLite queries"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[dependencies]
+# The compiler with its SQLite adapter, so a value is stored and read back exactly as
+# the compiler's own database statements do it (the tests check that).
+etamil_compiler = { path = "../etamil_compiler", default-features = false, features = ["sqlite"] }
+# The allowlist from the PL/eTamil spike: the same definition of "only computes".
+etamil_pg_eval = { path = "../eTamil_pg/eval" }
+# The version the compiler uses, so the two share one SQLite. `functions` adds the
+# scalar-function API this crate is about.
+rusqlite = { version = "0.32", features = ["bundled", "functions"] }
+rust_decimal = "1.37"
