@@ -14,7 +14,7 @@ The official image has the compiler and the standard library and runs `etamil`. 
 program on top of it:
 
 ```dockerfile
-FROM ghcr.io/maruff/etamil:1.4.2
+FROM ghcr.io/maruff/etamil:2.0.0
 COPY --chown=etamil app.qmz /work/app.qmz
 ```
 
