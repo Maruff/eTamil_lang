@@ -1,0 +1,8 @@
+comment = 'etamil_pg: run eTamil programs inside PostgreSQL (spike)'
+default_version = '@CARGO_VERSION@'
+module_pathname = 'etamil_pg'
+relocatable = false
+# Not trusted: the check that a program only computes has not been reviewed enough for
+# ordinary users to be allowed to create functions with it. See README.md.
+superuser = true
+trusted = false

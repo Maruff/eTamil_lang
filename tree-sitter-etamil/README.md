@@ -19,12 +19,13 @@ navigation.
 ## Status
 
 Parses **69 of 69** real eTamil programs in the compiler repository — all 41
-standard library modules and all 28 examples — with no errors, plus 24 corpus
-tests pinning individual constructs.
+standard library modules and all 28 examples — with no errors, plus 41 corpus
+tests pinning individual constructs. Every keyword the grammar uses appears in a
+corpus case, and `node test/keyword-coverage.mjs --check` fails if one does not.
 
 ```bash
 npm install
-npm test              # corpus tests
+npm test              # corpus and tags tests, keyword coverage, Node binding
 npm run parse:corpus  # every real program in the repository
 ```
 
@@ -57,6 +58,37 @@ is deliberately **not** reserved. The parser accepts those as ordinary names,
 so they are captured as `@variable.member`, not `@keyword`. Colouring them as
 syntax would tell the reader the opposite of the truth.
 
+## Queries
+
+| File | For |
+|---|---|
+| `queries/highlights.scm` | colouring (generated from the compiler's keyword tables) |
+| `queries/locals.scm` | scopes and bindings, for rename and reference highlighting. Only a function or lambda opens a scope: eTamil has no block-scoped binding form. |
+| `queries/tags.scm` | function and shape definitions and calls, for symbol outlines; the `//` comment above a function is its documentation |
+| `queries/injections.scm` | SQL inside the database statements, and comments |
+
+`locals.scm` uses the plain `@local.definition` capture rather than a kind suffix,
+because tree-sitter's own tags loader rejects `@local.definition.function`.
+`injections.scm` and `tags.scm` use the editor-level predicates `#offset!`,
+`#strip!` and `#select-adjacent!`: Neovim, Helix, Zed, the CLI and the Rust crate
+understand them, but the Node binding does not, so its tests check only
+`highlights.scm` and `locals.scm`.
+
+## Bindings
+
+C, Node and Rust. **Not published yet**, so for now install from a checkout.
+
+- **Rust:** `cargo test` runs the binding's tests, including that all four query
+  files compile; `cargo publish --dry-run` checks the crate packages and rebuilds.
+- **Node:** `npm install` builds the addon with node-gyp, so it needs a C
+  toolchain and Python. On Windows the build must run MSVC in UTF-8 mode
+  (`binding.gyp` does this): the keywords are Tamil, and without it every Tamil
+  node name becomes `?`. A test pins that.
+- **C:** `make` builds the library; `bindings/c/` has the header and pkg-config file.
+
+Go, Python and Swift bindings are switched off in `tree-sitter.json` because they
+are not tested.
+
 ## Ambiguity
 
 `வரிசை[0]` begins an index assignment if a `=` follows and is an index
@@ -81,8 +113,8 @@ require('nvim-treesitter.parsers').get_parser_configs().etamil = {
 vim.filetype.add({ extension = { qmz = 'etamil', etamil = 'etamil' } })
 ```
 
-Then `:TSInstall etamil`, and copy `queries/highlights.scm` to
-`queries/etamil/highlights.scm` in your config.
+Then `:TSInstall etamil`, and copy the four `queries/*.scm` files to
+`queries/etamil/` in your config.
 
 ## Licence
 
