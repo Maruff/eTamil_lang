@@ -63,7 +63,10 @@ tag, NuGet reads `etamil_compiler/Cargo.toml`):
 - [ ] `README.md`, the last line (`**Version**: ...`)
 - [ ] `eTamil_vsCode`: `package.json` and `package-lock.json`, and its `CHANGELOG.md`. The publish
       workflow refuses a release whose tag differs from this.
-- [ ] `CHANGELOG.md`: change `## 2.0.0 — unreleased` to `## 2.0.0 — <date>`
+- [ ] `CHANGELOG.md`: change `## 2.0.0 — unreleased` to `## 2.0.0 — <date>`, and move the entries
+      under `main`'s `## Unreleased` into it: the Android package (#75) and the SQLite function
+      builtin `தளம்_செயல்_பதிவு` (#72) were merged after this branch was cut. The release notes
+      mention the Android package; #72 is not in them yet.
 - [ ] The website's `brand.version` in `_config.yml`. `scripts/check_site_counts.py --check`
       compares it with the compiler's version, so it fails until both agree.
 - [ ] After the banking branch lands, the builtin and library-function counts change (its changelog
@@ -76,7 +79,7 @@ tag, NuGet reads `etamil_compiler/Cargo.toml`):
 
 - [ ] **Actions → Release packages → Run workflow** on `main`, by hand, with no tag. It builds the
       Linux, macOS and Windows archives, the Docker image, the `.deb`, the `.rpm`, the NuGet and npm
-      packages and the apt index, and publishes none of them. This is the first real run of all of
+      packages, the Android package and the apt index, and publishes none of them. This is the first real run of all of
       those, so expect to fix things.
 - [ ] Download its artifacts and **run the install table** from `RELEASE_NOTES_2.0.0.md`, row by row,
       on clean machines (a fresh VM or container is enough for Linux): each archive, `brew`, `apt`
