@@ -155,6 +155,14 @@ jobs:
       - name: Generated editor data matches the compiler
         run: python scripts/generate_editor_support.py --check
 
+      # The published grammar is the tree-sitter grammar printed as EBNF; change
+      # grammar.js without regenerating and this says so.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Published grammar matches tree-sitter-etamil/grammar.js
+        run: node scripts/generate_ebnf.mjs --check
+
 
   # Everything that renders eTamil outside VS Code: the tree-sitter grammar
   # (Neovim, Helix, Zed, GitHub code navigation) and the highlight.js
@@ -190,6 +198,28 @@ jobs:
       - name: Corpus tests
         working-directory: tree-sitter-etamil
         run: npx tree-sitter test
+
+      # Every keyword the grammar uses must appear in a hand-written corpus case,
+      # so a rule nobody pinned cannot change or break unnoticed.
+      - name: Every keyword the grammar uses is in the corpus
+        working-directory: tree-sitter-etamil
+        run: node test/keyword-coverage.mjs --check
+
+      # `npm ci` above built the Node addon. These check that it loads, parses, keeps
+      # Tamil node names intact (a Windows build once turned them into '?'), and that
+      # the highlight and locals queries compile through it.
+      - name: Node binding
+        working-directory: tree-sitter-etamil
+        run: node --test bindings/node/binding_test.js
+
+      # The Rust crate: it parses, and all four query files compile against the
+      # grammar. The dry run packages it as crates.io would and rebuilds from the
+      # package, so a missing file shows up here and not at publish time.
+      - name: Rust binding and crate packaging
+        working-directory: tree-sitter-etamil
+        run: |
+          cargo test
+          cargo publish --dry-run --allow-dirty
 
       # The blunt check: parse every real eTamil program in the repository.
       # This is what found the multi-line string literals, the database
@@ -234,6 +264,126 @@ jobs:
       # documentation regression.
       - name: Run every example
         run: ./scripts/run_examples.sh
+
+  # The Jupyter kernel drives `etamil --repl`, so its tests run against the compiler
+  # this commit builds: a change to the shell's prompts or error format fails here
+  # rather than in someone's notebook.
+  jupyter-kernel:
+    name: jupyter kernel
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: etamil_compiler
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build (release)
+        working-directory: etamil_compiler
+        run: cargo build --release
+
+      - name: Test the kernel
+        working-directory: eTamil_Jupyter
+        env:
+          ETAMIL_BIN: ${{ github.workspace }}/etamil_compiler/target/release/etamil
+        run: python -W error::ResourceWarning -m unittest discover -s tests -v
+
+  # The Emacs mode is Lisp that nothing else compiles or runs, so CI is where it is
+  # loaded for the first time: byte-compiled with warnings as errors, then its ERT
+  # tests run under the oldest Emacs it claims to support, a middle one and the
+  # newest. A failure is also written as annotations, so it can be read from the
+  # run's summary without opening the log.
+  emacs:
+    name: emacs ${{ matrix.emacs }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        emacs: ['27.2', '29.4', '30.1']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs }}
+
+      - name: Byte-compile without warnings
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs --eval '(setq byte-compile-error-on-warn t)' \
+               -f batch-byte-compile eTamil_Emacs/etamil-words.el eTamil_Emacs/etamil-mode.el > compile.txt 2>&1; then
+            cat compile.txt
+            head -20 compile.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
+      - name: Run the tests
+        run: |
+          if ! emacs -Q --batch -L eTamil_Emacs -l ert -l eTamil_Emacs/etamil-mode-tests.el \
+               -f ert-run-tests-batch-and-exit > ert.txt 2>&1; then
+            cat ert.txt
+            grep -E 'FAILED|failed|rror|Test |should|Warning' ert.txt | head -20 \
+              | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          fi
+          tail -3 ert.txt
+
+  # The Azure template is only ever used by someone with an Azure subscription, so a mistake
+  # in it would be found at their first deployment. The Bicep compiler and linter catch bad
+  # references, wrong types and unused or misnamed parameters; they cannot replace a deployment.
+  # Findings are also written as annotations, so they can be read from the run's summary.
+  bicep:
+    name: bicep
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile and lint the Azure template
+        run: |
+          az bicep install
+          if ! az bicep lint --file deploy/azure/etamil-service.bicep > lint.txt 2>&1; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+          # `lint` reports warnings without failing; a warning here is a defect to fix.
+          if grep -q -i 'warning' lint.txt; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
+
+  # The AWS template is only ever used by someone with an AWS account, so a mistake
+  # in it would be found at their first deploy. A linter cannot replace a deploy but
+  # does catch bad references, wrong property names and invalid conditions. Findings
+  # are also written as annotations, so they can be read from the run's summary.
+  cloudformation:
+    name: cloudformation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Lint the AWS template
+        run: |
+          pip install cfn-lint
+          if ! cfn-lint deploy/aws/etamil-service.yaml > lint.txt 2>&1; then
+            cat lint.txt
+            head -20 lint.txt | while IFS= read -r line; do [ -n "$line" ] && echo "::error::$line"; done
+            exit 1
+          fi
 
   # The Neovim plugin is only ever used inside an editor, so a mistake in it would be
   # found by whoever first opens an eTamil file. Neovim runs headless here: file type

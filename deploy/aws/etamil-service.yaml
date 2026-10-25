@@ -1,0 +1,315 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  An eTamil HTTP service on AWS: your program, built into a container image on top of
+  the official eTamil image, run on ECS Fargate behind an Application Load Balancer.
+  https://github.com/Maruff/eTamil_lang
+
+# What this creates: a log group, an ECS cluster, a Fargate task and service, an
+# Application Load Balancer with a target group and a listener, two security groups,
+# and the task's execution role. Nothing is created in your VPC itself; it uses the
+# VPC and subnets you name.
+#
+# What it does not do: build or push your image (see deploy/aws/README.md), or set up
+# a domain name. The service is reachable at the load balancer's address.
+
+Parameters:
+  Image:
+    Type: String
+    Description: >-
+      Your container image, built FROM ghcr.io/maruff/etamil with your program copied
+      in, for example 123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-service:1.
+    AllowedPattern: '.+'
+  ProgramPath:
+    Type: String
+    Default: app.qmz
+    Description: The .qmz file to serve, relative to the image's working directory (/work).
+    AllowedPattern: '[^ ]+'
+  ContainerPort:
+    Type: Number
+    Default: 8080
+    MinValue: 1
+    MaxValue: 65535
+    Description: The port the server listens on inside the container.
+  HealthCheckPath:
+    Type: String
+    Default: /
+    Description: >-
+      A path your program answers with a 200. The load balancer takes a task out of
+      service when this fails, so route it in your program.
+    AllowedPattern: '/.*'
+  Architecture:
+    Type: String
+    Default: X86_64
+    AllowedValues: [X86_64, ARM64]
+    Description: The CPU architecture of the image you built.
+  Cpu:
+    Type: String
+    Default: '256'
+    AllowedValues: ['256', '512', '1024', '2048', '4096']
+    Description: Fargate CPU units for each task.
+  Memory:
+    Type: String
+    Default: '512'
+    AllowedValues: ['512', '1024', '2048', '3072', '4096', '5120', '6144', '7168', '8192']
+    Description: >-
+      Fargate memory in MiB for each task. Fargate only accepts certain pairs with the
+      CPU; see the table in the Fargate documentation.
+  DesiredCount:
+    Type: Number
+    Default: 1
+    MinValue: 0
+    Description: How many tasks to run. Use 2 or more for a service that must stay up through a deploy.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC to run in.
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: >-
+      At least two subnets in different Availability Zones, for the load balancer and
+      the tasks. They must be public (a route to an internet gateway): the tasks are
+      given public addresses so they can pull the image.
+  CertificateArn:
+    Type: String
+    Default: ''
+    Description: >-
+      An ACM certificate for HTTPS. If given, the load balancer serves HTTPS on 443 and
+      redirects HTTP to it. If empty, the service is HTTP only, which is for trying it out.
+  JwtSecretArn:
+    Type: String
+    Default: ''
+    Description: >-
+      The ARN of a Secrets Manager secret whose value is the JWT signing secret. It is
+      given to the program as ETAMIL_JWT_SECRET, which keeps it out of the template and
+      the task definition.
+  RepositoryCredentialsSecretArn:
+    Type: String
+    Default: ''
+    Description: >-
+      Only for a private registry other than Amazon ECR: the ARN of a Secrets Manager
+      secret holding {"username": "...", "password": "..."}. An image in ECR in this
+      account needs nothing.
+  LogRetentionDays:
+    Type: Number
+    Default: 30
+    AllowedValues: [1, 3, 5, 7, 14, 30, 60, 90, 120, 180, 365]
+    Description: How long to keep the service's logs.
+
+Conditions:
+  HasCertificate: !Not [!Equals [!Ref CertificateArn, '']]
+  HasJwtSecret: !Not [!Equals [!Ref JwtSecretArn, '']]
+  HasRepositoryCredentials: !Not [!Equals [!Ref RepositoryCredentialsSecretArn, '']]
+  ReadsSecrets: !Or [!Condition HasJwtSecret, !Condition HasRepositoryCredentials]
+
+Resources:
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: !Ref LogRetentionDays
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+
+  # Lets ECS pull the image and write logs. The secrets policy below is added only
+  # when a secret is used, and is limited to those secrets.
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+  SecretsPolicy:
+    Type: AWS::IAM::Policy
+    Condition: ReadsSecrets
+    Properties:
+      PolicyName: read-the-named-secrets
+      Roles:
+        - !Ref ExecutionRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource:
+              - !If [HasJwtSecret, !Ref JwtSecretArn, !Ref 'AWS::NoValue']
+              - !If [HasRepositoryCredentials, !Ref RepositoryCredentialsSecretArn, !Ref 'AWS::NoValue']
+
+  LoadBalancerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: The internet to the load balancer
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: HTTP
+        - !If
+          - HasCertificate
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+            Description: HTTPS
+          - !Ref 'AWS::NoValue'
+
+  ServiceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: The load balancer to the eTamil tasks
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref ContainerPort
+          ToPort: !Ref ContainerPort
+          SourceSecurityGroupId: !GetAtt LoadBalancerSecurityGroup.GroupId
+          Description: Only the load balancer reaches the tasks
+
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: application
+      Scheme: internet-facing
+      Subnets: !Ref SubnetIds
+      SecurityGroups:
+        - !GetAtt LoadBalancerSecurityGroup.GroupId
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: !Ref ContainerPort
+      HealthCheckPath: !Ref HealthCheckPath
+      HealthCheckIntervalSeconds: 15
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 3
+      # A deploy stops the old tasks after this long, so in-flight requests finish.
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: '30'
+
+  # The one listener that carries traffic to the tasks: HTTPS on 443 with a
+  # certificate, plain HTTP on 80 without. It always exists, so the service can
+  # depend on it; a dependency on a resource that may not exist is an error.
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: !If [HasCertificate, 443, 80]
+      Protocol: !If [HasCertificate, HTTPS, HTTP]
+      Certificates: !If
+        - HasCertificate
+        - - CertificateArn: !Ref CertificateArn
+        - !Ref 'AWS::NoValue'
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  # With a certificate, plain HTTP is only sent on to HTTPS.
+  HttpRedirectListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Condition: HasCertificate
+    Properties:
+      LoadBalancerArn: !Ref LoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: redirect
+          RedirectConfig:
+            Protocol: HTTPS
+            Port: '443'
+            StatusCode: HTTP_301
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub '${AWS::StackName}-etamil'
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: !Ref Cpu
+      Memory: !Ref Memory
+      ExecutionRoleArn: !GetAtt ExecutionRole.Arn
+      RuntimePlatform:
+        OperatingSystemFamily: LINUX
+        CpuArchitecture: !Ref Architecture
+      ContainerDefinitions:
+        - Name: etamil
+          Image: !Ref Image
+          Essential: true
+          RepositoryCredentials: !If
+            - HasRepositoryCredentials
+            - CredentialsParameter: !Ref RepositoryCredentialsSecretArn
+            - !Ref 'AWS::NoValue'
+          # The image's entrypoint is `etamil`, so these are its arguments. The server
+          # listens on loopback unless told otherwise, which the load balancer could not reach.
+          Command:
+            - --server
+            - --host
+            - 0.0.0.0
+            - --port
+            - !Ref ContainerPort
+            - !Ref ProgramPath
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+              Protocol: tcp
+          Secrets: !If
+            - HasJwtSecret
+            - - Name: ETAMIL_JWT_SECRET
+                ValueFrom: !Ref JwtSecretArn
+            - !Ref 'AWS::NoValue'
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: etamil
+
+  Service:
+    Type: AWS::ECS::Service
+    # ECS fails to create a service whose target group has no listener yet.
+    DependsOn: Listener
+    Properties:
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      LaunchType: FARGATE
+      DesiredCount: !Ref DesiredCount
+      # A new task starts before an old one stops, so a deploy does not drop the service.
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 100
+        MaximumPercent: 200
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+      HealthCheckGracePeriodSeconds: 30
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: !Ref SubnetIds
+          SecurityGroups:
+            - !GetAtt ServiceSecurityGroup.GroupId
+      LoadBalancers:
+        - ContainerName: etamil
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  Url:
+    Description: Where the service answers.
+    Value: !If
+      - HasCertificate
+      - !Sub 'https://${LoadBalancer.DNSName}'
+      - !Sub 'http://${LoadBalancer.DNSName}'
+  LogGroupName:
+    Description: Where its logs are.
+    Value: !Ref LogGroup
+  ClusterName:
+    Value: !Ref Cluster

@@ -11,6 +11,7 @@ One archive per platform, holding everything eTamil needs to run:
 | | |
 |---|---|
 | `etamil` / `etamil.exe` | the compiler, one binary |
+| `etamil-lsp` / `etamil-lsp.exe` | the language server editors talk to (VS Code, JetBrains IDEs, Visual Studio, Neovim); built from `etamil_lsp/`, installed beside `etamil` |
 | `nUlakam/` | the standard library and the accounting framework, written in eTamil |
 | `examples/` | every example from the repository |
 | `install.ps1` / `install.sh` | the installer |
@@ -47,8 +48,9 @@ TARGET=x86_64-unknown-linux-musl ./packaging/build.sh
 ```
 
 The Linux archive is a single-click installer for Ubuntu, Debian, Fedora, and
-other x86_64 Linux distributions. It is intentionally not a distro-specific
-`.deb` or `.rpm`; the same self-contained archive works across those systems.
+other x86_64 Linux distributions. Debian and Ubuntu users can also take the
+`.deb` (below); there is no `.rpm`, because the same self-contained archive works
+on Fedora and the rest.
 The macOS and Windows archives are built on native CI runners because their
 SDKs and linkers are not available on Linux. Those files are created only when
 the release workflow runs for a version tag; they are not present in a normal
@@ -88,6 +90,82 @@ mean editing all four every release, and a stale link is worse than no link.
 The version is not lost: it is in `README.txt` inside the archive, in the release
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
+
+## The NuGet tool packages
+
+`packaging/nuget` builds two .NET global tools, `etamil` and `etamil-lsp`
+(`dotnet tool install -g etamil`). A tool package carries one command, so the
+language server is its own package. Each holds the real binary for every platform
+plus a small launcher that picks the right one, makes it executable (a NuGet
+package does not keep the execute bit), and runs it with the caller's arguments,
+standard streams and exit code. The `etamil` package also carries the standard
+library once and points `ETAMIL_PATH` at it. Nothing is compiled: the script
+unpacks the release archives.
+
+```bash
+python packaging/nuget/build-nuget.py          # needs all five archives in dist/
+python packaging/nuget/build-nuget.py --allow-partial   # whichever are there, for local testing
+```
+
+The version is the compiler's own (`etamil_compiler/Cargo.toml`). The release
+workflow's `nuget` job builds both, installs them as tools on Linux and runs them,
+and pushes them to nuget.org on a `v*` tag; it needs a `NUGET_API_KEY` repository
+secret. One project per folder: two project files in one folder share `obj/` and
+produce a package with the wrong command.
+
+## The npm package
+
+`packaging/npm` is the `etamil` package: `npx etamil` and `npm install -g etamil`.
+It carries no binary. Its install script downloads the release archive for the
+package's own version and the current platform, checks it against the published
+`.sha256`, and unpacks it into `vendor/`. For that reason the package version
+must equal a release tag (`1.4.2` for `v1.4.2`); the workflow's `npm` job sets
+it from the tag and runs only after the release assets are published.
+
+```bash
+cd packaging/npm && npm pack                      # build the tarball
+ETAMIL_RELEASE_BASE=http://127.0.0.1:8765 npm install ./etamil-*.tgz   # test against a local mirror
+```
+
+Newer npm versions ask users to approve install scripts; `npm rebuild etamil`
+runs it afterwards. The publish job needs an `NPM_TOKEN` secret in the repository.
+
+## The Debian package
+
+`packaging/build-deb.sh` repackages a Linux archive as a `.deb`; it compiles
+nothing, so the arm64 package builds on an x86-64 machine. The package depends on
+no others, because the binary is static musl, and it finds the library in
+`/usr/share/etamil` by itself.
+
+```bash
+bash packaging/build-deb.sh dist/etamil-linux-x64.tar.gz
+sudo apt install ./dist/etamil_<version>_amd64.deb
+```
+
+The release workflow's `deb` job builds both architectures, installs the amd64
+one and runs it, then attaches them to the release. They are not in an apt
+repository, so `apt update` will not upgrade them; install a newer `.deb` over
+the old one.
+
+## The Docker image
+
+`packaging/Dockerfile` unpacks the Linux package on Alpine; nothing is compiled
+in it, so the image holds exactly the binary published as the Linux archives. It
+runs as a non-root user with `/work` as the working directory and
+`ETAMIL_PATH` pointing at the bundled library.
+
+```bash
+bash packaging/build.sh        # needs dist/etamil-linux-<arch>.tar.gz
+docker build -f packaging/Dockerfile -t etamil .
+docker run --rm -v "$PWD:/work" etamil program.qmz
+```
+
+A local build is single-architecture, because `build.sh` builds only the current
+machine. The release workflow's `docker` job builds amd64 and arm64 from both
+archives and pushes `ghcr.io/<owner>/etamil` with the version and `latest` tags
+on a `v*` tag; a manual run builds and smoke-tests without pushing. The
+registry package is private until it is made public once in the GitHub package
+settings.
 
 ## Publishing
 

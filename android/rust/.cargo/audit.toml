@@ -1,0 +1,7 @@
+# See etamil_compiler/.cargo/audit.toml: the Android library builds the same compiler,
+# so it carries the same unmaintained rustls-pemfile, for the same reason.
+
+[advisories]
+ignore = [
+    "RUSTSEC-2025-0134",
+]

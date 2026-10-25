@@ -156,6 +156,7 @@ Equality is exact too. Division keeps full precision rather than rounding at eac
 | **Windows** x64 | [etamil-windows-x64.zip](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-windows-x64.zip) |
 | **Linux** x64 | [etamil-linux-x64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-linux-x64.tar.gz) |
 | **Linux** arm64 (Raspberry Pi 4/5) | [etamil-linux-arm64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-linux-arm64.tar.gz) |
+| **Android** arm64 (in [qos](https://qos.ae) or Termux) | [etamil-android-arm64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-android-arm64.tar.gz) |
 | **macOS** Apple Silicon | [etamil-macos-arm64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-macos-arm64.tar.gz) |
 | **macOS** Intel | [etamil-macos-x64.tar.gz](https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-macos-x64.tar.gz) |
 

@@ -1,0 +1,25 @@
+# Copy to .gitlab-ci.yml, and copy ci/install-etamil.sh and ci/check-qmz.sh from
+# eTamil's packaging/ci/ into a ci/ folder of your repository.
+#
+# The binary is static (musl), so any Linux image works; Alpine is the smallest.
+default:
+  image: alpine:3.21
+
+variables:
+  ETAMIL_VERSION: "latest"            # or pin one, such as 1.4.2
+
+.etamil:
+  before_script:
+    - apk add --no-cache curl
+    - sh ci/install-etamil.sh "$ETAMIL_VERSION"
+    - export PATH="$HOME/.local/bin:$PATH" ETAMIL_PATH="$HOME/.local/lib/etamil"
+
+check:
+  extends: .etamil
+  script:
+    - sh ci/check-qmz.sh src          # etamil --check on every .qmz; nothing runs
+
+run:
+  extends: .etamil
+  script:
+    - etamil src/main.qmz             # replace with your own entry point

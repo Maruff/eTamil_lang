@@ -1,0 +1,37 @@
+<idea-plugin>
+  <id>in.etamil.jetbrains</id>
+  <name>eTamil</name>
+  <vendor email="esan@etamil.in" url="https://etamil.in">eTamil</vendor>
+
+  <description><![CDATA[
+    Support for <a href="https://etamil.in">eTamil</a>, a Tamil-vocabulary language for Indian
+    accounting, tax and FinTech.
+    <ul>
+      <li>Syntax highlighting, comment toggling and bracket pairing for <code>.qmz</code> files.</li>
+      <li>Diagnostics, completion of names in scope, hover and go to definition, from the eTamil
+          language server (<code>etamil-lsp</code>) through LSP4IJ.</li>
+    </ul>
+    The language server must be installed separately and found on the <code>PATH</code>, or named in
+    the <code>ETAMIL_LSP</code> environment variable. See the plugin's documentation.
+  ]]></description>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>org.jetbrains.plugins.textmate</depends>
+  <depends>com.redhat.devtools.lsp4ij</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <textmate.bundleProvider implementation="com.etamil.jetbrains.ETamilBundleProvider"/>
+  </extensions>
+
+  <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+    <server id="etamil"
+            name="eTamil Language Server"
+            factoryClass="com.etamil.jetbrains.ETamilLanguageServerFactory">
+      <description><![CDATA[
+        The eTamil language server, <code>etamil-lsp</code>. It answers from the compiler's own front
+        end, so its diagnostics are the ones <code>etamil --check</code> prints.
+      ]]></description>
+    </server>
+    <fileNamePatternMapping patterns="*.qmz" serverId="etamil" languageId="etamil"/>
+  </extensions>
+</idea-plugin>
