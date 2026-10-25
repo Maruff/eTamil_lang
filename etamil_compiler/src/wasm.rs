@@ -42,7 +42,7 @@ use wasm_bindgen::prelude::*;
 use crate::analysis;
 use crate::check;
 use crate::lexer;
-use crate::parser::Parser;
+use crate::parser::{Parser, Stmt};
 use crate::vm;
 use crate::vm::host;
 
