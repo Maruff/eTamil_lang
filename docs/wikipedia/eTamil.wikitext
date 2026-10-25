@@ -12,7 +12,7 @@
 | developer = Esan Maruff
 | released = {{start date and age|2024|06|26|df=y}}<ref name="repos" />
 | latest release version = 2.0.0
-| latest release date = {{start date and age|RELEASE_DATE_TODO|df=y}}<ref name="release-2" />
+| latest release date = {{start date and age|2026|10|25|df=y}}<ref name="release-2" />
 | typing = [[Dynamic typing|Dynamic]], [[Strong and weak typing|strong]]; optional declared types and record shapes checked before execution<ref name="roadmap" />
 | implementations = etamil (reference implementation)
 | operating system = [[Microsoft Windows|Windows]], [[Linux]] (x86-64 and ARM64), [[macOS]], [[Android (operating system)|Android]]<ref name="readme" /><ref name="android" /><ref name="changelog" />
@@ -37,13 +37,13 @@ Over the following two years the language was developed in a series of separate 
 
 The language was substantially reworked in August 2026. Binary [[floating-point arithmetic]] was replaced throughout by fixed-point decimals, the financial and accounting vocabulary grew from 157 to 196 keywords, and functions, arrays, records, iteration, [[result type]]s and modules were added, together with database access and an HTTP server.<ref name="changelog" /><ref name="roadmap" />
 
-Version 1.0.0 was released on 13 September 2026, with prebuilt packages for Windows, Linux and macOS and a Visual Studio Code extension that bundles the full toolchain.<ref name="changelog" /> Versions 1.0.1 to 1.0.3 added a bundled typeface released under the [[SIL Open Font License]]. Version 1.1.0, released on 23 September 2026, added immutable bindings, [[first-class function]]s, record shapes and methods.<ref name="changelog" /> Version 1.2.0 added a package for the [[Raspberry Pi]] and other 64-bit ARM Linux systems, and made <code>.qmz</code> the only source-file extension; version 1.3.0 added compilation of programs to firmware for [[Arduino]] boards; and version 1.4.0 added a library for document retrieval and language models, written in eTamil. Version 1.4.2, released on 28 September 2026, carried security updates to two dependencies.<ref name="changelog" /> Version 2.0.0, released on RELEASE_DATE_TEXT_TODO, added libraries for retail banking, a [[Language Server Protocol|language server]] and plugins for several editors, a [[Project Jupyter|Jupyter]] kernel, and installation through package managers and containers, and published a specification of the language.<ref name="release-2" />
+Version 1.0.0 was released on 13 September 2026, with prebuilt packages for Windows, Linux and macOS and a Visual Studio Code extension that bundles the full toolchain.<ref name="changelog" /> Versions 1.0.1 to 1.0.3 added a bundled typeface released under the [[SIL Open Font License]]. Version 1.1.0, released on 23 September 2026, added immutable bindings, [[first-class function]]s, record shapes and methods.<ref name="changelog" /> Version 1.2.0 added a package for the [[Raspberry Pi]] and other 64-bit ARM Linux systems, and made <code>.qmz</code> the only source-file extension; version 1.3.0 added compilation of programs to firmware for [[Arduino]] boards; and version 1.4.0 added a library for document retrieval and language models, written in eTamil. Version 1.4.2, released on 28 September 2026, carried security updates to two dependencies.<ref name="changelog" /> Version 2.0.0, released on 25 October 2026, added libraries for retail banking, a [[Language Server Protocol|language server]] and plugins for several editors, a [[Project Jupyter|Jupyter]] kernel, and installation through package managers and containers, and published a specification of the language.<ref name="release-2" />
 
 {| class="wikitable"
 |+ Major releases
 ! Version !! Release date !! Principal changes
 |-
-| 2.0.0 || RELEASE_DATE_TEXT_TODO || Libraries for retail banking, XML and e-signature primitives; a language server and editor plugins; a Jupyter kernel; installation through package managers and containers; a published language specification
+| 2.0.0 || 25 October 2026 || Libraries for retail banking, XML and e-signature primitives; a language server and editor plugins; a Jupyter kernel; installation through package managers and containers; a published language specification
 |-
 | 1.4.2 || 28 September 2026 || Security updates to two dependencies
 |-
@@ -294,8 +294,8 @@ Standard-library modules are named with romanized Tamil words, such as <code>paN
 {{reflist|refs=
 <ref name="readme">{{cite web |author=Esan Maruff |title=eTamil Programming Language |url=https://github.com/Maruff/eTamil_lang/blob/main/README.md |website=GitHub |access-date=26 September 2026}}</ref>
 <ref name="changelog">{{cite web |author=Esan Maruff |title=Changelog |url=https://github.com/Maruff/eTamil_lang/blob/main/CHANGELOG.md |website=GitHub |access-date=26 September 2026}}</ref>
-<ref name="release-2">{{cite web |author=Esan Maruff |title=eTamil 2.0.0 release notes |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/release/RELEASE_NOTES_2.0.0.md |website=GitHub |access-date=RELEASE_ACCESS_DATE_TODO}}</ref>
-<ref name="spec">{{cite web |author=Esan Maruff |title=The eTamil language: lexical structure and grammar |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/LANGUAGE_SPEC.md |website=GitHub |access-date=RELEASE_ACCESS_DATE_TODO}}</ref>
+<ref name="release-2">{{cite web |author=Esan Maruff |title=eTamil 2.0.0 release notes |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/release/RELEASE_NOTES_2.0.0.md |website=GitHub |access-date=25 October 2026}}</ref>
+<ref name="spec">{{cite web |author=Esan Maruff |title=The eTamil language: lexical structure and grammar |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/LANGUAGE_SPEC.md |website=GitHub |access-date=25 October 2026}}</ref>
 <ref name="arch">{{cite web |author=Esan Maruff |title=Architecture and decisions |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/ARCHITECTURE.md |website=GitHub |access-date=26 September 2026}}</ref>
 <ref name="keywords">{{cite web |author=Esan Maruff |title=eTamil Keyword Reference |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/KEYWORDS.md |website=GitHub |access-date=26 September 2026}}</ref>
 <ref name="romanization">{{cite web |author=Esan Maruff |title=Tamil letter equivalents – the ezuqqu scheme |url=https://github.com/Maruff/eTamil_lang/blob/main/docs/reference/COMPILER_TAMIL_LETTER_EQUIVALENTS.md |website=GitHub |access-date=26 September 2026}}</ref>
