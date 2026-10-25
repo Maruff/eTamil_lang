@@ -12,6 +12,15 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ### Added
 
+- **A package for Android.** `etamil-android-arm64.tar.gz` is built with the Android
+  NDK against Android's own libc (API 24, Android 7.0 and later), so a program on a
+  phone reaches websites and APIs by name. The Linux arm64 package runs on Android
+  too, but its static musl libc looks for `/etc/resolv.conf`, which Android does not
+  have, so `வலை_பெறு` could not resolve a host there. A new workflow runs the same
+  build for x86_64 in Android 9 and 14 emulators, including a check that reaches a
+  website by name; `packaging/smoke-test.sh` runs that check when
+  `ETAMIL_SMOKE_NET=1`.
+
 - **Imports in the browser build.** `run_project(files_json, entry, input)` takes several
   sources as JSON, a path to each source, and runs one of them. `இறக்கு "vari.qmz";` finds
   `vari.qmz` among the others, relative to the importing file, with the same rules as on disk:

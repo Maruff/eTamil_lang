@@ -11,11 +11,11 @@
 | designer = Esan Maruff
 | developer = Esan Maruff
 | released = {{start date and age|2024|06|26|df=y}}<ref name="repos" />
-| latest release version = 1.1.0
-| latest release date = {{start date and age|2026|09|23|df=y}}<ref name="changelog" />
+| latest release version = 1.4.2
+| latest release date = {{start date and age|2026|09|28|df=y}}<ref name="changelog" />
 | typing = [[Dynamic typing|Dynamic]], [[Strong and weak typing|strong]]; optional declared types and record shapes checked before execution<ref name="roadmap" />
 | implementations = etamil (reference implementation)
-| operating system = [[Microsoft Windows|Windows]], [[Linux]], [[macOS]], [[Android (operating system)|Android]]<ref name="readme" /><ref name="android" />
+| operating system = [[Microsoft Windows|Windows]], [[Linux]] (x86-64 and ARM64), [[macOS]], [[Android (operating system)|Android]]<ref name="readme" /><ref name="android" /><ref name="changelog" />
 | license = [[GNU Affero General Public License|AGPL-3.0-or-later]]<ref name="citation" />
 | file ext = .qmz<ref name="vscode-manifest" />
 | website = {{URL|https://etamil.in|etamil.in}}
@@ -24,24 +24,32 @@
 
 '''eTamil''' is a [[high-level programming language|high-level]] [[programming language]] whose keywords are words of the [[Tamil language]]. It is designed as a [[domain-specific language]] for Indian [[accounting]], [[taxation in India|taxation]] and [[financial technology]], and also provides the features of a [[general-purpose programming language]], including first-class functions, user-defined record types, modules, database access and an [[Web server|HTTP server]].<ref name="readme" /><ref name="ictetl" />
 
-Financial concepts are part of the language's vocabulary rather than a library: {{lang|ta|வரவு}} (credit), {{lang|ta|பற்று}} (debit), {{lang|ta|வரி}} (tax) and {{lang|ta|இருப்புநிலை}} (balance sheet) are keywords.<ref name="keywords" /> Every number is a [[Fixed-point arithmetic|fixed-point]] [[Decimal data type|decimal]], so that <code>0.1 + 0.2</code> evaluates to exactly <code>0.3</code>.<ref name="arch" /> Each keyword may be written in [[Tamil script]], in an [[ASCII]] romanization, or for most keywords with an English alias.<ref name="keywords" /><ref name="ictetl" />
+Financial concepts are part of the language's vocabulary rather than a library: {{lang|ta|வரவு}} (credit), {{lang|ta|பற்று}} (debit), {{lang|ta|வரி}} (tax) and {{lang|ta|இருப்புநிலை}} (balance sheet) are keywords.<ref name="keywords" /> Every number is a [[Fixed-point arithmetic|fixed-point]] [[Decimal data type|decimal]], so that <code>0.1 + 0.2</code> evaluates to exactly <code>0.3</code>.<ref name="arch" /> Each keyword may be written in [[Tamil script]], in an [[ASCII]] romanization, or for most keywords with an English alias.<ref name="ictetl" /><ref name="keywords" />
 
 eTamil was created by Esan Maruff. It first appeared on [[GitHub]] in June 2024, and its current implementation dates from January 2026.<ref name="repos" /><ref name="changelog" /> Its reference implementation is written in [[Rust (programming language)|Rust]] and includes a [[bytecode]] [[virtual machine]] and an experimental [[LLVM]] back end.<ref name="readme" /> Its [[standard library]], ''nUlakam'', is written in eTamil itself.<ref name="nulakam" />
 
 == History ==
 eTamil is the work of Esan Maruff (legal name Mohammed Maruff).<ref name="authors" /> It first appeared publicly on 26 June 2024 as eTml, a GitHub repository describing "an Indian DSL for Accounts & FinTech" with an early implementation in Rust.<ref name="repos" /> On 5 July 2024 it was followed by the eTamil repository, which held a prototype compiler, with a lexer, parser, semantic analyser and code generator, together with the project's website at etamil.in.<ref name="site-initial" />
 
-Maruff enrolled as a PhD scholar in the Department of Computer Applications at [[B. S. Abdur Rahman Crescent Institute of Science and Technology]], Chennai, to document the language's approach, under the title "Developing an Indian DSL (Programming Language) for Accounts, Commerce, Finance, and Fintech Professionals".<ref name="authors" /><ref name="citation" /> A paper of the same title was presented at the International Conference on Technology Enhanced Teaching and Learning (ICTETL 2025), held online on 23–24 October 2025 by the institute's Centre for Distance and Online Education in collaboration with Global College Malta, and published in the conference proceedings.<ref name="ictetl" />
+Maruff enrolled as a PhD scholar in the Department of Computer Applications at [[B. S. Abdur Rahman Crescent Institute of Science and Technology]], Chennai, to document the language's approach, under the title "Developing an Indian DSL (Programming Language) for Accounts, Commerce, Finance, and Fintech Professionals".<ref name="citation" /><ref name="authors" /> A paper of the same title was presented at the International Conference on Technology Enhanced Teaching and Learning (ICTETL 2025), held online on 23–24 October 2025 by the institute's Centre for Distance and Online Education in collaboration with Global College Malta, and published in the conference proceedings.<ref name="ictetl" />
 
 Over the following two years the language was developed in a series of separate repositories, each covering one part of the project or trying a different architecture. Among them were eTamil-ciRal, a framework of tools and libraries (August 2024); eTamil-nivaqi (September 2024); Accounts, an accounting module in Rust (February 2025); nivaqi-v1 (March 2025); and eTamil-Compiler, eTamil-vscode and eTamil_transpiler (January and February 2026).<ref name="repos" /> All were superseded by the current repository, first published on 26 January 2026 with a compiler and a [[Visual Studio Code]] extension providing syntax highlighting.<ref name="changelog" /> Version 0.2 followed on 31 January 2026, adding documentation for the language's transliteration scheme.<ref name="changelog" /> The original eTamil repository was not discarded, because it hosts the project's website; only its Rust compiler code was removed, in August 2026.<ref name="site-removal" />
 
 The language was substantially reworked in August 2026. Binary [[floating-point arithmetic]] was replaced throughout by fixed-point decimals, the financial and accounting vocabulary grew from 157 to 196 keywords, and functions, arrays, records, iteration, [[result type]]s and modules were added, together with database access and an HTTP server.<ref name="changelog" /><ref name="roadmap" />
 
-Version 1.0.0 was released on 13 September 2026, with prebuilt packages for Windows, Linux and macOS and a Visual Studio Code extension that bundles the full toolchain.<ref name="changelog" /> Versions 1.0.1 to 1.0.3 added a bundled typeface released under the [[SIL Open Font License]]. Version 1.1.0, released on 23 September 2026, added immutable bindings, [[first-class function]]s, record shapes and methods.<ref name="changelog" />
+Version 1.0.0 was released on 13 September 2026, with prebuilt packages for Windows, Linux and macOS and a Visual Studio Code extension that bundles the full toolchain.<ref name="changelog" /> Versions 1.0.1 to 1.0.3 added a bundled typeface released under the [[SIL Open Font License]]. Version 1.1.0, released on 23 September 2026, added immutable bindings, [[first-class function]]s, record shapes and methods.<ref name="changelog" /> Version 1.2.0 added a package for the [[Raspberry Pi]] and other 64-bit ARM Linux systems, and made <code>.qmz</code> the only source-file extension; version 1.3.0 added compilation of programs to firmware for [[Arduino]] boards; and version 1.4.0 added a library for document retrieval and language models, written in eTamil. Version 1.4.2, released on 28 September 2026, carried security updates to two dependencies.<ref name="changelog" />
 
 {| class="wikitable"
 |+ Major releases
 ! Version !! Release date !! Principal changes
+|-
+| 1.4.2 || 28 September 2026 || Security updates to two dependencies
+|-
+| 1.4.0 || 27 September 2026 || ''nuNNaRivu'', a retrieval and language-model library written in eTamil; a file-system library
+|-
+| 1.3.0 || 27 September 2026 || ''artino'': programs compiled to firmware for Arduino boards
+|-
+| 1.2.0 || 27 September 2026 || Package for Raspberry Pi and 64-bit ARM Linux; <code>.qmz</code> as the only file extension
 |-
 | 1.1.0 || 23 September 2026 || Immutable bindings ({{lang|ta|நிலை}}), functions as values and [[Closure (computer programming)|closures]], record shapes ({{lang|ta|வடிவம்}}) with methods; map, filter and fold in the standard library
 |-
@@ -83,7 +91,7 @@ The language has 203 keywords, accepted in 545 spellings in total.<ref name="rea
 |-
 | {{lang|ta|சுற்று}} || <code>cuRRu</code> || <code>_loop</code> || loop while a condition holds
 |-
-| {{lang|ta|ஒவ்வொரு}} … {{lang|ta|இல்}} || <code>ovvoru</code> … <code>il</code> || <code>_each</code> … <code>_in</code> || iteration over an array, record or string
+| {{lang|ta|ஒவ்வொரு}} ... {{lang|ta|இல்}} || <code>ovvoru</code> ... <code>il</code> || <code>_each</code> ... <code>_in</code> || iteration over an array, record or string
 |-
 | {{lang|ta|செயல்}} || <code>ceyal</code> || <code>_fn</code> || function definition
 |-
@@ -106,7 +114,7 @@ Type keywords and SQL clause keywords are reserved. Financial keywords are not, 
 eTamil's statements include:<ref name="readme" />
 * assignment with <code>=</code>, and the {{lang|ta|நிலை}} statement, which binds a name once; reassigning it or changing an element or field of its value is rejected before the program runs;
 * the {{lang|ta|எனில்}} and {{lang|ta|இன்றேல்}} conditional statements;
-* the {{lang|ta|சுற்று}} loop, which repeats while its condition holds, and the {{lang|ta|ஒவ்வொரு}} … {{lang|ta|இல்}} loop over arrays, records and strings;
+* the {{lang|ta|சுற்று}} loop, which repeats while its condition holds, and the {{lang|ta|ஒவ்வொரு}} ... {{lang|ta|இல்}} loop over arrays, records and strings;
 * {{lang|ta|செயல்}} function definitions and the {{lang|ta|திரும்பு}} statement;
 * {{lang|ta|இறக்கு}}, which imports a module, resolving the path beside the importing file and then along an <code>ETAMIL_PATH</code> [[environment variable]];
 * {{lang|ta|வழி}}, which declares an HTTP route, and {{lang|ta|பதில்}}, which sends a response;
@@ -123,10 +131,10 @@ eTamil is [[Dynamic typing|dynamically typed]], with optional type declarations 
 A {{lang|ta|வடிவம்}} declares a record shape: its fields and the type each holds. A record made as that shape must supply every field and no others. Errors that can be seen in the source are reported before execution; values known only at run time, such as database rows, are checked when the record is made. Functions declared inside a shape are its methods. A method whose first parameter is {{lang|ta|இது}} ("this") is called on a record and cannot modify it, comparable to Rust's <code>&self</code>; a changed record is a new value. There is no [[Inheritance (object-oriented programming)|inheritance]].<ref name="changelog" />
 
 === Arithmetic operations ===
-All numbers are fixed-point decimals with up to 28 significant digits; the language has no separate integer or floating-point types. Equality between numbers is exact.<ref name="arch" /><ref name="readme" /> Division retains full precision, and the built-in {{lang|ta|வட்டமிடு}} rounds to a given number of decimal places.<ref name="readme" /> When stored, money keeps its exactness: PostgreSQL columns use <code>NUMERIC</code>, MongoDB documents use <code>Decimal128</code>, and SQLite stores decimals as text.<ref name="readme" />
+All numbers are fixed-point decimals with up to 28 significant digits; the language has no separate integer or floating-point types. Equality between numbers is exact.<ref name="readme" /><ref name="arch" /> Division retains full precision, and the built-in {{lang|ta|வட்டமிடு}} rounds to a given number of decimal places.<ref name="readme" /> When stored, money keeps its exactness: PostgreSQL columns use <code>NUMERIC</code>, MongoDB documents use <code>Decimal128</code>, and SQLite stores decimals as text.<ref name="readme" />
 
 === Function syntax ===
-A function is declared with {{lang|ta|செயல்}}, a name, a parenthesised parameter list and a block. Parameters and the return value may carry declared types. Functions support recursion and local scope, and are values: they may be stored in variables, arrays and records, passed as arguments and returned.<ref name="readme" /><ref name="changelog" />
+A function is declared with {{lang|ta|செயல்}}, a name, a parenthesised parameter list and a block. Parameters and the return value may carry declared types. Functions support recursion and local scope, and are values: they may be stored in variables, arrays and records, passed as arguments and returned.<ref name="changelog" /><ref name="readme" />
 
 == Code examples ==
 [[Hello, world|"Hello, World!" program]]:
@@ -231,9 +239,9 @@ An HTTP route returning JSON:
 </syntaxhighlight>
 
 == Libraries ==
-eTamil's standard library, ''nUlakam'' (from {{lang|ta|நூலகம்}}, "library"), is written in eTamil rather than in the host language.<ref name="nulakam" /> Its general-purpose modules cover strings, mathematics, arrays, records, dates and working-day calendars, [[JSON]], [[Base64]] and hexadecimal encoding, document templating, and a unit-testing framework whose failures produce a non-zero exit status for use in [[continuous integration]].<ref name="nulakam" /><ref name="readme" />
+eTamil's standard library, ''nUlakam'' (from {{lang|ta|நூலகம்}}, "library"), is written in eTamil rather than in the host language.<ref name="nulakam" /> Its general-purpose modules cover strings, mathematics, arrays, records, dates and working-day calendars, [[JSON]], [[Base64]] and hexadecimal encoding, document templating, and a unit-testing framework whose failures produce a non-zero exit status for use in [[continuous integration]].<ref name="readme" /><ref name="nulakam" />
 
-Its domain modules include:<ref name="nulakam" /><ref name="readme" />
+Its domain modules include:<ref name="readme" /><ref name="nulakam" />
 * '''Accounting''' – a chart of accounts, journal and ledger with a balance check, [[Goods and Services Tax (India)|Goods and Services Tax]] entries, accounting periods, multi-entity and foreign-currency handling, period close, and the [[trial balance]], [[income statement]], [[balance sheet]] and [[cash flow statement]].
 * '''Depreciation, payroll and tax''' – straight-line and written-down-value [[depreciation]], payroll, and a marginal [[tax bracket|slab]] engine for income tax and professional tax. Rates are held in an effective-dated table that is queried by date; the library ships with no rates.
 * '''Cost accounting''' – cost sheets, overhead absorption, [[standard costing]] variances, [[cost–volume–profit analysis]], process costing and [[activity-based costing]].
@@ -242,7 +250,7 @@ Its domain modules include:<ref name="nulakam" /><ref name="readme" />
 * '''Banking, insurance and customs''' – simple and compound interest, loan installments, asset classification, insurance claim settlement including the average clause, and the customs duty cascade.
 * '''Payments and ledgers''' – [[Unified Payments Interface]] address validation, payment links and a payment state machine, and a client for [[Hyperledger]] Fabric.
 
-The runtime also provides database drivers for [[SQLite]], [[PostgreSQL]], [[MySQL]] and [[MariaDB]], [[MongoDB]] and [[Redis]], in which queries are always parameterised;<ref name="readme" /><ref name="roadmap" /> outbound HTTP; [[HMAC]]-SHA256, [[Elliptic Curve Digital Signature Algorithm|ECDSA]] P-256, [[bcrypt]] and [[JSON Web Token]] support; mutual [[Transport Layer Security|TLS]]; and reading and writing [[OpenDocument]] and [[Office Open XML]] files.<ref name="readme" />
+The runtime also provides database drivers for [[SQLite]], [[PostgreSQL]], [[MySQL]] and [[MariaDB]], [[MongoDB]] and [[Redis]], in which queries are always parameterised;<ref name="roadmap" /><ref name="readme" /> outbound HTTP; [[HMAC]]-SHA256, [[Elliptic Curve Digital Signature Algorithm|ECDSA]] P-256, [[bcrypt]] and [[JSON Web Token]] support; mutual [[Transport Layer Security|TLS]]; and reading and writing [[OpenDocument]] and [[Office Open XML]] files.<ref name="readme" />
 
 == Development environments ==
 The reference implementation includes an interactive [[read–eval–print loop]], started with <code>--repl</code>.<ref name="readme" /> A [[Visual Studio Code]] extension provides syntax highlighting for every keyword spelling, completions for the built-in and standard-library functions, and diagnostics as the programmer types; it bundles the compiler, standard library, examples and the eTamil typeface, so that installing it installs the language.<ref name="readme" /><ref name="vscode" /> The extension's grammar is generated from the compiler's lexer.<ref name="readme" />
@@ -251,9 +259,9 @@ Grammars are also maintained for [[Tree-sitter (parser generator)|tree-sitter]],
 
 == Implementations ==
 === Reference implementation ===
-The reference implementation, <code>etamil</code>, is a single Rust crate. Source text is tokenised by a lexer generated with the ''logos'' library, parsed into an [[abstract syntax tree]] and checked, then executed by one of two back ends.<ref name="readme" /> The primary back end compiles to bytecode for a virtual machine, which runs every feature of the language and also serves as the HTTP server, using either a thread pool or an [[Asynchronous I/O|asynchronous]] accept loop built on the Tokio library.<ref name="readme" /><ref name="roadmap" /> The second back end emits [[LLVM]] [[intermediate representation]] on Linux and macOS.<ref name="llvm" />
+The reference implementation, <code>etamil</code>, is a single Rust crate. Source text is tokenised by a lexer generated with the ''logos'' library, parsed into an [[abstract syntax tree]] and checked, then executed by one of two back ends.<ref name="readme" /> The primary back end compiles to bytecode for a virtual machine, which runs every feature of the language and also serves as the HTTP server, using either a thread pool or an [[Asynchronous I/O|asynchronous]] accept loop built on the Tokio library.<ref name="readme" /><ref name="roadmap" /> The second back end emits [[LLVM]] [[intermediate representation]] on Linux and macOS.<ref name="llvm" /> Since version 1.3.0 the same LLVM route can also compile a program to firmware for Arduino boards.<ref name="changelog" />
 
-Prebuilt packages are published for Windows (x86-64), Linux (x86-64, as a statically linked [[musl]] binary) and macOS (x86-64 and [[Apple silicon]]); installation does not require administrator rights.<ref name="readme" />
+Prebuilt packages are published for Windows (x86-64), Linux (x86-64 and ARM64, as statically linked [[musl]] binaries) and macOS (x86-64 and [[Apple silicon]]); installation does not require administrator rights.<ref name="readme" /><ref name="changelog" />
 
 === Limitations of the reference implementation ===
 The LLVM back end represents every value as a handle into a run-time arena and calls into the same Rust library for each operation. This keeps its decimal results identical to the virtual machine's, but compiled programs must link that library, and statements performing file, database or HTTP operations are not yet supported by it.<ref name="readme" /><ref name="llvm" /> The virtual machine itself is synchronous and has no user-level threads.<ref name="arch" /> A program can hold only one database connection at a time, and there is no language-level transaction construct.<ref name="roadmap" />
