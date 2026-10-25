@@ -156,6 +156,9 @@ jobs:
           etamil --version
           test -d /usr/share/etamil/nUlakam
           sudo apt-get remove -y etamil
+          # bash remembers where it found etamil, and `command -v` reports that
+          # remembered path even after the file is gone.
+          hash -r
           ! command -v etamil
 
       - uses: actions/upload-artifact@v4
