@@ -26,6 +26,16 @@ case "$(uname -s)" in
 esac
 
 TARGET="${TARGET:-}"
+
+# An Android target is its own OS: the binary links against Android's libc
+# (bionic), so it is built on Linux but runs only on Android, where it resolves
+# host names through the system resolver. The Linux musl binary runs there too,
+# but musl looks for /etc/resolv.conf, which Android does not have, so a program
+# calling an API by name cannot reach it. The NDK's clang must be the linker;
+# the release workflow sets that up.
+case "$TARGET" in
+    *-linux-android*) OS=android ;;
+esac
 # Neither the archive nor the directory inside it carries the version, so that
 # every published instruction — the website, the VS Code extension, this repo's
 # README — stays correct across releases without being edited. The version is
@@ -62,9 +72,25 @@ fi
 BUILT="target/${TARGET:+$TARGET/}release/etamil$EXE"
 [ -f "$BUILT" ] || { echo "error: $BUILT not produced"; exit 1; }
 
+# The language server rides in the same package, built the same way, so editors
+# find it beside the compiler. It links the compiler library without its default
+# features, so the cargo features above do not apply to it.
+echo "Building etamil-lsp"
+(
+    cd "$ROOT/etamil_lsp"
+    if [ "$OS" = windows ]; then
+        RUSTFLAGS="-C target-feature=+crt-static" cargo build --release ${TARGET:+--target "$TARGET"}
+    else
+        cargo build --release ${TARGET:+--target "$TARGET"}
+    fi
+)
+LSP_BUILT="$ROOT/etamil_lsp/target/${TARGET:+$TARGET/}release/etamil-lsp$EXE"
+[ -f "$LSP_BUILT" ] || { echo "error: $LSP_BUILT not produced"; exit 1; }
+
 rm -rf "$STAGE"
 mkdir -p "$STAGE"
 cp "$BUILT" "$STAGE/etamil$EXE"
+cp "$LSP_BUILT" "$STAGE/etamil-lsp$EXE"
 cp -r "$ROOT/nUlakam" "$STAGE/nUlakam"
 cp -r "$ROOT/examples" "$STAGE/examples"
 cp "$ROOT/packaging/README.txt" "$STAGE/README.txt"

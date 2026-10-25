@@ -12,6 +12,36 @@ GitHub's generated notes list the commits; this file says what they add up to.
 
 ### Added
 
+- **A package for Android.** `etamil-android-arm64.tar.gz` is built with the Android
+  NDK against Android's own libc (API 24, Android 7.0 and later), so a program on a
+  phone reaches websites and APIs by name. The Linux arm64 package runs on Android
+  too, but its static musl libc looks for `/etc/resolv.conf`, which Android does not
+  have, so `வலை_பெறு` could not resolve a host there. A new workflow runs the same
+  build for x86_64 in Android 9 and 14 emulators, including a check that reaches a
+  website by name; `packaging/smoke-test.sh` runs that check when
+  `ETAMIL_SMOKE_NET=1`.
+
+- **Imports in the browser build.** `run_project(files_json, entry, input)` takes several
+  sources as JSON, a path to each source, and runs one of them. `இறக்கு "vari.qmz";` finds
+  `vari.qmz` among the others, relative to the importing file, with the same rules as on disk:
+  each import is spliced in ahead of the importer, a file imported twice is included once, a
+  cycle stops, and two modules defining one name is an error. The standard library runs too,
+  once the page supplies its sources under their `nUlakam/...` paths. The loader is
+  `src/project.rs`, and the path arithmetic it shares with the built-in library is `src/vpath.rs`.
+  Nothing changes for the command line, which still reads files.
+
+- **A function of your program, called by a SQLite query.** `தளம்_செயல்_பதிவு`
+  (`qaLam_ceyal_paqivu`, `_registerFunction`) registers a செயல் on the open database
+  under a name, and a query then calls it once per row: `SELECT moqqam_vari(qokY, 18)
+  FROM paRRuccIttu`. It answers a சரி, or a தவறு saying why not. The function may only
+  compute: one that could read a file, use the network, another database or the
+  environment is refused when it is registered, by a check on the compiled code, and
+  each call runs in a fresh VM under a step limit. A registration lasts only as long
+  as the connection is lent to the program, so a pooled connection never carries one
+  to the next request. A number result goes back as exact text by default; SQLite
+  orders text after every number, so pass `"numeric"` as a fourth argument to compare
+  or sort on it. SQLite only. See `examples/db_samples/qaLam_ceyal_paqivu.qmz`.
+
 - **Libraries for building a project office.** `nUlakam/qittam` gains the rules
   a PMO application runs on: task status and roll-up, the critical path on a
   working calendar and rescheduling a project under way on its actuals, RAG
