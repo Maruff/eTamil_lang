@@ -434,13 +434,17 @@ jobs:
   # the archives built above (nothing is compiled again). The Linux runner installs
   # them as tools and runs them, which is also the first real test of the launcher
   # restoring the execute bit that a NuGet package does not keep. Pushed to nuget.org
-  # on version tags only; needs a NUGET_API_KEY repository secret.
+  # on version tags only, through NuGet Trusted Publishing: a policy on nuget.org names
+  # this repository and this file, so there is no key to store.
   nuget:
     name: NuGet tool packages
     needs: package
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      # Trusted Publishing: nuget.org accepts a short-lived key in exchange for this
+      # workflow's identity, so no API key is stored.
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -472,6 +476,13 @@ jobs:
           path: nupkgs/*.nupkg
           if-no-files-found: error
 
+      - name: Log in to nuget.org (Trusted Publishing)
+        if: startsWith(github.ref, 'refs/tags/v')
+        id: nuget-login
+        uses: NuGet/login@v1
+        with:
+          user: bmaruff
+
       - name: Push to nuget.org
         if: startsWith(github.ref, 'refs/tags/v')
-        run: dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
