@@ -49,8 +49,8 @@ TARGET=x86_64-unknown-linux-musl ./packaging/build.sh
 
 The Linux archive is a single-click installer for Ubuntu, Debian, Fedora, and
 other x86_64 Linux distributions. Debian and Ubuntu users can also take the
-`.deb` (below); there is no `.rpm`, because the same self-contained archive works
-on Fedora and the rest.
+`.deb` and Fedora, RHEL and openSUSE users the `.rpm` (both below); the archive
+itself works on any other distribution.
 The macOS and Windows archives are built on native CI runners because their
 SDKs and linkers are not available on Linux. Those files are created only when
 the release workflow runs for a version tag; they are not present in a normal
@@ -146,6 +146,60 @@ The release workflow's `deb` job builds both architectures, installs the amd64
 one and runs it, then attaches them to the release. They are not in an apt
 repository, so `apt update` will not upgrade them; install a newer `.deb` over
 the old one.
+
+### An apt repository
+
+Each release also carries the index files of a flat apt repository, so Debian and
+Ubuntu can install and upgrade with `apt`:
+
+```bash
+sudo curl -fsSL https://github.com/Maruff/eTamil_lang/releases/latest/download/etamil-archive-keyring.gpg     -o /usr/share/keyrings/etamil.gpg
+echo "deb [signed-by=/usr/share/keyrings/etamil.gpg] https://github.com/Maruff/eTamil_lang/releases/latest/download ./"     | sudo tee /etc/apt/sources.list.d/etamil.list
+sudo apt update && sudo apt install etamil
+```
+
+The address is the newest release's assets, so the repository holds one version, the
+latest, and `apt upgrade` moves to the next release when it is published. A
+pre-release is not "latest" on GitHub and is not offered. To stay on a version, install
+its `.deb` directly.
+
+`packaging/make-apt-index.py` writes `Packages`, `Packages.gz` and `Release` from the
+`.deb` files in a directory. It is plain Python with no dependency on dpkg, and has
+its own tests (`python3 -m unittest packaging/test_make_apt_index.py`). The workflow's
+`apt` job signs `Release` into `InRelease` and `Release.gpg`, exports the public key as
+`etamil-archive-keyring.gpg`, and installs the package from the result in a Debian
+container before anything is published.
+
+**One-time setup (the owner).** Make a signing key without a passphrase, used for
+nothing else, and store its private half as the repository secret
+`APT_GPG_PRIVATE_KEY`:
+
+```bash
+gpg --batch --passphrase '' --quick-generate-key "eTamil packages <esan@etamil.in>" rsa3072 sign never
+gpg --armor --export-secret-keys "eTamil packages" # paste this into the secret
+```
+
+Without the secret the job still builds and tests an unsigned index, but a version tag
+fails, so an unsigned repository is never published. Losing or replacing the key means
+every user must fetch the new keyring.
+
+## The RPM package
+
+`packaging/build-rpm.sh` repackages a Linux archive as an `.rpm`, the same way: it
+compiles nothing, so the aarch64 package builds on an x86-64 machine, and it
+depends on no other package. It needs `rpmbuild` (`apt install rpm` on Debian and
+Ubuntu, `dnf install rpm-build` on Fedora).
+
+```bash
+bash packaging/build-rpm.sh dist/etamil-linux-x64.tar.gz
+sudo dnf install ./dist/etamil-<version>-1.x86_64.rpm
+```
+
+A pre-release version such as `1.5.0-rc1` is written `1.5.0~rc1`, because RPM does
+not allow `-` in a version. The release workflow's `rpm` job builds both
+architectures, installs the x86_64 one in a Fedora container and runs it, then
+attaches them to the release. As with the `.deb`, there is no repository, so a
+newer package is installed over the old one.
 
 ## The Docker image
 

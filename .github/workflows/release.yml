@@ -169,10 +169,117 @@ jobs:
             dist/*.deb.sha256
           if-no-files-found: error
 
+  # RPM packages, assembled from the same Linux archives. As with the .deb, the
+  # x86_64 one is installed and run, here in a Fedora container, and the aarch64
+  # one is built and inspected.
+  rpm:
+    name: rpm packages
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-linux-*
+          path: dist
+          merge-multiple: true
+
+      - name: Install rpmbuild
+        run: sudo apt-get update && sudo apt-get install -y rpm
+
+      - name: Build packages
+        run: |
+          bash packaging/build-rpm.sh dist/etamil-linux-x64.tar.gz
+          bash packaging/build-rpm.sh dist/etamil-linux-arm64.tar.gz
+
+      - name: Inspect
+        run: |
+          for f in dist/*.rpm; do rpm -qpi "$f"; rpm -qpl "$f" | head -20; done
+
+      - name: Install and run (x86_64, Fedora)
+        run: |
+          docker run --rm -v "$PWD/dist:/dist:ro" fedora:latest sh -c '
+            set -e
+            dnf install -y /dist/etamil-*.x86_64.rpm
+            etamil --version
+            test -d /usr/share/etamil/nUlakam
+            dnf remove -y etamil
+            ! command -v etamil
+          '
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpm-packages
+          path: |
+            dist/*.rpm
+            dist/*.rpm.sha256
+          if-no-files-found: error
+
+  # A flat apt repository, so that `apt install etamil` works and `apt upgrade`
+  # finds new versions. Its index files are attached to the release next to the
+  # packages, and the stable URL releases/latest/download/ serves them: no server
+  # of our own. The index is signed with the key in the APT_GPG_PRIVATE_KEY secret
+  # (a key without a passphrase, kept for this alone). Without the secret the index
+  # is built and tested unsigned, and a version tag fails rather than publish it.
+  apt:
+    name: apt repository
+    needs: deb
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: deb-packages
+          path: dist
+
+      - name: Test the index builder
+        run: python3 -m unittest packaging/test_make_apt_index.py
+
+      - name: Build the index
+        run: python3 packaging/make-apt-index.py dist apt
+
+      - name: Sign
+        env:
+          APT_GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
+        run: |
+          if [ -z "$APT_GPG_PRIVATE_KEY" ]; then
+            echo "::warning::APT_GPG_PRIVATE_KEY is not set; the index is unsigned"
+            case "$GITHUB_REF" in refs/tags/v*) echo "a release must be signed" >&2; exit 1 ;; esac
+            exit 0
+          fi
+          export GNUPGHOME="$(mktemp -d)"
+          printf '%s' "$APT_GPG_PRIVATE_KEY" | gpg --batch --import
+          KEY="$(gpg --list-secret-keys --with-colons | awk -F: '/^fpr/ {print $10; exit}')"
+          gpg --batch --yes --pinentry-mode loopback --default-key "$KEY" --clearsign -o apt/InRelease apt/Release
+          gpg --batch --yes --pinentry-mode loopback --default-key "$KEY" -abs -o apt/Release.gpg apt/Release
+          gpg --export "$KEY" > apt/etamil-archive-keyring.gpg
+
+      - name: Install from it with apt (Debian)
+        run: |
+          mkdir repo
+          cp dist/*.deb apt/* repo/
+          docker run --rm -v "$PWD/repo:/repo:ro" debian:stable sh -c '
+            set -e
+            if [ -f /repo/InRelease ]; then opt="signed-by=/repo/etamil-archive-keyring.gpg"; else opt="trusted=yes"; fi
+            echo "deb [$opt] file:/repo ./" > /etc/apt/sources.list.d/etamil.list
+            apt-get update
+            apt-get install -y etamil
+            etamil --version
+            test -d /usr/share/etamil/nUlakam
+          '
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apt-index
+          path: apt/*
+          if-no-files-found: error
+
   publish:
     name: publish release assets
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [package, deb]
+    needs: [package, deb, rpm, apt]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -188,6 +295,57 @@ jobs:
           files: dist/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+
+  # Point the Homebrew tap at the release just published: the version and the four
+  # archive checksums, read from the .sha256 files that publish attached. It runs
+  # only for a version tag, after publish, so the files it reads exist. A missing
+  # token or a pre-release tag skips it with a notice rather than failing a release
+  # that has already gone out; the tap can then be updated by hand with
+  # scripts/update-formula.sh in the tap repository.
+  #
+  # HOMEBREW_TAP_TOKEN is a fine-grained personal access token limited to the tap
+  # repository, with Contents: read and write.
+  homebrew:
+    name: update the Homebrew tap
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether to update
+        id: gate
+        env:
+          TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          case "$GITHUB_REF_NAME" in
+            *-*) echo "::notice::$GITHUB_REF_NAME is a pre-release; the tap is left alone"; echo "run=false" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+          if [ -z "$TOKEN" ]; then
+            echo "::warning::HOMEBREW_TAP_TOKEN is not set; the tap was not updated"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          repository: ${{ github.repository_owner }}/homebrew-etamil
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Update the formula and push
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          bash scripts/update-formula.sh "$VERSION"
+          git diff --stat
+          if git diff --quiet; then
+            echo "The formula is already at $VERSION"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "etamil $VERSION"
+          git push
 
   # Publishes the `etamil` npm package, whose install script downloads the
   # release archives. It therefore runs after `publish`, never before: a package
