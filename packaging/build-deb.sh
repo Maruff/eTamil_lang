@@ -82,7 +82,9 @@ EOF
 
 mkdir -p "$DIST"
 rm -f "$DIST/$PACKAGE.deb"
-dpkg-deb --build --root-owner-group "$STAGE" "$DIST/$PACKAGE.deb" >/dev/null
+# xz, not the zstd that newer dpkg defaults to: older dpkg cannot open a zstd package,
+# and the apt index builder (make-apt-index.py) reads gzip, xz and bzip2.
+dpkg-deb --build -Zxz --root-owner-group "$STAGE" "$DIST/$PACKAGE.deb" >/dev/null
 
 echo "$DIST/$PACKAGE.deb"
 ls -lh "$DIST/$PACKAGE.deb" | awk '{print "  size: " $5}'
