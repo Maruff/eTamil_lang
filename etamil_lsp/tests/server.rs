@@ -189,10 +189,15 @@ fn a_session_opens_a_file_and_asks_questions() {
     );
     let response = next_response(&client);
     let items: Option<CompletionResponse> = serde_json::from_value(response.result.unwrap()).unwrap();
-    let Some(CompletionResponse::Array(items)) = items else {
+    let Some(CompletionResponse::List(list)) = items else {
         panic!("expected a completion list");
     };
+    // Incomplete: the vocabulary is filtered by what was typed, so the editor must ask
+    // again as typing continues.
+    assert!(list.is_incomplete);
+    let items = list.items;
     assert!(items.iter().any(|i| i.label == "கூட்டு"));
+    assert!(items.iter().any(|i| i.label == "எனில்"), "keywords are offered too");
 
     send_request(
         &client,

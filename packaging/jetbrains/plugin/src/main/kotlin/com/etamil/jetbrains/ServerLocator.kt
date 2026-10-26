@@ -4,14 +4,7 @@ package com.etamil.jetbrains
 
 import java.nio.file.Path
 
-/**
- * Where the `etamil-lsp` binary is.
- *
- * Pure, with the file system and environment passed in, so the order can be
- * tested without an IDE. The order is: the `ETAMIL_LSP` environment variable
- * (an explicit choice always wins), then the `PATH`, then the folders the eTamil
- * installers use.
- */
+/** Where the `etamil-lsp` binary is: `ETAMIL_LSP`, then the `PATH`, then the installer folders. */
 object ServerLocator {
     const val ENV_VAR = "ETAMIL_LSP"
 
@@ -23,29 +16,5 @@ object ServerLocator {
         windows: Boolean,
         home: Path,
         exists: (Path) -> Boolean,
-    ): String? {
-        env[ENV_VAR]?.trim()?.takeIf { it.isNotEmpty() }?.let { return it }
-
-        val name = binaryName(windows)
-        val separator = if (windows) ';' else ':'
-
-        // Windows spells the variable "Path" in some environments.
-        val pathValue = env["PATH"] ?: env["Path"] ?: ""
-        for (directory in pathValue.split(separator).filter { it.isNotEmpty() }) {
-            val candidate = Path.of(directory).resolve(name)
-            if (exists(candidate)) return candidate.toString()
-        }
-
-        val installDirectories = buildList {
-            add(home.resolve(".local").resolve("bin"))
-            if (windows) {
-                env["LOCALAPPDATA"]?.let { add(Path.of(it).resolve("Programs").resolve("eTamil")) }
-            }
-        }
-        for (directory in installDirectories) {
-            val candidate = directory.resolve(name)
-            if (exists(candidate)) return candidate.toString()
-        }
-        return null
-    }
+    ): String? = BinaryLocator.locate(ENV_VAR, binaryName(windows), env, windows, home, exists)
 }
