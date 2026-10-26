@@ -45,8 +45,10 @@ The prepared pieces, each on its own branch and each written for the release sta
 
 All listed with their reasons in `pr-descriptions/OWNER-CHECKLIST.md`. Before a tag:
 
-- [ ] Secrets on `eTamil_lang`: `NPM_TOKEN`, `NUGET_API_KEY`, `APT_GPG_PRIVATE_KEY`,
-      `HOMEBREW_TAP_TOKEN`. A tag **fails** without the apt key, by design.
+- [ ] Secrets on `eTamil_lang`: `NPM_TOKEN`, `APT_GPG_PRIVATE_KEY`,
+      `HOMEBREW_TAP_TOKEN`. A tag **fails** without the apt key, by design. NuGet needs no
+      secret: a Trusted Publishing policy on nuget.org (owner, repository `eTamil_lang`,
+      workflow file `release.yml`) replaces the API key.
 - [ ] Secrets on `eTamil_vsCode`: `VSCE_PAT` and `OVSX_PAT`; the Open VSX namespace `etamil` and its
       publisher agreement exist.
 - [ ] The GHCR package will need making public once, after the first image is pushed.

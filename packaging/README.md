@@ -109,8 +109,8 @@ python packaging/nuget/build-nuget.py --allow-partial   # whichever are there, f
 
 The version is the compiler's own (`etamil_compiler/Cargo.toml`). The release
 workflow's `nuget` job builds both, installs them as tools on Linux and runs them,
-and pushes them to nuget.org on a `v*` tag; it needs a `NUGET_API_KEY` repository
-secret. One project per folder: two project files in one folder share `obj/` and
+and pushes them to nuget.org on a `v*` tag through NuGet Trusted Publishing: a
+policy on nuget.org names this repository and `release.yml`, so no key is stored. One project per folder: two project files in one folder share `obj/` and
 produce a package with the wrong command.
 
 ## The npm package
