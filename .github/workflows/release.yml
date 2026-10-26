@@ -1,10 +1,10 @@
-# Publish packages for Windows, Linux and macOS.
+# Publish packages for Windows, Linux, macOS and Android.
 #
 #   git tag v0.3.0 && git push origin v0.3.0
 #
 # Each platform builds on its own runner. Nothing is cross-compiled except the
 # musl targets, which are what let the Linux binaries run on distributions older
-# than the one that built them.
+# than the one that built them, and Android, which has no runner of its own.
 name: Release packages
 
 on:
@@ -56,6 +56,14 @@ jobs:
             target: x86_64-pc-windows-msvc
             package: etamil-windows-x64.zip
             setup: native
+          # Android phones and tablets, for qos. Cross-compiled with the NDK
+          # against Android's own libc, so host names resolve through Android's
+          # resolver. It cannot run here; android-cli.yml runs the same build
+          # for x86_64 in an emulator instead.
+          - os: ubuntu-latest
+            target: aarch64-linux-android
+            package: etamil-android-arm64.tar.gz
+            setup: android
 
     steps:
       - uses: actions/checkout@v4
@@ -67,6 +75,19 @@ jobs:
       - name: Install musl toolchain
         if: matrix.setup == 'musl'
         run: sudo apt-get update && sudo apt-get install -y musl-tools
+
+      # Pinned with android.yml: an NDK bump is a thing to do deliberately.
+      - name: Install the Android NDK
+        if: matrix.setup == 'android'
+        id: ndk
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r27c
+          local-cache: false
+
+      - name: Link with the NDK's clang
+        if: matrix.setup == 'android'
+        run: bash packaging/android-env.sh "${{ steps.ndk.outputs.ndk-path }}" "${{ matrix.target }}" >> "$GITHUB_ENV"
 
       # Enabled for the packages only: someone downloading a binary cannot add
       # a cargo feature to it later. LLVM stays out — it needs LLVM present on
@@ -92,6 +113,7 @@ jobs:
       # workflow's quoting and impossible to test without pushing a tag. As a
       # script it runs locally exactly as it runs here.
       - name: Run the packaged binary
+        if: matrix.setup != 'android'
         shell: bash
         run: bash packaging/smoke-test.sh "dist/${{ matrix.package }}"
 
@@ -134,6 +156,9 @@ jobs:
           etamil --version
           test -d /usr/share/etamil/nUlakam
           sudo apt-get remove -y etamil
+          # bash remembers where it found etamil, and `command -v` reports that
+          # remembered path even after the file is gone.
+          hash -r
           ! command -v etamil
 
       - uses: actions/upload-artifact@v4
@@ -322,6 +347,36 @@ jobs:
           git commit -am "etamil $VERSION"
           git push
 
+  # Publishes the `etamil` npm package, whose install script downloads the
+  # release archives. It therefore runs after `publish`, never before: a package
+  # on npm that points at assets which do not exist yet would fail every install.
+  # Needs an NPM_TOKEN repository secret (an automation token).
+  npm:
+    name: npm package
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Set the package version from the tag
+        working-directory: packaging/npm
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
+
+      - name: Publish
+        working-directory: packaging/npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   # The container image is assembled from the Linux archives built above, not
   # compiled again: the image holds exactly the binary people download. Pushed to
   # GitHub Container Registry on version tags only; a manual run builds and
@@ -374,3 +429,49 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  # The `etamil` and `etamil-lsp` .NET tool packages, wrapped around the binaries in
+  # the archives built above (nothing is compiled again). The Linux runner installs
+  # them as tools and runs them, which is also the first real test of the launcher
+  # restoring the execute bit that a NuGet package does not keep. Pushed to nuget.org
+  # on version tags only; needs a NUGET_API_KEY repository secret.
+  nuget:
+    name: NuGet tool packages
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: etamil-*
+          path: dist
+          merge-multiple: true
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build the packages
+        run: python3 packaging/nuget/build-nuget.py --out nupkgs
+
+      - name: Install them as tools and run them
+        run: |
+          dotnet tool install --tool-path "$RUNNER_TEMP/tools" --add-source nupkgs etamil
+          dotnet tool install --tool-path "$RUNNER_TEMP/tools" --add-source nupkgs etamil-lsp
+          "$RUNNER_TEMP/tools/etamil" --version
+          printf 'இறக்கு "nUlakam/paNam/paNam.qmz";\nஅச்சு ரூபாய்(12345678.5);\n' > money.qmz
+          "$RUNNER_TEMP/tools/etamil" --vm money.qmz | grep -F '1,23,45,678.50'
+          test -x "$RUNNER_TEMP/tools/etamil-lsp"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: nupkgs/*.nupkg
+          if-no-files-found: error
+
+      - name: Push to nuget.org
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet nuget push "nupkgs/*.nupkg" --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate

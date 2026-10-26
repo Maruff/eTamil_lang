@@ -1,0 +1,28 @@
+{
+  "name": "etamil",
+  "displayName": "eTamil",
+  "description": "eTamil syntax highlighting, comments, brackets and folding for JetBrains IDEs (TextMate bundle).",
+  "version": "1.0.0",
+  "publisher": "etamil",
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "vscode": "*"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "etamil",
+        "aliases": ["eTamil", "etamil"],
+        "extensions": [".qmz"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "etamil",
+        "scopeName": "source.etamil",
+        "path": "./syntaxes/etamil.tmLanguage.json"
+      }
+    ]
+  }
+}

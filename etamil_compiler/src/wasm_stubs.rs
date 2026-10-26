@@ -43,6 +43,41 @@ pub mod db {
         fn close(&mut self) -> Result<(), String> {
             Ok(())
         }
+        fn register_function(
+            &mut self,
+            _name: &str,
+            _arity: i32,
+            _numbers: Numbers,
+            _function: RowFunction,
+        ) -> Result<(), String> {
+            unavailable!("தரவுதளம்", "a database")
+        }
+        fn unregister_functions(&mut self) {}
+    }
+
+    /// Mirrors the native types, so the interpreter's paths resolve unchanged.
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    pub enum Numbers {
+        ExactText,
+        Native,
+    }
+
+    pub type RowFunction = Box<dyn FnMut(&[Value]) -> Result<Value, String> + Send + 'static>;
+
+    pub mod function {
+        use super::RowFunction;
+        use crate::vm::value::FunctionValue;
+        use crate::vm::{Bytecode, Value};
+
+        /// Never reached: `register_function` above refuses first. It has to exist
+        /// because the interpreter names it.
+        pub fn row_function(
+            _program: &Bytecode,
+            _function: FunctionValue,
+            _arity: usize,
+        ) -> RowFunction {
+            Box::new(|_: &[Value]| unavailable!("தரவுதளம்", "a database"))
+        }
     }
 
     /// Native `params_from` converts an eTamil array into bind parameters. There

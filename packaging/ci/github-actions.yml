@@ -1,0 +1,20 @@
+# Copy to .github/workflows/etamil.yml
+name: eTamil
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Maruff/setup-etamil@v1
+        with:
+          version: latest              # or pin one, such as 1.4.2
+          check: "src/**/*.qmz"        # etamil --check on each file; nothing runs
+
+      # Run a program or its checks. Replace with your own entry point.
+      - run: etamil src/main.qmz

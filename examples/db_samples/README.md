@@ -5,6 +5,7 @@ This folder contains all database-related example programs and sample data files
 ## Contents Overview
 
 ### eTamil Example Programs
+- `qaLam_ceyal_paqivu.qmz` - A function of the program called by a SQLite query, once per row
 - `student_management.qmz` - Student academic record management with CSV operations
 - `inventory_system.qmz` - Product inventory and sales tracking system
 - `payroll_system.qmz` - Employee payroll processing with tax calculations

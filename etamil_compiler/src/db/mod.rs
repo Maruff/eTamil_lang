@@ -13,6 +13,7 @@
 
 use crate::vm::Value;
 
+pub mod function;
 pub mod pool;
 
 #[cfg(feature = "sqlite")]
@@ -37,6 +38,46 @@ pub trait Database: Send {
     fn close(&mut self) -> Result<(), String> {
         Ok(())
     }
+
+    /// Let queries on this connection call `function` by `name`, once per row.
+    ///
+    /// Only a driver whose database can call back into the program says yes; the
+    /// rest keep this default. Registering a name again replaces the function.
+    /// `arity` is the number of arguments, or -1 for any number.
+    fn register_function(
+        &mut self,
+        name: &str,
+        arity: i32,
+        numbers: Numbers,
+        function: RowFunction,
+    ) -> Result<(), String> {
+        let _ = (name, arity, numbers, function);
+        Err("இந்தத் தரவுத்தளத்தில் செயல்களைப் பதிவு செய்ய முடியாது  (this database cannot have functions registered on it)"
+            .to_string())
+    }
+
+    /// Forget every function registered on this connection. A pooled connection
+    /// is lent to one request after another, so a function registered for one
+    /// must not still be there, running that request's program, for the next.
+    fn unregister_functions(&mut self) {}
+}
+
+/// A function a database calls once per row, with the row's arguments.
+///
+/// It owns what it needs (the program it runs, the function to call), because the
+/// database keeps it for as long as the connection lives.
+pub type RowFunction = Box<dyn FnMut(&[Value]) -> Result<Value, String> + Send + 'static>;
+
+/// How a number returned from such a function goes into the database.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Numbers {
+    /// As exact text: no digit is lost, and it is how the compiler's own SQLite
+    /// adapter stores a decimal. SQLite orders text after every number, so
+    /// `WHERE f(x) > 500` is true of every row; compare with `CAST(f(x) AS REAL)`.
+    ExactText,
+    /// As an INTEGER when whole and a REAL otherwise, so comparisons, `ORDER BY` and
+    /// `SUM` behave. A decimal that is not whole becomes a float.
+    Native,
 }
 
 /// Open a connection for a database type as named in eTamil source.
@@ -103,5 +144,40 @@ pub fn params_from(value: &Value) -> Result<Vec<Value>, String> {
                 Value::Array(_) => unreachable!(),
             }
         )),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A driver that says nothing about functions, as PostgreSQL and MySQL do.
+    struct Plain;
+
+    impl Database for Plain {
+        fn execute(&mut self, _sql: &str, _params: &[Value]) -> Result<i64, String> {
+            Ok(0)
+        }
+        fn query(&mut self, _sql: &str, _params: &[Value]) -> Result<Vec<Value>, String> {
+            Ok(Vec::new())
+        }
+    }
+
+    #[test]
+    fn a_driver_that_does_not_support_functions_says_so() {
+        let mut db = Plain;
+        let error = db
+            .register_function(
+                "moqqam_vari",
+                2,
+                Numbers::ExactText,
+                Box::new(|_: &[Value]| Ok(Value::Null)),
+            )
+            .unwrap_err();
+        assert!(
+            error.contains("cannot have functions registered"),
+            "{error}"
+        );
+        db.unregister_functions(); // the default does nothing, and must not panic
     }
 }

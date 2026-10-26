@@ -11,6 +11,7 @@ One archive per platform, holding everything eTamil needs to run:
 | | |
 |---|---|
 | `etamil` / `etamil.exe` | the compiler, one binary |
+| `etamil-lsp` / `etamil-lsp.exe` | the language server editors talk to (VS Code, JetBrains IDEs, Visual Studio, Neovim); built from `etamil_lsp/`, installed beside `etamil` |
 | `nUlakam/` | the standard library and the accounting framework, written in eTamil |
 | `examples/` | every example from the repository |
 | `install.ps1` / `install.sh` | the installer |
@@ -89,6 +90,45 @@ mean editing all four every release, and a stale link is worse than no link.
 The version is not lost: it is in `README.txt` inside the archive, in the release
 tag, and in `etamil --version`. **If you rename the assets, those four places
 have to change with them.**
+
+## The NuGet tool packages
+
+`packaging/nuget` builds two .NET global tools, `etamil` and `etamil-lsp`
+(`dotnet tool install -g etamil`). A tool package carries one command, so the
+language server is its own package. Each holds the real binary for every platform
+plus a small launcher that picks the right one, makes it executable (a NuGet
+package does not keep the execute bit), and runs it with the caller's arguments,
+standard streams and exit code. The `etamil` package also carries the standard
+library once and points `ETAMIL_PATH` at it. Nothing is compiled: the script
+unpacks the release archives.
+
+```bash
+python packaging/nuget/build-nuget.py          # needs all five archives in dist/
+python packaging/nuget/build-nuget.py --allow-partial   # whichever are there, for local testing
+```
+
+The version is the compiler's own (`etamil_compiler/Cargo.toml`). The release
+workflow's `nuget` job builds both, installs them as tools on Linux and runs them,
+and pushes them to nuget.org on a `v*` tag; it needs a `NUGET_API_KEY` repository
+secret. One project per folder: two project files in one folder share `obj/` and
+produce a package with the wrong command.
+
+## The npm package
+
+`packaging/npm` is the `etamil` package: `npx etamil` and `npm install -g etamil`.
+It carries no binary. Its install script downloads the release archive for the
+package's own version and the current platform, checks it against the published
+`.sha256`, and unpacks it into `vendor/`. For that reason the package version
+must equal a release tag (`1.4.2` for `v1.4.2`); the workflow's `npm` job sets
+it from the tag and runs only after the release assets are published.
+
+```bash
+cd packaging/npm && npm pack                      # build the tarball
+ETAMIL_RELEASE_BASE=http://127.0.0.1:8765 npm install ./etamil-*.tgz   # test against a local mirror
+```
+
+Newer npm versions ask users to approve install scripts; `npm rebuild etamil`
+runs it afterwards. The publish job needs an `NPM_TOKEN` secret in the repository.
 
 ## The Debian package
 
