@@ -303,6 +303,8 @@ jobs:
   emacs:
     name: emacs ${{ matrix.emacs }}
     runs-on: ubuntu-latest
+    # Installing Emacs can hang on the runner; without a limit it holds the run for six hours.
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
