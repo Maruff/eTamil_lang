@@ -165,7 +165,7 @@ its `.deb` directly.
 
 `packaging/make-apt-index.py` writes `Packages`, `Packages.gz` and `Release` from the
 `.deb` files in a directory. It is plain Python with no dependency on dpkg, and has
-its own tests (`python3 -m unittest packaging/test_make_apt_index.py`). The workflow's
+its own tests (`python3 -m unittest discover -s packaging -p test_make_apt_index.py`). The workflow's
 `apt` job signs `Release` into `InRelease` and `Release.gpg`, exports the public key as
 `etamil-archive-keyring.gpg`, and installs the package from the result in a Debian
 container before anything is published.

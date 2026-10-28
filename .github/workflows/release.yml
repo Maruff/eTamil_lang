@@ -236,7 +236,7 @@ jobs:
           path: dist
 
       - name: Test the index builder
-        run: python3 -m unittest packaging/test_make_apt_index.py
+        run: python3 -m unittest discover -s packaging -p test_make_apt_index.py
 
       - name: Build the index
         run: python3 packaging/make-apt-index.py dist apt
