@@ -205,6 +205,7 @@ jobs:
             etamil --version
             test -d /usr/share/etamil/nUlakam
             dnf remove -y etamil
+            hash -r
             ! command -v etamil
           '
 
